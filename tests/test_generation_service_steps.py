@@ -80,5 +80,7 @@ def test_unresolved_source_limits_are_carried_verbatim_with_the_table():
     assert table.limits == ('Unavailable information: fictional printed_total_discrepancy.',)
 
 
-def test_a_held_malformed_condition_keeps_the_service_unrendered():
-    assert parse_service([('e1', FIRST), ('e2', limited('malformed_source_condition'))]) is None
+def test_a_malformed_printed_condition_is_kept_as_printed_with_its_limit():
+    # Owner29Oct: show defective printed tables as is, with a note; model interpretation stays held.
+    table = parse_service([('e1', FIRST), ('e2', limited('malformed_source_condition'))])
+    assert table.limits == ('Unavailable information: fictional malformed_source_condition.',)

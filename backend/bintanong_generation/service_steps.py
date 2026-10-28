@@ -2,6 +2,7 @@
 
 Every field of the service's records must match an explicit grammar, or there is no table and the
 answer path is unchanged. Values stay verbatim; a blank source cell stays '' (never zero or none).
+Printed data and column labels stay English; only conversational lead-ins follow the reply language.
 """
 from __future__ import annotations
 
@@ -64,8 +65,7 @@ def _table(records):
     for evidence_id, text in records:
         record = json.loads(text)
         for limit in record.get('source_limits', []):
-            if limit['issue'] == 'malformed_source_condition' and limit['resolution'] == 'unresolved':
-                raise ValueError('held_source_condition')  # existing hold: no rendering either
+            # Owner29Oct: defective printed tables are shown as printed with a note (no interpretation).
             if limit['resolution'] == 'unresolved' and limit['message'] not in limits:
                 limits.append(limit['message'])
         for field in record['fields']:
@@ -128,43 +128,61 @@ def parse_service(records):
         return None
 
 
-FRAMES = dict(
-    en=dict(requirements='Requirements', where='where to secure', fee='Fee', actions='Office actions',
-            total='Printed total', limit='Source limitation', blank='(blank in the printed table)'),
-    taglish=dict(requirements='Mga kailangan', where='saan kukunin', fee='Bayad', actions='Gagawin ng office',
-                 total='Kabuuan ayon sa printed table', limit='Limitasyon ng source',
-                 blank='(blangko sa printed table)'))
-
-
+ORIGINAL_NOTE = dict(
+    en="Note: these steps are shown exactly as printed in the Citizen's Charter; any inconsistency comes "
+       'from the original document.',
+    taglish="Note: Ipinapakita ito nang eksakto gaya ng nakaprint sa Citizen's Charter; anumang inconsistency "
+            'ay galing mismo sa original na dokumento.')
+LEADS = dict(en=dict(requirements='Requirements:', steps='Steps to follow:'),
+             taglish=dict(requirements='Eto ang mga requirements na kailangan mo:',
+                          steps='Eto ang mga kailangan mong gawin:'))
+LABELS = (('person', 'Person responsible'), ('office', 'Office'), ('time', 'Processing time'))
+BLANK = '(blank in the printed table)'
 MAX_CLAIM_CHARS, MAX_CLAIM_RECORDS = 1200, 8  # ProseClaim limits
+PIECE_CHARS = MAX_CLAIM_CHARS - 250  # room for the lead line, printed total, limits and note
 
 
-def _value(value, frame):
-    return frame['blank'] if value == '' else value
+def _value(value):
+    return BLANK if value == '' else _end(value)
 
 
 def _end(text):
     return text.rstrip().rstrip('.')  # printed values may already end with a period
 
 
-def _attrs(*values):
-    shown = [v for v in values if v]
-    return f' ({", ".join(shown)})' if shown else ''
+def _columns(source, keys, indent):
+    return [f'{indent}{label}: {_value(getattr(source, key))}' for key, label in LABELS
+            if key in keys and getattr(source, key) is not None]
 
 
-def _step(step, frame):
-    parts = [f'Step {step.number}: {_end(step.client_step)}.']
+def _step_units(step):
+    """Indivisible line blocks: header, each office action with its own columns, shared columns."""
+    header = [f'Step {step.number}: {_end(step.client_step)}']
     if step.fee is not None:
-        parts.append(f'{frame["fee"]}: {_end(_value(step.fee, frame))}.')
-    actions = []
-    for a in step.actions:
-        own = [getattr(a, k) for k in ('person', 'office', 'time') if k not in step.shared]
-        fee = f'; {frame["fee"]}: {_end(_value(a.fee, frame))}' if a.fee is not None else ''
-        actions.append(_end(a.action) + _attrs(*own) + fee)
-    first = step.actions[0]
-    shared = _attrs(*(getattr(first, k) for k in ('person', 'office', 'time') if k in step.shared))
-    parts.append(f'{frame["actions"]}: {"; ".join(actions)}{shared}.')
-    return ' '.join(parts)
+        header.append(f'Fee: {_value(step.fee)}')
+    units = [header + ['Office actions:']]
+    own = [k for k, _ in LABELS if k not in step.shared]
+    for action in step.actions:
+        unit = [f'  {_end(action.action)}', *_columns(action, own, '    ')]
+        if action.fee is not None:
+            unit.append(f'    Fee: {_value(action.fee)}')
+        units.append(unit)
+    shared = _columns(step.actions[0], step.shared, '')
+    if shared:
+        units.append(shared)
+    return units
+
+
+def _step_pieces(step):
+    """One text per claim; a step too long for one claim continues as 'Step N (continued):'."""
+    pieces, current = [], []
+    for unit in _step_units(step):
+        if current and len('\n'.join(current + unit)) > PIECE_CHARS:
+            pieces.append('\n'.join(current))
+            current = [f'Step {step.number} (continued):']
+        current += unit
+    pieces.append('\n'.join(current))
+    return pieces
 
 
 def _fits(text, ids):
@@ -173,35 +191,35 @@ def _fits(text, ids):
 
 def render_service(table, language, max_claims=8):
     """Host claims [(text, evidence_ids)]: overview/checklist, one claim per step (merging consecutive
-    steps only when the claim budget requires), then the printed total and source limits. None when
-    the steps cannot fit the claim budget within ProseClaim text/record limits."""
-    frame = FRAMES['taglish' if language in ('taglish', 'fil') else 'en']
-    checklist = '; '.join(_end(r) + (f' — {frame["where"]}: {_end(w)}' if w else '') for r, w in table.checklist)
-    head = ' '.join(x for x in (_end(table.title or ''), f'({table.office})' if table.office else None) if x)
-    overview = ' '.join(x for x in (f'{head}.' if head else '',
-                                    f'{frame["requirements"]}: {checklist}.' if checklist else '') if x)
-    claims = [(overview, table.overview_evidence_ids or table.steps[0].evidence_ids)] if overview else []
+    steps only when the claim budget requires), then the printed total, source limits and the original-
+    document note. None when the steps cannot fit the claim budget within ProseClaim limits."""
+    key = 'taglish' if language in ('taglish', 'fil') else 'en'
+    overview = [x for x in (_end(table.title or ''), f'Office: {table.office}' if table.office else '') if x]
+    if table.checklist:
+        overview.append(LEADS[key]['requirements'])
+        overview += [f'- {_end(r)}' + (f' — where to secure: {_end(w)}' if w else '') for r, w in table.checklist]
+    claims = [('\n'.join(overview), table.overview_evidence_ids or table.steps[0].evidence_ids)] if overview else []
     tail = []
     if table.total_fee is not None or table.total_time is not None:
-        printed = '; '.join(_end(_value(v, frame)) for v in (table.total_fee, table.total_time) if v is not None)
-        tail.append(f'{frame["total"]}: {printed}.')
-    tail += [f'{frame["limit"]}: {m}' for m in table.limits]
+        tail.append('Printed total: ' + '; '.join(_value(v) for v in (table.total_fee, table.total_time) if v is not None))
+    if table.limits:
+        tail += [f'Source limitation: {m}' for m in table.limits] + [ORIGINAL_NOTE[key]]
     budget = max_claims - len(claims)
-    pieces = [(_step(step, frame), step.evidence_ids) for step in table.steps]
-    groups = [[piece] for piece in pieces]
+    groups = [[(piece, step.evidence_ids)] for step in table.steps for piece in _step_pieces(step)]
     while len(groups) > budget:  # merge the consecutive pair that stays smallest
-        options = [(len(' '.join(t for t, _ in groups[i] + groups[i+1])), i) for i in range(len(groups) - 1)]
+        options = [(len('\n'.join(t for t, _ in groups[i] + groups[i+1])), i) for i in range(len(groups) - 1)]
         if not options:
             return None
         _, i = min(options)
         groups[i:i+2] = [groups[i] + groups[i+1]]
     for index, group in enumerate(groups):
-        text = ' '.join(t for t, _ in group)
+        lines = [LEADS[key]['steps']] if index == 0 else []
+        lines += [t for t, _ in group]
         ids = tuple(dict.fromkeys(e for _, evidence in group for e in evidence))
         if index == len(groups) - 1:
-            text = ' '.join([text, *tail])
+            lines += tail
             ids = tuple(dict.fromkeys((*ids, *table.total_evidence_ids)))
-        claims.append((text, ids))
+        claims.append(('\n'.join(lines), ids))
     if budget < 1 or not all(_fits(t, ids) for t, ids in claims):
         return None
     return tuple(claims)

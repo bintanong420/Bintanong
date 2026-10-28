@@ -511,3 +511,12 @@ Each program still gets its own dated review record listing which standing rule 
   wordings/historical runs and accuracy/source/privacy gates. No latency improvement
   is yet measured. Implementation still pending after frozen36d5f56source-context
   verification;[decision](2026-10-27-english-taglish-response-decision.md).
+
+- 28–29October2026, long Charter procedures: owner chose option A ("Let's do A, what you
+  recommend, lets give them the printed steps directly") after segmented model drafting failed.
+  29Oct format replies:(1) put each office action and each column (fee,person,office,time) on
+  its own line for readability;(2) Taglish keeps English source data/labels and uses Tagalog only
+  for conversational lead-ins (e.g. "Eto ang mga kailangan mong gawin:");(3) printed defects are
+  shown as is with a note that the data is exactly as printed and any defect comes from the
+  original. Applies to host display only;model interpretation holds on malformed conditions stay.
+  No activation/default change. See `2026-10-29-printed-service-steps-plan.md`.
