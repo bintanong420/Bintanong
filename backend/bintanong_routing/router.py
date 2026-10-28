@@ -71,6 +71,24 @@ def check_topics(proposed, topics):
             raise ValueError('topic_outside_menu')
 
 
+# Owner F4 (28 Oct 2026, provisional "b perhaps"): a transfer question that does not say whether the student is
+# leaving PalSU or transferring in is asked first. Phrases that state the direction (English/Filipino/Taglish).
+TRANSFER_FAMILIES = frozenset(('leaving_palsu_transfer_credentials', 'transferring_into_palsu'))
+TRANSFER_DIRECTION_CUES = (
+    'honorable dismissal', 'transfer out', 'transferring out', 'leave palsu', 'leaving palsu',
+    'leave the university', 'leaving the university', 'to another school', 'to another university',
+    'to other school', 'aalis', 'lilipat sa ibang', 'lilipat ng ibang',
+    'transferee', 'from another school', 'from other school', 'from another university',
+    'galing sa ibang', 'transfer to palsu', 'transferring to palsu', 'lilipat sa palsu', 'lumipat sa palsu')
+
+
+def transfer_direction_unstated(proposed, topics, text):
+    families = {t.subject_id: t.family for t in topics}
+    return (any(families.get(p.subject_id) in TRANSFER_FAMILIES for p in proposed.parts)
+            and not any(re.search(r'(?<![\w-])' + re.escape(c) + r'(?![\w-])', text, re.IGNORECASE)
+                        for c in TRANSFER_DIRECTION_CUES))
+
+
 def prefer_printed_procedure(proposed, topics):
     """Host guard: a whole-procedure part asks for the printed procedure, so naming only facts the source
     does not state is replaced by the topic's printed claims. Cues then re-add a not-stated fact the part's
@@ -210,6 +228,10 @@ class Router:
                     if selection_attempts and result.decision.dispatchable and any(
                             p.evidence_need == 'document' and p.subject_id is None for p in proposed.parts):
                         return failure('topic_selection_unavailable', attempt, style_attempt, style, floored)
+                    if result.decision.dispatchable and transfer_direction_unstated(proposed, topics, text):
+                        result = replace(result, decision=_decision(control='clarify',
+                            missing=('transfer_direction',), reason='transfer direction unstated'),
+                            diagnostic='transfer_direction_unstated')
                     return replace(result, proposed=proposed, attempts=attempt,
                         style_attempts=style_attempt, style_evidence=style,
                         style_floor_applied=floored, offset_corrections=0,

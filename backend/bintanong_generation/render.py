@@ -65,6 +65,14 @@ _LANGUAGE_NOTICE=('Bintanong accepts English, Filipino and Taglish questions and
     'Pwede ang English, Filipino at Taglish questions; English o Taglish ang replies. Paki-ask ulit.')
 
 
+# Owner F4 (28 Oct 2026, provisional): ask whether the student is leaving PalSU or transferring in.
+_TRANSFER_DIRECTION={
+ 'en':'Are you leaving PalSU (transfer credentials / honorable dismissal), or transferring into PalSU '
+      'from another school? The requirements differ.',
+ 'fil':'Aalis ka ba sa PalSU (transfer credentials / honorable dismissal), o lilipat ka sa PalSU '
+       'galing sa ibang school? Magkaiba ang requirements.',
+ 'taglish':'Aalis ka ba sa PalSU (transfer credentials / honorable dismissal), o lilipat ka sa PalSU '
+       'galing sa ibang school? Magkaiba ang requirements.'}
 _COURSE_NOT_FOUND={
  'en':'I could not find that course among the reviewed courses of your curriculum. '
       'Please give the course code as printed in your prospectus.',
@@ -228,6 +236,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='clarification_needed' and 'course_id' in missing:  # owner step 2c: no reviewed course matched
         lines[1]=_COURSE_NOT_FOUND.get(pack.language,_COURSE_NOT_FOUND['en'])
         missing=tuple(field for field in missing if field!='course_id')
+    if status=='clarification_needed' and 'transfer_direction' in missing:
+        lines[1]=_TRANSFER_DIRECTION.get(pack.language,_TRANSFER_DIRECTION['en'])
+        missing=tuple(field for field in missing if field!='transfer_direction')
     canonical_allowed=pack.status=='ready' and status=='answered'
     if pack.decision is not None and (canonical_allowed or
             (pack.status=='unknown' and pack.decision.outcome=='unknown')):
