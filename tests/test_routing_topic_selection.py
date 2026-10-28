@@ -307,3 +307,27 @@ def test_evaluation_explains_selector_calls_separately_from_routing_and_style():
     assert report['selection_calls'] == 1
     assert report['records'][0]['selection_attempts'] == 1
     assert report['inference_calls'] == report['selection_calls'] + report['routing_calls'] + report['style_calls']
+
+
+def detail_answer(claims, detail, text=TEXT):
+    value = json.loads(answer(claims=claims, text=text))
+    value['parts'][0]['detail'] = detail
+    return json.dumps(value)
+
+
+def test_whole_procedure_request_naming_only_a_not_stated_fact_answers_the_printed_procedure():
+    result, _ = run(Transport(selected(), detail_answer(['processing deadline'], 'whole')))
+    assert result.decision.route == 'RAG'
+    assert result.proposed.parts[0].requested_claims == ('filing office',)
+
+
+def test_a_specific_request_for_a_not_stated_fact_still_withholds():
+    result, _ = run(Transport(selected(), detail_answer(['processing deadline'], 'specific')))
+    assert result.proposed.parts[0].requested_claims == ('processing deadline',)
+
+
+def test_a_whole_request_whose_words_name_the_not_stated_fact_keeps_it():
+    text = 'Where do I file slip S and what is the deadline?'
+    result, _ = run(Transport(selected(), detail_answer(['processing deadline'], 'whole', text=text), text=text),
+                    text=text)
+    assert 'processing deadline' in result.proposed.parts[0].requested_claims

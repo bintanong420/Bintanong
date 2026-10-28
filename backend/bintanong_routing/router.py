@@ -71,6 +71,25 @@ def check_topics(proposed, topics):
             raise ValueError('topic_outside_menu')
 
 
+def prefer_printed_procedure(proposed, topics):
+    """Host guard: a whole-procedure part asks for the printed procedure, so naming only facts the source
+    does not state is replaced by the topic's printed claims. Cues then re-add a not-stated fact the part's
+    own words name, which keeps withholding for an explicit ask."""
+    menu = {t.subject_id: t for t in topics}
+    parts = []
+    for part in proposed.parts:
+        topic = menu.get(part.subject_id)
+        if (topic is not None and part.detail == 'whole' and part.requested_claims
+                and set(part.requested_claims) <= set(topic.not_stated)):
+            printed = tuple(c for c in topic.claims if c not in topic.not_stated)
+            if printed:
+                part = part.model_copy(update=dict(requested_claims=printed))
+        parts.append(part)
+    if all(a.requested_claims == b.requested_claims for a, b in zip(parts, proposed.parts)):
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
 def apply_not_stated_cues(proposed, topics):
     """Host guard: a part whose own words name a cued not-stated fact also requests that fact, so the
     evidence policy withholds instead of answering from a nearby printed fact."""
@@ -156,7 +175,7 @@ class Router:
                         raise ValueError('course_reference_unavailable')
                     proposed = normalize_interpretation(text, wire)
                     check_topics(proposed, topics)
-                    proposed = apply_not_stated_cues(proposed, topics)
+                    proposed = apply_not_stated_cues(prefer_printed_procedure(proposed, topics), topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
