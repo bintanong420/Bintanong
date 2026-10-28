@@ -7,7 +7,7 @@ acceptance. Not yet run.** These are evaluation questions, so they must stay out
 
 Pass rule per question: the status is as expected, the answer contains every listed printed fact (or
 its faithful Taglish rendering), it adds no condition the source does not print, and it cites the listed
-source. Gate passes only at 36/36. Each failure gets a RED regression before any fix.
+source. Gate passes only at 42/42. Each failure gets a RED regression before any fix.
 
 | # | Question (English / Taglish) | Must contain (printed source) |
 | ---: | --- | --- |
@@ -28,10 +28,15 @@ source. Gate passes only at 36/36. Each failure gets a RED regression before any
 | 15 | What should I do if I was absent from class? / Ano ang gagawin ko kung umabsent ako? | excuse slip from the College Secretary, presented to the instructor (Handbook, Absence) |
 | 16 | What grade is 1.0 in percentage and rating? / Ano ang percentage at rating ng grade 1.0? | the grading_scale row for 1.0, matching the active 78 answer (accepted roster family) |
 | 17 | CC5 with failed CC4, BSCS 2018-2019 (accepted roster wording, en + Taglish) | Prolog: ineligible, CC 4/L not completed (structured path) |
+| 18 | What are the courses for BSIT 1st year? / Ano ang mga subject ng BSIT first year? | all 16 printed courses of BSIT 2018-2019 first year, by semester. 1st sem: CC 1/L, CC 2/L, GE-CW, GE-PC, GE-STS, GE-UTS, NSTP 1, PATH Fit 1. 2nd sem: CC 3/L, GE-AA, GE-ES, GE-MMW, IT 1, IT 2/L, NSTP 2, PATH Fit 2 (structured `list_term_courses`) |
+| 19 | What are the subjects for first year, first sem in Criminology? / Ano ang subjects ng 1st year 1st sem crim? | 8 printed courses of BSCrim 2018-2019: Crim 1, GE - CW, GE - PC, GE - UTS, GE-PS, LEA 1, NSTP 1, PATH Fit-DEF TAC 1 |
+| 20 | What are the subjects for first year, second semester in Criminology? / Ano ang subjects ng crim first year second sem? | 9 printed courses: CDI 1, Crim 2, GE - AA, GE - ET, GE - MMW, GE – Elect: ES, GE-Elect:IT, NSTP 2, PATH Fit-DEF TAC 2 |
 
 Plus two controls (one language each): "Hi po!" -> greeting reply, no academic answer; "What are the
 admission requirements for the College of Law?" -> undergraduate-scope notice, no undergraduate rule.
-Count: 16 x 2 document + 2 structured + 2 controls = 36.
+Count: 16 x 2 document + 4 x 2 structured + 2 controls = 42. Course lists come from the only
+reviewed curriculum of each program in the release (BSIT/BSCrim 2018-2019), so no curriculum clarification
+is expected; printed codes, titles and units are kept as printed.
 
 Open points for the owner: accept or edit the wordings; confirm each must-contain fact matches what a
 student needs (the readings are quoted from reviewed chunks; source gaps stay disclosed).

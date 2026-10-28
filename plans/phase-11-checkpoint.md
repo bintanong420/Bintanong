@@ -22,7 +22,7 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 ## Current Task
 
 Shifting option A 04e913f/12ac411 (menu destination example);battery-7 7/8,3/3. Split plan 799ae1e.
-Full suite 12ac411 running.
+Full suite 12ac411:7089pass/1608subtests,6skip/2xfail,1717.52s,exit0. Prereq probe A/p11-clarify-20261028/prereq-probe.
 
 [Clarify/condition wording](2026-10-28-clarify-and-condition-wording-results.md):d49aa27 all-of guard
 kept (RED5->GREEN13,focused1354);live cross-enroll as printed. Shifting grammar fixes ea6409a/8109ccb
