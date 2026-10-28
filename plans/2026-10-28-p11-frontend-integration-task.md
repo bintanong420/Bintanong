@@ -39,10 +39,13 @@ external basetemp. Existing Node/browser tools only; no installs.
   Accounts/data/pipeline are synthetic; these checks are not institutional accuracy results.
 - Broader browser15 passed; mobile320 RED -> guest/entry7 passed and screenshot inspected.
   TypeScript and production build complete; built guest /chat200 at3216 without login.
-- FULL SUITE: exclusive Codex B slot at9f804a7; backend/Python tests frozen. Exact command,
-  head/trees/results in full-suite-receipt.json; full-suite.log is the raw output.
-- LIVE RUN: Codex B bounded guest HTTP smoke on corrected78; Claude explicitly released
-  the model slot after his gate (3d95845). No tuning or source-package change.
+- FULL SUITE: exit0 at9f804a7;7195 passed/1608subtests,6skipped,2xfail,6warnings,
+  1982.23s. Exact command/head/trees/results in full-suite-receipt.json; full-suite.log
+  is raw output. Trees unchanged; suite slot released to Claude.
+- LIVE RUN: none; Codex B released model slot after bounded guest HTTP smoke exit0.
+  Five200/v1 streams; source200, PDF upload/confirm200, deletions204, foreignOrigin403;
+  no-model cleanup proves old uploads404/cookie cleared. See [results](2026-10-28-guest-mode-results.md)
+  for actual-answer/HTTP-timing limits; generic prerequisite/follow-up clarify remains.
 
 ## Context, boundaries and next action
 
@@ -53,5 +56,5 @@ Central snapshots/master/owner ledger belong to Claude. No phase advancement.
 Native frontend worker hit a usage quota; root completed changes inline. Claude approved
 guest API/frontend and mobile delta; no P1/P2. P3: old mode's session stays unreachable until
 expiry, and possible early cross-tab notification race remains unproved. Real PSU sign-in
-remains owner-deferred. Next: finish full suite and bounded guest HTTP smoke, release both
-slots, then send final receipt/tree hashes to Claude for merge. No new sweep.
+remains owner-deferred. Next: Claude merges reviewed guest branch and central snapshots,
+using exact-tree receipts; his new primary changes retain separate verification. No sweep.
