@@ -42,3 +42,15 @@ If the owner prefers caution on shared computers, the alternative is to show gue
 Master 25.1 currently requires PSU sign-in to enter the chatbot. After owner approval, record this:
 guest access allowed; PSU sign-in optional and unchanged; real PSU sign-in verification still
 owner-deferred. Add a dated owner-ledger entry. No change to undergraduate scope, UAT status or release gates.
+
+## Implementation review (192a892, 805c11d, 9f804a7)
+
+Approved for merge once B's final suite/build evidence is supplied. Conditions 1–5 are met: `allow_guests`
+defaults false in `ApiSettings` and in the research config; an absent header means guest only when enabled,
+and a present empty, malformed or invalid header is refused (401); admission keys are namespaced
+`account:`/`guest:<session>`; isolation relies on the backend session binding (a cookie presented under a
+different identity resolves as unknown and a new session is issued); the proxy refuses browser-supplied
+`Authorization`; a present but unusable Supabase auth cookie fails closed (`auth_unavailable`), never silently
+becoming a guest; Origin/Sec-Fetch-Site CSRF checks are unchanged; `/chat` and `/api/` are `no-store`.
+P3 follow-ups (non-blocking): explicitly delete the superseded guest session on sign-in/out instead of
+waiting for idle expiry; the cross-tab BroadcastChannel early-auth race is B's open frontend check.
