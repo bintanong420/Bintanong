@@ -141,5 +141,7 @@ release state remain unchanged. The suite's six warnings are existing Starlette/
 GPU-mark and Docling/Pydantic deprecations; no failed test is hidden as a warning. Backend tree
 `c4038d77d9358b18a88002880dbbc74372b49114` and Python test tree
 `9b42e6511e13c1d4a6cd0d482127e03d0009c3f6` remain exact after the frontend-only onboarding commit.
-The lane is ready for Claude's integration review with the owner-deferred authenticated live gate
-explicitly open. No Phase 11 completion or release activation is claimed.
+Claude merged the implementation locally in primary `307a2bd`; this lane's clean sync `ac6dbbc`
+also includes primary handoff `03d398b`. Final lane evidence documentation remains to synchronize.
+The owner-deferred authenticated live gate stays explicitly open. No Phase 11 completion or release
+activation is claimed.

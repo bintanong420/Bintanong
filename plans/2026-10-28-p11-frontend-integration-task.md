@@ -2,7 +2,7 @@
 
 ## Current delivery
 
-Local implementation ready for Claude integration review; Phase 11 remains active.
+Implementation merged locally by Claude at primary `307a2bd`; Phase 11 remains active.
 [Full evidence/results](2026-10-28-p11-frontend-integration-results.md) ·
 [API setup](../backend/bintanong_api/README.md).
 Worktree `p11-frontend-integration`, branch `feat/p11-frontend-integration`, baseline `12ac411`.
@@ -34,6 +34,7 @@ Central snapshots remain Claude-owned. No push, deployment, activation or source
 - `83af0e5` review P2 language override fixed; `e1a132d` review P2 duplicate cold load fixed.
 - `130c4c7` up-front picker; initial-only skip preserves manual Cancel. Browser regressions adapted.
 - Clean primary merges `5b3b04e` and `c4f6f0` include approved Charter lane; no owned-file conflict.
+- Final clean sync `ac6dbbc` includes primary `03d398b` and implementation merge `307a2bd`.
 - Independent root reviews: no remaining P1/P2. No other shared production/dependency edits.
 
 ## Verification actually run
@@ -64,5 +65,5 @@ browser end-to-end latency, SLA or speed improvement. No Gemma inference/full li
 Owned API/CPU and synthetic3217/8022 servers stopped; review login3216 remains available with
 ignored public credentials only. Photos/scans unsupported. Session log/memory handled by root.
 FULL SUITE: finished; exclusive slot released. LIVE RUN: none.
-Next action: Claude reviews/merges this verified lane, reusing exact Python tree evidence;
-retain owner-deferred real sign-in/live smoke and Phase 11/release gates explicitly open.
+Next action: synchronize final lane evidence documentation with Claude; retain exact Python
+tree evidence and owner-deferred real sign-in/live smoke and Phase 11/release gates explicitly open.
