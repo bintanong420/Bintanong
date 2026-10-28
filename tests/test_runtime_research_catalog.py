@@ -161,13 +161,26 @@ def test_a_title_spelled_like_another_course_code_is_not_an_alias():
     assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7'}, 'course-b': {'ZZ 8', 'ZZ8'}}
 
 
-@pytest.mark.parametrize('issue', ['source_cutoff', 'malformed_source_condition',
-    'conflicting_deadlines', 'printed_total_discrepancy', 'effectivity_currentness_unknown', 'claim_not_stated'])
-def test_router_can_select_every_recorded_unresolved_source_limitation(issue):
+def limited_topic(issue):
     register = {'reviews':[dict(subject_id='synthetic_policy',claim='visible printed field',finding='visible_fields')]}
     catalogue = {'assignments':[dict(reading_id='synthetic-row',subject_id='synthetic_policy')]}
     chunks = [dict(type_fields=dict(reading_id='synthetic-row'),text=json.dumps(dict(source_limits=[
         dict(issue=issue,resolution='unresolved',affected_claims=['the missing or uncertain condition'])])))]
     topic, = topic_menu(register,catalogue=catalogue,chunks=chunks)
+    return topic
+
+
+@pytest.mark.parametrize('issue', ['source_cutoff', 'conflicting_deadlines', 'effectivity_currentness_unknown',
+                                   'claim_not_stated'])
+def test_router_can_select_every_recorded_absent_or_unsettled_fact(issue):
+    topic = limited_topic(issue)
     assert topic.claims == ('visible printed field',)
     assert topic.not_stated == ('the missing or uncertain condition',)
+
+
+@pytest.mark.parametrize('issue', ['malformed_source_condition', 'printed_total_discrepancy'])
+def test_printed_defects_are_not_offered_as_not_stated_claims(issue):
+    # Owner29Oct: defective printed text is shown as printed with a note. Offering its description
+    # as a not-stated claim made the router request it for a plain library-card question.
+    topic = limited_topic(issue)
+    assert topic.claims == ('visible printed field',) and topic.not_stated == ()

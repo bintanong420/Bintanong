@@ -153,6 +153,9 @@ def _reviewed_topic_context(register, catalogue, chunks):
             if len(set(values)) <= 4}
 
 
+PRINTED_DEFECTS = ('malformed_source_condition', 'printed_total_discrepancy')
+
+
 def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
     """One topic per reviewed subject with its reviewed claims, plus the claims its chunks'
     source_limits record as not stated (selecting one makes the policy withhold)."""
@@ -180,7 +183,8 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
         except (ValueError, TypeError, AttributeError):
             limits = []
         for limit in limits:
-            if limit.get('resolution') == 'unresolved':
+            # Owner29Oct: printed defects are shown as printed with a note, not offered as not stated.
+            if limit.get('resolution') == 'unresolved' and limit.get('issue') not in PRINTED_DEFECTS:
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
     contexts = _reviewed_topic_context(register, catalogue, chunks)
