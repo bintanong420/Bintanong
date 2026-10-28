@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 234
+sequence: 235
 plan: plans/phase-11-backend-api-plan.md
-head_commit: df3811a
+head_commit: 6961e64
 working_tree: clarify results/snapshots pending commit
 updated_at: 2026-10-28T18:00:00+08:00
 ---
@@ -20,6 +20,9 @@ All original reviews/all-nine inclusion,source-context/router/reply migrations a
 quoted-field prototype retained. Prior source baseline4e99fb6;previous code freeze3c55722.
 
 ## Current Task
+
+Owner28Oct:guest mode approved (master25.1 amendment,ledger);Codex B implements. Detail-only answers
+5ed4c98/6961e64 (focused1794pass);gate expansion (prereqs across14curricula) and live run next.
 
 Lanes merged:A e574d67 (41/44Charter),B 307a2bd (frontend/auth/sessions). Full suite reused from B c4f6f07
 (identical backend/tests trees):7164pass/1608 exit0. Sign-in verification pending (owner). Battery-8 307a2bd:7/8,3/3;lane B docs merged df3811a.

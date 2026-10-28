@@ -520,3 +520,13 @@ Each program still gets its own dated review record listing which standing rule 
   shown as is with a note that the data is exactly as printed and any defect comes from the
   original. Applies to host display only;model interpretation holds on malformed conditions stay.
   No activation/default change. See `2026-10-29-printed-service-steps-plan.md`.
+- 28 Oct 2026 (Phase 11, guest mode): owner asked for a guest mode with the login kept, then confirmed full guest
+  features including temporary PDF upload after the proposed flow. Master 25.1 amended (guest sessions memory-only,
+  separate from signed-in sessions, invalid present tokens refused, explicit API setting). Earlier the same day:
+  keep the login for now; removing UAT only under consideration (no requirements change). Real PSU sign-in
+  verification stays deferred. Codex B implements; Claude review `2026-10-28-guest-mode-review.md`.
+- 28 Oct 2026 (answers): answer only the printed detail asked (requirements, fees, processing time), the whole
+  service when the student asks how to do something or for everything. No program given -> keep asking program
+  and curriculum; the frontend asks up front. Students are guided to type a course code or a course title
+  (combined "CS6 (title)" mentions are not specially handled). Simple-question gate: cover most topics and
+  diversify prerequisite questions across programs (wording accepted in principle).
