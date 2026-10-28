@@ -10,8 +10,7 @@ export function ClarificationDialog({ answer, original, curricula, status, open,
   open: boolean; onClose: () => void; onRetry: () => void; onConfirm: (reply: { text: string; scope: StudentScope | null }, drafts: ClarificationDrafts) => void;
 }) {
   const [drafts, setDrafts] = useState<ClarificationDrafts>({}), [step, setStep] = useState(0), [reviewing, setReviewing] = useState(false);
-  const uiAnswer = { ...answer, language: "en" as const };
-  const copy = copyForClarification("en"), questions = clarificationQuestions(uiAnswer, curricula), question = questions[step];
+  const copy = copyForClarification(answer.language), questions = clarificationQuestions(answer, curricula), question = questions[step];
   const id = useId(), heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -25,7 +24,7 @@ export function ClarificationDialog({ answer, original, curricula, status, open,
   function update(change: Partial<typeof draft>) { setDrafts(previous => ({ ...previous, [question.key]: { ...draft, ...change } })); }
   let reply: ReturnType<typeof clarificationReply> = null, tooLong = false;
   if (reviewing) {
-    try { reply = clarificationReply(original, uiAnswer, curricula, drafts); }
+    try { reply = clarificationReply(original, answer, curricula, drafts); }
     catch { tooLong = true; }
   }
   return <PreviewDialog title={copy.title} className="clarification-dialog" onClose={onClose}>

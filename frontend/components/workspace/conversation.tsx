@@ -33,7 +33,7 @@ export function Conversation({ state, progress, onSource, onClarify, onEdit, onR
     <p role="status" className="sr-only">{!state.pending && state.messages.at(-1)?.answer ? "Response ready." : ""}</p>
     {state.messages.map(message => {
       if (message.role === "assistant" && !message.text && message.delivery !== "interrupted") return null;
-      const notice = message.answer && answerNotice({ ...message.answer, language: "en" });
+      const notice = message.answer && answerNotice(message.answer);
       const latest = message.id === state.messages.at(-1)?.id;
       const hasQuestions = message.answer && clarificationQuestions(message.answer, []).length > 0;
       return <article key={message.id} className={`message message-${message.role}`} aria-label={message.role === "user" ? "Your message" : "Bintanong response"}>

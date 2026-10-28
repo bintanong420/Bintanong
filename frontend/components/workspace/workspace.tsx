@@ -216,7 +216,7 @@ export function Workspace() {
           const needsScope = clarification.answer.missingFields.some(field => field === "program" || field === "curriculum");
           const selected = needsScope ? reply.scope : reply.scope ?? clarification.scope;
           changeScope(curricula.find(c => c.curriculumId === selected?.curriculumId && c.programId === selected?.programId) ?? null);
-          dispatch({ type: "remember", details: confirmedDetails({ ...clarification.answer, language: "en" }, curricula, drafts, selected) });
+          dispatch({ type: "remember", details: confirmedDetails(clarification.answer, curricula, drafts, selected) });
           void send({ text: reply.text, scope: selected });
         }} />}
       {scopeOpen && <ScopePanel curricula={curricula} current={scope} status={curriculaStatus} onRetry={() => setCurriculaAttempt(n => n + 1)} busy={!!busy} onClose={() => setScopeOpen(false)} onSave={value => { changeScope(value); setScopeOpen(false); }} />}
