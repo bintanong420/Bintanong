@@ -118,7 +118,8 @@ Codex A 1ff6fa6 (41/44Charter services parse/render) merged e574d67;Codex B 130c
 PSU Google auth via Supabase,account-bound sessions,canonical data-answer,up-front ScopePanel) merged 307a2bd.
 Backend/tests trees equal B's suite-tested c4f6f07 (c4038d7/9b42e65):full suite reused,7164pass/1608subtests,
 6skip/2xfail,1500.12s,exit0. Real PSU sign-in verification left pending by owner;no authenticated HTTP smoke.
-Live battery-8 on 307a2bd running.
+Live battery-8 on 307a2bd:7/8answered,3/3regressions (unchanged by merges;discipline abstains). Good-moral
+answer identical to battery-7 but 16523chars of printed steps:length/readability to review in the gate.
 Owner28Oct:no program -> keep asking program and curriculum (216/1093codes repeat across curricula;BSIT/BSCS
 share20;BSCS has2versions);frontend should ask the student's program/curriculum up front (Codex B
 consideration). "CS6 (title)" combined mention not fixed:student prompting guidance instead. Dropped

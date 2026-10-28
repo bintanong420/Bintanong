@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 234
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 307a2bd
+head_commit: df3811a
 working_tree: clarify results/snapshots pending commit
 updated_at: 2026-10-28T18:00:00+08:00
 ---
@@ -22,7 +22,7 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 ## Current Task
 
 Lanes merged:A e574d67 (41/44Charter),B 307a2bd (frontend/auth/sessions). Full suite reused from B c4f6f07
-(identical backend/tests trees):7164pass/1608 exit0. Sign-in verification pending (owner). Battery-8 running.
+(identical backend/tests trees):7164pass/1608 exit0. Sign-in verification pending (owner). Battery-8 307a2bd:7/8,3/3;lane B docs merged df3811a.
 
 Shifting option A 04e913f/12ac411 (menu destination example);battery-7 7/8,3/3. Split plan 799ae1e.
 Full suite 12ac411:7089pass/1608subtests,6skip/2xfail,1717.52s,exit0. Prereq probe A/p11-clarify-20261028/prereq-probe.
