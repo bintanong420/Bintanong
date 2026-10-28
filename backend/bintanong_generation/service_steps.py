@@ -14,8 +14,8 @@ IGNORED = re.compile(r'^(?:[a-z_]+_label|(?:requirements|process)_column_labels|
                      r'classification|transaction|audience|service_description)$')
 STEP = re.compile(r'^step(?P<step>\d+)_(?:(?P<client>client_step)|(?P<shared>shared_)?(?P<attr>fee|time|person|office)'
                   r'|subaction(?P<sub>\d+)_(?P<sattr>action|time|person|office|fee)|(?P<single>action))$')
-REQUIREMENT = re.compile(r'^(?P<key>(?:[a-z]+_)?)requirement(?P<n>\d*)$')
-WHERE = re.compile(r'^(?P<key>(?:[a-z]+_)?)where_to_secure(?P<n>\d*)$')
+REQUIREMENT = re.compile(r'^(?P<key>(?:[a-z]+_)*)requirement(?P<n>\d*)$')
+WHERE = re.compile(r'^(?P<key>(?:[a-z]+_)*)where_to_secure(?P<n>\d*)$')
 TOTAL = re.compile(r'^(?:whole_service_)?total_(?P<attr>fee|time)$')
 ACTION_ATTRS = ('time', 'person', 'office', 'fee')
 
@@ -51,6 +51,8 @@ class ServiceTable:
     limits: tuple[str, ...] = ()  # unresolved source-limit messages, shown verbatim
     overview_evidence_ids: tuple[str, ...] = ()  # records holding title/office/checklist
     total_evidence_ids: tuple[str, ...] = ()
+    notes: tuple[str, ...] = ()
+    checklist_headings: tuple[tuple[int, str], ...] = ()
 
 
 def _put(target, key, value):
@@ -61,6 +63,8 @@ def _put(target, key, value):
 
 def _table(records):
     meta, requirements, wheres, totals, steps, limits = {}, {}, {}, {}, {}, []
+    notes, headings = [], {}
+    row_numbers = []
     overview, total_records = [], []
     for evidence_id, text in records:
         record = json.loads(text)
@@ -70,6 +74,33 @@ def _table(records):
                 limits.append(limit['message'])
         for field in record['fields']:
             name, value = field['name'], field['value']
+            name = {'service_title_and_description': 'service_title', 'service_title_and_note': 'service_title',
+                    'office_division': 'office', 'transaction_type': 'transaction', 'who_may_avail': 'audience',
+                    'total_fees': 'total_fee', 'total_processing_time': 'total_time'}.get(name, name)
+            if (m := re.fullmatch(r'requirement(\d+)_checklist', name)):
+                name = f'requirement{m[1]}'
+            elif (m := re.fullmatch(r'requirement(\d+)_where_to_secure', name)):
+                name = f'where_to_secure{m[1]}'
+            elif (m := re.fullmatch(r'row(\d+)_(client_step|agency_actions|fees|processing_time|person|office)', name)):
+                row = int(m[1])
+                if row not in row_numbers:
+                    row_numbers.append(row)
+                attr = {'agency_actions': 'action', 'fees': 'fee', 'processing_time': 'time'}.get(m[2], m[2])
+                name = f'step{row}_{attr}'
+            elif STEP.match(name) and row_numbers:
+                raise ValueError('mixed_row_step_grammar')
+            if name in ('registration_description', 'second_copy_note', 'service_note'):
+                notes.append(value)
+                if evidence_id not in overview:
+                    overview.append(evidence_id)
+                continue
+            if (m := re.fullmatch(r'(in_campus_|out_of_campus_)requirements_heading', name)):
+                _put(headings, m[1], value)
+                if evidence_id not in overview:
+                    overview.append(evidence_id)
+                continue
+            if name in ('in_campus_where_heading', 'out_of_campus_where_heading', 'end_transaction_label'):
+                continue
             if IGNORED.match(name):
                 continue
             if (m := TOTAL.match(name)):
@@ -97,7 +128,8 @@ def _table(records):
                     _put(action, m['sattr'] or 'action', value)
             else:
                 raise ValueError('unknown_service_field')
-    if set(wheres) - set(requirements) or not steps or sorted(steps) != list(range(1, len(steps) + 1)):
+    start = min(row_numbers) if row_numbers else 1
+    if set(wheres) - set(requirements) or not steps or sorted(steps) != list(range(start, start + len(steps))):
         raise ValueError('incomplete_service_table')
     built = []
     for number in sorted(steps):
@@ -115,9 +147,16 @@ def _table(records):
         built.append(Step(number, step['client_step'], shared.get('fee'), tuple(actions),
                           tuple(k for k in ('time', 'person', 'office') if k in shared), tuple(step['evidence'])))
     checklist = tuple((requirements[key], wheres.get(key)) for key in requirements)
+    positions, seen = [], set()
+    for index, (prefix, _) in enumerate(requirements):
+        if prefix in headings and prefix not in seen:
+            positions.append((index, headings[prefix]))
+            seen.add(prefix)
+    if set(headings) - seen:
+        raise ValueError('empty_checklist_section')
     return ServiceTable(meta.get('service_title'), meta.get('office'), checklist, tuple(built),
                         totals.get('fee'), totals.get('time'), tuple(e for e, _ in records), tuple(limits),
-                        tuple(overview), tuple(dict.fromkeys(total_records)))
+                        tuple(overview), tuple(dict.fromkeys(total_records)), tuple(notes), tuple(positions))
 
 
 def parse_service(records):
@@ -195,9 +234,14 @@ def render_service(table, language, max_claims=8):
     document note. None when the steps cannot fit the claim budget within ProseClaim limits."""
     key = 'taglish' if language in ('taglish', 'fil') else 'en'
     overview = [x for x in (_end(table.title or ''), f'Office: {table.office}' if table.office else '') if x]
+    overview += [_end(note) for note in table.notes]
     if table.checklist:
         overview.append(LEADS[key]['requirements'])
-        overview += [f'- {_end(r)}' + (f' — where to secure: {_end(w)}' if w else '') for r, w in table.checklist]
+        headings = dict(table.checklist_headings)
+        for index, (r, w) in enumerate(table.checklist):
+            if index in headings:
+                overview.append(headings[index])
+            overview.append(f'- {_end(r)}' + (f' — where to secure: {_end(w)}' if w else ''))
     claims = [('\n'.join(overview), table.overview_evidence_ids or table.steps[0].evidence_ids)] if overview else []
     tail = []
     if table.total_fee is not None or table.total_time is not None:

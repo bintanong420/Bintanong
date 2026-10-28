@@ -49,3 +49,12 @@ aliases/notes (registration/activity/diploma/readmission), explicit shared field
 Initial TOR/complex certification services retain unresolved first-action mappings and
 cannot be represented as complete tables; feedback is prose, not a client-step table.
 Next: strict aliases/overview scopes and numbered-row family RED/GREEN, then remaining families.
+
+## Unit 1 — explicit row aliases and scoped checklist metadata
+
+RED `red1.log`:3expected failures/11pass; GREEN parser/render/integration24pass
+2.89s (`green1.log`). Added strict explicit row fields, title/office/checklist/total aliases,
+scoped in/out-campus headings and verbatim notes. Original row numbers survive; gaps and
+mixed row/step records refuse. Real check:28/44parse;27/44render both languages.
+Activity overview exceeds existing claim limits; remains refused pending bounded overview
+splitting. No guard/budget relaxation. Next: complete record-row and explicit shared-range families.

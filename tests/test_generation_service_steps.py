@@ -84,3 +84,52 @@ def test_a_malformed_printed_condition_is_kept_as_printed_with_its_limit():
     # Owner29Oct: show defective printed tables as is, with a note; model interpretation stays held.
     table = parse_service([('e1', FIRST), ('e2', limited('malformed_source_condition'))])
     assert table.limits == ('Unavailable information: fictional malformed_source_condition.',)
+
+@pytest.mark.parametrize('row_start', [1, 2])
+def test_explicit_rows_preserve_same_row_columns_and_original_row_numbers(row_start):
+    fields = [('service_title_and_description', '1. FICTIONAL BORROWING Description.'),
+              ('office_division', 'Office/Division: Library'),
+              ('transaction_type', 'G2C'), ('who_may_avail', 'Students'),
+              ('requirement1_checklist', 'Library card'), ('requirement1_where_to_secure', 'Client')]
+    for row in range(row_start, row_start + 2):
+        fields.extend([(f'row{row}_client_step', f'Client row {row}'),
+                       (f'row{row}_agency_actions', f'Action row {row}'),
+                       (f'row{row}_fees', ''), (f'row{row}_processing_time', f'{row} minutes'),
+                       (f'row{row}_person', f'Librarian {row}'), (f'row{row}_office', 'Library')])
+    fields.extend([('total_fees', 'None'), ('total_processing_time', '3 minutes')])
+    table = parse_service([('e1', record(*fields))])
+    assert table is not None
+    assert table.checklist == (('Library card', 'Client'),)
+    assert [(s.number, s.actions[0].action, s.actions[0].time, s.actions[0].person) for s in table.steps] == [
+        (row_start, f'Action row {row_start}', f'{row_start} minutes', f'Librarian {row_start}'),
+        (row_start + 1, f'Action row {row_start + 1}', f'{row_start + 1} minutes', f'Librarian {row_start + 1}')]
+    assert table.total_fee == 'None' and table.total_time == '3 minutes'
+
+
+def test_row_grammar_refuses_missing_interior_row_and_mixed_step_names():
+    for fields in [
+        [('row1_client_step', 'First'), ('row1_agency_actions', 'First action'),
+         ('row3_client_step', 'Third'), ('row3_agency_actions', 'Third action')],
+        [('row1_client_step', 'First'), ('step1_action', 'Mixed action')],
+    ]:
+        assert parse_service([('e1', record(*fields))]) is None
+
+
+def test_scoped_checklists_and_service_notes_keep_their_printed_scope():
+    fields = [('service_title_and_note', '1. A SERVICE *Note: a condition'),
+              ('registration_description', 'Registration description'),
+              ('in_campus_requirements_heading', 'CHECKLIST (In-Campus)'),
+              ('in_campus_where_heading', 'WHERE TO SECURE'),
+              ('out_of_campus_requirements_heading', 'CHECKLIST (Out of Campus)'),
+              ('out_of_campus_where_heading', 'WHERE TO SECURE'),
+              ('in_campus_requirement1', 'Program proposal'), ('in_campus_where_to_secure1', 'Organization'),
+              ('out_of_campus_requirement1', 'Travel order'), ('out_of_campus_where_to_secure1', 'College'),
+              ('second_copy_note', '*Second copy needs a letter'),
+              ('step1_client_step', 'Request'), ('step1_action', 'Receive'), ('end_transaction_label', 'End')]
+    table = parse_service([('e1', record(*fields))])
+    assert table is not None
+    from backend.bintanong_generation.service_steps import render_service
+    text = '\n'.join(t for t, _ in render_service(table, 'en'))
+    assert 'Registration description' in text and '*Second copy needs a letter' in text
+    assert text.index('CHECKLIST (In-Campus)') < text.index('Program proposal') < text.index('CHECKLIST (Out of Campus)') < text.index('Travel order')
+    assert '1. A SERVICE *Note: a condition' in text
