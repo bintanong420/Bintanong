@@ -158,3 +158,31 @@ def test_cue_must_name_one_of_the_topics_not_stated_facts():
     with pytest.raises(ValueError):
         DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',),
                       cues=(NotStatedCue(claim='printed fee amount', phrases=('each student',)),))
+
+
+def _undergraduate_clarify_branches(schema):
+    return [b for b in schema['oneOf'] if b['properties']['audience'] == {'const': 'undergraduate'}
+            and 'clarify' in (b['properties']['control'].get('enum') or [b['properties']['control'].get('const')])]
+
+
+def _names_something(branch, follow_up):
+    props = branch['properties']
+    named = [props[f].get('minItems', 0) >= 1 for f in ('operations', 'claims', 'ambiguities')]
+    if follow_up:
+        named.append(props['previous_course_quote'].get('type') != 'null'
+                     and 'null' not in str(props['previous_course_quote'].get('anyOf', '')))
+    return any(named)
+
+
+@pytest.mark.parametrize('follow_up', [False, True])
+def test_menu_grammar_has_no_clarification_that_names_nothing(follow_up):
+    # Live 559 battery (28 Oct 2026): "Gusto ko mag-shift sa ibang college, ano yung process?" with the
+    # shifting topic selected came back control=clarify, no parts/operations/claims/ambiguities, which
+    # the host must treat as unavailable information (owner E3) although a reviewed topic answers it.
+    branches = _undergraduate_clarify_branches(output_schema(MENU, follow_up=follow_up))
+    assert branches and all(_names_something(b, follow_up) for b in branches)
+
+
+def test_grammar_without_a_menu_keeps_its_clarify_branch():
+    schema = output_schema()
+    assert any(not _names_something(b, False) for b in _undergraduate_clarify_branches(schema))
