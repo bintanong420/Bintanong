@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 237
+sequence: 238
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 7be3e1c
+head_commit: f0889c3
 working_tree: clean
-updated_at: 2026-10-28T18:00:00+08:00
+updated_at: 2026-10-28T21:00:00+08:00
 ---
 
 # Phase11checkpoint — 559vectors/maps verified;prompt capacity measured
@@ -25,14 +25,16 @@ Simple-question gate (91 owner-accepted cases,[results](2026-10-28-simple-questi
 run1 61/91 adjusted,run2 e193093 70/91. Fixes 289cf4b (router v24 not-yet-passed claims),84ef585 (detail split),
 a6bc52a (single-detail coverage),2189faf (owner-resolved year-level limit),2112d62 (specific detail). Answer-only-
 asked-detail 5ed4c98/6961e64;all-of guard d49aa27;shifting option A 04e913f/12ac411. Lanes merged:A e574d67,
-B 307a2bd/df3811a,guest 04e6d38. Full suite 04e6d38:7198pass/1608 exit0;none since (focused runs only).
-Open:gate group A (~18 topic/claim picks),Taglish second-year clarify. Evidence A/p11-simple-gate-20261028,
+B 307a2bd/df3811a,guest 04e6d38. Full suite f0889c3:7203pass/1608subtests,6skip/2xfail,exit0,1376.65s
+(A/p11-fullsuite-20261028b);prior04e6d38 7198pass.
+Open:gate group A diagnosed:selector ID-only Handbook labels,router not-stated/wrong-topic claim picks,Law scope;
+Taglish second-year clarify. Owner asked about topic families;answer pending. Evidence A/p11-simple-gate-20261028,
 A/p11-clarify-20261028. Earlier task history (printed steps,559 checks,repair overflow,short reviews,vectors,
 flow evidence,bindings) is in the last full snapshot `7be3e1c` and the linked dated results.
 
 ## Repository State
 
-p11/feat/p11-backend-api;codeb695739 after flowf635ccc;nothing pushed.
+p11/feat/p11-fullstack-integration (owner28Oct,from backend-api f0889c3);codeb695739 after flowf635ccc;nothing pushed.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence.
 Current559:A/p11-flow-evidence-20261027;source author/verifier,readings,spans/events,
 flow manifests,27authored records,contexts,RED/GREEN/full logs and determinism.
@@ -118,8 +120,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Per [28Oct session handoff](2026-10-28-phase11-session-handoff.md):full suite on current head,then gate group A
-test-first,then full gate rerun.
+Owner answer on topic families;then selector printed-heading fix test-first,router claim and Law scope fixes,
+then full gate rerun.
 
 ## Context Consulted
 
@@ -130,6 +132,7 @@ Registrar7/8/11–15/18–20,Student Affairs51–57and relevant reviews retained
 Closed-world thesis example illustrative;unknown versus unmet preserved. No new
 scope/architecture discrepancy or owner content judgment needed. 28Oct resume:no scope change;
 router prompt/E3 empty-clarify decision reread.
+28Oct evening resume:thesis physical17–18 and routing PNG reread;no discrepancy.
 
 ## Do Not Repeat
 

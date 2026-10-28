@@ -2,7 +2,7 @@
 
 ## Current state
 
-- Phase11active in p11 / feat/p11-backend-api. Backend/security delivered;frontend
+- Phase11active in p11 / feat/p11-fullstack-integration (from feat/p11-backend-api). Backend/security delivered;frontend
   integration stopped. [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
   [Current progress](plan_current_progress/current_progress.md). No Phase11handoff;
   latest final handoff is [Phase10](phase-10-handoff.md);Phase12not permitted.

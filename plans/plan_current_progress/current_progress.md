@@ -1,6 +1,7 @@
 # Current progress
 
-Updated 28 October 2026. Phase 11 active; p11 / `feat/p11-backend-api`; nothing pushed.
+Updated 28 October 2026. Phase 11 active; p11 / `feat/p11-fullstack-integration` (owner 28 Oct: branched from
+`feat/p11-backend-api` f0889c3; frontend-integration and charter-layouts lanes pushed to origin; this branch local only).
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Session handoff](../2026-10-28-phase11-session-handoff.md).
 Last full snapshot before condensation: `7be3e1c` (earlier ba7d8b4, 40a35f9, f635ccc, d32aa18); use `git show`.
@@ -17,9 +18,8 @@ run 1 58/91 (61 adjusted), run 2 `e193093` 67/91 (70 adjusted). Fixes, all test-
 Earlier today: answer only the asked detail (5ed4c98/6961e64), all-of wording guard d49aa27, shifting
 option A 04e913f/12ac411 ([clarify results](../2026-10-28-clarify-and-condition-wording-results.md)).
 
-Verification: full suite on merged `04e6d38` 7198 pass / 1608 subtests, 6 skip / 2 xfail, exit 0 (2021.94 s).
-Later commits a6bc52a/2189faf/2112d62: wide focused 1287/1478/1618 pass and affected live cases checked;
-**no full suite since 04e6d38**.
+Verification: full suite on `f0889c3` (includes a6bc52a/2189faf/2112d62) 7203 pass / 1608 subtests,
+6 skip / 2 xfail, exit 0 (1376.65 s; A/p11-fullsuite-20261028b). Prior 04e6d38 run 7198 pass.
 
 ## Lane status (owner 28 Oct)
 
@@ -32,11 +32,16 @@ Later commits a6bc52a/2189faf/2112d62: wide focused 1287/1478/1618 pass and affe
 - No program given -> ask program and curriculum (216/1093 codes repeat; BSIT/BSCS share 20; BSCS has 2
   versions); the frontend ScopePanel asks up front. "CS6 (title)" mentions are covered by prompting guidance.
 
-## Open gate failures
+## Open gate failures (diagnosed 28 Oct, run-e193093 call artifacts)
 
-Group A, about 18 cases: wrong topic or claim (drop subject, probation, certification fee, transfer, diploma,
-DAC, overdue fine, honors residence, refund requirements, Law scope; 2 transient). Taglish second-year: empty
-router clarify (stop rule, not retried). Grad residence matches two clauses.
+1. Selector topic: Handbook menu entries are ID-only (no printed heading), so drop -> handbook_dac_policy,
+   refund -> handbook clause, transfer -> handbook_transfer_credentials, certification fee -> charter_tor_copy,
+   Taglish probation -> discipline. k-NN only searches the selected topic's chunks.
+2. Router claim: diploma/DAC/overdue pick a not-stated claim; two-topic picks choose the wrong one
+   (honors residence, English probation, grad residence).
+3. Law admission not routed to the undergraduate-scope notice. Taglish second-year: empty clarify (stop rule).
+Proposed to owner: printed Handbook headings in the selector menu; optional owner-reviewed "topic families"
+(overlapping topics selected and answered together; clarify only when the answer materially differs).
 
 ## Package state and boundaries
 
@@ -46,5 +51,5 @@ institutional approval, Phase 11 exit or Phase 12 advance.
 
 ## Next action
 
-Full suite on the current head, then gate group A test-first (diagnose selector vs router claim choice),
-then a full gate rerun. Mark `LIVE RUN` here while using the model.
+Await owner answer on topic families; then fix 1 (selector headings) test-first, fixes 2-3, full gate rerun.
+Mark `LIVE RUN` here while using the model.
