@@ -114,7 +114,12 @@ English input->English;Filipino/Taglish->Taglish. No measured latency speedup.
 Login:owner said keep the login for now (easier to remove later);removing UAT from the study is only a
 consideration,no requirements change. Codex B implements reviewed account binding + canonical API
 metadata ([review](../2026-10-28-codex-b-interface-review.md)),exact snapshot e172f53 deps/npm ci approved.
-Codex A:38/44Charter services parse/render on its branch (unmerged,unreviewed). Nothing merged.
+Codex A 1ff6fa6 (41/44Charter services parse/render) reviewed and merged locally e574d67;focused1066pass;
+full suite pending (Codex B holds the slot),then live battery since printed-step answers change.
+Owner28Oct:no program -> keep asking program and curriculum (216/1093codes repeat across curricula;BSIT/BSCS
+share20;BSCS has2versions);frontend should ask the student's program/curriculum up front (Codex B
+consideration). "CS6 (title)" combined mention not fixed:student prompting guidance instead. Dropped
+failed-course claim in that case remains an open router finding.
 
 ## Package state and boundaries
 
