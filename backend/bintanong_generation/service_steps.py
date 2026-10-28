@@ -153,10 +153,10 @@ def _table(records):
                 _put(totals, 'printed', value)
                 total_records.append(evidence_id)
                 continue
-            if (m := re.fullmatch(r'steps(\d+)_(\d+)_shared_(person|office|time|fee)', name)):
+            if (m := re.fullmatch(r'steps(\d+)_(\d+)_shared_(person|office|time)', name)):
                 ranges.append(('steps', int(m[1]), int(m[2]), m[3], value, evidence_id))
                 continue
-            if (m := re.fullmatch(r'step(\d+)_subactions(\d+)_(\d+)_(person|office|time|fee)', name)):
+            if (m := re.fullmatch(r'step(\d+)_subactions(\d+)_(\d+)_(person|office|time)', name)):
                 ranges.append((int(m[1]), int(m[2]), int(m[3]), m[4], value, evidence_id))
                 continue
             if (m := re.fullmatch(r'step(\d+)_local_(person|office|window)', name)):
@@ -303,11 +303,14 @@ def _table(records):
                           tuple(k for k in ('time', 'person', 'office') if k in shared), tuple(step['evidence']),
                           tuple(step.get('notes', ())), step.get('heading')))
     checklist = tuple((requirements[key], wheres.get(key)) for key in requirements)
-    positions, seen = [], set()
+    positions, seen, previous_prefix = [], set(), None
     for index, (prefix, _) in enumerate(requirements):
-        if prefix in headings and prefix not in seen:
+        if prefix in {'in_campus_', 'out_of_campus_', 'result_'} and prefix not in headings:
+            raise ValueError('missing_checklist_scope')
+        if prefix in headings and prefix != previous_prefix:
             positions.append((index, headings[prefix]))
             seen.add(prefix)
+        previous_prefix = prefix
     if set(headings) - seen:
         raise ValueError('empty_checklist_section')
     sources = dict(field_evidence)

@@ -106,3 +106,14 @@ in a claim citing its own source;46unresolved limits retained. See
 ambiguity. Full suite remains with Claude after integration;shared slot occupied.
 Next:commit final evidence/citation hardening,merge current primary if conflict-free,
 then deliver exact range to root/Claude for review and full suite.
+
+## Review fix pass
+
+Root's independent review found2important cases:interleaved/missing checklist scope
+headings and repeated charges from unsupported multi-target shared fee ranges. RED6fail
+34pass (`red-review.log`),GREEN51focused1.79s (`green-review.log`). Repeat original
+headings with scope transitions,require explicit in/out-campus/result scope heading,
+and refuse multi-target fees. Real fidelity remains41/44both languages,2318fieldchecks,
+46limits. No new source decisions or budget changes.
+
+Final generation rerun675pass18.47s,exit0 (`focused-review.log`/exit).

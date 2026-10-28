@@ -298,3 +298,31 @@ def test_staff_pairs_conflicting_with_single_or_shared_person_refuse():
               ('step1_subaction1_person1', 'Clerk'), ('step1_subaction1_office1', 'Registrar')]
     for name in ['step1_person', 'step1_subaction1_person']:
         assert parse_service([('e', record(*fields, (name, 'Other person')))]) is None
+
+
+def test_interleaved_scoped_requirements_repeat_their_own_heading_and_citation():
+    records = [('headings', record(('in_campus_requirements_heading', 'IN CAMPUS'),
+                                  ('out_of_campus_requirements_heading', 'OUT OF CAMPUS'))),
+               ('first', record(('in_campus_requirement1', 'Inside one'))),
+               ('second', record(('out_of_campus_requirement1', 'Outside one'))),
+               ('third', record(('in_campus_requirement2', 'Inside two'))),
+               ('step', record(('step1_client_step', 'Submit'), ('step1_action', 'Receive')))]
+    from backend.bintanong_generation.service_steps import render_service
+    claims = render_service(parse_service(records), 'en')
+    text = '\n'.join(t for t, _ in claims)
+    assert 'IN CAMPUS\n- Inside one\nOUT OF CAMPUS\n- Outside one\nIN CAMPUS\n- Inside two' in text
+    assert all('headings' in ids for text, ids in claims if 'Inside two' in text)
+
+
+@pytest.mark.parametrize('prefix', ['in_campus_', 'out_of_campus_', 'result_'])
+def test_scoped_requirements_without_their_printed_scope_heading_refuse(prefix):
+    assert parse_service([('e', record((prefix + 'requirement1', 'Document'),
+                                      ('step1_client_step', 'Submit'), ('step1_action', 'Receive')))]) is None
+
+
+@pytest.mark.parametrize('field', ['steps1_2_shared_fee', 'step1_subactions1_2_fee'])
+def test_unsupported_multi_target_shared_fee_refuses_instead_of_duplicating_a_charge(field):
+    fields = [('step1_client_step', 'Submit'), ('step1_subaction1_action', 'Receive'),
+              ('step1_subaction2_action', 'Check'), ('step2_client_step', 'Return'),
+              ('step2_action', 'Release'), (field, 'Php 100.00')]
+    assert parse_service([('e', record(*fields))]) is None

@@ -37,8 +37,8 @@ cutoffs,unknown acronyms and all other recorded limitations remain unresolved.
 - Baseline12ac411;unit commits46f11ae,d744df9,ea80d5c,68bd9e3plus final citation hardening.
 - Synthetic RED/GREEN logs cover aliases,record rows,explicit ranges,clinical/split fields,
   shuffled input,mixed grammars,long overview,phase resets,local/continuation fields and
-  indexed staff. Final focused parser/render/host tests45pass1.53s.
-- All generation-module regressions:`test_generation*.py`669pass21.84s,exit0.
+  indexed staff. Final focused parser/render/host tests51pass1.79s.
+- All generation-module regressions:`test_generation*.py`669pass21.84s,exit0 before review fixes;final rerun below.
 - Real data fidelity:44subjects;41parse;41render both languages;2318substantive field
   checks find every value in a claim citing its own record (whitespace/trailing-period
   normalization);46unresolved-limit occurrences retained. Known descriptive metadata
@@ -52,3 +52,15 @@ cutoffs,unknown acronyms and all other recorded limitations remain unresolved.
   Package chunks SHA256:`5e790a240eb79e1d2b9d176d462abb587ac7646ea289018ffcbb882f27ed5bdf`.
 - Full suite not run in this lane:Claude occupies the shared slot. Mandatory primary
   review/merge/full suite remains the integration gate. No live model or hosted calls.
+
+## Independent review fixes
+
+Review of68bd9e3found scoped requirements could interleave under the wrong last heading,
+and unsupported cross-step shared fees could render as repeated charges. Reproduced
+6expected failures/34pass (`red-review.log`). Checklist headings now repeat on each
+explicit scope transition,with their provenance;in/out-campus and result scopes require
+their printed heading. Multi-target step/action fee ranges refuse entirely,since no
+reviewed real service needs them. Singular per-step shared fees retain existing handling.
+GREEN51focused tests1.79s;real41/44bilingual fidelity remains unchanged.
+
+Final generation rerun after review fixes:675pass18.47s,exit0 (`focused-review.log`/exit).
