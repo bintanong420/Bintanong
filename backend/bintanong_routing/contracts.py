@@ -150,6 +150,8 @@ class RequestPart(Quote):
     # Research real-data mode only: a menu subject and its reviewed claims.
     subject_id: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
     requested_claims: tuple[TopicClaim, ...] = Field(default=(), max_length=8)
+    # The printed detail a document part asks for (owner 28 Oct 2026: answer only what was asked).
+    detail: Literal['whole', 'requirements', 'fees', 'processing_time'] = 'whole'
 
     @model_validator(mode='after')
     def _operations(self):
@@ -157,7 +159,7 @@ class RequestPart(Quote):
             raise ValueError('invalid_part')
         if self.evidence_need != 'structured' and self.operation_indices:
             raise ValueError('only_structured_parts_reference_operations')
-        if self.evidence_need != 'document' and (self.subject_id or self.requested_claims):
+        if self.evidence_need != 'document' and (self.subject_id or self.requested_claims or self.detail != 'whole'):
             raise ValueError('only_document_parts_carry_topics')
         if (self.subject_id is None) != (not self.requested_claims):
             raise ValueError('topic_requires_claims')

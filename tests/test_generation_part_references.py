@@ -79,7 +79,7 @@ def test_short_parts_preserve_source_content_and_all_required_record_references(
     assert [s['text'] for s in payload['evidence']['sources']] == [c.text for c in pack.cards]
     assert payload['record_coverage'] == {'r1': ['e1', 'e2']}
     assert payload['untrusted_question'] == COVERAGE_TEXT
-    assert payload['evidence']['requested_parts'] == [p.model_dump(mode='json', exclude={'subject_id', 'requested_claims'})
+    assert payload['evidence']['requested_parts'] == [p.model_dump(mode='json', exclude={'subject_id', 'requested_claims', 'detail'})
                                                     for p in pack.understanding.parts]
 
 

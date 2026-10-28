@@ -257,12 +257,17 @@ def service_claims(pack, fixed):
     explained = [p.part_id for p in pack.understanding.parts if p.evidence_need == 'document'
                  and p.part_id not in tables and p.part_id not in fixed]
     budget = 8 - _host_claim_count(fixed) - len(explained)  # each model-explained part keeps one claim
+    asked = {p.part_id: p.detail for p in pack.understanding.parts}
+    # Owner 28 Oct 2026: only the printed detail asked; a part asking for everything shows the whole service.
+    whole = {t.evidence_ids for part, t in tables.items() if asked[part] == 'whole'}
     rendered, used = {}, {}
     for part, table in tables.items():
-        key = table.evidence_ids
+        detail = 'whole' if table.evidence_ids in whole else asked[part]
+        key = (table.evidence_ids, detail)
         if key not in used:
-            used[key] = render_service(table, pack.language,
-                                       max_claims=budget - sum(len(c) for c in used.values() if c))
+            left = budget - sum(len(c) for c in used.values() if c)
+            used[key] = (render_service(table, pack.language, max_claims=left, detail=detail)
+                         or (render_service(table, pack.language, max_claims=left) if detail != 'whole' else None))
         if used[key]:
             rendered[part] = used[key]
     return rendered

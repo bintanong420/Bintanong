@@ -37,6 +37,7 @@ class WirePart(Record):
     operation_indices: tuple[Annotated[int, Field(ge=0, le=3)], ...] = Field(max_length=4)
     subject_id: str | None = None  # only present in the schema when a topic menu exists
     requested_claims: tuple[str, ...] = ()
+    detail: Literal['whole', 'requirements', 'fees', 'processing_time'] | None = None  # menu schema only
 
 
 class WireInterpretation(Contract):
@@ -178,7 +179,7 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
         reason=f'interpreter proposed {proposal}', mentions=listed, claims=claims,
         operations=operations, parts=[dict(**span(p.quote), part_id=p.part_id, evidence_need=p.evidence_need,
                     operation_indices=indices(p), subject_id=p.subject_id,
-                    requested_claims=list(p.requested_claims)) for p in wire.parts])
+                    requested_claims=list(p.requested_claims), detail=p.detail or 'whole') for p in wire.parts])
     result = Interpretation.parse(data)
     for claim in result.claims:
         entity = result.mentions[claim.entity]
