@@ -58,3 +58,18 @@ scoped in/out-campus headings and verbatim notes. Original row numbers survive; 
 mixed row/step records refuse. Real check:28/44parse;27/44render both languages.
 Activity overview exceeds existing claim limits; remains refused pending bounded overview
 splitting. No guard/budget relaxation. Next: complete record-row and explicit shared-range families.
+
+## Unit 2 — complete record rows, explicit ranges, clinical/continuation fields
+
+RED `red2.log`:1expected failure/18pass for record-local rows and printed total;
+RED `red3.log`:2expected failures/24pass for explicit ranges and clinical/fee fragments;
+RED `red3b.log`:also catches reverse-order mixed grammar (root review finding).
+GREEN parser/render/integration38pass3.20s. Ranges require existing target steps/actions
+and retain the range record's citation. Conditional authorization keeps its printed scope;
+local office/person columns stay with their record. Fee start/continuation require both
+fragments and conflict-free target; clinical assistant remains separate from physician.
+Real559:38/44parse,37/44render both languages. Activity overview still refuses on limits.
+Setup copy independently verified by root:62dataset files byte-identical and .env parity,
+`p11-workstream-split-20261028/copy-verification.json`. Claude owns central reconciliation.
+No full suite: Claude occupies shared slot. Next: overview splitting, admission phase,
+assessment continuation and removal same-index staff pairs.

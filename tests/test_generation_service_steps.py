@@ -133,3 +133,84 @@ def test_scoped_checklists_and_service_notes_keep_their_printed_scope():
     assert 'Registration description' in text and '*Second copy needs a letter' in text
     assert text.index('CHECKLIST (In-Campus)') < text.index('Program proposal') < text.index('CHECKLIST (Out of Campus)') < text.index('Travel order')
     assert '1. A SERVICE *Note: a condition' in text
+
+
+def test_complete_unnumbered_record_rows_keep_their_local_columns_and_printed_total():
+    overview = record(('service_title', 'FICTIONAL REQUEST'), ('description', 'Service description'),
+                      ('office', 'Central office'), ('conditional_representation_heading', 'If represented:'),
+                      ('conditional_authorization', 'Authorization letter'),
+                      ('authorization_where_to_secure_shared', 'Client'))
+    first = record(('client_step', 'Submit request'), ('agency_action', 'Receive and check'),
+                   ('fees_shared', ''), ('processing_time', '4 minutes'),
+                   ('person_shared', 'First clerk'), ('office_shared', 'First office'))
+    second = record(('client_step', 'Receive response'), ('agency_action', 'Release response'),
+                    ('fees', 'None'), ('processing_time', '1 minute'), ('person', 'Second clerk'),
+                    ('office', 'Second office'), ('printed_total', 'TOTAL None 5 Minutes'))
+    table = parse_service([('meta', overview), ('first', first), ('second', second)])
+    assert table is not None and table.office == 'Central office'
+    assert [(s.client_step, s.fee, s.actions[0].person, s.actions[0].office, s.evidence_ids) for s in table.steps] == [
+        ('Submit request', '', 'First clerk', 'First office', ('first',)),
+        ('Receive response', 'None', 'Second clerk', 'Second office', ('second',))]
+    from backend.bintanong_generation.service_steps import render_service
+    claims = render_service(table, 'en')
+    assert 'If represented: Authorization letter' in claims[0][0]
+    assert claims[-1][0].endswith('TOTAL None 5 Minutes')
+    assert claims[-1][1] == ('second',)
+
+
+@pytest.mark.parametrize('fields', [
+    [('client_step', 'Submit'), ('processing_time', '1 minute')],
+    [('agency_action', 'Receive'), ('person', 'Clerk')],
+    [('client_step', 'Submit'), ('agency_action', 'Receive'), ('unknown_pairing', 'Clerk')],
+    [('conditional_authorization', 'Letter')],
+])
+def test_incomplete_record_rows_and_unscoped_conditions_refuse(fields):
+    assert parse_service([('e1', record(*fields))]) is None
+
+
+def test_explicit_shared_ranges_keep_coverage_and_cite_the_range_record():
+    a = record(('step1_client_step', 'Request'), ('step1_action', 'Receive'),
+               ('step2_client_step', 'Return'), ('step2_subaction1_action', 'Check'),
+               ('step2_subaction2_action', 'Sign'), ('step2_subaction3_action', 'Release'))
+    ranges = record(('steps1_2_shared_office', 'Office'), ('steps1_2_shared_person', 'Clerk'),
+                    ('step2_subactions2_3_time', '5 minutes'))
+    table = parse_service([('a', a), ('range', ranges)])
+    assert table is not None
+    assert [s.evidence_ids for s in table.steps] == [('a', 'range'), ('a', 'range')]
+    assert [a.office for s in table.steps for a in s.actions] == ['Office'] * 4
+    assert [a.time for a in table.steps[1].actions] == [None, '5 minutes', '5 minutes']
+
+
+@pytest.mark.parametrize('name', ['steps1_3_shared_person', 'step1_subactions1_2_person'])
+def test_shared_ranges_must_not_create_missing_steps_or_actions(name):
+    assert parse_service([('e', record(('step1_client_step', 'Ask'), ('step1_action', 'Receive'), (name, 'Clerk')))]) is None
+
+
+def test_clinical_assistant_conditional_time_and_split_fee_remain_separate():
+    fields = [('step1_client_step', 'Request treatment'), ('step1_subaction1_action', 'Examine'),
+              ('step1_conditional_time', '10 minutes simple; 25 minutes treatment'),
+              ('step1_shared_person', 'Physician'), ('step1_assisting_person', 'Nurse (to assist treatment)'),
+              ('step1_fee_start', 'Beneficiaries None; Others –'),
+              ('step1_fee_continuation', 'pay upon validation'), ('step1_agency_heading', 'Process documents:')]
+    table = parse_service([('e', record(*fields))])
+    assert table is not None
+    assert table.steps[0].fee == 'Beneficiaries None; Others – pay upon validation'
+    assert table.steps[0].actions[0].person == 'Physician'
+    from backend.bintanong_generation.service_steps import render_service
+    text = '\n'.join(t for t, _ in render_service(table, 'en'))
+    assert 'Nurse (to assist treatment)' in text and 'Process documents:' in text
+    assert '10 minutes simple; 25 minutes treatment' in text
+
+
+@pytest.mark.parametrize('fields', [
+    [('step1_fee_continuation', 'Missing start')], [('step1_fee_start', 'Missing continuation')],
+    [('step1_fee_start', 'Start'), ('step1_fee_continuation', 'End'), ('step1_fee', 'Conflict')],
+])
+def test_split_fee_requires_both_fragments_and_no_competing_fee(fields):
+    assert parse_service([('e', record(('step1_client_step', 'Ask'), ('step1_action', 'Act'), *fields))]) is None
+
+@pytest.mark.parametrize('reverse', [False, True])
+def test_mixed_numbered_and_row_grammar_refuses_in_both_record_orders(reverse):
+    records = [('row', record(('row1_client_step', 'Ask'), ('row1_agency_actions', 'Receive'))),
+               ('step', record(('step2_client_step', 'Return'), ('step2_action', 'Release')))]
+    assert parse_service(records[::-1] if reverse else records) is None

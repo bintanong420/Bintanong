@@ -37,6 +37,7 @@ class Step:
     actions: tuple[Action, ...]
     shared: tuple[str, ...]  # step-level time/person/office printed once for all actions
     evidence_ids: tuple[str, ...]
+    notes: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -53,6 +54,7 @@ class ServiceTable:
     total_evidence_ids: tuple[str, ...] = ()
     notes: tuple[str, ...] = ()
     checklist_headings: tuple[tuple[int, str], ...] = ()
+    printed_total: str | None = None
 
 
 def _put(target, key, value):
@@ -66,13 +68,43 @@ def _table(records):
     notes, headings = [], {}
     row_numbers = []
     overview, total_records = [], []
+    record_row = 0
+    grammar, ranges, fragments = set(), [], {}
     for evidence_id, text in records:
         record = json.loads(text)
+        fields = record['fields']
+        names = [f['name'] for f in fields]
+        if any(STEP.match(n) for n in names):
+            grammar.add('step')
+        if any(re.fullmatch(r'row\d+_\w+', n) for n in names):
+            grammar.add('row')
+        if 'client_step' in names or 'agency_action' in names:
+            grammar.add('record')
+        if len(grammar) > 1:
+            raise ValueError('mixed_service_grammars')
+        if 'client_step' in names or 'agency_action' in names:
+            if 'client_step' not in names or 'agency_action' not in names or steps and not record_row:
+                raise ValueError('incomplete_record_row')
+            record_row += 1
+            aliases = dict(client_step='client_step', agency_action='action', fees='fee', fees_shared='fee',
+                           processing_time='time', person='person', person_shared='person',
+                           office='office', office_shared='office')
+            fields = [dict(f, name=f'step{record_row}_{aliases[f["name"]]}' if f['name'] in aliases else f['name'])
+                      for f in fields]
+        if 'conditional_authorization' in names:
+            if names.count('conditional_representation_heading') != 1:
+                raise ValueError('unscoped_authorization')
+            heading = next(f['value'] for f in fields if f['name'] == 'conditional_representation_heading')
+            fields = [dict(f, name='representation_requirement', value=heading + ' ' + f['value'])
+                      if f['name'] == 'conditional_authorization' else
+                      dict(f, name='representation_where_to_secure')
+                      if f['name'] == 'authorization_where_to_secure_shared' else f
+                      for f in fields if f['name'] != 'conditional_representation_heading']
         for limit in record.get('source_limits', []):
             # Owner29Oct: defective printed tables are shown as printed with a note (no interpretation).
             if limit['resolution'] == 'unresolved' and limit['message'] not in limits:
                 limits.append(limit['message'])
-        for field in record['fields']:
+        for field in fields:
             name, value = field['name'], field['value']
             name = {'service_title_and_description': 'service_title', 'service_title_and_note': 'service_title',
                     'office_division': 'office', 'transaction_type': 'transaction', 'who_may_avail': 'audience',
@@ -89,7 +121,7 @@ def _table(records):
                 name = f'step{row}_{attr}'
             elif STEP.match(name) and row_numbers:
                 raise ValueError('mixed_row_step_grammar')
-            if name in ('registration_description', 'second_copy_note', 'service_note'):
+            if name in ('registration_description', 'second_copy_note', 'service_note', 'printed_description'):
                 notes.append(value)
                 if evidence_id not in overview:
                     overview.append(evidence_id)
@@ -101,6 +133,31 @@ def _table(records):
                 continue
             if name in ('in_campus_where_heading', 'out_of_campus_where_heading', 'end_transaction_label'):
                 continue
+            if name == 'description':
+                continue  # same metadata role as service_description
+            if name == 'printed_total':
+                _put(totals, 'printed', value)
+                total_records.append(evidence_id)
+                continue
+            if (m := re.fullmatch(r'steps(\d+)_(\d+)_shared_(person|office|time|fee)', name)):
+                ranges.append(('steps', int(m[1]), int(m[2]), m[3], value, evidence_id))
+                continue
+            if (m := re.fullmatch(r'step(\d+)_subactions(\d+)_(\d+)_(person|office|time|fee)', name)):
+                ranges.append((int(m[1]), int(m[2]), int(m[3]), m[4], value, evidence_id))
+                continue
+            if (m := re.fullmatch(r'step(\d+)_(fee_start|fee_continuation|assisting_person|agency_heading|conditional_time)', name)):
+                number, attr = int(m[1]), m[2]
+                if attr in ('fee_start', 'fee_continuation'):
+                    _put(fragments.setdefault(number, {}), attr, (value, evidence_id))
+                    continue
+                if attr == 'conditional_time':
+                    name = f'step{number}_shared_time'
+                else:
+                    step = steps.setdefault(number, dict(actions={}, shared={}, evidence=[]))
+                    step.setdefault('notes', []).append(value)
+                    if evidence_id not in step['evidence']:
+                        step['evidence'].append(evidence_id)
+                    continue
             if IGNORED.match(name):
                 continue
             if (m := TOTAL.match(name)):
@@ -128,6 +185,27 @@ def _table(records):
                     _put(action, m['sattr'] or 'action', value)
             else:
                 raise ValueError('unknown_service_field')
+    for number, parts in fragments.items():
+        if set(parts) != {'fee_start', 'fee_continuation'} or number not in steps:
+            raise ValueError('incomplete_fee_fragments')
+        _put(steps[number]['shared'], 'fee', (parts['fee_start'][0] + ' ' + parts['fee_continuation'][0], True))
+        steps[number]['evidence'] += [e for _, e in parts.values() if e not in steps[number]['evidence']]
+    for scope, first, last, attr, value, evidence in ranges:
+        if first > last:
+            raise ValueError('invalid_shared_range')
+        targets = range(first, last + 1)
+        for number in targets:
+            step = steps.get(number if scope == 'steps' else scope)
+            if step is None:
+                raise ValueError('missing_range_step')
+            if scope == 'steps':
+                _put(step['shared'], attr, (value, True))
+            else:
+                if number not in step['actions']:
+                    raise ValueError('missing_range_action')
+                _put(step['actions'][number], attr, value)
+            if evidence not in step['evidence']:
+                step['evidence'].append(evidence)
     start = min(row_numbers) if row_numbers else 1
     if set(wheres) - set(requirements) or not steps or sorted(steps) != list(range(start, start + len(steps))):
         raise ValueError('incomplete_service_table')
@@ -145,7 +223,8 @@ def _table(records):
             actions.append(Action(action['action'], *(action.get(k, shared.get(k) if k != 'fee' else None)
                                                       for k in ACTION_ATTRS)))
         built.append(Step(number, step['client_step'], shared.get('fee'), tuple(actions),
-                          tuple(k for k in ('time', 'person', 'office') if k in shared), tuple(step['evidence'])))
+                          tuple(k for k in ('time', 'person', 'office') if k in shared), tuple(step['evidence']),
+                          tuple(step.get('notes', ()))))
     checklist = tuple((requirements[key], wheres.get(key)) for key in requirements)
     positions, seen = [], set()
     for index, (prefix, _) in enumerate(requirements):
@@ -156,7 +235,8 @@ def _table(records):
         raise ValueError('empty_checklist_section')
     return ServiceTable(meta.get('service_title'), meta.get('office'), checklist, tuple(built),
                         totals.get('fee'), totals.get('time'), tuple(e for e, _ in records), tuple(limits),
-                        tuple(overview), tuple(dict.fromkeys(total_records)), tuple(notes), tuple(positions))
+                        tuple(overview), tuple(dict.fromkeys(total_records)), tuple(notes), tuple(positions),
+                        totals.get('printed'))
 
 
 def parse_service(records):
@@ -199,6 +279,7 @@ def _step_units(step):
     header = [f'Step {step.number}: {_end(step.client_step)}']
     if step.fee is not None:
         header.append(f'Fee: {_value(step.fee)}')
+    header += list(step.notes)
     units = [header + ['Office actions:']]
     own = [k for k, _ in LABELS if k not in step.shared]
     for action in step.actions:
@@ -244,6 +325,8 @@ def render_service(table, language, max_claims=8):
             overview.append(f'- {_end(r)}' + (f' — where to secure: {_end(w)}' if w else ''))
     claims = [('\n'.join(overview), table.overview_evidence_ids or table.steps[0].evidence_ids)] if overview else []
     tail = []
+    if table.printed_total is not None:
+        tail.append(table.printed_total)
     if table.total_fee is not None or table.total_time is not None:
         tail.append('Printed total: ' + '; '.join(_value(v) for v in (table.total_fee, table.total_time) if v is not None))
     if table.limits:
