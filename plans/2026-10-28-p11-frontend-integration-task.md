@@ -14,7 +14,11 @@
 - Read-only undergraduate advisory context, English/Taglish replies, RAG/Prolog/Hybrid routing,
   source gaps and privacy guards remain. Research source package/pins stay unchanged.
 
-## Shared dependency proposal — awaiting owner decision
+## Shared dependency proposal — approved
+
+Owner replied **“Approve the exact snapshot dependencies and npm ci”** on 28 October 2026,
+relayed by coordinator in this session. Exact snapshot pins/lock and lane-local `npm ci` authorized;
+no other dependency changes. Snapshot selection and dependency adoption are separate actual approvals.
 
 Single implementer: Codex B. Adopt **exactly** snapshot `e172f53`'s `frontend/package.json`
 and `frontend/package-lock.json` as part of the approved UI snapshot, and run `npm ci` in this
@@ -33,12 +37,17 @@ workspace frontends is 16.3.5, incompatible with snapshot's 16.4.3 pin; no junct
 Reason: preserve co-worker design/auth and test the real SDK parser against existing stream.
 Compatibility will be checked with synthetic Node tests, TypeScript, build and API regressions;
 dependency adoption does not authorize auth configuration/hosted writes or public deployment.
-Until approved: read-only comparison and standalone test preparation only; no product import,
-package/lock mutation, installation, or dependency workaround.
+Before that approval, only read-only comparison and task-record edits occurred.
 
 ## Execution and acceptance
 
-### Shared interface proposals — pending coordinator/owner review
+### Shared interface proposals — approved metadata/account seams
+
+Owner replied 28 October 2026: “Actually, we were thinking of removing the login but keep it for now
+because i think itd be easier if we later decided to remove it because we are planning to remove the
+UAT on our study because it seems redundant to the research tools we have.” Coordinator confirms
+this approves keeping login and proceeding with Claude-reviewed secure binding/metadata. UAT
+removal remains a consideration, not an approved requirements change. Claude review `a1ef6de` applies.
 
 - `data-answer` currently contains only `status`/`conditional`; snapshot's strict SDK consumer
   requires `language` and `missingFields`, with optional canonical `clarification` (printed course
@@ -68,6 +77,30 @@ existing same-origin/session/ownership guards intact. Unsupported functionality 
 
 ## Verification and recovery
 
+- Snapshot `frontend/` imported after dependency approval. `npm ci --no-fund --no-audit`: 89 packages,
+  exit 0; exact snapshot package/lock retained. First invocation was stopped after a relative
+  restore path mistake left the old package selected; corrected root restore and exact install ran.
+- Fresh Node pure tests: 16 pass. `npm run typecheck` and `npm run build` pass (Next 16.4.3);
+  build reports pre-existing workspace multiple-lockfile root warning. No lock regeneration.
+- `npm run test:ui`: 60 pass / 1 fail after adding the snapshot's missing Python emitter fixture and
+  `BINTANONG_TEST_PYTHON` override (shared venv; portable file URL conversion). Initial missing-fixture
+  failure was setup, not RED. Actual SDK RED now rejects missing `language`/`missingFields` from
+  Python's current stream (`sdk-metadata-red.log`). Backend unchanged at this point.
+- Canonical metadata goldens RED: 4 failures for missing `course_labels` API, after correcting a
+  BoundInput fixture setup mistake; session ownership RED: 15 failures for missing account API.
+  Shared GREEN awaits owner decision. Claude design approval: primary commit `a1ef6de`,
+  `plans/2026-10-28-codex-b-interface-review.md`; all-mutator ownership checks required.
+- Session GREEN after explicit owner decision: 87 pass (account binding + existing sessions,
+  conversation and upload tests), `session-green.log`. Separate session-only commit created;
+  exact account equality (including None) is checked before renewing last_seen; global wipe unchanged.
+- Session-only commit: `90203e4`. Metadata GREEN: 47 pass (goldens/presentation/stream/chat),
+  `metadata-green2.log`; SDK/UI GREEN: 62 pass, including actual Python answered/clarification/
+  insufficient streams parsed by installed AI SDK (`frontend-green2.log`). No canonical answer
+  schema or generated text changes. An initial existing golden expected en, but its fixture is
+  validated Taglish; expectation corrected to its actual reply language before the passing run.
+- Public browser test: pass across 320/390/768/1440 widths, both themes, enlarged text, contrast,
+  skip focus and chat-to-login redirect; no page errors (`browser-public.log`). No auth/model calls.
+
 - Evidence: `C:/Coding-projects/bintanong_workspace/audit-evidence/p11-frontend-integration-20261028`.
 - Python: shared `p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe`, `PYTHONUTF8=1`,
   `-X utf8 -B -m pytest -q -p no:cacheprovider`, external lane basetemp. Focused only initially.
@@ -85,4 +118,4 @@ existing same-origin/session/ownership guards intact. Unsupported functionality 
 
 ## Current next action
 
-Await concrete dependency/lock/install approval via coordinator while comparing snapshot contracts.
+Implement approved stream metadata and API server auth, with synthetic RED/GREEN verification.
