@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 230
+sequence: 231
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 1e5d249
+head_commit: d9bdb3a
 working_tree: printed-steps results/snapshots pending commit
 updated_at: 2026-10-28T12:00:00+08:00
 ---
@@ -22,7 +22,7 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 ## Current Task
 
 Routing fixes 248b04f/1e5d249;live:4/4cases answered,3/3regressions match with selector+routing
-context (A/p11-printed-steps-20261029/live-check-2). Full suite for1e5d249 stopped by low memory;rerun pending.
+context (A/p11-printed-steps-20261029/live-check-2). Full suite1e5d249:7081pass/1608 exit0. Battery refresh:6/8answered,3/3regressions.
 
 [Printed steps results](2026-10-29-printed-service-steps-results.md):option A delivered b92cce2..
 c177400;23/44services render;good moral answered live28.8s. Routing blocks library card/entrance
@@ -155,8 +155,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Refresh the full559answer battery once with selector+routing context;then extend step grammar to
-the remaining21Charter layouts in reviewed batches.
+Regression-first:router clarify with zero parts (shifting);then added all-of wording over printed
+condition lists (cross-enroll);then remaining21Charter layouts in reviewed batches.
 
 ## Context Consulted
 

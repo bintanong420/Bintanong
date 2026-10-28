@@ -58,3 +58,24 @@ full benchmark or activation decision;discipline/admission-test and other unpars
 
 Ignored:workspace/audit-evidence/p11-printed-steps-20261029 (grammar survey,real parse/render
 checks,sample renderings,RED/GREEN/focused logs,live-check traces,full suite).
+
+## Full559battery refresh (d9bdb3a,code1e5d249;selector+routing context)
+
+Full suite for1e5d249:7081pass/1608subtests,6skip/2xfail,1434.89s,exit0 (an earlier attempt was
+stopped by low memory and is not counted). Same frozen cases as 28Oct,one attempt each:
+
+| Case | 28Oct | Now |
+| --- | --- | --- |
+| good-moral-en | temporarily_unavailable | answered,printed steps 43.4s |
+| library-card-taglish | insufficient | answered 21.6s |
+| entrance-health-fil | abstained | answered 19.8s |
+| leave-en | answered | answered 35.4s |
+| shifting-taglish | insufficient | insufficient:router returns `clarify` with zero parts (selector correct) |
+| cross-enroll-en | answered,OR misreading | answered 42.0s;no OR,but says "conditions must be met … and e)" — still implies all-of for a)/b) |
+| discipline-en | abstained | abstained 97.9s (long handbook flow,not a Charter table) |
+| hybrid-bscs-en | answered,OR misreading | answered 54.8s;Prolog ineligible + a)–e) under printed "provided:" |
+| Regressions | 2/3 | **3/3** |
+
+6/8answered (was4/8),3/3regressions (was2/3). Remaining:router `clarify` on clear questions;
+added "and/must be met" over printed condition lists (the or-guard does not cover it);discipline
+long-flow answer;21unparsed Charter layouts. Gate not passed;559stays inactive.
