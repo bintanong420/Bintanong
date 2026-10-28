@@ -69,3 +69,12 @@ def test_nonasserted_variant_of_shipped_example_stays_guarded(mode):
     assert result.claims[0].mode == mode
     assert result.diagnostic == 'nonasserted_facts' and not result.decision.dispatchable
     assert len(model.calls) == 2 and result.repair_attempts == 0
+
+
+def test_router_prompt_maps_not_yet_passed_and_not_taken_to_a_failed_claim():
+    # Gate run 1 (28 Oct 2026): "... kahit hindi ko pa naipapasa ang Y?" kept the check but dropped the statement in
+    # all 7 curricula (English "if I failed Y" passed). failed means not completed for the engine.
+    from backend.bintanong_routing import prompt
+    text = prompt.SYSTEM_PROMPT
+    assert 'not yet passed' in text and 'not taken' in text and 'state failed' in text
+    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v24'

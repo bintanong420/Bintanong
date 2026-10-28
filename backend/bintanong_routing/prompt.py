@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v23'
+PROMPT_VERSION = 'bintanong-router-p11-v24'
 DETAILS = ('whole', 'requirements', 'fees', 'processing_time')
 
 
@@ -112,6 +112,9 @@ course prerequisites just because the word "requirements" occurs.
 claims capture every supplied explicit passed/failed/enrolled/not_enrolled statement, with mode asserted,
 hypothetical or reported. Their quote must contain the course mention and the complete relevant
 statement, including negation. Do not omit a stated condition because the target is a different course.
+A course stated as not passed, not yet passed or not taken yet (Filipino "hindi pa naipapasa",
+"di pa pasado", "hindi ko pa nakukuha") is a claim with state failed: failed means not completed,
+never a recorded failing grade. It is never passed and never omitted.
 asserted: the speaker directly supplies their own unqualified completion/enrollment premise,
 including a past-event clause attached to their own request. It is request-local supplied context,
 not a verified official grade or an instruction to write a record. Lack of official verification
