@@ -8,6 +8,7 @@ from fastapi import Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 
 from backend.bintanong_api.admission import AdmittedStream, AnswerAdmission
+from backend.bintanong_api.auth import authorize
 from backend.bintanong_api.chat import ChatRequest, ChatTurns, CurriculumOption
 from backend.bintanong_api.main import health_live, health_ready
 from backend.bintanong_api.session import SESSION_COOKIE, ApiError, Session, check_origin, require_session
@@ -27,6 +28,7 @@ class ApiSettings:
     max_parallel_uploads: int = 2  # each upload starts a parser process
     max_running_answers: int = 1  # Gemma serves one request at a time (`--parallel 1`)
     max_waiting_answers: int = 4
+    require_auth: bool = False  # trusted offline/test compositions preserve their existing contract
 
 
 @dataclass(frozen=True)
@@ -37,10 +39,12 @@ class ApiServices:
     extract_rows: object = None  # (raw bytes, program_id, curriculum_id) -> ExtractionResult; parses; blocking
     course_labels: Mapping[str, str] = field(default_factory=dict)  # course id -> printed code
     sources: SourceRegistry = field(default_factory=SourceRegistry)
+    auth: object = None
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
-    app = FastAPI(title='Bintanong API', version='0.0.0', dependencies=[Depends(check_origin)])
+    app = FastAPI(title='Bintanong API', version='0.0.0',
+                  dependencies=[Depends(check_origin), Depends(authorize)])
     app.state.services, app.state.settings = services, settings
     turns = ChatTurns(services.sessions, services.pipeline, services.curricula)
     app.state.admission = admission = AnswerAdmission(running=settings.max_running_answers,
@@ -63,9 +67,9 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
         return response
 
     @app.post('/chat')
-    def chat(request: ChatRequest, session: Session = Depends(require_session)) -> AdmittedStream:
-        turn = turns.prepare(request)
-        reservation = admission.reserve()  # last: nothing may raise between this and the response
+    def chat(body: ChatRequest, request: Request, session: Session = Depends(require_session)) -> AdmittedStream:
+        turn = turns.prepare(body)
+        reservation = admission.reserve(account_id=session.account_id)  # last: no raises before response
         return AdmittedStream(chat_stream(turns, session, turn, services.sources, reservation,
                                           services.course_labels), reservation,
                               media_type='text/event-stream', headers=STREAM_HEADERS)
@@ -85,7 +89,8 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
 
     @app.delete('/session', status_code=204)
     def delete_session(request: Request) -> Response:
-        services.sessions.delete(request.cookies.get(SESSION_COOKIE))
+        services.sessions.delete(request.cookies.get(SESSION_COOKIE),
+                                 account_id=getattr(request.state, 'account_id', None))
         response = Response(status_code=204)
         response.delete_cookie(SESSION_COOKIE, httponly=True, secure=True, samesite='strict', path='/')
         return response
