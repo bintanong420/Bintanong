@@ -64,3 +64,7 @@ reviewed real service needs them. Singular per-step shared fees retain existing 
 GREEN51focused tests1.79s;real41/44bilingual fidelity remains unchanged.
 
 Final generation rerun after review fixes:675pass18.47s,exit0 (`focused-review.log`/exit).
+
+Primary835aea7merged conflict-free as cb18fe7 (documentation only);post-merge51focused
+tests pass2.36s and the real bilingual fidelity check repeats unchanged. Primary review/
+merge and the coordinated full suite remain pending;no lane code is activated.

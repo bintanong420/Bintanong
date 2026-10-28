@@ -104,8 +104,7 @@ Real fidelity41/44parse/render both languages,2318substantive field checks all r
 in a claim citing its own source;46unresolved limits retained. See
 [results](2026-10-28-p11-charter-layouts-results.md). Bounds unchanged. No new source
 ambiguity. Full suite remains with Claude after integration;shared slot occupied.
-Next:commit final evidence/citation hardening,merge current primary if conflict-free,
-then deliver exact range to root/Claude for review and full suite.
+Next:Claude review/merge into primary and coordinated full suite;lane implementation ready.
 
 ## Review fix pass
 
@@ -117,3 +116,12 @@ and refuse multi-target fees. Real fidelity remains41/44both languages,2318field
 46limits. No new source decisions or budget changes.
 
 Final generation rerun675pass18.47s,exit0 (`focused-review.log`/exit).
+
+
+## Delivery state
+
+Current primary835aea7merged conflict-free in cb18fe7 (documentation only). Lane code
+range12ac411..b754de5;root reviews the new scope/fee-refusal delta. Post-merge parser/
+renderer/host51pass2.36s (`post-merge.log`);real fidelity repeated41/44,2318fields,46limits.
+No uncommitted code,no live model calls,no hosted writes. Full-suite/primary integration
+gate remains with Claude;Phase11and all release/source holds remain active.
