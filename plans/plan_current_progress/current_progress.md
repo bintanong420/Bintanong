@@ -13,11 +13,15 @@ openings, `a4f33f7` test-first (RED 9 fail -> GREEN 9 pass; related 558 pass). 8
 verbatim 100-char opening (defects withhold it); one family member brings its siblings (<=8). Real selector prompt
 3409 -> 5625 tokens. Live 12 affected cases (run-a4f33f7-families): 3 newly pass (refund en/Taglish, transfer fee).
 Selector now right for drop (FAQ), probation (standing), honors; remaining are router claim/detail picks.
-Gate case req-transfer-en now expects a clarification (F4). Earlier today: simple-question gate run 2 67/91
+Gate case req-transfer-en now expects a clarification (F4). Then `72f6ab6` (whole request naming only not-stated
+facts answers the printed procedure; diploma en/Taglish now pass) and `e2cbc62` router v25 (meeting a printed rule
+-> specific; honors residence en/Taglish now pass; probation still `whole`, not retried under the stop rule).
+Owner chose A for drop: split FAQ 7 (drop) from FAQ 8 (shift) as a new derived package (chunk-level
+required_neighbor_chunk_ids + one shared claim force citing the shift continuation; package sealed). Earlier today: simple-question gate run 2 67/91
 ([results](../2026-10-28-simple-question-gate-results.md)); router v24, detail split, owner year-level limit.
 
-Verification: full suite on `a4f33f7` 7212 pass / 1608 subtests, 6 skip / 2 xfail, exit 0 (1378.87 s;
-A/p11-fullsuite-20261028c). Prior f0889c3 7203 pass.
+Verification: full suite on `72f6ab6` 7215 pass / 1608 subtests, 6 skip / 2 xfail, exit 0 (1370.39 s;
+A/p11-fullsuite-20261028d); a4f33f7 7212. e2cbc62: related 602 pass; full suite pending.
 
 ## Lane status (owner 28 Oct)
 
@@ -47,6 +51,6 @@ institutional approval, Phase 11 exit or Phase 12 advance.
 
 ## Next action
 
-Fix 2 test-first (router: printed fields over not-stated for how-to; `specific` over `whole` for one rule), then
-F4 clarify and Law scope, then full gate rerun.
+Owner-approved order: F4 leaving/transferring-in clarify and Law scope notice (code, test-first), then the FAQ
+split package (show the owner the exact split text first), then full 91-case gate rerun.
 Mark `LIVE RUN` here while using the model.
