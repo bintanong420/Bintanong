@@ -7,8 +7,8 @@ test('the landing page stays public for visitors and signed-in students', () => 
   assert.equal(pageRedirect('/', true), null);
 });
 
-test('chat requires sign-in and successful sign-in leads to chat', () => {
-  assert.equal(pageRedirect('/chat', false), '/login');
+test('chat accepts guests and successful sign-in leads to chat', () => {
+  assert.equal(pageRedirect('/chat', false), null);
   assert.equal(pageRedirect('/chat', true), null);
   assert.equal(pageRedirect('/login', true), '/chat');
   assert.equal(pageRedirect('/login', false), null);

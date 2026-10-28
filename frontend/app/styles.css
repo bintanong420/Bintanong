@@ -304,6 +304,7 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .workspace-options form button { inline-size: 100%; }
 .workspace-account-actions { display: flex; align-items: center; gap: 0.125rem; }
 .workspace-account-actions button { min-block-size: 2.75rem; min-inline-size: 2.75rem; }
+.workspace-account-actions a[data-slot="button"] { min-block-size: 2.75rem; min-inline-size: 2.75rem; }
 .header-signout { color: var(--muted-foreground); }
 .curriculum-dialog { inline-size: min(32rem, calc(100vw - 2rem)); }
 .curriculum-dialog p, .curriculum-dialog .scope-field { font-size: 1rem; line-height: 1.6; }
@@ -361,6 +362,7 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
   .live-workspace .workspace-name { display: none; }
   .workspace-account-actions .account-action-label { display: none; }
   .workspace-account-actions button { padding-inline: 0.625rem; }
+  .workspace-account-actions a[data-slot="button"] { padding-inline: 0.625rem; }
   .workspace-heading { gap: 0.125rem; }
   .header-scope > span { max-inline-size: min(24ch, 100%); }
   .workspace-heading .preview-notice { flex: 0 1 auto; min-inline-size: 0; font-size: 0.65rem; white-space: nowrap; }

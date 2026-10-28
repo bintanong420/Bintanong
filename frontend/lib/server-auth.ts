@@ -21,10 +21,14 @@ export async function serverAuth(signal?: AbortSignal) {
   } });
 }
 export async function studentAccessToken() {
+  const config = authConfiguration(), jar = await cookies();
+  const storageKey = config ? authCookieName(config.url) : null;
+  const presented = jar.getAll().some(({ name }) => storageKey
+    ? name === storageKey || name.startsWith(storageKey + ".") : /^sb-.+-auth-token(?:\.\d+)?$/.test(name));
   const client = await serverAuth();
-  if (!client) return null;
+  if (!client) { if (presented) throw new Error("auth_unavailable"); return null; }
   // This token is only a credential to forward; FastAPI verifies identity and membership on every request.
   const { data, error } = await client.auth.getSession();
-  if (error) return null;
+  if (error || (presented && !data.session?.access_token)) throw new Error("auth_unavailable");
   return data.session?.access_token ?? null;
 }

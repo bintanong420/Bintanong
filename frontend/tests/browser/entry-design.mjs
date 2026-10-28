@@ -118,7 +118,9 @@ test('public entry gives the greeting and real entry action priority over the ph
       assert.deepEqual(errors, []);
       if (width === 390 && theme === 'light') {
         await action.click();
-        await page.waitForURL('**/login');
+        await page.waitForURL('**/chat');
+        await dismissInitialScope(page);
+        await page.getByText('Guest', { exact: true }).waitFor();
       }
       await context.close();
     }

@@ -11,9 +11,10 @@ export async function forwardStudentRequest(request: Request, path: string, opti
   const url = new URL(request.url), host = request.headers.get("host");
   if (["localhost", "127.0.0.1", "[::1]"].includes(url.hostname) && host && /^(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/.test(host)) url.host = host;
   if (request.method !== "GET" && (request.headers.get("origin") !== url.origin || request.headers.get("sec-fetch-site") === "cross-site")) return failure(403, "origin_not_allowed");
-  if (!options.accessToken) return failure(401, "sign_in_required");
-  const headers = new Headers({ Authorization: "Bearer " + options.accessToken,
-    Accept: path === "/chat" ? "text/event-stream" : "application/json" });
+  const headers = new Headers({ Accept: path === "/chat" ? "text/event-stream" : "application/json" });
+  // Browser headers cannot replace the cookie identity used by this workspace.
+  if (request.headers.has("authorization")) return failure(401, "sign_in_required");
+  if (options.accessToken) headers.set("Authorization", "Bearer " + options.accessToken);
   const credential = request.headers.get("cookie")?.split(";").map(c => c.trim()).find(c => /^__Host-bintanong_session=[A-Za-z0-9_-]{43}$/.test(c));
   if (credential) headers.set("Cookie", credential);
   if (request.method !== "GET") headers.set("Origin", url.origin);

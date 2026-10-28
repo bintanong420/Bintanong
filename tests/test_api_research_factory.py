@@ -43,6 +43,7 @@ def configured(tmp_path, monkeypatch):
     save(config_path, {'schema_version': 'bintanong-research-api-v1', 'pin_path': str(pin_path),
         'pin_sha256': pin_sha, 'seal_sha256': seal_sha, 'encoder_assets_path': str(assets),
         'encoder_model_path': str(tmp_path / 'model'), 'allowed_origins': ['https://bintanong.example'],
+        'allow_guests': True,
         'program_names': {'program-a': ['Program A']}, 'curriculum_names': {'curriculum-a': ['Curriculum A']}})
     seen = {}
     client = SimpleNamespace(close=lambda: seen.update(closed=True))
@@ -73,16 +74,30 @@ def test_missing_config_fails_closed_without_startup(monkeypatch):
         factory.load_research_app()
 
 
+@pytest.mark.parametrize('enabled', [False, True])
+def test_research_config_selects_guest_access_without_disabling_token_verification(configured, enabled):
+    factory, path, _ = configured
+    config = json.loads(path.read_bytes())
+    config['allow_guests'] = enabled
+    save(path, config)
+    app = factory.load_research_app(path)
+    with TestClient(app) as client:
+        assert client.get('/curricula').status_code == (200 if enabled else 401)
+        assert client.get('/curricula', headers={'Authorization': 'Bearer invalid'}).status_code == 401
+
+
 def test_factory_reuses_sealed_package_cpu_encoder_and_requires_server_auth(configured):
     factory, path, seen = configured
     app = factory.load_research_app(path)
     assert app.state.settings.require_auth is True
+    assert app.state.settings.allow_guests is True
     assert app.state.services.course_labels == {'course-a': 'A 1/L'}
     assert len(seen['package']['chunks']) == len(seen['package']['vectors']) == 78
     assert seen['package']['subject_context_budgets'] == {'synthetic-topic': 2048}
     assert seen['build']['hosted']['release_id'] == 'p11-research-corrected-20261026'
     with TestClient(app) as client:
-        assert client.get('/curricula').status_code == 401
+        assert client.get('/curricula').status_code == 200
+        assert client.get('/curricula', headers={'Authorization': 'Bearer invalid'}).status_code == 401
         assert client.get('/health/live').status_code == 200
     assert seen['closed'] is True
 

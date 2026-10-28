@@ -22,7 +22,7 @@ export default function Home() {
         <Button asChild><a href="/chat">Ask a question</a></Button>
         <a href="#questions">What can I ask?</a>
       </div>
-      <p className="public-caption">Continue with your PSU Google account.<br />Research preview. University validation is pending.</p>
+      <p className="public-caption">Continue as a guest or sign in with your PSU Google account.<br />Research preview. University validation is pending.</p>
       </div>
       <figure className="landing-photo"><img src="/design/campus.png" alt="Entrance to Palawan State University" fetchPriority="high" />
         <figcaption>Palawan State University<span>Undergraduate academic affairs</span></figcaption>
@@ -48,7 +48,7 @@ export default function Home() {
         <p>Coverage depends on the reviewed sources. Missing information stays unknown.
           Graduate and professional programs, laboratory school, and staff-only procedures are outside this study.</p>
         <div id="privacy"><h3>Your information stays separate</h3>
-          <p>PSU Google sign-in stores your account email. Chat messages, uploaded files, and course details stay in temporary memory,
+          <p>Guest access needs no account. Optional PSU Google sign-in stores your account email. Chat messages, uploaded files, and course details stay in temporary memory,
             separate from institutional knowledge. Clear your session when you finish.</p></div>
       </div>
     </section>
