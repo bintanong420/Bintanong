@@ -43,6 +43,7 @@ def configured(tmp_path, monkeypatch):
     save(config_path, {'schema_version': 'bintanong-research-api-v1', 'pin_path': str(pin_path),
         'pin_sha256': pin_sha, 'seal_sha256': seal_sha, 'encoder_assets_path': str(assets),
         'encoder_model_path': str(tmp_path / 'model'), 'allowed_origins': ['https://bintanong.example'],
+        'allow_guests': True,
         'program_names': {'program-a': ['Program A']}, 'curriculum_names': {'curriculum-a': ['Curriculum A']}})
     seen = {}
     client = SimpleNamespace(close=lambda: seen.update(closed=True))
@@ -71,6 +72,18 @@ def test_missing_config_fails_closed_without_startup(monkeypatch):
     monkeypatch.delenv('BINTANONG_RESEARCH_CONFIG', raising=False)
     with pytest.raises(ValueError, match='research_configuration_required'):
         factory.load_research_app()
+
+
+@pytest.mark.parametrize('enabled', [False, True])
+def test_research_config_selects_guest_access_without_disabling_token_verification(configured, enabled):
+    factory, path, _ = configured
+    config = json.loads(path.read_bytes())
+    config['allow_guests'] = enabled
+    save(path, config)
+    app = factory.load_research_app(path)
+    with TestClient(app) as client:
+        assert client.get('/curricula').status_code == (200 if enabled else 401)
+        assert client.get('/curricula', headers={'Authorization': 'Bearer invalid'}).status_code == 401
 
 
 def test_factory_reuses_sealed_package_cpu_encoder_and_requires_server_auth(configured):

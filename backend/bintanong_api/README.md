@@ -1,7 +1,7 @@
 # Student research API
 
 `research_app.load_research_app` composes the existing CPU query encoder, reviewed curriculum
-runtime and answer pipeline behind verified PSU Google authentication. Run exactly one Uvicorn
+runtime and answer pipeline with optional guest access and verified PSU Google authentication. Run exactly one Uvicorn
 worker: private sessions and admission limits are process memory.
 
 Set `BINTANONG_RESEARCH_CONFIG` to an ignored local JSON file, then start the factory:
@@ -16,6 +16,8 @@ The trusted config uses schema `bintanong-research-api-v1` and requires:
 - `encoder_assets_path`: existing verification JSON with `verified_assets`.
 - `encoder_model_path`: the existing local SEA-LION directory under workspace `MODELS`.
 - `allowed_origins`: exact student frontend origins, including scheme and port.
+- `allow_guests`: set `true` for owner-approved guest chat and temporary PDF upload access;
+  the default `false` keeps the authenticated-only mode. Supplied tokens are always verified.
 - Optional `model_url` (default `http://127.0.0.1:18088`), `program_names` and `curriculum_names`.
 
 Supply `SUPABASE_URL` and the public `SUPABASE_ANON_KEY` in the process environment. The factory
@@ -26,7 +28,9 @@ startup; an inactive hosted release or changed curriculum links withholds subseq
 
 For the Next.js server, set `API_INTERNAL_URL`, `SITE_ORIGIN`, `NEXT_PUBLIC_SUPABASE_URL` and
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Student requests stay under same-origin `/api/`; bearer
-identity is verified again by FastAPI. A local public key/configuration does not establish that the
+identity is verified again by FastAPI; absent credentials use a separate guest session only when
+enabled. No guest account or Supabase anonymous user is created. Switching guest/account access
+does not adopt private state. A local public key/configuration does not establish that the
 hosted Google provider, redirect allowlist or an actual PSU login is available.
 
 `GET /health/live` is process liveness. This factory's `/health/ready` checks its pinned hosted

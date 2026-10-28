@@ -50,6 +50,7 @@ class ResearchApiConfig(BaseModel):
     encoder_assets_path: Path
     encoder_model_path: Path
     allowed_origins: tuple[str, ...] = Field(min_length=1)
+    allow_guests: bool = False
     model_url: str = 'http://127.0.0.1:18088'
     program_names: dict[str, list[str]] = Field(default_factory=dict)
     curriculum_names: dict[str, list[str]] = Field(default_factory=dict)
@@ -167,7 +168,7 @@ def load_research_app(path=None):
             extract_rows=lambda raw, program, curriculum: extract_isolated(raw, resources.catalog,
                 program_id=program, curriculum_id=curriculum))
         return create_app(services, ApiSettings(allowed_origins=config.allowed_origins,
-                                               require_auth=True, allow_guests=True))
+                                               require_auth=True, allow_guests=config.allow_guests))
     except BaseException:
         client.close()
         raise
