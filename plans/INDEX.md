@@ -22,7 +22,8 @@
   full7038pass/1608subtests. [Repair overflow retry](2026-10-28-repair-overflow-retry-results.md):
   8322/8331->7595/7603,full7041pass. [559answer checks](2026-10-28-559-answer-checks-results.md):
   gate FAILED (selector/claim/condition-logic findings);559inactive. [Segmentation](2026-10-28-segmented-procedure-drafting-results.md)
-  reverted;disjunction guard/shared coverage kept. Release gates remain.
+  reverted;disjunction guard/shared coverage kept. [Printed steps](2026-10-29-printed-service-steps-results.md):
+  23/44Charter services host-rendered;good moral answers. Release gates remain.
   [Closure checklist](2026-10-27-expanded-release-closure-checklist.md);answer/release gates remain.
 - Corrected78research release/39curricula active;expanded465draft inactive and
   predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),

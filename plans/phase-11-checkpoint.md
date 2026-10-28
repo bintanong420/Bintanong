@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 228
+sequence: 229
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 4fd8958
-working_tree: printed-steps snapshots pending commit
+head_commit: c177400
+working_tree: printed-steps results/snapshots pending commit
 updated_at: 2026-10-28T12:00:00+08:00
 ---
 
@@ -21,9 +21,9 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 
 ## Current Task
 
-[Printed steps plan](2026-10-29-printed-service-steps-plan.md):owner chose A 29Oct. Parser b92cce2,
-renderer 8c332ca/4fd8958;16/44services render verbatim,7held stay off. Awaiting owner sample review.
-Evidence A/p11-printed-steps-20261029 (survey,real parse,sample renderings).
+[Printed steps results](2026-10-29-printed-service-steps-results.md):option A delivered b92cce2..
+c177400;23/44services render;good moral answered live28.8s. Routing blocks library card/entrance
+health. Evidence A/p11-printed-steps-20261029. Docker/model container restarted after sleep.
 
 [Segmentation results](2026-10-28-segmented-procedure-drafting-results.md):split tried/reverted
 473fbe2 (drift+latency);kept 9990175/0fd0db6;473fbe2 full7059/1608 exit0. 86d9e6d full
@@ -152,8 +152,7 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Owner sample review (format,Taglish frame,held services);then host integration TDD,full suite,live
-re-check good-moral/entrance-health + regressions.
+Regression-first routing fixes:source-limit text as requested claim,then selector recall.
 
 ## Context Consulted
 

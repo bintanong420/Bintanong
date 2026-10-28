@@ -6,11 +6,11 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
 
-[Printed service steps](../2026-10-29-printed-service-steps-plan.md) (owner29Oct chose A):strict
-parser b92cce2 + renderer 8c332ca/4fd8958 (TDD,18tests). 16/44Charter services render verbatim
-(23parse;7held malformed conditions stay unrendered). Real samples (good moral en,entrance health
-taglish,consultation+limit) shown to owner;awaiting format/frame/held-service judgement before
-wiring into the answer path.
+[Printed service steps](../2026-10-29-printed-service-steps-results.md) (owner29Oct option A + format
+decisions):strict parser/renderer and host integration b92cce2..c177400 (TDD;focused1097pass).
+23/44Charter services render verbatim en/Taglish,one column per line,defects shown with an
+original-document note. Live:good moral now answered in28.8s (was abstain/timeout 77–117s);
+library card/entrance health still blocked by routing. c177400 full7079pass/1608subtests,6skip/2xfail,1406.99s,exit0.
 
 [Long-procedure split](../2026-10-28-segmented-procedure-drafting-results.md) (owner"lets do that
 split"):segmentation tried in3TDD iterations,live probes showed text drifting from bound records and
@@ -102,5 +102,6 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Owner sample review of printed-step renderings (format,Taglish frame,held services). Then RED/GREEN
-host integration beside fee/grade replies,full suite,live re-check. No activation/default change.
+Routing fixes per [printed-steps results](../2026-10-29-printed-service-steps-results.md):source-limit
+text offered/accepted as a requested claim (library card),then selector recall (entrance health
+Charter,grading_scale). Each regression-first. No activation/default change.
