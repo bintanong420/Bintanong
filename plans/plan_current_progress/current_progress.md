@@ -6,6 +6,8 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
 
+LIVE RUN: Claude simple-question gate (91 cases) started 28Oct on 23e83aa;model slot occupied until cleared here.
+
 Owner28Oct:guest mode (full features incl. temporary PDF upload,login kept) -> master25.1 amended,ledger;
 Codex B implementing. Answer-only-asked-detail built:5ed4c98 renderer,6961e64 router detail+host wiring
 (wide focused1794pass);live check with the expanded gate next.
