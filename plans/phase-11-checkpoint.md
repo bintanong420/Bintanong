@@ -22,8 +22,8 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 ## Current Task
 
 Gate run1 61/91 adjusted ([results](2026-10-28-simple-question-gate-results.md));fixes D 84ef585,C 289cf4b
-(router v24);gate rerun live. Guest lane merged 04e6d38 (B suite 9f804a7 7195/1608 exit0);own full suite on
-04e6d38 running. Remaining:A topic/claim selection (15),B right-topic no answer (6).
+(router v24);gate rerun live. Guest lane merged 04e6d38 (B suite 9f804a7 7195/1608 exit0);own full suite
+04e6d38:7198pass/1608 exit0. Remaining:A topic/claim selection (15),B right-topic no answer (6).
 
 Owner28Oct:guest mode approved (master25.1 amendment,ledger);Codex B implements. Detail-only answers
 5ed4c98/6961e64 (focused1794pass);gate expansion (prereqs across14curricula) and live run next.
