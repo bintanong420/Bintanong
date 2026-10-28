@@ -73,3 +73,22 @@ Setup copy independently verified by root:62dataset files byte-identical and .en
 `p11-workstream-split-20261028/copy-verification.json`. Claude owns central reconciliation.
 No full suite: Claude occupies shared slot. Next: overview splitting, admission phase,
 assessment continuation and removal same-index staff pairs.
+
+## Unit 3 — bounded overview and remaining clear layouts
+
+RED `red4.log`:long checklist fails under claim bounds; GREEN adds exact per-field
+citations and bounded overview claims (no budget increase). RED `red4b.log`:shuffled
+unnumbered rows reverse source order; GREEN requires a complete single reviewed
+service_group sequence and sorts its explicit part_order. Synthetic fixture metadata
+updated to provide that reviewed sequence; duplicate/incomplete orders refuse.
+RED `red5.log`:3expected missing-family failures/29pass; GREEN43parser/render/integration
+tests1.78s (`green5.log`). Admission application/result phases keep reset step numbers,
+printed result heading and shared checklist location; a missing phase heading refuses.
+Assessment local columns apply only to explicitly co-recorded actions; continuation begins
+at its uniquely identified action and extends only through the named final step. Window1
+stays local. Removal pairs personN/officeN by the same explicit index, preserving joint
+role labels; incomplete pairs refuse. Original physical54–56,66–67,112–113rendered and
+visually inspected; no new source reading or policy repair required.
+Real559:41/44parse and render in both languages. Remaining3:initialTOR and complex
+certifications (held initial mappings),feedback (prose). Next: final field-conservation,
+refusal/citation review and coordinated suite; no model or hosted calls.

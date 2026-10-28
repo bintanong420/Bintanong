@@ -146,7 +146,12 @@ def test_complete_unnumbered_record_rows_keep_their_local_columns_and_printed_to
     second = record(('client_step', 'Receive response'), ('agency_action', 'Release response'),
                     ('fees', 'None'), ('processing_time', '1 minute'), ('person', 'Second clerk'),
                     ('office', 'Second office'), ('printed_total', 'TOTAL None 5 Minutes'))
-    table = parse_service([('meta', overview), ('first', first), ('second', second)])
+    records = []
+    for order, (evidence, text) in enumerate([('meta', overview), ('first', first), ('second', second)]):
+        body = json.loads(text)
+        body['service_group'].update(part_count=3, part_order=order)
+        records.append((evidence, json.dumps(body)))
+    table = parse_service(records)
     assert table is not None and table.office == 'Central office'
     assert [(s.client_step, s.fee, s.actions[0].person, s.actions[0].office, s.evidence_ids) for s in table.steps] == [
         ('Submit request', '', 'First clerk', 'First office', ('first',)),
@@ -214,3 +219,66 @@ def test_mixed_numbered_and_row_grammar_refuses_in_both_record_orders(reverse):
     records = [('row', record(('row1_client_step', 'Ask'), ('row1_agency_actions', 'Receive'))),
                ('step', record(('step2_client_step', 'Return'), ('step2_action', 'Release')))]
     assert parse_service(records[::-1] if reverse else records) is None
+
+
+def test_unnumbered_rows_follow_explicit_reviewed_group_order_even_when_input_is_shuffled():
+    records = []
+    for order in range(2):
+        body = json.loads(record(('client_step', ['First request', 'Then receive'][order]),
+                                 ('agency_action', ['Receive request', 'Release reply'][order])))
+        body['service_group'] = dict(logical_step_id='reviewed-sequence', part_count=2, part_order=order)
+        records.append((f'e{order}', json.dumps(body)))
+    table = parse_service(records[::-1])
+    assert table is not None
+    assert [s.client_step for s in table.steps] == ['First request', 'Then receive']
+    body = json.loads(records[1][1]); body['service_group']['part_order'] = 0
+    assert parse_service([records[0], ('duplicate', json.dumps(body))]) is None
+
+
+def test_explicit_local_and_continuation_scope_keeps_window_only_on_local_actions():
+    first = record(('step1_client_step', 'Submit'), ('step1_subaction1_action', 'Receive'),
+                   ('step1_subaction2_action', 'Release form'), ('step1_local_person', 'Local clerk'),
+                   ('step1_local_office', 'Local office'), ('step1_local_window', 'Window 1'))
+    rest = record(('step1_subaction3_action', 'Refer client'),
+                  ('step1_continuation_through_step2_shared_person', 'Continuation clerk'),
+                  ('step1_continuation_through_step2_shared_office', 'Continuation office'),
+                  ('step2_client_step', 'Pay'), ('step2_action', 'Receive payment'))
+    table = parse_service([('local', first), ('continuation', rest)])
+    assert table is not None
+    assert [(a.person, a.office, a.window) for a in table.steps[0].actions] == [
+        ('Local clerk', 'Local office', 'Window 1'), ('Local clerk', 'Local office', 'Window 1'),
+        ('Continuation clerk', 'Continuation office', None)]
+    assert table.steps[1].actions[0].person == 'Continuation clerk'
+    assert table.steps[1].evidence_ids == ('continuation',)
+
+
+def test_same_number_staff_pairs_stay_separate_without_splitting_joint_labels():
+    fields = [('step1_client_step', 'Request'), ('step1_subaction1_action', 'Issue form and receipt'),
+              ('step1_subaction1_person1', 'Assistant / Clerk'), ('step1_subaction1_office1', 'Registrar'),
+              ('step1_subaction1_person2', 'Cashier staff'), ('step1_subaction1_office2', 'Cashier office')]
+    table = parse_service([('e', record(*fields))])
+    assert table is not None
+    from backend.bintanong_generation.service_steps import render_service
+    text = '\n'.join(t for t, _ in render_service(table, 'en'))
+    assert 'Person responsible: Assistant / Clerk\n    Office: Registrar' in text
+    assert 'Person responsible: Cashier staff\n    Office: Cashier office' in text
+    assert parse_service([('e', record(*fields[:-1]))]) is None
+
+
+def test_phase_scoped_steps_preserve_reset_numbering_result_heading_and_requirement_scope():
+    fields = [('service_title', 'APPLICATION AND RESULT'),
+              ('application_requirement1', 'Application form'), ('application_where_to_secure1', 'Office'),
+              ('result_requirements_scope', 'Additional Requirement for Issuance of Result'),
+              ('result_requirement1', 'Claim stub'), ('result_requirement2', 'ID'),
+              ('result_where_to_secure_shared', 'Client'),
+              ('application_step1_client_step', '1. Submit'), ('application_step1_action', 'Receive'),
+              ('application_step2_client_step', '2. Receive permit'), ('application_step2_action', 'Issue permit'),
+              ('result_phase_heading', 'FOR RESULT ISSUANCE'),
+              ('result_step1_client_step', '1. Claim result'), ('result_step1_action', 'Release result')]
+    table = parse_service([('e', record(*fields))])
+    assert table is not None
+    from backend.bintanong_generation.service_steps import render_service
+    text = '\n'.join(t for t, _ in render_service(table, 'en'))
+    assert text.index('Step 2: 2. Receive permit') < text.index('FOR RESULT ISSUANCE') < text.index('Step 1: 1. Claim result')
+    assert 'Additional Requirement for Issuance of Result\n- Claim stub — where to secure: Client\n- ID — where to secure: Client' in text
+    assert parse_service([('e', record(*[f for f in fields if f[0] != 'result_phase_heading']))]) is None

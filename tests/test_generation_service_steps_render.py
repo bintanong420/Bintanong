@@ -72,3 +72,18 @@ def test_a_step_longer_than_one_claim_continues_in_the_next_claim_without_changi
     for k in range(1, 7):
         assert f'  1.{k}. ' + ('Verify the submitted document carefully. ' * 6).rstrip().rstrip('.') in joined
     assert joined.index('1.1.') < joined.index('1.6.') < joined.index('Processing time: 1 day')
+
+
+def test_long_checklist_splits_with_exact_item_citations_without_raising_claim_limits():
+    records = [('meta', record(('service_title', 'A request')))]
+    for n in range(1, 11):
+        records.append((f'req{n}', record((f'requirement{n}', f'Item {n}: ' + 'Required document details. ' * 5),
+                                        (f'where_to_secure{n}', f'Office {n}'))))
+    records.append(('steps', record(('step1_client_step', 'Submit'), ('step1_action', 'Receive'))))
+    claims = render_service(parse_service(records), 'taglish')
+    assert claims is not None and len(claims) <= 8
+    assert all(len(t) <= 1200 and len(ids) <= 8 for t, ids in claims)
+    for n in range(1, 11):
+        matching = [(t, ids) for t, ids in claims if f'Item {n}:' in t]
+        assert len(matching) == 1 and f'req{n}' in matching[0][1]
+    assert 'Eto ang mga requirements' in claims[0][0]
