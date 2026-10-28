@@ -246,7 +246,7 @@ relevant claims within that part rather than unrelated numeric mappings.
 When a topic fits a procedure question, answer it with route RAG even if the student names
 where they are going; that destination is context, not an ambiguity, course or operation.
 Fictional contrast: "I want to move my locker to another building, what are the steps?" ->
-route RAG, one document part, control null, operations [], ambiguities [].
+route RAG, document parts as requested, control null, operations [], ambiguities [].
 Topics are retrieval labels, never answers or evidence.'''
 
 NOT_STATED_INSTRUCTION = '''not_stated lists facts the source does not give: choose one when the

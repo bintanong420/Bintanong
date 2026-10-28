@@ -168,3 +168,10 @@ def test_menu_prompt_treats_a_named_destination_in_a_procedure_question_as_conte
     system = build_messages(TEXT, RequestContext.parse(context()), (), _registry(), topics=MENU)[0]['content']
     assert 'destination is context' in system
     assert 'shift' not in system.casefold()
+
+
+def test_destination_example_does_not_fix_the_part_count():
+    # Live 04e913f: the example's "one document part" made the router merge the two cross-enrollment questions.
+    from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
+    assert 'one document part' not in TOPIC_INSTRUCTION
+    assert 'parts as requested' in TOPIC_INSTRUCTION
