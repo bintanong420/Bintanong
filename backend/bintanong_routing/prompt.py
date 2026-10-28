@@ -214,22 +214,8 @@ def output_schema(topics=(), follow_up=False):
     unknown_branch = deepcopy(control_branch)
     unknown_branch['properties']['audience'] = {'const':'unknown'}
     unknown_branch['properties']['control'] = {'const':'clarify'}
-    control_branches = [control_branch]
-    if topics:  # A menu clarify must name what is unclear;an empty one turned answerable topics into
-        # unavailable information (live 559 shifting, 28 Oct 2026). Disjoint: first named field wins.
-        control_branch['properties']['control'] = {'const':'evidence_unavailable'}
-        named = ['operations', 'claims', 'ambiguities'] + (['previous_course_quote'] if follow_up else [])
-        for index, field in enumerate(named):
-            clarify = deepcopy(control_branch)
-            clarify['properties']['control'] = {'const':'clarify'}
-            for earlier in named[:index]:
-                clarify['properties'][earlier] = ({'type':'null'} if earlier == 'previous_course_quote'
-                                                  else {**clarify['properties'][earlier], 'maxItems':0})
-            clarify['properties'][field] = ({'$ref':'#/$defs/QuoteReference'} if field == 'previous_course_quote'
-                                            else {**clarify['properties'][field], 'minItems':1})
-            control_branches.append(clarify)
     # Match host audience precedence without classifying the student's wording.
-    branches = [rag_branch, route_branch, *control_branches, terminal_branch]
+    branches = [rag_branch, route_branch, control_branch, terminal_branch]
     for branch in branches:
         branch['properties']['audience'] = {'const':'undergraduate'}
     schema['oneOf'] = [*branches, scope_branch, unknown_branch]
