@@ -97,7 +97,8 @@ class ChatTurns:
 
     async def run(self, session: Session, turn: PreparedTurn, progress=_ignore):
         try:
-            self._sessions.begin_turn(session.credential, turn.message_id, regenerate=turn.regenerate)
+            self._sessions.begin_turn(session.credential, turn.message_id, regenerate=turn.regenerate,
+                                      account_id=session.account_id)
         except ValueError as refused:
             raise ApiError(409, str(refused)) from None
         except KeyError:  # deleted or expired after its cookie was resolved
@@ -113,11 +114,12 @@ class ChatTurns:
                 raise ApiError(503, 'answer_unavailable') from None
             completed = True
         finally:
-            self._sessions.end_turn(session.credential, turn.message_id, completed=completed)
+            self._sessions.end_turn(session.credential, turn.message_id, completed=completed,
+                                    account_id=session.account_id)
         conversation = capture(routed[0]) if routed else None
         if conversation is not None:
             try:
-                self._sessions.set_conversation(session.credential, conversation)
+                self._sessions.set_conversation(session.credential, conversation, account_id=session.account_id)
             except KeyError:  # deleted or expired during the turn; it stays gone
                 pass
         return result

@@ -1,0 +1,106 @@
+import { dismissInitialScope } from './scope-helper.mjs';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {pathToFileURL} from 'node:url';
+
+test('general chat supports explicit follow-up review, grouped evidence and safe lifecycle recovery', async()=>{
+  const url=process.env.BINTANONG_BROWSER_URL;
+  assert.ok(url&&['localhost','127.0.0.1'].includes(new URL(url).hostname));
+  const {chromium}=await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
+  const browser=await chromium.launch({channel:'msedge',headless:true});
+  try{
+    const context=await browser.newContext({storageState:process.env.BINTANONG_BROWSER_STATE,viewport:{width:1440,height:1000}});
+    const page=await context.newPage(),submissions=[],errors=[];page.setDefaultTimeout(6000);
+    page.on('pageerror',error=>errors.push(error.message));
+    const sources=[1,2,3,4].map(i=>'ev-'+String(i).repeat(64));let refuseClear=true;
+    await page.route('**/api/chat',async route=>{
+      submissions.push(route.request().postDataJSON());
+      const first=submissions.length===1;
+      const data={status:'clarification_needed',conditional:first,language:'en',missingFields:first?['course_status']:[],
+        clarification:{scope:{programId:'bscs',curriculumId:'bscs-2018'},courses:first?[{code:'Z4/L',kind:'completion'},{code:'Z3/L',kind:'completion'}]:[]}};
+      const text=first?'Prerequisites: Z3/L and Z4/L.':'Please clarify the missing information before a conclusion can be given.';
+      const parts=[{type:'start',messageId:'synthetic-'+submissions.length},{type:'text-start',id:'answer'},{type:'text-delta',id:'answer',delta:text},{type:'text-end',id:'answer'},
+        ...sources.map(sourceId=>({type:'source-document',sourceId,mediaType:'text/plain',title:'Synthetic source, p.1'})),{type:'data-answer',data},{type:'finish',finishReason:'stop'}];
+      await route.fulfill({status:200,headers:{'Content-Type':'text/event-stream','x-vercel-ai-ui-message-stream':'v1'},body:parts.map(p=>'data: '+JSON.stringify(p)+'\n\n').join('')+'data: [DONE]\n\n'});
+    });
+    await page.route('**/api/session',async route=>{
+      if(refuseClear){refuseClear=false;await route.fulfill({status:503,contentType:'application/json',body:'{"error":"synthetic_clear_failed"}'});}
+      else await route.fulfill({status:204});
+    });
+    await page.goto(new URL('/chat',url).href,{waitUntil:'networkidle',timeout:45000});
+    await dismissInitialScope(page);
+    const input=page.getByRole('textbox',{name:'Your question',exact:true});
+    await page.getByRole('button',{name:'Find course prerequisites',exact:true}).click();
+    assert.match(await input.inputValue(),/prerequisites/);assert.equal(submissions.length,0);
+    await page.getByRole('button',{name:'Program and curriculum',exact:true}).click();
+    await page.getByRole('combobox',{name:'Program and curriculum',exact:true}).selectOption('bscs-2018');
+    await page.getByRole('button',{name:'Use this curriculum',exact:true}).click();
+    await input.fill('What are the prerequisites of Z5/L?');
+    await page.getByRole('button',{name:'Send question',exact:true}).click();
+    await page.getByRole('button',{name:'Continue clarification',exact:true}).click();
+    await page.getByRole('radio',{name:'Not passed',exact:true}).check();
+    await page.getByRole('button',{name:'Continue',exact:true}).click();
+    await page.getByRole('radio',{name:"I don't know",exact:true}).check();
+    await page.getByRole('button',{name:'Continue',exact:true}).click();
+    assert.equal(submissions.length,1);
+    await page.getByRole('button',{name:'Confirm and send',exact:true}).click();
+    await page.getByText('No specific clarification question was provided.',{exact:true}).waitFor();
+    await page.setViewportSize({width:320,height:844});
+    const scopeBox=await page.getByRole('button',{name:'Program and curriculum',exact:true}).boundingBox();
+    const detailsBox=await page.getByRole('button',{name:'You supplied (2)',exact:true}).boundingBox();
+    assert.ok(scopeBox.x+scopeBox.width<=detailsBox.x,'curriculum and retained details must not overlap on mobile');
+    await page.getByRole('button',{name:'You supplied (2)',exact:true}).click();
+    await page.getByRole('dialog',{name:'You supplied',exact:true}).waitFor();
+    await page.keyboard.press('Escape');
+    await page.setViewportSize({width:1440,height:1000});
+    await page.getByRole('button',{name:'Rephrase question',exact:true}).last().click();
+    await page.getByRole('textbox',{name:'Course to retake',exact:true}).fill('Z4/L');
+    await page.getByRole('button',{name:'Use this draft',exact:true}).click();
+    assert.equal(submissions.length,2);
+    await page.getByRole('button',{name:/Include earlier details/}).click();
+    const details=page.getByRole('dialog',{name:'You supplied',exact:true});
+    assert.equal(await details.getByRole('checkbox',{checked:true}).count(),0);
+    await details.getByRole('checkbox',{name:/Z4\/L/}).check();
+    await details.getByRole('checkbox',{name:/Z3\/L/}).check();
+    await details.getByRole('button',{name:'Use selected details',exact:true}).click();
+    await page.getByRole('button',{name:'Send question',exact:true}).click();
+    const review=page.getByRole('dialog',{name:'Review your next message',exact:true});
+    await review.waitFor();assert.equal(submissions.length,2);
+    const expected='What do the reviewed institutional sources say about retaking Z4/L?\n\nI have not passed Z4/L.\nI do not know whether I have passed Z3/L.';
+    assert.equal(await review.locator('.clarification-review').textContent(),expected);
+    await review.getByRole('button',{name:'Confirm and send',exact:true}).click();
+    await page.getByRole('article',{name:'Your message',exact:true}).filter({hasText:expected}).waitFor();
+    await page.getByRole('button',{name:/Sources \(4\)/}).last().click();
+    assert.equal(await page.getByRole('dialog').getByRole('button',{name:/Synthetic source, p.1/}).count(),4);
+    await page.keyboard.press('Escape');
+    assert.equal(submissions[2].messages.length,1);assert.equal(submissions[2].messages[0].parts[0].text,expected);
+    assert.notEqual(submissions[1].messages[0].id,submissions[2].messages[0].id);
+    assert.equal(await input.inputValue(),'');
+    await page.getByRole('button',{name:'New chat',exact:true}).click();
+    await page.getByRole('button',{name:'Clear chat',exact:true}).click();
+    await page.getByText('Clearing was not confirmed. Your conversation and files are still here.',{exact:true}).waitFor();
+    assert.equal(await page.getByRole('article',{name:'Your message',exact:true}).count(),3);
+    await page.keyboard.press('Escape');
+    assert.equal(await page.getByRole('button',{name:'You supplied (2)',exact:true}).count(),1);
+    await page.route('**/api/sources/**',route=>route.fulfill({status:401,contentType:'application/json',body:'{"error":"sign_in_required"}'}));
+    await page.getByRole('button',{name:/Sources \(4\)/}).last().click();
+    await page.getByRole('dialog').getByRole('button',{name:/Synthetic source, p.1/}).first().click();
+    await page.getByText('Source details could not be loaded.',{exact:true}).waitFor();
+    await page.keyboard.press('Escape');
+    assert.equal(await page.getByRole('button',{name:/You supplied/}).count(),0,'known auth expiry forgets retained course choices');
+    assert.equal(await page.getByRole('button',{name:/Include earlier details/}).count(),0);
+    await input.fill('Keep my question after expiry');
+    assert.equal(await page.getByRole('button',{name:'Send question',exact:true}).isDisabled(),true);
+    assert.equal(await page.getByRole('link',{name:'Sign in again',exact:true}).count(),1);
+    await page.getByRole('button',{name:'New chat',exact:true}).click();
+    await page.getByRole('button',{name:'Clear chat',exact:true}).click();
+    await page.getByRole('heading',{name:'Ask away, Bintanong.',exact:true}).waitFor();
+    await dismissInitialScope(page);
+    assert.equal(await page.getByRole('button',{name:/Include earlier details/}).count(),0);
+    await page.setViewportSize({width:390,height:844});
+    await page.getByRole('button',{name:'Open navigation',exact:true}).click();await page.keyboard.press('Escape');
+    assert.equal(await page.getByRole('dialog').count(),0);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    assert.deepEqual(errors,[]);
+  }finally{await browser.close();}
+});

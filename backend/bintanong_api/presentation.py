@@ -64,3 +64,24 @@ def student_text(answer) -> str:
             line = humanize_codes(line, answer.language)
         shown.append(line)
     return '\n'.join(shown)
+
+
+def clarification_view(answer, course_labels) -> dict:
+    """Only canonical unknowns supply choices; never extract courses from generated prose."""
+    courses = []
+    fields = list(answer.missing_facts)
+    if answer.decision is not None:
+        fields.extend(answer.decision.unknown_conditions)
+    for field in fields:
+        prefix, _, course_id = field.partition(':')
+        kind = {'completion_unknown': 'completion', 'enrollment_unknown': 'enrollment'}.get(prefix)
+        code = course_labels.get(course_id)
+        if kind and code and code != course_id and len(code) <= 240:
+            entry = {'code': code, 'kind': kind}
+            if entry not in courses:
+                courses.append(entry)
+    values = ({i.name: i.value for i in answer.structured_context.inputs}
+              if answer.structured_context is not None else {})
+    scope = ({'programId': values['program_id'], 'curriculumId': values['curriculum_id']}
+             if values.get('program_id') and values.get('curriculum_id') else None)
+    return {'courses': courses[:32], 'scope': scope}
