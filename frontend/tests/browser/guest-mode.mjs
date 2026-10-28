@@ -20,7 +20,7 @@ test('visitors enter chat without auth and see optional sign-in on both entry pa
   const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
   try {
-    const context = await browser.newContext({ viewport: { width: 390, height: 900 } });
+    const context = await browser.newContext({ viewport: { width: 320, height: 900 } });
     const page = await context.newPage();
     page.setDefaultTimeout(5000);
     page.setDefaultNavigationTimeout(45000);
@@ -33,6 +33,8 @@ test('visitors enter chat without auth and see optional sign-in on both entry pa
     await page.getByText('Guest', { exact: true }).waitFor();
     assert.equal(await page.getByRole('link', { name: 'Sign in', exact: true }).isVisible(), true);
     assert.equal(await page.getByRole('button', { name: 'Sign out', exact: true }).count(), 0);
+    const scopeLabel = await page.locator('.header-scope > span').boundingBox();
+    assert.ok(scopeLabel.width >= 48, 'guest controls must leave room for a readable curriculum label');
     assert.equal(await page.getByRole('textbox', { name: 'Your question', exact: true }).isEnabled(), true);
     assert.equal((await context.cookies()).some(cookie => cookie.name.includes('-auth-token')), false);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
