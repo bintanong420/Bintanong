@@ -16,13 +16,15 @@ Selector now right for drop (FAQ), probation (standing), honors; remaining are r
 Gate case req-transfer-en now expects a clarification (F4). Then `72f6ab6` (whole request naming only not-stated
 facts answers the printed procedure; diploma en/Taglish now pass) and `e2cbc62` router v25 (meeting a printed rule
 -> specific; honors residence en/Taglish now pass; probation still `whole`, not retried under the stop rule).
-Owner chose A for drop: split FAQ 7 (drop) from FAQ 8 (shift) as a new derived package (chunk-level
+Then `19d762f` F4 host clarify (leaving vs transferring in; req-transfer-en passes) and `4221d26` excluded-program
+scope notice (law-scope passes); both phrase lists owner-approved 28 Oct (ledger). Owner chose A for drop: split FAQ 7 (drop) from FAQ 8 (shift) as a new derived package (chunk-level
 required_neighbor_chunk_ids + one shared claim force citing the shift continuation; package sealed). Earlier today: simple-question gate run 2 67/91
 ([results](../2026-10-28-simple-question-gate-results.md)); router v24, detail split, owner year-level limit.
 
 Verification: full suite on `72f6ab6` 7215 pass / 1608 subtests, 6 skip / 2 xfail, exit 0 (1370.39 s;
 A/p11-fullsuite-20261028d); a4f33f7 7212. e2cbc62 (at 3eb31ae): 4 sequential batches after a memory-pressure stop,
 7216 pass / 1608 subtests, 6 skip / 2 xfail, all exit 0 (A/p11-fullsuite-20261028e, 286 files once each).
+19d762f batched 7226 pass / 1608, exit 0 (…-20261028f). 4221d26: related 1304 pass; batched suite pending.
 
 ## Lane status (owner 28 Oct)
 
@@ -52,6 +54,5 @@ institutional approval, Phase 11 exit or Phase 12 advance.
 
 ## Next action
 
-Owner-approved order: F4 leaving/transferring-in clarify and Law scope notice (code, test-first), then the FAQ
-split package (show the owner the exact split text first), then full 91-case gate rerun.
+Show the owner the exact FAQ 7/8 split text, then build the derived package, then full 91-case gate rerun.
 Mark `LIVE RUN` here while using the model.

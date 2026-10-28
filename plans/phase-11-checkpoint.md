@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 240
+sequence: 241
 plan: plans/phase-11-backend-api-plan.md
-head_commit: e2cbc62
+head_commit: 4221d26
 working_tree: clean
 updated_at: 2026-10-28T23:30:00+08:00
 ---
@@ -30,7 +30,8 @@ RED9fail->GREEN9pass,related558pass;selector prompt3409->5625tokens;live12 affec
 Full suite a4f33f7:7212pass/1608subtests,6skip/2xfail,exit0,1378.87s (A/p11-fullsuite-20261028c);
 prior f0889c3 7203pass. 72f6ab6 printed-procedure guard (diploma passes;full7215pass exit0);e2cbc62 router v25
 specific rule (honors passes;full7216pass/1608 in4batches,exit0). Open:drop needs FAQ7/8 split package (owner A),probation still whole
-(stop rule),grad residence picks max-residence clause,F4 clarify,Law scope,overdue/DAC,Taglish second-year. Evidence A/p11-simple-gate-20261028,
+(stop rule),grad residence picks max-residence clause,overdue/DAC,Taglish second-year. 19d762f F4 clarify (batched7226 exit0)
+and 4221d26 excluded-program notice (related1304):req-transfer-en and law-scope pass live;phrases owner-approved. Evidence A/p11-simple-gate-20261028,
 A/p11-clarify-20261028. Earlier task history (printed steps,559 checks,repair overflow,short reviews,vectors,
 flow evidence,bindings) is in the last full snapshot `7be3e1c` and the linked dated results.
 
@@ -122,8 +123,7 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Owner order:F4 clarify+Law scope (test-first),then FAQ7/8 split derived package (show split text first),
-then full91-case gate rerun.
+Show owner exact FAQ7/8 split text;build derived package;then full91-case gate rerun.
 
 ## Context Consulted
 
