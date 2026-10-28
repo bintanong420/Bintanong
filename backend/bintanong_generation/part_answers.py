@@ -20,6 +20,7 @@ from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .fee_reply import fee_claims
 from .grade_reply import grade_claims
 from .precedence_reply import precedence_reply
+from .service_steps import parse_service, render_service
 from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
@@ -214,8 +215,42 @@ def disjunction_errors(draft, pack, slots=None):
 
 
 def host_claims(pack):
-    """Host-written replies (special class fee, grading table) by part; these parts get no model wording."""
-    return {**fee_claims(pack), **grade_claims(pack)}
+    """Host-written replies (printed service steps, special class fee, grading table) by part; these
+    parts get no model wording. Each claim is (text, evidence_id) or (text, (evidence_id, ...))."""
+    fixed = {**fee_claims(pack), **grade_claims(pack)}
+    return {**service_claims(pack, fixed), **fixed}
+
+
+def _ids(evidence):
+    return tuple(evidence) if isinstance(evidence, tuple) else (evidence,)
+
+
+def service_claims(pack, fixed):
+    """Owner29Oct option A: a document part whose required records form a strictly parsed printed
+    Charter service table is answered with those printed steps. Empty when none qualifies."""
+    quotes = quoted_field_parts(pack)
+    required = {part: ids for part, ids in required_record_sources(pack).items()
+                if part not in fixed and part not in quotes}
+    tables = {}
+    for part, ids in required.items():
+        records = [(c.evidence_id, c.text) for c in pack.cards if c.kind == 'document' and c.evidence_id in ids]
+        table = parse_service(records)
+        if table is not None:
+            tables[part] = table
+    if not tables:
+        return {}
+    explained = [p.part_id for p in pack.understanding.parts if p.evidence_need == 'document'
+                 and p.part_id not in tables and p.part_id not in fixed]
+    budget = 8 - _host_claim_count(fixed) - len(explained)  # each model-explained part keeps one claim
+    rendered, used = {}, {}
+    for part, table in tables.items():
+        key = table.evidence_ids
+        if key not in used:
+            used[key] = render_service(table, pack.language,
+                                       max_claims=budget - sum(len(c) for c in used.values() if c))
+        if used[key]:
+            rendered[part] = used[key]
+    return rendered
 
 
 def _host_claim_count(host):
@@ -340,7 +375,7 @@ def record_coverage_errors(pack, claims, slots):
                 continue
             if part in host:
                 actual = tuple((by_id[i].text,tuple(by_id[i].evidence_ids)) for i in ids if i in by_id)
-                expected = tuple((text,(evidence,)) for text,evidence in host[part])
+                expected = tuple((text,_ids(evidence)) for text,evidence in host[part])
                 if actual != expected:
                     return ('host_reply_mismatch',)
                 continue  # Exact host reply already handles source-gap/currentness semantics.
@@ -470,7 +505,7 @@ def to_draft(explanation, pack):
             if key not in host_ids:
                 identity = f'c{len(claims) + 1}'
                 host_ids[key] = identity
-                claims.append(dict(claim_id=identity, text=text, evidence_ids=[evidence]))
+                claims.append(dict(claim_id=identity, text=text, evidence_ids=list(_ids(evidence))))
             numbered.append(host_ids[key])
         slots[part_id] = ('host', tuple(numbered))
     if len(claims) > 8:
