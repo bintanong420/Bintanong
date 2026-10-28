@@ -6,6 +6,10 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
 
+Shifting option A (owner28Oct):04e913f/12ac411 topic-menu destination example;battery-7 **7/8answered,
+3/3regressions** (shifting answered,cross-enroll as printed 76.6s). Workstream split for Codex/Claude:
+[plan](../2026-10-28-phase11-model-workstream-split.md),799ae1e. Full suite 12ac411:see checkpoint.
+
 [Clarify/condition wording](../2026-10-28-clarify-and-condition-wording-results.md):d49aa27 rejects
 added all-of wording ("must be met","and e)") over printed lists (TDD;focused1354pass);live cross-enroll
 now lists a)–e) as printed (65s,one repair). Shifting clarify:two grammar attempts (ea6409a,8109ccb) made
@@ -115,6 +119,5 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Owner decision on shifting (router keeps clarifying a clear procedure question):options in the
-[results](../2026-10-28-clarify-and-condition-wording-results.md) reply. Meanwhile remaining21Charter
-layouts in reviewed batches. No activation/default change.
+Claude:simple-question gate (30–40 basic English/Taglish questions,all must pass) per the split plan;
+then discipline long-flow abstain and cross-enroll repair latency. Codex lanes A/B start from the plan.
