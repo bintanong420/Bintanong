@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 236
+sequence: 237
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 04e6d38
-working_tree: clarify results/snapshots pending commit
+head_commit: 7b9f8d6
+working_tree: clean
 updated_at: 2026-10-28T18:00:00+08:00
 ---
 
@@ -173,7 +173,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Simple-question gate per split plan;then discipline abstain,cross-enroll repair latency;review Codex lanes.
+Per [28Oct session handoff](2026-10-28-phase11-session-handoff.md):full suite on current head,then gate group A
+test-first,then full gate rerun.
 
 ## Context Consulted
 

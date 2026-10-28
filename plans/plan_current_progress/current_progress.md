@@ -152,5 +152,5 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Claude:simple-question gate (30–40 basic English/Taglish questions,all must pass) per the split plan;
-then discipline long-flow abstain and cross-enroll repair latency. Codex lanes A/B start from the plan.
+Resume from [28Oct session handoff](../2026-10-28-phase11-session-handoff.md):full suite on current head (none since
+04e6d38),then gate group A (topic/claim selection,~18 cases) test-first,then full gate rerun. No activation.
