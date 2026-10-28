@@ -530,3 +530,7 @@ Each program still gets its own dated review record listing which standing rule 
   and curriculum; the frontend asks up front. Students are guided to type a course code or a course title
   (combined "CS6 (title)" mentions are not specially handled). Simple-question gate: cover most topics and
   diversify prerequisite questions across programs (wording accepted in principle).
+- 28 Oct 2026 (year levels): the Handbook curricular-level percentages (first year "completed 25%", second year
+  "25% but not more than 50%", ...) are answered as printed with no limitation note; the owner considers the overlap
+  clear by comparison. Applied as an owner-resolved limit at evidence preparation; the reviewed package keeps
+  the original limit record unchanged.
