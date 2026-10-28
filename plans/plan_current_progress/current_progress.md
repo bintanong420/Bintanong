@@ -1,10 +1,16 @@
 # Current progress
 
-Updated28October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
+Updated29October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
 Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
+
+[Printed service steps](../2026-10-29-printed-service-steps-plan.md) (owner29Oct chose A):strict
+parser b92cce2 + renderer 8c332ca/4fd8958 (TDD,18tests). 16/44Charter services render verbatim
+(23parse;7held malformed conditions stay unrendered). Real samples (good moral en,entrance health
+taglish,consultation+limit) shown to owner;awaiting format/frame/held-service judgement before
+wiring into the answer path.
 
 [Long-procedure split](../2026-10-28-segmented-procedure-drafting-results.md) (owner"lets do that
 split"):segmentation tried in3TDD iterations,live probes showed text drifting from bound records and
@@ -96,5 +102,5 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Owner judgement:long procedures as host-rendered ordered steps from a new reviewed step table, or keep
-safe refusal. Then selector recall/router-claim fixes per 559results. No activation/default change.
+Owner sample review of printed-step renderings (format,Taglish frame,held services). Then RED/GREEN
+host integration beside fee/grade replies,full suite,live re-check. No activation/default change.
