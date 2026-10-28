@@ -254,7 +254,7 @@ def build_research_resources(ledger, package, *, encoder, authorization_ref, hos
 
 
 def build_multi_research_resources(ledgers, package, *, encoder, authorization_ref, hosted=None,
-                                   program_names=None, curriculum_names=None):
+                                   program_names=None, curriculum_names=None, routing_context=False):
     """One research release serving several reviewed curricula ({curriculum_id: ledger}).
 
     Each curriculum keeps its own runtime, release identity and rule-bundle version (listed in the
@@ -301,7 +301,8 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         subject_context_budgets=package.get('subject_context_budgets', budgets))
     return ReleaseResources(pin, tuple(catalog), registry, RetrievalAdapter(engine, research=True),
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
-        topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),
+        topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks,
+                          routing_context=routing_context),  # opt-in reviewed source labels
         document_scope=('audience:undergraduate',), course_labels=tuple(labels))
 
 
