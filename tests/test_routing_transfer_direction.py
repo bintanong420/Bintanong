@@ -61,3 +61,21 @@ def test_transfer_direction_reply_asks_leaving_or_transferring_in(language):
     answer_ = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('transfer?', source))
     assert answer_.status == 'clarification_needed'
     assert QUESTION[language] in answer_.text and 'transfer_direction' not in answer_.text
+
+
+@pytest.mark.parametrize('text', [
+    'What are the admission requirements for the College of Law?',
+    'How do I enroll in the Juris Doctor program?',
+    'Paano mag-apply sa graduate school?',
+    "What are the requirements for a master's program?",
+    'Ano ang requirements sa laboratory school?',
+])
+def test_a_question_naming_an_excluded_program_gets_the_scope_notice(text):
+    result = route(text, 'fictional_office')
+    assert not result.decision.dispatchable and result.decision.control == 'unsupported_scope'
+    assert result.diagnostic == 'excluded_program_named'
+
+
+@pytest.mark.parametrize('text', ['Is there a law subject in my program?', 'Where do I file slip S for my faculty adviser?'])
+def test_ordinary_undergraduate_wording_is_not_an_excluded_program(text):
+    assert route(text, 'fictional_office').decision.dispatchable

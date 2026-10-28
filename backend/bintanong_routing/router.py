@@ -82,11 +82,23 @@ TRANSFER_DIRECTION_CUES = (
     'galing sa ibang', 'transfer to palsu', 'transferring to palsu', 'lilipat sa palsu', 'lumipat sa palsu')
 
 
+# Owner, 28 Oct 2026: a question explicitly naming an excluded program gets the undergraduate-scope notice even
+# when the router labels it undergraduate. Other wording stays with the router.
+EXCLUDED_PROGRAM_CUES = (
+    'college of law', 'school of law', 'juris doctor', 'college of medicine', 'doctor of medicine',
+    'graduate school', "master's program", 'masters program', "master's degree", 'masters degree',
+    'doctoral program', 'doctorate program', 'laboratory school')
+
+
+def _names_any(text, phrases):
+    text = text.replace('’', "'")  # a typed curly apostrophe matches master's
+    return any(re.search(r'(?<![\w-])' + re.escape(c) + r'(?![\w-])', text, re.IGNORECASE) for c in phrases)
+
+
 def transfer_direction_unstated(proposed, topics, text):
     families = {t.subject_id: t.family for t in topics}
     return (any(families.get(p.subject_id) in TRANSFER_FAMILIES for p in proposed.parts)
-            and not any(re.search(r'(?<![\w-])' + re.escape(c) + r'(?![\w-])', text, re.IGNORECASE)
-                        for c in TRANSFER_DIRECTION_CUES))
+            and not _names_any(text, TRANSFER_DIRECTION_CUES))
 
 
 def prefer_printed_procedure(proposed, topics):
@@ -228,7 +240,10 @@ class Router:
                     if selection_attempts and result.decision.dispatchable and any(
                             p.evidence_need == 'document' and p.subject_id is None for p in proposed.parts):
                         return failure('topic_selection_unavailable', attempt, style_attempt, style, floored)
-                    if result.decision.dispatchable and transfer_direction_unstated(proposed, topics, text):
+                    if result.decision.dispatchable and _names_any(text, EXCLUDED_PROGRAM_CUES):
+                        result = replace(result, decision=_decision(control='unsupported_scope',
+                            reason='excluded program named'), diagnostic='excluded_program_named')
+                    elif result.decision.dispatchable and transfer_direction_unstated(proposed, topics, text):
                         result = replace(result, decision=_decision(control='clarify',
                             missing=('transfer_direction',), reason='transfer direction unstated'),
                             diagnostic='transfer_direction_unstated')
