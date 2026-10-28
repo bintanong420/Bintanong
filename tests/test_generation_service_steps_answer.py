@@ -13,7 +13,7 @@ from test_request_understanding_pipeline import TEXT, source
 SUBJECT = 'fictional_service'
 
 
-def integration(texts=(FIRST, SECOND), both_parts=True):
+def integration(texts=(FIRST, SECOND), both_parts=True, details=('whole', 'whole')):
     value = source().model_dump(mode='json')
     first = value['evidence']['documents']['passages'][0]
     member = value['evidence']['pin']['documents'][0]
@@ -21,9 +21,9 @@ def integration(texts=(FIRST, SECOND), both_parts=True):
     value['evidence']['documents']['passages'] = [dict(first, chunk_id=c, text=t) for c, t in zip(ids, texts)]
     value['evidence']['pin']['documents'] = [dict(member, chunk_id=c) for c in ids]
     whole, other = value['understanding']['parts']
-    whole.update(subject_id=SUBJECT, requested_claims=['printed service fields'])
+    whole.update(subject_id=SUBJECT, requested_claims=['printed service fields'], detail=details[0])
     if both_parts:
-        other.update(subject_id=SUBJECT, requested_claims=['printed service totals fields'])
+        other.update(subject_id=SUBJECT, requested_claims=['printed service totals fields'], detail=details[1])
     else:
         other.update(subject_id='other_subject', requested_claims=['printed other fields'])
     value['evidence']['documents']['record_coverage'] = [
@@ -60,3 +60,25 @@ def test_a_service_outside_the_strict_grammar_keeps_the_model_path():
     model = PartModel(slots=dict(r1=('answered', [OFFICE]), r2=('answered', [OFFICE])))
     asyncio.run(Generator(model).generate(TEXT, integration(texts=(odd,))))
     assert model.calls  # no host table, so the existing model path runs
+
+
+# Owner 28 Oct 2026: only the printed detail that was asked; the whole service when any part asks for it.
+def test_parts_asking_only_fees_get_only_the_printed_fees():
+    model = PartModel()
+    answer = asyncio.run(Generator(model).generate(TEXT, integration(details=('fees', 'fees'))))
+    cards = [c for c in prepare(integration()).cards if c.kind == 'document']
+    fees = render_service(parse_service([(c.evidence_id, c.text) for c in cards]), 'en', detail='fees')
+    assert answer.status == 'answered' and model.calls == []
+    assert [(c.text, c.evidence_ids) for c in answer.claims] == list(fees)
+    assert 'Office actions' not in answer.text and 'Student ID' not in answer.text
+
+
+def test_a_part_asking_for_everything_keeps_the_whole_service():
+    answer = asyncio.run(Generator(PartModel()).generate(TEXT, integration(details=('whole', 'fees'))))
+    assert [(c.text, c.evidence_ids) for c in answer.claims] == list(expected(prepare(integration())))
+
+
+def test_different_details_of_one_service_are_both_shown():
+    answer = asyncio.run(Generator(PartModel()).generate(TEXT, integration(details=('requirements', 'fees'))))
+    assert 'Student ID (1 copy)' in answer.text and 'Fees as printed:' in answer.text
+    assert 'Office actions' not in answer.text

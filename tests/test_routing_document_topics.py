@@ -175,3 +175,30 @@ def test_destination_example_does_not_fix_the_part_count():
     from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
     assert 'one document part' not in TOPIC_INSTRUCTION
     assert 'parts as requested' in TOPIC_INSTRUCTION
+
+
+# Owner 28 Oct 2026: answer only the printed detail asked. The router labels each document part's detail.
+DETAILS = ['whole', 'requirements', 'fees', 'processing_time']
+
+
+def test_menu_parts_declare_one_printed_detail_and_the_default_schema_has_none():
+    branches = output_schema(MENU)['$defs']['WirePart']['anyOf']
+    by_subject = {b['properties']['subject_id'].get('const'): b for b in branches}
+    assert by_subject['fictional_fees']['properties']['detail'] == {'enum': DETAILS}
+    assert by_subject[None]['properties']['detail'] == {'const': 'whole'}
+    assert all('detail' in b['required'] for b in branches)
+    assert 'detail' not in output_schema()['$defs']['WirePart']['properties']
+
+
+def test_router_keeps_the_asked_detail_and_defaults_to_whole():
+    value = json.loads(answer())
+    value['parts'][0]['detail'] = 'fees'
+    result = run(model(json.dumps(value)), text=TEXT, topics=MENU)
+    assert result.diagnostic == 'validated' and result.proposed.parts[0].detail == 'fees'
+    plain = run(model(answer()), text=TEXT, topics=MENU)
+    assert plain.proposed.parts[0].detail == 'whole'
+
+
+def test_menu_prompt_explains_the_detail_choice():
+    from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
+    assert 'detail' in TOPIC_INSTRUCTION and 'whole' in TOPIC_INSTRUCTION

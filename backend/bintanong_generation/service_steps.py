@@ -382,9 +382,12 @@ ORIGINAL_NOTE = dict(
        'from the original document.',
     taglish="Note: Ipinapakita ito nang eksakto gaya ng nakaprint sa Citizen's Charter; anumang inconsistency "
             'ay galing mismo sa original na dokumento.')
-LEADS = dict(en=dict(requirements='Requirements:', steps='Steps to follow:'),
+LEADS = dict(en=dict(requirements='Requirements:', steps='Steps to follow:', fees='Fees as printed:',
+                     processing_time='Processing time as printed:'),
              taglish=dict(requirements='Eto ang mga requirements na kailangan mo:',
-                          steps='Eto ang mga kailangan mong gawin:'))
+                          steps='Eto ang mga kailangan mong gawin:',
+                          fees='Eto ang mga bayarin ayon sa nakaprint:',
+                          processing_time='Eto ang processing time ayon sa nakaprint:'))
 LABELS = (('person', 'Person responsible'), ('office', 'Office'), ('time', 'Processing time'))
 BLANK = '(blank in the printed table)'
 MAX_CLAIM_CHARS, MAX_CLAIM_RECORDS = 1200, 8  # ProseClaim limits
@@ -443,11 +446,47 @@ def _fits(text, ids):
     return len(text) <= MAX_CLAIM_CHARS and len(ids) <= MAX_CLAIM_RECORDS
 
 
-def render_service(table, language, max_claims=8):
+def _detail_lines(table, detail):
+    """Printed fees or processing times only (owner 28 Oct 2026: answer the detail asked), one line per
+    printed value with its step; the printed total for that column ends the list."""
+    lines = []
+    if detail == 'fees':
+        for step in table.steps:
+            if step.fee is not None:
+                lines.append(f'Step {step.number}: {_end(step.client_step)} — Fee: {_value(step.fee)}')
+            lines += [f'Step {step.number}: {_end(step.client_step)} — {_end(a.action)} — Fee: {_value(a.fee)}'
+                      for a in step.actions if a.fee is not None]
+        total = table.total_fee
+    else:
+        for step in table.steps:
+            if 'time' in step.shared:
+                lines.append(f'Step {step.number}: {_end(step.client_step)} — Processing time: '
+                             f'{_value(step.actions[0].time)}')
+                continue
+            timed = [a for a in step.actions if a.time is not None]
+            if timed:
+                lines.append(f'Step {step.number}: {_end(step.client_step)}')
+                lines += [f'  {_end(a.action)} — Processing time: {_value(a.time)}' for a in timed]
+        total = table.total_time
+    if total is not None:
+        lines.append(f'Printed total: {_value(total)}')
+    return lines
+
+
+def render_service(table, language, max_claims=8, detail='whole'):
     """Host claims [(text, evidence_ids)]: overview/checklist, one claim per step (merging consecutive
     steps only when the claim budget requires), then the printed total, source limits and the original-
-    document note. None when the steps cannot fit the claim budget within ProseClaim limits."""
+    document note. None when the steps cannot fit the claim budget within ProseClaim limits. A detail
+    other than 'whole' keeps only the checklist, the printed fees or the printed processing times."""
     key = 'taglish' if language in ('taglish', 'fil') else 'en'
+    limits = ([f'Source limitation: {m}' for m in table.limits] + [ORIGINAL_NOTE[key]]) if table.limits else []
+    if detail in ('fees', 'processing_time'):
+        lines = _detail_lines(table, detail)
+        if not lines:
+            return None
+        text = '\n'.join([_end(table.title or ''), LEADS[key][detail], *lines, *limits]).lstrip('\n')
+        ids = tuple(dict.fromkeys((*(e for s in table.steps for e in s.evidence_ids), *table.total_evidence_ids)))
+        return ((text, ids),) if _fits(text, ids) and max_claims >= 1 else None
     def sources(name):
         return tuple(dict.fromkeys(e for n, e in table.field_evidence if n == name)) or table.overview_evidence_ids
 
@@ -475,13 +514,18 @@ def render_service(table, language, max_claims=8):
             claims.append((previous + '\n' + text, tuple(dict.fromkeys((*prior_ids, *ids)))))
         else:
             claims.append((text, ids))
+    if detail == 'requirements':
+        if not table.checklist:
+            return None
+        if limits:
+            claims.append(('\n'.join(limits), table.overview_evidence_ids or claims[-1][1]))
+        return tuple(claims) if len(claims) <= max_claims and all(_fits(t, ids) for t, ids in claims) else None
     tail = []
     if table.printed_total is not None:
         tail.append(table.printed_total)
     if table.total_fee is not None or table.total_time is not None:
         tail.append('Printed total: ' + '; '.join(_value(v) for v in (table.total_fee, table.total_time) if v is not None))
-    if table.limits:
-        tail += [f'Source limitation: {m}' for m in table.limits] + [ORIGINAL_NOTE[key]]
+    tail += limits
     budget = max_claims - len(claims)
     groups = [[(piece, step.evidence_ids)] for step in table.steps for piece in _step_pieces(step)]
     while len(groups) > budget:  # merge the consecutive pair that stays smallest

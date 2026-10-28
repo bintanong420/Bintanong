@@ -75,7 +75,7 @@ def document_payload(pack,*,compact=False):
     return dict(release_id=pack.release_id,language=pack.language,
         permitted_scope='documentary_explanation_only',subject_scope=subject,
         requested_parts=[] if pack.understanding is None else
-            [p.model_dump(mode='json',exclude={'subject_id','requested_claims'})
+            [p.model_dump(mode='json',exclude={'subject_id','requested_claims','detail'})
              for p in pack.understanding.parts],
         sources=[model_card(c) if compact else c.model_dump(mode='json')
                  for c in pack.cards if c.kind=='document'])
