@@ -29,7 +29,7 @@ B 307a2bd/df3811a,guest 04e6d38. Topic families batch1 (owner ledger 28Oct) + pr
 RED9fail->GREEN9pass,related558pass;selector prompt3409->5625tokens;live12 affected:3newly pass.
 Full suite a4f33f7:7212pass/1608subtests,6skip/2xfail,exit0,1378.87s (A/p11-fullsuite-20261028c);
 prior f0889c3 7203pass. 72f6ab6 printed-procedure guard (diploma passes;full7215pass exit0);e2cbc62 router v25
-specific rule (honors passes;related602). Open:drop needs FAQ7/8 split package (owner A),probation still whole
+specific rule (honors passes;full7216pass/1608 in4batches,exit0). Open:drop needs FAQ7/8 split package (owner A),probation still whole
 (stop rule),grad residence picks max-residence clause,F4 clarify,Law scope,overdue/DAC,Taglish second-year. Evidence A/p11-simple-gate-20261028,
 A/p11-clarify-20261028. Earlier task history (printed steps,559 checks,repair overflow,short reviews,vectors,
 flow evidence,bindings) is in the last full snapshot `7be3e1c` and the linked dated results.

@@ -21,7 +21,8 @@ required_neighbor_chunk_ids + one shared claim force citing the shift continuati
 ([results](../2026-10-28-simple-question-gate-results.md)); router v24, detail split, owner year-level limit.
 
 Verification: full suite on `72f6ab6` 7215 pass / 1608 subtests, 6 skip / 2 xfail, exit 0 (1370.39 s;
-A/p11-fullsuite-20261028d); a4f33f7 7212. e2cbc62: related 602 pass; full suite pending.
+A/p11-fullsuite-20261028d); a4f33f7 7212. e2cbc62 (at 3eb31ae): 4 sequential batches after a memory-pressure stop,
+7216 pass / 1608 subtests, 6 skip / 2 xfail, all exit 0 (A/p11-fullsuite-20261028e, 286 files once each).
 
 ## Lane status (owner 28 Oct)
 
