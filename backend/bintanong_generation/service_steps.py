@@ -447,30 +447,40 @@ def _fits(text, ids):
 
 
 def _detail_lines(table, detail):
-    """Printed fees or processing times only (owner 28 Oct 2026: answer the detail asked), one line per
-    printed value with its step; the printed total for that column ends the list."""
+    """Printed fees or processing times only (owner 28 Oct 2026: answer the detail asked): (text, records)
+    per printed value, citing only its own step's records; the printed total for that column ends the list."""
     lines = []
-    if detail == 'fees':
-        for step in table.steps:
+    for step in table.steps:
+        ids, head = step.evidence_ids, f'Step {step.number}: {_end(step.client_step)}'
+        if step.heading:  # printed phase heading where step numbers restart
+            head = f'{step.heading}\n{head}'
+        if detail == 'fees':
             if step.fee is not None:
-                lines.append(f'Step {step.number}: {_end(step.client_step)} — Fee: {_value(step.fee)}')
-            lines += [f'Step {step.number}: {_end(step.client_step)} — {_end(a.action)} — Fee: {_value(a.fee)}'
+                lines.append((f'{head} — Fee: {_value(step.fee)}', ids))
+            lines += [(f'{head} — {_end(a.action)} — Fee: {_value(a.fee)}', ids)
                       for a in step.actions if a.fee is not None]
-        total = table.total_fee
-    else:
-        for step in table.steps:
-            if 'time' in step.shared:
-                lines.append(f'Step {step.number}: {_end(step.client_step)} — Processing time: '
-                             f'{_value(step.actions[0].time)}')
-                continue
-            timed = [a for a in step.actions if a.time is not None]
-            if timed:
-                lines.append(f'Step {step.number}: {_end(step.client_step)}')
-                lines += [f'  {_end(a.action)} — Processing time: {_value(a.time)}' for a in timed]
-        total = table.total_time
+        elif 'time' in step.shared:
+            lines.append((f'{head} — Processing time: {_value(step.actions[0].time)}', ids))
+        elif (timed := [a for a in step.actions if a.time is not None]):
+            lines.append(('\n'.join([head, *(f'  {_end(a.action)} — Processing time: {_value(a.time)}'
+                                             for a in timed)]), ids))
+    total = table.total_fee if detail == 'fees' else table.total_time
     if total is not None:
-        lines.append(f'Printed total: {_value(total)}')
+        lines.append((f'Printed total: {_value(total)}', table.total_evidence_ids))
     return lines
+
+
+def _pack(lines, first, last):
+    """Consecutive (text, records) lines into claims within ProseClaim limits; first/last frame the list."""
+    claims = []
+    for index, (text, ids) in enumerate(lines):
+        text = '\n'.join(([first] if index == 0 else []) + [text] + (last if index == len(lines) - 1 else []))
+        merged = (claims[-1][0] + '\n' + text, tuple(dict.fromkeys((*claims[-1][1], *ids)))) if claims else None
+        if merged and _fits(*merged):
+            claims[-1] = merged
+        else:
+            claims.append((text, tuple(dict.fromkeys(ids))))
+    return tuple(claims)
 
 
 def render_service(table, language, max_claims=8, detail='whole'):
@@ -484,9 +494,8 @@ def render_service(table, language, max_claims=8, detail='whole'):
         lines = _detail_lines(table, detail)
         if not lines:
             return None
-        text = '\n'.join([_end(table.title or ''), LEADS[key][detail], *lines, *limits]).lstrip('\n')
-        ids = tuple(dict.fromkeys((*(e for s in table.steps for e in s.evidence_ids), *table.total_evidence_ids)))
-        return ((text, ids),) if _fits(text, ids) and max_claims >= 1 else None
+        claims = _pack(lines, '\n'.join(x for x in (_end(table.title or ''), LEADS[key][detail]) if x), limits)
+        return claims if len(claims) <= max_claims and all(_fits(t, ids) for t, ids in claims) else None
     def sources(name):
         return tuple(dict.fromkeys(e for n, e in table.field_evidence if n == name)) or table.overview_evidence_ids
 

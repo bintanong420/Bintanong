@@ -120,3 +120,33 @@ def test_detail_keeps_source_limits_and_taglish_lead_ins():
 
 def test_whole_detail_is_the_existing_rendering():
     assert render_service(table(), 'en', detail='whole') == render_service(table(), 'en')
+
+
+def test_a_detail_over_many_records_splits_into_claims_citing_only_its_own_records():
+    # Live gate run 1 (28 Oct 2026): the TOR-copy time and admission-test fee slices cited every service
+    # record (more than eight), so the detail failed the claim limit and fell back to the whole table.
+    many = [(f'e{n}', record((f'step{n}_client_step', f'{n}. Do part {n}'), (f'step{n}_fee', 'None'),
+                             (f'step{n}_action', f'{n}. Act'), (f'step{n}_time', f'{n} minutes')))
+            for n in range(1, 13)]
+    table = parse_service(many)
+    for detail in ('fees', 'processing_time'):
+        claims = render_service(table, 'en', detail=detail)
+        assert claims is not None and len(claims) > 1
+        assert all(len(text) <= 1200 and len(ids) <= 8 for text, ids in claims)
+        assert all('Office actions' not in text for text, _ in claims)
+    fee_claims = render_service(table, 'en', detail='fees')
+    assert 'Step 12: 12. Do part 12 — Fee: None' in fee_claims[-1][0]
+    assert ('e12',) == tuple(i for i in fee_claims[-1][1] if i == 'e12')
+
+
+def test_detail_keeps_the_printed_phase_heading_where_step_numbers_restart():
+    # Real admission test: application steps 1-5 then "FOR RESULT ISSUANCE" steps 1-3; without the heading the
+    # fee/time list read "Step 1 ... Step 1".
+    fields = [('service_title', 'APPLICATION AND RESULT'),
+              ('application_step1_client_step', '1. Submit'), ('application_step1_action', 'Receive'),
+              ('application_step1_fee', 'Php 100.00'),
+              ('result_phase_heading', 'FOR RESULT ISSUANCE'),
+              ('result_step1_client_step', '1. Claim result'), ('result_step1_action', 'Release result'),
+              ('result_step1_fee', 'None')]
+    text = render_service(parse_service([('e', record(*fields))]), 'en', detail='fees')[0][0]
+    assert text.index('Step 1: 1. Submit') < text.index('FOR RESULT ISSUANCE') < text.index('Step 1: 1. Claim result')
