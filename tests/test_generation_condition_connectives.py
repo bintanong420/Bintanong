@@ -92,3 +92,56 @@ def test_host_written_claims_are_not_checked():
     slots = {'r1': ('answered', ('c1',)), 'r2': ('host', ('c2',))}
     assert part_answers.disjunction_errors(proposal, pack, slots) == ()
     assert part_answers.disjunction_errors(proposal, pack, {'r1': ('answered', ('c1', 'c2'))}) == ('introduced_disjunction',)
+
+
+# Live 559 battery (28 Oct 2026): the English cross-enrollment answer turned the printed "provided: a) ... e)"
+# list into "the following conditions must be met: a) ...; and e)", implying all five hold although a) and b)
+# cannot both be true. Printed lists keep their own connective; all-of wording needs the source to state it.
+def test_must_be_met_framing_over_a_printed_list_is_rejected():
+    pack = pack_with(LISTED)
+    claim = ('The following conditions must be met: a) the subject is not offered; b) the schedule is in conflict; '
+             'c) it is not a major subject; d) at most nine units.')
+    assert part_answers.conjunction_errors(draft(pack, claim), pack) == ('introduced_conjunction',)
+
+
+def test_and_before_the_last_printed_item_is_rejected():
+    pack = pack_with(LISTED)
+    claim = ('Allowed provided: a) the subject is not offered; b) the schedule is in conflict; '
+             'c) it is not a major subject; and d) at most nine units.')
+    assert part_answers.conjunction_errors(draft(pack, claim), pack) == ('introduced_conjunction',)
+
+
+def test_tagalog_at_before_an_item_counts():
+    pack = pack_with(LISTED, language='taglish')
+    claim = 'Pwede provided: a) hindi offered yung subject; b) may conflict sa schedule; at c) hindi major subject.'
+    assert part_answers.conjunction_errors(draft(pack, claim), pack) == ('introduced_conjunction',)
+
+
+def test_all_of_wording_printed_in_the_cited_source_may_be_restated():
+    pack = pack_with('All of the following must be met: a) a clearance; and b) a receipt.')
+    claim = 'All of the following must be met: a) a clearance; and b) a receipt.'
+    assert part_answers.conjunction_errors(draft(pack, claim), pack) == ()
+
+
+def test_listed_conditions_and_ordinary_and_pass():
+    pack = pack_with(LISTED)
+    claim = ('Allowed provided: a) the subject is not offered; b) the schedule is in conflict; '
+             'c) it is not a major subject and not a licensure subject; d) at most nine units.')
+    assert part_answers.conjunction_errors(draft(pack, claim), pack) == ()
+
+
+class AllOfThenListed(DisjunctionThenListed):
+    """First draft frames conditions as all required; the repair lists them as printed."""
+    def __init__(self):
+        super().__init__()
+        self.slots = dict(r1=('answered', ['All of the following must be met: file Form Q at fictional Office V.']),
+                          r2=('answered', [FEE]))
+
+
+def test_generator_repairs_an_introduced_conjunction_with_plain_instruction():
+    model = AllOfThenListed()
+    answer = asyncio.run(Generator(model).generate(TEXT, source()))
+    assert answer.status == 'answered' and answer.draft_attempts == 2
+    repair = model.drafts[1]
+    assert 'introduced_conjunction' in repair['validation_errors']
+    assert 'as printed' in repair['condition_instruction']

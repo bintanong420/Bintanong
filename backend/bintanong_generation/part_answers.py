@@ -195,23 +195,38 @@ def style_errors(draft, pack, question=''):
 
 
 DISJUNCTION = re.compile(r'\b(?:or|o)\b', re.I)
-CONDITION_REPAIR = ('List conditions and requirements as printed. Do not join them with "or" (Tagalog "o") '
-                    'unless the cited source states "or"; never turn required conditions into alternatives.')
+CONDITION_REPAIR = ('List conditions and requirements as printed. Do not join them with "or" (Tagalog "o"), '
+                    '"and" (Tagalog "at") or "must be met" unless the cited source states it; never turn printed '
+                    'conditions into alternatives or into requirements that all hold.')
+
+
+# All-of framing over a list: "must be met", "all of the following", or "and"/"at" joined to an item marker.
+CONJUNCTION = re.compile(r'\bmust\s+(?:all\s+)?be\s+(?:met|satisfied|complied\s+with)\b|\ball\s+of\s+the\s+following\b'
+                         r'|\b(?:and|at)\s+\(?[a-z0-9]{1,2}\)', re.I)
+
+
+def _added_connective(pattern, code, draft, pack, slots):
+    texts = {c.evidence_id: c.text for c in pack.cards}
+    checked = None if slots is None else {c for status, ids in slots.values() if status == 'answered' for c in ids}
+    for claim in draft.claims:
+        if checked is not None and claim.claim_id not in checked:
+            continue
+        printed = sum(len(pattern.findall(texts.get(i, ''))) for i in claim.evidence_ids)
+        if len(pattern.findall(claim.text)) > printed:
+            return (code,)
+    return ()
 
 
 def disjunction_errors(draft, pack, slots=None):
     """A claim may not add 'or'/'o' beyond its cited sources: listed conditions are not alternatives
     unless printed so (all-of/any-of only when the source establishes it). With slots, only
     answered-slot claims are checked; host replies keep their own reviewed wording."""
-    texts = {c.evidence_id: c.text for c in pack.cards}
-    checked = None if slots is None else {c for status, ids in slots.values() if status == 'answered' for c in ids}
-    for claim in draft.claims:
-        if checked is not None and claim.claim_id not in checked:
-            continue
-        printed = sum(len(DISJUNCTION.findall(texts.get(i, ''))) for i in claim.evidence_ids)
-        if len(DISJUNCTION.findall(claim.text)) > printed:
-            return ('introduced_disjunction',)
-    return ()
+    return _added_connective(DISJUNCTION, 'introduced_disjunction', draft, pack, slots)
+
+
+def conjunction_errors(draft, pack, slots=None):
+    """The all-of counterpart: a claim may not add "must be met"/"and e)" framing its sources do not print."""
+    return _added_connective(CONJUNCTION, 'introduced_conjunction', draft, pack, slots)
 
 
 def host_claims(pack):
@@ -336,7 +351,7 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'quotation text and its one evidence reference, or an unavailable slot. Do not add '
             'agency actions, fees, times or other steps. Complete source context remains available; '
             'the whole-procedure instruction applies to other parts.')
-    if 'introduced_disjunction' in errors:
+    if {'introduced_disjunction', 'introduced_conjunction'} & set(errors):
         payload['condition_instruction'] = CONDITION_REPAIR
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
