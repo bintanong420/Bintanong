@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 231
+sequence: 232
 plan: plans/phase-11-backend-api-plan.md
-head_commit: d9bdb3a
-working_tree: printed-steps results/snapshots pending commit
-updated_at: 2026-10-28T12:00:00+08:00
+head_commit: eedbc07
+working_tree: clarify results/snapshots pending commit
+updated_at: 2026-10-28T18:00:00+08:00
 ---
 
 # Phase11checkpoint — 559vectors/maps verified;prompt capacity measured
@@ -20,6 +20,11 @@ All original reviews/all-nine inclusion,source-context/router/reply migrations a
 quoted-field prototype retained. Prior source baseline4e99fb6;previous code freeze3c55722.
 
 ## Current Task
+
+[Clarify/condition wording](2026-10-28-clarify-and-condition-wording-results.md):d49aa27 all-of guard
+kept (RED5->GREEN13,focused1354);live cross-enroll as printed. Shifting grammar fixes ea6409a/8109ccb
+reverted (8cce770/eedbc07):model invented ambiguity,then course check. Battery-5 6/8,3/3. Evidence
+A/p11-clarify-20261028. Full suite eedbc07 running (result recorded in progress when done).
 
 Routing fixes 248b04f/1e5d249;live:4/4cases answered,3/3regressions match with selector+routing
 context (A/p11-printed-steps-20261029/live-check-2). Full suite1e5d249:7081pass/1608 exit0. Battery refresh:6/8answered,3/3regressions.
@@ -155,8 +160,7 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Regression-first:router clarify with zero parts (shifting);then added all-of wording over printed
-condition lists (cross-enroll);then remaining21Charter layouts in reviewed batches.
+Await owner on shifting clarify options;meanwhile remaining21Charter layouts in reviewed batches.
 
 ## Context Consulted
 
@@ -165,10 +169,12 @@ Phase10handoff/Phase11plan,owner ledger,prompt/scope/gap/service-table decisions
 This pass original Charter6,59–68,75–84,103–113and Handbook60/61/63/64;earlier
 Registrar7/8/11–15/18–20,Student Affairs51–57and relevant reviews retained.
 Closed-world thesis example illustrative;unknown versus unmet preserved. No new
-scope/architecture discrepancy or owner content judgment needed.
+scope/architecture discrepancy or owner content judgment needed. 28Oct resume:no scope change;
+router prompt/E3 empty-clarify decision reread.
 
 ## Do Not Repeat
 
 33legacy groups/registration associations,original/all-nine approvals,cutoff anchors,
 existing formatting repairs,source-context/router/reply migrations,known four overlaps.
 Reuse prepared sidecars and saved TORfailures/successes;no blind sweep or approval re-ask.
+Grammar-only forcing of the shifting clarify (two variants reverted 28Oct).

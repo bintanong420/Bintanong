@@ -1,10 +1,16 @@
 # Current progress
 
-Updated29October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
+Updated28October2026. Phase11active;p11/feat/p11-backend-api;nothing pushed.
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md).
 Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
+
+[Clarify/condition wording](../2026-10-28-clarify-and-condition-wording-results.md):d49aa27 rejects
+added all-of wording ("must be met","and e)") over printed lists (TDD;focused1354pass);live cross-enroll
+now lists a)–e) as printed (65s,one repair). Shifting clarify:two grammar attempts (ea6409a,8109ccb) made
+the model invent an ambiguity then a course check;reverted 8cce770/eedbc07 per stop rule;owner decision open.
+Battery-5:6/8answered,3/3regressions. Full suite on eedbc07:see checkpoint.
 
 Routing fixes 248b04f (printed defects not offered as not-stated claims) and 1e5d249 (opt-in
 routing_context in composition). Live with selector+routing context:good moral,library card
@@ -109,6 +115,6 @@ No institutional/public approval,Phase11exit,Phase12advance or latency claim.
 
 ## Next action
 
-Regression-first:router `clarify` with zero parts on clear questions (shifting);then wording that
-adds all-of ("must be met … and") over printed condition lists. Then remaining21Charter layouts.
-No activation/default change.
+Owner decision on shifting (router keeps clarifying a clear procedure question):options in the
+[results](../2026-10-28-clarify-and-condition-wording-results.md) reply. Meanwhile remaining21Charter
+layouts in reviewed batches. No activation/default change.
