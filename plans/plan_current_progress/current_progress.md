@@ -10,7 +10,7 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 added all-of wording ("must be met","and e)") over printed lists (TDD;focused1354pass);live cross-enroll
 now lists a)–e) as printed (65s,one repair). Shifting clarify:two grammar attempts (ea6409a,8109ccb) made
 the model invent an ambiguity then a course check;reverted 8cce770/eedbc07 per stop rule;owner decision open.
-Battery-5:6/8answered,3/3regressions. Full suite on eedbc07:see checkpoint.
+Battery-5:6/8answered,3/3regressions. Full suite eedbc07:7087pass/1608subtests,6skip/2xfail,1389.22s,exit0.
 
 Routing fixes 248b04f (printed defects not offered as not-stated claims) and 1e5d249 (opt-in
 routing_context in composition). Live with selector+routing context:good moral,library card

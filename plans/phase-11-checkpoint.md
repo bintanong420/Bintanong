@@ -24,7 +24,7 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 [Clarify/condition wording](2026-10-28-clarify-and-condition-wording-results.md):d49aa27 all-of guard
 kept (RED5->GREEN13,focused1354);live cross-enroll as printed. Shifting grammar fixes ea6409a/8109ccb
 reverted (8cce770/eedbc07):model invented ambiguity,then course check. Battery-5 6/8,3/3. Evidence
-A/p11-clarify-20261028. Full suite eedbc07 running (result recorded in progress when done).
+A/p11-clarify-20261028. Full suite eedbc07:7087pass/1608subtests,6skip/2xfail,1389.22s,exit0.
 
 Routing fixes 248b04f/1e5d249;live:4/4cases answered,3/3regressions match with selector+routing
 context (A/p11-printed-steps-20261029/live-check-2). Full suite1e5d249:7081pass/1608 exit0. Battery refresh:6/8answered,3/3regressions.
