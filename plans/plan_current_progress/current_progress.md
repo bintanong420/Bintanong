@@ -10,7 +10,8 @@ Guest lane merged 04e6d38 (192a892/805c11d/9f804a7/3f297d9 + docs 72a16c9;[resul
 B's suite 9f804a7:7195pass/1608 exit0 (trees 9dfca69/5310b5b);merged head differs (84ef585 detail split,289cf4b
 router v24 not-yet-passed claims) -> own full suite on 04e6d38 running. Guest smoke exit0 (B);real PSU sign-in deferred.
 
-LIVE RUN: Claude gate rerun started 28Oct (fixes C/D);model slot occupied until cleared here.
+Gate run2 (e193093,fixes C/D):67/91 auto,70/91 adjusted (was61);C 7/7 and D 2/2 fixed,no regressions.
+Model slot free.
 
 Simple-question gate run1 ([results](../2026-10-28-simple-question-gate-results.md)):58/91 auto,61/91 adjusted
 (3 over-strict expectations);gate not passed. Model slot free (gate finished).
