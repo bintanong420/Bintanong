@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 241
+sequence: 242
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 4221d26
+head_commit: 9553ed9
 working_tree: clean
 updated_at: 2026-10-28T23:30:00+08:00
 ---
@@ -31,7 +31,10 @@ Full suite a4f33f7:7212pass/1608subtests,6skip/2xfail,exit0,1378.87s (A/p11-full
 prior f0889c3 7203pass. 72f6ab6 printed-procedure guard (diploma passes;full7215pass exit0);e2cbc62 router v25
 specific rule (honors passes;full7216pass/1608 in4batches,exit0). Open:drop needs FAQ7/8 split package (owner A),probation still whole
 (stop rule),grad residence picks max-residence clause,overdue/DAC,Taglish second-year. 19d762f F4 clarify (batched7226 exit0)
-and 4221d26 excluded-program notice (related1304):req-transfer-en and law-scope pass live;phrases owner-approved. Evidence A/p11-simple-gate-20261028,
+and 4221d26 excluded-program notice (related1304):req-transfer-en and law-scope pass live;phrases owner-approved.
+FAQ7/8 split package A/p11-faq-split-20261028 (560 inactive;drop/shift pass). Gate3 73/91 (76adj) but v25 regressed
+8 run-2 passes:reverted 682fe7b;9553ed9 drops stray topic on course-check parts. Open:cc5-en mentions omitted,
+crim-1-1-taglish selector ambiguous. No full suite yet on 682fe7b/9553ed9 (related1303 only). Evidence A/p11-simple-gate-20261028,
 A/p11-clarify-20261028. Earlier task history (printed steps,559 checks,repair overflow,short reviews,vectors,
 flow evidence,bindings) is in the last full snapshot `7be3e1c` and the linked dated results.
 
@@ -123,7 +126,7 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Show owner exact FAQ7/8 split text;build derived package;then full91-case gate rerun.
+Rerun gate4 on split package and batched full suite on 9553ed9 when memory allows (both stopped 29Oct).
 
 ## Context Consulted
 

@@ -27,6 +27,13 @@ A/p11-fullsuite-20261028d); a4f33f7 7212. e2cbc62 (at 3eb31ae): 4 sequential bat
 19d762f batched 7226 pass / 1608, exit 0 (…-20261028f); e4a676b (4221d26 + docs) batched 7233 pass / 1608,
 exit 0 (…-20261028g).
 
+Owner-approved FAQ 7/8 split built as inactive 560 package (A/p11-faq-split-20261028: 557 vectors reused,
+3 encoded offline 40 s, 155 storage probes, drop claim = 1 record); drop en/Taglish and shifting en/Taglish pass.
+Gate run 3 (0dfef59, split package): 73/91 (76 adjusted) vs run 2 67/91, but 8 run-2 passes regressed: router
+v25 labelled eligibility parts specific/topic -> reverted `682fe7b`; `9553ed9` drops a stray topic on a course-
+check part (test-first, related 1303 pass). Still failing after fixes: cc5-en (router omitted course mentions),
+crim-1-1-taglish (selector ambiguous). Gate 4 stopped by memory after 19 cases (14 pass); not a result.
+
 ## Lane status (owner 28 Oct)
 
 - [Workstream split](../2026-10-28-phase11-model-workstream-split.md): Codex lanes idle, all merged.
@@ -55,5 +62,6 @@ institutional approval, Phase 11 exit or Phase 12 advance.
 
 ## Next action
 
-Show the owner the exact FAQ 7/8 split text, then build the derived package, then full 91-case gate rerun.
+Rerun gate 4 (GATE_PACKAGE=p11-faq-split-20261028/runtime-package, run_gate_pkg.py) and the batched full suite on
+9553ed9 once memory allows (both were stopped by memory pressure on 29 Oct); then record results.
 Mark `LIVE RUN` here while using the model.
