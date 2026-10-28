@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 235
+sequence: 236
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 6961e64
+head_commit: 04e6d38
 working_tree: clarify results/snapshots pending commit
 updated_at: 2026-10-28T18:00:00+08:00
 ---
@@ -20,6 +20,10 @@ All original reviews/all-nine inclusion,source-context/router/reply migrations a
 quoted-field prototype retained. Prior source baseline4e99fb6;previous code freeze3c55722.
 
 ## Current Task
+
+Gate run1 61/91 adjusted ([results](2026-10-28-simple-question-gate-results.md));fixes D 84ef585,C 289cf4b
+(router v24);gate rerun live. Guest lane merged 04e6d38 (B suite 9f804a7 7195/1608 exit0);own full suite on
+04e6d38 running. Remaining:A topic/claim selection (15),B right-topic no answer (6).
 
 Owner28Oct:guest mode approved (master25.1 amendment,ledger);Codex B implements. Detail-only answers
 5ed4c98/6961e64 (focused1794pass);gate expansion (prereqs across14curricula) and live run next.
