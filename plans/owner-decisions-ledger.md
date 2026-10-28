@@ -555,3 +555,7 @@ Each program still gets its own dated review record listing which standing rule 
   undergraduate-scope notice when a question explicitly names College of Law, School of Law, Juris Doctor, College
   of Medicine, Doctor of Medicine, graduate school, a master's/doctoral program or laboratory school; other wording
   stays with the router. Fixed phrase lists, not language understanding; coverage of real phrasing is unmeasured.
+- 28 Oct 2026 (FAQ 7/8 split, option A): after seeing the exact p.58 text, owner "ye its okay". Record 7 (dropping)
+  is complete alone with no continuation link; 8a (shifting start, ends "B.") stays linked to 8b. Claims "printed FAQ
+  7 dropping steps" and "printed FAQ 8 shifting steps" replace "printed drop shift faq fields". Wording unchanged
+  (printed "dropping from" kept). Separate derived inactive 560 package; original PDF, 559 package and pin unchanged.
