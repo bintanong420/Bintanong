@@ -163,7 +163,7 @@ def digest(value):
     return hashlib.sha256(canonical(value).encode()).hexdigest()
 
 
-def output_schema(topics=(), follow_up=False):
+def output_schema(topics=(), follow_up=False, settled=False):
     schema = WireInterpretation.model_json_schema()
     if not follow_up:  # single-turn schema stays exactly as before master 23
         schema['properties'].pop('previous_course_quote')
@@ -218,7 +218,10 @@ def output_schema(topics=(), follow_up=False):
     if topics:  # A menu clarify must name what is unclear;an empty one turned answerable topics into
         # unavailable information (live 559 shifting, 28 Oct 2026). Disjoint: first named field wins.
         control_branch['properties']['control'] = {'const':'evidence_unavailable'}
-        named = ['operations', 'claims', 'ambiguities'] + (['previous_course_quote'] if follow_up else [])
+        # After a settled topic selection only named courses/claims remain unclear (live 559 shifting:
+        # "Which college?" for a general procedure);the selector already ruled on topic ambiguity.
+        named = (['operations', 'claims'] + ([] if settled else ['ambiguities'])
+                 + (['previous_course_quote'] if follow_up else []))
         for index, field in enumerate(named):
             clarify = deepcopy(control_branch)
             clarify['properties']['control'] = {'const':'clarify'}

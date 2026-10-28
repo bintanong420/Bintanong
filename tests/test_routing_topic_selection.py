@@ -307,3 +307,25 @@ def test_evaluation_explains_selector_calls_separately_from_routing_and_style():
     assert report['selection_calls'] == 1
     assert report['records'][0]['selection_attempts'] == 1
     assert report['inference_calls'] == report['selection_calls'] + report['routing_calls'] + report['style_calls']
+
+
+def _clarify_names(schema):
+    """Fields each undergraduate clarify branch requires to be non-empty."""
+    return [{f for f in ('operations', 'claims', 'ambiguities') if b['properties'][f].get('minItems', 0) >= 1}
+            for b in schema['oneOf'] if b['properties']['audience'] == {'const': 'undergraduate'}
+            and b['properties']['control'].get('const') == 'clarify']
+
+
+def test_settled_selection_leaves_no_ambiguity_only_clarification():
+    # Live 559 battery (28 Oct 2026): the selector chose the shifting topic, not ambiguous; the router then asked
+    # "Which college are you interested in shifting to?" for a general procedure question. A settled selection
+    # keeps clarifications about named courses/claims, not a second ambiguity verdict on the same topic.
+    transport = Transport(selected(), answer())
+    run(transport)
+    names = _clarify_names(transport.calls[1][1])
+    assert names and {'ambiguities'} not in names and all(names)
+
+
+def test_without_selection_an_ambiguity_clarification_remains():
+    from backend.bintanong_routing.prompt import output_schema
+    assert {'ambiguities'} in _clarify_names(output_schema(MENU))

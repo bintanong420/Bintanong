@@ -145,7 +145,8 @@ class Router:
         messages = build_messages(text, context, self.catalog, self.registry, topics)
         for attempt in (1, 2):
             try:
-                raw = await self.transport.infer(messages, output_schema(topics, follow_up=follow_up))
+                raw = await self.transport.infer(messages, output_schema(
+                    topics, follow_up=follow_up, settled=bool(selection_attempts and topics)))
             except RuntimeFailure as error:
                 return failure(str(error), attempt)
             problem = None
