@@ -106,6 +106,13 @@ Frozen3c55722fullsuite7011pass/1595subtests,6skip/2xfail/6warnings1322.02s,exit0
 Earlier data-only increments reused that freeze;current flow code has fresh suite above.
 English input->English;Filipino/Taglish->Taglish. No measured latency speedup.
 
+## Lane status (owner28Oct)
+
+Login:owner said keep the login for now (easier to remove later);removing UAT from the study is only a
+consideration,no requirements change. Codex B implements reviewed account binding + canonical API
+metadata ([review](../2026-10-28-codex-b-interface-review.md)),exact snapshot e172f53 deps/npm ci approved.
+Codex A:38/44Charter services parse/render on its branch (unmerged,unreviewed). Nothing merged.
+
 ## Package state and boundaries
 
 559now has an inactive local package with559verified vectors/145subjects/240reviews.
