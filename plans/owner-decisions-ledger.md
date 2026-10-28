@@ -534,3 +534,12 @@ Each program still gets its own dated review record listing which standing rule 
   "25% but not more than 50%", ...) are answered as printed with no limitation note; the owner considers the overlap
   clear by comparison. Applied as an owner-resolved limit at evidence preparation; the reviewed package keeps
   the original limit record unchanged.
+- 28 Oct 2026 (topic families, batch 1): owner approved "f1 yes, f2 yes, f3 yes, f4 yes, separate yes" after
+  seeing each member's printed opening inline. F1 dropping/adding/changing subjects = charter_dac,
+  handbook_drop_shift_faq, handbook_dac_policy, handbook_change_sections (Charter and FAQ steps shown as printed,
+  not merged). F2 refund = charter_refund, handbook_school_fees_refund. F3 leaving PalSU (transfer credentials/
+  honorable dismissal) = charter_transfer, handbook_transfer_clearance. F4 transferring into PalSU =
+  handbook_transfer, handbook_transfer_credentials, handbook_transfer_load; if leaving vs coming in is not stated,
+  ask. Kept separate: handbook_standing vs handbook_discipline_process (probation); handbook_residence vs
+  handbook_graduation vs handbook_undergraduate_honors_policy (residence). A family is selected and answered
+  together with per-source citations. Research-build grouping only, not school validation or activation.
