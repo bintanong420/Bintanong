@@ -6,6 +6,8 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 ## Latest change
 
+LIVE RUN: Claude gate rerun started 28Oct (fixes C/D);model slot occupied until cleared here.
+
 Simple-question gate run1 ([results](../2026-10-28-simple-question-gate-results.md)):58/91 auto,61/91 adjusted
 (3 over-strict expectations);gate not passed. Model slot free (gate finished).
 
