@@ -1,4 +1,4 @@
-"""Supabase verifies tokens; only a verified PSU Google identity enters student routes."""
+"""Verify supplied PSU tokens; guest access must be explicitly enabled without a token."""
 import re
 from uuid import UUID
 from urllib.parse import urlsplit
@@ -58,9 +58,13 @@ class SupabaseAuth:
 
 
 async def authorize(request: Request):
-    if request.url.path in ('/health/live', '/health/ready') or not request.app.state.settings.require_auth:
+    settings = request.app.state.settings
+    if request.url.path in ('/health/live', '/health/ready') or not (settings.require_auth or settings.allow_guests):
         return
-    value = request.headers.get('authorization', '')
+    value = request.headers.get('authorization')
+    if value is None and settings.allow_guests:
+        return
+    value = value or ''
     if not value.startswith('Bearer ') or request.app.state.services.auth is None:
         raise ApiError(401, 'sign_in_required')
     request.state.account_id = await request.app.state.services.auth.verify(value[7:])

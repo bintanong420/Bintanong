@@ -77,12 +77,14 @@ def test_factory_reuses_sealed_package_cpu_encoder_and_requires_server_auth(conf
     factory, path, seen = configured
     app = factory.load_research_app(path)
     assert app.state.settings.require_auth is True
+    assert app.state.settings.allow_guests is True
     assert app.state.services.course_labels == {'course-a': 'A 1/L'}
     assert len(seen['package']['chunks']) == len(seen['package']['vectors']) == 78
     assert seen['package']['subject_context_budgets'] == {'synthetic-topic': 2048}
     assert seen['build']['hosted']['release_id'] == 'p11-research-corrected-20261026'
     with TestClient(app) as client:
-        assert client.get('/curricula').status_code == 401
+        assert client.get('/curricula').status_code == 200
+        assert client.get('/curricula', headers={'Authorization': 'Bearer invalid'}).status_code == 401
         assert client.get('/health/live').status_code == 200
     assert seen['closed'] is True
 

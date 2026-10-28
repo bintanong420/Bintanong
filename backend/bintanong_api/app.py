@@ -30,6 +30,7 @@ class ApiSettings:
     max_running_answers: int = 1  # Gemma serves one request at a time (`--parallel 1`)
     max_waiting_answers: int = 4
     require_auth: bool = False  # trusted offline/test compositions preserve their existing contract
+    allow_guests: bool = False  # explicit access policy; supplied credentials still require verification
 
 
 @dataclass(frozen=True)
@@ -92,7 +93,9 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     @app.post('/chat')
     def chat(body: ChatRequest, request: Request, session: Session = Depends(require_session)) -> AdmittedStream:
         turn = turns.prepare(body)
-        reservation = admission.reserve(account_id=session.account_id)  # last: no raises before response
+        identity = ('account:' + session.account_id if session.account_id is not None
+                    else 'guest:' + session.view.session_id)
+        reservation = admission.reserve(account_id=identity)  # last: no raises before response
         return AdmittedStream(chat_stream(turns, session, turn, services.sources, reservation,
                                           services.course_labels), reservation,
                               media_type='text/event-stream', headers=STREAM_HEADERS)

@@ -166,7 +166,8 @@ def load_research_app(path=None):
             course_labels=dict(resources.course_labels), auth=auth, close=close, ready=ready,
             extract_rows=lambda raw, program, curriculum: extract_isolated(raw, resources.catalog,
                 program_id=program, curriculum_id=curriculum))
-        return create_app(services, ApiSettings(allowed_origins=config.allowed_origins, require_auth=True))
+        return create_app(services, ApiSettings(allowed_origins=config.allowed_origins,
+                                               require_auth=True, allow_guests=True))
     except BaseException:
         client.close()
         raise
