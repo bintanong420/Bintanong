@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 
 from fastapi import Depends, FastAPI, Request, Response
@@ -10,7 +11,7 @@ from fastapi.responses import JSONResponse
 from backend.bintanong_api.admission import AdmittedStream, AnswerAdmission
 from backend.bintanong_api.auth import authorize
 from backend.bintanong_api.chat import ChatRequest, ChatTurns, CurriculumOption
-from backend.bintanong_api.main import health_live, health_ready
+from backend.bintanong_api.main import HealthStatus, health_live, health_ready
 from backend.bintanong_api.session import SESSION_COOKIE, ApiError, Session, check_origin, require_session
 from backend.bintanong_api.sources import SourceRegistry, source_view
 from backend.bintanong_api.stream import STREAM_HEADERS, chat_stream
@@ -40,10 +41,19 @@ class ApiServices:
     course_labels: Mapping[str, str] = field(default_factory=dict)  # course id -> printed code
     sources: SourceRegistry = field(default_factory=SourceRegistry)
     auth: object = None
+    close: object = None
+    ready: object = None
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
-    app = FastAPI(title='Bintanong API', version='0.0.0',
+    @asynccontextmanager
+    async def lifespan(_app):
+        try:
+            yield
+        finally:
+            if services.close is not None:
+                await services.close()
+    app = FastAPI(title='Bintanong API', version='0.0.0', lifespan=lifespan,
                   dependencies=[Depends(check_origin), Depends(authorize)])
     app.state.services, app.state.settings = services, settings
     turns = ChatTurns(services.sessions, services.pipeline, services.curricula)
@@ -51,7 +61,20 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
                                                       waiting=settings.max_waiting_answers)
     app.include_router(upload_router(services, turns, settings.max_upload_bytes, settings.max_parallel_uploads))
     app.add_api_route('/health/live', health_live, methods=['GET'])
-    app.add_api_route('/health/ready', health_ready, methods=['GET'])
+    if services.ready is None:
+        app.add_api_route('/health/ready', health_ready, methods=['GET'])
+    else:
+        @app.get('/health/ready')
+        async def research_ready(response: Response):
+            try:
+                available = bool(await services.ready())
+            except Exception:
+                available = False
+            if not available:
+                response.status_code = 503
+            return HealthStatus(status='ready' if available else 'degraded',
+                probes={'student_runtime': available},
+                errors={} if available else {'student_runtime': 'research runtime unavailable'})
 
     @app.exception_handler(ApiError)
     async def api_error(_request: Request, error: ApiError):
