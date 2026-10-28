@@ -73,12 +73,23 @@ class WireInterpretation(Contract):
 def _topic_parts_as_documents(wire: WireInterpretation) -> WireInterpretation:
     """A structured part that chose a document topic and whose operations target no listed course
     (live 24 Oct 2026: "overload" checked as a course) has nothing to check; its only executable
-    reading is the chosen topic. Operations aimed at a listed course still reject."""
+    reading is the chosen topic. When every operation targets a listed course (gate 28 Oct 2026: an
+    eligibility check that also named the prerequisite-policy topic), the course check is the explicit
+    request and the stray topic is dropped."""
     courses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind in ('course', 'term')}
+    def aimed(i):
+        return i < len(wire.operations) and (wire.operations[i].target.text,
+                                             wire.operations[i].target.occurrence) in courses
+    def topical(part):
+        return part.evidence_need == 'structured' and part.subject_id is not None and part.operation_indices
     def slip(part):
-        return (part.evidence_need == 'structured' and part.subject_id is not None and part.operation_indices
-                and all(i < len(wire.operations) and (wire.operations[i].target.text,
-                        wire.operations[i].target.occurrence) not in courses for i in part.operation_indices))
+        return topical(part) and not any(aimed(i) for i in part.operation_indices)
+    if any(topical(p) and all(aimed(i) for i in p.operation_indices) for p in wire.parts):
+        data = wire.model_dump(mode='json')
+        for part, value in zip(wire.parts, data['parts']):
+            if topical(part) and all(aimed(i) for i in part.operation_indices):
+                value.update(subject_id=None, requested_claims=[], detail='whole')
+        wire = WireInterpretation.parse(data)
     dropped = {i for p in wire.parts if slip(p) for i in p.operation_indices}
     if not dropped or any(i in dropped for p in wire.parts if not slip(p) for i in p.operation_indices):
         return wire

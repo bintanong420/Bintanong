@@ -230,7 +230,13 @@ def test_topic_repair_keeps_another_part_and_recomputes_a_mixed_route():
     assert [p.evidence_need for p in result.parts] == ['document', 'document']
 
 
-def test_topic_part_aimed_at_a_listed_course_still_rejects():
+def test_topic_part_aimed_at_a_listed_course_keeps_the_course_check_without_the_topic():
+    # Gate run 3 (28 Oct 2026): eligibility parts also named a policy topic, and the rejection showed a bare
+    # "please clarify". An operation on a listed course is the explicit request; the stray topic is dropped.
     value = topic_packet('Can I take B2?', mentions=[dict(kind='course', quote=quote('B2'))], target='B2')
-    with pytest.raises(ValueError, match='only_document_parts_carry_topics'):
-        normalize(value, 'Can I take B2?')
+    result = normalize(value, 'Can I take B2?')
+    part = result.parts[0]
+    assert result.route == 'Symbolic' and len(result.operations) == 1
+    assert (part.evidence_need, part.operation_indices, part.subject_id, part.requested_claims) == (
+        'structured', (0,), None, ())
+    assert part.detail == 'whole'
