@@ -124,6 +124,12 @@ class DocumentTopic(Record):
     claim_context: dict[TopicClaim, dict[Annotated[str, Field(min_length=1, max_length=256)],
         Annotated[str, Field(min_length=1, max_length=1024)]]] = Field(
             default_factory=dict, max_length=64, exclude_if=lambda value: not value)
+    # Verbatim opening of a reviewed body field: routing context only, never an answerable claim.
+    source_opening: Annotated[str, Field(min_length=1, max_length=256)] | None = Field(
+        default=None, exclude_if=lambda value: value is None)
+    # Owner-approved topic family (28 Oct 2026): selecting one member offers all of them.
+    family: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64,
+        exclude_if=lambda value: value is None)
     # Recorded source limits: facts the source does not state (selecting one withholds).
     not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
     # Host-only (never shown to the model): phrases in a part that add a not-stated fact to it.

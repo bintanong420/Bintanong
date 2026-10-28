@@ -5,6 +5,49 @@ import json
 
 LABEL_FIELDS = frozenset(('service_title', 'service_title_and_description', 'service_context'))
 COLUMN_FIELDS = frozenset(('grade', 'descriptive_rating', 'percentage_equivalent'))
+OPENING_FIELD = 'body'
+MAX_OPENING = 100
+# A not-stated claim is offered separately as not_stated; other unresolved limits are source defects.
+OPENING_ALLOWED_LIMITS = frozenset(('claim_not_stated',))
+
+
+def _opening(text):
+    if len(text) <= MAX_OPENING:
+        return text
+    cut = text[:MAX_OPENING]
+    return cut[:cut.rfind(' ')].rstrip() + '…' if ' ' in cut else cut + '…'
+
+
+def reviewed_openings(register, catalogue, chunks):
+    """The first review-bound body field of each subject, cut verbatim at a word; defects withhold it."""
+    assigned = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
+    reviewed = {}
+    for review in register['reviews']:
+        if review.get('finding') != 'visible_fields':
+            continue
+        for ref in review.get('field_refs', []):
+            if (isinstance(ref, dict) and ref.get('field_name') == OPENING_FIELD
+                    and assigned.get(ref.get('reading_id')) == review['subject_id']):
+                reviewed.setdefault(ref['reading_id'], set()).update(review.get('reviewed_chunk_ids', ()))
+    openings = {}
+    for chunk in chunks:
+        reading = chunk.get('type_fields', {}).get('reading_id')
+        subject = assigned.get(reading)
+        if subject is None or subject in openings or chunk.get('chunk_id') not in reviewed.get(reading, ()):
+            continue
+        try:
+            record = json.loads(chunk['text'])
+            field = {f['name']: f for f in record['fields']}.get(OPENING_FIELD, {})
+            limits = record['source_limits']
+        except (KeyError, TypeError, AttributeError, ValueError):
+            continue
+        value = field.get('value')
+        if (field.get('source_blank') is not False or not isinstance(value, str) or not value.strip()
+                or any(not isinstance(limit, dict) or limit.get('resolution') != 'resolved'
+                       and limit.get('issue') not in OPENING_ALLOWED_LIMITS for limit in limits)):
+            continue
+        openings[subject] = _opening(value.strip())
+    return openings
 
 
 def reviewed_context(register, catalogue, chunks):

@@ -106,6 +106,17 @@ PER_PERSON = ('each student', 'per student', 'every student', 'each of us', 'per
               'kada isa', 'kada estudyante', 'kada student')
 NOT_STATED_CUES = {'official individual student assessment': PER_PERSON}
 
+# Owner, 28 Oct 2026 (topic families batch 1): members cover one student task and are offered together.
+# Probation (standing vs discipline) and residence (residence/graduation/honors) stay separate.
+TOPIC_FAMILIES = {
+    **dict.fromkeys(('charter_dac', 'handbook_drop_shift_faq', 'handbook_dac_policy',
+                     'handbook_change_sections'), 'drop_add_change_subjects'),
+    **dict.fromkeys(('charter_refund', 'handbook_school_fees_refund'), 'refund_of_school_fees'),
+    **dict.fromkeys(('charter_transfer', 'handbook_transfer_clearance'), 'leaving_palsu_transfer_credentials'),
+    **dict.fromkeys(('handbook_transfer', 'handbook_transfer_credentials', 'handbook_transfer_load'),
+                    'transferring_into_palsu'),
+}
+
 
 def _reviewed_topic_context(register, catalogue, chunks):
     """Copy assigned reviewed labels/numbered clauses; retain any deadline conflict."""
@@ -161,10 +172,11 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
     source_limits record as not stated (selecting one makes the policy withhold)."""
     if type(routing_context) is not bool:
         raise ValueError('invalid_routing_context')
-    labels, columns = {}, {}
+    labels, columns, openings = {}, {}, {}
     if routing_context:
-        from .routing_context import reviewed_context
+        from .routing_context import reviewed_context, reviewed_openings
         labels, columns = reviewed_context(register, catalogue, chunks)
+        openings = reviewed_openings(register, catalogue, chunks)
     subjects, missing = {}, {}
     for review in register['reviews']:
         subjects.setdefault(review['subject_id'], [])
@@ -197,7 +209,10 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
             claim_fields=fields.get(s, {}),
             not_stated=not_stated,
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES),
-            source_labels=labels.get(s, ()), claim_context=columns.get(s, {})))
+            source_labels=labels.get(s, ()), claim_context=columns.get(s, {}),
+            # A printed service label already names the topic; an opening is for unlabelled bodies.
+            source_opening=None if labels.get(s) else openings.get(s),
+            family=TOPIC_FAMILIES.get(s) if routing_context else None))
     return tuple(topics)
 
 
