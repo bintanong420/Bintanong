@@ -158,3 +158,13 @@ def test_cue_must_name_one_of_the_topics_not_stated_facts():
     with pytest.raises(ValueError):
         DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',),
                       cues=(NotStatedCue(claim='printed fee amount', phrases=('each student',)),))
+
+
+def test_menu_prompt_treats_a_named_destination_in_a_procedure_question_as_context():
+    # Owner option A (28 Oct 2026): live "Gusto ko mag-shift sa ibang college, ano yung process?" got clarify
+    # although the shifting topic fits. The contrast example is fictional, not the evaluation wording.
+    from backend.bintanong_routing.contracts import RequestContext
+    from test_routing_router import context
+    system = build_messages(TEXT, RequestContext.parse(context()), (), _registry(), topics=MENU)[0]['content']
+    assert 'destination is context' in system
+    assert 'shift' not in system.casefold()
