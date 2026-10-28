@@ -32,7 +32,8 @@
   stand;vector bindings,capacity,release and answer-quality gates remain.
   No institutional approval,public deployment or executable-rule expansion inferred.
 - [Developer pipelines](../docs/development/pipelines.md),[master](master_implementation_plan_original_long.md),
-  [two-developer boundary](2026-10-26-phase11-two-developer-workflow.md). Prior phase
+  [two-developer boundary](2026-10-26-phase11-two-developer-workflow.md),
+  [Codex/Claude lanes](2026-10-28-phase11-model-workstream-split.md) (owner28Oct). Prior phase
   milestones/limitations are in the ledger and linked final handoffs below.
 
 ## Resume order
