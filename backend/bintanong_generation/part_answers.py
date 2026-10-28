@@ -384,8 +384,12 @@ def record_coverage_errors(pack, claims, slots):
     host = host_claims(pack)
     quotes = quoted_field_parts(pack)
     shared = shared_record_coverage(pack)
+    # Owner 28 Oct 2026: a part asking one printed detail is answered with that detail, not the whole procedure.
+    detail = {p.part_id for p in pack.understanding.parts if p.detail != 'whole'} if pack.understanding else set()
     for part, required in required_record_sources(pack).items():
         status, ids = slots.get(part, (None, ()))
+        if part in detail and part not in host and part not in quotes:
+            continue
         if status in ('answered', 'host', 'mapped'):
             if part in quotes:
                 words,ref = quotes[part]
@@ -410,7 +414,7 @@ def record_coverage_errors(pack, claims, slots):
                 return errors
     for part, sequences in required_record_order(pack).items():
         status, ids = slots.get(part, (None, ()))
-        if status not in ('answered', 'host', 'mapped'):
+        if status not in ('answered', 'host', 'mapped') or part in detail:
             continue
         for sequence in sequences:
             ordered = []
