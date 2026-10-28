@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {pathToFileURL} from 'node:url';
@@ -27,6 +28,7 @@ test('general chat supports explicit follow-up review, grouped evidence and safe
       else await route.fulfill({status:204});
     });
     await page.goto(new URL('/chat',url).href,{waitUntil:'networkidle',timeout:45000});
+    await dismissInitialScope(page);
     const input=page.getByRole('textbox',{name:'Your question',exact:true});
     await page.getByRole('button',{name:'Find course prerequisites',exact:true}).click();
     assert.match(await input.inputValue(),/prerequisites/);assert.equal(submissions.length,0);
@@ -93,6 +95,7 @@ test('general chat supports explicit follow-up review, grouped evidence and safe
     await page.getByRole('button',{name:'New chat',exact:true}).click();
     await page.getByRole('button',{name:'Clear chat',exact:true}).click();
     await page.getByRole('heading',{name:'Ask away, Bintanong.',exact:true}).waitFor();
+    await dismissInitialScope(page);
     assert.equal(await page.getByRole('button',{name:/Include earlier details/}).count(),0);
     await page.setViewportSize({width:390,height:844});
     await page.getByRole('button',{name:'Open navigation',exact:true}).click();await page.keyboard.press('Escape');

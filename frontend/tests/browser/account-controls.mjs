@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
@@ -16,6 +17,7 @@ test('sign-out clears browser credentials even when temporary chat cleanup fails
     assert.ok(fixture && ['localhost', '127.0.0.1'].includes(new URL(fixture).hostname));
     const before = await (await context.request.get(new URL('/test-only/auth-status', fixture).href)).json();
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     await page.getByRole('textbox', { name: 'Your question' }).fill('Synthetic refuse clearing');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
     await page.locator('.source-link').first().waitFor();
@@ -27,6 +29,7 @@ test('sign-out clears browser credentials even when temporary chat cleanup fails
     const cookies = await context.cookies();
     assert.equal(cookies.some(cookie => cookie.name.includes('-auth-token') || cookie.name === '__Host-bintanong_session'), false);
     await page.goto(new URL('/chat', url).href);
+    await dismissInitialScope(page);
     assert.equal(new URL(page.url()).pathname, '/login', 'protected chat cannot reopen after sign-out');
   } finally { await browser.close(); }
 });
@@ -40,6 +43,7 @@ test('slow cleanup and failed remote revocation still end the browser session ho
       const context = await browser.newContext({ storageState: process.env.BINTANONG_BROWSER_STATE });
       const page = await context.newPage();
       await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+      await dismissInitialScope(page);
       await page.getByRole('textbox', { name: 'Your question' }).fill(question);
       await page.getByRole('button', { name: 'Send question', exact: true }).click();
       await page.locator('.source-link').first().waitFor();
@@ -62,6 +66,7 @@ test('visible sign-out gives feedback, blocks overlapping clearing and protects 
     const context = await browser.newContext({ storageState: process.env.BINTANONG_BROWSER_STATE, viewport: { width: 390, height: 844 } });
     const page = await context.newPage();
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     let release;
     await page.route('**/auth/signout', async route => { await new Promise(resolve => { release = resolve; }); await route.continue(); });
     await page.getByRole('button', { name: 'Sign out', exact: true }).click();
@@ -74,6 +79,7 @@ test('visible sign-out gives feedback, blocks overlapping clearing and protects 
     await page.getByRole('status').filter({ hasText: "You're signed out of Bintanong on this browser." }).waitFor();
     assert.equal((await context.cookies()).some(cookie => cookie.name.includes('-auth-token')), false);
     await page.goto(new URL('/chat', url).href);
+    await dismissInitialScope(page);
     assert.equal(new URL(page.url()).pathname, '/login');
   } finally { await browser.close(); }
 });
@@ -86,6 +92,7 @@ test('signing out can stop an answer that is still running', async () => {
     const context = await browser.newContext({ storageState: process.env.BINTANONG_BROWSER_STATE });
     const page = await context.newPage();
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     const response = page.waitForResponse(value => new URL(value.url()).pathname === '/api/chat');
     await page.getByRole('textbox', { name: 'Your question' }).fill('Synthetic slow question before sign-out');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
@@ -156,6 +163,7 @@ test('curriculum wording explains the student task and errors keep drafts with a
     const page = await context.newPage();
     await page.route('**/api/curricula', route => route.fulfill({ status: 503, contentType: 'application/json', body: '{"error":"service_unavailable"}' }));
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     const input = page.getByRole('textbox', { name: 'Your question' });
     await input.fill('Which subjects can I take next semester?');
     await page.getByRole('button', { name: 'Program and curriculum', exact: true }).click();
@@ -192,6 +200,7 @@ test('account controls and curriculum dialog fit small screens, both themes and 
       const context = await browser.newContext({ storageState: process.env.BINTANONG_BROWSER_STATE, viewport: { width, height: 900 }, colorScheme: theme, reducedMotion: 'reduce' });
       const page = await context.newPage();
       await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+      await dismissInitialScope(page);
       const signOut = page.getByRole('button', { name: 'Sign out', exact: true });
       assert.equal(await signOut.isVisible(), true);
       assert.ok((await signOut.boundingBox()).height >= 44);

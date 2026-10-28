@@ -29,8 +29,8 @@ function errorText(error: unknown) {
 }
 
 type CurriculumState = "loading" | "ready" | "failed";
-function ScopePanel({ curricula, current, busy, status, onRetry, onSave, onClose }: { curricula: StudentCurriculum[]; current: StudentCurriculum | null;
-  busy: boolean; status: CurriculumState; onRetry: () => void; onSave: (scope: StudentCurriculum | null) => void; onClose: () => void }) {
+function ScopePanel({ curricula, current, busy, status, firstVisit, onRetry, onSave, onClose }: { curricula: StudentCurriculum[]; current: StudentCurriculum | null;
+  busy: boolean; status: CurriculumState; firstVisit: boolean; onRetry: () => void; onSave: (scope: StudentCurriculum | null) => void; onClose: () => void }) {
   const [value, setValue] = useState(current?.curriculumId ?? "");
   return <PreviewDialog title="Program and curriculum" className="curriculum-dialog" onClose={onClose}>
     <p>Choose the curriculum you follow so Bintanong can check your subjects and prerequisites. You'll also need it when adding a PDF.</p>
@@ -42,7 +42,7 @@ function ScopePanel({ curricula, current, busy, status, onRetry, onSave, onClose
       <option value="">Not selected</option>{curricula.map(option => <option key={option.curriculumId} value={option.curriculumId}>{option.programName} · {option.curriculumName}</option>)}
     </select></label>
     <p className="supporting-copy">Not sure which version you follow? Check your prospectus or ask your academic adviser. A curriculum marked “Proposed” may not apply to you.</p>
-    <div className="card-actions"><Button disabled={busy || status !== "ready" || !curricula.length} onClick={() => onSave(curricula.find(c => c.curriculumId === value) ?? null)}>{value ? "Use this curriculum" : "Continue without selecting"}</Button><Button variant="outline" onClick={onClose}>Cancel</Button></div>
+    <div className="card-actions"><Button disabled={busy || status !== "ready" || !curricula.length} onClick={() => onSave(curricula.find(c => c.curriculumId === value) ?? null)}>{value ? "Use this curriculum" : "Continue without selecting"}</Button><Button variant="outline" onClick={onClose}>{firstVisit ? "Skip for now" : "Cancel"}</Button></div>
   </PreviewDialog>;
 }
 
@@ -50,7 +50,8 @@ export function Workspace() {
   const [state, dispatch] = useReducer(workspaceReducer, undefined, createWorkspace);
   const [curricula, setCurricula] = useState<StudentCurriculum[]>([]), [scope, setScope] = useState<StudentCurriculum | null>(null);
   const [curriculaStatus, setCurriculaStatus] = useState<CurriculumState>("loading"), [curriculaAttempt, setCurriculaAttempt] = useState(0);
-  const [scopeOpen, setScopeOpen] = useState(false), [filesOpen, setFilesOpen] = useState(false), [clearOpen, setClearOpen] = useState(false);
+  const [scopeOpen, setScopeOpen] = useState(true), [filesOpen, setFilesOpen] = useState(false), [clearOpen, setClearOpen] = useState(false);
+  const [initialScopePrompt, setInitialScopePrompt] = useState(true);
   const [files, setFiles] = useState<ChatFile[]>([]), [fileWarning, setFileWarning] = useState<string | null>(null);
   const [sources, setSources] = useState<StudentSourceSummary[] | null>(null), [progress, setProgress] = useState("Connecting…");
   const [detailsOpen, setDetailsOpen] = useState(false), [rephraseOpen, setRephraseOpen] = useState(false), [selectedDetails, setSelectedDetails] = useState<string[]>([]);
@@ -130,6 +131,8 @@ export function Workspace() {
       await clearStudentSession(value.controller.signal);
       if (!value.controller.signal.aborted) {
         dispatch({ type: "clear" }); setClarification(null); setFiles([]); setScope(null); setSources(null); setFileWarning(null); setClearOpen(false); setFilesOpen(false);
+        setScopeOpen(true);
+        setInitialScopePrompt(true);
         setSelectedDetails([]); setReview(null); setDetailsOpen(false); setRephraseOpen(false);
       }
     } catch (error) { authError(error); dispatch({ type: "warning", warning: "Clearing was not confirmed. Your conversation and files are still here." }); }
@@ -219,7 +222,7 @@ export function Workspace() {
           dispatch({ type: "remember", details: confirmedDetails(clarification.answer, curricula, drafts, selected) });
           void send({ text: reply.text, scope: selected });
         }} />}
-      {scopeOpen && <ScopePanel curricula={curricula} current={scope} status={curriculaStatus} onRetry={() => setCurriculaAttempt(n => n + 1)} busy={!!busy} onClose={() => setScopeOpen(false)} onSave={value => { changeScope(value); setScopeOpen(false); }} />}
+      {scopeOpen && <ScopePanel curricula={curricula} current={scope} status={curriculaStatus} firstVisit={initialScopePrompt} onRetry={() => setCurriculaAttempt(n => n + 1)} busy={!!busy} onClose={() => { setScopeOpen(false); setInitialScopePrompt(false); }} onSave={value => { changeScope(value); setScopeOpen(false); setInitialScopePrompt(false); }} />}
       {rephraseOpen && <RephraseDialog onClose={() => setRephraseOpen(false)} onUse={text => { draft(text); setRephraseOpen(false); }} />}
       {detailsOpen && <SuppliedDetailsPanel details={details} selected={selectedDetails} scopeLabel={scope ? `${scope.programName} · ${scope.curriculumName}` : "No curriculum selected"} onClose={() => setDetailsOpen(false)} onUse={keys => { setSelectedDetails(keys); setDetailsOpen(false); }} />}
       {review && <PreviewDialog title="Review your next message" onClose={() => setReview(null)}>

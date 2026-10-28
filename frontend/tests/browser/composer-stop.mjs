@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
@@ -16,6 +17,7 @@ test('Stop preserves the next draft without submitting another question', async 
       if (request.method() === 'POST' && new URL(request.url()).pathname === '/api/chat') submissions.push(request);
     });
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     const input = page.getByRole('textbox', { name: 'Your question' });
     await input.fill('Synthetic slow request');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();

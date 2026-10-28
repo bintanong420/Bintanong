@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
@@ -12,6 +13,7 @@ test('chat navigation shows real conversation state and opens as a keyboard-safe
     const page = await context.newPage(), submissions = [];
     page.on('request', request => { if (request.method() === 'POST' && new URL(request.url()).pathname === '/api/chat') submissions.push(request); });
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     const history = page.getByRole('navigation', { name: 'Chat history', exact: true });
     await history.waitFor({ timeout: 3000 });
     assert.equal(await page.getByRole('navigation', { name: 'Example questions' }).count(), 0);
@@ -56,7 +58,9 @@ test('chat navigation shows real conversation state and opens as a keyboard-safe
     await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'New chat', exact: true }).click();
     await page.getByRole('button', { name: 'Clear chat', exact: true }).click();
-    await page.getByRole('dialog').waitFor({ state: 'detached' });
+    await page.getByRole('dialog', { name: 'Clear this chat?', exact: true }).waitFor({ state: 'detached' });
+    await page.getByRole('dialog', { name: 'Program and curriculum', exact: true }).waitFor();
+    await dismissInitialScope(page);
     await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
     assert.equal(await page.getByRole('dialog').getByRole('navigation', { name: 'Chat history' }).getByRole('button').count(), 0);
     assert.equal(submissions.length, 1);

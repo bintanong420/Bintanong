@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
@@ -21,6 +22,7 @@ test('welcome keeps the centered Figma identity with the refined chat controls',
         return route.fulfill({ status: 200, headers: { 'Content-Type': 'text/event-stream', 'x-vercel-ai-ui-message-stream': 'v1' }, body: parts.map(part => 'data: ' + JSON.stringify(part) + '\n\n').join('') + 'data: [DONE]\n\n' });
       });
       await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+      await dismissInitialScope(page);
       const welcome = page.getByRole('region', { name: 'Ask away, Bintanong.', exact: true });
       await welcome.waitFor();
       assert.equal(await welcome.evaluate(node => getComputedStyle(node).textAlign), 'center', `${width}/${theme}: welcome copy is centered`);

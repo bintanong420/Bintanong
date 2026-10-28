@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
@@ -13,6 +14,7 @@ test('live clarification requires confirmation, preserves drafts and can resume 
     page.on('request', request => { if (request.method() === 'POST' && new URL(request.url()).pathname === '/api/chat') submissions.push(request.postDataJSON()); });
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     const input = page.getByRole('textbox', { name: 'Your question' });
     await input.fill('Synthetic guided clarification');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
@@ -68,6 +70,7 @@ test('scope clarification uses listed curricula and keeps unknown or alternative
     const page = await context.newPage(), submissions = [];
     page.on('request', request => { if (request.method() === 'POST' && new URL(request.url()).pathname === '/api/chat') submissions.push(request.postDataJSON()); });
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     const curricula = await (await context.request.get(new URL('/api/curricula', url).href)).json();
     await page.getByRole('button', { name: 'Chat options', exact: true }).click();
     await page.getByLabel('Appearance', { exact: true }).selectOption('dark');

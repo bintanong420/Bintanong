@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
@@ -25,6 +26,7 @@ test('clarification opens on request, preserves selected facts and does not rest
         body: parts.map(part => 'data: ' + JSON.stringify(part) + '\n\n').join('') + 'data: [DONE]\n\n' });
     });
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     await page.getByRole('textbox', { name: 'Your question' }).fill(original);
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
     const dialog = page.getByRole('dialog');

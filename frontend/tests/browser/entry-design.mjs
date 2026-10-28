@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
@@ -20,6 +21,7 @@ test('chat header has a continuous backdrop and one usable row at narrow widths'
       await context.addInitScript(value => localStorage.setItem('bintanong-appearance', value), theme);
       const page = await context.newPage();
       await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+      await dismissInitialScope(page);
       const main = await page.locator('.workspace-main').boundingBox();
       const backdrop = await page.locator('.campus-banner').boundingBox();
       assert.equal(backdrop.y, main.y, 'campus fade continues behind the header instead of starting at a hard edge');

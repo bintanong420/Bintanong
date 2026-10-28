@@ -1,3 +1,4 @@
+import { dismissInitialScope } from './scope-helper.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
@@ -22,6 +23,7 @@ test('validated Taglish language reaches notices, clarification replies and reta
         body: parts.map(part => 'data: ' + JSON.stringify(part) + '\n\n').join('') + 'data: [DONE]\n\n' });
     });
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
+    await dismissInitialScope(page);
     await page.getByRole('textbox', { name: 'Your question', exact: true }).fill('Pwede ko bang kunin ang Z 5/L?');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
     await page.getByRole('button', { name: 'Continue clarification', exact: true }).waitFor();
