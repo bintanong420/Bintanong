@@ -44,4 +44,24 @@ def test_source_limits_and_blank_cells_are_stated_not_hidden():
 
 def test_too_many_records_for_the_claim_budget_renders_nothing():
     many = [(f'e{n}', record((f'step{n}_client_step', f'{n}. Do'), (f'step{n}_action', f'{n}. Act'))) for n in range(1, 10)]
-    assert render_service(parse_service(many), 'en', max_claims=2) is None
+    assert render_service(parse_service(many), 'en', max_claims=1) is None  # nine records cannot fit one claim
+
+
+def test_each_step_gets_its_own_claim_when_the_budget_allows():
+    claims = render_service(table(), 'en')
+    assert len(claims) == 4 and [t.split(':')[0] for t, _ in claims[1:]] == ['Step 1', 'Step 2', 'Step 3']
+
+
+def test_claims_never_exceed_the_claim_text_limit():
+    long_steps = [(f'e{n}', record((f'step{n}_client_step', f'{n}. ' + 'Long instruction. ' * 30),
+                                   (f'step{n}_action', f'{n}. Act'))) for n in range(1, 4)]
+    claims = render_service(parse_service(long_steps), 'en', max_claims=3)
+    assert claims is None or all(len(t) <= 1200 for t, _ in claims)
+    huge = [('e1', record(('step1_client_step', '1. ' + 'Very long. ' * 150), ('step1_action', '1. Act')))]
+    assert render_service(parse_service(huge), 'en') is None
+
+
+def test_printed_values_ending_in_a_period_are_not_doubled():
+    ended = parse_service([('e1', record(('requirement1', 'Tests.'), ('where_to_secure1', 'Clinics.'),
+                                         ('step1_client_step', '1. Go.'), ('step1_action', '1. Act.')))])
+    assert '..' not in ' '.join(t for t, _ in render_service(ended, 'en'))

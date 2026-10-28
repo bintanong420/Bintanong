@@ -136,8 +136,15 @@ FRAMES = dict(
                  blank='(blangko sa printed table)'))
 
 
+MAX_CLAIM_CHARS, MAX_CLAIM_RECORDS = 1200, 8  # ProseClaim limits
+
+
 def _value(value, frame):
     return frame['blank'] if value == '' else value
+
+
+def _end(text):
+    return text.rstrip().rstrip('.')  # printed values may already end with a period
 
 
 def _attrs(*values):
@@ -146,50 +153,55 @@ def _attrs(*values):
 
 
 def _step(step, frame):
-    parts = [f'Step {step.number}: {step.client_step.rstrip(".")}.']
+    parts = [f'Step {step.number}: {_end(step.client_step)}.']
     if step.fee is not None:
-        parts.append(f'{frame["fee"]}: {_value(step.fee, frame)}.')
+        parts.append(f'{frame["fee"]}: {_end(_value(step.fee, frame))}.')
     actions = []
     for a in step.actions:
         own = [getattr(a, k) for k in ('person', 'office', 'time') if k not in step.shared]
-        fee = f'; {frame["fee"]}: {_value(a.fee, frame)}' if a.fee is not None else ''
-        actions.append(a.action.rstrip('.') + _attrs(*own) + fee)
+        fee = f'; {frame["fee"]}: {_end(_value(a.fee, frame))}' if a.fee is not None else ''
+        actions.append(_end(a.action) + _attrs(*own) + fee)
     first = step.actions[0]
     shared = _attrs(*(getattr(first, k) for k in ('person', 'office', 'time') if k in step.shared))
     parts.append(f'{frame["actions"]}: {"; ".join(actions)}{shared}.')
     return ' '.join(parts)
 
 
+def _fits(text, ids):
+    return len(text) <= MAX_CLAIM_CHARS and len(ids) <= MAX_CLAIM_RECORDS
+
+
 def render_service(table, language, max_claims=8):
-    """Host claims [(text, evidence_ids)]: overview/checklist, consecutive step groups, then the printed
-    total and source limits. None when the steps cannot fit the claim budget at <=8 records per claim."""
+    """Host claims [(text, evidence_ids)]: overview/checklist, one claim per step (merging consecutive
+    steps only when the claim budget requires), then the printed total and source limits. None when
+    the steps cannot fit the claim budget within ProseClaim text/record limits."""
     frame = FRAMES['taglish' if language in ('taglish', 'fil') else 'en']
-    checklist = '; '.join(r + (f' — {frame["where"]}: {w}' if w else '') for r, w in table.checklist)
-    head = ' '.join(x for x in (table.title, f'({table.office})' if table.office else None) if x)
-    overview = (f'{head}. {frame["requirements"]}: {checklist}.' if checklist else f'{head}.',
-                table.overview_evidence_ids or table.steps[0].evidence_ids)
-    groups, current = [], []
-    for step in table.steps:
-        ids = {e for s in current + [step] for e in s.evidence_ids}
-        if current and len(ids) > 8:
-            groups.append(current)
-            current = []
-        current.append(step)
-    groups.append(current)
-    if len(groups) > max_claims - 1:
-        return None
-    claims = [overview]
+    checklist = '; '.join(_end(r) + (f' — {frame["where"]}: {_end(w)}' if w else '') for r, w in table.checklist)
+    head = ' '.join(x for x in (_end(table.title or ''), f'({table.office})' if table.office else None) if x)
+    overview = ' '.join(x for x in (f'{head}.' if head else '',
+                                    f'{frame["requirements"]}: {checklist}.' if checklist else '') if x)
+    claims = [(overview, table.overview_evidence_ids or table.steps[0].evidence_ids)] if overview else []
+    tail = []
+    if table.total_fee is not None or table.total_time is not None:
+        printed = '; '.join(_end(_value(v, frame)) for v in (table.total_fee, table.total_time) if v is not None)
+        tail.append(f'{frame["total"]}: {printed}.')
+    tail += [f'{frame["limit"]}: {m}' for m in table.limits]
+    budget = max_claims - len(claims)
+    pieces = [(_step(step, frame), step.evidence_ids) for step in table.steps]
+    groups = [[piece] for piece in pieces]
+    while len(groups) > budget:  # merge the consecutive pair that stays smallest
+        options = [(len(' '.join(t for t, _ in groups[i] + groups[i+1])), i) for i in range(len(groups) - 1)]
+        if not options:
+            return None
+        _, i = min(options)
+        groups[i:i+2] = [groups[i] + groups[i+1]]
     for index, group in enumerate(groups):
-        text = ' '.join(_step(s, frame) for s in group)
-        ids = tuple(dict.fromkeys(e for s in group for e in s.evidence_ids))
+        text = ' '.join(t for t, _ in group)
+        ids = tuple(dict.fromkeys(e for _, evidence in group for e in evidence))
         if index == len(groups) - 1:
-            tail = []
-            if table.total_fee is not None or table.total_time is not None:
-                tail.append(f'{frame["total"]}: {"; ".join(_value(v, frame) for v in (table.total_fee, table.total_time) if v is not None)}.')
-            tail += [f'{frame["limit"]}: {m}' for m in table.limits]
             text = ' '.join([text, *tail])
             ids = tuple(dict.fromkeys((*ids, *table.total_evidence_ids)))
-            if len(ids) > 8:
-                return None
         claims.append((text, ids))
+    if budget < 1 or not all(_fits(t, ids) for t, ids in claims):
+        return None
     return tuple(claims)
