@@ -8,7 +8,10 @@ Last full snapshot before condensation:ba7d8b4;earlier40a35f9/f635ccc/d32aa18.
 
 Shifting option A (owner28Oct):04e913f/12ac411 topic-menu destination example;battery-7 **7/8answered,
 3/3regressions** (shifting answered,cross-enroll as printed 76.6s). Workstream split for Codex/Claude:
-[plan](../2026-10-28-phase11-model-workstream-split.md),799ae1e. Full suite 12ac411:see checkpoint.
+[plan](../2026-10-28-phase11-model-workstream-split.md),799ae1e. Full suite 12ac411:7089pass/1608subtests,6skip/2xfail,1717.52s,exit0.
+Prereq probe (live,12ac411+docs):Forensic 3/L (crim context) and title "Discrete Structure 2" (CS 3) list
+printed prerequisites;"CS6 (Algorithms and Complexity)" quoted as one mention resolves to no course and the
+CC4/L failed claim was dropped;no program -> asks program/curriculum (current rule).
 
 [Clarify/condition wording](../2026-10-28-clarify-and-condition-wording-results.md):d49aa27 rejects
 added all-of wording ("must be met","and e)") over printed lists (TDD;focused1354pass);live cross-enroll
