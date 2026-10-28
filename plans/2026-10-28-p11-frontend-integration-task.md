@@ -1,69 +1,57 @@
 # Phase 11 frontend integration — Codex B
 
-## Current delivery
+## Current task: optional guest access
 
-Implementation merged locally by Claude at primary `307a2bd`; Phase 11 remains active.
-[Full evidence/results](2026-10-28-p11-frontend-integration-results.md) ·
-[API setup](../backend/bintanong_api/README.md).
-Worktree `p11-frontend-integration`, branch `feat/p11-frontend-integration`, baseline `12ac411`.
-Last full task snapshot before condensation: `3a83152`; earlier `f506abf`.
-Central snapshots remain Claude-owned. No push, deployment, activation or source changes.
+28 October 2026. Orca lane p11-frontend-integration / feat/p11-frontend-integration.
+Last full task snapshot before replacement: 9f804a7. Prior integrated delivery:
+[results](2026-10-28-p11-frontend-integration-results.md).
+Primary cad59fd synced through 4aae281 in 9fb6449.
 
-## Actual owner decisions
+Owner requested entry without login while keeping optional PSU sign-in, then selected
+“Same chatbot features, including temporary PDF uploads.” [Design](2026-10-28-guest-mode-design.md).
+Claude approved the bounded flow and recorded master25.1/owner amendment23e83aa.
+No UAT removal, source activation, dependencies or hosted configuration writes authorized.
 
-- Selected frontend **e172f53c19bdd5d30ef5df2db4bf80ee47e27c3c**, rather than latest.
-  Only frontend paths imported; package/lock Git blobs remain exactly that snapshot.
-- “Approve the exact snapshot dependencies and npm ci.” Node24.21.0/npm11.19.0;
-  Next16.4.3/React19.3.0/AI SDK7.0.152; exact remaining pins/overrides in Git/results.
-- Claude approved metadata/account seams in `a1ef6de`; owner replied: “Actually, we were thinking
-  of removing the login but keep it for now because i think itd be easier if we later decided
-  to remove it because we are planning to remove the UAT on our study because it seems redundant
-  to the research tools we have.” Keep login; UAT removal is not an approved scope change.
-- Primary `50a016b` records owner direction to ask program/curriculum up front. Reused existing
-  picker, explicit skip/no preselection/no auto-send/no new persistence; prompt after successful reset.
-- Owner: **“Leave real sign-in verification pending.”** Do not ask for a token or configure hosted
-  OAuth. Authenticated real-source HTTP/browser RAG/Prolog/Hybrid, follow-up/upload/delete remain open.
+## Delivered increments
 
-## Commits and review
+- f19f017 design; 192a892 explicit guest API policy, verification of supplied tokens,
+  separate guest/account sessions and namespaced admission. SessionStore unchanged.
+- 805c11d research config allow_guests defaults false; explicit true enables guest access.
+  Present invalid/non-PSU/unavailable credentials never downgrade to guest.
+- 9f804a7 public chat/guest continuation, optional login, guest/account controls,
+  absent-vs-error distinction and browser abort/reset when access changes.
+- 3f297d9 mobile guest controls: readable curriculum picker and 44px sign-in link.
+- No guest Supabase user/account, stored conversation or private persistence is created.
+  Existing cookie, expiry, clear/delete, CSRF, limits, source/scope/privacy and queue remain.
 
-- `90203e4` isolated account-bound SessionStore, all credential methods (approved shared exception,
-  Codex B sole implementer). Foreign/missing identity behaves unknown; expiry not renewed.
-- `e853b77` canonical student stream metadata; `f506abf` selected frontend snapshot.
-- `b1bc98b` verified PSU Google auth/account admission and complete API identity threading.
-- `de1e68a` sealed current78 research factory, existing CPU encoder/resources/pipeline and readiness.
-- `83af0e5` review P2 language override fixed; `e1a132d` review P2 duplicate cold load fixed.
-- `130c4c7` up-front picker; initial-only skip preserves manual Cancel. Browser regressions adapted.
-- Clean primary merges `5b3b04e` and `c4f6f0` include approved Charter lane; no owned-file conflict.
-- Final clean sync `ac6dbbc` includes primary `03d398b` and implementation merge `307a2bd`.
-- Independent root reviews: no remaining P1/P2. No other shared production/dependency edits.
+## Verification and active runs
 
-## Verification actually run
+Evidence: workspace audit-evidence/p11-guest-mode-20261028 (frontend subfolder for UI).
+Shared Python3.13 venv; PYTHONUTF8=1; -X utf8 -B -m pytest -q -p no:cacheprovider;
+external basetemp. Existing Node/browser tools only; no installs.
 
-Evidence root: workspace `audit-evidence/p11-frontend-integration-20261028`.
+- API RED13 missing setting -> GREEN; cookie-domain test setup fixed separately.
+- Factory config RED2 -> GREEN. Policy combination RED1 -> GREEN.
+- Latest API/auth/session/upload/stream/factory focused: 107 passed (api-config-final.log).
+- Frontend RED3 -> Node65 passed (frontend/ui-green.log), typecheck passes.
+- Browser RED3 -> 5 passed (frontend/browser-lifecycle2.log): guest entry, invalid-cookie
+  refusal, cross-tab abort/reset, signed-in controls and complete guest PDF lifecycle.
+  Accounts/data/pipeline are synthetic; these checks are not institutional accuracy results.
+- Broader browser15 passed; mobile320 RED -> guest/entry7 passed and screenshot inspected.
+  TypeScript and production build complete; built guest /chat200 at3216 without login.
+- FULL SUITE: exclusive Codex B slot at9f804a7; backend/Python tests frozen. Exact command,
+  head/trees/results in full-suite-receipt.json; full-suite.log is the raw output.
+- LIVE RUN: Codex B bounded guest HTTP smoke on corrected78; Claude explicitly released
+  the model slot after his gate (3d95845). No tuning or source-package change.
 
-- Python full suite **7164 pass /1608 subtests pass**,6skip/2xfail/6warnings,1500.12s, **exit0**.
-  `full-suite.log` and `full-suite-receipt.json`, tested HEAD `c4f6f07737714a1e873182e421b205d260fc3982`.
-- Backend tree `c4038d77d9358b18a88002880dbbc74372b49114`, Python tests tree
-  `9b42e6511e13c1d4a6cd0d482127e03d0009c3f6` stay exact after frontend-only onboarding.
-  Root allowed separate UI validation during suite; no Python production/test/manifests drift.
-- RED/GREEN: sessions15→87, metadata4→47, auth14→93, readiness2→32, cold encoder3loads→1/33pass.
-- Frontend62pass (`ui-scope-final.log`); TypeScript/build pass (`build-scope-final.log`); npm audit0.
-- Latest browser **11pass**,8files sequentially (`scope-browser-final2.log`), plus responsive picker
-  **1pass** over8width/theme/zoom cases (`scope-manual-green.log`). Prior parallel timeouts and
-  incomplete synthetic nav fixture are retained in historical failed logs, not the final pass.
-- Real app startup72.48s after imports; liveness200, unauthenticated curricula/chat401; no inference.
-  Read-only Google settings enabled; local login200/OAuth start303, redirect not followed.
-- Actual current78package/seven sealed files verify; pin5dd2d9c…/seal22ceaa15… unchanged.
-  Exact hashes/commands, package receipts, warnings and test-runner setup corrections in results.
+## Context, boundaries and next action
 
-## Context and remaining boundary
-
-Master3/11/13/16/23–26, Phase11plan/Phase10handoff/split, thesis17–18/39–44 and routingPNG
-consulted. Undergraduate advisory/privacy/scope/source gaps preserved; unknown differs from unmet.
-19Oct prompt decision and response-time contract read. Startup and synthetic test times are not
-browser end-to-end latency, SLA or speed improvement. No Gemma inference/full live gate claim.
-Owned API/CPU and synthetic3217/8022 servers stopped; review login3216 remains available with
-ignored public credentials only. Photos/scans unsupported. Session log/memory handled by root.
-FULL SUITE: finished; exclusive slot released. LIVE RUN: none.
-Next action: synchronize final lane evidence documentation with Claude; retain exact Python
-tree evidence and owner-deferred real sign-in/live smoke and Phase 11/release gates explicitly open.
+Thesis17–18/39–44 and routing PNG; master3/11/13/15/16/23–26; Phase10handoff/Phase11plan,
+current checkpoint, undergraduate/source-gap and owner decisions consulted.
+Guest changes access only; unknown-versus-unmet and English/Taglish replies remain.
+Central snapshots/master/owner ledger belong to Claude. No phase advancement.
+Native frontend worker hit a usage quota; root completed changes inline. Claude approved
+guest API/frontend and mobile delta; no P1/P2. P3: old mode's session stays unreachable until
+expiry, and possible early cross-tab notification race remains unproved. Real PSU sign-in
+remains owner-deferred. Next: finish full suite and bounded guest HTTP smoke, release both
+slots, then send final receipt/tree hashes to Claude for merge. No new sweep.

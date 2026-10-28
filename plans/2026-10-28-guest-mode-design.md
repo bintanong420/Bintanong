@@ -1,7 +1,7 @@
-# Guest mode — proposed behavior
+# Guest mode — approved behavior
 
 28 October 2026. Codex B; existing Orca frontend-integration lane. Status: approved scope;
-implementation pending. Owner requested guest access with optional login, then selected
+implemented in 192a892/805c11d/9f804a7/3f297d9; final verification running. Owner requested guest access with optional login, then selected
 “Same chatbot features, including temporary PDF uploads” after the proposed flow was shown.
 
 ## Request and requirements baseline
@@ -74,4 +74,4 @@ An explicit guest-enabled setting supplements authentication; do not disable tok
 Evidence: workspace `audit-evidence/p11-guest-mode-20261028`. Shared existing Python venv,
 `PYTHONUTF8=1`, `-X utf8 -B -m pytest -p no:cacheprovider`, lane basetemp; Node `test:ui`,
 typecheck/build, existing installed browser tooling. No installs/locks/model/hosted writes.
-Current next action: observe focused guest API and frontend RED tests before production edits.
+Current verification and next action: [lane task](2026-10-28-p11-frontend-integration-task.md).
