@@ -547,3 +547,11 @@ Each program still gets its own dated review record listing which standing rule 
   PalSU (a) or be clarified first (b); owner replied "b perhaps". Applied provisionally: when leaving vs transferring
   in is not stated, ask first; the gate case `req-transfer-en` now expects a clarification. Revisit if testing
   shows the question adds friction.
+- 28 Oct 2026 (F4 phrases and excluded-program check): owner "ye i approve to both" after seeing the exact lists.
+  (1) Transfer-direction phrases (leaving: honorable dismissal, transfer out/transferring out, leave/leaving PalSU,
+  leave/leaving the university, to another school/university, to other school, aalis, lilipat sa/ng ibang; coming in:
+  transferee, from another school/from other school/from another university, galing sa ibang, transfer/transferring
+  to PalSU, lilipat/lumipat sa PalSU); unlisted wording gets the leaving-or-transferring-in question. (2) Host
+  undergraduate-scope notice when a question explicitly names College of Law, School of Law, Juris Doctor, College
+  of Medicine, Doctor of Medicine, graduate school, a master's/doctoral program or laboratory school; other wording
+  stays with the router. Fixed phrase lists, not language understanding; coverage of real phrasing is unmeasured.
