@@ -87,3 +87,36 @@ def test_long_checklist_splits_with_exact_item_citations_without_raising_claim_l
         matching = [(t, ids) for t, ids in claims if f'Item {n}:' in t]
         assert len(matching) == 1 and f'req{n}' in matching[0][1]
     assert 'Eto ang mga requirements' in claims[0][0]
+
+
+# Owner 28 Oct 2026: answer only the printed detail that was asked (the whole service when asked for everything).
+def test_fee_detail_lists_only_printed_fees_and_the_printed_total():
+    claims = render_service(table(), 'en', detail='fees')
+    assert claims == (('2. ISSUANCE OF FICTIONAL CERTIFICATE\nFees as printed:\n'
+                       'Step 1: 1. Pay the fee — Fee: Php 100.00\nStep 2: 2. Present the receipt — Fee: None\n'
+                       'Printed total: Php 100.00', ('e1', 'e2')),)
+
+
+def test_requirements_detail_is_the_checklist_without_steps():
+    claims = render_service(table(), 'en', detail='requirements')
+    assert claims == render_service(table(), 'en')[:1]
+
+
+def test_time_detail_lists_printed_processing_times_and_total():
+    claims = render_service(table(), 'en', detail='processing_time')
+    assert claims == (('2. ISSUANCE OF FICTIONAL CERTIFICATE\nProcessing time as printed:\n'
+                       'Step 1: 1. Pay the fee — Processing time: 5 minutes\n'
+                       'Step 2: 2. Present the receipt — Processing time: 10 minutes\n'
+                       'Step 3: 3. Receive the certificate\n  3.1. Seal it — Processing time: 1 minute\n'
+                       'Printed total: 16 minutes', ('e1', 'e2')),)
+
+
+def test_detail_keeps_source_limits_and_taglish_lead_ins():
+    held = parse_service([('e1', FIRST), ('e2', limited('malformed_source_condition'))])
+    text = render_service(held, 'taglish', detail='fees')[-1][0]
+    assert 'Eto ang mga bayarin ayon sa nakaprint:' in text
+    assert 'Source limitation: Unavailable information: fictional malformed_source_condition.' in text
+
+
+def test_whole_detail_is_the_existing_rendering():
+    assert render_service(table(), 'en', detail='whole') == render_service(table(), 'en')
