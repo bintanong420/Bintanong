@@ -25,7 +25,19 @@ Selector picks `handbook_shifting`,not ambiguous;router still returns `clarify`.
 | 8109ccb,battery-5 | after settled selection,no ambiguity-only clarify | invents `list_affected_courses` on "ibang college" -> same bare clarify |
 
 Both reverted (8cce770,eedbc07):each closed escape route moved the model to another,and the bare
-clarify is worse than the E3 referral. Grammar-only forcing is not a fix here. Open owner decision
-(see current progress). Other cases unchanged across battery-4/5:good moral,library card,entrance
+clarify is worse than the E3 referral. Grammar-only forcing is not a fix here. Owner then chose option A (below).
+Other cases unchanged across battery-4/5:good moral,library card,entrance
 health,leave,Hybrid answered;discipline abstains (long Handbook flow);regressions3/3match.
 Warm inner pipeline only;not a benchmark,latency or activation claim. 559stays inactive.
+
+## Shifting option A (owner 28Oct,kept)
+
+- 04e913f:topic-menu instruction gains one fictional contrast example (moving a locker to another
+  building):a procedure question whose topic fits routes RAG;a named destination is context,not an
+  ambiguity,course or operation. Base router prompt/hash unchanged. RED1 -> GREEN17;focused692.
+- Battery-6:shifting **answered** (Handbook p.45 request-to-shift form,both Deans) but cross-enroll
+  dropped to insufficient:the example's "one document part" made the router merge its two questions.
+  12ac411 says "document parts as requested" (RED1 -> GREEN18;focused693).
+- Battery-7 (12ac411,one attempt):**7/8answered,3/3regressions**. Shifting 33.5s (one printed
+  requirement;the checker accepted it as answering the question). Cross-enroll answered as printed
+  "conditions apply: a) … e)",76.6s after one repair (slow). Discipline still abstains (long flow).
