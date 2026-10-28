@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v25'
+PROMPT_VERSION = 'bintanong-router-p11-v24'
 DETAILS = ('whole', 'requirements', 'fees', 'processing_time', 'specific')
 
 
@@ -257,11 +257,6 @@ detail names the one printed detail a document part asks for: requirements (what
 submit), fees (how much it costs), processing_time (how long it takes), specific (one printed fact,
 rule, condition, limit, date or classification within the topic), or whole when it asks how to do
 or get something, asks for the steps, or asks for everything. Use whole when unsure.
-A question about how to reach a status or meet a condition (be removed from a list, qualify for
-an award, satisfy a residence or load limit) asks for the printed rule, not a list of steps:
-use specific. Fictional contrast: "How do I get off the fictional waitlist?" where the topic
-prints "removed after two clear terms" -> specific; "What are the steps to join the fictional
-waitlist?" -> whole.
 When a topic fits, answer with route RAG; do not clarify because the student did not give
 personal details such as their year, units or program, since the printed rule answers the question.
 Topics are retrieval labels, never answers or evidence.'''

@@ -77,14 +77,4 @@ def test_router_prompt_maps_not_yet_passed_and_not_taken_to_a_failed_claim():
     from backend.bintanong_routing import prompt
     text = prompt.SYSTEM_PROMPT
     assert 'not yet passed' in text and 'not taken' in text and 'state failed' in text
-    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v25'
-
-
-def test_router_prompt_treats_meeting_a_printed_rule_as_a_specific_detail():
-    # Gate 28 Oct 2026: getting off probation / honors residence asked one printed rule but were labelled whole, so a
-    # multi-record Handbook topic needed every record and abstained. Steps stay whole; examples are fictional.
-    from backend.bintanong_routing import prompt
-    text = prompt.TOPIC_INSTRUCTION
-    assert 'meet a condition' in text and 'printed rule' in text and 'not a list of steps' in text
-    assert 'fictional waitlist' in text
-    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v25'
+    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v24'
