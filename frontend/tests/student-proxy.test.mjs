@@ -22,13 +22,47 @@ test('proxy forwards only owned session cookie and server-resolved auth', async 
   assert.equal(response.headers.get('cache-control'), 'no-store');
 });
 
-test('foreign origin, unauthenticated and unknown routes never reach upstream', async () => {
+test('foreign origin and unknown routes never reach upstream', async () => {
   let calls = 0;
   const fetcher = async () => { calls++; return new Response(); };
   assert.equal((await forwardStudentRequest(request('/api/chat', 'POST', { Origin: 'https://attacker.example' }), '/chat', { ...options, fetch: fetcher })).status, 403);
-  assert.equal((await forwardStudentRequest(request('/api/chat'), '/chat', { ...options, accessToken: null, fetch: fetcher })).status, 401);
   assert.equal((await forwardStudentRequest(request('/api/chat'), '//attacker.example', { ...options, fetch: fetcher })).status, 404);
   assert.equal(calls, 0);
+});
+
+test('guests forward without authorization while retaining the owned session cookie', async () => {
+  let calls = 0;
+  const response = await forwardStudentRequest(request('/api/chat'), '/chat', { ...options, accessToken: null,
+    fetch: async (_url, init) => {
+      calls++;
+      assert.equal(init.headers.has('Authorization'), false);
+      assert.equal(init.headers.get('Cookie'), cookie);
+      return new Response('guest-stream');
+    } });
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), 'guest-stream');
+  assert.equal(calls, 1);
+});
+
+test('browser authorization cannot replace cookie identity or downgrade to a guest', async () => {
+  let calls = 0;
+  const response = await forwardStudentRequest(request('/api/chat', 'POST', { Authorization: 'Basic invalid' }), '/chat', {
+    ...options, fetch: async () => { calls++; return new Response(); } });
+  assert.equal(response.status, 401);
+  assert.equal((await response.json()).error, 'sign_in_required');
+  assert.equal(calls, 0);
+});
+
+test('invalid cookie credentials still reach backend verification', async () => {
+  let calls = 0;
+  const response = await forwardStudentRequest(request('/api/chat'), '/chat', { ...options, accessToken: 'invalid-token',
+    fetch: async (_url, init) => {
+      calls++;
+      assert.equal(init.headers.get('Authorization'), 'Bearer invalid-token');
+      return Response.json({ error: 'sign_in_required' }, { status: 401 });
+    } });
+  assert.equal(response.status, 401);
+  assert.equal(calls, 1);
 });
 
 test('upload scope query survives fixed-route forwarding', async () => {

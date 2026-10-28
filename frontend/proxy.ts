@@ -4,7 +4,11 @@ import { isPSUAccount, pageRedirect } from "./lib/auth-policy";
 import { authConfiguration } from "./lib/server-auth";
 
 export async function proxy(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/api/")) return NextResponse.next();
+  if (request.nextUrl.pathname === "/chat" || request.nextUrl.pathname.startsWith("/api/")) {
+    const response = NextResponse.next();
+    response.headers.set("Cache-Control", "no-store");
+    return response;
+  }
   let response = NextResponse.next({ request });
   const config = authConfiguration();
   let permitted = false;

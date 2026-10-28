@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useReducer, useRef, useState } from "react";
+import { createBrowserClient } from "@supabase/ssr";
 import { ChevronDown, ClipboardList, Ellipsis, FolderOpen, LogOut, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { clearStudentSession, confirmStudentFile, getStudentCurricula, removeStudentFile, sendStudentMessage, uploadStudentFile } from "@/lib/student-transport";
 import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope, type StudentSourceSummary } from "@/lib/student-contracts";
@@ -22,7 +23,7 @@ function errorText(error: unknown) {
   if (error instanceof StudentTransportError) {
     if (error.code === "sign_in_required" || error.code === "psu_account_required") return "Your sign-in needs attention. Sign in again to continue; your conversation is still visible here.";
     if (error.code === "answers_busy") return "All answer slots are busy. Your question is still here; try again later.";
-    if (error.code === "account_busy" || error.code === "chat_in_progress") return "Another question from your account is still running. Wait for it to finish or stop it in that tab.";
+    if (error.code === "account_busy" || error.code === "chat_in_progress") return "Another question from this account or browser session is still running. Wait for it to finish or stop it in that tab.";
     if (error.code === "already_answered") return "That question already finished on the server. Edit or resend it explicitly if you need a new check.";
   }
   return "The request did not finish. Your conversation is still here. The server may have completed it; resending starts a new check.";
@@ -46,7 +47,7 @@ function ScopePanel({ curricula, current, busy, status, firstVisit, onRetry, onS
   </PreviewDialog>;
 }
 
-export function Workspace() {
+export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
   const [state, dispatch] = useReducer(workspaceReducer, undefined, createWorkspace);
   const [curricula, setCurricula] = useState<StudentCurriculum[]>([]), [scope, setScope] = useState<StudentCurriculum | null>(null);
   const [curriculaStatus, setCurriculaStatus] = useState<CurriculumState>("loading"), [curriculaAttempt, setCurriculaAttempt] = useState(0);
@@ -80,6 +81,27 @@ export function Workspace() {
     return () => controller.abort();
   }, [curriculaAttempt, authError]);
   useEffect(() => () => flight.current?.controller.abort(), []);
+  useEffect(() => {
+    const channel = new BroadcastChannel("bintanong-access");
+    let identity: string | null = null, initialized = !signedIn;
+    const reset = () => { flight.current?.controller.abort(); window.location.reload(); };
+    channel.onmessage = event => {
+      const next = event.data?.identity;
+      if (initialized && (typeof next === "string" || next === null) && next !== identity) reset();
+    };
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL, key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+    if (!url || !key) { channel.postMessage({ identity: null }); return () => channel.close(); }
+    const client = createBrowserClient(url, key);
+    const { data } = client.auth.onAuthStateChange((event, session) => {
+      const next = session?.user.id ?? null;
+      if (event === "INITIAL_SESSION") {
+        identity = next; initialized = true; channel.postMessage({ identity });
+      } else if (initialized && (event === "SIGNED_IN" || event === "SIGNED_OUT") && next !== identity) {
+        identity = next; channel.postMessage({ identity }); reset();
+      }
+    });
+    return () => { data.subscription.unsubscribe(); channel.close(); };
+  }, [signedIn]);
   function draft(text: string) { dispatch({ type: "draft", text }); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
   function openCurrentChat() { setMobileNavigation(false); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
   function begin(kind: "chat" | "file" | "clear" | "signout") {
@@ -171,6 +193,8 @@ export function Workspace() {
     try {
       const response = await fetch("/auth/signout", { method: "POST", signal: value.controller.signal });
       if (response.status !== 204) throw new Error("signout_unavailable");
+      const channel = new BroadcastChannel("bintanong-access");
+      channel.postMessage({ identity: null }); channel.close();
       dispatch({ type: "clear" }); setClarification(null); setFiles([]); setSelectedDetails([]); setReview(null); setDetailsOpen(false);
       window.location.assign(response.headers.get("x-bintanong-signout-notice") === "cleanup_pending" ? "/login?notice=cleanup_pending" : "/login?notice=signed_out");
     } catch { setSignOutFailed(true); }
@@ -194,7 +218,8 @@ export function Workspace() {
         <div className="workspace-account-actions">
           {details.length > 0 && <Button type="button" variant="ghost" size="sm" className="header-details" aria-label={`You supplied (${details.length})`} title={`You supplied (${details.length})`} disabled={!!busy || signInNeeded} onClick={() => setDetailsOpen(true)}><ClipboardList size={16} aria-hidden="true" /><span className="account-action-label">You supplied ({details.length})</span></Button>}
           <Button variant="ghost" size="icon" aria-label="Chat options" title="Chat options" popoverTarget={optionsId}><Ellipsis aria-hidden="true" /></Button>
-          <Button variant="ghost" className="header-signout" aria-label={busy === "signout" ? "Signing out…" : "Sign out"} title={busy === "signout" ? "Signing out…" : "Sign out"} disabled={busy === "file" || busy === "clear" || busy === "signout"} onClick={() => void signOut()}><LogOut size={16} aria-hidden="true" /><span className="account-action-label">{busy === "signout" ? "Signing out…" : "Sign out"}</span></Button></div>
+          {signedIn ? <Button variant="ghost" className="header-signout" aria-label={busy === "signout" ? "Signing out…" : "Sign out"} title={busy === "signout" ? "Signing out…" : "Sign out"} disabled={busy === "file" || busy === "clear" || busy === "signout"} onClick={() => void signOut()}><LogOut size={16} aria-hidden="true" /><span className="account-action-label">{busy === "signout" ? "Signing out…" : "Sign out"}</span></Button>
+            : <><span className="sidebar-caption">Guest</span><Button asChild variant="ghost"><a href="/login">Sign in</a></Button></>}</div>
         <div id={optionsId} popover="auto" className="workspace-options"><AppearanceControl /><p className="supporting-copy">Research preview. University validation is still pending.</p></div>
       </header>
       <div className={`workspace-content${state.messages.length ? "" : " welcome-mode"}`}>

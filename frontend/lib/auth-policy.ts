@@ -1,6 +1,5 @@
 type User = { email?: string; email_confirmed_at?: string | null; identities?: { provider?: string; identity_data?: Record<string, unknown> }[] };
 export function pageRedirect(pathname: string, permitted: boolean) {
-  if (pathname === "/chat" && !permitted) return "/login";
   if (pathname === "/login" && permitted) return "/chat";
   return null;
 }
