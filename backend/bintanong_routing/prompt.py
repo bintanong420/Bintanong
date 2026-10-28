@@ -10,7 +10,7 @@ from .wire import WireInterpretation
 from .validation import OPERATIONS
 
 PROMPT_VERSION = 'bintanong-router-p11-v24'
-DETAILS = ('whole', 'requirements', 'fees', 'processing_time')
+DETAILS = ('whole', 'requirements', 'fees', 'processing_time', 'specific')
 
 
 def ordered_json(value):
@@ -254,8 +254,11 @@ where they are going; that destination is context, not an ambiguity, course or o
 Fictional contrast: "I want to move my locker to another building, what are the steps?" ->
 route RAG, document parts as requested, control null, operations [], ambiguities [].
 detail names the one printed detail a document part asks for: requirements (what to bring or
-submit), fees (how much it costs), processing_time (how long it takes), or whole when it asks how
-to do or get something, asks for the steps, or asks for everything. Use whole when unsure.
+submit), fees (how much it costs), processing_time (how long it takes), specific (one printed fact,
+rule, condition, limit, date or classification within the topic), or whole when it asks how to do
+or get something, asks for the steps, or asks for everything. Use whole when unsure.
+When a topic fits, answer with route RAG; do not clarify because the student did not give
+personal details such as their year, units or program, since the printed rule answers the question.
 Topics are retrieval labels, never answers or evidence.'''
 
 NOT_STATED_INSTRUCTION = '''not_stated lists facts the source does not give: choose one when the

@@ -37,7 +37,7 @@ class WirePart(Record):
     operation_indices: tuple[Annotated[int, Field(ge=0, le=3)], ...] = Field(max_length=4)
     subject_id: str | None = None  # only present in the schema when a topic menu exists
     requested_claims: tuple[str, ...] = ()
-    detail: Literal['whole', 'requirements', 'fees', 'processing_time'] | None = None  # menu schema only
+    detail: Literal['whole', 'requirements', 'fees', 'processing_time', 'specific'] | None = None  # menu schema only
 
 
 class WireInterpretation(Contract):

@@ -178,7 +178,7 @@ def test_destination_example_does_not_fix_the_part_count():
 
 
 # Owner 28 Oct 2026: answer only the printed detail asked. The router labels each document part's detail.
-DETAILS = ['whole', 'requirements', 'fees', 'processing_time']
+DETAILS = ['whole', 'requirements', 'fees', 'processing_time', 'specific']
 
 
 def test_menu_parts_declare_one_printed_detail_and_the_default_schema_has_none():
@@ -202,3 +202,11 @@ def test_router_keeps_the_asked_detail_and_defaults_to_whole():
 def test_menu_prompt_explains_the_detail_choice():
     from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
     assert 'detail' in TOPIC_INSTRUCTION and 'whole' in TOPIC_INSTRUCTION
+
+
+def test_menu_prompt_offers_a_specific_detail_and_no_clarify_for_missing_personal_details():
+    # Gate 28 Oct 2026: "When am I considered a second-year student?" was labelled whole (no option fit one printed
+    # fact), and its Taglish form returned an empty clarify although the year-levels topic was selected.
+    from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
+    assert 'specific' in TOPIC_INSTRUCTION
+    assert 'personal details' in TOPIC_INSTRUCTION
