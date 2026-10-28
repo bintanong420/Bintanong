@@ -142,6 +142,8 @@ def load_research_app(path=None):
             raise ValueError('reviewed_curricula_required')
         assets = json.loads(_read(config.encoder_assets_path))['verified_assets']
         encoder = QueryEncoder(model_path=str(config.encoder_model_path), asset_digests=assets)
+        # Complete the cold load before exposing readiness or retrieval to concurrent requests.
+        encoder.load_model()
         resources = build_multi_research_resources(ledgers, package, encoder=encoder,
             authorization_ref=AUTHORIZATION, hosted={'client': client, 'release_id': RELEASE},
             program_names=config.program_names, curriculum_names=config.curriculum_names)
@@ -157,7 +159,6 @@ def load_research_app(path=None):
             await asyncio.to_thread(client.close)
         async def ready():
             await provider.pin()
-            await asyncio.to_thread(encoder.load_model)
             model_ok, _ = await probe_http_service(config.model_url, '/health')
             janus_ok, _ = probe_janus()
             return model_ok and janus_ok

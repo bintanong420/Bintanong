@@ -1,5 +1,6 @@
 """Tracked research app composition uses explicit sealed inputs and never a fictional fallback."""
 import hashlib
+import asyncio
 import importlib
 import json
 from pathlib import Path
@@ -122,3 +123,35 @@ def test_configured_readiness_checks_this_research_runtime_without_default_local
     assert response.json()['probes'] == {'student_runtime': available}
     assert 'private upstream detail' not in response.text
     assert seen['readiness_checked'] is True
+
+
+def test_concurrent_first_readiness_and_retrieval_share_one_completed_encoder_load(configured, monkeypatch):
+    import threading
+    import time
+    factory, path, seen = configured
+    class ColdEncoder:
+        def __init__(self):
+            self.model = None
+            self.loads = 0
+            self.lock = threading.Lock()
+        def load_model(self):
+            if self.model is None:
+                with self.lock:
+                    self.loads += 1
+                time.sleep(.05)  # release GIL while an actual model constructor would read/load weights
+                self.model = object()
+            return self.model
+        def encode(self, _query):
+            return self.load_model()
+    encoder = ColdEncoder()
+    monkeypatch.setattr(factory, 'QueryEncoder', lambda **kwargs: encoder)
+    async def pin(self):
+        return self.resources
+    monkeypatch.setattr(factory.ResearchProvider, 'pin', pin)
+    app = factory.load_research_app(path)
+    async def simultaneous_first_calls():
+        first, second, retrieval = await asyncio.gather(app.state.services.ready(),
+            app.state.services.ready(), asyncio.to_thread(encoder.encode, 'synthetic question'))
+        assert first is True and second is True and retrieval is encoder.model
+    asyncio.run(simultaneous_first_calls())
+    assert encoder.loads == 1

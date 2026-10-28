@@ -31,8 +31,9 @@ hosted Google provider, redirect allowlist or an actual PSU login is available.
 
 `GET /health/live` is process liveness. This factory's `/health/ready` checks its pinned hosted
 resources, existing local encoder, Janus and model health endpoint through one `student_runtime`
-probe; it does not use unrelated local Supabase/embedding-service defaults. Readiness can load the
-CPU encoder. It is not an inference, latency or answer-quality result.
+probe; it does not use unrelated local Supabase/embedding-service defaults. Factory startup loads
+the CPU encoder once before concurrent requests can reach it. Readiness is not an inference,
+latency or answer-quality result.
 
 Photos/scans remain unsupported. Upload text-based PDFs, review course choices, then confirm.
 Keep private inputs and all runtime evidence ignored. No institutional/public deployment or
