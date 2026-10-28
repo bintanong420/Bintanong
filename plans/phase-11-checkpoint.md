@@ -4,7 +4,7 @@ phase: 11
 status: in_progress
 sequence: 237
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 7b9f8d6
+head_commit: 7be3e1c
 working_tree: clean
 updated_at: 2026-10-28T18:00:00+08:00
 ---
@@ -21,69 +21,14 @@ quoted-field prototype retained. Prior source baseline4e99fb6;previous code free
 
 ## Current Task
 
-Gate run1 61/91 adjusted ([results](2026-10-28-simple-question-gate-results.md));fixes D 84ef585,C 289cf4b
-(router v24);gate rerun live. Guest lane merged 04e6d38 (B suite 9f804a7 7195/1608 exit0);own full suite
-04e6d38:7198pass/1608 exit0. Remaining:A topic/claim selection (15),B right-topic no answer (6).
-
-Owner28Oct:guest mode approved (master25.1 amendment,ledger);Codex B implements. Detail-only answers
-5ed4c98/6961e64 (focused1794pass);gate expansion (prereqs across14curricula) and live run next.
-
-Lanes merged:A e574d67 (41/44Charter),B 307a2bd (frontend/auth/sessions). Full suite reused from B c4f6f07
-(identical backend/tests trees):7164pass/1608 exit0. Sign-in verification pending (owner). Battery-8 307a2bd:7/8,3/3;lane B docs merged df3811a.
-
-Shifting option A 04e913f/12ac411 (menu destination example);battery-7 7/8,3/3. Split plan 799ae1e.
-Full suite 12ac411:7089pass/1608subtests,6skip/2xfail,1717.52s,exit0. Prereq probe A/p11-clarify-20261028/prereq-probe.
-
-[Clarify/condition wording](2026-10-28-clarify-and-condition-wording-results.md):d49aa27 all-of guard
-kept (RED5->GREEN13,focused1354);live cross-enroll as printed. Shifting grammar fixes ea6409a/8109ccb
-reverted (8cce770/eedbc07):model invented ambiguity,then course check. Battery-5 6/8,3/3. Evidence
-A/p11-clarify-20261028. Full suite eedbc07:7087pass/1608subtests,6skip/2xfail,1389.22s,exit0.
-
-Routing fixes 248b04f/1e5d249;live:4/4cases answered,3/3regressions match with selector+routing
-context (A/p11-printed-steps-20261029/live-check-2). Full suite1e5d249:7081pass/1608 exit0. Battery refresh:6/8answered,3/3regressions.
-
-[Printed steps results](2026-10-29-printed-service-steps-results.md):option A delivered b92cce2..
-c177400;23/44services render;good moral answered live28.8s. Routing blocks library card/entrance
-health. Evidence A/p11-printed-steps-20261029. Docker/model container restarted after sleep.
-
-[Segmentation results](2026-10-28-segmented-procedure-drafting-results.md):split tried/reverted
-473fbe2 (drift+latency);kept 9990175/0fd0db6;473fbe2 full7059/1608 exit0. 86d9e6d full
-7046/1608 exit0. Root cause:8-claim cap. Awaiting owner on host-rendered steps.
-
-[559answer checks](2026-10-28-559-answer-checks-results.md):gate FAILED,559inactive. Budgets
-54subjects/max8192;component240/240. Run1 routing overflow on all cases (full menu);86d9e6d
-`Orchestrator(topic_selection)` opt-in,default off. Run2:4/8answered,cross-enroll any-of error
-(x2),grade-excellent regression,2/3regressions match. Full suite for86d9e6d stopped by
-low memory,not run to completion;focused748pass only. Evidence A/p11-559-answer-checks-20261028.
-
-[Repair overflow retry](2026-10-28-repair-overflow-retry-results.md):attempt-2 repair
-refused by pre-inference `context_overflow` retries once without the previous draft;
-sources,errors,schema,8192/768/8 unchanged;first-draft/retry overflow still refuse.
-RED2fail -> GREEN3pass;focused907pass/254subtests;real counterexample8322/8331 ->
-7595/7603. Full7041pass/1608subtests1357.08s exit0. Codex b695739 re-verified
-(full7038/1608 exit0);Supabase MCP active release matches handoff.
-
-[Short review references](2026-10-27-short-review-reference-results.md):RED13fail
--> focused192pass3.34s;six formerly overflowing review prompts now fit,complete
-inverse payload identity. Three saved real-source quoted answers match in six model
-calls. Codeb695739;no default change,canonical host identities retained.
-Full7038pass/1608subtests,6skip/2xfail/6warnings1388.54s,exit0. Docs/phase30pass/
-14subtests25.59s (final13.00s);receipt/conservation/package/pin/local-link checks pass.
-
-[559vectors/maps](2026-10-27-559-vector-binding-results.md):local inactive package,
-559vectors/145subjects/240reviews.257new CPU embeddings/302exact reuses;all208parent
-reviews unchanged plus32bounded technical facets. Complete context stays required.
-[Capacity](2026-10-27-559-capacity-results.md):all initial prompts fit. Reachable
-repair counterexamples8322/8331now retry at7595/7603;answer/release gates open,active78unchanged.
-
-[Flow evidence](2026-10-27-flow-evidence-results.md),f635ccc:13->27chunks,532other
-records exact;66old fields/spans/events plus13visible markers/labels. H60/H64limited;
-61/63complete visible source;28connectors bound. Older complete-arrow codec unchanged.
-[Canonical/current bindings](2026-10-27-current-canonical-binding-results.md):
-559assignments/145subjects/208claims. Existing same-subject contract reused;both
-completion groups share grade_completion. Nine original records/four claims retained;
-all208actual selector/context/render profiles pass,source limits preserved.
-Bounded association/binding pass complete;current local package remains inactive.
+Simple-question gate (91 owner-accepted cases,[results](2026-10-28-simple-question-gate-results.md)):
+run1 61/91 adjusted,run2 e193093 70/91. Fixes 289cf4b (router v24 not-yet-passed claims),84ef585 (detail split),
+a6bc52a (single-detail coverage),2189faf (owner-resolved year-level limit),2112d62 (specific detail). Answer-only-
+asked-detail 5ed4c98/6961e64;all-of guard d49aa27;shifting option A 04e913f/12ac411. Lanes merged:A e574d67,
+B 307a2bd/df3811a,guest 04e6d38. Full suite 04e6d38:7198pass/1608 exit0;none since (focused runs only).
+Open:gate group A (~18 topic/claim picks),Taglish second-year clarify. Evidence A/p11-simple-gate-20261028,
+A/p11-clarify-20261028. Earlier task history (printed steps,559 checks,repair overflow,short reviews,vectors,
+flow evidence,bindings) is in the last full snapshot `7be3e1c` and the linked dated results.
 
 ## Repository State
 
