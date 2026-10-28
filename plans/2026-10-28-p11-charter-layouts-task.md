@@ -21,7 +21,7 @@ service-table association policies, dataset guide and owner ledger. Existing app
 baseline reused; no new product requirements. Thesis physical17–18 and39–44 read;
 runtime routing PNG inspected. Undergraduate/read-only scope and RAG/document path
 remain unchanged. Phase inspect valid; checkpoint points at eedbc07, whereas lane
-fork is12ac411; root owns reconciling central state. No phase advancement.
+fork is12ac411; Claude owns reconciling central state. No phase advancement.
 
 ## Dependency tasks, acceptance, verification
 
@@ -92,3 +92,17 @@ visually inspected; no new source reading or policy repair required.
 Real559:41/44parse and render in both languages. Remaining3:initialTOR and complex
 certifications (held initial mappings),feedback (prose). Next: final field-conservation,
 refusal/citation review and coordinated suite; no model or hosted calls.
+
+
+## Final verification / integration gate
+
+Self-review found split staff-pair fields lost their record citations and could coexist
+with a competing single/shared person:RED2expected failures32pass (`red6.log`),
+GREEN45focused1.53s (`green6.log`). Pair citations now preserved;ambiguous variants refuse.
+All generation-module regressions669pass21.84s,exit0 (`focused-final.log`/exit).
+Real fidelity41/44parse/render both languages,2318substantive field checks all retained
+in a claim citing its own source;46unresolved limits retained. See
+[results](2026-10-28-p11-charter-layouts-results.md). Bounds unchanged. No new source
+ambiguity. Full suite remains with Claude after integration;shared slot occupied.
+Next:commit final evidence/citation hardening,merge current primary if conflict-free,
+then deliver exact range to root/Claude for review and full suite.

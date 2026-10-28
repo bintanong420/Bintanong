@@ -75,6 +75,7 @@ def _table(records):
     record_row = 0
     grammar, ranges, fragments = set(), [], {}
     local_ranges, continuations, staff, shared_wheres = [], [], {}, {}
+    staff_evidence = {}
     field_evidence = []
     for evidence_id, text in records:
         record = json.loads(text)
@@ -175,7 +176,9 @@ def _table(records):
                 continuations.append((number, actions[0], int(m[2]), m[3], value, evidence_id))
                 continue
             if (m := re.fullmatch(r'step(\d+)_subaction(\d+)_(person|office)(\d+)', name)):
-                _put(staff.setdefault((int(m[1]), int(m[2])), {}).setdefault(int(m[4]), {}), m[3], value)
+                key = (int(m[1]), int(m[2]))
+                _put(staff.setdefault(key, {}).setdefault(int(m[4]), {}), m[3], value)
+                staff_evidence.setdefault(key, []).append(evidence_id)
                 continue
             if (m := re.fullmatch(r'step(\d+)_phase_heading', name)):
                 step = steps.setdefault(int(m[1]), dict(actions={}, shared={}, evidence=[]))
@@ -254,6 +257,9 @@ def _table(records):
                 any(set(pair) != {'person', 'office'} for pair in people.values())):
             raise ValueError('incomplete_staff_pairs')
         _put(steps[number]['actions'][action], 'staff', tuple((p['person'], p['office']) for _, p in sorted(people.items())))
+        for evidence in staff_evidence[number, action]:
+            if evidence not in steps[number]['evidence']:
+                steps[number]['evidence'].append(evidence)
     for number, parts in fragments.items():
         if set(parts) != {'fee_start', 'fee_continuation'} or number not in steps:
             raise ValueError('incomplete_fee_fragments')
@@ -289,6 +295,8 @@ def _table(records):
         for _, action in sorted(step['actions'].items()):
             if 'action' not in action or set(action) & set(shared) - {'fee'}:
                 raise ValueError('ambiguous_service_action')
+            if action.get('staff') and ({'person', 'office'} & (set(action) | set(shared))):
+                raise ValueError('ambiguous_staff_pairs')
             actions.append(Action(action['action'], *(action.get(k, shared.get(k) if k != 'fee' else None)
                                                       for k in ACTION_ATTRS), action.get('window'), action.get('staff', ())))
         built.append(Step(number, step['client_step'], shared.get('fee'), tuple(actions),

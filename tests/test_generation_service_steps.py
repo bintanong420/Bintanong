@@ -282,3 +282,19 @@ def test_phase_scoped_steps_preserve_reset_numbering_result_heading_and_requirem
     assert text.index('Step 2: 2. Receive permit') < text.index('FOR RESULT ISSUANCE') < text.index('Step 1: 1. Claim result')
     assert 'Additional Requirement for Issuance of Result\n- Claim stub — where to secure: Client\n- ID — where to secure: Client' in text
     assert parse_service([('e', record(*[f for f in fields if f[0] != 'result_phase_heading']))]) is None
+
+
+def test_staff_pair_fields_split_across_records_keep_every_source_citation():
+    action = record(('step1_client_step', 'Ask'), ('step1_action', 'Issue form'))
+    person = record(('step1_subaction1_person1', 'Clerk'))
+    office = record(('step1_subaction1_office1', 'Registrar'))
+    table = parse_service([('action', action), ('person', person), ('office', office)])
+    assert table is not None
+    assert table.steps[0].evidence_ids == ('action', 'person', 'office')
+
+
+def test_staff_pairs_conflicting_with_single_or_shared_person_refuse():
+    fields = [('step1_client_step', 'Ask'), ('step1_action', 'Issue form'),
+              ('step1_subaction1_person1', 'Clerk'), ('step1_subaction1_office1', 'Registrar')]
+    for name in ['step1_person', 'step1_subaction1_person']:
+        assert parse_service([('e', record(*fields, (name, 'Other person')))]) is None
