@@ -53,6 +53,7 @@ class _Session:
     answered_message: str | None = None
     pending_upload_id: str | None = None
     upload_facts: dict[str, tuple[str, ...]] = field(default_factory=dict)  # upload id -> fact ids it confirmed
+    account_id: str | None = None  # verified opaque identity, never an email or bearer token
 
 
 def _digest(credential: object) -> str | None:
@@ -74,46 +75,48 @@ class SessionStore:
         with self._lock:
             return len(self._sessions)
 
-    def issue(self) -> IssuedSession:
+    def issue(self, *, account_id: str | None = None) -> IssuedSession:
         credential = secrets.token_urlsafe(32)
         session_id = f'sess-{secrets.token_hex(16)}'
         with self._lock:
             self._purge_expired()
             if len(self._sessions) >= self._max and not self._evict_one_empty():
                 raise SessionLimitError('session_limit')
-            self._sessions[_digest(credential)] = _Session(session_id, self._clock())
+            self._sessions[_digest(credential)] = _Session(session_id, self._clock(), account_id=account_id)
         return IssuedSession(credential, session_id)
 
-    def resolve(self, credential: object) -> SessionView | None:
+    def resolve(self, credential: object, *, account_id: str | None = None) -> SessionView | None:
         with self._lock:
-            session = self._live(credential)
+            session = self._live(credential, account_id=account_id)
             return None if session is None else SessionView(session.session_id, session.facts, session.pending,
                                                                  session.conversation, session.pending_upload_id)
 
-    def set_facts(self, credential: object, facts: tuple[ScopedFact, ...]) -> None:
+    def set_facts(self, credential: object, facts: tuple[ScopedFact, ...], *, account_id: str | None = None) -> None:
         with self._lock:
-            session = self._owned(credential)
+            session = self._owned(credential, account_id=account_id)
             if any(f.session_id != session.session_id for f in facts):
                 raise ValueError('foreign_session_fact')
             session.facts = tuple(facts)
 
-    def set_conversation(self, credential: object, conversation: ConversationContext | None) -> None:
+    def set_conversation(self, credential: object, conversation: ConversationContext | None, *,
+                         account_id: str | None = None) -> None:
         with self._lock:
-            self._owned(credential).conversation = conversation
+            self._owned(credential, account_id=account_id).conversation = conversation
 
-    def set_pending(self, credential: object, extraction: ExtractionResult | None) -> str | None:
+    def set_pending(self, credential: object, extraction: ExtractionResult | None, *,
+                    account_id: str | None = None) -> str | None:
         """Replaces any earlier pending rows; returns the new upload id."""
         with self._lock:
-            session = self._owned(credential)
+            session = self._owned(credential, account_id=account_id)
             session.pending = extraction
             session.pending_upload_id = None if extraction is None else f'upl-{secrets.token_hex(8)}'
             return session.pending_upload_id
 
     def confirm_pending(self, credential: object, decisions: dict[str, tuple[str, str]], *,
-                        upload_id: str | None = None) -> tuple[ScopedFact, ...]:
+                        upload_id: str | None = None, account_id: str | None = None) -> tuple[ScopedFact, ...]:
         """Student's row choices become facts; a new statement for a course replaces the earlier one."""
         with self._lock:
-            session = self._owned(credential)
+            session = self._owned(credential, account_id=account_id)
             if session.pending is None:
                 raise ValueError('no_pending_extraction')
             if upload_id is not None and upload_id != session.pending_upload_id:
@@ -130,10 +133,10 @@ class SessionStore:
             session.pending = session.pending_upload_id = None
             return session.facts
 
-    def delete_upload(self, credential: object, upload_id: str) -> bool:
+    def delete_upload(self, credential: object, upload_id: str, *, account_id: str | None = None) -> bool:
         """Removes the upload's pending rows and the facts it confirmed that are still current."""
         with self._lock:
-            session = self._live(credential)
+            session = self._live(credential, account_id=account_id)
             if session is None:
                 return False
             found = upload_id == session.pending_upload_id
@@ -144,45 +147,51 @@ class SessionStore:
                 session.facts = tuple(f for f in session.facts if f.fact_id not in confirmed)
             return found or confirmed is not None
 
-    def begin_turn(self, credential: object, message_id: str, *, regenerate: bool = False) -> None:
+    def begin_turn(self, credential: object, message_id: str, *, regenerate: bool = False,
+                   account_id: str | None = None) -> None:
         """One chat turn at a time per session; a completed message is not answered twice."""
         with self._lock:
-            session = self._owned(credential)
+            session = self._owned(credential, account_id=account_id)
             if session.turn_in_flight:
                 raise ValueError('chat_in_progress')
             if not regenerate and message_id == session.answered_message:
                 raise ValueError('already_answered')
             session.turn_in_flight = True
 
-    def end_turn(self, credential: object, message_id: str, *, completed: bool) -> None:
+    def end_turn(self, credential: object, message_id: str, *, completed: bool,
+                 account_id: str | None = None) -> None:
         """A session deleted or expired during the turn stays gone."""
         with self._lock:
-            session = self._live(credential)
+            session = self._live(credential, account_id=account_id)
             if session is None:
                 return
             session.turn_in_flight = False
             if completed:
                 session.answered_message = message_id
 
-    def delete(self, credential: object) -> bool:
+    def delete(self, credential: object, *, account_id: str | None = None) -> bool:
         key = _digest(credential)
         with self._lock:
-            return key is not None and self._sessions.pop(key, None) is not None
+            session = self._sessions.get(key) if key else None
+            if session is None or session.account_id != account_id:
+                return False
+            del self._sessions[key]
+            return True
 
     def wipe(self) -> None:
         with self._lock:
             self._sessions.clear()
 
-    def _owned(self, credential: object) -> _Session:
-        session = self._live(credential)
+    def _owned(self, credential: object, *, account_id: str | None = None) -> _Session:
+        session = self._live(credential, account_id=account_id)
         if session is None:
             raise KeyError('unknown_session')
         return session
 
-    def _live(self, credential: object) -> _Session | None:
+    def _live(self, credential: object, *, account_id: str | None = None) -> _Session | None:
         key = _digest(credential)
         session = self._sessions.get(key) if key else None
-        if session is None:
+        if session is None or session.account_id != account_id:
             return None
         now = self._clock()
         if now - session.last_seen > self._idle:
