@@ -8,18 +8,16 @@ Last full snapshot before condensation: `7be3e1c` (earlier ba7d8b4, 40a35f9, f63
 
 ## Latest change
 
-Simple-question gate ([results](../2026-10-28-simple-question-gate-results.md), 91 owner-accepted cases):
-run 1 58/91 (61 adjusted), run 2 `e193093` 67/91 (70 adjusted). Fixes, all test-first:
-- `289cf4b` router v24: not yet passed / not taken = failed claim (Taglish eligibility 7/7 fixed).
-- `84ef585` detail answers split within claim limits, phase headings kept (TOR time, admission fee fixed).
-- `a6bc52a` single-detail parts skip whole-procedure coverage (substitution deadline passes en/Taglish).
-- `2189faf` owner-resolved source limits: year-level overlap shown as printed, no note (owner 28 Oct).
-- `2112d62` `specific` detail and no clarify for missing personal details (second-year en passes).
-Earlier today: answer only the asked detail (5ed4c98/6961e64), all-of wording guard d49aa27, shifting
-option A 04e913f/12ac411 ([clarify results](../2026-10-28-clarify-and-condition-wording-results.md)).
+Topic families batch 1 (owner 28 Oct: F1-F4 and "separate" approved; F4 "b perhaps" provisional) and printed
+openings, `a4f33f7` test-first (RED 9 fail -> GREEN 9 pass; related 558 pass). 88 unlabelled Handbook topics show a
+verbatim 100-char opening (defects withhold it); one family member brings its siblings (<=8). Real selector prompt
+3409 -> 5625 tokens. Live 12 affected cases (run-a4f33f7-families): 3 newly pass (refund en/Taglish, transfer fee).
+Selector now right for drop (FAQ), probation (standing), honors; remaining are router claim/detail picks.
+Gate case req-transfer-en now expects a clarification (F4). Earlier today: simple-question gate run 2 67/91
+([results](../2026-10-28-simple-question-gate-results.md)); router v24, detail split, owner year-level limit.
 
-Verification: full suite on `f0889c3` (includes a6bc52a/2189faf/2112d62) 7203 pass / 1608 subtests,
-6 skip / 2 xfail, exit 0 (1376.65 s; A/p11-fullsuite-20261028b). Prior 04e6d38 run 7198 pass.
+Verification: full suite on `a4f33f7` 7212 pass / 1608 subtests, 6 skip / 2 xfail, exit 0 (1378.87 s;
+A/p11-fullsuite-20261028c). Prior f0889c3 7203 pass.
 
 ## Lane status (owner 28 Oct)
 
@@ -34,14 +32,12 @@ Verification: full suite on `f0889c3` (includes a6bc52a/2189faf/2112d62) 7203 pa
 
 ## Open gate failures (diagnosed 28 Oct, run-e193093 call artifacts)
 
-1. Selector topic: Handbook menu entries are ID-only (no printed heading), so drop -> handbook_dac_policy,
-   refund -> handbook clause, transfer -> handbook_transfer_credentials, certification fee -> charter_tor_copy,
-   Taglish probation -> discipline. k-NN only searches the selected topic's chunks.
-2. Router claim: diploma/DAC/overdue pick a not-stated claim; two-topic picks choose the wrong one
-   (honors residence, English probation, grad residence).
-3. Law admission not routed to the undergraduate-scope notice. Taglish second-year: empty clarify (stop rule).
-Proposed to owner: printed Handbook headings in the selector menu; optional owner-reviewed "topic families"
-(overlapping topics selected and answered together; clarify only when the answer materially differs).
+1. Selector topic: fixed for drop/probation/honors/refund by a4f33f7; certification fee still -> charter_tor_copy
+   (charter_certifications has no label: held). k-NN only searches the selected topic's chunks.
+2. Router claim/detail: drop (en/Taglish), diploma, DAC, overdue pick a not-stated claim; probation and honors
+   ask `whole` over multi-chunk topics -> repair_exhausted; grad residence answers max-residence clause.
+3. F4 clarify (leaving vs transferring in) not built; Law scope notice; Taglish second-year empty clarify.
+Families combine selection only; one part still answers from one subject (multi-source answers not built).
 
 ## Package state and boundaries
 
@@ -51,5 +47,6 @@ institutional approval, Phase 11 exit or Phase 12 advance.
 
 ## Next action
 
-Await owner answer on topic families; then fix 1 (selector headings) test-first, fixes 2-3, full gate rerun.
+Fix 2 test-first (router: printed fields over not-stated for how-to; `specific` over `whole` for one rule), then
+F4 clarify and Law scope, then full gate rerun.
 Mark `LIVE RUN` here while using the model.

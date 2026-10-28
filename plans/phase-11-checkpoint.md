@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 238
+sequence: 239
 plan: plans/phase-11-backend-api-plan.md
-head_commit: f0889c3
+head_commit: a4f33f7
 working_tree: clean
-updated_at: 2026-10-28T21:00:00+08:00
+updated_at: 2026-10-28T23:30:00+08:00
 ---
 
 # Phase11checkpoint — 559vectors/maps verified;prompt capacity measured
@@ -25,10 +25,11 @@ Simple-question gate (91 owner-accepted cases,[results](2026-10-28-simple-questi
 run1 61/91 adjusted,run2 e193093 70/91. Fixes 289cf4b (router v24 not-yet-passed claims),84ef585 (detail split),
 a6bc52a (single-detail coverage),2189faf (owner-resolved year-level limit),2112d62 (specific detail). Answer-only-
 asked-detail 5ed4c98/6961e64;all-of guard d49aa27;shifting option A 04e913f/12ac411. Lanes merged:A e574d67,
-B 307a2bd/df3811a,guest 04e6d38. Full suite f0889c3:7203pass/1608subtests,6skip/2xfail,exit0,1376.65s
-(A/p11-fullsuite-20261028b);prior04e6d38 7198pass.
-Open:gate group A diagnosed:selector ID-only Handbook labels,router not-stated/wrong-topic claim picks,Law scope;
-Taglish second-year clarify. Owner asked about topic families;answer pending. Evidence A/p11-simple-gate-20261028,
+B 307a2bd/df3811a,guest 04e6d38. Topic families batch1 (owner ledger 28Oct) + printed openings a4f33f7:
+RED9fail->GREEN9pass,related558pass;selector prompt3409->5625tokens;live12 affected:3newly pass.
+Full suite a4f33f7:7212pass/1608subtests,6skip/2xfail,exit0,1378.87s (A/p11-fullsuite-20261028c);
+prior f0889c3 7203pass. Open:router not-stated/whole-detail picks (drop,diploma,DAC,overdue,probation,honors,
+grad residence),F4 clarify (owner "b perhaps";req-transfer-en expects clarify),Law scope,Taglish second-year. Evidence A/p11-simple-gate-20261028,
 A/p11-clarify-20261028. Earlier task history (printed steps,559 checks,repair overflow,short reviews,vectors,
 flow evidence,bindings) is in the last full snapshot `7be3e1c` and the linked dated results.
 
@@ -120,8 +121,8 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Owner answer on topic families;then selector printed-heading fix test-first,router claim and Law scope fixes,
-then full gate rerun.
+Fix2 test-first:router prefers printed fields over not-stated for how-to and `specific` over `whole` for one
+rule;then F4 clarify,Law scope,full gate rerun.
 
 ## Context Consulted
 

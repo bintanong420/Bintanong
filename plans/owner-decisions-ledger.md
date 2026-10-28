@@ -543,3 +543,7 @@ Each program still gets its own dated review record listing which standing rule 
   ask. Kept separate: handbook_standing vs handbook_discipline_process (probation); handbook_residence vs
   handbook_graduation vs handbook_undergraduate_honors_policy (residence). A family is selected and answered
   together with per-source citations. Research-build grouping only, not school validation or activation.
+- 28 Oct 2026 (F4 transfer wording): asked whether "requirements for transfer credentials" should mean leaving
+  PalSU (a) or be clarified first (b); owner replied "b perhaps". Applied provisionally: when leaving vs transferring
+  in is not stated, ask first; the gate case `req-transfer-en` now expects a clarification. Revisit if testing
+  shows the question adds friction.
