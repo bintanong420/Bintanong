@@ -96,7 +96,23 @@ data-answer `notice` and shows small and muted under the answer (backend RED 6 -
 66/66, typecheck 0). Browser-checked (smoking penalty, exact quotes). `npm ci` in p11/frontend (owner): 89 packages,
 0 vulnerabilities, lockfile unchanged; the site now runs from this worktree.
 
+## Late 29 Oct (owner decisions in ledger)
+
+- `d5e638a` course title-initial abbreviations (963 approved, e.g. DSA = CC 4/L), any case, curriculum-scoped;
+  `159d1f3`/`9820734` a mention fitting two courses lists each with printed code, title, year/semester, units.
+- `cb82c53` reviewed Filipino shorthand expansion (`backend/bintanong_routing/shorthand.py`); probe 8/26 -> 15/26
+  (normal spelling 20/26; list built after seeing the probe: disclosed). Docs: `docs/evaluation/accepted-input-forms.md`
+  (forms, probe questions, research basis).
+- Benchmark layout (owner): main 50 = 24 English / 16 Taglish / 10 pure Tagalog (`p12-benchmark-20261029/benchmark-cases-v2.json`);
+  shorthand Taglish (26) and broken English (4, `loose/`) are separate robustness results.
+- Runs at cb82c53 (A/p12-benchmark-20261029): shorthand2 done; condition-c4 (original 50), tagalog (26), loose (4)
+  queued/running in this session and stop if the CLI closes. Restart with the commands in the exit/log files' scripts:
+  `run_condition_c.py` (GATE_SUFFIX=-condition-c-cb82c53), `tagalog/run_tagalog.py`, `loose/run_loose.py`,
+  each with GATE_PACKAGE=p11-faq-split-20261028/runtime-package; check for existing run-* folders first.
+- No full suite yet on d5e638a..cb82c53 (related tests 1546 pass).
+
 ## Next action
 
-Phase 12 evaluation write-up from the existing benchmark evidence (methodology, scoring, thesis tables); deployment
-cancelled. Services left running: Gemma :18088, backend :8021 (local 560), Next.js :3216 (integration worktree).
+Finish/summarize the three runs; v2 score = 40 non-swapped from condition-c4 + 10 Tagalog from the Tagalog run;
+update `docs/evaluation/benchmark-questions.md` (24/16/10, kind column) and the robustness tables; batched full suite;
+then the Phase 12 plan and write-up. Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.
