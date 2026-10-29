@@ -28,6 +28,8 @@ from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExpla
 from .ledger_contracts import ANSWERED_LEDGERS
 from .quoted_field import quoted_field_parts
 
+TRUNCATED_DRAFT_OUTPUT_TOKENS=1536
+
 
 def _seconds(value):
     if type(value) not in (int,float) or not math.isfinite(value) or not 0<value<=600:
@@ -157,7 +159,14 @@ class Generator:
                     schema=(part_schema(pack,references) if per_part else document_schema(pack) if scoped else
                             draft_schema(pack,references=references))
                     try:
-                        raw=await self.transport.infer(draft_request(previous),schema)
+                        try:
+                            raw=await self.transport.infer(draft_request(previous),schema)
+                        except RuntimeFailure as error:
+                            if str(error)!='truncated_output':
+                                raise
+                            # Owner 30 Oct 2026: a long draft cut off at the output limit gets one larger attempt.
+                            raw=await self.transport.infer(draft_request(previous),schema,
+                                                           max_output_tokens=TRUNCATED_DRAFT_OUTPUT_TOKENS)
                     except RuntimeFailure as error:
                         if str(error)!='context_overflow' or not previous:
                             raise
