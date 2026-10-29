@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 28 October 2026. Phase 11 active; p11 / `feat/p11-fullstack-integration` (owner 28 Oct: branched from
+Updated 30 October 2026. Phase 11 closed, Phase 12 prepared; p11 / `feat/p11-fullstack-integration` (owner 28 Oct: branched from
 `feat/p11-backend-api` f0889c3; frontend-integration and charter-layouts lanes pushed to origin; this branch local only).
 [Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
 [Session handoff](../2026-10-28-phase11-session-handoff.md).
@@ -115,5 +115,8 @@ data-answer `notice` and shows small and muted under the answer (backend RED 6 -
 
 Runs finished and recorded (`5fe66cc`): main 50 v2 = 38/50; regression check 39/50; Tagalog 19/26; shorthand 15/26;
 broken English 2/4. absence-taglish diagnosed (30 Oct): identical selector request, one-off server non-determinism
-(8/8 replays correct); recorded in the benchmark results. Next: batched full suite on cb82c53+, then the Phase 12
-plan and write-up. Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.
+(8/8 replays correct); recorded in the benchmark results. Phase 12 [plan](../phase-12-evaluation-writeup-plan.md)
+prepared with [pre-phase research](../2026-10-30-phase-12-pre-phase-research.md) (`f2b00dc`); paired stats done
+(C 40/50 Wilson [0.67,0.89] vs A 3/50, exact McNemar 37/0, p≈1.5e-11). Batched full suite running at `0d6ebac`
+(A/p11-fullsuite-20261030a). Next: owner decisions (hosted 560 activation now? single runs ok?), then the report.
+Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.
