@@ -86,3 +86,14 @@ def test_condition_line_of_a_real_answer_is_shown_in_plain_words(language, label
     text = answer.text.replace('Conditions: fictional-prereq-met', f'{label}: passed:CC 4/L')
     shown = student_text(answer.model_copy(update={'text': text, 'language': language}))
     assert expected in shown.splitlines()
+
+
+@pytest.mark.parametrize('tag', [' (e2)', ' (e2, e3)', ' (e2 and e3)'])
+def test_student_text_drops_short_evidence_aliases_the_model_wrote_into_a_claim(tag):
+    answer = answer_for('RAG')
+    claim = answer.claims[0]
+    tagged = claim.model_copy(update=dict(text=claim.text + tag))
+    text = answer.text.replace(f'{claim.text} [', f'{tagged.text} [', 1)
+    answer = answer.model_copy(update=dict(claims=(tagged, *answer.claims[1:]), text=text))
+    shown = student_text(answer)
+    assert tag.strip() not in shown and claim.text in shown

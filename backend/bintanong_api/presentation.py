@@ -1,7 +1,7 @@
 """Student view of a validated answer (owner O4, 23 Oct 2026: students never see variable or function names).
 
 The canonical `CandidateAnswer.text` is what the validator checks byte for byte, so it is never changed; it stays
-the researcher diagnostic. The student view drops the check-scope line, evidence ids and citation lines (citations
+the researcher diagnostic. The student view drops the check-scope line, evidence ids and aliases and citation lines (citations
 travel as separate source parts) and turns the Prolog runtime's condition codes into plain phrases.
 """
 from __future__ import annotations
@@ -35,6 +35,8 @@ _PHRASES = {
 _LANGUAGES = ('en', 'fil', 'taglish')
 _CODE = re.compile(r'\b([a-z]+(?:_[a-z]+)*):(\S[^,\n]*)')
 _SCOPE_LABELS = ('Check scope', 'Sakop ng check')
+# Short evidence aliases (e1, e2, ...) the model may write into a claim; its citations travel as source parts.
+_ALIASES = re.compile(r'\s*\(e\d+(?:\s*(?:,|and|at)\s*e\d+)*\)')
 
 
 def humanize_codes(line: str, language: str) -> str:
@@ -52,7 +54,7 @@ def student_text(answer) -> str:
     listed = tuple(f'{words[key]}: ' for key in ('conditions', 'missing', 'dependency'))
     scope = (tuple(f'{label}: {answer.structured_context.operation};' for label in _SCOPE_LABELS)
              if answer.structured_context is not None else ())
-    claims = {f"{c.text} [{', '.join(c.evidence_ids)}]": c.text for c in answer.claims}
+    claims = {f"{c.text} [{', '.join(c.evidence_ids)}]": _ALIASES.sub('', c.text) for c in answer.claims}
     cited = tuple(f'[{card.evidence_id}] ' for card in answer.citations)
     shown = []
     for line in answer.text.splitlines():
