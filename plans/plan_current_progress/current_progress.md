@@ -113,6 +113,6 @@ data-answer `notice` and shows small and muted under the answer (backend RED 6 -
 
 ## Next action
 
-Finish/summarize the three runs; v2 score = 40 non-swapped from condition-c4 + 10 Tagalog from the Tagalog run;
-update `docs/evaluation/benchmark-questions.md` (24/16/10, kind column) and the robustness tables; batched full suite;
+Runs finished and recorded (`5fe66cc`): main 50 v2 = 38/50; regression check 39/50 (absence-taglish lost, undiagnosed);
+Tagalog 19/26; shorthand 15/26; broken English 2/4. Next: diagnose absence-taglish, batched full suite on cb82c53+,
 then the Phase 12 plan and write-up. Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.
