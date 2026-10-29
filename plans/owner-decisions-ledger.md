@@ -589,3 +589,7 @@ Each program still gets its own dated review record listing which standing rule 
   curriculum, any capitalization. When one fits two courses in a curriculum, ask which course is meant (owner chose
   "Ask which one"; supersedes the 21 Oct "not created" rule for abbreviations only). Answers keep printed codes and
   titles; not a unit/lab/equivalence finding.
+- 29 Oct 2026 (shorthand Taglish, option A): after the probe (8/26 shorthand vs 20/26), owner chose a reviewed
+  shortcut list and approved it without the dropped-vowel words copied from the test questions (kmuha, ktagal,
+  mtanggal, ggwin, npasa, npapasa). Whole-word, lowercase-only for single letters, uppercase "PWD" untouched;
+  expanded text is used for understanding only, the student's own wording is displayed.

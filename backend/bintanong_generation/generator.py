@@ -7,6 +7,7 @@ import math
 from ..bintanong_orchestration.contracts import IntegrationResult
 from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
+from ..bintanong_routing.shorthand import expand_shorthand
 from .contracts import AnswerDraft,CandidateAnswer,GuardObservation,CoverageObservation,ProseClaim
 from .deadline_conflict import unresolved_deadline_context
 from .evidence import prepare
@@ -256,6 +257,7 @@ class AnswerPipeline:
 
     async def run(self,text,context):
         prepare_query(text)
+        text=expand_shorthand(text)  # owner 29 Oct 2026: reviewed Filipino shorthand, understanding only
         context=RequestContext.parse(context.model_dump(mode='json'))
         loop=asyncio.get_running_loop()
         deadline=loop.time()+self.timeout_seconds
