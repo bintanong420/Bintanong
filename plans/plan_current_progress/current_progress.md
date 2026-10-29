@@ -76,8 +76,15 @@ eligibility, grade policies and academic standing, disciplinary policies. Honors
 confirm -> follow-up, deletion all work ([results](../2026-10-29-local-documents-website-results.md)).
 Config: A/p11-local-documents-20261029/research-api-config.json (old 78 config unchanged). Hosted activation deferred.
 
+## Phase 12 benchmark and final suite (29 Oct)
+
+Benchmark (50 en/Taglish, four owner categories; 40 development cases disclosed): full system 40/50 at `7f8c02b`
+(disciplinary 2/10 -> 7/10 via `38ccb83` printed row names and `7f8c02b` exact penalty quotes; no regressions);
+plain Gemma 3/50 strict, 8/50 content ([results](../2026-10-29-phase12-benchmark-results.md),
+[questions](../../docs/evaluation/benchmark-questions.md)). `37688aa` hides "(e2)" aliases in student text.
+Batched full suite at `e50e18a`: 7247 pass / 1608 subtests, 6 skip / 2 xfail, 4 batches exit 0 (A/p11-fullsuite-20261029b).
+
 ## Next action
 
-Phase 12 benchmark: 50 common English/Taglish queries across enrollment procedures, prerequisite eligibility,
-grade policies and academic standing, disciplinary policies; then the browser check and the Phase 11 handoff.
-LIVE RUN (29 Oct): Phase 12 benchmark conditions C then A (A/p12-benchmark-20261029).
+Owner approval to close Phase 11 with disclosures (photos unsupported, 24.2 counted rerun not done, hosted 560
+activation deferred, Next.js browser check pending); then Phase 11 handoff and Phase 12 write-up.

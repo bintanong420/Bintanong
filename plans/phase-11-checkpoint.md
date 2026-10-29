@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 244
+sequence: 245
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 06b11cc
+head_commit: ac1d057
 working_tree: clean
-updated_at: 2026-10-29T18:00:00+08:00
+updated_at: 2026-10-29T23:30:00+08:00
 ---
 
 # Phase11checkpoint — 559vectors/maps verified;prompt capacity measured
@@ -39,7 +39,9 @@ crim-1-1-taglish selector ambiguous. 29Oct gate4 (code9553ed9,run-75ec50f-gate4b
 (A/p11-fullsuite-20261029a). Local Supabase stack stopped for memory (owner OK);only supabase_db_Bintanong restarted.
 29Oct: f235319 Handbook policy partial coverage (option A;RED1->GREEN4,related1054;honors/probation pass live);
 d1a2d53 local-documents pin (RED3->GREEN17,related356);website backend live on 560 package:3 routes,upload,delete pass.
-Deployment (Phase13) cancelled;finish target30Oct;hosted 560 activation deferred (ledger). Evidence A/p11-simple-gate-20261028,
+Deployment (Phase13) cancelled;finish target30Oct;hosted 560 activation deferred (ledger).
+Benchmark 50 (A/C): C 40/50 at7f8c02b (38ccb83 row names,7f8c02b penalty quotes;no regressions),A 3/50 strict.
+37688aa student alias strip. Batched full suite at e50e18a:7247pass/1608subtests,6skip/2xfail,exit0. Evidence A/p11-simple-gate-20261028,
 A/p11-clarify-20261028. Earlier task history (printed steps,559 checks,repair overflow,short reviews,vectors,
 flow evidence,bindings) is in the last full snapshot `7be3e1c` and the linked dated results.
 
@@ -131,7 +133,7 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Phase 12 benchmark (50 en/Taglish common queries, four owner categories), browser check, Phase 11 handoff.
+Owner approval to close Phase 11 with disclosures; then handoff, INDEX, phase_state validate/can-advance.
 
 ## Context Consulted
 
