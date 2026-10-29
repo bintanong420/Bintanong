@@ -6,6 +6,13 @@ Last full snapshots: ingestion `2f7c935`, upstream `f0889c3`; use `git show`.
 
 ## Latest change
 
+Owner30Oct:do not use the LM Studio projector,including copying/repackaging it.
+Adaptation plan/operator guide now require a separately approved compatible asset.
+Fresh shared-MODELS inventory found the Gemma GGUF but no projector;live local
+vision awaits an eligible asset. Adapter/tests can progress independently. No
+model files read for inference,moved,downloaded or launched during this correction.
+Projector-policy docs22pass/6.43s;phase statevalid;application unchanged.
+
 [Adaptation plan](../2026-10-30-ai-ingestion-adaptation-plan.md) created from the
 reconciled developer requirements and inspected current code. Six tasks:freeze
 inputs/environment,normalize redundant-null model advice,repeatable local Gemma,

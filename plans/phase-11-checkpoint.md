@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 241
+sequence: 242
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 78bdab6
+head_commit: 730030b
 working_tree: clean
 updated_at: 2026-10-30
 ---
@@ -31,6 +31,9 @@ without loosening canonical validation. Tasks2–5 cover local model setup,real 
 save/build proof,conditional Llama run and measured usefulness. Planning only;
 application implementation has not started. [Requirements](2026-10-30-ai-ingestion-developer-requirements.md)
 retain the owner-supplied developer text and source hashes. No model perfection gate.
+Owner30Oct excludes the LM Studio projector,including relocated copies. Shared
+MODELS has no eligible projector;resolve a separately approved compatible asset
+before live vision. Plan/operator guide updated;no model/code/runtime changes.
 
 ## Repository State
 
@@ -38,7 +41,7 @@ Branch feat/p11-policy-ingestion-review;original123aa1e,status preservation2f7c9
 Recovery ref recovery/policy-before-f0889c3-20261030. Full snapshots local2f7c935,
 upstreamf0889c3;olderd3f4114/7be3e1c remain recoverable with git show.
 Merge8cdba68 contains both parents2f7c935/f0889c3;status conflicts reconciled.
-head_commit records requirements receipt78bdab6;only adaptation-plan documentation follows it.
+head_commit records adaptation plan730030b;only projector-policy documentation follows it.
 Tracked tree clean after the receipt commit;all work remains local.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence.
 A/p11-backend-refresh-f0889c3-20261030 preserves bytes,patch and other branch heads.
@@ -46,6 +49,7 @@ No push,other-worktree update,runtime-pin edit or service restart.
 
 ## Verification Evidence
 
+Projector-policy docs22pass6.43s;phase statevalid;shared-MODELS inventory found no projector.
 Adaptation-plan documentation:22tests pass1.51s;phase statevalid;application unchanged.
 Requirements reconciliation:22docs tests pass1.70s;phase statevalid. No code changes.
 Fresh:ls-remote verifies backend tip;fetch succeeds;pre-merge docs10passed.
@@ -82,6 +86,8 @@ reviewed authoring and English/Taglish replies remain binding.
 
 ## Known Failures or Blockers
 
+LM Studio projector is excluded by owner;no eligible projector in shared MODELS.
+Local live vision awaits a separately approved compatible asset;no download implied.
 27Oct native Docling failed on Transformers/huggingface-hub mismatch;fresh conversion
 not proven. Vision image I/O passed but advice missed a corrupt grade range and
 violated the contract;manual review remains. Live LlamaParse/human A-B absent.

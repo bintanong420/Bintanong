@@ -55,13 +55,15 @@ py -3.13 -m backend.bintanong_tools.knowledge_update prepare "$work/inputs/manif
 
 The example URL is configuration, not proof that a server is running there.
 Gemma 4 E4B supports images according to Google's
-[model card](https://ai.google.dev/gemma/docs/core/model_card_4). This installation
-has the shared GGUF and an existing matching BF16 projector in LM Studio's model
-cache. The earlier shared-folder-only search missed that asset. A temporary local
-server successfully processed image input,but the captured grading-row check gave
-an incorrect no_change response and invalid nonproposal metadata;manual review was
-retained. See the [live check](../../plans/2026-10-27-local-vision-readiness.md).
-The probe server is stopped. No download or student-model reconfiguration occurred.
+[model card](https://ai.google.dev/gemma/docs/core/model_card_4). Owner30Oct:
+**do not use the LM Studio projector**,including copying it to another location.
+Use the shared GGUF with a separately approved compatible projector. The30Oct
+shared-MODELS inventory found no projector;live local image inference therefore
+needs that asset resolved first. No download or substitute asset is authorized here.
+The [27Oct live check](../../plans/2026-10-27-local-vision-readiness.md) used the
+now-excluded projector and remains historical only. It processed image input but
+missed a corrupt grade range and violated the advisory format;manual review remained.
+That evidence does not authorize reusing the excluded asset. The probe was stopped.
 
 Modes are `none` (default; no AI), `flagged` (existing findings/source gaps), `all`
 (every eligible field), and `selected` (explicit pages or `--assist-items` IDs).

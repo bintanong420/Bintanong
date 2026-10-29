@@ -25,6 +25,10 @@ at8cdba68. This is a Phase11 task plan,not another numbered phase or phase closu
   release/pin mutation,automatic publication or push. Original T4/T5 remain separate.
 - No fine-tuning,new model downloads,installs or dependency/lock changes implied.
   Use existing assets;document exact environment repairs separately if required.
+- Owner30Oct:do not use the LM Studio projector. Do not read/load it for inference,
+  copy it into MODELS or repackage it under another path. Use a separately approved,
+  compatible projector;none was found in shared MODELS during the current inventory.
+  Prior27Oct image tests remain historical evidence,not approval to reuse that asset.
 - No AI-to-trusted-Prolog path;symbolic authoring stays separately reviewed. Shared
   canonical/source/schema changes require owner coordination before implementation.
 - Preserve originals,frozen78baseline,old packets,journals and owner processes.
@@ -43,7 +47,7 @@ at8cdba68. This is a Phase11 task plan,not another numbered phase or phase closu
 | `vision.py` | Explicit image endpoint,generic JSON,60s default timeout | Clarify prompt and accommodate the observed redundant null at this boundary. |
 | `advisory.py` | Strict outcomes/value types/privilege rejection,all pending | Keep the canonical contract unchanged. |
 | `prepare.py` | Native candidate bundle reuse;advice added before packet hash | Use genuine hash-verified script output;frozen reviewed_snapshot refuses assistance. |
-| Local model | Shared GGUF+existing LM Studio projector processed images27Oct | Isolated loopback llama-server;no student server reconfiguration. |
+| Local model | Prior image proof used a now-excluded projector;shared MODELS currently contains only the model GGUF | Keep the GGUF;resolve a separately approved compatible projector before live image inference. |
 | Native conversion | Recorded Transformers/huggingface-hub conflict | Check compatible existing environment/cached native bundle;never hide fresh-conversion failure. |
 | Review/build | Human saved values already feed chunk construction | Prove real assisted delivery and correction propagation;reuse existing journal/builders. |
 | LlamaParse | Ranges,resume,partial recovery and synthetic proof exist | Exercise existing adapter with a key/quota;no new SDK or parser. |
@@ -75,7 +79,10 @@ Write ignored `inputs.json`/`environment.json`;no product code change needed.
 **Interface:** retain `prepare(manifest_path,out,*,converter=None,assist_provider=None,
 assist_mode='none',assist_pages=(),assist_items=()) -> dict` and manifest v1.
 
-- [ ] Record Git/environment versions and owner ports;verify existing binary/model/projector paths.
+- [ ] Record Git/environment versions and owner ports;verify existing binary/model paths.
+  Inventory separately approved projector assets without using the LM Studio cache.
+  If absent,record the exact required compatible asset/source for an owner decision;
+  no download,copy or vision startup. Continue adapter/tests/Llama preparation independently.
 - [ ] Reuse workspace `audit-evidence/p11-ai-ingestion-20261027/matched-sample/sample.json`
   and source hashes. Initial pilot:Handbook physical46 and Charter11–12,plus any
   required companion pages for the complete existing logical service step. Freeze
@@ -137,8 +144,10 @@ Improved prompting is not assumed to fix the previously missed grade discrepancy
 - [ ] Resolve prior binary from ignored `p11-live-vision-20261027/command.json`:
   `C:/Users/Hawksprey/AppData/Local/Microsoft/WinGet/Packages/ggml.llamacpp_Microsoft.Winget.Source_8wekyb3d8bbwe/llama-server.EXE`.
   Model:`C:/Coding-projects/bintanong_workspace/MODELS/GEMMA_4_E4B/gemma-4-E4B-it-UD-Q4_K_XL.gguf`.
-  Projector:`C:/Users/Hawksprey/.lmstudio/models/lmstudio-community/gemma-4-E4B-it-GGUF/mmproj-gemma-4-E4B-it-BF16.gguf`.
-  Verify actual paths/current flags;record SHA256 once. No downloads or copies.
+  Projector:explicit path to a separately approved compatible asset under shared MODELS.
+  No eligible projector was found there on30Oct;Task0 must resolve this prerequisite.
+  The old command receipt contains the excluded asset path:reuse only its executable
+  and nonasset settings,never its projector argument. Verify paths/flags;record hashes once.
 - [ ] Check free loopback port,then launch an owned ingestion-only process. Reuse observed
   mmproj/offline/4096context/one slot/reasoning-disabled setup. Verify GPU/VRAM before
   assuming Vulkan1/offload99;do not stop owner models or run competing GPU jobs.
@@ -151,7 +160,9 @@ Improved prompting is not assumed to fix the previously missed grade discrepancy
 - [ ] One restart/reconnect proof is enough once repeatability is established. Commit guide:
   `docs(ingestion): document local Gemma vision setup`.
 
-**Exit:** existing assets supply original-page images via normal adapter,without student service changes.
+**Exit:** approved assets supply original-page images via normal adapter,without student
+service changes. Without an eligible projector,live vision remains blocked;do not
+substitute a text-only call or the excluded projector and call it an image test.
 
 ## Task 3 — Demonstrate human correction reaching chunks
 
@@ -263,7 +274,8 @@ These are design expectations,not measured speed/accuracy improvements.
 ## Completion checklist
 
 - [ ] Bounded provider changes;canonical/source/authority guards retained.
-- [ ] Existing Gemma+projector advice visible in a fresh pending owner packet.
+- [ ] Existing Gemma+separately approved compatible projector advice visible in a fresh
+  pending owner packet;LM Studio projector is never used.
 - [ ] Actual human corrections reach verifiable chunks;originals/history/vector identities preserved.
 - [ ] Llama selected-page path demonstrated or explicitly key/quota-blocked,never marked complete by mocks.
 - [ ] Matched usefulness measurements collected or precisely awaiting human review.
