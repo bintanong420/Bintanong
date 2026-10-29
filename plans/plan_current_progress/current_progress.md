@@ -1,48 +1,39 @@
 # Current progress
 
-Updated 29 October 2026 (machine local date; inherited handoffs are dated 30 October).
-Phase 12 active in p12 / `p12-evaluation-harness`; Phase 11 complete with disclosures.
-[Plan](../phase-12-evaluation-writeup-plan.md) · [Checkpoint](../phase-12-checkpoint.md) ·
-[Claude's executor handoff](../2026-10-30-hosted-560-codex-handoff.md).
+Updated 29 October 2026 (machine local date; inherited release/report names retain 30 October).
+Phase 12 research/software evaluation write-up complete with disclosures; no active implementation phase.
+p12 / `p12-evaluation-harness`. Deployment (Phase 13) cancelled by owner.
+[Final handoff](../phase-12-handoff.md) · [Report](../../docs/evaluation/phase12-evaluation-report.md) ·
+[Activation results](../2026-10-30-hosted-560-activation-results.md).
 Last full snapshot before condensation: `76d5a92`; use `git show` for prior history.
 
 ## Latest change
 
-Codex read Claude's handoff at `76d5a92` and verified the prepared activation artifacts.
-Hosted post-activation MCP: new560 active; corrected78 superseded (retained as rollback).
-Owner supplied pooler host `aws-0-ap-southeast-1.pooler.supabase.com` and asked Codex to build the URI.
-Owner corrected the password; privately rebuilt URI passed hosted psql SELECT 1. Hosted staging passed in 106.11 s.
-.env is ignored and untracked; owner reiterated it must never be committed.
-Activation exit 0 in 121.08 s: 560 anon-visible chunks / 39 links, retrieval hit, rows preserved.
-Hosted backend starting for smoke; Phase 12 remains open.
+Hosted research release `p12-research-faqsplit-20261030` is active: 560 chunks/vectors, 39 curriculum links.
+Corrected78 superseded and retained as rollback. Staging106.11s/activation121.08s, exits0; exact readbacks,
+retrieval target hit and existing-row preservation passed. Bound local artifacts and source states unchanged.
+Commits: `acbb0b9` preflight, `0b4aef9` staging, `62ecb96` activation; closure docs follow.
 
-Prepared ignored hosted pin/config after verifying all 560 chunk-ID/content-hash pairs match the bound review.
-All sealed package files verify; protected receipts/events/snapshot unchanged. Backend `ResearchApiConfig`
-and `_package` accepted the config with 560 chunks/vectors and hosted gate composition.
-[Preflight results and exact next command](../2026-10-30-hosted-560-activation-results.md).
+Hosted HTTP smoke: document, prerequisite and Hybrid all answered with citations (51.0/26.7/49.5s,
+outer API single observations, excluding startup/browser). Guest browser smoking penalty/source panel passed,
+Handbook p.93, 0 console errors/warnings. Backend constructed110.88s, live/ready200.
 
-## Verified delivery already available
+Backend :8021 uses ignored `p12-hosted-560-activation-20261030/hosted-research-api-config.json`;
+frontend :3216 runs from p12; model :18088 is the existing container. Old corrected78/local-documents config
+cannot be used after the switch. Restart/rollback commands and exact hashes are in activation results.
+.env stays ignored/untracked; no secrets or raw evidence staged. No dependency/model changes.
 
-- Evaluation [report](../../docs/evaluation/phase12-evaluation-report.md),
-  [benchmark results](../2026-10-29-phase12-benchmark-results.md), paired statistics complete.
-  Original C 40/50 versus A 3/50 strict; main v2 38/50; rerun 39/50; Tagalog 19/26;
-  shorthand 15/26; broken English 2/4. Development reuse and single-author/single-run limits disclosed.
-- Historical full suite on merged `a3ff208`: 7314 pass / 1608 subtests, 6 skip / 2 xfail.
-  Backend hosted-pin change `48330f7`: related 108 pass (Claude evidence; not rerun this session).
-- Local 560 rehearsal saved PASS: 560 chunks/vectors, 39 links, replay no-op, anon/auth visibility,
-  retrieval hit, rollback 78, existing rows preserved. Hosted flow migration already applied.
-- Receipts cover 560 chunks; 257 re-authored records use the owner's activation directive with no
-  per-chunk human approval. No receipt regeneration or source-state promotion authorized.
+## Evaluation and limits
 
-## Boundaries
-
-Owner authorizes hosted 560 research activation, with corrected78 rollback. Deployment cancelled;
-no institutional approval. No dependency/model changes or accuracy tuning. Use only `hosted.py` for writes;
-do not edit bound artifacts, rerun snapshot, change hosted functions/grants/timeouts, or print credentials.
-Original source gaps, undergraduate scope, unknown-versus-unmet and private-file separation remain.
-Answer-quality benchmark on hosted composition is the owner's/Claude's follow-up.
+Fresh saved-output audit matches report: main v2 38/50 (76%); original C40/50, rerun39/50, A strict3/50,
+content8/50; robustness Tagalog19/26, shorthand15/26, broken English2/4. No new benchmark runs.
+Historical full merged suite7314pass/1608subtests,6skip/2xfail; related hosted-pin108pass inherited.
+Full suite not rerun for operational/docs-only continuation; live checks/phase/link/diff validation used.
+Development reuse, single author/single runs, remaining failures, unmeasured metrics/SUS/UAT, unsupported photos,
+deferred PSU sign-in and no institutional validation remain disclosed. Benchmark used local documents;
+hosted smoke is not benchmark parity. Undergraduate/source-gap/privacy/unknown-versus-unmet guards remain.
 
 ## Next action
 
-Run hosted-config HTTP and browser smoke; roll back if a required smoke criterion fails.
-Follow Claude's stop/rollback rules; never stage .env or raw evidence.
+No next implementation phase. Hosted answer-quality benchmarking is a separate owner/Claude follow-up;
+Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.

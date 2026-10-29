@@ -121,8 +121,11 @@ Accuracy safeguards were not traded for speed.
 ## 8. Limits of these results
 
 Fifty questions do not cover PalSU policy. Most cases were used during development. One author wrote and scored
-the expectations. Results come from the research data release (local 560-chunk document package; hosted
-curricula), whose known source gaps remain. Hosted activation of the 560 package passed; the
-[activation preflight](../../plans/2026-10-30-hosted-560-activation-results.md) verified the sealed hosted
-configuration and completed hosted staging/activation (560 chunks/vectors, 39 curriculum links); website smoke is pending. No
-university office has validated any answer, and nothing here shows the system is ready for students.
+the expectations. Benchmark results came from the local 560-chunk document package and hosted curricula;
+known source gaps remain. The same sealed content was subsequently activated as the hosted research release
+`p12-research-faqsplit-20261030`: 560 chunks/vectors, 39 curriculum links, guarded retrieval readback,
+three cited HTTP answers (document, prerequisite and Hybrid) and one browser answer with a working source panel
+and zero console errors. See the [activation results](../../plans/2026-10-30-hosted-560-activation-results.md).
+The benchmark was not rerun on hosted composition; smoke checks do not establish benchmark parity.
+Corrected78 remains the rollback. No university office has validated any answer, and nothing here shows the
+system is ready for students. Public deployment remains cancelled by the owner.
