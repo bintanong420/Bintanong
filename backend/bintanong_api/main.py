@@ -28,6 +28,10 @@ async def health_live() -> dict[str, str]:
 @app.get("/health/ready", response_model=HealthStatus)
 async def health_ready(response: Response) -> HealthStatus:
     """Readiness probe: verifies all upstream and downstream dependencies are healthy."""
+    return await dependency_health(response)
+
+
+async def dependency_health(response: Response, *, supabase_probe=None) -> HealthStatus:
     db_url = os.environ.get(
         "SUPABASE_DB_URL",
         "postgresql://postgres:postgres@supabase_db_bintanong:5432/postgres",
@@ -35,7 +39,13 @@ async def health_ready(response: Response) -> HealthStatus:
     embedding_url = os.environ.get("EMBEDDING_URL", "http://embedding:8001")
     bintu_url = os.environ.get("BINTU_URL", "http://bintu:8080")
 
-    supa_ok, supa_detail = await probe_supabase_pgvector(db_url)
+    if supabase_probe is None:
+        supa_ok, supa_detail = await probe_supabase_pgvector(db_url)
+    else:
+        try:
+            supa_ok, supa_detail = await supabase_probe()
+        except Exception:
+            supa_ok, supa_detail = False, 'hosted retrieval unavailable'
     janus_ok, janus_detail = probe_janus()
     embed_ok, embed_detail = await probe_http_service(embedding_url, "/health")
     bintu_ok, bintu_detail = await probe_http_service(bintu_url, "/health")

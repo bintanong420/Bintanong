@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+import pytest
 from unittest.mock import AsyncMock, patch
 from fastapi.testclient import TestClient
 
@@ -88,6 +89,51 @@ class ProbeErrorTextTests(unittest.TestCase):
             ok, detail = probe_janus()
         self.assertFalse(ok)
         self.assertEqual(detail, "Prolog execution error")
+
+@pytest.mark.parametrize('outcome', ['ready', 'unavailable', 'exception'])
+def test_student_readiness_checks_its_configured_storage(outcome):
+    from backend.bintanong_api.app import ApiServices, ApiSettings, create_app
+    from backend.bintanong_private_context.sessions import SessionStore
+
+    storage = AsyncMock(return_value=(True, None) if outcome == 'ready' else
+                        (False, 'hosted retrieval unavailable'))
+    if outcome == 'exception':
+        storage.side_effect = RuntimeError(ProbeErrorTextTests.LEAK)
+    runtime = AsyncMock(return_value=True)
+    student = create_app(ApiServices(sessions=SessionStore(), pipeline=object(), ready=runtime,
+                                    supabase_probe=storage), ApiSettings(allowed_origins=()))
+    with patch('backend.bintanong_api.main.probe_supabase_pgvector', new_callable=AsyncMock) as docker, \
+         patch('backend.bintanong_api.main.probe_janus', return_value=(True, None)), \
+         patch('backend.bintanong_api.main.probe_http_service', new_callable=AsyncMock,
+               return_value=(True, None)):
+        response = TestClient(student).get('/health/ready')
+    docker.assert_not_awaited()
+    storage.assert_awaited_once()
+    runtime.assert_awaited_once()
+    assert response.status_code == (200 if outcome == 'ready' else 503)
+    assert response.json()['status'] == ('ready' if outcome == 'ready' else 'degraded')
+    assert response.json()['probes']['supabase'] is (outcome == 'ready')
+    assert response.json()['probes']['student_runtime'] is True
+    assert ProbeErrorTextTests.LEAK not in response.text
+    if outcome == 'ready':
+        assert response.json()['errors'] == {}
+
+
+def test_healthy_storage_does_not_hide_an_unavailable_student_runtime():
+    from backend.bintanong_api.app import ApiServices, ApiSettings, create_app
+    from backend.bintanong_private_context.sessions import SessionStore
+
+    student = create_app(ApiServices(sessions=SessionStore(), pipeline=object(),
+        ready=AsyncMock(return_value=False), supabase_probe=AsyncMock(return_value=(True, None))),
+        ApiSettings(allowed_origins=()))
+    with patch('backend.bintanong_api.main.probe_janus', return_value=(True, None)), \
+         patch('backend.bintanong_api.main.probe_http_service', new_callable=AsyncMock,
+               return_value=(True, None)):
+        response = TestClient(student).get('/health/ready')
+    assert response.status_code == 503
+    assert response.json()['probes']['supabase'] is True
+    assert response.json()['probes']['student_runtime'] is False
+
 
 if __name__ == "__main__":
     unittest.main()

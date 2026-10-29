@@ -149,6 +149,37 @@ def test_numeric_evidence_must_be_the_complete_number():
         run(data)
 
 
+@pytest.mark.parametrize('field,value', [('units.printed', '3 (2/1)'), ('units.rle', 6)])
+def test_preserves_source_bound_printed_and_rle_units_without_deriving_totals(field, value):
+    data = fixture()
+    course = data[2][1]
+    fact = course['facts'].pop('units.total')
+    fact['value'], fact['source_spans'][0]['text'] = value, str(value)
+    course['facts'][field] = fact
+    course['review_state'], course['review_refs'] = 'draft', []
+    actual = run(data)['courses'][1]['facts']
+    assert actual[field]['value'] == value
+    assert actual[field]['source_spans'][0]['text'] == str(value)
+    assert actual[field]['source_spans'][0]['version_id'] == data[1][0].version_id
+    assert 'units.total' not in actual
+
+
+@pytest.mark.parametrize('field,value,printed', [
+    ('units.printed', 3, '3'), ('units.printed', '3', '13'),
+    ('units.rle', True, '1'), ('units.rle', '6', '6'),
+    ('units.rle', -1, '-1'), ('units.rle', float('nan'), '6'),
+    ('units.rle', 6, '16'),
+])
+def test_printed_and_rle_units_keep_type_and_complete_evidence_checks(field, value, printed):
+    data = fixture()
+    fact = copy.deepcopy(data[2][1]['facts']['units.total'])
+    fact['value'], fact['source_spans'][0]['text'] = value, printed
+    data[2][1]['facts'][field] = fact
+    data[2][1]['review_state'], data[2][1]['review_refs'] = 'draft', []
+    with pytest.raises(ValueError):
+        run(data)
+
+
 @pytest.mark.parametrize('node', [
     None, {}, {'kind': 'all_of', 'items': []}, {'kind': 'any_of', 'items': []},
     {'kind': 'unresolved', 'reason': ''}, {'kind': 'course', 'course_id': 'missing'},

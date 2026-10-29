@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 from backend.bintanong_api.admission import AdmittedStream, AnswerAdmission
 from backend.bintanong_api.auth import authorize
 from backend.bintanong_api.chat import ChatRequest, ChatTurns, CurriculumOption
-from backend.bintanong_api.main import HealthStatus, health_live, health_ready
+from backend.bintanong_api.main import HealthStatus, dependency_health, health_live, health_ready
 from backend.bintanong_api.session import SESSION_COOKIE, ApiError, Session, check_origin, require_session
 from backend.bintanong_api.sources import SourceRegistry, source_view
 from backend.bintanong_api.stream import STREAM_HEADERS, chat_stream
@@ -44,6 +44,7 @@ class ApiServices:
     auth: object = None
     close: object = None
     ready: object = None
+    supabase_probe: object = None  # hosted storage readiness (co-worker composition)
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
@@ -62,7 +63,21 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
                                                       waiting=settings.max_waiting_answers)
     app.include_router(upload_router(services, turns, settings.max_upload_bytes, settings.max_parallel_uploads))
     app.add_api_route('/health/live', health_live, methods=['GET'])
-    if services.ready is None:
+    if services.supabase_probe is not None:
+        @app.get('/health/ready')
+        async def student_ready(response: Response):
+            status = await dependency_health(response, supabase_probe=services.supabase_probe)
+            try:
+                ok = bool(services.pipeline is not None and (services.ready is None or await services.ready()))
+            except Exception:
+                ok = False
+            status.probes['student_runtime'] = ok
+            if not ok:
+                status.errors['student_runtime'] = 'research runtime unavailable'
+                status.status = 'degraded'
+                response.status_code = 503
+            return status
+    elif services.ready is None:
         app.add_api_route('/health/ready', health_ready, methods=['GET'])
     else:
         @app.get('/health/ready')
