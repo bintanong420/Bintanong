@@ -36,3 +36,21 @@ Times are one warm backend request each (API/stream included; browser, network a
 - Student text shows short evidence aliases such as "(e2)"; plan task 3 (student render profile) is not done.
 - Hybrid asks the curriculum clarification before answering the procedure part.
 - Browser (Next.js) check on this backend not yet run; hosted activation deferred.
+
+## Browser check (owner: "Browser check, then close", 29 Oct)
+
+Playwright MCP, guest, Next.js dev on :3216 (run from the `p11-frontend-integration` worktree: same app code, its
+installed packages; this worktree lacks `@supabase/ssr` in `node_modules`, no install made), backend on the local
+560 config, Gemma :18088. Evidence: ignored `audit-evidence/p11-local-documents-20261029/browser`.
+
+| Step | Result |
+| --- | --- |
+| Landing, chat, curriculum picker | 39 curricula load; BSCS 2018-2019 selected |
+| Honors residence (document) | two years / 75% of units; Sources (1): PSU Student Handbook.pdf p.53; no "(e2)" alias |
+| CC 5 after failing CC 4 (prerequisite) | documented condition unmet; CC 3/L asked; Sources (4) |
+| Upload synthetic PDF, mark both rows Passed, save | 2 rows with printed marks; "Selected course details saved" |
+| Follow-up "Can I take CC 5 now?" | conditions satisfied (CC 4/L, CC 3/L passed) |
+| Remove file, ask again | file list empty; asks which of CC 3/L and CC 4/L were passed |
+| Console | 0 errors |
+
+Prerequisite answers took about 60-70 s in the browser (single observation; not a latency measurement).
