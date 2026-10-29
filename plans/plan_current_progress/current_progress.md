@@ -130,4 +130,6 @@ run under an 8 s statement timeout; rehearsal timings record review 36 s, bind 3
 SUPABASE_DB_URL is the local container. Hosted unchanged (snapshot hosted-before.json). Migration applied to hosted (version 20261029145841,
 `222d9ab`). **Activation held:** `research_app.py` pins RELEASE=`p11-research-corrected-20261026` / auth
 `research-owner-20261021` and requires it active, so activating the 560 release as-is would stop the website for
-everyone; its hosted path also expects 78 chunks without topic selection. Next: owner choice on backend scope; then apply migration, stage, activate, readback/smoke; report section 8; Phase 12 handoff.
+everyone; its hosted path also expects 78 chunks without topic selection. Backend `48330f7` serves the pin-named release (gate composition on hosted).
+Owner 30 Oct: Codex takes the remaining steps per the [Codex handoff](../2026-10-30-hosted-560-codex-handoff.md)
+(needs `SUPABASE_HOSTED_DB_URL`): stage -> hosted pin -> activate -> website smoke -> docs/Phase 12 handoff.
