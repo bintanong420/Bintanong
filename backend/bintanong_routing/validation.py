@@ -283,7 +283,14 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         not_found = curriculum is not None and all(
             m.kind == 'course' and not _matches(m, catalog, program, curriculum)
             and (reference is None or (m.start, m.end) != (reference.start, reference.end)) for m in unresolved)
-        return result('unresolved_entity', missing=('course_id',) if not_found else ())
+        if not_found:
+            return result('unresolved_entity', missing=('course_id',))
+        # Owner, 29 Oct 2026 ("Ask which one"): one course mention that fits several reviewed courses of the
+        # curriculum (a repeated printed code or shared title initials) lists them so the reply can name each.
+        choices = (_matches(unresolved[0], catalog, program, curriculum)
+                   if curriculum is not None and len(unresolved) == 1 and unresolved[0].kind == 'course' else ())
+        return result('unresolved_entity', missing=tuple('course_choice:' + c.entity_id for c in choices)
+                      if len(choices) > 1 else ())
     if any(c.mode != 'asserted' for c in claims):
         return result('nonasserted_facts')
     states = {}

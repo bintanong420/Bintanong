@@ -20,9 +20,25 @@ def test_course_matching_no_reviewed_course_asks_for_the_printed_code():
     assert result.decision.missing_facts == ('course_id',)
 
 
-def test_course_matching_two_reviewed_courses_keeps_the_plain_clarification():
+def test_course_matching_two_reviewed_courses_names_both_choices():
+    # Owner, 29 Oct 2026 ("Ask which one"): a shared abbreviation or repeated printed code lists its candidates.
     result = validate(catalog=(*catalog(), entry(entity='course-duplicate')))
-    assert result.diagnostic == 'unresolved_entity' and result.decision.missing_facts == ()
+    assert result.diagnostic == 'unresolved_entity' and result.decision.control == 'clarify'
+    assert result.decision.missing_facts == ('course_choice:course-a', 'course_choice:course-duplicate')
+
+
+CHOICE = {'en': 'Which course do you mean: A 1 or A 1 (other)?', 'taglish': 'Aling course ang ibig mong sabihin: A 1 or A 1 (other)?'}
+
+
+@pytest.mark.parametrize('language', ['en', 'taglish'])
+def test_choice_reply_names_each_candidate_by_its_printed_label(language):
+    source = IntegrationResult(understanding=None, schema_version=IntegrationResult.SCHEMA_VERSION, request_id='req-a',
+                               route=None, response_style=language, status='clarify', evidence=None,
+                               missing_facts=('course_choice:course-a', 'course_choice:course-duplicate'), events=(),
+                               course_labels={'course-a': 'A 1', 'course-duplicate': 'A 1 (other)'})
+    answer = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('A1', source))
+    assert answer.status == 'clarification_needed' and CHOICE[language] in answer.text
+    assert 'course_choice' not in answer.text and 'course-a' not in answer.text
 
 
 NOT_FOUND = {'en': 'could not find that course', 'fil': 'Hindi ko nakita ang kursong iyan',

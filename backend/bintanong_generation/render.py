@@ -73,6 +73,8 @@ _TRANSFER_DIRECTION={
        'galing sa ibang school? Magkaiba ang requirements.',
  'taglish':'Aalis ka ba sa PalSU (transfer credentials / honorable dismissal), o lilipat ka sa PalSU '
        'galing sa ibang school? Magkaiba ang requirements.'}
+_COURSE_CHOICE={'en':'Which course do you mean: {choices}?','fil':'Aling kurso ang tinutukoy mo: {choices}?',
+ 'taglish':'Aling course ang ibig mong sabihin: {choices}?'}
 _COURSE_NOT_FOUND={
  'en':'I could not find that course among the reviewed courses of your curriculum. '
       'Please give the course code as printed in your prospectus.',
@@ -236,6 +238,11 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='clarification_needed' and 'course_id' in missing:  # owner step 2c: no reviewed course matched
         lines[1]=_COURSE_NOT_FOUND.get(pack.language,_COURSE_NOT_FOUND['en'])
         missing=tuple(field for field in missing if field!='course_id')
+    choices=[shown(field.split(':',1)[1]) for field in missing if field.startswith('course_choice:')]
+    if status=='clarification_needed' and choices:  # owner 29 Oct 2026: name each candidate course
+        listed=' or '.join(choices) if len(choices)<3 else ', '.join(choices[:-1])+', or '+choices[-1]
+        lines[1]=_COURSE_CHOICE.get(pack.language,_COURSE_CHOICE['en']).format(choices=listed)
+        missing=tuple(field for field in missing if not field.startswith('course_choice:'))
     if status=='clarification_needed' and 'transfer_direction' in missing:
         lines[1]=_TRANSFER_DIRECTION.get(pack.language,_TRANSFER_DIRECTION['en'])
         missing=tuple(field for field in missing if field!='transfer_direction')
