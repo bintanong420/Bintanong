@@ -32,7 +32,9 @@ Owner-approved FAQ 7/8 split built as inactive 560 package (A/p11-faq-split-2026
 Gate run 3 (0dfef59, split package): 73/91 (76 adjusted) vs run 2 67/91, but 8 run-2 passes regressed: router
 v25 labelled eligibility parts specific/topic -> reverted `682fe7b`; `9553ed9` drops a stray topic on a course-
 check part (test-first, related 1303 pass). Still failing after fixes: cc5-en (router omitted course mentions),
-crim-1-1-taglish (selector ambiguous). Gate 4 stopped by memory after 19 cases (14 pass); not a result.
+crim-1-1-taglish (selector ambiguous). Gate 4 (29 Oct, code 9553ed9): **77/91**, exit 0 (+6 fixed vs run 3,
+honors en/Taglish regressed as expected after the v25 revert; [results](../2026-10-28-simple-question-gate-results.md)).
+Batched full suite at 75ec50f: 7232 pass / 1608 subtests, 6 skip / 2 xfail, 4 batches exit 0 (A/p11-fullsuite-20261029a).
 
 ## Lane status (owner 28 Oct)
 
@@ -62,6 +64,6 @@ institutional approval, Phase 11 exit or Phase 12 advance.
 
 ## Next action
 
-Rerun gate 4 (GATE_PACKAGE=p11-faq-split-20261028/runtime-package, run_gate_pkg.py) and the batched full suite on
-9553ed9 once memory allows (both were stopped by memory pressure on 29 Oct); then record results.
+Group A follow-up on the 14 remaining gate-4 failures, test-first; start with probation/honors `whole` abstains.
+Local Supabase stack is stopped (owner OK, memory); only `supabase_db_Bintanong` runs. Website not restarted.
 Mark `LIVE RUN` here while using the model.

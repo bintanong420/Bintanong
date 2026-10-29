@@ -42,3 +42,15 @@ Follow-ups, each test-first, live-checked on the affected cases:
   router clarify, the same family as the earlier shifting clarify. Recorded, not retried further (stop rule).
 
 Next: group A (topic or claim selection, about 18 cases), then a full gate rerun and full suite.
+
+## Runs 3 and 4 (FAQ 7/8 split package)
+
+Run 3 (`0dfef59`, inactive split package `p11-faq-split-20261028`): 73/91. Eight run-2 passes regressed under router
+v25, which was reverted (`682fe7b`); `9553ed9` drops a stray topic on a course-check part.
+
+Run 4 (29 Oct 2026, code `9553ed9`, run dir `run-75ec50f-gate4b-split`; an earlier attempt stopped by memory after
+19 cases is not a result): **77/91**, exit 0. Versus run 3: six fixed (abcomm, bscs-proposed, bsn, bstm and
+cs6-failed-cc4 Taglish; grade-1-en), two regressed (honors residence en/Taglish, expected: they passed only under v25).
+Still failing (14): summer load en/Taglish, leave length Taglish, second-year Taglish (empty clarify), grad residence
+en/Taglish, honors residence en/Taglish, probation en/Taglish (`whole` -> abstain), certification fee Taglish (held
+label), overdue fee Taglish, crim-1-1 Taglish (selector ambiguous), cc5-failed-cc4 en (router omits course mentions).
