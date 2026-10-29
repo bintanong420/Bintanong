@@ -106,3 +106,23 @@ Owner-approved shorthand versions of the 26 Taglish benchmark questions, scored 
 | 24 | disc-smoking-taglish | anu parusa s pgyoyosi s campus? | Ano ang parusa sa paninigarilyo sa campus? |
 | 25 | disc-plagiarism-taglish | ano parusa s plagiarism? | Ano ang parusa sa plagiarism? |
 | 26 | disc-bullying-taglish | anu parusa s bullying? | Ano ang parusa sa bullying? |
+
+## Research basis (for the study)
+
+Gathered 29 October 2026 when designing the shorthand handling. Details marked "verify" came from search summaries,
+not the full papers; check the full text and complete author lists before citing.
+
+| Source | What it supports | Link |
+| --- | --- | --- |
+| NormAPI: An API for Normalizing Filipino Shortcut Texts (De La Salle University; IALP 2014; thesis version in the DLSU Animo Repository) | Filipino shortcut styles (shortenings, consonant skeletons/vowel omission, clippings, initialisms, acronyms); dictionary substitution vs statistical MT vs hybrid (best BLEU about 0.81). English-only normalizers do not cover Filipino shortcut styles. | [repository](https://animorepository.dlsu.edu.ph/etd_bachelors/11826), [paper](https://www.academia.edu/15029837/NormAPI_An_API_for_Normalizing_Filipino_Shortcut_Texts) |
+| TagNorm, Tagalog text normalizer (IEEE HNICEM 2021) — verify title/authors | Informal Tagalog categories: alphanumeric abbreviation, phonetic/stylistic variation, combined words, misspellings/typos, vowel omission; SVM slang detection. | (as summarized via Flores & Radev 2022) |
+| Flores, L. & Radev, D. (2022). "Look Ma, Only 400 Samples! Revisiting the Effectiveness of Automatic N-Gram Rule Generation for Spelling Normalization in Filipino." SustaiNLP 2022. | Filipino spelling normalization from about 300–400 examples with n-gram rules plus Damerau-Levenshtein distance, outperforming deep-learning baselines; supports a small reviewed list as a practical approach. | [arXiv 2210.02675](https://arxiv.org/abs/2210.02675) |
+| Liu, Zhao, Altinger, Schütze & Hedderich (Oct 2025). MulTypo: evaluating LLM robustness to typographical noise — verify title | 18 open LLMs: typos hurt generation and reasoning most; low-resource languages less robust; instruction tuning can increase brittleness. Motivates testing shorthand separately. | [arXiv 2510.09536](https://arxiv.org/html/2510.09536v1) |
+| Okewunmi, James & Fajemila (2025). Evaluating Robustness of LLMs to Typographical Noise in Yorùbá QA. AfricaNLP 2025. | Character noise causes sharper drops in a low-resource language than in English. | [ACL Anthology](https://aclanthology.org/2025.africanlp-1.29) |
+| Exploring Robustness of Multilingual LLMs on Real-World Noisy Data (Jan 2025) — verify authors | All tested models degrade on real-world typos (WikiTypo dictionary). | [arXiv 2501.08322](https://arxiv.org/html/2501.08322v1) |
+| Kaiwa, "Filipino texting shortcuts guide 2026" (commercial blog, lower reliability) | Example everyday shortcuts: d/di/hnd (hindi), bat (bakit), pano (paano), san (saan), nmn (naman), nlng (na lang). | [blog](https://trykaiwa.com/blog/filipino-texting-shortcuts-guide-2026) |
+
+How it shaped Bintanong: a small owner-reviewed list (dictionary substitution, NormAPI/Flores & Radev) applied
+before understanding, keeping the student's wording; ambiguous forms limited (uppercase "PWD", single letters only
+lowercase); shorthand measured as a separate robustness result (MulTypo, Yorùbá QA). Open-vocabulary dropped-vowel
+spellings remain uncovered (would need an edit-distance or model-based normalizer).
