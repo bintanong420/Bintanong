@@ -49,3 +49,38 @@ entries of `plans/owner-decisions-ledger.md`. Do not re-ask them.
 
 Commit small units with Conventional Commits and no attribution trailers. No dependency/model changes. Research
 build only: no institutional approval or public deployment is implied.
+
+## Rules for the executing agent
+
+- **Do not edit** `A/bound-chunks.json`, the receipt files, `A/selected-review-receipt.json`,
+  `A/selection-authority.json` or `A/events/`. They are hash-bound to each other; any edit invalidates the review
+  scope, and re-running `prepare_receipts.py` creates a new timestamp and scope. If they look wrong, stop and report.
+- **Do not** change hosted role timeouts, RLS, grants or functions, apply further migrations, or write rows by hand
+  (SQL editor / MCP `execute_sql` writes). Read-only MCP queries are fine. All writes go through `hosted.py`.
+- **Do not** run `hosted.py snapshot` again; it refuses if the snapshot exists. Keep `hosted-before.json`.
+- **Never** print `.env` values. Never stage `.env`, `frontend/.env.local` or anything under `audit-evidence/`.
+- Run long commands in the background with output to a log, and read the log when the command ends.
+  Expected durations: stage 10–30 min (381 chunks, 560 vectors in batches of 25, 4 receipts of ~1.5 MB each,
+  then record/bind over psql); activate 2–10 min.
+
+## Failure playbook
+
+| Symptom | Meaning | Action |
+| --- | --- | --- |
+| `hosted project URL required` | URL missing or for another project | Ask the owner to fix `.env`; do not edit the check. |
+| psql cannot connect / DNS / timeout | Direct-connection URL (IPv6-only) or network | Ask for the **Session pooler** URI (port 5432); test with `docker exec supabase_db_Bintanong sh -c 'psql "$U" -c "select 1"'` passing `-e U=...` without echoing it. |
+| `hosted registers differ from the receipts basis` | Hosted source register changed since 29 Oct | Stop. Report; do not re-prepare receipts without the owner. |
+| `existing chunk differs` | A hosted row with a 560 chunk ID differs | Stop. Report the chunk ID; never update hosted chunks. |
+| HTTP 500 / timeout in a REST step (vectors, receipts) | Transient or REST 8 s limit | Read the log. Re-running `stage` is resume-safe (each step reads state first). If the same REST call times out twice, stop and report its name and size. |
+| `Stored ... differs` | Hosted returned a different receipt | Stop and report; do not retry. |
+| `activate` exits non-zero | A check failed; the script rolled back to corrected78 | Read `A/hosted-activation-result.json`; confirm active = corrected78 (read-only MCP query). Do not re-activate; report. |
+| Backend refuses to start after activation | Config still points at the corrected78 pin | Use `A/hosted-research-api-config.json` (step 3/5). |
+
+## Done criteria
+
+- `A/hosted-staging-result.json` and `A/hosted-activation-result.json` both report pass; read-only MCP check:
+  `select release_id from public.active_release` = `p12-research-faqsplit-20261030`, and corrected78 has status `superseded`.
+- Website smoke on the hosted config passes (step 5) with no console errors.
+- Results doc, report section 8, Phase 12 handoff, checkpoint, INDEX and progress updated and committed;
+  `phase_state.py validate` passes. Report exact commands, results and any deviation to the owner.
+- If any criterion fails, leave hosted on corrected78 (rolled back), record the blocker in current progress, and stop.
