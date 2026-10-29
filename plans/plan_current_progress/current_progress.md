@@ -6,19 +6,21 @@ Last full snapshots: ingestion `2f7c935`, upstream `f0889c3`; use `git show`.
 
 ## Latest change
 
-Recovered session `01a178e5-2886-7d73-8589-5e7fa97bd935`'s authorized backend merge.
-Git writes and GitHub fetch now work. Frozen origin backend `f0889c3` contributes
-111 commits since `c370f00`. Original three status files preserved at `2f7c935`;
-recovery ref `recovery/policy-before-f0889c3-20261030` retains `123aa1e`.
-Completed merge: `8cdba683832d3ec6f7df596911e127685747f6f9`; no push.
-Only checkpoint/progress conflicted; resolution retains both workstreams' evidence
-and this ingestion worktree's next steps. Local compatibility verification passed.
-[Refresh evidence](../2026-10-30-backend-f0889c3-ingestion-merge.md).
+[Developer requirements reconciled](../2026-10-30-ai-ingestion-developer-requirements.md):
+original E: text prompts match the preserved repo notes. Required two paths are
+scripts+configurable vision LLM+human review,and LlamaParse+the same human review.
+Human corrections already feed reviewed chunk building. Wrong AI advice stays
+subject to HITL;no perfect-model prerequisite is invented. Formatting/binding and
+human-save safeguards remain. No Llama key in checked environment/config locations;
+real Llama comparison remains unrun. Fresh docs22pass/1.70s;phase statevalid.
+No code,model,packet or hosted changes.
 
-Fresh merged-tree verification:185Python files,3889passed/350subtests,2expected
-xfails,315.04s,exit0. Student Node65passed;researcher7passed/1browser-skip;both
-TypeScript checks passed. Docs22passed;phase state valid. Independent bounded
-integration review found no blocker. No full-suite/live/model/browser/DB claim.
+[Backend refresh](../2026-10-30-backend-f0889c3-ingestion-merge.md):f0889c3 merged
+at8cdba68;receipt d198955. Original dirty docs retained at2f7c935,recovery ref
+recovery/policy-before-f0889c3-20261030 at123aa1e. All local,no push.
+Verified merged-tree185Python files:3889pass/350subtests,2xfail,315.04s;studentNode
+65pass,researcher7pass/1browser-skip,bothTypeScript checks,docs22pass. Independent
+bounded integration review found no blocker;no full/live/model/browser/DB claim.
 
 ## Inherited backend delivery
 
@@ -52,5 +54,6 @@ automatic push,institutional approval or phase advancement.
 Thesis physical17–18,routing PNG,master3/16/23/24/26,Phase11 plan,Phase10 handoff
 and workstream plan consulted;no scope/routing discrepancy. Undergraduate/read-only/
 private-file/structured-versus-RAG boundaries and English/Taglish replies preserved.
-After the local refresh, resume the recorded vision advisory contract/row-association
-regression before relying on assistance;keep baseline and existing holds intact.
+Fit the local Gemma provider output to the advisory contract with focused TDD,
+then demonstrate a fresh assisted packet through human correction/save/build/verify.
+LlamaParse live comparison waits for a configured key and known quota.

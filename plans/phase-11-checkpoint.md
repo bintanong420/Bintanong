@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 239
+sequence: 240
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 8cdba68
+head_commit: d198955
 working_tree: clean
 updated_at: 2026-10-30
 ---
@@ -24,10 +24,13 @@ Phase11active;no final handoff or Phase12permission.
 
 ## Current Task
 
-Resume session01a178e5-2886-7d73-8589-5e7fa97bd935's authorized backend refresh.
-Fetch succeeds;frozen upstreamf0889c3 contributes111commits. Only checkpoint/progress
-conflicted;resolved for this ingestion worktree,retaining upstream evidence/gates.
-Compatibility passed;merge committed at8cdba68;upstream tip rechecked unchanged. [Merge report](2026-10-30-backend-f0889c3-ingestion-merge.md).
+[Reconciled developer request](2026-10-30-ai-ingestion-developer-requirements.md):
+two strategies share the existing human reviewer;custom local Gemma is eligible.
+Wrong advice is handled by HITL,not a perfect-model entry gate. Output formatting,
+source/candidate binding and explicit human save remain requirements. Supplied
+text prompts match repo copies;no Llama key in checked env/config locations.
+Backend refresh complete at8cdba68;receipt d198955. Requirements/documents only
+this turn;no new inference,source review or application changes.
 
 ## Repository State
 
@@ -35,7 +38,7 @@ Branch feat/p11-policy-ingestion-review;original123aa1e,status preservation2f7c9
 Recovery ref recovery/policy-before-f0889c3-20261030. Full snapshots local2f7c935,
 upstreamf0889c3;olderd3f4114/7be3e1c remain recoverable with git show.
 Merge8cdba68 contains both parents2f7c935/f0889c3;status conflicts reconciled.
-head_commit records the tested merge;only receipt documentation follows it.
+head_commit records the verified merge receipt;only requirements documentation follows it.
 Tracked tree clean after the receipt commit;all work remains local.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence.
 A/p11-backend-refresh-f0889c3-20261030 preserves bytes,patch and other branch heads.
@@ -43,6 +46,7 @@ No push,other-worktree update,runtime-pin edit or service restart.
 
 ## Verification Evidence
 
+Requirements reconciliation:22docs tests pass1.70s;phase statevalid. No code changes.
 Fresh:ls-remote verifies backend tip;fetch succeeds;pre-merge docs10passed.
 Fresh185-file compatibility:3889passed/350subtests,2xfail,2deprecations,315.04s,
 exit0. Student Node65pass;researcher7pass/1browser-skip;bothTypeScript checks pass.
@@ -86,8 +90,9 @@ owner-deferred;guest-switch/cross-tab limitations disclosed in upstream results.
 
 ## Next Action
 
-Resume the observed vision advisory contract/row-association regression before
-relying on assistance;preserve source/baseline holds and keep T4/T5 separate.
+Fit the existing local Gemma provider output to the advisory contract using focused
+TDD,then demonstrate a fresh packet through human correction/save/build/verify.
+LlamaParse live comparison needs a configured key/known quota;T4/T5 remain separate.
 
 ## Context Consulted
 
