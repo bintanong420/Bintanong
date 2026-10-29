@@ -6,6 +6,14 @@ Last full snapshots: ingestion `2f7c935`, upstream `f0889c3`; use `git show`.
 
 ## Latest change
 
+[Adaptation plan](../2026-10-30-ai-ingestion-adaptation-plan.md) created from the
+reconciled developer requirements and inspected current code. Six tasks:freeze
+inputs/environment,normalize redundant-null model advice,repeatable local Gemma,
+real human correction/build proof,LlamaParse matched pilot,measured delivery.
+Reuses existing reviewer/journal/build/evaluation. No product implementation yet;
+no perfect-model prerequisite,new dependency or hosted/runtime change. Fresh plan
+docs22pass/1.51s;phase statevalid;no application tests or inference rerun.
+
 [Developer requirements reconciled](../2026-10-30-ai-ingestion-developer-requirements.md):
 original E: text prompts match the preserved repo notes. Required two paths are
 scripts+configurable vision LLM+human review,and LlamaParse+the same human review.
@@ -54,6 +62,6 @@ automatic push,institutional approval or phase advancement.
 Thesis physical17–18,routing PNG,master3/16/23/24/26,Phase11 plan,Phase10 handoff
 and workstream plan consulted;no scope/routing discrepancy. Undergraduate/read-only/
 private-file/structured-versus-RAG boundaries and English/Taglish replies preserved.
-Fit the local Gemma provider output to the advisory contract with focused TDD,
-then demonstrate a fresh assisted packet through human correction/save/build/verify.
-LlamaParse live comparison waits for a configured key and known quota.
+Execute adaptation Task0:freeze genuine native candidates/source roster and verify
+existing assets/environment,then Task1 focused RED/GREEN provider compatibility.
+LlamaParse live remains conditional on key/quota;human decisions remain explicit.

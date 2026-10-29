@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 240
+sequence: 241
 plan: plans/phase-11-backend-api-plan.md
-head_commit: d198955
+head_commit: 78bdab6
 working_tree: clean
 updated_at: 2026-10-30
 ---
@@ -24,13 +24,13 @@ Phase11active;no final handoff or Phase12permission.
 
 ## Current Task
 
-[Reconciled developer request](2026-10-30-ai-ingestion-developer-requirements.md):
-two strategies share the existing human reviewer;custom local Gemma is eligible.
-Wrong advice is handled by HITL,not a perfect-model entry gate. Output formatting,
-source/candidate binding and explicit human save remain requirements. Supplied
-text prompts match repo copies;no Llama key in checked env/config locations.
-Backend refresh complete at8cdba68;receipt d198955. Requirements/documents only
-this turn;no new inference,source review or application changes.
+[Adaptation plan](2026-10-30-ai-ingestion-adaptation-plan.md) ready:existing custom
+vision-provider path and LlamaParse feed one human reviewer/correction/build flow.
+Task0 freezes genuine native inputs/environment;Task1 fits redundant-null responses
+without loosening canonical validation. Tasks2–5 cover local model setup,real human
+save/build proof,conditional Llama run and measured usefulness. Planning only;
+application implementation has not started. [Requirements](2026-10-30-ai-ingestion-developer-requirements.md)
+retain the owner-supplied developer text and source hashes. No model perfection gate.
 
 ## Repository State
 
@@ -38,7 +38,7 @@ Branch feat/p11-policy-ingestion-review;original123aa1e,status preservation2f7c9
 Recovery ref recovery/policy-before-f0889c3-20261030. Full snapshots local2f7c935,
 upstreamf0889c3;olderd3f4114/7be3e1c remain recoverable with git show.
 Merge8cdba68 contains both parents2f7c935/f0889c3;status conflicts reconciled.
-head_commit records the verified merge receipt;only requirements documentation follows it.
+head_commit records requirements receipt78bdab6;only adaptation-plan documentation follows it.
 Tracked tree clean after the receipt commit;all work remains local.
 A=C:/Coding-projects/bintanong_workspace/audit-evidence.
 A/p11-backend-refresh-f0889c3-20261030 preserves bytes,patch and other branch heads.
@@ -46,6 +46,7 @@ No push,other-worktree update,runtime-pin edit or service restart.
 
 ## Verification Evidence
 
+Adaptation-plan documentation:22tests pass1.51s;phase statevalid;application unchanged.
 Requirements reconciliation:22docs tests pass1.70s;phase statevalid. No code changes.
 Fresh:ls-remote verifies backend tip;fetch succeeds;pre-merge docs10passed.
 Fresh185-file compatibility:3889passed/350subtests,2xfail,2deprecations,315.04s,
@@ -90,9 +91,9 @@ owner-deferred;guest-switch/cross-tab limitations disclosed in upstream results.
 
 ## Next Action
 
-Fit the existing local Gemma provider output to the advisory contract using focused
-TDD,then demonstrate a fresh packet through human correction/save/build/verify.
-LlamaParse live comparison needs a configured key/known quota;T4/T5 remain separate.
+Execute adaptation Task0:freeze genuine native inputs/source roster and check existing
+assets/environment;then Task1 provider RED/GREEN. Llama live waits for configured
+key/quota;new human decisions and original T4/T5 remain separate.
 
 ## Context Consulted
 
