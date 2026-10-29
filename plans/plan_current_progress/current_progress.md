@@ -113,6 +113,7 @@ data-answer `notice` and shows small and muted under the answer (backend RED 6 -
 
 ## Next action
 
-Runs finished and recorded (`5fe66cc`): main 50 v2 = 38/50; regression check 39/50 (absence-taglish lost, undiagnosed);
-Tagalog 19/26; shorthand 15/26; broken English 2/4. Next: diagnose absence-taglish, batched full suite on cb82c53+,
-then the Phase 12 plan and write-up. Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.
+Runs finished and recorded (`5fe66cc`): main 50 v2 = 38/50; regression check 39/50; Tagalog 19/26; shorthand 15/26;
+broken English 2/4. absence-taglish diagnosed (30 Oct): identical selector request, one-off server non-determinism
+(8/8 replays correct); recorded in the benchmark results. Next: batched full suite on cb82c53+, then the Phase 12
+plan and write-up. Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.

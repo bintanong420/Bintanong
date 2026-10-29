@@ -72,6 +72,10 @@ Forensic 4/L. Research basis: NormAPI (DLSU 2014), TagNorm (2021), Flores & Rade
 
 Main 50 = 24 English / 16 Taglish / 10 pure Tagalog: **38/50** (English 20/24, Taglish 9/16, Tagalog 9/10;
 enrollment 11/14, prerequisite 12/14, grade/standing 8/12, disciplinary 7/10). Regression check on the original 50:
-39/50 vs 40/50 (absence Taglish lost; not yet diagnosed). Robustness (separate): Tagalog 19/26 (Taglish twins 19/26,
+39/50 vs 40/50 (absence Taglish lost: the topic selector chose leave of absence instead of attendance on a
+byte-identical request; 8 replays on the same build, with and without prefix cache and after the run's predecessor
+calls, all chose attendance, so this is one-off server non-determinism, not a code change; evidence in ignored
+`p12-benchmark-20261029/absence-taglish-diagnosis/`). Single-run scores therefore carry about +/-1 case of
+run-to-run variation. Robustness (separate): Tagalog 19/26 (Taglish twins 19/26,
 all replies Taglish), shorthand 8/26 -> 15/26 with the list (optimistic), broken English 2/4. Questions:
 `docs/evaluation/benchmark-questions.md`; forms and robustness: `docs/evaluation/accepted-input-forms.md`.
