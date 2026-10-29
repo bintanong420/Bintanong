@@ -207,3 +207,12 @@ def test_initials_spelled_like_a_printed_code_one_word_or_repeated_titles_are_no
     found = aliases(catalog)
     assert 'FL1' not in found['course-a'] and found['course-c'] == {'ZZ 3', 'ZZ3', 'Seminar'}
     assert 'ST' not in found['course-d'] | found['course-e']
+
+
+def test_course_details_show_the_printed_title_year_semester_and_units():
+    from backend.bintanong_runtime.research import course_details
+    full = titled('course-a', 'ZZ 13', 'Fictional Ethics')
+    full['facts'].update({'units.printed': dict(value='3'), 'year_level': dict(value='THIRD YEAR'),
+                          'semester': dict(value='FIRST SEMESTER')})
+    assert course_details(ledger(full, course('course-b', 'ZZ 14'))) == (
+        ('course-a', 'ZZ 13 — Fictional Ethics (Third Year, First Semester; 3 units)'), ('course-b', 'ZZ 14'))

@@ -101,6 +101,19 @@ def _repeated_codes(courses):
     return repeated
 
 
+def course_details(ledger):
+    """Display-only printed details for naming a course among choices (owner, 29 Oct 2026):
+    code, title, year/semester and units, each only when printed."""
+    def detail(c):
+        f = {k: v['value'] for k, v in c['facts'].items()}
+        label = f['course_code'] + (f" — {f['course_title']}" if f.get('course_title') else '')
+        when = ', '.join(str(f[k]).title() for k in ('year_level', 'semester') if f.get(k))
+        units = f"{f['units.printed']} units" if f.get('units.printed') else ''
+        extra = '; '.join(x for x in (when, units) if x)
+        return label + (f' ({extra})' if extra else '')
+    return tuple((c['course_id'], detail(c)) for c in ledger['courses'] if 'course_code' in c.get('facts', {}))
+
+
 def course_labels(ledger):
     """Display-only printed codes, drafts included (they can appear inside conditions); a repeated
     printed code is shown with its printed title."""
@@ -297,7 +310,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
     Each curriculum keeps its own runtime, release identity and rule-bundle version (listed in the
     pin); the release identity of the set is a digest of those members.
     """
-    adapters, members, sources, catalog, labels = {}, [], {}, [], []
+    adapters, members, sources, catalog, labels, details = {}, [], {}, [], [], []
     for curriculum, ledger in sorted(ledgers.items()):
         if ledger['scope']['curriculum_id'] != curriculum:
             raise ValueError('curriculum_key_mismatch')
@@ -310,6 +323,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
                             rule_bundle_version=runtime.rule_bundle_version))
         sources.update({s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']})
         catalog.extend(research_catalog(ledger)); labels.extend(course_labels(ledger))
+        details.extend(course_details(ledger))
     catalog.extend(name_catalog(ledgers, program_names or {}, curriculum_names or {}))
     manifest, chunks = package['manifest'], package['chunks']
     rules_digest = hashlib.sha256(json.dumps(members, sort_keys=True).encode()).hexdigest()
@@ -340,7 +354,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
         topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks,
                           routing_context=routing_context),  # opt-in reviewed source labels
-        document_scope=('audience:undergraduate',), course_labels=tuple(labels))
+        document_scope=('audience:undergraduate',), course_labels=tuple(labels), course_details=tuple(details))
 
 
 def name_catalog(ledgers, program_names, curriculum_names):

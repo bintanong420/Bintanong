@@ -27,7 +27,8 @@ def test_course_matching_two_reviewed_courses_names_both_choices():
     assert result.decision.missing_facts == ('course_choice:course-a', 'course_choice:course-duplicate')
 
 
-CHOICE = {'en': 'Which course do you mean: A 1 or A 1 (other)?', 'taglish': 'Aling course ang ibig mong sabihin: A 1 or A 1 (other)?'}
+CHOICE = {'en': 'Which course do you mean?\n- A 1\n- A 1 (other)',
+          'taglish': 'Aling course ang ibig mong sabihin?\n- A 1\n- A 1 (other)'}
 
 
 @pytest.mark.parametrize('language', ['en', 'taglish'])

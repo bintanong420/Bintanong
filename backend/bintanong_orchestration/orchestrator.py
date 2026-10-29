@@ -86,6 +86,12 @@ def referenced_labels(labels, *mentions):
             if re.search(re.escape(cid) + r'(?![0-9A-Za-z_-])', text)}
 
 
+def choice_labels(details, missing):
+    """Printed details for the courses a "which course do you mean" clarification lists."""
+    chosen = {field.split(':', 1)[1] for field in missing if field.startswith('course_choice:')}
+    return {cid: label for cid, label in details if cid in chosen}
+
+
 class Orchestrator:
     def __init__(self, transport, *, releases=None, stage_timeout=120.0,
                  routing_profile='separate', topic_selection=False):
@@ -118,7 +124,7 @@ class Orchestrator:
                 course_labels=referenced_labels(resources.course_labels if resources else (),
                     evidence.model_dump(mode='json') if evidence is not None else None,
                     understanding.model_dump(mode='json') if understanding is not None else None,
-                    tuple(missing)))
+                    tuple(missing)) | choice_labels(resources.course_details if resources else (), tuple(missing)))
 
         async def stage(name, call):
             start, value, outcome = perf_counter(), None, 'ok'
