@@ -26,9 +26,9 @@ Correct document answers: dropping, shifting (Taglish), absences (Taglish), good
 ## Findings (open)
 
 1. **TOR request** ("How do I request a transcript of records?"): selects Charter 2.3 Request for TOR Copy, but the
-   student text shows internal evidence IDs (`[ev-5c33…, ev-2a2a…]`) and replacement characters (`�`) in
-   "Return Slip � where to secure". The ID leak is a rendering defect; whether `�` comes from the source glyphs
-   or extraction is not yet checked. Same on retry.
+   student text showed internal evidence IDs (`[ev-5c33…, ev-2a2a…]`) after multi-line host-rendered steps.
+   **Fixed** in `3206ae1` (test-first; re-asked live: no IDs, 9 source cards). The `�` seen in the console was
+   a display artifact: the reply holds the printed `’` (U+2019, 9×) and `–` (U+2013, 2×), no U+FFFD.
 2. **Honors requirements** ("What are the requirements to graduate with honors?"): first run
    `temporarily_unavailable` (no backend error logged), retry also failed. The benchmark's narrower residence
    question passes.
