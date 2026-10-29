@@ -5,7 +5,7 @@
 - Phase 11 complete with disclosures ([handoff](phase-11-handoff.md), 29 Oct; owner approved after the browser check).
   Phase 12 active: [plan](phase-12-evaluation-writeup-plan.md), [checkpoint](phase-12-checkpoint.md), [report](../docs/evaluation/phase12-evaluation-report.md) (benchmark:
   [results](2026-10-29-phase12-benchmark-results.md), [questions](../docs/evaluation/benchmark-questions.md)).
-  Deployment (Phase 13) cancelled by the owner. Branch p11 / feat/p11-fullstack-integration (local).
+  Deployment (Phase 13) cancelled by the owner. Worktree p12 / `p12-evaluation-harness`.
   [Current progress](plan_current_progress/current_progress.md).
 - [Reply migration](2026-10-27-english-taglish-migration-results.md),28edea4:
   English/Filipino/Taglish inputs;English/Taglish replies. Saved8/8targets match,
@@ -40,11 +40,12 @@
 ## Resume order
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
-2. Read current progress, the Phase 11 plan/checkpoint, Phase 10 handoff; master 16, 23, 24, 26;
-   [30Oct session handoff](2026-10-30-phase12-session-handoff.md) (supersedes 28Oct);older files only for a specific dependency.
+2. Read current progress, the Phase 12 plan/checkpoint, Phase 11 handoff; master 17 and 26;
+   [Codex activation handoff](2026-10-30-hosted-560-codex-handoff.md) and
+   [activation status](2026-10-30-hosted-560-activation-results.md); older files only for a specific dependency.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
-5. Resume the Phase 11 checkpoint's next action; preserve all inherited release holds.
+5. Resume the Phase 12 checkpoint's next action; preserve all inherited release holds.
 
 ## Phase ledger
 

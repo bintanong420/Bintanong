@@ -2,64 +2,80 @@
 artifact: phase-checkpoint
 phase: 12
 status: in_progress
-sequence: 3
+sequence: 4
 plan: plans/phase-12-evaluation-writeup-plan.md
-head_commit: a3ff208
-working_tree: clean
-updated_at: 2026-10-30T12:00:00+08:00
+head_commit: 76d5a92
+working_tree: docs changes for activation preflight and current state; ignored hosted config prepared
+updated_at: 2026-10-29T23:13:28+08:00
 ---
 
-# Phase 12 checkpoint — report written; full suite passed; paused for worktree move
+# Phase 12 checkpoint — hosted activation preflight verified; connection missing
 
 ## Completed Tasks
 
-- absence-taglish loss diagnosed as one-off server non-determinism (`0d6ebac`).
-- Plan and pre-phase research (`f2b00dc`); owner decisions recorded (`6494b43`): single runs disclosed;
-  write-up before hosted 560 activation.
-- Paired statistics (`p12-benchmark-20261029/stats/paired_stats.py`, `paired_stats.json`).
-- Evaluation report `docs/evaluation/phase12-evaluation-report.md` (`36ae881`).
+- Report `36ae881`, plan/research `f2b00dc`, paired statistics and benchmark runs already delivered.
+- Merge into dev `a3ff208`; dedicated p12 / `p12-evaluation-harness` exists.
+- Claude: receipts prepared, local 560 rehearsal passed, hosted flow migration applied (`222d9ab`),
+  hosted pin support `48330f7`; executor handoff `76d5a92` read by Codex.
+- Codex: 560 runtime/bound chunk content maps identical; all seal files verify; protected evidence unchanged.
+  Hosted pin/config prepared and accepted by backend config/package loader.
 
 ## Current Task
 
-Paused for the dedicated Phase 12 worktree (branch from `dev` a3ff208). First task there: hosted 560 activation
-(owner 30 Oct); see the [session handoff](2026-10-30-phase12-session-handoff.md).
+Resume [Claude's hosted activation handoff](2026-10-30-hosted-560-codex-handoff.md).
+Connection prerequisite missing; no hosted writes attempted. Results recorded in
+[activation status](2026-10-30-hosted-560-activation-results.md).
 
 ## Repository State
 
-p11 merged into `dev` (`a3ff208`, origin and local; full suite 7314 / 1608 pass). Clean.
+Started clean at `76d5a92` in p12 / `p12-evaluation-harness`. Current changes are documentation only;
+prepared pin/config and raw evidence remain ignored. Last full progress snapshot: `76d5a92`.
+Machine local date is 29 Oct; preserve inherited 30 Oct records and release identifiers unchanged.
 
 ## Verification Evidence
 
-- Selector replays: 8/8 handbook_attendance (`p12-benchmark-20261029/absence-taglish-diagnosis/README.txt`).
-- Full suite at `0d6ebac` (A/p11-fullsuite-20261030a, 4 batches): 7271 pass / 1608 subtests, 6 skip / 2 xfail,
-  all 4 batches exit 0 (later commits docs only).
+- Fresh read-only MCP: active corrected78, 78 chunks / 39 curriculum links; new release absent.
+- `codex-preflight-result.json`: PASS, 560 identical content mappings, all sealed files verified,
+  protected artifact hashes unchanged, zero hosted writes.
+- Shared-venv `ResearchApiConfig.model_validate_json` + `_package`: PASS (560 chunks/vectors; hosted gate).
+- Saved rehearsal: PASS, replay no-op, anon/auth 560 visibility, retrieval hit, rollback 78, rows preserved.
+- Historical suite: merge `a3ff208` 7314 pass / 1608 subtests, 6 skip / 2 xfail;
+  `48330f7` related 108 pass. Not rerun for this operational/docs-only preflight.
 
 ## Versions and Digests
 
-Gemma 4 E4B `gemma-4-E4B-it-UD-Q4_K_XL.gguf`, llama.cpp build b11723-31288c9c6, chat template sha256 74a88f94…f6b3.
-Package `p11-faq-split-20261028/runtime-package` (draft-chunks sha256 480a0ff6…9fbf). Hosted active release
-unchanged: `p11-research-corrected-20261026` (78 chunks / 39 curricula).
+Model unchanged: Gemma 4 E4B, llama.cpp b11723-31288c9c6; external MODELS directory only.
+Hosted config seal `954d376e3c47e55856f2e7c959f4dd9b98f5195a2fb25242807e6081e4cabb8e`.
+Pin/config hashes and exact artifact locations: linked activation results. Selected review scope
+`17e11149b93c5f0e29fb43f29ea23d2aa87b6b4a602280fb8c53c402ce61d2a1`.
 
 ## Decisions
 
-Owner 30 Oct: single runs disclosed; write-up first, hosted activation only if time remains (ledger).
+Owner directives in ledger authorize hosted 560 research activation and the session-pooler path;
+257 re-authored records use the activation directive, with no per-chunk human approval.
+No further permission needed for those steps. Deployment cancelled; institutional release held.
 
 ## Known Failures or Blockers
 
-v2 failures (12) listed in the report section 4. Hosted 560 activation pending (needs staging + selected review).
+Owner supplied pooler host `aws-0-ap-southeast-1.pooler.supabase.com` and authorized assembling the URI.
+Hosted database password missing; owner asked to add `SUPABASE_HOSTED_DB_PASSWORD` privately to p12/.env.
+No stage/activate or hosted website smoke run. Benchmark failures and unmeasured metrics remain in report.
 
 ## Next Action
 
-Hosted 560 activation per the session handoff; then report section 8, the Phase 12 handoff; supersede this checkpoint; validate and update INDEX/progress.
+Once the password is added, construct `SUPABASE_HOSTED_DB_URL` with the supplied host, port 5432,
+user `postgres.jyrudbiuajahsucsorco` and percent-encoded password; validate without exposing it; run logged
+`hosted.py stage`, inspect exact readback, activate, then hosted-config website smoke.
+Follow executor failure/rollback rules; complete report/handoff only after evidence.
 
 ## Do Not Repeat
 
-Benchmark runs (A, C, rerun, Tagalog, shorthand, loose); selector replays; statistics.
+Benchmark runs, selector replays, statistics, dev merge, local rehearsal, receipt preparation,
+hosted snapshot or applied migration. Never edit bound artifacts or write hosted rows by hand.
 
 ## Context consulted
 
-30 Oct: master 17 (Phase 12) and 26; Phase 11 handoff; Context/response-time-recommendation.md; thesis physical
-17–18 (Scope and Limitations, text via pypdfium2: undergraduate only, read-only, clarify/unavailable/referral,
-private-file cross-session evaluation) and the routing PNG (RAG/Hybrid/Symbolic -> integration -> generation ->
-validation loop; condition C covers all three paths). Discrepancy: thesis accepts English/Filipino/Taglish
-queries; inputs still do, replies are English/Taglish (owner 27 Oct, master 26). No scope or routing change.
+Codex resume: master 3/11/13/17/26, Phase 11 handoff, undergraduate scope policy, thesis physical
+17–18 and 39–44 via pypdfium2, routing PNG. RAG/Symbolic/Hybrid separation preserved.
+Thesis closed-world example does not override unknown-versus-unmet guards; English/Taglish replies follow
+the owner decision while English/Filipino/Taglish inputs remain. No new scope or routing discrepancy.
