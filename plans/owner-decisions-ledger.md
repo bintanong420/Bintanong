@@ -573,3 +573,8 @@ Each program still gets its own dated review record listing which standing rule 
   the gate-tested 560-chunk FAQ-split package (`p11-faq-split-20261028`) as the hosted research release after the
   accuracy freeze, through the existing staging -> ReleaseManager activate RPC -> readback -> smoke path, keeping
   the corrected78 rollback. Research build only; no institutional approval or public deployment inferred.
+- 29 Oct 2026 (Phase 12 benchmark): 50 English/Taglish cases: 40 reused owner-accepted gate cases ("Reuse, disclose":
+  results must state they were used during development) plus 10 new disciplinary cases from printed Handbook penalty
+  rows (owner chose the revised set: cheating p.88, improper uniform p.87, smoking p.93, plagiarism p.88, bullying
+  p.94; blank printed offenses stay source gaps). Conditions A (plain Gemma, no evidence) and C (full system); B skipped.
+  Asked whether these are common queries: no usage data exists, so commonness is a judgment, not a measurement.

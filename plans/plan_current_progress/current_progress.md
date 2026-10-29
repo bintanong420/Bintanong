@@ -80,4 +80,4 @@ Config: A/p11-local-documents-20261029/research-api-config.json (old 78 config u
 
 Phase 12 benchmark: 50 common English/Taglish queries across enrollment procedures, prerequisite eligibility,
 grade policies and academic standing, disciplinary policies; then the browser check and the Phase 11 handoff.
-Local Supabase stack stopped except `supabase_db_Bintanong`. Mark `LIVE RUN` here while using the model.
+LIVE RUN (29 Oct): Phase 12 benchmark conditions C then A (A/p12-benchmark-20261029).
