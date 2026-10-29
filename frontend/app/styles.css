@@ -150,6 +150,8 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 .message-user .message-card { background: var(--secondary); }
 .message-user .message-card > div { padding: 0.75rem 1rem; }
 .message-text { max-inline-size: 65ch; margin: 0; font-size: 0.875rem; font-weight: 400; line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere; }
+/* Owner, 29 Oct 2026: the guidance notice stays visible but recedes behind the answer. */
+.answer-disclaimer { margin-block: 0.75rem 0; color: var(--muted-foreground); opacity: 0.85; font-size: 0.6875rem; line-height: 1.5; }
 .answer-notice { inline-size: fit-content; margin-block: 0 0.75rem; padding: 0.5rem 0.75rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 500; line-height: 1.5; }
 .source-label { margin-block: 1rem 0; color: var(--muted-foreground); font-size: 0.75rem; }
 .sample-label { margin-block: 0 0.5rem; font-size: 0.75rem; color: var(--muted-foreground); }

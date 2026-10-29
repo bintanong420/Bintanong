@@ -1,7 +1,7 @@
 """Student view of a validated answer (owner O4, 23 Oct 2026: students never see variable or function names).
 
 The canonical `CandidateAnswer.text` is what the validator checks byte for byte, so it is never changed; it stays
-the researcher diagnostic. The student view drops the check-scope line, evidence ids and aliases and citation lines (citations
+the researcher diagnostic. The student view drops the candidate-preview line, the check-scope line, evidence ids and aliases and citation lines (citations
 travel as separate source parts) and turns the Prolog runtime's condition codes into plain phrases.
 """
 from __future__ import annotations
@@ -49,6 +49,15 @@ def humanize_codes(line: str, language: str) -> str:
     return _CODE.sub(phrase, line)
 
 
+# Owner, 29 Oct 2026: the student view leaves out the candidate-preview line; its guidance sentence is sent
+# separately (`guidance_notice`) and shown subtly by the frontend.
+_PREVIEWS = frozenset(words['preview'] for words in _WORDS.values())
+
+
+def guidance_notice(language: str) -> str:
+    return _WORDS.get(language, _WORDS['en'])['preview'].split('. ', 1)[1]
+
+
 def student_text(answer) -> str:
     words = _WORDS.get(answer.language, _WORDS['en'])
     listed = tuple(f'{words[key]}: ' for key in ('conditions', 'missing', 'dependency'))
@@ -58,7 +67,7 @@ def student_text(answer) -> str:
     cited = tuple(f'[{card.evidence_id}] ' for card in answer.citations)
     shown = []
     for line in answer.text.splitlines():
-        if (scope and line.startswith(scope)) or (cited and line.startswith(cited)):
+        if line in _PREVIEWS or (scope and line.startswith(scope)) or (cited and line.startswith(cited)):
             continue
         if line in claims:
             line = claims[line]

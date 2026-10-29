@@ -578,3 +578,8 @@ Each program still gets its own dated review record listing which standing rule 
   rows (owner chose the revised set: cheating p.88, improper uniform p.87, smoking p.93, plagiarism p.88, bullying
   p.94; blank printed offenses stay source gaps). Conditions A (plain Gemma, no evidence) and C (full system); B skipped.
   Asked whether these are common queries: no usage data exists, so commonness is a judgment, not a measurement.
+- 29 Oct 2026 (answer notice): owner "for the candidate preview only, we can not include that in the output. We can
+  keep the Not official university guidance but ... more in the background-ish color/tone/transparency and make the
+  font a bit smaller." Student view drops the candidate-preview line; data-answer carries the reply-language guidance
+  sentence as `notice`, rendered small and muted. Canonical validated answer text unchanged. Owner also directed
+  `npm ci` in p11/frontend (`@supabase/ssr` was declared but not installed).

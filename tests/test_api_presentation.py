@@ -40,7 +40,7 @@ def test_student_text_keeps_the_claims_notice_and_decision(route):
     answer = answer_for(route)
     shown = student_text(answer)
     lines = answer.text.splitlines()
-    assert shown.splitlines()[0] == lines[0]  # candidate-preview notice
+    assert lines[0] not in shown  # candidate-preview line left out (owner, 29 Oct 2026)
     for claim in answer.claims:
         assert claim.text in shown
     if answer.decision is not None:
@@ -97,3 +97,13 @@ def test_student_text_drops_short_evidence_aliases_the_model_wrote_into_a_claim(
     answer = answer.model_copy(update=dict(claims=(tagged, *answer.claims[1:]), text=text))
     shown = student_text(answer)
     assert tag.strip() not in shown and claim.text in shown
+
+
+@pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
+def test_student_text_leaves_out_the_candidate_preview_line(language):
+    # Owner, 29 Oct 2026: no "candidate preview" line; the guidance notice is shown separately and subtly.
+    answer = answer_for('RAG').model_copy(update=dict(language=language))
+    shown = student_text(answer)
+    assert not any(word in shown for word in ('Candidate preview', 'Preview ng kandidato'))
+    for claim in answer.claims:
+        assert claim.text in shown

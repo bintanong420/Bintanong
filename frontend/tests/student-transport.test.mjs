@@ -92,3 +92,10 @@ test('PDF upload uses explicit scope and preserves backend review shape', async 
   assert.deepEqual(value, review);
   assert.deepEqual(queryKeys, ['curriculumId', 'programId']);
 });
+
+test('answer metadata carries the subtle guidance notice', async () => {
+  const data = { status: 'answered', conditional: false, language: 'en', missingFields: [], notice: 'Not official university guidance.' };
+  const raw = sse(normal.map(p => p.type === 'data-answer' ? { ...p, data } : p));
+  const answer = await sendStudentMessage(request, { signal: new AbortController().signal, onText() {}, fetch: async () => response(raw) });
+  assert.equal(answer.notice, 'Not official university guidance.');
+});

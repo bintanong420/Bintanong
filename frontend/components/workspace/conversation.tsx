@@ -43,6 +43,7 @@ export function Conversation({ state, progress, onSource, onClarify, onEdit, onR
         {message.text && <p className="message-text">{message.text}</p>}
         {message.answer?.conditional && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
         {message.answer?.status === "clarification_needed" && !hasQuestions && <p className="supporting-copy clarification-explanation">No specific clarification question was provided.</p>}
+        {message.answer?.notice && <p className="answer-disclaimer">{message.answer.notice}</p>}
       </CardContent></Card>
       <div className="message-actions">
         {message.role === "user" && <Button type="button" variant="ghost" size="sm" onClick={() => onEdit(message.text)}><Pencil size={14} aria-hidden="true" />Edit as new question</Button>}

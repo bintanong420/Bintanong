@@ -13,7 +13,7 @@ import json
 import secrets
 
 from backend.bintanong_api.chat import ChatTurns, PreparedTurn
-from backend.bintanong_api.presentation import clarification_view, student_text
+from backend.bintanong_api.presentation import clarification_view, guidance_notice, student_text
 from backend.bintanong_api.session import ApiError, Session
 
 STREAM_HEADERS = {'x-vercel-ai-ui-message-stream': 'v1', 'cache-control': 'no-cache', 'x-accel-buffering': 'no'}
@@ -47,7 +47,8 @@ def answer_parts(answer, message_id: str, course_labels=None) -> list[dict]:
         if name and name not in missing:
             missing.append(name)
     parts.append({'type': 'data-answer', 'data': {'status': answer.status,
-        'conditional': answer.decision is not None, 'language': answer.language, 'missingFields': missing}})
+        'conditional': answer.decision is not None, 'language': answer.language, 'missingFields': missing,
+        'notice': guidance_notice(answer.language)}})
     if answer.status == 'clarification_needed':
         parts[-1]['data']['clarification'] = clarification_view(answer, course_labels or {})
     parts.append({'type': 'finish', 'finishReason': 'stop'})
