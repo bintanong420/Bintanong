@@ -22,7 +22,7 @@ from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
 from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExplanation,decode_part_explanation,
                            answered_slots,assess_slots,bind_confirmation,
-                           confirm_messages,confirm_schema,host_only,part_messages,part_schema,
+                           confirm_messages,confirm_schema,conjunction_errors,disjunction_errors,host_only,part_messages,part_schema,
                            record_coverage_errors,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
 from .quoted_field import quoted_field_parts
@@ -68,17 +68,23 @@ THANKS=re.compile(r'\b(?:thank you|thanks|thank u|thx|ty|tysm|salamat)\b',re.I)
 
 
 class Generator:
-    def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical',explanation_profile='parts'):
+    def __init__(self,transport,*,timeout_seconds=120,reference_profile='canonical',explanation_profile='parts',
+                 review_reference_profile='canonical'):
         if reference_profile not in ('canonical','short'):
             raise ValueError('invalid_generation_reference_profile')
         if explanation_profile not in ('legacy','scoped','guarded','covered','parts'):
             raise ValueError('invalid_explanation_profile')
         if explanation_profile in ('scoped','guarded','covered') and reference_profile!='canonical':
             raise ValueError('scoped_requires_canonical_references')
+        if review_reference_profile not in ('canonical','short'):
+            raise ValueError('invalid_review_reference_profile')
+        if review_reference_profile=='short' and explanation_profile!='parts':
+            raise ValueError('short_review_requires_parts')
         self.transport=transport
         self.timeout_seconds=_seconds(timeout_seconds)
         self.reference_profile=reference_profile
         self.explanation_profile=explanation_profile
+        self.review_reference_profile=review_reference_profile
 
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
@@ -91,6 +97,7 @@ class Generator:
         if quotes and self.explanation_profile!='parts':
             return _answer(pack,'abstained',reason='unsupported_answer_scope')
         references=EvidenceReferences(pack) if self.reference_profile=='short' else None
+        review_references=EvidenceReferences(pack) if self.review_reference_profile=='short' else None
         if pack.status=='greeting' and THANKS.search(text):
             return _answer(pack,'greeting',reason='thanks')
         if pack.status!='ready' or pack.language=='unknown':
@@ -139,15 +146,23 @@ class Generator:
                     guard=GuardObservation(result=result,elapsed_seconds=loop.time()-guard_started)
                     if result!='document_only':
                         return _answer(pack,'abstained',reason='decision_withheld',guard=guard)
+                def draft_request(previous):
+                    return (part_messages(text,pack,errors=errors,previous=previous,references=references) if per_part else
+                            document_messages(text,pack,errors=errors,previous=previous) if scoped else
+                            draft_messages(text,pack,errors=errors,previous=previous,references=references))
                 for attempt in (1,2):
                     attempts=attempt
                     coverage=None
-                    messages=(part_messages(text,pack,errors=errors,previous=previous,references=references) if per_part else
-                              document_messages(text,pack,errors=errors,previous=previous) if scoped else
-                              draft_messages(text,pack,errors=errors,previous=previous,references=references))
                     schema=(part_schema(pack,references) if per_part else document_schema(pack) if scoped else
                             draft_schema(pack,references=references))
-                    raw=await self.transport.infer(messages,schema)
+                    try:
+                        raw=await self.transport.infer(draft_request(previous),schema)
+                    except RuntimeFailure as error:
+                        if str(error)!='context_overflow' or not previous:
+                            raise
+                        # Preflight refused before inference. Drop only the model's own previous draft;
+                        # complete sources, validation errors, window and margin stay unchanged.
+                        raw=await self.transport.infer(draft_request(''),schema)
                     previous=raw if isinstance(raw,str) else ''
                     slots=None
                     try:
@@ -161,7 +176,9 @@ class Generator:
                                       references.decode(_parse(raw,ShortAnswerDraft)))
                         errors=validate_draft(proposal,pack)
                         if per_part:
-                            errors=errors+style_errors(proposal,pack,text)+record_coverage_errors(pack,proposal.claims,slots)
+                            errors=(errors+style_errors(proposal,pack,text)+disjunction_errors(proposal,pack,slots)+
+                                    conjunction_errors(proposal,pack,slots)+
+                                    record_coverage_errors(pack,proposal.claims,slots))
                     except (ValueError,TypeError,RecursionError):
                         errors=('invalid_draft',)
                         slots=None
@@ -172,7 +189,7 @@ class Generator:
                     if not errors and proposal.claims and (not per_part or answered_slots(slots)):
                         checks+=1
                         reviewed=answered_slots(slots) if per_part else None
-                        messages_to_review=(confirm_messages(text,pack,proposal,reviewed) if per_part else
+                        messages_to_review=(confirm_messages(text,pack,proposal,reviewed,references=review_references) if per_part else
                                             coverage_messages(text,pack,proposal) if coverage_required else
                                             review_messages(text,pack,proposal))
                         review_started=loop.time()

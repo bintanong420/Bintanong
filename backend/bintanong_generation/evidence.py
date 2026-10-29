@@ -59,6 +59,26 @@ class PreparedEvidence:
         return payload
 
 
+# Owner-settled source limits (owner 28 Oct 2026: the year-level percentages are shown as printed, no note).
+# The reviewed package keeps each original limit; a settled one stops holding its record when evidence is prepared.
+OWNER_RESOLVED_LIMITS=frozenset({
+    'Unavailable information: overlapping year-level percentage boundaries unresolved. '
+    'Source limitation remains unresolved (malformed_source_condition).'})
+
+
+def _settled(text):
+    try:
+        record=json.loads(text)
+    except ValueError:
+        return text
+    limits=record.get('source_limits') if isinstance(record,dict) else None
+    if not isinstance(limits,list) or not any(isinstance(l,dict) and l.get('message') in OWNER_RESOLVED_LIMITS
+                                             for l in limits):
+        return text
+    record['source_limits']=[l for l in limits if not (isinstance(l,dict) and l.get('message') in OWNER_RESOLVED_LIMITS)]
+    return json.dumps(record,ensure_ascii=False)
+
+
 def _card(kind,text,citations):
     data=dict(kind=kind,text=text,citations=[c.model_dump(mode='json') for c in citations])
     identity=hashlib.sha256(json.dumps(data,sort_keys=True,ensure_ascii=True).encode()).hexdigest()
@@ -81,7 +101,7 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
             raise ValueError('integration_policy_mismatch')
     cards=[]
     if evidence is not None and evidence.documents is not None:
-        cards.extend(_card('document',p.text,p.citations) for p in evidence.documents.passages)
+        cards.extend(_card('document',_settled(p.text),p.citations) for p in evidence.documents.passages)
     symbolic=evidence.symbolic if evidence else None
     dependencies=evidence.dependencies if evidence else None
     reasoning=symbolic if symbolic is not None else dependencies
@@ -107,7 +127,7 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
                 tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in request.inputs)
                 !=context.inputs or plan.operations[0].name!=request.predicate):
             raise ValueError('understanding_operation_mismatch')
-    by_chunk = {p.chunk_id:_card('document',p.text,p.citations).evidence_id
+    by_chunk = {p.chunk_id:_card('document',_settled(p.text),p.citations).evidence_id
                 for p in evidence.documents.passages} if evidence and evidence.documents else {}
     coverage = tuple((c.subject_id,c.claim,tuple(by_chunk[i] for i in c.chunk_ids))
                      for c in evidence.documents.record_coverage) if evidence and evidence.documents else ()

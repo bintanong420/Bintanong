@@ -2,152 +2,100 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 211
+sequence: 238
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 123aa1e
+head_commit: 2f7c935
 working_tree: dirty
 updated_at: 2026-10-30
 ---
 
-# Phase 11 checkpoint — local ingestion extension
+# Phase 11 checkpoint — ingestion worktree backend refresh
 
 ## Completed Tasks
 
-Existing backend/API/security/queue/CF1–CF6 delivery and corrected78research release
-are inherited,not freshly queried. Phase11 remains active;no final handoff or Phase12.
-Local backend c370f00 was merged at3c1d76c before this extension. See
-[merge evidence](2026-10-27-backend-c370f00-ingestion-merge.md) and
-[prior runtime evidence](2026-10-26-companion-context-activation-results.md).
-
-AI extension software delivered through 4ff5872: source/candidate-bound advice,
-explicit provider/native page images, existing proposal UI, resumable LlamaParse,
-source-hardening fixtures, matched-page evaluation harness and operator guide.
-[Results](2026-10-27-ai-ingestion-results.md) ·
-[integration decisions](2026-10-27-ai-ingestion-integration.md) ·
-[operator guide](../docs/development/ai-assisted-ingestion.md).
-Existing extraction/ReviewSession/journal/renderer/build/verify reused. Shared
-contracts, student API/routing/generation/runtime and dependencies unchanged.
+Local ingestion preparation/review/build/verify and AI assistance delivery retained;
+original T4/T5 unfinished. Prior backend c370f00 merged at3c1d76c.
+[Ingestion checkpoint](2026-10-26-policy-ingestion-checkpoint.md),
+[AI results](2026-10-27-ai-ingestion-results.md),
+[reviewer follow-through](2026-10-27-ingestion-repo-followthrough.md) preserve detail.
+Backend/API/security and upstream frontend/auth/guest implementation inherited;
+[upstream handoff](2026-10-28-phase11-session-handoff.md) retains runtime-owner work.
+Phase11active;no final handoff or Phase12permission.
 
 ## Current Task
 
-30Oct requested backend refresh is blocked before merge: cached backend f0889c3
-has111incoming commits; GitHub proxy connection fails and shared Git metadata
-denies FETCH_HEAD writes. [Resume evidence](2026-10-30-ingestion-backend-refresh-blocked.md).
-No application changes or fresh compatibility tests. UI statements below are27Oct evidence.
-Read-only committed-tree preview finds checkpoint/progress conflicts;index auto-merges.
-
-Current UI now served on3003/8767 with an independent real72-record copy;original
-owner tabs/drafts preserved. Source/build fingerprint verified;visible packet status
-explains absent AI. [Follow-through](2026-10-27-ingestion-repo-followthrough.md)
-records RED/GREEN geometry/UI corrections and ten additional Charter cases.
-Live assistance/native/human A/B gates remain open;full suite is not green.
-Original T4/T5 lifecycle/operator rehearsal were not completed by this extension.
-[Supplied execution plan](2026-10-27-ai-assisted-ingestion-codex-plan.md) and
-[launch](2026-10-27-ai-assisted-ingestion-launch-prompt.md) require local commits,
-no automatic push. No hosted access or institutional approval is authorized.
+Resume session01a178e5-2886-7d73-8589-5e7fa97bd935's authorized backend refresh.
+Fetch succeeds;frozen upstreamf0889c3 contributes111commits. Only checkpoint/progress
+conflicted;resolved for this ingestion worktree,retaining upstream evidence/gates.
+Compatibility passed;merge ready for local commit. [Merge report](2026-10-30-backend-f0889c3-ingestion-merge.md).
 
 ## Repository State
 
-Branch feat/p11-policy-ingestion-review. Code commits:
-1711066,c338146,16ed7d6,45924ce,4ba7fb4,d3f4114,4ff5872,377f73e,76e82dd. Documentation contains
-this snapshot; head_commit names its inspected code parent, not a self-reference.
-30Oct HEAD123aa1e; uncommitted refresh report,current progress and this checkpoint.
-No extension commits pushed; no merge or other-worktree change this turn.
-Last full snapshot before condensation:d3f4114. Preserve it with git show.
-A=C:/Coding-projects/bintanong_workspace/audit-evidence/p11-ai-ingestion-20261027.
-Originals, candidate packets, journals, screenshots and evaluation data stay ignored.
+Branch feat/p11-policy-ingestion-review;original123aa1e,status preservation2f7c935.
+Recovery ref recovery/policy-before-f0889c3-20261030. Full snapshots local2f7c935,
+upstreamf0889c3;olderd3f4114/7be3e1c remain recoverable with git show.
+Merge pending commit;incoming files staged,status documents reconciled locally.
+A=C:/Coding-projects/bintanong_workspace/audit-evidence.
+A/p11-backend-refresh-f0889c3-20261030 preserves bytes,patch and other branch heads.
+No push,other-worktree update,runtime-pin edit or service restart.
 
 ## Verification Evidence
 
-Follow-through:rotated-box RED incorrectly emitted an axis-aligned span;fixed to
-withhold it. GREEN79tests40.24s;additional Charter association selection41pass2.03s.
-UI missing-assistance status browserRED2.64s→GREEN5.78s;synthetic assisted save1.50s.
-Node7pass/1skip/TypeScript pass;production build and copied-source fingerprint pass.
-Both themes' notice contrast>=4.5:1;390/720px overflow absent. Not full accessibility.
-
-Final targeted ingestion + all prospectus/reviewer compatibility:
-1821passed/13subtests,2deprecation warnings,189.53s,exit0; exact argv/log/exit in
-A/final-focused-command.json,final-focused.log,final-focused-exit.txt.
-Before metric-only addition:focused provider/parser/evaluation/CLI48pass13.77s.
-Final metric fix:7evaluation tests pass;22docs checks pass. Node7pass/1browser-skip;
-TypeScript pass. Isolated configured browser1pass1.90s:Use changes draft only;
-explicit save creates human correction. Production build/start succeeded separately.
-Synthetic3003/8767 stopped; existing owner3001/3002not restarted.
-
-Available repository suite before final envelope hardening:6949pass/745subtests,
-2fail,1skip,2xfail,9warnings,401.05s,exit1. Seventeen Docker database files excluded;
-A/repository-command.json names every exclusion. Both failures are existing native
-Docling conversion: Transformers5.10.2 requires huggingface-hub>=1.5,<2 but installed
-2.2.0. Installed Docling2.129.0; PyTorchCPU. No installation/lock/source-parser change.
-Docker engine unavailable; no actual-role DB readiness claim or hosted fallback.
-
-Source/candidate/page/field staleness, privileged output, rendering/network failure,
-partial batches, malformed response objects and incomplete CLI status fail safely.
-Handbook hierarchy/TOC discrepancy/header/footer/continuation stay pending/manual;
-Charter grouped tables/merged HTML preserved; swapped fee/time fixture fails despite
-100percent word recall. Both assistance paths exercise human correction/build/verify.
-TDD RED/GREEN details and initial fixture/setup failures are in integration note.
-
-Matched sample:16Handbook+12Charter pages,84blank strategy rows. Original hashes
-verified; no source rewrite. Blank summary metrics remain null. No human accuracy,
-review-time,cost,provider savings or A/B winner. Vision image input now passes,
-but advice quality/contract fails;LlamaParse live remains NOT RUN.
+Fresh:ls-remote verifies backend tip;fetch succeeds;pre-merge docs10passed.
+Fresh185-file compatibility:3889passed/350subtests,2xfail,2deprecations,315.04s,
+exit0. Student Node65pass;researcher7pass/1browser-skip;bothTypeScript checks pass.
+Docs22pass;phase statevalid;bounded independent review found no integration blocker.
+180incoming paths and77local paths outside three status documents match their
+parents;30other worktree heads unchanged. Exact argv/logs/exit/versions in evidence.
+Historical ingestion1821pass/13subtests;
+Node7pass/1browser-skip;TypeScript/build and real/synthetic browser checks passed.
+Historical available full run6949pass/745subtests,2native failures,1skip,2xfail;
+17DB files excluded. Historical backend04e6d38:7198pass/1608subtests,6skip/2xfail;
+later focused checks only. Gate run2:67/91raw,70/91adjusted;not full accuracy proof.
+No live hosted,model,database-role or browser acceptance claim this turn.
 
 ## Versions and Digests
 
-SystemPython3.13.7; installedNode22.22.3 versus target24.21.0; no versions changed.
-Shared models remain workspace/MODELS. Gemma4E4B GGUF5,126,306,944bytes exists;
-Matching BF16 mmproj found in existing LM Studio cache;prior inventory too narrow.
-Live temporary image server succeeds;grade-row advisory fails content/contract
-check and remains pending. [Model check](2026-10-27-local-vision-readiness.md)
-records assets,raw response and timings. Both probe servers stopped;no downloads.
-HandbookSHA4c9a95bf6895ddba75a997a37fa069644ac081dd7ab4a43f882496db834351c8;
-CharterSHA42a93994e1467df0f32c7038d1c21f638c23ac0f1dee984463acf56caf526529.
-Source-plan hashes and original frozen baseline pin/seals remain in dated reports.
+Fresh systemPython3.13.12;Node22.22.3 versus declared24.21.0;no installs.
+Merge input f0889c3307f0c1eff3cd22f94e7220e45fd2337d;
+common ancestor c370f00cd84654d087c309f3740c9f89b9441dda.
+Frontend manifest/lock imported verbatim;backend pins unchanged.
+Existing models remain workspace/MODELS;not loaded,downloaded,moved or rehashed.
+PDF/package/pin hashes are historical;see linked reports. Frozen78root remains
+nested comparison-baseline-78/comparison-baseline-78.
 
 ## Decisions
 
-AI produces advice; humans record decisions in the existing journal. Use only
-prefills; confidence cannot approve. New advice is generated before packet hashing;
-changed assistance recipe needs a fresh packet. Parser success never proves accuracy.
-No trusted PDF→AI→Prolog; source review and symbolic authoring remain separate.
-No hosted Supabase access, release/pin changes, external-worktree mutation or push.
-Owner-approved real public sources may be used for development; undergraduate
-applicability/source gaps/F04/unknown-versus-unmet/private-file holds remain intact.
-Complex raw tables are manual candidate JSON,not canonical service auto-authoring.
-Missing reliable original geometry stays build-held; no invented page boxes.
+Origin backend → this local ingestion branch only;no push. Preserve upstream
+source decisions without new source review or hosted operations. Existing72policy/
+39prospectus packets remain separate;upstream559/465ignored data not imported.
+AI advice needs human save;parser/confidence never approve content. Undergraduate
+scope,F04/source gaps,unknown-versus-unmet,private separation,structured/Prolog
+reviewed authoring and English/Taglish replies remain binding.
 
 ## Known Failures or Blockers
 
-Native dependency mismatch blocks fresh conversion. Docker unavailable blocks local
-DB role/lifecycle proof. No configured vision endpoint/Llama key; live calls absent.
-Human review/timing needed for A/B conclusions. Node target differs. Corpus-wide
-accuracy, institutional approval and original Phase11/student UI gates remain open.
+27Oct native Docling failed on Transformers/huggingface-hub mismatch;fresh conversion
+not proven. Vision image I/O passed but advice missed a corrupt grade range and
+violated the contract;manual review remains. Live LlamaParse/human A-B absent.
+Local DB roles and original T4/T5 unfinished;no hosted fallback. Upstream group A
+selection and Taglish second-year clarification open;559inactive. PSU real sign-in
+owner-deferred;guest-switch/cross-tab limitations disclosed in upstream results.
 
 ## Next Action
 
-Resume backend fetch/merge in a session with writable shared Git metadata and
-working GitHub connectivity; preserve ingestion commits and reconcile shared
-status documents,then run affected compatibility checks. Current tip is unverified.
-After refresh,remaining ingestion work follows:
-
-Resolve observed live advisory contract/row-association failure;preserve baseline.
-Resolve native dependencies in approved environment,rerun two failures,then live
-smoke and matched human evaluation. Current UI copy is available,not live-AI proof.
-Original ingestion T4 local lifecycle/T5 full operator rehearsal remain separate.
-Do not expand scope or mutate hosted configuration to complete local verification.
+Resume the observed vision advisory contract/row-association regression before
+relying on assistance;preserve source/baseline holds and keep T4/T5 separate.
 
 ## Context Consulted
 
-30Oct refresh: thesis physical17–18,runtime routing PNG,master3/16 reread;no new discrepancy.
-27Oct continuation: thesis physical17–18, runtime routing PNG, master3.1/16;
-previous39–44/3/11/13curriculum evidence retained. Undergraduate academic affairs,
-read-only advice, private-file separation and researcher-authorized institutional
-preparation remain consistent. Existing workstream/service-table/source-gap/location
-policies and supplied plans apply. No discrepancy requiring shared contract changes.
+30Oct:thesis physical17–18,routing PNG,master3/16/23/24/26,Phase11 plan,Phase10
+handoff and ingestion workstream plan. Previous39–44/3/11/13evidence retained.
+Authorized preparation stays separate from student requests/private uploads;
+no scope/routing discrepancy or new source judgment required.
 
 ## Do Not Repeat
 
-Do not reapprove historical reviews, activate/restage/reembed hosted78, mutate the
-sealed baseline, import missing336/465evidence, download models or repeat successful
-suites without new changes/failures. Do not infer phase completion from code delivery.
+Do not redo settled source decisions,mutate baselines,restart owner services,import
+missing ignored data,download models,access hosted Supabase or change runtime pins.
+Resume ingestion gates after the merge;runtime-owner gate work remains separate.

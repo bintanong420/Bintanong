@@ -511,3 +511,26 @@ Each program still gets its own dated review record listing which standing rule 
   wordings/historical runs and accuracy/source/privacy gates. No latency improvement
   is yet measured. Implementation still pending after frozen36d5f56source-context
   verification;[decision](2026-10-27-english-taglish-response-decision.md).
+
+- 28–29October2026, long Charter procedures: owner chose option A ("Let's do A, what you
+  recommend, lets give them the printed steps directly") after segmented model drafting failed.
+  29Oct format replies:(1) put each office action and each column (fee,person,office,time) on
+  its own line for readability;(2) Taglish keeps English source data/labels and uses Tagalog only
+  for conversational lead-ins (e.g. "Eto ang mga kailangan mong gawin:");(3) printed defects are
+  shown as is with a note that the data is exactly as printed and any defect comes from the
+  original. Applies to host display only;model interpretation holds on malformed conditions stay.
+  No activation/default change. See `2026-10-29-printed-service-steps-plan.md`.
+- 28 Oct 2026 (Phase 11, guest mode): owner asked for a guest mode with the login kept, then confirmed full guest
+  features including temporary PDF upload after the proposed flow. Master 25.1 amended (guest sessions memory-only,
+  separate from signed-in sessions, invalid present tokens refused, explicit API setting). Earlier the same day:
+  keep the login for now; removing UAT only under consideration (no requirements change). Real PSU sign-in
+  verification stays deferred. Codex B implements; Claude review `2026-10-28-guest-mode-review.md`.
+- 28 Oct 2026 (answers): answer only the printed detail asked (requirements, fees, processing time), the whole
+  service when the student asks how to do something or for everything. No program given -> keep asking program
+  and curriculum; the frontend asks up front. Students are guided to type a course code or a course title
+  (combined "CS6 (title)" mentions are not specially handled). Simple-question gate: cover most topics and
+  diversify prerequisite questions across programs (wording accepted in principle).
+- 28 Oct 2026 (year levels): the Handbook curricular-level percentages (first year "completed 25%", second year
+  "25% but not more than 50%", ...) are answered as printed with no limitation note; the owner considers the overlap
+  clear by comparison. Applied as an owner-resolved limit at evidence preparation; the reviewed package keeps
+  the original limit record unchanged.

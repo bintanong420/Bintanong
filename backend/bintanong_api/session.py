@@ -25,6 +25,7 @@ class ApiError(Exception):
 class Session:
     credential: str
     view: SessionView
+    account_id: str | None = None
 
 
 def check_origin(request: Request) -> None:
@@ -40,12 +41,13 @@ def require_session(request: Request) -> Session:
     """The caller's live session, or a fresh one when the cookie is missing, unknown or expired."""
     store: SessionStore = request.app.state.services.sessions
     credential = request.cookies.get(SESSION_COOKIE)
-    view = store.resolve(credential)
+    account_id = getattr(request.state, 'account_id', None)
+    view = store.resolve(credential, account_id=account_id)
     if view is None:
         try:
-            issued = store.issue()
+            issued = store.issue(account_id=account_id)
         except SessionLimitError:
             raise ApiError(503, 'session_limit') from None
-        credential, view = issued.credential, store.resolve(issued.credential)
+        credential, view = issued.credential, store.resolve(issued.credential, account_id=account_id)
         request.state.issued_credential = credential
-    return Session(credential, view)
+    return Session(credential, view, account_id)

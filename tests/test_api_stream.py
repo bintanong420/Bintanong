@@ -88,7 +88,8 @@ def test_answer_parts_carry_the_student_text_sources_and_finish():
     assert [s['sourceId'] for s in sources] == [c.evidence_id for c in answer.citations]
     assert all('ev-' not in s['title'] for s in sources)
     summary = next(p for p in parts if p['type'] == 'data-answer')
-    assert summary['data'] == {'status': 'answered', 'conditional': True}
+    assert summary['data'] == {'status': 'answered', 'conditional': True,
+                               'language': 'taglish', 'missingFields': []}
     assert kinds[-1] == 'finish' and parts[-1]['finishReason'] == 'stop'
 
 

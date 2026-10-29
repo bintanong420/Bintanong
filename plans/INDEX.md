@@ -1,42 +1,31 @@
 # Bintanong implementation ledger
 
 ## Current state
-- Phase11active;this worktree is p11-policy-ingestion-review. Local backend c370f00
-  merged here;backend/security delivered upstream,frontend integration separate. [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
-  [Current progress](plan_current_progress/current_progress.md). No Phase11handoff;
-  latest final handoff is [Phase10](phase-10-handoff.md);Phase12not permitted.
-- [Reply migration](2026-10-27-english-taglish-migration-results.md),28edea4:
-  English/Filipino/Taglish inputs;English/Taglish replies. Saved8/8targets match,
-  style prompt95tokens smaller;latency gain unproven. Full6974tests/1595subtests pass.
-  [Owner decision](2026-10-27-english-taglish-response-decision.md),master26.
-- [Source-bound context](2026-10-27-source-bound-routing-context-results.md),36d5f56:
-  [Document follow-ups](2026-10-27-document-follow-up-context-results.md),4ba0f41:full6986/1595subtests pass.
-- [Field quotations](2026-10-27-quoted-field-answer-results.md),3c55722:three local
-  TORstep1answers validated;full suite running. Default budget/release gates remain.
-- Corrected78research release/39curricula active;expanded465draft inactive and
-  predates local corrections. [465bindings/capacity](2026-10-27-expanded-topic-binding-results.md),
-  [normalized data](2026-10-27-expanded-context-validation-results.md),
-  [hosted draft](2026-10-27-hosted-corpus-staging-results.md).
-- [All-nine inclusion](2026-10-27-nine-item-inclusion-results.md)/prior source decisions
-  stand;service/image bindings,budgets,release and full answer-quality gates remain.
-  No institutional approval,public deployment or executable-rule expansion inferred.
-- [Developer pipelines](../docs/development/pipelines.md),[master](master_implementation_plan_original_long.md),
-  [two-developer boundary](2026-10-26-phase11-two-developer-workflow.md). Prior phase
-  milestones/limitations are in the ledger and linked final handoffs below.
 
-- [Ingestion backend merge](2026-10-27-backend-c370f00-ingestion-merge.md):
-  backend d8246d1→c370f00;1605tests/84subtests/2xfail pass. Local reviewers/source
-  packets stay separate from upstream inactive465candidate data.
-
-- [AI ingestion extension](2026-10-27-ai-ingestion-results.md):local software/operator
-  delivery through4ff5872;1821compatibility tests/13subtests pass. Full available
-  suite has2native dependency failures;live AI/DB/human A/B unverified. T4/T5 remain
-  unfinished. [Guide](../docs/development/ai-assisted-ingestion.md). No extension push.
+- Phase11 active in p11-policy-ingestion-review / feat/p11-policy-ingestion-review.
+  [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
+  [Progress](plan_current_progress/current_progress.md). No Phase11handoff;
+  latest final handoff [Phase10](phase-10-handoff.md);Phase12not permitted.
+- [Backend refresh](2026-10-30-backend-f0889c3-ingestion-merge.md):c370f00→f0889c3;
+  3889tests/350subtests pass;Node65+7pass,bothTypeScript checks pass. [Prior merge](2026-10-27-backend-c370f00-ingestion-merge.md)
+  and [upstream session handoff](2026-10-28-phase11-session-handoff.md) retain history.
+- Upstream student frontend/auth/guest and generation/routing changes imported.
+  [Simple-question gate](2026-10-28-simple-question-gate-results.md):67/91raw,
+  70/91adjusted;topic/claim and Taglish clarification failures remain.
+- [AI ingestion](2026-10-27-ai-ingestion-results.md),[reviewer follow-through](2026-10-27-ingestion-repo-followthrough.md),
+  [vision limitation](2026-10-27-local-vision-readiness.md),[operator guide](../docs/development/ai-assisted-ingestion.md).
+  Existing72policy/39prospectus packets remain separate;T4/T5unfinished.
+- Corrected78/39curricula release/pin unchanged;559local package/465draft inactive.
+  No hosted verification,activation,institutional approval or public deployment.
+  English/Filipino/Taglish inputs;English/Taglish replies per [owner decision](2026-10-27-english-taglish-response-decision.md).
+- [Pipelines](../docs/development/pipelines.md),[master](master_implementation_plan_original_long.md),
+  [two-developer boundary](2026-10-26-phase11-two-developer-workflow.md).
 
 ## Resume order
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
 2. Read current progress, the Phase 11 plan/checkpoint, Phase 10 handoff; master 16, 23, 24, 26;
-   earlier phase files only for a specific dependency/boundary.
+   [28Oct upstream handoff](2026-10-28-phase11-session-handoff.md) for inherited runtime evidence;
+   local ingestion task follows this worktree's checkpoint;older files only for a specific dependency.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
 5. Resume the Phase 11 checkpoint's next action; preserve all inherited release holds.
@@ -62,24 +51,13 @@ real-source exits; ledger validity alone does not prove source readiness.
 
 ## Read only when relevant
 
-- Sources: [locations](dataset-locations.md), [undergraduate scope](undergraduate-scope-policy.md),
-  [source gaps](source-gap-policy.md), [service tables](service-table-association-policy.md).
-- Architecture: [curriculum/Symbolic direction](2026-10-16-curriculum-symbolic-routing-clarification.md).
-- Retrieval: [selected profile](2026-10-16-document-development-profile.md),
-  [bounded acceptance](2026-10-16-document-development-acceptance-contract.md),
-  [remaining exits](2026-10-16-phase05-remaining-exit-packet.md).
-- Phase06: [foundation/readiness](2026-10-17-phase06-foundation.md),
-  [Generated review delivery](2026-10-17-phase06-prolog-review-delivery.md),
-  [Partial export design](2026-10-17-phase06-partial-review-export-design.md),
-  [Reference extension](2026-10-17-phase06-reference-extension.md),
-  [translation review03](2026-10-17-phase06-translation-review-03.md),
-  [authoring/compiler](../backend/bintanong_symbolic/README.md).
-- Ingestion: [supporting index](ingestion/README.md), only for ingestion work.
-- Benchmarks: [evaluation protocol](../evaluation/README.md).
-- Database integration: [hosted migration gap](2026-10-19-hosted-migration-status.md).
-- Settled owner decisions: `AGENTS.md`; consult its linked records for exact evidence.
+- [Dataset locations](dataset-locations.md),[undergraduate scope](undergraduate-scope-policy.md),
+  [source gaps](source-gap-policy.md),[service tables](service-table-association-policy.md).
+- [Symbolic direction](2026-10-16-curriculum-symbolic-routing-clarification.md),
+  [owner decisions](owner-decisions-ledger.md),[ingestion index](ingestion/README.md).
+- [Evaluation protocol](../evaluation/README.md),[hosted migration gap](2026-10-19-hosted-migration-status.md).
+  Older task-specific evidence is linked from the phase ledger and dated reports.
 
 ## History and upkeep
-Owner requested compact handoffs on 17 October 2026. These are current snapshots,
-not activity logs. Replace stale state;keep durable evidence in dated reports;do not restore bulk history on resume.
-Before current index condensation:28edea4. Latest full snapshots:Phase10 checkpoint:`13cf4b5`;Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.
+Owner17Oct:compact current snapshots;replace stale state and retain durable evidence in dated reports.
+Before current index condensation:local2f7c935/upstreamf0889c3. Latest full snapshots:Phase10 checkpoint:`13cf4b5`;Phase09:`e28eb5d`;Phase08:`9606319`;Phase07:`73cf70a`;use `git show <commit>:<path>`.

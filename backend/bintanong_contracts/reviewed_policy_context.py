@@ -13,6 +13,7 @@ import re
 from .source import Chunk, SourceSpan, canonical_text, compute_content_hash, joined_span_text, span_identity
 from .reviewed_record_groups import validate_record_manifest
 from .reviewed_heading_metadata import validate_reviewed_heading_metadata, heading_metadata_display
+from .reviewed_flow_evidence import validate_flow_manifest,validate_flow_member,flow_display
 
 
 CONTEXT_FORMAT = 'reviewed-policy-fields-v1'
@@ -99,6 +100,7 @@ def serialize_reviewed_fields(associations, limits, group=None, *, context_forma
                 limitation='Additional conditions are not separately recorded; their absence is not established.')
         fields.append(display)
     record_group=isinstance(group,dict) and 'record_manifest' in group
+    flow_group=isinstance(group,dict) and 'flow_manifest' in group
     displayed_limits=[{k:v for k,v in limit.items() if k not in
         {'visible_text','source_sha256','version_id','span_indexes'}} for limit in limits] if compact or record_group else limits
     payload={'fields':fields,'source_limits':displayed_limits}
@@ -106,6 +108,7 @@ def serialize_reviewed_fields(associations, limits, group=None, *, context_forma
         if (not isinstance(group,dict) or set(group) not in (
                 {'logical_step_id','part_order','part_count'},
                 {'logical_step_id','part_order','part_count','part_reading_id'},
+                {'logical_step_id','part_order','part_count','part_reading_id','flow_manifest'},
                 {'logical_step_id','part_order','part_count','part_reading_id','record_manifest'})
                 or not isinstance(group['logical_step_id'],str) or not group['logical_step_id']
                 or ('part_reading_id' in group and (not isinstance(group['part_reading_id'],str)
@@ -114,8 +117,12 @@ def serialize_reviewed_fields(associations, limits, group=None, *, context_forma
                 or not 0 <= group['part_order'] < group['part_count']):
             raise ValueError('invalid service context group')
         if record_group:validate_record_manifest(group['record_manifest'],group['part_count'])
-        payload['service_group']={k:v for k,v in group.items() if k!='record_manifest'} if compact else group
-    if compact and (limits or group is not None):
+        if flow_group:
+            validate_flow_manifest(group['flow_manifest'])
+            payload['flow_evidence']=flow_display(group['flow_manifest'],associations)
+        payload['service_group']={k:v for k,v in group.items() if k not in
+            ({'record_manifest','flow_manifest'} if compact else {'flow_manifest'})}
+    if flow_group or compact and (limits or group is not None):
         payload['evidence_sha256']=hashlib.sha256(_json({
             'source_limits':limits,'service_group':group}).encode('utf-8')).hexdigest()
     return _json(payload)
@@ -276,6 +283,8 @@ def render_reviewed_policy_context(chunk, spans):
                 raise ValueError('reviewed context field differs from located text')
         if indexes != list(range(len(bound))):
             raise ValueError('complete ordered reviewed context fields required')
+        if isinstance(group,dict) and 'flow_manifest' in group:
+            validate_flow_member(group['flow_manifest'],chunk,bound)
         # Reuse exact gap checks, including pages and visible field values. No
         # instruction/message supplied by a caller can replace the fixed limitation.
         row = {'source_sha256':chunk['byte_sha256'],'version_id':chunk['version_id'],

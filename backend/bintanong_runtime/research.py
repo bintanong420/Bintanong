@@ -153,6 +153,9 @@ def _reviewed_topic_context(register, catalogue, chunks):
             if len(set(values)) <= 4}
 
 
+PRINTED_DEFECTS = ('malformed_source_condition', 'printed_total_discrepancy')
+
+
 def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
     """One topic per reviewed subject with its reviewed claims, plus the claims its chunks'
     source_limits record as not stated (selecting one makes the policy withhold)."""
@@ -180,7 +183,8 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
         except (ValueError, TypeError, AttributeError):
             limits = []
         for limit in limits:
-            if limit.get('resolution') == 'unresolved':
+            # Owner29Oct: printed defects are shown as printed with a note, not offered as not stated.
+            if limit.get('resolution') == 'unresolved' and limit.get('issue') not in PRINTED_DEFECTS:
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
     contexts = _reviewed_topic_context(register, catalogue, chunks)
@@ -250,7 +254,7 @@ def build_research_resources(ledger, package, *, encoder, authorization_ref, hos
 
 
 def build_multi_research_resources(ledgers, package, *, encoder, authorization_ref, hosted=None,
-                                   program_names=None, curriculum_names=None):
+                                   program_names=None, curriculum_names=None, routing_context=False):
     """One research release serving several reviewed curricula ({curriculum_id: ledger}).
 
     Each curriculum keeps its own runtime, release identity and rule-bundle version (listed in the
@@ -297,7 +301,8 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         subject_context_budgets=package.get('subject_context_budgets', budgets))
     return ReleaseResources(pin, tuple(catalog), registry, RetrievalAdapter(engine, research=True),
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
-        topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks),
+        topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks,
+                          routing_context=routing_context),  # opt-in reviewed source labels
         document_scope=('audience:undergraduate',), course_labels=tuple(labels))
 
 

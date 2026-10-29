@@ -88,16 +88,19 @@ def referenced_labels(labels, *mentions):
 
 class Orchestrator:
     def __init__(self, transport, *, releases=None, stage_timeout=120.0,
-                 routing_profile='separate'):
+                 routing_profile='separate', topic_selection=False):
         if (type(stage_timeout) not in (int,float) or not math.isfinite(stage_timeout)
                 or not 0 < stage_timeout <= 300):
             raise ValueError('stage_timeout_must_be_finite_positive_at_most_300')
         if routing_profile not in ('separate','combined'):
             raise ValueError('invalid_routing_profile')
+        if type(topic_selection) is not bool:
+            raise ValueError('invalid_topic_selection')
         self.transport = transport
         self.releases = HeldReleaseProvider() if releases is None else releases
         self.stage_timeout = float(stage_timeout)
         self.routing_profile = routing_profile
+        self.topic_selection = topic_selection  # opt-in Router candidate narrowing for large menus
 
     async def run(self, text: str, context: RequestContext, *, routed_sink=None) -> IntegrationResult:
         """routed_sink, when given, receives the routing result so the owning host can capture
@@ -185,6 +188,7 @@ class Orchestrator:
         router_class = CombinedRouter if self.routing_profile=='combined' else Router
         router = router_class(self.transport, catalog=resources.catalog, registry=resources.registry,
             documents_available=resources.retrieval is not None, synthetic=True,
+            topic_selection=self.topic_selection,
             **(dict(topics=resources.topics) if resources.topics else {}))
         scoped = None
 

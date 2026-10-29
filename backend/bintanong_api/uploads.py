@@ -52,7 +52,7 @@ def upload_router(services, turns: ChatTurns, max_upload_bytes: int, max_paralle
             raise ApiError(413 if rejected.reason == 'too_large' else 422, rejected.reason) from None
         finally:
             active[0] -= 1
-        upload_id = sessions.set_pending(session.credential, result)
+        upload_id = sessions.set_pending(session.credential, result, account_id=session.account_id)
         return {'uploadId': upload_id, 'unmatchedLines': result.unmatched_lines,
                 'rows': [{'rowId': r.row_id, 'printedCode': r.code_text, 'marks': list(r.marks),
                           'courses': [{'courseId': c, 'label': labels.get(c, r.code_text)} for c in r.candidates]}
@@ -62,7 +62,8 @@ def upload_router(services, turns: ChatTurns, max_upload_bytes: int, max_paralle
     def confirm_upload(upload_id: str, body: ConfirmRequest, session: Session = Depends(require_session)) -> dict:
         decisions = {d.rowId: (d.courseId, d.state) for d in body.decisions}
         try:
-            facts = sessions.confirm_pending(session.credential, decisions, upload_id=upload_id)
+            facts = sessions.confirm_pending(session.credential, decisions, upload_id=upload_id,
+                                               account_id=session.account_id)
         except ValueError as refused:
             raise ApiError(*_CONFIRM_ERRORS.get(str(refused), (422, 'invalid_decision'))) from None
         return {'facts': [{'courseId': f.course_id, 'label': labels.get(f.course_id, f.course_id), 'state': f.state}
@@ -70,7 +71,7 @@ def upload_router(services, turns: ChatTurns, max_upload_bytes: int, max_paralle
 
     @router.delete('/uploads/{upload_id}', status_code=204)
     def delete_upload(upload_id: str, session: Session = Depends(require_session)) -> Response:
-        if not sessions.delete_upload(session.credential, upload_id):
+        if not sessions.delete_upload(session.credential, upload_id, account_id=session.account_id):
             raise ApiError(404, 'unknown_upload')
         return Response(status_code=204)
 

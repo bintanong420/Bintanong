@@ -158,3 +158,55 @@ def test_cue_must_name_one_of_the_topics_not_stated_facts():
     with pytest.raises(ValueError):
         DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',),
                       cues=(NotStatedCue(claim='printed fee amount', phrases=('each student',)),))
+
+
+def test_menu_prompt_treats_a_named_destination_in_a_procedure_question_as_context():
+    # Owner option A (28 Oct 2026): live "Gusto ko mag-shift sa ibang college, ano yung process?" got clarify
+    # although the shifting topic fits. The contrast example is fictional, not the evaluation wording.
+    from backend.bintanong_routing.contracts import RequestContext
+    from test_routing_router import context
+    system = build_messages(TEXT, RequestContext.parse(context()), (), _registry(), topics=MENU)[0]['content']
+    assert 'destination is context' in system
+    assert 'shift' not in system.casefold()
+
+
+def test_destination_example_does_not_fix_the_part_count():
+    # Live 04e913f: the example's "one document part" made the router merge the two cross-enrollment questions.
+    from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
+    assert 'one document part' not in TOPIC_INSTRUCTION
+    assert 'parts as requested' in TOPIC_INSTRUCTION
+
+
+# Owner 28 Oct 2026: answer only the printed detail asked. The router labels each document part's detail.
+DETAILS = ['whole', 'requirements', 'fees', 'processing_time', 'specific']
+
+
+def test_menu_parts_declare_one_printed_detail_and_the_default_schema_has_none():
+    branches = output_schema(MENU)['$defs']['WirePart']['anyOf']
+    by_subject = {b['properties']['subject_id'].get('const'): b for b in branches}
+    assert by_subject['fictional_fees']['properties']['detail'] == {'enum': DETAILS}
+    assert by_subject[None]['properties']['detail'] == {'const': 'whole'}
+    assert all('detail' in b['required'] for b in branches)
+    assert 'detail' not in output_schema()['$defs']['WirePart']['properties']
+
+
+def test_router_keeps_the_asked_detail_and_defaults_to_whole():
+    value = json.loads(answer())
+    value['parts'][0]['detail'] = 'fees'
+    result = run(model(json.dumps(value)), text=TEXT, topics=MENU)
+    assert result.diagnostic == 'validated' and result.proposed.parts[0].detail == 'fees'
+    plain = run(model(answer()), text=TEXT, topics=MENU)
+    assert plain.proposed.parts[0].detail == 'whole'
+
+
+def test_menu_prompt_explains_the_detail_choice():
+    from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
+    assert 'detail' in TOPIC_INSTRUCTION and 'whole' in TOPIC_INSTRUCTION
+
+
+def test_menu_prompt_offers_a_specific_detail_and_no_clarify_for_missing_personal_details():
+    # Gate 28 Oct 2026: "When am I considered a second-year student?" was labelled whole (no option fit one printed
+    # fact), and its Taglish form returned an empty clarify although the year-levels topic was selected.
+    from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
+    assert 'specific' in TOPIC_INSTRUCTION
+    assert 'personal details' in TOPIC_INSTRUCTION

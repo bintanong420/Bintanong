@@ -58,6 +58,13 @@ is `canonical`, independently of the selected `separate` routing profile.
 restored before host validation/output. The developer CLI retains canonical
 references; see the [short-reference plan](../../plans/2026-10-20-short-evidence-references-plan.md).
 
+For a programmatic per-part candidate only,
+`Generator(transport, explanation_profile='parts', review_reference_profile='short')`
+uses the same request-local evidence codec in review messages. This option is
+independent of draft references and keeps canonical host claims/review identities.
+It is not selected by RuntimeSettings or the CLI;canonical review remains the
+default. See the [review-reference plan](../../plans/2026-10-27-short-review-reference-plan.md).
+
 `--explanation-profile parts` is now the default (per-part answer slots; see the
 [decision](../../plans/2026-10-21-per-part-generation-decision.md)). `scoped` was the
 previous offline accuracy candidate, separating host-rendered structured results

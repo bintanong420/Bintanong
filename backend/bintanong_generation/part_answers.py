@@ -6,6 +6,7 @@ each part's own claims. Confirmation remains model-fallible, never a guarantee.
 """
 import hashlib
 import json
+import re
 import copy
 from typing import Literal
 
@@ -19,6 +20,7 @@ from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .fee_reply import fee_claims
 from .grade_reply import grade_claims
 from .precedence_reply import precedence_reply
+from .service_steps import parse_service, render_service
 from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
@@ -192,9 +194,83 @@ def style_errors(draft, pack, question=''):
     return ()
 
 
+DISJUNCTION = re.compile(r'\b(?:or|o)\b', re.I)
+CONDITION_REPAIR = ('List conditions and requirements as printed. Do not join them with "or" (Tagalog "o"), '
+                    '"and" (Tagalog "at") or "must be met" unless the cited source states it; never turn printed '
+                    'conditions into alternatives or into requirements that all hold.')
+
+
+# All-of framing over a list: "must be met", "all of the following", or "and"/"at" joined to an item marker.
+CONJUNCTION = re.compile(r'\bmust\s+(?:all\s+)?be\s+(?:met|satisfied|complied\s+with)\b|\ball\s+of\s+the\s+following\b'
+                         r'|\b(?:and|at)\s+\(?[a-z0-9]{1,2}\)', re.I)
+
+
+def _added_connective(pattern, code, draft, pack, slots):
+    texts = {c.evidence_id: c.text for c in pack.cards}
+    checked = None if slots is None else {c for status, ids in slots.values() if status == 'answered' for c in ids}
+    for claim in draft.claims:
+        if checked is not None and claim.claim_id not in checked:
+            continue
+        printed = sum(len(pattern.findall(texts.get(i, ''))) for i in claim.evidence_ids)
+        if len(pattern.findall(claim.text)) > printed:
+            return (code,)
+    return ()
+
+
+def disjunction_errors(draft, pack, slots=None):
+    """A claim may not add 'or'/'o' beyond its cited sources: listed conditions are not alternatives
+    unless printed so (all-of/any-of only when the source establishes it). With slots, only
+    answered-slot claims are checked; host replies keep their own reviewed wording."""
+    return _added_connective(DISJUNCTION, 'introduced_disjunction', draft, pack, slots)
+
+
+def conjunction_errors(draft, pack, slots=None):
+    """The all-of counterpart: a claim may not add "must be met"/"and e)" framing its sources do not print."""
+    return _added_connective(CONJUNCTION, 'introduced_conjunction', draft, pack, slots)
+
+
 def host_claims(pack):
-    """Host-written replies (special class fee, grading table) by part; these parts get no model wording."""
-    return {**fee_claims(pack), **grade_claims(pack)}
+    """Host-written replies (printed service steps, special class fee, grading table) by part; these
+    parts get no model wording. Each claim is (text, evidence_id) or (text, (evidence_id, ...))."""
+    fixed = {**fee_claims(pack), **grade_claims(pack)}
+    return {**service_claims(pack, fixed), **fixed}
+
+
+def _ids(evidence):
+    return tuple(evidence) if isinstance(evidence, tuple) else (evidence,)
+
+
+def service_claims(pack, fixed):
+    """Owner29Oct option A: a document part whose required records form a strictly parsed printed
+    Charter service table is answered with those printed steps. Empty when none qualifies."""
+    quotes = quoted_field_parts(pack)
+    required = {part: ids for part, ids in required_record_sources(pack).items()
+                if part not in fixed and part not in quotes}
+    tables = {}
+    for part, ids in required.items():
+        records = [(c.evidence_id, c.text) for c in pack.cards if c.kind == 'document' and c.evidence_id in ids]
+        table = parse_service(records)
+        if table is not None:
+            tables[part] = table
+    if not tables:
+        return {}
+    explained = [p.part_id for p in pack.understanding.parts if p.evidence_need == 'document'
+                 and p.part_id not in tables and p.part_id not in fixed]
+    budget = 8 - _host_claim_count(fixed) - len(explained)  # each model-explained part keeps one claim
+    asked = {p.part_id: p.detail for p in pack.understanding.parts}
+    # Owner 28 Oct 2026: only the printed detail asked; a part asking for everything shows the whole service.
+    whole = {t.evidence_ids for part, t in tables.items() if asked[part] == 'whole'}
+    rendered, used = {}, {}
+    for part, table in tables.items():
+        detail = 'whole' if table.evidence_ids in whole else asked[part]
+        key = (table.evidence_ids, detail)
+        if key not in used:
+            left = budget - sum(len(c) for c in used.values() if c)
+            used[key] = (render_service(table, pack.language, max_claims=left, detail=detail)
+                         or (render_service(table, pack.language, max_claims=left) if detail != 'whole' else None))
+        if used[key]:
+            rendered[part] = used[key]
+    return rendered
 
 
 def _host_claim_count(host):
@@ -256,6 +332,13 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'Use one concise claim per step, keeping linked actions/offices separate. '
             'Do not invent a cut-off instruction; disclose the source gap. '
             'Unavailable parts need no fabricated claims.')
+    shared = shared_record_coverage(pack)
+    if shared:
+        payload['shared_record_coverage'] = shared
+        payload['shared_record_coverage_instruction'] = (
+            'For each part named here, the listed part carries the full explanation of the shared '
+            'records; answer only what that part specifically asks, citing its own records, and do '
+            'not repeat the whole procedure.')
     order = required_record_order(pack)
     if order:
         payload['record_order'] = {part: [[aliases[i] for i in sequence] for sequence in sequences]
@@ -273,6 +356,8 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'quotation text and its one evidence reference, or an unavailable slot. Do not add '
             'agency actions, fees, times or other steps. Complete source context remains available; '
             'the whole-procedure instruction applies to other parts.')
+    if {'introduced_disjunction', 'introduced_conjunction'} & set(errors):
+        payload['condition_instruction'] = CONDITION_REPAIR
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
     return _messages(PART_PROMPT, payload, part_schema(pack, references))
@@ -298,8 +383,13 @@ def record_coverage_errors(pack, claims, slots):
     by_id = {c.claim_id: c for c in claims}
     host = host_claims(pack)
     quotes = quoted_field_parts(pack)
+    shared = shared_record_coverage(pack)
+    # Owner 28 Oct 2026: a part asking one printed detail is answered with that detail, not the whole procedure.
+    detail = {p.part_id for p in pack.understanding.parts if p.detail != 'whole'} if pack.understanding else set()
     for part, required in required_record_sources(pack).items():
         status, ids = slots.get(part, (None, ()))
+        if part in detail and part not in host and part not in quotes:
+            continue
         if status in ('answered', 'host', 'mapped'):
             if part in quotes:
                 words,ref = quotes[part]
@@ -309,10 +399,13 @@ def record_coverage_errors(pack, claims, slots):
                 continue
             if part in host:
                 actual = tuple((by_id[i].text,tuple(by_id[i].evidence_ids)) for i in ids if i in by_id)
-                expected = tuple((text,(evidence,)) for text,evidence in host[part])
+                expected = tuple((text,_ids(evidence)) for text,evidence in host[part])
                 if actual != expected:
                     return ('host_reply_mismatch',)
                 continue  # Exact host reply already handles source-gap/currentness semantics.
+            covering = shared.get(part)
+            if covering is not None and slots.get(covering, (None,))[0] == 'answered':
+                ids = (*ids, *slots[covering][1])  # nested part: the covering part's citations count
             cited = {ref for i in ids for ref in by_id[i].evidence_ids}
             if not required <= cited:
                 return ('missing_procedure_record_coverage',)
@@ -321,7 +414,7 @@ def record_coverage_errors(pack, claims, slots):
                 return errors
     for part, sequences in required_record_order(pack).items():
         status, ids = slots.get(part, (None, ()))
-        if status not in ('answered', 'host', 'mapped'):
+        if status not in ('answered', 'host', 'mapped') or part in detail:
             continue
         for sequence in sequences:
             ordered = []
@@ -335,6 +428,26 @@ def record_coverage_errors(pack, claims, slots):
             if tuple(ordered) != sequence:
                 return ('procedure_record_order',)
     return ()
+
+
+def shared_record_coverage(pack):
+    """Nested part -> same-subject part whose required records include all of its own (the earlier
+    part when equal). Every required record must still be cited somewhere in the answer."""
+    required = required_record_sources(pack)
+    quotes, host = quoted_field_parts(pack), host_claims(pack)
+    subjects = {p.part_id: p.subject_id for p in pack.understanding.parts} if pack.understanding else {}
+    order = list(required)
+    shared = {}
+    for part, records in required.items():
+        if part in quotes or part in host:
+            continue
+        for other in order:
+            if (other != part and other not in quotes and other not in host
+                    and subjects.get(other) == subjects.get(part) and records <= required[other]
+                    and (records != required[other] or order.index(other) < order.index(part))):
+                shared[part] = other
+                break
+    return shared
 
 
 def required_record_order(pack):
@@ -416,7 +529,7 @@ def to_draft(explanation, pack):
             if key not in host_ids:
                 identity = f'c{len(claims) + 1}'
                 host_ids[key] = identity
-                claims.append(dict(claim_id=identity, text=text, evidence_ids=[evidence]))
+                claims.append(dict(claim_id=identity, text=text, evidence_ids=list(_ids(evidence))))
             numbered.append(host_ids[key])
         slots[part_id] = ('host', tuple(numbered))
     if len(claims) > 8:
@@ -453,7 +566,8 @@ def host_only(pack):
     return draft, assess_slots(pack, draft, slots)
 
 
-def confirm_messages(text, pack, draft, slots):
+def confirm_messages(text, pack, draft, slots, *, references=None):
+    aliases = _part_aliases(pack, references)
     cards = {c.evidence_id: c for c in pack.cards if c.kind == 'document'}
     claims = {c.claim_id: c for c in draft.claims}
     texts = {p.part_id: p.text for p in pack.understanding.parts}
@@ -467,6 +581,13 @@ def confirm_messages(text, pack, draft, slots):
     required = required_record_sources(pack)
     if required:
         payload['required_records'] = {part: sorted(refs) for part,refs in required.items() if part in slots}
+    shared = {part: covering for part, covering in shared_record_coverage(pack).items()
+              if part in slots and covering in slots}
+    if shared:
+        payload['shared_record_coverage'] = shared
+        payload['shared_record_coverage_instruction'] = (
+            'For each part named here, the listed part carries the shared records; judge whether the '
+            'named part answers its own specific ask without requiring it to repeat the procedure.')
     order = {part: sequences for part, sequences in required_record_order(pack).items() if part in slots}
     if order:
         payload['record_order'] = order
@@ -479,6 +600,21 @@ def confirm_messages(text, pack, draft, slots):
             'wording, citation and relevance to the question using the complete sources. '
             'Do not require unrelated agency actions or the whole procedure for these parts. '
             'All ordinary support, language and other-part checks still apply.')
+    if references is not None:
+        for card in payload['available_sources']:
+            card['evidence_id'] = aliases[card['evidence_id']]
+        for part in payload['parts']:
+            for entry in part['claims']:
+                entry['claim']['evidence_ids'] = [aliases[i] for i in entry['claim']['evidence_ids']]
+                entry['source_ids'] = [aliases[i] for i in entry['source_ids']]
+        if 'required_records' in payload:
+            payload['required_records'] = {p: [aliases[i] for i in ids]
+                for p, ids in payload['required_records'].items()}
+        if 'record_order' in payload:
+            payload['record_order'] = {p: [[aliases[i] for i in ids] for ids in sequences]
+                for p, sequences in payload['record_order'].items()}
+        for quote in payload.get('quoted_field_answers', {}).values():
+            quote['evidence_id'] = aliases[quote['evidence_id']]
     return _messages(CONFIRM_PROMPT, payload, confirm_schema(pack, draft, slots))
 
 

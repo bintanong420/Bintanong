@@ -24,6 +24,7 @@ from .reviewed_policy import build_reviewed_policy_bundle
 from .reviewed_text_segments import reviewed_body_partition
 from .reviewed_flowchart_context import validate_reviewed_flowchart_binding
 from .reviewed_record_context import validate_reviewed_record_binding
+from .reviewed_flow_context import bind_flow_manifests
 from ...bintanong_contracts.reviewed_heading_metadata import (
     bind_reviewed_heading_metadata, validate_reviewed_heading_metadata,
 )
@@ -70,6 +71,7 @@ def build_reviewed_policy_chunks(
     flowchart_bindings: Mapping[str, Any] | None = None,
     record_bindings: Mapping[str, Any] | None = None,
     heading_metadata_bindings: Mapping[str, Mapping[str, Any]] | None = None,
+    flow_bindings: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Recheck preparation evidence and produce pending chunks or explicit withholding.
 
@@ -106,6 +108,10 @@ def build_reviewed_policy_chunks(
         names = {f["name"] for f in rows[identity]["fields"]}
         if not isinstance(values, Mapping) or any(name not in names for name in values):
             raise ValueError("field span mapping has an unknown field")
+    if flow_bindings is not None and not include_source_limits:
+        raise ValueError('visible flow evidence requires source-limit context')
+    flow_manifests=bind_flow_manifests({} if flow_bindings is None else flow_bindings,
+        rows,anchors,core['review_events'],review_events)
     heading_bindings = {} if heading_metadata_bindings is None else heading_metadata_bindings
     if (not isinstance(heading_bindings, Mapping) or any(i not in rows for i in heading_bindings)
             or (heading_metadata_bindings is not None and not include_source_limits)):
@@ -123,6 +129,10 @@ def build_reviewed_policy_chunks(
                 or len(set(refs)) != len(refs)):
             raise ValueError("required readings must name distinct known readings")
         required[identity] = [r for r in refs if r != identity]
+    for identity in flow_manifests:
+        members=[i for i,r in rows.items() if r.get('original_reading_id')==identity]
+        for part in members:
+            required[part]=list(dict.fromkeys(required[part]+[i for i in members if i!=part]))
     graphs={} if flowchart_bindings is None else flowchart_bindings
     if not isinstance(graphs,Mapping) or any(i not in rows for i in graphs):
         raise ValueError('flowchart binding has an unknown reading')
@@ -278,6 +288,9 @@ def build_reviewed_policy_chunks(
                         'part_count':len(members)}
                     if row['original_reading_id'] in node_mappings:
                         group['part_reading_id']=identity
+                    if row['original_reading_id'] in flow_manifests:
+                        group.update(part_reading_id=identity,
+                            flow_manifest=copy.deepcopy(flow_manifests[row['original_reading_id']]))
                     if identity in record_manifests:
                         group.update(part_reading_id=identity,record_manifest=copy.deepcopy(record_manifests[identity]))
                 text = serialize_reviewed_fields(associations,limits,group,context_format=context_format)

@@ -9,7 +9,8 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v23'
+PROMPT_VERSION = 'bintanong-router-p11-v24'
+DETAILS = ('whole', 'requirements', 'fees', 'processing_time', 'specific')
 
 
 def ordered_json(value):
@@ -111,6 +112,9 @@ course prerequisites just because the word "requirements" occurs.
 claims capture every supplied explicit passed/failed/enrolled/not_enrolled statement, with mode asserted,
 hypothetical or reported. Their quote must contain the course mention and the complete relevant
 statement, including negation. Do not omit a stated condition because the target is a different course.
+A course stated as not passed, not yet passed or not taken yet (Filipino "hindi pa naipapasa",
+"di pa pasado", "hindi ko pa nakukuha") is a claim with state failed: failed means not completed,
+never a recorded failing grade. It is never passed and never omitted.
 asserted: the speaker directly supplies their own unqualified completion/enrollment premise,
 including a past-event clause attached to their own request. It is request-local supplied context,
 not a verified official grade or an instruction to write a record. Lack of official verification
@@ -180,13 +184,14 @@ def output_schema(topics=(), follow_up=False):
             value['properties']['subject_id'] = {'const': subject}
             value['properties']['requested_claims'] = ({'type': 'array', 'maxItems': 0} if subject is None
                 else {'type': 'array', 'minItems': 1, 'maxItems': min(8,len(claims)), 'items': {'enum': list(claims)}})
-            value['required'] = required
+            value['properties']['detail'] = {'const': 'whole'} if subject is None else {'enum': list(DETAILS)}
+            value['required'] = [*required, 'detail']
             return value
         schema['$defs']['WirePart'] = {'anyOf': [branch(t.subject_id, (*t.claims, *t.not_stated))
                                                  for t in topics] +
                                        [branch(None, ())]}
     else:  # Unchanged schema whenever the release supplies no topic menu.
-        for name in ('subject_id', 'requested_claims'):
+        for name in ('subject_id', 'requested_claims', 'detail'):
             part['properties'].pop(name)
     for field, vocab in [('route','routes'), ('control','controls')]:
         schema['properties'][field] = {'enum': [*VOCAB['runtime'][vocab], None]}
@@ -230,7 +235,8 @@ def display_schema(topics=(), follow_up=False):
         part = schema['$defs']['WirePart']
         part['properties']['subject_id'] = {'type': ['string', 'null']}
         part['properties']['requested_claims'] = {'type': 'array', 'items': {'type': 'string'}}
-        part['required'] = [*part.get('required', []), 'subject_id', 'requested_claims']
+        part['properties']['detail'] = {'enum': list(DETAILS)}
+        part['required'] = [*part.get('required', []), 'subject_id', 'requested_claims', 'detail']
     return schema
 
 
@@ -243,6 +249,16 @@ remaining period of an incomplete grade. For a sanction question select the clai
 for the named offense; a source gap for a different offense is not a substitute.
 When one part asks multiple details covered by the same topic, select all the
 relevant claims within that part rather than unrelated numeric mappings.
+When a topic fits a procedure question, answer it with route RAG even if the student names
+where they are going; that destination is context, not an ambiguity, course or operation.
+Fictional contrast: "I want to move my locker to another building, what are the steps?" ->
+route RAG, document parts as requested, control null, operations [], ambiguities [].
+detail names the one printed detail a document part asks for: requirements (what to bring or
+submit), fees (how much it costs), processing_time (how long it takes), specific (one printed fact,
+rule, condition, limit, date or classification within the topic), or whole when it asks how to do
+or get something, asks for the steps, or asks for everything. Use whole when unsure.
+When a topic fits, answer with route RAG; do not clarify because the student did not give
+personal details such as their year, units or program, since the printed rule answers the question.
 Topics are retrieval labels, never answers or evidence.'''
 
 NOT_STATED_INSTRUCTION = '''not_stated lists facts the source does not give: choose one when the

@@ -29,7 +29,7 @@ def real_ledger(curriculum, first, second):
     return rereview((data[0], [source], data[2], data[3]))
 
 
-def build(monkeypatch, *, single=False, change_package=None, engine_factory=None):
+def build(monkeypatch, *, single=False, change_package=None, engine_factory=None, **options):
     from backend.bintanong_runtime import research
     monkeypatch.setattr(research, 'SourceAwareEvidencePolicy', lambda **kw: object())
     monkeypatch.setattr(research, 'RetrievalEngine', engine_factory or (lambda *a, **kw: object()))
@@ -47,7 +47,7 @@ def build(monkeypatch, *, single=False, change_package=None, engine_factory=None
         return research.build_research_resources(ledgers[C1], package, encoder=object(),
             authorization_ref='research-fictional-test'), ledgers
     return research.build_multi_research_resources(ledgers, package, encoder=object(),
-                                                   authorization_ref='research-fictional-test'), ledgers
+                                                   authorization_ref='research-fictional-test', **options), ledgers
 
 
 @pytest.mark.parametrize('single', [False, True])
@@ -214,3 +214,13 @@ def test_course_fact_lookups_are_offered_with_their_own_inputs(monkeypatch):
     result = asyncio.run(resources.symbolic.execute(term, context))
     # The fictional ledger has codes and units but no reviewed year/semester: unknown, never a partial list.
     assert result.status == 'not_reviewed' and result.synthetic is False
+
+
+
+@pytest.mark.parametrize('enabled', [False, True])
+def test_reviewed_routing_context_is_an_opt_in_composition_choice(monkeypatch, enabled):
+    from backend.bintanong_runtime import research
+    seen, real = [], research.topic_menu
+    monkeypatch.setattr(research, 'topic_menu', lambda *a, **kw: seen.append(kw['routing_context']) or real(*a, **kw))
+    build(monkeypatch, **({'routing_context': True} if enabled else {}))
+    assert seen == [enabled]

@@ -136,11 +136,11 @@ def test_merging_topics_keeps_each_claims_own_record_requirement():
         (SUBJECT,[p.chunk_id for p in first.passages]),('other_service',['d'*64])]
 
 
-def covered_integration(*,other_subject=False):
+def covered_integration(*,other_subject=False,detail='whole'):
     original=integration()
     value=original.model_dump(mode='json')
     part=value['understanding']['parts'][0]
-    part.update(subject_id='other_service' if other_subject else SUBJECT,requested_claims=[CLAIM])
+    part.update(subject_id='other_service' if other_subject else SUBJECT,requested_claims=[CLAIM],detail=detail)
     value['evidence']['documents']['record_coverage']=[coverage([
         p['chunk_id'] for p in value['evidence']['documents']['passages']])]
     return type(original).parse(value)
@@ -233,3 +233,12 @@ def test_final_validation_cannot_bypass_the_record_requirement():
     rebound=old_answer.part_ledger.model_copy(update=dict(identity=review_identity(pack,draft)))
     with pytest.raises(ValueError,match='record_coverage'):
         _answer(pack,'answered',claims=old_answer.claims,reason='validated',ledger=rebound)
+
+
+def test_a_part_asking_one_detail_need_not_cite_every_procedure_record():
+    # Owner 28 Oct 2026: answer only the detail asked. Gate run 2: "When is the deadline for a subject
+    # substitution petition?" was answered correctly from one record twice and refused for whole coverage.
+    model=ProcedureModel()
+    answer=asyncio.run(Generator(model).generate(TEXT,covered_integration(detail='processing_time')))
+    assert answer.status=='answered' and answer.draft_attempts==1
+    assert 'missing_procedure_record_coverage' not in model.calls[0].get('validation_errors',())

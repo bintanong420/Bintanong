@@ -1010,6 +1010,17 @@ Appended at the owner's request. Sections 1–24 above are unchanged. Evidence: 
   token check, per-account limit), not in the backend-only part of Phase 11.
 - Never log emails or tokens. Email or student number never reaches the router, prompts or answers.
 
+Amendment (owner decision, 28 October 2026 — guest mode): students may also use the chatbot as a guest without
+signing in; PSU Google sign-in stays available and unchanged for those who use it. Guests get the full student
+features, including temporary PDF upload and confirmation, under the same routing, scope, source and privacy
+guards. Guest state lives only in the existing temporary session (memory-only, idle expiry, clearable); no guest
+account, Supabase anonymous user or stored record is created. Guest and signed-in sessions are separate: switching
+never transfers uploads, confirmed grades or conversation. A present but invalid or non-PSU token is refused, never
+downgraded to guest. Guest access is an explicit API setting. The per-account limit above applies to signed-in
+users; guests are limited per session plus the global queue (25.2), a research-build bound, not public-deployment
+abuse protection. Real PSU sign-in verification remains owner-deferred. No change to undergraduate scope, UAT
+status, source or release gates. Records: [design](2026-10-28-guest-mode-review.md), owner ledger.
+
 ### 25.2 Answer capacity (built 24 October 2026, `d1d416c`)
 
 Gemma 4 E4B runs with one slot (`--parallel 1`, about 45 s per answer on the RTX 4060 target). One answer runs,
