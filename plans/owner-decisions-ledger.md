@@ -583,3 +583,9 @@ Each program still gets its own dated review record listing which standing rule 
   font a bit smaller." Student view drops the candidate-preview line; data-answer carries the reply-language guidance
   sentence as `notice`, rendered small and muted. Canonical validated answer text unchanged. Owner also directed
   `npm ci` in p11/frontend (`@supabase/ssr` was declared but not installed).
+- 29 Oct 2026 (course abbreviations): owner "can u do auto from titles but let me review it in bulk", then approved
+  all 963 proposals in `2026-10-29-course-abbreviation-review.md` as is. An abbreviation is the initials of a printed
+  title (small words skipped unless first; trailing number/roman numeral kept), matched only within the student's
+  curriculum, any capitalization. When one fits two courses in a curriculum, ask which course is meant (owner chose
+  "Ask which one"; supersedes the 21 Oct "not created" rule for abbreviations only). Answers keep printed codes and
+  titles; not a unit/lab/equivalence finding.

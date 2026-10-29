@@ -40,6 +40,21 @@ def _short_forms(code):
     return _printed_forms(code[:-2]) if code.endswith('/L') else set()
 
 
+# Owner, 29 Oct 2026: title initials are course names (all 963 proposals approved, see
+# plans/2026-10-29-course-abbreviation-review.md). Small words count only when first; a trailing number stays.
+_SMALL_WORDS = frozenset(('and', 'of', 'in', 'the', 'for', 'to', 'on', 'with', 'a', 'an', 'at', 'by', 'or', 'sa', 'ng'))
+_TRAILING_NUMBER = re.compile(r'^(\d+[a-z]?|i{1,3}|iv|v|vi{0,3}|ix|x)$', re.I)
+
+
+def _initials(title):
+    words = [w for w in re.split(r'[\s/\-–:,()&.]+', title) if w]
+    suffix = ''
+    if len(words) > 1 and _TRAILING_NUMBER.match(words[-1]):
+        suffix, words = words[-1].upper(), words[:-1]
+    letters = [w[0].upper() for i, w in enumerate(words) if w[0].isalpha() and (i == 0 or w.casefold() not in _SMALL_WORDS)]
+    return ''.join(letters) + suffix if len(letters) >= 2 else None
+
+
 def research_catalog(ledger):
     """Course entries for reviewed identities; draft identities are left out."""
     courses = [c for c in ledger['courses'] if c['review_state'] == 'reviewed' and c['review_refs']
@@ -58,6 +73,8 @@ def research_catalog(ledger):
     titles = {c['course_id']: c['facts']['course_title']['value'] for c in courses if 'course_title' in c['facts']}
     title_counts = Counter(fold(t) for t in titles.values())
     codes = {fold(a) for forms in [*printed.values(), *short.values()] for a in forms}
+    compact = lambda text: re.sub(r'[^a-z0-9]', '', text.casefold())
+    compact_codes = {compact(a) for forms in printed.values() for a in forms}
     entries = []
     for c in courses:
         cid = c['course_id']
@@ -65,6 +82,10 @@ def research_catalog(ledger):
         title = titles.get(cid)
         if title is not None and title_counts[fold(title)] == 1 and fold(title) not in codes:
             aliases.add(title)
+            # Initials shared by two courses stay on both, so the router asks which is meant.
+            initials = _initials(title)
+            if initials is not None and compact(initials) not in compact_codes:
+                aliases.add(initials)
         entries.append(CatalogEntry(kind='course', entity_id=cid, program_id=c['program_id'],
             curriculum_id=c['curriculum_id'], aliases=tuple(sorted(aliases)),
             source_ref=c['source_version_id'], review_ref=c['review_refs'][0], reviewed=True))

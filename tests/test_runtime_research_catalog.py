@@ -109,7 +109,8 @@ def test_repeated_printed_code_is_cataloged_twice_so_a_code_only_question_must_c
     # Owner, 23 Oct 2026: keep both printed rows; a code-only mention matches two entries (clarify).
     # Each row's unique printed title still names it.
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 5', 'Fictional Geo'), titled('course-b', 'ZZ 5', 'Fictional Fiscal')))
-    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5', 'Fictional Geo'}, 'course-b': {'ZZ 5', 'ZZ5', 'Fictional Fiscal'}}
+    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5', 'Fictional Geo', 'FG'},
+                                'course-b': {'ZZ 5', 'ZZ5', 'Fictional Fiscal', 'FF'}}
 
 
 def test_repeated_printed_code_is_labelled_with_its_title():
@@ -146,8 +147,8 @@ def test_individual_assessment_gets_the_owner_approved_per_person_cues():
 def test_a_printed_title_unique_in_the_curriculum_names_its_course():
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 7', 'Fictional Data Structures'),
                                       titled('course-b', 'ZZ 8', 'Fictional Writing')))
-    assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7', 'Fictional Data Structures'},
-                                'course-b': {'ZZ 8', 'ZZ8', 'Fictional Writing'}}
+    assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7', 'Fictional Data Structures', 'FDS'},
+                                'course-b': {'ZZ 8', 'ZZ8', 'Fictional Writing', 'FW'}}
 
 
 def test_a_title_printed_on_two_courses_is_not_an_alias():
@@ -184,3 +185,25 @@ def test_printed_defects_are_not_offered_as_not_stated_claims(issue):
     # as a not-stated claim made the router request it for a plain library-card question.
     topic = limited_topic(issue)
     assert topic.claims == ('visible printed field',) and topic.not_stated == ()
+
+
+# Owner, 29 Oct 2026: approved title-initial abbreviations; same initials on two courses -> ask which.
+def test_printed_title_initials_name_their_course():
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 4/L', 'Fictional Data Structures and Algorithms'),
+                                      titled('course-b', 'ZZ 9', 'Fictional Programming 2')))
+    assert 'FDSA' in aliases(catalog)['course-a'] and 'FP2' in aliases(catalog)['course-b']
+
+
+def test_initials_shared_by_two_courses_are_kept_on_both_so_the_router_asks():
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 1', 'Media Ethics'), titled('course-b', 'ZZ 2', 'Movement Enhancement')))
+    assert 'ME' in aliases(catalog)['course-a'] and 'ME' in aliases(catalog)['course-b']
+
+
+@pytest.mark.parametrize('second', [titled('course-b', 'FL 1', 'Fictional Writing'), course('course-b', 'FL 1')])
+def test_initials_spelled_like_a_printed_code_one_word_or_repeated_titles_are_not_added(second):
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 1', 'Foreign Language 1'), second,
+                                      titled('course-c', 'ZZ 3', 'Seminar'),
+                                      titled('course-d', 'ZZ 4', 'Shared Topic'), titled('course-e', 'ZZ 5', 'shared topic')))
+    found = aliases(catalog)
+    assert 'FL1' not in found['course-a'] and found['course-c'] == {'ZZ 3', 'ZZ3', 'Seminar'}
+    assert 'ST' not in found['course-d'] | found['course-e']
