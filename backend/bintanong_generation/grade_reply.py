@@ -6,7 +6,8 @@ only when a retrieved card cites that Handbook version and page, and that card i
 import re
 
 SUBJECT = 'grading_scale'
-TABLE_PAGE = ('ver-4c9a95bf6895ddba75a997a37fa069644ac081dd7ab4a43f882496db834351c8', 46)
+HANDBOOK_VERSION = 'ver-4c9a95bf6895ddba75a997a37fa069644ac081dd7ab4a43f882496db834351c8'  # 2021 Student Handbook
+TABLE_PAGE = (HANDBOOK_VERSION, 46)
 # (grade, percentage equivalent or None, descriptive rating), in printed order.
 ROWS = (('1.0', '98-100', 'Excellent'), ('1.25', '95-97', 'Excellent'), ('1.5', '92-94', 'Highly Satisfactory'),
         ('1.75', '89-91', 'Highly Satisfactory'), ('2.0', '86-88', 'Satisfactory'), ('2.25', '83-85', 'Satisfactory'),

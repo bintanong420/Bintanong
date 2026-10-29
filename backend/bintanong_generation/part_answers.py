@@ -18,7 +18,7 @@ from ..bintanong_orchestration.contracts import ReleaseID
 from ..bintanong_routing.style import has_filipino_function_word
 from .contracts import AnswerDraft, EvidenceID, Language, SupportReport
 from .fee_reply import fee_claims
-from .grade_reply import grade_claims
+from .grade_reply import HANDBOOK_VERSION, grade_claims
 from .precedence_reply import precedence_reply
 from .service_steps import parse_service, render_service
 from .deadline_conflict import deadline_conflict_reply
@@ -378,6 +378,15 @@ def required_record_sources(pack):
     return required
 
 
+def handbook_policy_parts(pack):
+    """Owner 29 Oct 2026 option A: parts whose required records are all Student Handbook policy clauses with no
+    reviewed step sequence are answered from the clauses they cite; ordinary review still checks support."""
+    versions = {c.evidence_id: {x.version_id for x in c.citations} for c in pack.cards}
+    ordered = required_record_order(pack)
+    return {part for part, required in required_record_sources(pack).items() if part not in ordered
+            and all(versions.get(ref) == {HANDBOOK_VERSION} for ref in required)}
+
+
 def record_coverage_errors(pack, claims, slots):
     """Record-citation floor only; semantic support/completeness still needs ordinary review."""
     by_id = {c.claim_id: c for c in claims}
@@ -386,6 +395,7 @@ def record_coverage_errors(pack, claims, slots):
     shared = shared_record_coverage(pack)
     # Owner 28 Oct 2026: a part asking one printed detail is answered with that detail, not the whole procedure.
     detail = {p.part_id for p in pack.understanding.parts if p.detail != 'whole'} if pack.understanding else set()
+    sections = handbook_policy_parts(pack)
     for part, required in required_record_sources(pack).items():
         status, ids = slots.get(part, (None, ()))
         if part in detail and part not in host and part not in quotes:
@@ -407,6 +417,8 @@ def record_coverage_errors(pack, claims, slots):
             if covering is not None and slots.get(covering, (None,))[0] == 'answered':
                 ids = (*ids, *slots[covering][1])  # nested part: the covering part's citations count
             cited = {ref for i in ids for ref in by_id[i].evidence_ids}
+            if part in sections and cited & required:
+                required = cited & required
             if not required <= cited:
                 return ('missing_procedure_record_coverage',)
             errors = context_errors(pack, tuple(by_id[i] for i in ids), required)
