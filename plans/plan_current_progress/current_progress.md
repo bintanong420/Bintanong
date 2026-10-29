@@ -127,5 +127,7 @@ Report written (`36ae881`); Phase 12 started (`a6363c3`, checkpoint seq 1).
 PASSED (A/p12-hosted-560-activation-20261030/rehearsal-result.json): 560 chunks/vectors, 39 links, replay no-op,
 anon/authenticated 560 visible, probe hit, rollback 78, rows preserved, 0 hosted writes. Blocker: hosted REST RPCs
 run under an 8 s statement timeout; rehearsal timings record review 36 s, bind 34 s, activate ~122 s. `.env`
-SUPABASE_DB_URL is the local container. Hosted unchanged (snapshot hosted-before.json). Next: owner choice on the
-hosted connection path; then apply migration, stage, activate, readback/smoke; report section 8; Phase 12 handoff.
+SUPABASE_DB_URL is the local container. Hosted unchanged (snapshot hosted-before.json). Migration applied to hosted (version 20261029145841,
+`222d9ab`). **Activation held:** `research_app.py` pins RELEASE=`p11-research-corrected-20261026` / auth
+`research-owner-20261021` and requires it active, so activating the 560 release as-is would stop the website for
+everyone; its hosted path also expects 78 chunks without topic selection. Next: owner choice on backend scope; then apply migration, stage, activate, readback/smoke; report section 8; Phase 12 handoff.
