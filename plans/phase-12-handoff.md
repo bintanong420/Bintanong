@@ -28,9 +28,14 @@ establish institutional accuracy, or authorize public deployment. Owner cancelle
 
 Full suite evidence: `audit-evidence/merge-p11-into-dev-20261030/{head.txt,batches.exit,batch-00.log,...}`;
 counts 2561+1530+1709+1514 = 7314; subtests 227+19+432+930 = 1608. Original frozen report suite
-at `0d6ebac`: 7271/1608. No production code changed during this operational/docs-only continuation;
-full suite, lint/build/security suites were not repeated. Validation used sealed artifact checks, actual
-hosted readbacks, API/browser smoke and documentation checks; no dependency or schema change.
+at `0d6ebac`: 7271/1608. Production changes after `a3ff208`: flowchart selected-review migration
+(`5739bee`, schema function only; related storage/flow tests 261 pass / 1000 subtests) and the backend
+release pin (`48330f7`; related 108 pass). Codex's continuation changed no production code or schema; it used
+sealed artifact checks, hosted readbacks, API/browser smoke and documentation checks. Full suite on the final
+code `35629a1` (A/../p12-fullsuite-20261029, 4 batches): 2563+1530+1709+1520 = 7322 pass / 1608 subtests,
+6 skip / 2 xfail, all four batches exit 0 (an earlier attempt hit a full C: drive and was discarded; the extra
+`*.log exit 4` lines are the batch loop matching stale log files, which ran no tests). Lint/build/security
+suites were not repeated; no dependency changes. Hosted query validation: [results](2026-10-30-hosted-query-validation-results.md).
 
 ## Evaluation delivered
 
