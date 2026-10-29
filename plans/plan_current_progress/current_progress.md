@@ -123,6 +123,6 @@ Report written (`36ae881`); Phase 12 started (`a6363c3`, checkpoint seq 1).
 
 **Paused (owner, 30 Oct):** Phase 12 halted here; the owner will create a dedicated Phase 12 worktree and branch.
 Branch it from `a6363c3` or later so the plan, checkpoint, report and decisions come along. On resume: read the
-suite result in A/p11-fullsuite-20261030a/batches.exit (batches 00-01 exit 0 at pause), then the Phase 12 handoff;
+Phase 12 handoff (full suite at `0d6ebac`: 7271 pass / 1608 subtests, 6 skip / 2 xfail, 4 batches exit 0);
 owner still to choose whether the 560 activation is inside Phase 12 or follow-up work.
 Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.

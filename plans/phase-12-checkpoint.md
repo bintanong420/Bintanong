@@ -2,10 +2,10 @@
 artifact: phase-checkpoint
 phase: 12
 status: in_progress
-sequence: 1
+sequence: 2
 plan: plans/phase-12-evaluation-writeup-plan.md
-head_commit: 36ae881
-working_tree: dirty
+head_commit: 28e345d
+working_tree: clean
 updated_at: 2026-10-30T12:00:00+08:00
 ---
 
@@ -21,16 +21,17 @@ updated_at: 2026-10-30T12:00:00+08:00
 
 ## Current Task
 
-Batched full suite at `0d6ebac` (code identical to `36ae881`; later commits docs only).
+Paused (owner, 30 Oct) for a dedicated Phase 12 worktree/branch. Full suite done.
 
 ## Repository State
 
-Branch p11 / feat/p11-fullstack-integration (local). Dirty: this checkpoint, plan status, INDEX (phase start).
+Branch p11 / feat/p11-fullstack-integration (local). Clean at pause.
 
 ## Verification Evidence
 
 - Selector replays: 8/8 handbook_attendance (`p12-benchmark-20261029/absence-taglish-diagnosis/README.txt`).
-- Full suite (A/p11-fullsuite-20261030a, 4 batches): batch-00 exit 0, batch-01 exit 0; 02-03 running.
+- Full suite at `0d6ebac` (A/p11-fullsuite-20261030a, 4 batches): 7271 pass / 1608 subtests, 6 skip / 2 xfail,
+  all 4 batches exit 0 (later commits docs only).
 
 ## Versions and Digests
 
@@ -48,7 +49,7 @@ v2 failures (12) listed in the report section 4. Hosted 560 activation pending (
 
 ## Next Action
 
-Read the suite result; write the Phase 12 handoff; supersede this checkpoint; validate and update INDEX/progress.
+Write the Phase 12 handoff; supersede this checkpoint; validate and update INDEX/progress.
 
 ## Do Not Repeat
 
