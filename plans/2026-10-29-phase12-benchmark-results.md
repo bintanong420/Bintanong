@@ -1,4 +1,4 @@
-# Phase 12 benchmark — first run, 29 October 2026
+# Phase 12 benchmark — results, 29 October 2026
 
 50 English/Taglish questions in the owner's four categories ([decision](owner-decisions-ledger.md), 29 Oct).
 40 reuse owner-accepted gate cases that were **used during development** (results on them are optimistic);
@@ -30,6 +30,29 @@ These exclude encoder startup, API/browser, network and queueing; they are not s
   opening: it is a legacy subject id). The selector picks `handbook_attendance_uniform` or `handbook_conduct`, which
   hold no penalties -> unavailable. Plagiarism selects the right topic but the router asks a not-stated claim
   ("missing item 22") -> clarification.
+
+## Disciplinary fixes and final run (`7f8c02b`)
+
+Owner chose "Fix now". Both changes test-first:
+- `38ccb83`: the selector menu lists review-bound printed row names (penalty-table `Cause` fields, cut verbatim at a
+  word; 34 of 37; defects withhold). RED 3 -> GREEN 12; related 869. Real selector prompt 5625 -> 6088 tokens
+  (+768 output = 6856 of 8192). Run 2: 38/50, disciplinary 5/10, no regressions.
+- `7f8c02b`: a printed penalty row is always quoted exactly (it was quoted only beside a recorded limitation; Gemma's
+  paraphrase dropped the penalties). Blank printed offenses show as "unspecified". RED 1 -> GREEN 13; related 1051.
+
+| Category | C first (`3448353`) | C final (`7f8c02b`) | A strict | A content |
+| --- | ---: | ---: | ---: | ---: |
+| Enrollment procedures | 11/14 | 11/14 | 1/14 | 1/14 |
+| Prerequisite eligibility | 13/14 | 13/14 | 0/14 | 5/14 |
+| Grade policies and academic standing | 9/12 | 9/12 | 2/12 | 2/12 |
+| Disciplinary policies (new) | 2/10 | 7/10 | 0/10 | 0/10 |
+| **All** | 35/50 | **40/50** | 3/50 | 8/50 |
+| English / Taglish | 17/24 / 18/26 | 20/24 / 20/26 | | |
+
+Final run: 41 answered, 6 clarifications, 3 insufficient evidence; warm inner median 26.4 s, max 44.1 s. No case that
+passed in an earlier run failed in the final run. Still failing (10): the 7 known gate cases plus improper uniform
+(Taglish; router claim), plagiarism en/Taglish (router picks the not-stated "missing item 22" claim although the
+printed II.7b claim is listed; a host fix would need question keyword matching, which evidence selection avoids).
 
 ## Limitations
 
