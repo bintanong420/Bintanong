@@ -9,11 +9,12 @@ Last full snapshot before condensation: `76d5a92`; use `git show` for prior hist
 ## Latest change
 
 Codex read Claude's handoff at `76d5a92` and verified the prepared activation artifacts.
-Hosted post-stage MCP: corrected78 active (78 chunks / 39 links); new 560 research release draft with 39 links.
+Hosted post-activation MCP: new560 active; corrected78 superseded (retained as rollback).
 Owner supplied pooler host `aws-0-ap-southeast-1.pooler.supabase.com` and asked Codex to build the URI.
 Owner corrected the password; privately rebuilt URI passed hosted psql SELECT 1. Hosted staging passed in 106.11 s.
 .env is ignored and untracked; owner reiterated it must never be committed.
-Staging exact readback and existing-row preservation passed; corrected78 remains active. Phase 12 remains open.
+Activation exit 0 in 121.08 s: 560 anon-visible chunks / 39 links, retrieval hit, rows preserved.
+Hosted backend starting for smoke; Phase 12 remains open.
 
 Prepared ignored hosted pin/config after verifying all 560 chunk-ID/content-hash pairs match the bound review.
 All sealed package files verify; protected receipts/events/snapshot unchanged. Backend `ResearchApiConfig`
@@ -43,5 +44,5 @@ Answer-quality benchmark on hosted composition is the owner's/Claude's follow-up
 
 ## Next action
 
-Run logged `hosted.py activate`, inspect exact readback, then smoke-test the prepared hosted config.
+Run hosted-config HTTP and browser smoke; roll back if a required smoke criterion fails.
 Follow Claude's stop/rollback rules; never stage .env or raw evidence.

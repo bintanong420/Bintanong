@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 12
 status: in_progress
-sequence: 6
+sequence: 7
 plan: plans/phase-12-evaluation-writeup-plan.md
-head_commit: acbb0b9
+head_commit: 0b4aef9
 working_tree: docs changes for activation preflight and current state; ignored hosted config prepared
-updated_at: 2026-10-29T23:25:27+08:00
+updated_at: 2026-10-29T23:29:12+08:00
 ---
 
-# Phase 12 checkpoint — hosted staging verified; ready to activate
+# Phase 12 checkpoint — hosted activation verified; website smoke pending
 
 ## Completed Tasks
 
@@ -23,7 +23,7 @@ updated_at: 2026-10-29T23:25:27+08:00
 ## Current Task
 
 Resume [Claude's hosted activation handoff](2026-10-30-hosted-560-codex-handoff.md).
-Hosted inactive staging passed (106.11 s); activation not attempted. Results recorded in
+Hosted staging passed (106.11 s); activation passed (121.08 s); hosted backend starting for smoke. Results recorded in
 [activation status](2026-10-30-hosted-560-activation-results.md).
 
 ## Repository State
@@ -34,6 +34,8 @@ Machine local date is 29 Oct; preserve inherited 30 Oct records and release iden
 
 ## Verification Evidence
 
+- Activation exit 0: new research release active, 560 anon-visible chunks / 39 links, retrieval probe hit.
+- Fresh MCP: corrected78 superseded; new560 active.
 - Corrected credentials passed hosted psql `select 1`; initial authentication error resolved. .env ignored/untracked.
 - Hosted staging: exit 0, 106.11 s; 560 chunks/vectors, 39 links, selected review bound; existing rows preserved.
 
@@ -61,11 +63,11 @@ No further permission needed for those steps. Deployment cancelled; institutiona
 ## Known Failures or Blockers
 
 Owner supplied pooler host `aws-0-ap-southeast-1.pooler.supabase.com` and authorized assembling the URI.
-No connection blocker. Staging passed; activation and hosted website smoke remain pending. Benchmark failures and unmeasured metrics remain in report.
+No connection blocker. Activation passed; hosted website smoke remains pending. Benchmark failures and unmeasured metrics remain in report.
 
 ## Next Action
 
-Run logged `hosted.py activate`, inspect exact readback, then hosted-config website smoke.
+Run hosted-config HTTP and browser smoke; roll back if a required smoke criterion fails.
 Follow executor failure/rollback rules; complete report/handoff only after evidence.
 
 ## Do Not Repeat
