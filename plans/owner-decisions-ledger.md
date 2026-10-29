@@ -593,3 +593,7 @@ Each program still gets its own dated review record listing which standing rule 
   shortcut list and approved it without the dropped-vowel words copied from the test questions (kmuha, ktagal,
   mtanggal, ggwin, npasa, npapasa). Whole-word, lowercase-only for single letters, uppercase "PWD" untouched;
   expanded text is used for understanding only, the student's own wording is displayed.
+- 29 Oct 2026 (pure Tagalog questions): pure-Tagalog input stays accepted (replies Taglish). Owner approved 26
+  pure-Tagalog twins of the Taglish benchmark questions as written and chose "Swap 10, keep 50": the benchmark now
+  has 24 English / 16 Taglish / 10 Tagalog (drop, shift, class card, CS 6/CC 4, CC 5/CC 3, grade 1.0, probation,
+  honors residence, cheating, smoking); the other 16 Tagalog questions are reported as a separate line.
