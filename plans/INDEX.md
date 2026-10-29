@@ -3,7 +3,7 @@
 ## Current state
 
 - Phase 11 complete with disclosures ([handoff](phase-11-handoff.md), 29 Oct; owner approved after the browser check).
-  No active phase; next permitted phase 12 (evaluation write-up; benchmark already run:
+  No active phase; next permitted phase 12, [plan prepared](phase-12-evaluation-writeup-plan.md) (benchmark already run:
   [results](2026-10-29-phase12-benchmark-results.md), [questions](../docs/evaluation/benchmark-questions.md)).
   Deployment (Phase 13) cancelled by the owner. Branch p11 / feat/p11-fullstack-integration (local).
   [Current progress](plan_current_progress/current_progress.md).
@@ -65,6 +65,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 9 | Generation/validation | complete offline research/software on hosted 39-curriculum release; eight limitations disclosed; institutional release held | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 | 10 | Private files and session context | complete offline research/software; photos unsupported; HTTP wiring in Phase 11; institutional release held | [Plan](phase-10-private-files-session-plan.md) | [Superseded](phase-10-checkpoint.md) | [Complete](phase-10-handoff.md) |
 | 11 | Backend API, frontend integration, answer accuracy | complete with disclosures (photos unsupported, 24.2 rerun not done, hosted 560 activation deferred) | [Plan](phase-11-backend-api-plan.md) | [Superseded](phase-11-checkpoint.md) | [Complete](phase-11-handoff.md) |
+| 12 | Evaluation write-up | prepared (preparation only; owner decisions pending) | [Plan](phase-12-evaluation-writeup-plan.md) | none | none |
 
 ## Read only when relevant
 
