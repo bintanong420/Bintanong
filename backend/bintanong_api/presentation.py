@@ -64,13 +64,18 @@ def student_text(answer) -> str:
     scope = (tuple(f'{label}: {answer.structured_context.operation};' for label in _SCOPE_LABELS)
              if answer.structured_context is not None else ())
     claims = {f"{c.text} [{', '.join(c.evidence_ids)}]": _ALIASES.sub('', c.text) for c in answer.claims}
+    # Replace whole claims first: a host-rendered claim can span several lines, with its IDs after the last.
+    text = answer.text
+    for rendered, plain in claims.items():
+        text = text.replace(rendered, plain)
+    claim_lines = {line for plain in claims.values() for line in plain.splitlines()}
     cited = tuple(f'[{card.evidence_id}] ' for card in answer.citations)
     shown = []
-    for line in answer.text.splitlines():
+    for line in text.splitlines():
         if line in _PREVIEWS or (scope and line.startswith(scope)) or (cited and line.startswith(cited)):
             continue
-        if line in claims:
-            line = claims[line]
+        if line in claim_lines:
+            pass
         elif line.startswith(listed):
             line = humanize_codes(line, answer.language)
         shown.append(line)

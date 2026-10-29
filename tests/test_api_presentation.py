@@ -99,6 +99,19 @@ def test_student_text_drops_short_evidence_aliases_the_model_wrote_into_a_claim(
     assert tag.strip() not in shown and claim.text in shown
 
 
+def test_student_text_drops_evidence_ids_after_a_multi_line_claim():
+    # Hosted query validation 30 Oct 2026: host-rendered Charter steps are claims spanning several lines; their
+    # evidence IDs follow the last line, so line-by-line matching showed students the raw IDs.
+    answer = answer_for('RAG')
+    claim = answer.claims[0]
+    multi = claim.model_copy(update=dict(text='Step 1: Fill out the form\n  Person responsible: Window In-Charge'))
+    text = answer.text.replace(f'{claim.text} [', f'{multi.text} [', 1)
+    answer = answer.model_copy(update=dict(claims=(multi, *answer.claims[1:]), text=text))
+    shown = student_text(answer)
+    assert 'ev-' not in shown
+    assert multi.text in shown
+
+
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
 def test_student_text_leaves_out_the_candidate_preview_line(language):
     # Owner, 29 Oct 2026: no "candidate preview" line; the guidance notice is shown separately and subtly.
