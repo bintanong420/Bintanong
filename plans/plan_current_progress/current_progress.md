@@ -41,7 +41,17 @@ requirements (failed twice), probation (inconsistent), INC removal (selector mis
 change selector/prompt behaviour after the frozen report and need an owner decision. Disk: C: filled (local
 Supabase analytics 14 GB); cleaned, analytics disabled `01823b9`, Docker disk compacted 47 -> 28.4 GB.
 
+## Document fixes (30 Oct, owner-approved)
+
+`bfdade9` printed section headings in the selector menu (28 Handbook topics); `a0eb42f` a truncated draft retries
+once at 1,536 tokens (both test-first; broad 1602 pass). Diagnosis (A/p12-doc-diagnosis-20261030): honors draft now
+completes but is refused as `source_gap` (p.54 residence conflict refuses the whole part); INC still selects grade
+correction because "3.4 REMOVAL OF INC" is withheld by the defect rule (p.47 deadline conflict); probation misses
+are model variation (identical draft request, different reply). Regression on main 50 stopped by Claude Code at
+37/50 for low memory: on 29 overlapping cases 23 -> 24 pass (fixed summer-load Taglish, grad-residence en; shift-en
+fails only on keyword wording, same clause). Remaining 21 cases not run. Hosted backend still runs pre-fix code.
+
 ## Next action
 
-Owner decision on diagnosing/fixing the three open document cases. Phase 13 remains cancelled. Preserve
+Owner decision on the defect-rule strictness (answer visible content + state the gap) and on finishing the 50-case regression. Phase 13 remains cancelled. Preserve
 existing evaluations, bound artifacts and corrected78 rollback.
