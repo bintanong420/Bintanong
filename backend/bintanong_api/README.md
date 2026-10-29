@@ -23,7 +23,10 @@ The trusted config uses schema `bintanong-research-api-v1` and requires:
 Supply `SUPABASE_URL` and the public `SUPABASE_ANON_KEY` in the process environment. The factory
 does not load `.env` automatically, use a service-role key, configure OAuth or download assets.
 It accepts only the current 78-chunk `p11-research-corrected-20261026` package and verifies all
-seven sealed files before constructing a network client or encoder. A changed pin/package fails
+seven sealed files before constructing a network client or encoder. A pin with `"documents": "local"`
+(owner, 29 Oct 2026) instead serves its own sealed package from local files with the gate composition
+(routing context, topic selection, the pin's `review_reference_profile`); curricula and their links are
+still read and checked from the hosted release, and hosted chunks are not compared. A changed pin/package fails
 startup; an inactive hosted release or changed curriculum links withholds subsequent answers.
 
 For the Next.js server, set `API_INTERNAL_URL`, `SITE_ORIGIN`, `NEXT_PUBLIC_SUPABASE_URL` and
