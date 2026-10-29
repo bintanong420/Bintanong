@@ -66,7 +66,7 @@ institutional approval, Phase 11 exit or Phase 12 advance.
 
 Finish by 30 Oct. Phase 13 deployment cancelled. Replies English/Taglish only; pure-Tagalog input kept only while
 free. Keep upload if doable. Phase 12: 50 common English/Taglish queries across enrollment procedures, prerequisite
-eligibility, grade and academic standing, disciplinary policies. Honors/probation: option A (Handbook policy sections).
+eligibility, grade policies and academic standing, disciplinary policies. Honors/probation: option A (Handbook policy sections).
 
 ## Next action
 

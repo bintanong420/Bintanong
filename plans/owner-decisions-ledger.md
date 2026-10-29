@@ -564,7 +564,12 @@ Each program still gets its own dated review record listing which standing rule 
   have to drop the pure-tagalog-response" (already English/Taglish only since 27 Oct). Pure-Tagalog questions may
   stay accepted input only while they add no development time; otherwise remove them for time. Keep the upload if
   it can be done by 30 Oct. Phase 12 benchmark: "50 most common queries across categories: enrollment procedures,
-  prerequisite eligibility, grade and academic standing, and disciplinary policies" (English/Taglish).
+  prerequisite eligibility, grade and academic standing, and disciplinary policies" (English/Taglish); owner
+  clarified "by grade earlier, i meant 'grade policies'": the category is grade policies and academic standing.
 - 29 Oct 2026 (honors/probation, option A): when whole-section coverage fails on a Handbook policy section, accept a
   grounded, reviewed answer citing the clause it uses, with a pointer to the full section. Charter service procedures
   keep complete-step coverage; router unchanged.
+- 29 Oct 2026 (activation): owner "dont forget to make the chunks active in the supabase the 500 chunks". Activate
+  the gate-tested 560-chunk FAQ-split package (`p11-faq-split-20261028`) as the hosted research release after the
+  accuracy freeze, through the existing staging -> ReleaseManager activate RPC -> readback -> smoke path, keeping
+  the corrected78 rollback. Research build only; no institutional approval or public deployment inferred.

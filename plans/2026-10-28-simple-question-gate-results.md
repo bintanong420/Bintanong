@@ -54,3 +54,7 @@ cs6-failed-cc4 Taglish; grade-1-en), two regressed (honors residence en/Taglish,
 Still failing (14): summer load en/Taglish, leave length Taglish, second-year Taglish (empty clarify), grad residence
 en/Taglish, honors residence en/Taglish, probation en/Taglish (`whole` -> abstain), certification fee Taglish (held
 label), overdue fee Taglish, crim-1-1 Taglish (selector ambiguous), cc5-failed-cc4 en (router omits course mentions).
+
+`f235319` (owner option A, test-first: RED 1 fail/3 pass -> GREEN 4 pass; related 1054 pass): a Handbook policy section
+with no reviewed step order is answered from the clauses it cites. Live: honors residence en/Taglish and probation
+en/Taglish now pass (gate 4 -> 81/91 expected); grad residence en and leave length Taglish still fail.
