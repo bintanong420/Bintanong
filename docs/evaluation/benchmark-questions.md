@@ -6,6 +6,8 @@ questions are new and come from printed Student Handbook penalty rows. "Must con
 answer needs (each group: any one alternative). "Expected" is the required status or prerequisite decision.
 Result is the full system (condition C) at `7f8c02b`; see
 [benchmark results](../../plans/2026-10-29-phase12-benchmark-results.md).
+Accepted shorthand, course abbreviations and the 26 shorthand probe questions:
+[accepted input forms](accepted-input-forms.md).
 
 ## Enrollment procedures (14 questions, 11 passed)
 
