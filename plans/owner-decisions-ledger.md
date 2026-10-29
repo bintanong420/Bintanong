@@ -615,3 +615,15 @@ Each program still gets its own dated review record listing which standing rule 
 - 30 Oct 2026 (dev merge and activation start): owner "We need to merge into dev"; p11 + origin/dev merged and
   fast-forwarded to `dev` (`a3ff208`), dev's older frontend superseded by p11's. Owner: start the hosted 560
   activation first thing in the new Phase 12 worktree ("yes, start there once I've created the worktree").
+- 30 Oct 2026 (hosted 560 chunk-level validation): asked whether the 29 Oct activation directive may serve as the
+  chunk-level validation for the 257 re-authored records (230 Charter service-association records, 27 Handbook
+  flowchart records) whose recorded events say "New chunks are prepared for owner validation, not yet approved as
+  chunks", owner chose "Yes, record it that way". Their receipts state: owner activation directive for the
+  gate-tested 560 package; assistant-verified associations over 213 human / 123 assistant source comparisons; no
+  per-chunk human approval. Correction to the question: the other 303 carry bound partially_reviewed states, but most
+  were not yet inside receipts; adding them is the routine receipt mechanism, not a new approval. No source-state
+  promotion, institutional approval or public deployment.
+- 30 Oct 2026 (flowchart schema gap): the hosted 560 rehearsal accepted 533 chunks, but hosted
+  `validate_selected_context` rejects the 27 Handbook flowchart records (pages 60/61/63/64, `flow_manifest`,
+  supported in Python since 27 Oct). Owner chose "Add a DB migration": port the flowchart check to SQL test-first,
+  rehearse locally, apply to hosted, then activate all 560.

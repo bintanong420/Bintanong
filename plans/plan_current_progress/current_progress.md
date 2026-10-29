@@ -121,7 +121,9 @@ prepared with [pre-phase research](../2026-10-30-phase-12-pre-phase-research.md)
 (A/p11-fullsuite-20261030a). Owner decided single runs (disclosed) and write-up before hosted 560 activation (ledger).
 Report written (`36ae881`); Phase 12 started (`a6363c3`, checkpoint seq 1).
 
-**Paused (owner, 30 Oct) for a new Phase 12 worktree branched from `dev` `a3ff208`** (p11 + origin/dev merged;
-full suite 7314 / 1608 pass). Next: hosted 560 activation there (owner 30 Oct), per the
-[session handoff](../2026-10-30-phase12-session-handoff.md); then report section 8 and the Phase 12 handoff.
-Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.
+**Hosted 560 activation in progress (p12 worktree, branch `p12-evaluation-harness`).** Hosted read 30 Oct: active
+corrected78; 5 versions partially_reviewed. The 257 re-authored records had no chunk-level validation; owner chose to
+record the 29 Oct activation directive as it (ledger, no per-chunk human approval). Receipts built and passing the
+Python validators (A/p12-hosted-560-activation-20261030: 4 cumulative supplementary receipts, 26 event envelopes,
+selected review scope 17e11149…). Local-DB rehearsal running. Next: rehearsal result -> hosted stage -> activate ->
+readback/smoke (rollback to corrected78 on any failure); then report section 8 and the Phase 12 handoff.
