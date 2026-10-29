@@ -118,5 +118,11 @@ broken English 2/4. absence-taglish diagnosed (30 Oct): identical selector reque
 (8/8 replays correct); recorded in the benchmark results. Phase 12 [plan](../phase-12-evaluation-writeup-plan.md)
 prepared with [pre-phase research](../2026-10-30-phase-12-pre-phase-research.md) (`f2b00dc`); paired stats done
 (C 40/50 Wilson [0.67,0.89] vs A 3/50, exact McNemar 37/0, p≈1.5e-11). Batched full suite running at `0d6ebac`
-(A/p11-fullsuite-20261030a). Next: owner decisions (hosted 560 activation now? single runs ok?), then the report.
+(A/p11-fullsuite-20261030a). Owner decided single runs (disclosed) and write-up before hosted 560 activation (ledger).
+Report written (`36ae881`); Phase 12 started (`a6363c3`, checkpoint seq 1).
+
+**Paused (owner, 30 Oct):** Phase 12 halted here; the owner will create a dedicated Phase 12 worktree and branch.
+Branch it from `a6363c3` or later so the plan, checkpoint, report and decisions come along. On resume: read the
+suite result in A/p11-fullsuite-20261030a/batches.exit (batches 00-01 exit 0 at pause), then the Phase 12 handoff;
+owner still to choose whether the 560 activation is inside Phase 12 or follow-up work.
 Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.
