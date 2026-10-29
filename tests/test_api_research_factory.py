@@ -202,16 +202,53 @@ def test_local_documents_pin_serves_the_sealed_package_with_the_gate_composition
     assert (generator.reference_profile, generator.review_reference_profile) == ('short', 'short')
 
 
-def test_hosted_documents_pin_still_requires_the_hosted_release_size(configured):
-    factory, path, _ = configured
+def hosted_gate_pin(path):
+    """Rewrite the fixture as a hosted pin naming its own release, authorization and the gate composition."""
     local_pin(path)
     config = json.loads(path.read_bytes())
     pin = json.loads(Path(config['pin_path']).read_bytes())
     pin.pop('documents')
+    pin.update(release_id='p12-research-synthetic', research_authorization_ref='research-owner-20261029',
+               composition='gate')
     config['pin_sha256'] = save(Path(config['pin_path']), pin)
     save(path, config)
-    with pytest.raises(ValueError, match='current_research_package_required'):
-        factory.load_research_app(path)
+
+
+def test_hosted_pin_serves_its_named_release_with_the_gate_composition(configured, monkeypatch):
+    factory, path, seen = configured
+    hosted_gate_pin(path)
+    monkeypatch.setattr(factory, 'load_release_curricula', lambda client, **kw: seen.update(curricula=kw) or {
+        'curriculum-a': {'scope': {'program_id': 'program-a'}, 'content_sha256': 'ledger-digest',
+                         'sources': [{'filename': 'Synthetic curriculum'}]}})
+    app = factory.load_research_app(path)
+    assert len(seen['package']['chunks']) == 5
+    assert seen['curricula'] == {'release_id': 'p12-research-synthetic', 'authorization_ref': 'research-owner-20261029'}
+    assert seen['build']['hosted']['release_id'] == 'p12-research-synthetic'
+    assert seen['build']['authorization_ref'] == 'research-owner-20261029'
+    assert seen['build']['routing_context'] is True
+    assert app.state.services.pipeline._topic_selection is True
+
+
+def test_hosted_pin_readiness_checks_its_named_release(configured, monkeypatch):
+    factory, path, seen = configured
+    hosted_gate_pin(path)
+    monkeypatch.setattr(factory, 'HostedReleaseStorage', lambda client, **kw: seen.update(hosted=kw))
+    app = factory.load_research_app(path)
+    provider = app.state.services.pipeline._releases
+    filters = []
+    provider.client.select = lambda table, **kw: filters.append(kw['filters']) or [
+        {'curriculum_id': 'curriculum-a', 'ledger_sha256': 'ledger-digest'}]
+    assert asyncio.run(provider.pin()) is provider.resources
+    assert (seen['hosted']['hosted_release_id'], seen['hosted']['authorization_ref']) == (
+        'p12-research-synthetic', 'research-owner-20261029')
+    assert filters == [{'release_id': 'eq.p12-research-synthetic'}]
+
+
+def test_hosted_pin_without_gate_composition_keeps_the_default_composition(configured):
+    factory, path, seen = configured
+    app = factory.load_research_app(path)
+    assert seen['build']['routing_context'] is False
+    assert app.state.services.pipeline._topic_selection is False
 
 
 def test_local_documents_readiness_checks_curricula_without_hosted_chunks(configured, monkeypatch):

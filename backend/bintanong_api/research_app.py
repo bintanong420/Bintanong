@@ -10,6 +10,7 @@ import base64
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 from typing import Literal
 from urllib.parse import urlsplit
@@ -77,8 +78,13 @@ def _public_key(value):
 
 def _package(config):
     pin = json.loads(_read(config.pin_path, config.pin_sha256))
+    # A pin names its research release and owner authorization; older pins mean the corrected78 release.
+    pin.setdefault('research_authorization_ref', AUTHORIZATION)
     if (pin.get('schema_version') != 'bintanong-research-runtime-pin-v1'
-            or pin.get('release_id') != RELEASE or pin.get('research_only') is not True
+            or not isinstance(pin.get('release_id'), str) or not pin['release_id'].strip()
+            or pin.get('research_only') is not True
+            or not re.fullmatch(r'research-owner-[0-9]{8}', str(pin['research_authorization_ref']))
+            or pin.get('composition', 'default') not in ('default', 'gate')
             or pin.get('institutional_activation_allowed') is not False):
         raise ValueError('current_research_pin_required')
     root = Path(pin['package'])
@@ -92,10 +98,9 @@ def _package(config):
         ('chunks', FILES[0]), ('versions', FILES[1]), ('manifest', FILES[2]),
         ('catalogue', FILES[3]), ('register', FILES[4]), ('subject_context_budgets', FILES[6]))}
     package['vectors'] = vectors
-    # Owner 29 Oct 2026 option A: a local-documents pin serves its sealed package (the gate-tested set) instead of
-    # the hosted release's 78 chunks; curricula stay hosted.
-    local = pin.get('documents') == 'local'
-    if ((not local and len(package['chunks']) != 78) or len(records) != len(vectors) or
+    # Owner 29 Oct 2026 option A: a local-documents pin serves its sealed package (the gate-tested set);
+    # curricula stay hosted. A hosted pin's chunk set is checked against the hosted release at readiness.
+    if (len(records) != len(vectors) or
             set(vectors) != {chunk['chunk_id'] for chunk in package['chunks']}
             or package['manifest']['embedding_set_id'] != pin.get('embedding_set_id')):
         raise ValueError('current_research_package_required')
@@ -103,9 +108,11 @@ def _package(config):
 
 
 class ResearchProvider:
-    def __init__(self, client, resources, package, ledgers, *, local_documents=False):
+    def __init__(self, client, resources, package, ledgers, *, local_documents=False,
+                 release_id=RELEASE, authorization_ref=AUTHORIZATION):
         self.client, self.resources, self.package = client, resources, package
         self.local_documents = local_documents
+        self.release_id, self.authorization_ref = release_id, authorization_ref
         self.digests = {key: ledger['content_sha256'] for key, ledger in ledgers.items()}
         self.worker = _BoundedWorker()
 
@@ -114,9 +121,10 @@ class ResearchProvider:
             try:
                 if not self.local_documents:
                     HostedReleaseStorage(self.client, pin_release_id=self.resources.pin.release_id,
-                        hosted_release_id=RELEASE, authorization_ref=AUTHORIZATION, chunks=self.package['chunks'])
+                        hosted_release_id=self.release_id, authorization_ref=self.authorization_ref,
+                        chunks=self.package['chunks'])
                 links = self.client.select('release_curriculum_ledgers', role='runtime',
-                                          filters={'release_id': 'eq.' + RELEASE})
+                                          filters={'release_id': 'eq.' + self.release_id})
                 if (len(links) != len(self.digests) or
                         {row['curriculum_id']: row['ledger_sha256'] for row in links} != self.digests):
                     raise ValueError('curriculum_release_differs')
@@ -142,8 +150,9 @@ def load_research_app(path=None):
             or model_url.password or model_url.query or model_url.fragment or model_url.path not in ('', '/')):
         raise ValueError('invalid_model_url')
     client = SupabaseStorageClient(StorageConfig(api_url=url, anon_key=key, service_role_key='', db_url=''))
+    release, authorization = pin['release_id'], pin['research_authorization_ref']
     try:
-        ledgers = load_release_curricula(client, release_id=RELEASE, authorization_ref=AUTHORIZATION)
+        ledgers = load_release_curricula(client, release_id=release, authorization_ref=authorization)
         if not ledgers:
             raise ValueError('reviewed_curricula_required')
         assets = json.loads(_read(config.encoder_assets_path))['verified_assets']
@@ -151,12 +160,14 @@ def load_research_app(path=None):
         # Complete the cold load before exposing readiness or retrieval to concurrent requests.
         encoder.load_model()
         local = pin.get('documents') == 'local'
+        gate = local or pin.get('composition') == 'gate'  # topic selection + routing context, as gate-tested
         resources = build_multi_research_resources(ledgers, package, encoder=encoder,
-            authorization_ref=AUTHORIZATION, hosted=None if local else {'client': client, 'release_id': RELEASE},
-            program_names=config.program_names, curriculum_names=config.curriculum_names, routing_context=local)
-        provider = ResearchProvider(client, resources, package, ledgers, local_documents=local)
+            authorization_ref=authorization, hosted=None if local else {'client': client, 'release_id': release},
+            program_names=config.program_names, curriculum_names=config.curriculum_names, routing_context=gate)
+        provider = ResearchProvider(client, resources, package, ledgers, local_documents=local,
+                                    release_id=release, authorization_ref=authorization)
         pipeline = ResearchPipeline(lambda: LlamaTransport(config.model_url, prefix_cache=True), provider,
-            topic_selection=local, generator_factory=lambda model: Generator(model,
+            topic_selection=gate, generator_factory=lambda model: Generator(model,
                 reference_profile=pin.get('generation_reference_profile', 'canonical'),
                 review_reference_profile=pin.get('review_reference_profile', 'canonical')))
         curricula = tuple(CurriculumOption(ledger['scope']['program_id'], curriculum,
