@@ -92,7 +92,10 @@ def _package(config):
         ('chunks', FILES[0]), ('versions', FILES[1]), ('manifest', FILES[2]),
         ('catalogue', FILES[3]), ('register', FILES[4]), ('subject_context_budgets', FILES[6]))}
     package['vectors'] = vectors
-    if (len(package['chunks']) != 78 or len(records) != len(vectors) or
+    # Owner 29 Oct 2026 option A: a local-documents pin serves its sealed package (the gate-tested set) instead of
+    # the hosted release's 78 chunks; curricula stay hosted.
+    local = pin.get('documents') == 'local'
+    if ((not local and len(package['chunks']) != 78) or len(records) != len(vectors) or
             set(vectors) != {chunk['chunk_id'] for chunk in package['chunks']}
             or package['manifest']['embedding_set_id'] != pin.get('embedding_set_id')):
         raise ValueError('current_research_package_required')
@@ -100,16 +103,18 @@ def _package(config):
 
 
 class ResearchProvider:
-    def __init__(self, client, resources, package, ledgers):
+    def __init__(self, client, resources, package, ledgers, *, local_documents=False):
         self.client, self.resources, self.package = client, resources, package
+        self.local_documents = local_documents
         self.digests = {key: ledger['content_sha256'] for key, ledger in ledgers.items()}
         self.worker = _BoundedWorker()
 
     async def pin(self):
         def check():
             try:
-                HostedReleaseStorage(self.client, pin_release_id=self.resources.pin.release_id,
-                    hosted_release_id=RELEASE, authorization_ref=AUTHORIZATION, chunks=self.package['chunks'])
+                if not self.local_documents:
+                    HostedReleaseStorage(self.client, pin_release_id=self.resources.pin.release_id,
+                        hosted_release_id=RELEASE, authorization_ref=AUTHORIZATION, chunks=self.package['chunks'])
                 links = self.client.select('release_curriculum_ledgers', role='runtime',
                                           filters={'release_id': 'eq.' + RELEASE})
                 if (len(links) != len(self.digests) or
@@ -145,13 +150,15 @@ def load_research_app(path=None):
         encoder = QueryEncoder(model_path=str(config.encoder_model_path), asset_digests=assets)
         # Complete the cold load before exposing readiness or retrieval to concurrent requests.
         encoder.load_model()
+        local = pin.get('documents') == 'local'
         resources = build_multi_research_resources(ledgers, package, encoder=encoder,
-            authorization_ref=AUTHORIZATION, hosted={'client': client, 'release_id': RELEASE},
-            program_names=config.program_names, curriculum_names=config.curriculum_names)
-        provider = ResearchProvider(client, resources, package, ledgers)
+            authorization_ref=AUTHORIZATION, hosted=None if local else {'client': client, 'release_id': RELEASE},
+            program_names=config.program_names, curriculum_names=config.curriculum_names, routing_context=local)
+        provider = ResearchProvider(client, resources, package, ledgers, local_documents=local)
         pipeline = ResearchPipeline(lambda: LlamaTransport(config.model_url, prefix_cache=True), provider,
-            generator_factory=lambda model: Generator(model,
-                reference_profile=pin.get('generation_reference_profile', 'canonical')))
+            topic_selection=local, generator_factory=lambda model: Generator(model,
+                reference_profile=pin.get('generation_reference_profile', 'canonical'),
+                review_reference_profile=pin.get('review_reference_profile', 'canonical')))
         curricula = tuple(CurriculumOption(ledger['scope']['program_id'], curriculum,
             next(iter(config.program_names.get(ledger['scope']['program_id'], ())), ledger['sources'][0]['filename']),
             next(iter(config.curriculum_names.get(curriculum, ())), ledger['sources'][0]['filename']))

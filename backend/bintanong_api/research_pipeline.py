@@ -13,15 +13,17 @@ from backend.bintanong_orchestration.orchestrator import Orchestrator
 
 class ResearchPipeline:
     def __init__(self, transport_factory, releases, *, generator_factory=None, stage_timeout=120.0,
-                 generation_timeout=120.0, request_timeout=180.0):
+                 generation_timeout=120.0, request_timeout=180.0, topic_selection=False):
         self._transport_factory, self._releases = transport_factory, releases
+        self._topic_selection = topic_selection
         self._generator_factory = generator_factory or (lambda model: Generator(model,
                                                                                 timeout_seconds=generation_timeout))
         self._stage_timeout, self._request_timeout = stage_timeout, request_timeout
 
     async def run(self, text, context, *, routed_sink, progress):
         model = self._transport_factory()
-        orchestrator = Orchestrator(model, releases=self._releases, stage_timeout=self._stage_timeout)
+        orchestrator = Orchestrator(model, releases=self._releases, stage_timeout=self._stage_timeout,
+                                    topic_selection=self._topic_selection)
 
         class Staged:  # progress is reported around the evidence stage; the answer text is never streamed
             async def run(self, text, context):

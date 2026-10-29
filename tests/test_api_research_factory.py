@@ -170,3 +170,56 @@ def test_concurrent_first_readiness_and_retrieval_share_one_completed_encoder_lo
         assert first is True and second is True and retrieval is encoder.model
     asyncio.run(simultaneous_first_calls())
     assert encoder.loads == 1
+
+
+def local_pin(path, chunks=5):
+    """Rewrite the fixture as a local-documents pin over a package that is not 78 chunks."""
+    config = json.loads(path.read_bytes())
+    pin = json.loads(Path(config['pin_path']).read_bytes())
+    package = Path(pin['package'])
+    save(package / 'draft-chunks.json', [{'chunk_id': f'chunk-{i}', 'content_hash': str(i)} for i in range(chunks)])
+    records = package / 'draft-embedding-records.jsonl'
+    records.write_text('\n'.join(json.dumps({'chunk_id': f'chunk-{i}', 'vector': [1.0]}) for i in range(chunks)),
+                       encoding='utf-8')
+    seal = json.loads((package / 'runtime-seal.json').read_bytes())
+    seal.update({name: hashlib.sha256((package / name).read_bytes()).hexdigest()
+                 for name in ('draft-chunks.json', records.name)})
+    config['seal_sha256'] = save(package / 'runtime-seal.json', seal)
+    config['pin_sha256'] = save(Path(config['pin_path']), {**pin, 'documents': 'local',
+                                                           'review_reference_profile': 'short'})
+    save(path, config)
+
+
+def test_local_documents_pin_serves_the_sealed_package_with_the_gate_composition(configured):
+    factory, path, seen = configured
+    local_pin(path)
+    app = factory.load_research_app(path)
+    assert len(seen['package']['chunks']) == len(seen['package']['vectors']) == 5
+    assert seen['build']['hosted'] is None and seen['build']['routing_context'] is True
+    pipeline = app.state.services.pipeline
+    assert pipeline._topic_selection is True
+    generator = pipeline._generator_factory(object())
+    assert (generator.reference_profile, generator.review_reference_profile) == ('short', 'short')
+
+
+def test_hosted_documents_pin_still_requires_the_hosted_release_size(configured):
+    factory, path, _ = configured
+    local_pin(path)
+    config = json.loads(path.read_bytes())
+    pin = json.loads(Path(config['pin_path']).read_bytes())
+    pin.pop('documents')
+    config['pin_sha256'] = save(Path(config['pin_path']), pin)
+    save(path, config)
+    with pytest.raises(ValueError, match='current_research_package_required'):
+        factory.load_research_app(path)
+
+
+def test_local_documents_readiness_checks_curricula_without_hosted_chunks(configured, monkeypatch):
+    factory, path, seen = configured
+    local_pin(path)
+    monkeypatch.setattr(factory, 'HostedReleaseStorage', lambda *a, **kw: seen.update(hosted_checked=True))
+    app = factory.load_research_app(path)
+    provider = app.state.services.pipeline._releases
+    provider.client.select = lambda *a, **kw: [{'curriculum_id': 'curriculum-a', 'ledger_sha256': 'ledger-digest'}]
+    assert asyncio.run(provider.pin()) is provider.resources
+    assert 'hosted_checked' not in seen

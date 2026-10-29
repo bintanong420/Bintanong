@@ -34,3 +34,19 @@ def test_each_request_gets_a_fresh_model_transport():
     for _ in range(2):
         asyncio.run(p.run('A1 policy', ctx(), routed_sink=lambda r: None, progress=lambda s: None))
     assert len(made) == 2 and made[0] is not made[1]
+
+
+def test_topic_selection_reaches_the_orchestrator(monkeypatch):
+    import backend.bintanong_api.research_pipeline as module
+    seen = {}
+
+    class Recording(module.Orchestrator):
+        def __init__(self, *args, **kwargs):
+            seen.update(kwargs)
+            super().__init__(*args, **kwargs)
+    monkeypatch.setattr(module, 'Orchestrator', Recording)
+    p = ResearchPipeline(lambda: transport('RAG'), ports().SyntheticReleaseProvider(resources()), topic_selection=True,
+                         generator_factory=lambda model: generation().Generator(EchoEvidence(),
+                                                                                 explanation_profile='legacy'))
+    asyncio.run(p.run('A1 policy', ctx(), routed_sink=lambda r: None, progress=lambda s: None))
+    assert seen['topic_selection'] is True
