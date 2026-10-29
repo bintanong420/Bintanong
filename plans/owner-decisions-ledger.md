@@ -600,5 +600,5 @@ Each program still gets its own dated review record listing which standing rule 
 - 29 Oct 2026 (loosely typed questions): owner asked to include grammatically loose questions in the 50 ("as you
   deem common"). Swapped in 6 owner-approved shorthand Taglish twins (change section, CC5/CC4, Discrete Structure 2,
   second year, absence, bullying) and 4 broken-English wordings chosen under that delegation ("how to drop subject",
-  "can i take cc5 if i fail cc4 im cs student", "how much good moral certificate", "what penalty if caught cheating
+  "can i take cc5 if i fail cc4 im cs student", "how to get class card", "what penalty if caught cheating
   exam"). Benchmark v3: 20 English / 4 broken English / 10 Taglish / 6 shorthand Taglish / 10 Tagalog.
