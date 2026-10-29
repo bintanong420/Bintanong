@@ -28,12 +28,20 @@ cannot be used after the switch. Restart/rollback commands and exact hashes are 
 Fresh saved-output audit matches report: main v2 38/50 (76%); original C40/50, rerun39/50, A strict3/50,
 content8/50; robustness Tagalog19/26, shorthand15/26, broken English2/4. No new benchmark runs.
 Historical full merged suite7314pass/1608subtests,6skip/2xfail; related hosted-pin108pass inherited.
-Full suite not rerun for operational/docs-only continuation; live checks/phase/link/diff validation used.
+Full suite on final code `35629a1`: 7322 pass/1608 subtests, 6 skip/2 xfail, 4 batches exit 0 (30 Oct).
 Development reuse, single author/single runs, remaining failures, unmeasured metrics/SUS/UAT, unsupported photos,
 deferred PSU sign-in and no institutional validation remain disclosed. Benchmark used local documents;
 hosted smoke is not benchmark parity. Undergraduate/source-gap/privacy/unknown-versus-unmet guards remain.
 
+## Hosted query validation (30 Oct)
+
+[Results](../2026-10-30-hosted-query-validation-results.md): prerequisites 44/44 across all 39 curricula; common
+document questions 6/10. TOR evidence-ID leak fixed `3206ae1` (multi-line claims; re-asked live). Open: honors
+requirements (failed twice), probation (inconsistent), INC removal (selector misses `grade_completion`); fixes would
+change selector/prompt behaviour after the frozen report and need an owner decision. Disk: C: filled (local
+Supabase analytics 14 GB); cleaned, analytics disabled `01823b9`, Docker disk compacted 47 -> 28.4 GB.
+
 ## Next action
 
-No next implementation phase. Hosted answer-quality benchmarking is a separate owner/Claude follow-up;
-Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.
+Owner decision on diagnosing/fixing the three open document cases. Phase 13 remains cancelled. Preserve
+existing evaluations, bound artifacts and corrected78 rollback.
