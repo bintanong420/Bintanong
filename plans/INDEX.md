@@ -2,10 +2,11 @@
 
 ## Current state
 
-- Phase11active in p11 / feat/p11-fullstack-integration (from feat/p11-backend-api). Backend/security delivered;frontend
-  integration stopped. [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
-  [Current progress](plan_current_progress/current_progress.md). No Phase11handoff;
-  latest final handoff is [Phase10](phase-10-handoff.md);Phase12not permitted.
+- Phase 11 complete with disclosures ([handoff](phase-11-handoff.md), 29 Oct; owner approved after the browser check).
+  No active phase; next permitted phase 12 (evaluation write-up; benchmark already run:
+  [results](2026-10-29-phase12-benchmark-results.md), [questions](../docs/evaluation/benchmark-questions.md)).
+  Deployment (Phase 13) cancelled by the owner. Branch p11 / feat/p11-fullstack-integration (local).
+  [Current progress](plan_current_progress/current_progress.md).
 - [Reply migration](2026-10-27-english-taglish-migration-results.md),28edea4:
   English/Filipino/Taglish inputs;English/Taglish replies. Saved8/8targets match,
   style prompt95tokens smaller;latency gain unproven. Full6974tests/1595subtests pass.
@@ -63,7 +64,7 @@ real-source exits; ledger validity alone does not prove source readiness.
 | 8 | Orchestration | complete offline candidate software; institutional execution held | [Plan](phase-08-orchestration-plan.md) | [Superseded](phase-08-checkpoint.md) | [Complete](phase-08-handoff.md) |
 | 9 | Generation/validation | complete offline research/software on hosted 39-curriculum release; eight limitations disclosed; institutional release held | [Plan](phase-09-generation-validation-plan.md) | [Superseded](phase-09-checkpoint.md) | [Complete](phase-09-handoff.md) |
 | 10 | Private files and session context | complete offline research/software; photos unsupported; HTTP wiring in Phase 11; institutional release held | [Plan](phase-10-private-files-session-plan.md) | [Superseded](phase-10-checkpoint.md) | [Complete](phase-10-handoff.md) |
-| 11 | Backend API (frontend ready; integration deferred) | in progress; finish pending work first | [Plan](phase-11-backend-api-plan.md) | [Checkpoint](phase-11-checkpoint.md) | none |
+| 11 | Backend API, frontend integration, answer accuracy | complete with disclosures (photos unsupported, 24.2 rerun not done, hosted 560 activation deferred) | [Plan](phase-11-backend-api-plan.md) | [Superseded](phase-11-checkpoint.md) | [Complete](phase-11-handoff.md) |
 
 ## Read only when relevant
 

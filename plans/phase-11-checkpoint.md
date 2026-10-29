@@ -1,10 +1,10 @@
 ---
 artifact: phase-checkpoint
 phase: 11
-status: in_progress
-sequence: 245
+status: superseded
+sequence: 246
 plan: plans/phase-11-backend-api-plan.md
-head_commit: ac1d057
+head_commit: e31ccab
 working_tree: clean
 updated_at: 2026-10-29T23:30:00+08:00
 ---
@@ -133,7 +133,7 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Owner approval to close Phase 11 with disclosures; then handoff, INDEX, phase_state validate/can-advance.
+Superseded by plans/phase-11-handoff.md (complete with disclosures, 29 Oct). Next: Phase 12 write-up.
 
 ## Context Consulted
 

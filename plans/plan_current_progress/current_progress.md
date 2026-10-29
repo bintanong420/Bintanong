@@ -84,7 +84,12 @@ plain Gemma 3/50 strict, 8/50 content ([results](../2026-10-29-phase12-benchmark
 [questions](../../docs/evaluation/benchmark-questions.md)). `37688aa` hides "(e2)" aliases in student text.
 Batched full suite at `e50e18a`: 7247 pass / 1608 subtests, 6 skip / 2 xfail, 4 batches exit 0 (A/p11-fullsuite-20261029b).
 
+## Phase 11 closed (29 Oct)
+
+Browser check passed (Playwright guest run, 0 console errors); owner approved closing with disclosures:
+[Phase 11 handoff](../phase-11-handoff.md). Next permitted phase: 12.
+
 ## Next action
 
-Owner approval to close Phase 11 with disclosures (photos unsupported, 24.2 counted rerun not done, hosted 560
-activation deferred, Next.js browser check pending); then Phase 11 handoff and Phase 12 write-up.
+Phase 12 evaluation write-up from the existing benchmark evidence (methodology, scoring, thesis tables); deployment
+cancelled. Services left running: Gemma :18088, backend :8021 (local 560), Next.js :3216 (integration worktree).
