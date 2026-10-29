@@ -89,6 +89,13 @@ Batched full suite at `e50e18a`: 7247 pass / 1608 subtests, 6 skip / 2 xfail, 4 
 Browser check passed (Playwright guest run, 0 console errors); owner approved closing with disclosures:
 [Phase 11 handoff](../phase-11-handoff.md). Next permitted phase: 12.
 
+## After closing (29 Oct, owner)
+
+`f770169`: student answers drop the "Candidate preview" line; the reply-language guidance sentence travels as
+data-answer `notice` and shows small and muted under the answer (backend RED 6 -> API 151 pass; frontend RED 1 ->
+66/66, typecheck 0). Browser-checked (smoking penalty, exact quotes). `npm ci` in p11/frontend (owner): 89 packages,
+0 vulnerabilities, lockfile unchanged; the site now runs from this worktree.
+
 ## Next action
 
 Phase 12 evaluation write-up from the existing benchmark evidence (methodology, scoring, thesis tables); deployment
