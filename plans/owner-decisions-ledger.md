@@ -606,3 +606,9 @@ Each program still gets its own dated review record listing which standing rule 
   still test those". Main benchmark = v2: 24 English / 16 Taglish / 10 Tagalog. Shorthand Taglish (26) and broken
   English (4) are reported as separate robustness results; the shortcut list was built after seeing the shorthand
   questions (disclosed).
+- 30 Oct 2026 (Phase 12 runs): owner chose "Single runs, disclose": the write-up reports the existing single runs
+  plus the measured C rerun (40 vs 39 on the same 50; one-off server non-determinism on absence Taglish) and states
+  that the proposed 5-run repetition (master 17.4) was not done.
+- 30 Oct 2026 (hosted 560 activation order): owner first chose "Activate now"; after being told activation needs
+  hosted staging of 381 new chunks plus a bound selected review (est. 3-5 h incl. rehearsal), owner chose "Write-up
+  first": finish the Phase 12 report, then activate only if time remains; otherwise the report states it is pending.
