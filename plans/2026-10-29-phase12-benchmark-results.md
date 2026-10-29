@@ -58,3 +58,12 @@ printed II.7b claim is listed; a host fix would need question keyword matching, 
 
 Single run, author-scored, no independent rater; 40/50 cases were development cases; the disciplinary set is small.
 Condition B (RAG without rules) was not run (owner). No claim of institutional accuracy.
+
+## Shorthand Taglish probe (owner-approved wordings, 29 Oct)
+
+The 26 Taglish questions retyped in common Filipino shorthand (pwd/pwde, pno, b, s, d, aq, ung, kht, mg/pg, prereq,
+pgyoyosi; list in ignored `p12-benchmark-20261029/shorthand/cases.json`), same expectations, one run at `d5e638a`:
+**8/26** versus 20/26 for the normal spelling (`7f8c02b`). Lost 12, gained 0; all replies stayed Taglish; median 20.4 s.
+Main cause: the topic selector marks shorthand prerequisite questions ambiguous and the pipeline stops
+(5 x temporarily unavailable); also disciplinary cheating/smoking/bullying, shifting, honors residence, absence,
+Forensic 4/L. Research basis: NormAPI (DLSU 2014), TagNorm (2021), Flores & Radev 2022, MulTypo 2025.
