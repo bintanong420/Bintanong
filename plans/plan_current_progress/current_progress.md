@@ -62,8 +62,14 @@ Families combine selection only; one part still answers from one subject (multi-
 Original PDFs, the base package and the active pin are unchanged. No hosted writes, dependency or model changes,
 institutional approval, Phase 11 exit or Phase 12 advance.
 
+## Owner decisions 29 Oct (ledger)
+
+Finish by 30 Oct. Phase 13 deployment cancelled. Replies English/Taglish only; pure-Tagalog input kept only while
+free. Keep upload if doable. Phase 12: 50 common English/Taglish queries across enrollment procedures, prerequisite
+eligibility, grade and academic standing, disciplinary policies. Honors/probation: option A (Handbook policy sections).
+
 ## Next action
 
-Group A follow-up on the 14 remaining gate-4 failures, test-first; start with probation/honors `whole` abstains.
-Local Supabase stack is stopped (owner OK, memory); only `supabase_db_Bintanong` runs. Website not restarted.
+Option A test-first (Handbook policy partial coverage), live-check honors/probation, then freeze accuracy and move to
+the browser/upload smoke and the Phase 12 benchmark. Local Supabase stack stopped except `supabase_db_Bintanong`.
 Mark `LIVE RUN` here while using the model.

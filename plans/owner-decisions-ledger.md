@@ -559,3 +559,12 @@ Each program still gets its own dated review record listing which standing rule 
   is complete alone with no continuation link; 8a (shifting start, ends "B.") stays linked to 8b. Claims "printed FAQ
   7 dropping steps" and "printed FAQ 8 shifting steps" replace "printed drop shift faq fields". Wording unchanged
   (printed "dropping from" kept). Separate derived inactive 560 package; original PDF, 559 package and pin unchanged.
+- 29 Oct 2026 (finish scope): owner asks to finish by 30 Oct: "we are not deploying anymore. Cancel out deployment."
+  Phase 13 (deployment) is cancelled for this build; no hosting/host selection work. Reply language: "definitely
+  have to drop the pure-tagalog-response" (already English/Taglish only since 27 Oct). Pure-Tagalog questions may
+  stay accepted input only while they add no development time; otherwise remove them for time. Keep the upload if
+  it can be done by 30 Oct. Phase 12 benchmark: "50 most common queries across categories: enrollment procedures,
+  prerequisite eligibility, grade and academic standing, and disciplinary policies" (English/Taglish).
+- 29 Oct 2026 (honors/probation, option A): when whole-section coverage fails on a Handbook policy section, accept a
+  grounded, reviewed answer citing the clause it uses, with a pointer to the full section. Charter service procedures
+  keep complete-step coverage; router unchanged.
