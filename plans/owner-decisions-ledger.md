@@ -627,3 +627,7 @@ Each program still gets its own dated review record listing which standing rule 
   `validate_selected_context` rejects the 27 Handbook flowchart records (pages 60/61/63/64, `flow_manifest`,
   supported in Python since 27 Oct). Owner chose "Add a DB migration": port the flowchart check to SQL test-first,
   rehearse locally, apply to hosted, then activate all 560.
+- 30 Oct 2026 (hosted connection path): the 560 rehearsal passed locally, but record review (36 s), bind (34 s)
+  and activate (~122 s) exceed hosted REST's 8 s statement timeout. Owner chose to add a hosted session-pooler URL
+  to `.env` as `SUPABASE_HOSTED_DB_URL`; the rehearsed steps then run over psql under the same service role and
+  database functions with a longer statement timeout. Secret never printed or staged; corrected78 stays the rollback.
