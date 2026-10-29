@@ -9,10 +9,11 @@ Last full snapshot before condensation: `76d5a92`; use `git show` for prior hist
 ## Latest change
 
 Codex read Claude's handoff at `76d5a92` and verified the prepared activation artifacts.
-Hosted read-only MCP: corrected78 remains active, 78 chunks / 39 curriculum links; the 560 release is absent.
+Hosted post-stage MCP: corrected78 active (78 chunks / 39 links); new 560 research release draft with 39 links.
 Owner supplied pooler host `aws-0-ap-southeast-1.pooler.supabase.com` and asked Codex to build the URI.
-Hosted password is missing; owner asked to add `SUPABASE_HOSTED_DB_PASSWORD` privately to p12/.env.
-No hosted writes attempted. Phase 12 remains open.
+Owner corrected the password; privately rebuilt URI passed hosted psql SELECT 1. Hosted staging passed in 106.11 s.
+.env is ignored and untracked; owner reiterated it must never be committed.
+Staging exact readback and existing-row preservation passed; corrected78 remains active. Phase 12 remains open.
 
 Prepared ignored hosted pin/config after verifying all 560 chunk-ID/content-hash pairs match the bound review.
 All sealed package files verify; protected receipts/events/snapshot unchanged. Backend `ResearchApiConfig`
@@ -42,7 +43,5 @@ Answer-quality benchmark on hosted composition is the owner's/Claude's follow-up
 
 ## Next action
 
-After the owner adds the hosted password privately, construct `SUPABASE_HOSTED_DB_URL` in p12/.env using
-the supplied host, port 5432 and user `postgres.jyrudbiuajahsucsorco`; percent-encode the password.
-Validate without printing it, run `hosted.py stage` with redirected logs, inspect readback, then activate and smoke-test the
-prepared hosted config. Follow Claude's stop/rollback rules. Finish results/report/handoff only after evidence.
+Run logged `hosted.py activate`, inspect exact readback, then smoke-test the prepared hosted config.
+Follow Claude's stop/rollback rules; never stage .env or raw evidence.

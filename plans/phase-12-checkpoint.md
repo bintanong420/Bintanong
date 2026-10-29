@@ -2,14 +2,14 @@
 artifact: phase-checkpoint
 phase: 12
 status: in_progress
-sequence: 4
+sequence: 6
 plan: plans/phase-12-evaluation-writeup-plan.md
-head_commit: 76d5a92
+head_commit: acbb0b9
 working_tree: docs changes for activation preflight and current state; ignored hosted config prepared
-updated_at: 2026-10-29T23:13:28+08:00
+updated_at: 2026-10-29T23:25:27+08:00
 ---
 
-# Phase 12 checkpoint — hosted activation preflight verified; connection missing
+# Phase 12 checkpoint — hosted staging verified; ready to activate
 
 ## Completed Tasks
 
@@ -23,18 +23,21 @@ updated_at: 2026-10-29T23:13:28+08:00
 ## Current Task
 
 Resume [Claude's hosted activation handoff](2026-10-30-hosted-560-codex-handoff.md).
-Connection prerequisite missing; no hosted writes attempted. Results recorded in
+Hosted inactive staging passed (106.11 s); activation not attempted. Results recorded in
 [activation status](2026-10-30-hosted-560-activation-results.md).
 
 ## Repository State
 
-Started clean at `76d5a92` in p12 / `p12-evaluation-harness`. Current changes are documentation only;
+Started this turn clean at `acbb0b9` (prior preflight `76d5a92`) in p12 / `p12-evaluation-harness`. Current changes are documentation only;
 prepared pin/config and raw evidence remain ignored. Last full progress snapshot: `76d5a92`.
 Machine local date is 29 Oct; preserve inherited 30 Oct records and release identifiers unchanged.
 
 ## Verification Evidence
 
-- Fresh read-only MCP: active corrected78, 78 chunks / 39 curriculum links; new release absent.
+- Corrected credentials passed hosted psql `select 1`; initial authentication error resolved. .env ignored/untracked.
+- Hosted staging: exit 0, 106.11 s; 560 chunks/vectors, 39 links, selected review bound; existing rows preserved.
+
+- Fresh post-stage MCP: corrected78 active (78/39); new research release draft (560/39), selected scope matches.
 - `codex-preflight-result.json`: PASS, 560 identical content mappings, all sealed files verified,
   protected artifact hashes unchanged, zero hosted writes.
 - Shared-venv `ResearchApiConfig.model_validate_json` + `_package`: PASS (560 chunks/vectors; hosted gate).
@@ -58,14 +61,11 @@ No further permission needed for those steps. Deployment cancelled; institutiona
 ## Known Failures or Blockers
 
 Owner supplied pooler host `aws-0-ap-southeast-1.pooler.supabase.com` and authorized assembling the URI.
-Hosted database password missing; owner asked to add `SUPABASE_HOSTED_DB_PASSWORD` privately to p12/.env.
-No stage/activate or hosted website smoke run. Benchmark failures and unmeasured metrics remain in report.
+No connection blocker. Staging passed; activation and hosted website smoke remain pending. Benchmark failures and unmeasured metrics remain in report.
 
 ## Next Action
 
-Once the password is added, construct `SUPABASE_HOSTED_DB_URL` with the supplied host, port 5432,
-user `postgres.jyrudbiuajahsucsorco` and percent-encoded password; validate without exposing it; run logged
-`hosted.py stage`, inspect exact readback, activate, then hosted-config website smoke.
+Run logged `hosted.py activate`, inspect exact readback, then hosted-config website smoke.
 Follow executor failure/rollback rules; complete report/handoff only after evidence.
 
 ## Do Not Repeat

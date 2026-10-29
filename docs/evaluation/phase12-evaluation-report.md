@@ -124,5 +124,5 @@ Fifty questions do not cover PalSU policy. Most cases were used during developme
 the expectations. Results come from the research data release (local 560-chunk document package; hosted
 curricula), whose known source gaps remain. Hosted activation of the 560 package is pending; the
 [activation preflight](../../plans/2026-10-30-hosted-560-activation-results.md) verified the sealed hosted
-configuration, but the owner-supplied connection setting is missing. No hosted activation or smoke result is claimed. No
+configuration and completed inactive hosted staging (560 chunks/vectors, 39 curriculum links). No hosted activation or smoke result is claimed. No
 university office has validated any answer, and nothing here shows the system is ready for students.
