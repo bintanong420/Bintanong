@@ -68,8 +68,16 @@ Finish by 30 Oct. Phase 13 deployment cancelled. Replies English/Taglish only; p
 free. Keep upload if doable. Phase 12: 50 common English/Taglish queries across enrollment procedures, prerequisite
 eligibility, grade policies and academic standing, disciplinary policies. Honors/probation: option A (Handbook policy sections).
 
+## Website on local 560 package (owner option A, 29 Oct)
+
+`f235319` Handbook policy sections answer from the cited clause (honors/probation en+Taglish pass live).
+`d1a2d53` local-documents pin: the website backend serves the gate-tested 560 package with the gate composition
+(it had searched hosted 78 chunks without topic selection). Live HTTP: document, structured, hybrid, upload ->
+confirm -> follow-up, deletion all work ([results](../2026-10-29-local-documents-website-results.md)).
+Config: A/p11-local-documents-20261029/research-api-config.json (old 78 config unchanged). Hosted activation deferred.
+
 ## Next action
 
-Option A test-first (Handbook policy partial coverage), live-check honors/probation, then freeze accuracy and move to
-the browser/upload smoke and the Phase 12 benchmark. Local Supabase stack stopped except `supabase_db_Bintanong`.
-Mark `LIVE RUN` here while using the model.
+Phase 12 benchmark: 50 common English/Taglish queries across enrollment procedures, prerequisite eligibility,
+grade policies and academic standing, disciplinary policies; then the browser check and the Phase 11 handoff.
+Local Supabase stack stopped except `supabase_db_Bintanong`. Mark `LIVE RUN` here while using the model.

@@ -2,11 +2,11 @@
 artifact: phase-checkpoint
 phase: 11
 status: in_progress
-sequence: 243
+sequence: 244
 plan: plans/phase-11-backend-api-plan.md
-head_commit: 75ec50f
+head_commit: 06b11cc
 working_tree: clean
-updated_at: 2026-10-29T12:00:00+08:00
+updated_at: 2026-10-29T18:00:00+08:00
 ---
 
 # Phase11checkpoint — 559vectors/maps verified;prompt capacity measured
@@ -36,7 +36,10 @@ FAQ7/8 split package A/p11-faq-split-20261028 (560 inactive;drop/shift pass). Ga
 8 run-2 passes:reverted 682fe7b;9553ed9 drops stray topic on course-check parts. Open:cc5-en mentions omitted,
 crim-1-1-taglish selector ambiguous. 29Oct gate4 (code9553ed9,run-75ec50f-gate4b-split):77/91 exit0;vs run3 +6 fixed,
 -2 honors (expected after v25 revert). Batched full suite at75ec50f:7232pass/1608subtests,6skip/2xfail,4batches exit0
-(A/p11-fullsuite-20261029a). Local Supabase stack stopped for memory (owner OK);only supabase_db_Bintanong restarted. Evidence A/p11-simple-gate-20261028,
+(A/p11-fullsuite-20261029a). Local Supabase stack stopped for memory (owner OK);only supabase_db_Bintanong restarted.
+29Oct: f235319 Handbook policy partial coverage (option A;RED1->GREEN4,related1054;honors/probation pass live);
+d1a2d53 local-documents pin (RED3->GREEN17,related356);website backend live on 560 package:3 routes,upload,delete pass.
+Deployment (Phase13) cancelled;finish target30Oct;hosted 560 activation deferred (ledger). Evidence A/p11-simple-gate-20261028,
 A/p11-clarify-20261028. Earlier task history (printed steps,559 checks,repair overflow,short reviews,vectors,
 flow evidence,bindings) is in the last full snapshot `7be3e1c` and the linked dated results.
 
@@ -128,7 +131,7 @@ institutional/public approval,phase exit,default/hosted change or frontend work.
 
 ## Next Action
 
-Group A follow-up on the 14 remaining gate-4 failures: probation/honors `whole` abstains first (largest pair), test-first.
+Phase 12 benchmark (50 en/Taglish common queries, four owner categories), browser check, Phase 11 handoff.
 
 ## Context Consulted
 
