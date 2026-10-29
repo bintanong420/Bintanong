@@ -631,3 +631,10 @@ Each program still gets its own dated review record listing which standing rule 
   and activate (~122 s) exceed hosted REST's 8 s statement timeout. Owner chose to add a hosted session-pooler URL
   to `.env` as `SUPABASE_HOSTED_DB_URL`; the rehearsed steps then run over psql under the same service role and
   database functions with a longer statement timeout. Secret never printed or staged; corrected78 stays the rollback.
+- 30 Oct 2026 (hosted query fixes): after diagnosis (INC removal: selector chose handbook_grade_correction because
+  grade_completion's menu entry shows only a cut opening; honors requirements: draft hit max_output_tokens 768,
+  shown as temporarily_unavailable; probation: 4/4 local passes, one hosted miss treated as run variation), owner
+  chose "Yes, add printed headings" (every Handbook policy topic's menu lists its printed numbered section headings
+  verbatim, from reviewed body fields, like the 29 Oct printed penalty row names) and "Retry once at 1,536" (a
+  truncated draft is retried once with a 1,536-token output limit; normal answers unchanged). Benchmark regression
+  check required after both.

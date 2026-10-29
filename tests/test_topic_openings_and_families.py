@@ -145,3 +145,32 @@ def test_items_reach_the_selector_menu():
     topic, = candidate(*item_inputs(CAUSES))
     selector = topic_selection.build_messages('What is the penalty for smoking?', (topic,))[0]['content']
     assert '20. Fictional smoking' in selector and '"items"' in selector
+
+
+# Owner 30 Oct 2026: Handbook policy topics list their printed numbered section headings, verbatim.
+HEADED_BODY = ('Notwithstanding the above provision, the following shall apply: 3. FICTIONAL REMOVAL AND '
+               'COMPLETION 3.1 APPROVAL OF THE REQUEST. No student shall proceed without approval. '
+               '3.4 REMOVAL OF “INC”. The grade of “INC” is given to a fictional student.')
+
+
+def test_printed_numbered_section_headings_become_verbatim_items():
+    topic, = candidate(*body_inputs(HEADED_BODY))
+    assert topic.source_items == ('3. FICTIONAL REMOVAL AND COMPLETION', '3.1 APPROVAL OF THE REQUEST',
+                                  '3.4 REMOVAL OF “INC”')
+    assert all(item in HEADED_BODY for item in topic.source_items)
+
+
+def test_numbered_sentences_are_not_headings():
+    topic, = candidate(*body_inputs())
+    assert topic.source_items == ()
+
+
+def test_a_source_defect_withholds_section_headings():
+    topic, = candidate(*body_inputs(HEADED_BODY, limits=[dict(resolution='unresolved', issue='source_cutoff')]))
+    assert topic.source_items == ()
+
+
+def test_numbers_without_a_section_dot_are_not_headings():
+    body = 'Approved by the 2 OSAS staff. A GWA of 1.20-1.45 earns 94 CUM LAUDE. 4. FICTIONAL STUDENTS Old students enrol.'
+    topic, = candidate(*body_inputs(body))
+    assert topic.source_items == ('4. FICTIONAL STUDENTS',)

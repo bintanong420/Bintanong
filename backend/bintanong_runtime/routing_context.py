@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 LABEL_FIELDS = frozenset(('service_title', 'service_title_and_description', 'service_context'))
 COLUMN_FIELDS = frozenset(('grade', 'descriptive_rating', 'percentage_equivalent'))
@@ -59,14 +60,25 @@ def reviewed_openings(register, catalogue, chunks):
 
 
 def reviewed_items(register, catalogue, chunks):
-    """Printed row names (review-bound Cause fields) of each subject, cut verbatim at a word; routing context only."""
+    """Printed row names (review-bound Cause fields) and printed numbered section headings (review-bound body
+    fields, owner 30 Oct 2026) of each subject, cut verbatim at a word; routing context only."""
     items = {}
-    for subject, value in _reviewed_values(register, catalogue, chunks, ITEM_FIELD):
+    def add(subject, value):
         values = items.setdefault(subject, [])
         item = _opening(value, MAX_ITEM)
         if item not in values and len(values) < MAX_ITEMS:
             values.append(item)
+    for subject, value in _reviewed_values(register, catalogue, chunks, ITEM_FIELD):
+        add(subject, value)
+    for subject, value in _reviewed_values(register, catalogue, chunks, OPENING_FIELD):
+        for heading in _HEADING.finditer(value):
+            add(subject, heading.group(0))
     return {s: tuple(v) for s, v in items.items()}
+
+
+# A printed heading: a dotted section number (3. or 3.1), then an all-capitals title ending before ". ", the next number or a sentence.
+_HEADING = re.compile(r'(?<!\S)(?:\d+(?:\.\d+)+\.?|\d+\.)\s+[A-Z][A-Z0-9 /&(),\'"‘’“”-]*[A-Z0-9)\'"’”]'
+                      r'(?=\.\s|\.$|\s+\d+(?:\.\d+)*\.?\s|\s+[A-Z][a-z]|$)')
 
 
 def reviewed_context(register, catalogue, chunks):
