@@ -10,6 +10,7 @@ Recovered session `01a178e5-2886-7d73-8589-5e7fa97bd935`'s authorized backend me
 Git writes and GitHub fetch now work. Frozen origin backend `f0889c3` contributes
 111 commits since `c370f00`. Original three status files preserved at `2f7c935`;
 recovery ref `recovery/policy-before-f0889c3-20261030` retains `123aa1e`.
+Completed merge: `8cdba683832d3ec6f7df596911e127685747f6f9`; no push.
 Only checkpoint/progress conflicted; resolution retains both workstreams' evidence
 and this ingestion worktree's next steps. Local compatibility verification passed.
 [Refresh evidence](../2026-10-30-backend-f0889c3-ingestion-merge.md).

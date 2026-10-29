@@ -83,4 +83,7 @@ The prior native Docling dependency mismatch remains unremediated;selected green
 tests do not prove that path. Full/live/human/source gates remain as above.
 Recovery:before any later reversal,save owner changes and use the recovery ref/
 before-files receipt to inspect the pre-refresh state. This merge adds history;
-no published history is rewritten. Final merge SHA is recorded in current progress.
+no published history is rewritten. Completed merge:
+8cdba683832d3ec6f7df596911e127685747f6f9 (parents2f7c935/f0889c3).
+Post-commit ls-remote rechecks the same upstream tip;tracked tree was clean.
+A documentation-only receipt follows the tested merge;no application bytes change.
