@@ -78,3 +78,22 @@ def test_positive_claim_coverage_cannot_hide_altered_quoted_condition():
                  for c in answer.claims)
     slots={e.part_id:(e.status,e.claim_ids) for e in answer.part_ledger.entries}
     assert record_coverage_errors(pack,claims,slots)==('source_context_not_preserved',)
+
+
+def lone_penalty_row():
+    """One printed penalty row with no recorded limitation; the model paraphrase names only the cause."""
+    primary=dict(fields=[dict(name='Cause',value='Fictional declaration.',source_blank=False),
+        dict(name='1st Offense',value=PRIMARY,source_blank=False),
+        dict(name='Subsequent Offenses',value='',source_blank=True)],source_limits=[])
+    original=base(rows=[primary])
+    value=original.model_dump(mode='json')
+    value['understanding']['parts'][0].update(subject_id='fictional_rules',requested_claims=['printed consequences'])
+    value['evidence']['documents']['record_coverage']=[dict(subject_id='fictional_rules',claim='printed consequences',
+        chunk_ids=[value['evidence']['documents']['passages'][0]['chunk_id']])]
+    return type(original).parse(value)
+
+
+def test_a_penalty_row_without_a_limitation_is_still_quoted_exactly():
+    answer=asyncio.run(Generator(ChoosingModel()).generate(TEXT,lone_penalty_row()))
+    assert answer.status=='answered' and UNSAFE not in answer.text
+    assert PRIMARY in answer.text and 'Subsequent Offenses: unspecified' in answer.text

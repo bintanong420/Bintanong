@@ -61,16 +61,17 @@ def context_quotes(pack, required):
         and isinstance(record.get('source_limits', []), list)
         and any(isinstance(v, dict) and v.get('resolution') == 'unresolved' and v.get('issue') in _ISSUES
                 for v in record.get('source_limits', []))}
-    if not contexts:
-        return None
-    if pack.language not in _WORDS:
-        return ()
-    # A shared applicability gap must not turn a paraphrase into an invented sanction condition.
+    # Printed penalty rows are always quoted exactly (owner 29 Oct 2026: keep the exact source); a shared
+    # applicability gap also must not turn a paraphrase into an invented sanction condition.
     penalties = {ref for ref,(_,record) in records.items() if ref not in owned
         and isinstance(record.get('fields'), list)
         and any(v.get('name') == 'Cause' for v in record['fields'] if isinstance(v, dict))
         and any(isinstance(v.get('name'), str) and v['name'] in _OFFENSES
                 for v in record['fields'] if isinstance(v, dict))}
+    if not contexts and not penalties:
+        return None
+    if pack.language not in _WORDS:
+        return ()
     identities = {(c.version_id,c.byte_sha256) for card in pack.cards if card.evidence_id in required
                   for c in card.citations}
     if len(identities) != 1:
