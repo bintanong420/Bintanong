@@ -9,7 +9,7 @@ working_tree: clean
 updated_at: 2026-10-30T12:00:00+08:00
 ---
 
-# Phase 12 checkpoint — report written; full suite running
+# Phase 12 checkpoint — report written; full suite passed; paused for worktree move
 
 ## Completed Tasks
 
