@@ -107,6 +107,21 @@ Owner-approved shorthand versions of the 26 Taglish benchmark questions, scored 
 | 25 | disc-plagiarism-taglish | ano parusa s plagiarism? | Ano ang parusa sa plagiarism? |
 | 26 | disc-bullying-taglish | anu parusa s bullying? | Ano ang parusa sa bullying? |
 
+## Robustness results (separate from the main 50)
+
+All on the same code (`cb82c53`), one run each, same expectations as the standard wording. Scores for shorthand are
+optimistic: the shortcut list was written after seeing these questions.
+
+| Input set | Passed | Standard-wording twins | Reply language |
+| --- | ---: | ---: | --- |
+| Pure Tagalog (26) | 19/26 | Taglish twins 19/26 | Taglish 26/26 |
+| Shorthand Taglish (26), before the shortcut list (`d5e638a`) | 8/26 | 20/26 | Taglish |
+| Shorthand Taglish (26), with the shortcut list | 15/26 | 20/26 | Taglish 26/26 |
+| Broken English (4) | 2/4 | 4/4 | English |
+
+Broken English questions: "how to drop subject" (pass), "how to get class card" (pass), "can i take cc5 if i fail cc4
+im cs student" (clarification instead of the check), "what penalty if caught cheating exam" (clarification).
+
 ## Research basis (for the study)
 
 Gathered 29 October 2026 when designing the shorthand handling. Details marked "verify" came from search summaries,

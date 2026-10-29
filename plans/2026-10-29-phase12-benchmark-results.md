@@ -67,3 +67,11 @@ pgyoyosi; list in ignored `p12-benchmark-20261029/shorthand/cases.json`), same e
 Main cause: the topic selector marks shorthand prerequisite questions ambiguous and the pipeline stops
 (5 x temporarily unavailable); also disciplinary cheating/smoking/bullying, shifting, honors residence, absence,
 Forensic 4/L. Research basis: NormAPI (DLSU 2014), TagNorm (2021), Flores & Radev 2022, MulTypo 2025.
+
+## Benchmark v2 and robustness (owner layout, late 29 Oct, code `cb82c53`)
+
+Main 50 = 24 English / 16 Taglish / 10 pure Tagalog: **38/50** (English 20/24, Taglish 9/16, Tagalog 9/10;
+enrollment 11/14, prerequisite 12/14, grade/standing 8/12, disciplinary 7/10). Regression check on the original 50:
+39/50 vs 40/50 (absence Taglish lost; not yet diagnosed). Robustness (separate): Tagalog 19/26 (Taglish twins 19/26,
+all replies Taglish), shorthand 8/26 -> 15/26 with the list (optimistic), broken English 2/4. Questions:
+`docs/evaluation/benchmark-questions.md`; forms and robustness: `docs/evaluation/accepted-input-forms.md`.
