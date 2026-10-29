@@ -1,8 +1,16 @@
 # Current progress
 
-Updated 27 October 2026. Phase 11 active; `feat/p11-policy-ingestion-review`.
-Last full snapshot before condensation: `d3f4114`; recover with `git show`.
+Updated 30 October 2026. Phase 11 active; `feat/p11-policy-ingestion-review`.
+Last full snapshot before this update: `123aa1e`; recover with `git show`.
 [Phase checkpoint](../phase-11-checkpoint.md) · [Ingestion checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
+
+[Backend refresh blocked](../2026-10-30-ingestion-backend-refresh-blocked.md):HEAD
+123aa1e retains backend base c370f00;cached backend f0889c3 has111incoming commits.
+GitHub proxy unavailable;fetch denied writing shared .git/FETCH_HEAD. No merge,
+commit,push or code change;only report/progress/checkpoint edits remain uncommitted.
+Resume with writable Git metadata/connectivity,fetch/freeze,merge backend here,
+reconcile checkpoint/progress conflicts(index preview merges),then verify compatibility.
+All UI/test/model results below are27Oct evidence,not freshly revalidated.
 
 [Repository follow-through](../2026-10-27-ingestion-repo-followthrough.md):current UI
 rebuilt and served on3003/8767 with an independent72-record real-data packet copy.
@@ -68,8 +76,5 @@ continuation metadata remain manual; missing verified geometry stays build-held.
 
 ## Next action
 
-Resolve the live advisory contract/row-association failure before relying on vision;
-never modify the frozen baseline. Resolve native dependencies in an approved
-environment,then live smoke/matched human evaluation. Existing lifecycle T4/T5 remain separate.
-Original T4 local lifecycle tooling and T5 operator rehearsal remain separate next
-workstream tasks. No hosted access, activation, phase advancement or automatic push.
+Complete the blocked backend refresh and compatibility verification as recorded above.
+Existing vision/native/A-B/T4/T5 gates remain open;no hosted access or automatic push.
