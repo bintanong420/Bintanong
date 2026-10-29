@@ -127,6 +127,9 @@ class DocumentTopic(Record):
     # Verbatim opening of a reviewed body field: routing context only, never an answerable claim.
     source_opening: Annotated[str, Field(min_length=1, max_length=256)] | None = Field(
         default=None, exclude_if=lambda value: value is None)
+    # Verbatim printed row names (e.g. a penalty table's causes): selector routing context only.
+    source_items: tuple[Annotated[str, Field(min_length=1, max_length=64)], ...] = Field(
+        default=(), max_length=48, exclude_if=lambda value: not value)
     # Owner-approved topic family (28 Oct 2026): selecting one member offers all of them.
     family: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64,
         exclude_if=lambda value: value is None)

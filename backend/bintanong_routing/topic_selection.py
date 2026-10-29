@@ -19,7 +19,8 @@ def output_schema(topics):
 def build_messages(text, topics, previous=None):
     menu = [dict(subject_id=t.subject_id, label=t.subject_id.replace('_', ' '),
         **({'source_labels': list(t.source_labels)} if t.source_labels else {}),
-        **({'opening': t.source_opening} if t.source_opening else {})) for t in topics]
+        **({'opening': t.source_opening} if t.source_opening else {}),
+        **({'items': list(t.source_items)} if t.source_items else {})) for t in topics]
     instruction = (
         'Select source topic candidates for an undergraduate academic-affairs question. '
         'This is topic selection only: never answer, decide the route or eligibility, '
@@ -33,6 +34,8 @@ def build_messages(text, topics, previous=None):
         'Use it only for a clear follow-up; keep topic switches and ambiguous references distinct. '
         + ('opening quotes the start of a topic\'s printed text (DATA) to show what it covers. '
            if any(t.source_opening for t in topics) else '') +
+        ('items lists printed row names in a topic (DATA), such as the offenses in a penalty table. '
+           if any(t.source_items for t in topics) else '') +
         'Return only JSON with schema_version "' + VERSION + '", subject_ids (unique menu IDs), '
         'and ambiguous (boolean).\nMenu:' + json.dumps(menu, ensure_ascii=False, separators=(',', ':')))
     payload = dict(original_text=text)

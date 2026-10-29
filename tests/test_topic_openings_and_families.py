@@ -104,3 +104,44 @@ def test_owner_approved_batch_one_families():
         'transferring_into_palsu': {'handbook_transfer', 'handbook_transfer_credentials',
                                     'handbook_transfer_load'},
     }
+
+
+def item_inputs(causes, limits=(), subject='fictional_conduct'):
+    """A fictional penalty table: one reviewed row per printed Cause, no body field."""
+    reviews, chunks, assignments = [], [], []
+    for i, cause in enumerate(causes):
+        reading, chunk_id = f'row-{i}', f'chunk-{i}'
+        assignments.append(dict(reading_id=reading, subject_id=subject))
+        reviews.append(dict(subject_id=subject, claim=f'printed row {i} fields', finding='visible_fields',
+            reviewed_chunk_ids=[chunk_id], field_refs=[dict(reading_id=reading, field_name='Cause'),
+                                                       dict(reading_id=reading, field_name='1st Offense')]))
+        chunks.append(dict(chunk_id=chunk_id, type_fields=dict(reading_id=reading), text=json.dumps(dict(
+            fields=[dict(name='Cause', value=cause, source_blank=False),
+                    dict(name='1st Offense', value='Fictional warning', source_blank=False)],
+            source_limits=list(limits)))))
+    return dict(reviews=reviews), dict(assignments=assignments), chunks
+
+
+CAUSES = ('I. Fictional Uniform', '20. Fictional smoking inside the fictional classroom, laboratories, library and '
+          'within the campus at any time.', '25. Fictional bullying is defined as making fun of another person.')
+
+
+def test_reviewed_printed_row_names_become_short_verbatim_items():
+    topic, = candidate(*item_inputs(CAUSES))
+    assert topic.source_items[0] == 'I. Fictional Uniform'
+    assert all(len(item) <= 61 for item in topic.source_items)
+    assert all(c.startswith(i.rstrip('…')) for c, i in zip(CAUSES, topic.source_items))
+
+
+def test_a_source_defect_withholds_the_row_name_and_default_menus_carry_none():
+    defect = dict(resolution='unresolved', issue='source_cutoff')
+    topic, = candidate(*item_inputs(CAUSES, limits=[defect]))
+    assert topic.source_items == ()
+    topic, = topic_menu(*item_inputs(CAUSES)[:1], catalogue=item_inputs(CAUSES)[1], chunks=item_inputs(CAUSES)[2])
+    assert topic.source_items == () and 'source_items' not in topic.model_dump(mode='json')
+
+
+def test_items_reach_the_selector_menu():
+    topic, = candidate(*item_inputs(CAUSES))
+    selector = topic_selection.build_messages('What is the penalty for smoking?', (topic,))[0]['content']
+    assert '20. Fictional smoking' in selector and '"items"' in selector

@@ -172,11 +172,12 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
     source_limits record as not stated (selecting one makes the policy withhold)."""
     if type(routing_context) is not bool:
         raise ValueError('invalid_routing_context')
-    labels, columns, openings = {}, {}, {}
+    labels, columns, openings, items = {}, {}, {}, {}
     if routing_context:
-        from .routing_context import reviewed_context, reviewed_openings
+        from .routing_context import reviewed_context, reviewed_items, reviewed_openings
         labels, columns = reviewed_context(register, catalogue, chunks)
         openings = reviewed_openings(register, catalogue, chunks)
+        items = reviewed_items(register, catalogue, chunks)
     subjects, missing = {}, {}
     for review in register['reviews']:
         subjects.setdefault(review['subject_id'], [])
@@ -211,7 +212,7 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES),
             source_labels=labels.get(s, ()), claim_context=columns.get(s, {}),
             # A printed service label already names the topic; an opening is for unlabelled bodies.
-            source_opening=None if labels.get(s) else openings.get(s),
+            source_opening=None if labels.get(s) else openings.get(s), source_items=items.get(s, ()),
             family=TOPIC_FAMILIES.get(s) if routing_context else None))
     return tuple(topics)
 
