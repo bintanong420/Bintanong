@@ -41,7 +41,7 @@
 
 1. Run `python .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .`.
 2. Read current progress, the Phase 11 plan/checkpoint, Phase 10 handoff; master 16, 23, 24, 26;
-   [28Oct session handoff](2026-10-28-phase11-session-handoff.md) (supersedes 27Oct);older files only for a specific dependency.
+   [30Oct session handoff](2026-10-30-phase12-session-handoff.md) (supersedes 28Oct);older files only for a specific dependency.
 3. Compare Git status/log with recorded commits; preserve unrelated owner changes.
 4. On phase resume, consult relevant Context thesis pages and the routing PNG.
 5. Resume the Phase 11 checkpoint's next action; preserve all inherited release holds.

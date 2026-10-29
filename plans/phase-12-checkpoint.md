@@ -2,9 +2,9 @@
 artifact: phase-checkpoint
 phase: 12
 status: in_progress
-sequence: 2
+sequence: 3
 plan: plans/phase-12-evaluation-writeup-plan.md
-head_commit: 28e345d
+head_commit: a3ff208
 working_tree: clean
 updated_at: 2026-10-30T12:00:00+08:00
 ---
@@ -21,11 +21,12 @@ updated_at: 2026-10-30T12:00:00+08:00
 
 ## Current Task
 
-Paused (owner, 30 Oct) for a dedicated Phase 12 worktree/branch. Full suite done.
+Paused for the dedicated Phase 12 worktree (branch from `dev` a3ff208). First task there: hosted 560 activation
+(owner 30 Oct); see the [session handoff](2026-10-30-phase12-session-handoff.md).
 
 ## Repository State
 
-Branch p11 / feat/p11-fullstack-integration (local). Clean at pause.
+p11 merged into `dev` (`a3ff208`, origin and local; full suite 7314 / 1608 pass). Clean.
 
 ## Verification Evidence
 
@@ -49,7 +50,7 @@ v2 failures (12) listed in the report section 4. Hosted 560 activation pending (
 
 ## Next Action
 
-Write the Phase 12 handoff; supersede this checkpoint; validate and update INDEX/progress.
+Hosted 560 activation per the session handoff; then report section 8, the Phase 12 handoff; supersede this checkpoint; validate and update INDEX/progress.
 
 ## Do Not Repeat
 

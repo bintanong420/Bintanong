@@ -121,8 +121,7 @@ prepared with [pre-phase research](../2026-10-30-phase-12-pre-phase-research.md)
 (A/p11-fullsuite-20261030a). Owner decided single runs (disclosed) and write-up before hosted 560 activation (ledger).
 Report written (`36ae881`); Phase 12 started (`a6363c3`, checkpoint seq 1).
 
-**Paused (owner, 30 Oct):** Phase 12 halted here; the owner will create a dedicated Phase 12 worktree and branch.
-Branch it from `a6363c3` or later so the plan, checkpoint, report and decisions come along. On resume: read the
-Phase 12 handoff (full suite at `0d6ebac`: 7271 pass / 1608 subtests, 6 skip / 2 xfail, 4 batches exit 0);
-owner still to choose whether the 560 activation is inside Phase 12 or follow-up work.
+**Paused (owner, 30 Oct) for a new Phase 12 worktree branched from `dev` `a3ff208`** (p11 + origin/dev merged;
+full suite 7314 / 1608 pass). Next: hosted 560 activation there (owner 30 Oct), per the
+[session handoff](../2026-10-30-phase12-session-handoff.md); then report section 8 and the Phase 12 handoff.
 Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.

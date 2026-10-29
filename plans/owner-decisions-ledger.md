@@ -612,3 +612,6 @@ Each program still gets its own dated review record listing which standing rule 
 - 30 Oct 2026 (hosted 560 activation order): owner first chose "Activate now"; after being told activation needs
   hosted staging of 381 new chunks plus a bound selected review (est. 3-5 h incl. rehearsal), owner chose "Write-up
   first": finish the Phase 12 report, then activate only if time remains; otherwise the report states it is pending.
+- 30 Oct 2026 (dev merge and activation start): owner "We need to merge into dev"; p11 + origin/dev merged and
+  fast-forwarded to `dev` (`a3ff208`), dev's older frontend superseded by p11's. Owner: start the hosted 560
+  activation first thing in the new Phase 12 worktree ("yes, start there once I've created the worktree").
