@@ -121,9 +121,11 @@ prepared with [pre-phase research](../2026-10-30-phase-12-pre-phase-research.md)
 (A/p11-fullsuite-20261030a). Owner decided single runs (disclosed) and write-up before hosted 560 activation (ledger).
 Report written (`36ae881`); Phase 12 started (`a6363c3`, checkpoint seq 1).
 
-**Hosted 560 activation in progress (p12 worktree, branch `p12-evaluation-harness`).** Hosted read 30 Oct: active
-corrected78; 5 versions partially_reviewed. The 257 re-authored records had no chunk-level validation; owner chose to
-record the 29 Oct activation directive as it (ledger, no per-chunk human approval). Receipts built and passing the
-Python validators (A/p12-hosted-560-activation-20261030: 4 cumulative supplementary receipts, 26 event envelopes,
-selected review scope 17e11149…). Local-DB rehearsal running. Next: rehearsal result -> hosted stage -> activate ->
-readback/smoke (rollback to corrected78 on any failure); then report section 8 and the Phase 12 handoff.
+**Hosted 560 activation in progress (p12 worktree, branch `p12-evaluation-harness`).** Owner decisions (ledger):
+257 re-authored records validated by the 29 Oct directive; flowchart gap fixed by migration `5739bee`
+(selected review accepts `flow_manifest`; RED -> 3 GREEN; related 261 pass / 1000 subtests). Local rehearsal
+PASSED (A/p12-hosted-560-activation-20261030/rehearsal-result.json): 560 chunks/vectors, 39 links, replay no-op,
+anon/authenticated 560 visible, probe hit, rollback 78, rows preserved, 0 hosted writes. Blocker: hosted REST RPCs
+run under an 8 s statement timeout; rehearsal timings record review 36 s, bind 34 s, activate ~122 s. `.env`
+SUPABASE_DB_URL is the local container. Hosted unchanged (snapshot hosted-before.json). Next: owner choice on the
+hosted connection path; then apply migration, stage, activate, readback/smoke; report section 8; Phase 12 handoff.
