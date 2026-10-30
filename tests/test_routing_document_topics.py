@@ -212,7 +212,7 @@ def test_menu_prompt_offers_a_specific_detail_and_no_clarify_for_missing_persona
     assert 'personal details' in TOPIC_INSTRUCTION
 
 
-# Owner 30 Oct 2026: a part also requests a sibling fact whose printed section heading its own words name.
+# Owner 30 Oct 2026: a part also requests the one sibling fact whose printed section heading best matches its words.
 HEADED = (DocumentTopic(subject_id='fictional_completion',
     claims=('printed timing statements', 'printed mark meaning fields', 'printed approval fields', 'printed fee fields'),
     claim_headings={'printed mark meaning fields': ('3.4 REMOVAL OF “INC”',),
@@ -236,9 +236,15 @@ def test_a_part_naming_a_printed_heading_also_requests_that_fact(text):
     assert 'printed fee fields' not in claims and 'printed other fields' not in claims
 
 
-def test_removal_wording_matches_every_heading_that_prints_it():
+def test_only_the_single_best_matching_heading_adds_its_fact():
+    # 3.4 REMOVAL OF "INC" names two of the asked words; 3.5 shares only "removal".
     claims = headed('How do I remove an incomplete grade?').proposed.parts[0].requested_claims
-    assert claims == ('printed timing statements', 'printed mark meaning fields', 'printed approval fields')
+    assert claims == ('printed timing statements', 'printed mark meaning fields')
+
+
+def test_a_tie_between_headings_adds_nothing():
+    claims = headed('Is there a removal deadline?').proposed.parts[0].requested_claims
+    assert claims == ('printed timing statements',)
 
 
 def test_short_and_function_words_do_not_match_headings():

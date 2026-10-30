@@ -652,6 +652,7 @@ Each program still gets its own dated review record listing which standing rule 
   cut-heading rules. Honors: owner chose "Leave the check": the introduced_disjunction guard is unchanged and honors
   requirements stay a disclosed limitation. Full regression required after the router change.
 - 30 Oct 2026 (INC second attempt): owner "we need to solve both": after fact_headings alone did not change Gemma's
-  claim choice, a host guard adds facts of the chosen topic whose printed section heading the part's own words name
-  (stem/abbreviation match, generic words ignored, same topic only, eight-claim bound). Offline on 53 recorded router
-  outputs it changes only "How do I remove an incomplete grade?".
+  claim choice, a host guard adds the one fact of the chosen topic whose printed section heading names the most of the
+  part's own words (stem/abbreviation match, generic words ignored, a tie adds nothing, same topic, eight-claim bound;
+  adding every matching fact exceeded grade_completion's 3,072-token budget). Offline on 53 recorded router outputs it
+  changes only "How do I remove an incomplete grade?" (adds 3.4 REMOVAL OF "INC").

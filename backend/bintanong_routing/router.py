@@ -134,22 +134,24 @@ def _same_word(heading, asked):
 
 
 def add_heading_claims(proposed, topics):
-    """Host guard (owner 30 Oct 2026): a document part also requests each fact of its chosen topic whose printed
-    section heading its own words name (e.g. "remove an incomplete grade" and 3.4 REMOVAL OF "INC"). Only adds
-    facts of the same topic, keeps the model's order first and never exceeds the eight-claim bound."""
+    """Host guard (owner 30 Oct 2026): a document part also requests the one fact of its chosen topic with the
+    printed section heading naming the most of the part's own words (e.g. "remove an incomplete grade" and
+    3.4 REMOVAL OF "INC"). A tie adds nothing; only the same topic, model's order first, eight-claim bound."""
     menu = {t.subject_id: t for t in topics if t.claim_headings}
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
         claims = list(part.requested_claims)
-        if topic is not None and part.evidence_need == 'document':
-            asked = _heading_words(part.text)
-            for claim in topic.claims:
-                if claim in claims or claim in topic.not_stated or len(claims) >= 8:
-                    continue
-                words = {w for h in topic.claim_headings.get(claim, ()) for w in _heading_words(h)}
-                if any(_same_word(h, a) for h in words for a in asked):
-                    claims.append(claim)
+        if topic is not None and part.evidence_need == 'document' and len(claims) < 8:
+            asked = set(_heading_words(part.text))
+            scores = {claim: max(len({a for a in asked if any(_same_word(w, a) for w in _heading_words(h))})
+                                 for h in topic.claim_headings[claim])
+                      for claim in topic.claims
+                      if claim in topic.claim_headings and claim not in claims and claim not in topic.not_stated}
+            best = max(scores.values(), default=0)
+            winners = [claim for claim, score in scores.items() if score == best]
+            if best and len(winners) == 1:
+                claims.append(winners[0])
         parts.append(part.model_copy(update=dict(requested_claims=tuple(claims))))
     if all(a.requested_claims == b.requested_claims for a, b in zip(parts, proposed.parts)):
         return proposed
