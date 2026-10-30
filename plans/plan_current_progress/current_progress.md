@@ -58,13 +58,17 @@ Owner: "we should still show ... note the limitation and ask them to refer to th
 heading and openings withheld). `9f1b9ac` a claim citing an unresolved malformed_source_condition record becomes an
 exact quotation + recorded limitation + office referral (never interpreted; fidelity-checked; oversized -> source_gap).
 Test-first; generation/routing/runtime/orchestration/API 1656 pass. Full suite not yet run on `9f1b9ac`.
-Pre-change regression completed (`a0eb42f`, 37 + remaining 13): 40/50; on 40 cases shared with the 38/50 run,
-28 -> 31. New-code run (`run-9f1b9ac-defect-rule`) stopped by Claude Code at 42/50 for low memory: 35 -> 36 on those
-42 (shift-en, bsit-tagalog gained; drop-subject-tagalog lost: answered the Charter DAC table, no Cashier). The new
-quote path fired in none of the 42. Not run: 8 disciplinary cases; honors/INC diagnosis questions.
+Pre-change regression (`a0eb42f`): 40/50; on 40 cases shared with the 38/50 run 28 -> 31. New code (`9f1b9ac`,
+42 + 8 batches after a low-memory stop): 41/50; shared 40: 28 -> 32. Diagnosis on new code: probation answered
+(quotes the p.41 held record with limitation); honors no longer source_gap but both drafts rejected by the existing
+introduced_disjunction guard ("..., or Cum Laude"), abstained; INC selector now picks grade_completion but the router
+requests the timing claim (menu source_context shows only timing text), so 3.4/3.5 removal text is never retrieved;
+those records carry ungrouped conflicting_deadlines, which deadline_conflict_reply still turns into source_gap.
+Full suite on `9f1b9ac`: batches 7172 pass/6 skip/2 xfail; 17 DB files failed only because the local Supabase DB
+was stopped, rerun with DB up 182 pass/842 subtests. Hosted backend :8021 (81.8 s) and frontend :3216 (next dev)
+restarted on new code; live probation 200 answered 52.2 s (outer API, single observation).
 
 ## Next action
 
-Owner to say when memory allows: run the 8 remaining cases + honors/INC/probation diagnosis on `9f1b9ac`, then the
-full suite, then restart the hosted backend (still pre-fix code).
-Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.
+Owner decision: INC (router claim choice + ungrouped deadline-conflict quoting) and honors (disjunction guard vs
+printed honors list). Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.
