@@ -154,7 +154,7 @@ def test_newly_added_malformed_counterpart_is_quoted_with_its_limitation():
     answer = asyncio.run(Generator(ChoosingModel()).generate(TEXT, integration(rows=rows)))
     assert UNSAFE not in answer.text
     held = answer.claims[1].text
-    assert '(exception)' in held and 'Cause: "Fictional entry document."' in held and 'office' in held
+    assert 'Source note: exception' in held and 'Cause: "Fictional entry document."' in held and 'office' in held
     assert answer.claims[2].text == SAFE
     assert [e.status for e in answer.part_ledger.entries] == ['mapped', 'mapped']
 

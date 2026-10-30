@@ -11,11 +11,13 @@ import json
 from .deadline_conflict import conflict_group_ids
 
 
-_TAGLISH = ('May unresolved na limitation ang part na ito ng printed source{limits}, kaya quoted lang ito at '
-            'hindi ini-interpret: {quoted} Paki-confirm sa relevant university office.')
+# Printed text first, then the limitation: a leading limitation notice made the real INC review judge the
+# quotation as no answer (replayed 30 Oct 2026); the limitation and referral stay in every quotation.
+_TAGLISH = ('Sabi ng printed source (exact quote): {quoted} Source note: {limits}; paki-confirm ito sa relevant '
+            'university office.', 'may unresolved na limitation ang part na ito')
 _WORDS = {
-    'en': ('This part of the printed source has an unresolved limitation{limits}, so it is quoted without '
-           'interpretation: {quoted} Please confirm with the relevant university office.'),
+    'en': ('The printed source states (quoted exactly): {quoted} Source note: {limits}; please confirm this with '
+           'the relevant university office.', 'this part has an unresolved source limitation'),
     'fil': _TAGLISH,  # Filipino input receives a Taglish reply (owner 27 Oct 2026)
     'taglish': _TAGLISH}
 MAX_TEXT = 1200
@@ -53,8 +55,8 @@ def malformed_records(pack):
         affected = [a for s in matching for a in (s.get('affected_claims') or ()) if isinstance(a, str) and a.strip()]
         if not quoted:
             continue
-        text = _WORDS[pack.language].format(limits=' ('+'; '.join(dict.fromkeys(affected))+')' if affected else '',
-                                            quoted=quoted)
+        template, generic = _WORDS[pack.language]
+        text = template.format(limits='; '.join(dict.fromkeys(affected)) if affected else generic, quoted=quoted)
         if len(text) <= MAX_TEXT:
             records[card.evidence_id] = text
     return records

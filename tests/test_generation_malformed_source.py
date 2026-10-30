@@ -159,3 +159,12 @@ def test_reviewer_rejection_still_withholds_the_quoted_answer():
     assert answer.status == 'insufficient_evidence' and not answer.claims
     assert [e.status for e in answer.part_ledger.entries] == ['uncertain', 'uncertain']
     assert QUOTED not in answer.text and SAFE not in answer.text
+
+
+# Real INC review (30 Oct 2026): a leading limitation notice made the reviewer judge the quote as no answer.
+@pytest.mark.parametrize('language', ['en', 'taglish'])
+def test_a_limitation_quote_leads_with_the_printed_text_and_notes_the_limitation_after(language):
+    answer = asyncio.run(Generator(ApprovingModel(held_parts=('r1',))).generate(TEXT, integration(language=language)))
+    text = answer.claims[0].text
+    assert text.index(QUOTED) < text.index(LIMIT) < text.index('office')
+    assert text.startswith(('The printed source states', 'Sabi ng printed source'))
