@@ -391,9 +391,11 @@ def test_an_empty_clarification_without_topic_selection_still_clarifies():
 
 
 def test_a_short_asked_word_also_names_longer_printed_words():
-    # Robustness 30 Oct 2026: "exam" must reach "cheating in examinations", not only a row printing "exam".
+    # Robustness 30 Oct 2026: "exam" must reach "cheating in examinations", not only a row printing "exam";
+    # a three-letter Filipino word ("ano") must not name "another".
     topic = SANCTIONS.model_copy(update=dict(claims=(
-        *SANCTIONS.claims[:8], 'printed rule 8 fields: 8. Cheating in examinations',
+        *SANCTIONS.claims[:7], 'printed rule 7 fields: 7. Allowing another student to sit',
+        'printed rule 8 fields: 8. Cheating in examinations',
         'printed rule 9 fields: 9. Selling exam answers', 'missing item 10')))
     result = run(Transport(selected(('fictional_sanctions',)), empty_clarify('Ano parusa sa exam?'),
                            text='Ano parusa sa exam?'), text='Ano parusa sa exam?', topics=(*MENU, topic))[0]

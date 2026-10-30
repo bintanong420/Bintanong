@@ -104,11 +104,12 @@ def transfer_direction_unstated(proposed, topics, text):
 def _printed_claims(topic, text):
     """The topic's printed claims for a whole request. A topic with more than a part may request (e.g. a 39-row
     sanctions table) narrows to the claims naming the request's words, either word possibly the short form
-    ("exam" names "examinations"); none when those do not fit."""
+    ("exam" names "examinations"; a three-letter asked word such as "ano" never names "another"); none when
+    those do not fit."""
     printed = tuple(c for c in topic.claims if c not in topic.not_stated)
     if len(printed) > 8:  # RequestPart.requested_claims bound
         asked = set(_heading_words(text))
-        printed = tuple(c for c in printed if any(_same_word(w, a) or _same_word(a, w)
+        printed = tuple(c for c in printed if any(_same_word(w, a) or (len(a) >= 4 and _same_word(a, w))
                                                   for w in _heading_words(c) for a in asked))
     return printed if len(printed) <= 8 else ()
 
