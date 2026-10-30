@@ -212,14 +212,15 @@ def test_menu_prompt_offers_a_specific_detail_and_no_clarify_for_missing_persona
     assert 'personal details' in TOPIC_INSTRUCTION
 
 
-# Owner 30 Oct 2026: a part also requests the one sibling fact whose printed section heading best matches its words.
+# Owner 30 Oct 2026: a fact whose printed section heading clearly names the part's words replaces a chosen fact
+# whose headings name none of them (adding both exceeded the topic's context budget).
 HEADED = (DocumentTopic(subject_id='fictional_completion',
     claims=('printed timing statements', 'printed mark meaning fields', 'printed approval fields', 'printed fee fields'),
     claim_headings={'printed mark meaning fields': ('3.4 REMOVAL OF “INC”',),
                     'printed approval fields': ('3.5 EXAMINATION FOR REMOVAL OR COMPLETION',),
                     'printed fee fields': ('3.9 FICTIONAL FEES',)}),
     DocumentTopic(subject_id='fictional_other', claims=('printed other fields',),
-                  claim_headings={'printed other fields': ('4. REMOVAL OF OTHER MARKS',)}))
+                  claim_headings={'printed other fields': ('4. REMOVAL OF OTHER INC MARKS',)}))
 
 
 def headed(text, claims=('printed timing statements',)):
@@ -229,24 +230,18 @@ def headed(text, claims=('printed timing statements',)):
     return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=HEADED)
 
 
-@pytest.mark.parametrize('text', ['How do I remove an incomplete grade?', 'Paano tanggalin ang INC ko?'])
-def test_a_part_naming_a_printed_heading_also_requests_that_fact(text):
-    claims = headed(text).proposed.parts[0].requested_claims
-    assert claims[0] == 'printed timing statements' and 'printed mark meaning fields' in claims
-    assert 'printed fee fields' not in claims and 'printed other fields' not in claims
-
-
-def test_only_the_single_best_matching_heading_adds_its_fact():
-    # 3.4 REMOVAL OF "INC" names two of the asked words; 3.5 shares only "removal".
+def test_a_clearly_matching_heading_replaces_an_unmatched_choice():
+    # 3.4 REMOVAL OF "INC" names "remove" and "incomplete"; 3.5 names only "remove".
     claims = headed('How do I remove an incomplete grade?').proposed.parts[0].requested_claims
-    assert claims == ('printed timing statements', 'printed mark meaning fields')
+    assert claims == ('printed mark meaning fields',)
 
 
-def test_a_tie_between_headings_adds_nothing():
-    claims = headed('Is there a removal deadline?').proposed.parts[0].requested_claims
-    assert claims == ('printed timing statements',)
+@pytest.mark.parametrize('text', ['Paano tanggalin ang INC ko?', 'Is there a removal deadline?',
+                                  'What is the deadline for it?'])
+def test_a_single_word_match_or_a_tie_keeps_the_model_choice(text):
+    assert headed(text).proposed.parts[0].requested_claims == ('printed timing statements',)
 
 
-def test_short_and_function_words_do_not_match_headings():
-    claims = headed('What is the deadline for it?').proposed.parts[0].requested_claims
-    assert claims == ('printed timing statements',)
+def test_a_chosen_fact_whose_heading_matches_is_kept():
+    claims = headed('How do I remove an incomplete grade?', claims=('printed approval fields',)).proposed.parts[0]
+    assert claims.requested_claims == ('printed approval fields',)

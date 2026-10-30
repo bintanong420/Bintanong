@@ -133,26 +133,31 @@ def _same_word(heading, asked):
     return asked.startswith(heading) if len(heading) <= 4 else asked[:5] == heading[:5]
 
 
-def add_heading_claims(proposed, topics):
-    """Host guard (owner 30 Oct 2026): a document part also requests the one fact of its chosen topic with the
-    printed section heading naming the most of the part's own words (e.g. "remove an incomplete grade" and
-    3.4 REMOVAL OF "INC"). A tie adds nothing; only the same topic, model's order first, eight-claim bound."""
+def _heading_score(topic, claim, asked):
+    """The most of the asked words that one printed heading of the claim names."""
+    return max((len({a for a in asked if any(_same_word(w, a) for w in _heading_words(h))})
+                for h in topic.claim_headings.get(claim, ())), default=0)
+
+
+def prefer_heading_claims(proposed, topics):
+    """Host guard (owner 30 Oct 2026): when one fact of the chosen topic has a printed section heading naming at
+    least two of the part's own words (e.g. "remove an incomplete grade" and 3.4 REMOVAL OF "INC") and no chosen
+    fact's heading names any, that fact replaces the choice. Adding both exceeded the topic's context budget.
+    A tie or a single-word match keeps the model's choice; only facts of the same topic are considered."""
     menu = {t.subject_id: t for t in topics if t.claim_headings}
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
-        claims = list(part.requested_claims)
-        if topic is not None and part.evidence_need == 'document' and len(claims) < 8:
+        if topic is not None and part.evidence_need == 'document':
             asked = set(_heading_words(part.text))
-            scores = {claim: max(len({a for a in asked if any(_same_word(w, a) for w in _heading_words(h))})
-                                 for h in topic.claim_headings[claim])
-                      for claim in topic.claims
-                      if claim in topic.claim_headings and claim not in claims and claim not in topic.not_stated}
-            best = max(scores.values(), default=0)
-            winners = [claim for claim, score in scores.items() if score == best]
-            if best and len(winners) == 1:
-                claims.append(winners[0])
-        parts.append(part.model_copy(update=dict(requested_claims=tuple(claims))))
+            if not any(_heading_score(topic, claim, asked) for claim in part.requested_claims):
+                scores = {claim: _heading_score(topic, claim, asked) for claim in topic.claim_headings
+                          if claim in topic.claims and claim not in topic.not_stated}
+                best = max(scores.values(), default=0)
+                winners = [claim for claim, score in scores.items() if score == best]
+                if best >= 2 and len(winners) == 1:
+                    part = part.model_copy(update=dict(requested_claims=(winners[0],)))
+        parts.append(part)
     if all(a.requested_claims == b.requested_claims for a, b in zip(parts, proposed.parts)):
         return proposed
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
@@ -243,7 +248,7 @@ class Router:
                         raise ValueError('course_reference_unavailable')
                     proposed = normalize_interpretation(text, wire)
                     check_topics(proposed, topics)
-                    proposed = apply_not_stated_cues(add_heading_claims(
+                    proposed = apply_not_stated_cues(prefer_heading_claims(
                         prefer_printed_procedure(proposed, topics), topics), topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
