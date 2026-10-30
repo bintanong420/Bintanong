@@ -145,15 +145,18 @@ def test_blank_penalty_is_unspecified_rather_than_no_penalty():
     assert 'no penalty' not in answer.text.lower()
 
 
-def test_newly_added_counterpart_cannot_bypass_its_malformed_source_hold():
+# Owner 30 Oct 2026: a malformed counterpart is quoted with its limitation, never interpreted.
+def test_newly_added_malformed_counterpart_is_quoted_with_its_limitation():
     rows = [row('II.6', 'Fictional entry declaration.', 'Fictional warning.'),
             row('II.8a', 'Fictional entry document.', 'Fictional exclusion.')]
     rows[1]['source_limits'].append(dict(issue='malformed_source_condition', resolution='unresolved',
                                        affected_claims=['exception'], field_names=['Cause']))
     answer = asyncio.run(Generator(ChoosingModel()).generate(TEXT, integration(rows=rows)))
-    assert UNSAFE not in answer.text and 'Fictional exclusion.' not in answer.text
-    assert [c.text for c in answer.claims] == [SAFE]
-    assert answer.part_ledger.entries[0].reason == 'source_gap'
+    assert UNSAFE not in answer.text
+    held = answer.claims[1].text
+    assert '(exception)' in held and 'Cause: "Fictional entry document."' in held and 'office' in held
+    assert answer.claims[2].text == SAFE
+    assert [e.status for e in answer.part_ledger.entries] == ['mapped', 'mapped']
 
 
 def test_comparison_does_not_overflow_eight_claims_and_erase_independent_parts():

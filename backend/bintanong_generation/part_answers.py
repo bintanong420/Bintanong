@@ -24,6 +24,7 @@ from .service_steps import parse_service, render_service
 from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
+from .malformed_condition import malformed_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -480,29 +481,23 @@ def to_draft(explanation, pack):
     if tuple(sorted(explanation.answers)) != tuple(sorted(ids)):
         raise ValueError('part_slot_mismatch')
     allowed = {c.evidence_id for c in pack.cards if c.kind == 'document'}
-    held = malformed_condition_sources(pack)
     host = host_claims(pack)
     claims, slots, conflict_ids = [], {}, {}
     requirements = required_record_sources(pack)
     for index, part_id in enumerate(ids):
-        conflict = None
-        context = None
+        conflict = context = quoted = None
         slot = explanation.answers[part_id]
         proposed = slot.claims if slot.status == 'answered' else ()
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
             raise ValueError('non_document_evidence')
-        # The model cannot resolve a source-content hold. Filter before numbering/review,
-        # preserving independent slots and binding the reviewer to the actual final draft.
-        status = ('source_gap' if any(held.intersection(c.evidence_ids) for c in proposed)
-                  else slot.status)
+        status = slot.status
         if status == 'answered':
             reserved = sum(len(explanation.answers[p].claims) for p in ids[index+1:]
                            if explanation.answers[p].status == 'answered') + _host_claim_count(host)
             comparison = precedence_reply(pack, proposed, max_claims=8-len(claims)-reserved)
             if comparison is not None:
                 proposed = tuple(PartClaim.parse(c) for c in comparison)
-                status = ('answered' if proposed and not any(held.intersection(c.evidence_ids) for c in proposed)
-                          else 'source_gap')
+                status = 'answered' if proposed else 'source_gap'
                 # Deterministic wording still needs the existing per-part relevance/support review.
             if status == 'answered':
                 conflict = deadline_conflict_reply(pack, proposed, max_claims=8-len(claims)-reserved,
@@ -521,16 +516,24 @@ def to_draft(explanation, pack):
                 if excerpt is not None:
                     proposed = tuple(PartClaim.parse(c) for c in excerpt)
                     status = 'answered' if proposed else 'source_gap'
+            # The model cannot resolve a malformed condition: quote that record with its limitation
+            # (owner 30 Oct 2026) before numbering/review; an unquotable record is a source_gap.
+            if status == 'answered':
+                quoted = malformed_reply(pack, proposed, max_claims=8-len(claims)-reserved)
+                if quoted is not None:
+                    proposed = tuple(PartClaim.parse(c) for c in quoted)
+                    status = 'answered' if proposed else 'source_gap'
         numbered = []
+        shared = conflict is not None or context is not None or quoted is not None
         for claim in (proposed if status == 'answered' else ()):
             key = (claim.text, tuple(claim.evidence_ids))
-            if (conflict is not None or context is not None) and key in conflict_ids:
+            if shared and key in conflict_ids:
                 if conflict_ids[key] not in numbered:
                     numbered.append(conflict_ids[key])
                 continue
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
-            if conflict is not None or context is not None:
+            if shared:
                 conflict_ids[key] = numbered[-1]
         slots[part_id] = (status, tuple(numbered))
     host_ids = {}
@@ -550,23 +553,6 @@ def to_draft(explanation, pack):
         language=explanation.language, decision_outcome=pack.decision.outcome if pack.decision else None,
         claims=claims))
     return draft, slots
-
-
-def malformed_condition_sources(pack):
-    """Record-level hold: no model interpretation of an unresolved malformed condition."""
-    held = set()
-    for card in pack.cards:
-        if card.kind != 'document':
-            continue
-        try:
-            limits = json.loads(card.text).get('source_limits', [])
-        except (ValueError, AttributeError):
-            continue
-        if isinstance(limits, list) and any(isinstance(limit, dict)
-                and limit.get('issue') == 'malformed_source_condition'
-                and limit.get('resolution') == 'unresolved' for limit in limits):
-            held.add(card.evidence_id)
-    return held
 
 
 def host_only(pack):

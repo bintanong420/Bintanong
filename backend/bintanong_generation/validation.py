@@ -1,6 +1,7 @@
 """Deterministic boundaries and complete (but semantically fallible) prose verdicts."""
 from ..bintanong_contracts.base import foreign_ids
 from .service_cutoff import cutoff_errors
+from .malformed_condition import malformed_errors
 
 
 def validate_draft(draft,pack):
@@ -17,7 +18,7 @@ def validate_draft(draft,pack):
     if any(not set(c.evidence_ids)<=allowed for c in draft.claims): errors.append('unknown_evidence')
     if any(not c.text.strip() for c in draft.claims): errors.append('empty_claim')
     if foreign_ids([c.text for c in draft.claims],'institutional'): errors.append('private_reference')
-    return tuple(errors)+cutoff_errors(pack,draft.claims)
+    return tuple(errors)+cutoff_errors(pack,draft.claims)+malformed_errors(pack,draft.claims)
 
 
 def validate_support(report,draft):
@@ -63,6 +64,8 @@ def validate_final(answer,pack,claims):
             raise ValueError('final_source_conflict_context_mismatch')
     if cutoff_errors(pack,claims):
         raise ValueError('final_service_cutoff_fidelity')
+    if malformed_errors(pack,claims):
+        raise ValueError('final_malformed_source_fidelity')
     validate_ledger(pack,claims,answer.part_ledger,answered=answer.status=='answered')
     if answer.status=='answered' and answer.part_ledger is not None:
         from .part_answers import record_coverage_errors

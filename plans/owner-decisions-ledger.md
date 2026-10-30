@@ -638,3 +638,11 @@ Each program still gets its own dated review record listing which standing rule 
   verbatim, from reviewed body fields, like the 29 Oct printed penalty row names) and "Retry once at 1,536" (a
   truncated draft is retried once with a 1,536-token output limit; normal answers unchanged). Benchmark regression
   check required after both.
+- 30 Oct 2026 (source-defect strictness): asked whether a recorded source defect should keep hiding a topic's
+  printed headings and refusing whole-topic answers (honors p.54 residence conflict, INC p.47 deadline conflict),
+  owner: "i think we should still show, the source defect aren't that big of a deal to be honest, if anything we
+  can just note the limitation and ask them to refer to the appropriate university office for more info". Applied:
+  printed section headings stay in the topic menu despite a defect elsewhere in the chunk (a heading ending a
+  defective body may be cut and stays withheld; openings stay withheld); a claim citing an unresolved
+  malformed_source_condition record becomes an exact quotation of that record plus its recorded limitation and a
+  relevant-university-office referral, never an interpretation. Other source-gap rules are unchanged.

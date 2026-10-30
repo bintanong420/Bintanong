@@ -60,48 +60,71 @@ class ApprovingModel:
                 answers[part] = dict(status='answered', claims=[dict(text=text, evidence_ids=refs)])
             return json.dumps(dict(schema_version=version, release_id=payload['evidence']['release_id'],
                 language=payload['evidence']['language'], answers=answers))
-        claims = [c['claim']['claim_id'] for p in payload['parts'] for c in p['claims']]
+        claims = list(dict.fromkeys(c['claim']['claim_id'] for p in payload['parts'] for c in p['claims']))
         support = report(verdicts=[dict(claim_id=c, verdict='supported') for c in claims])
         return json.dumps(dict(parts={p['part_id']: self.verdict for p in payload['parts']},
             support=support.model_dump(mode='json')))
 
 
+QUOTED = 'Fictional Form Q exception has malformed wording.'
+LIMIT = 'meaning of the fictional exception'
+
+
+# Owner 30 Oct 2026: quote the held record with its limitation and an office referral, never interpret it.
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
-def test_held_record_cannot_answer_even_when_the_model_asserts_an_exception(language):
+def test_held_record_is_quoted_with_its_limitation_instead_of_interpreted(language):
     model = ApprovingModel(held_parts=('r1', 'r2'))
     answer = asyncio.run(Generator(model).generate(TEXT, integration(language=language)))
-    assert answer.status == 'insufficient_evidence'
-    assert not answer.claims and not answer.citations and HELD not in answer.text
-    assert [(e.status, e.reason) for e in answer.part_ledger.entries] == [
-        ('unavailable', 'source_gap'), ('unavailable', 'source_gap')]
-    assert answer.check_attempts == 0
-    assert 'unclear' in answer.text
-    assert "not in Bintanong's reviewed sources yet" not in answer.text
+    assert answer.status == 'answered' and HELD not in answer.text
+    claim, = answer.claims
+    assert '"'+QUOTED+'"' in claim.text and LIMIT in claim.text and 'office' in claim.text
+    assert [(e.status, e.claim_ids) for e in answer.part_ledger.entries] == [
+        ('mapped', ('c1',)), ('mapped', ('c1',))]
+    assert answer.check_attempts == 1
 
 
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
-def test_other_part_keeps_its_answer_citation_and_review_binding(language):
+def test_other_part_keeps_its_answer_beside_the_quoted_held_record(language):
     model = ApprovingModel()
     answer = asyncio.run(Generator(model).generate(TEXT, integration(language=language)))
     assert answer.status == 'answered' and HELD not in answer.text
-    assert len(answer.claims) == len(answer.citations) == 1
-    assert SAFE in answer.claims[0].text and answer.claims[0].claim_id == 'c1'
-    assert [(e.part_id, e.status, e.claim_ids, e.reason) for e in answer.part_ledger.entries] == [
-        ('r1', 'unavailable', (), 'source_gap'), ('r2', 'mapped', ('c1',), None)]
-    assert answer.part_ledger.status == 'some_parts_unavailable'
-    assert [p['part_id'] for p in model.calls[-1]['parts']] == ['r2']
-    assert all(c.text == SAFE for c in answer.citations)
-    assert 'unclear' in answer.text
+    assert QUOTED in answer.claims[0].text and SAFE in answer.claims[1].text
+    assert [(e.part_id, e.status, e.claim_ids) for e in answer.part_ledger.entries] == [
+        ('r1', 'mapped', ('c1',)), ('r2', 'mapped', ('c2',))]
+    assert [p['part_id'] for p in model.calls[-1]['parts']] == ['r1', 'r2']
 
 
-def test_canonical_hybrid_result_survives_an_unavailable_document_part():
+def test_an_oversized_held_record_stays_a_source_gap():
+    value = integration().model_dump(mode='json')
+    passage = value['evidence']['documents']['passages'][0]
+    record = json.loads(passage['text']); record['fields'][0]['value'] = 'Fictional wording. ' * 80
+    passage['text'] = json.dumps(record)
+    answer = asyncio.run(Generator(ApprovingModel(held_parts=('r1', 'r2'))).generate(
+        TEXT, type(integration()).parse(value)))
+    assert answer.status == 'insufficient_evidence' and not answer.claims
+    assert [(e.status, e.reason) for e in answer.part_ledger.entries] == [
+        ('unavailable', 'source_gap'), ('unavailable', 'source_gap')]
+    assert 'incomplete or unclear' in answer.text
+
+
+def test_other_prose_attached_to_a_held_record_fails_draft_validation():
+    from backend.bintanong_generation.validation import validate_draft
+    from backend.bintanong_generation.contracts import AnswerDraft
+    pack = prepare(integration())
+    held = next(c.evidence_id for c in pack.cards if c.text.startswith('{'))
+    draft = AnswerDraft.parse(dict(schema_version=AnswerDraft.SCHEMA_VERSION, release_id=pack.release_id,
+        language='en', decision_outcome=None, claims=[dict(claim_id='c1', text=HELD, evidence_ids=[held])]))
+    assert 'malformed_source_fidelity' in validate_draft(draft, pack)
+
+
+def test_canonical_hybrid_result_survives_beside_a_quoted_document_part():
     model = ApprovingModel(held_parts=('r2',))
     answer = asyncio.run(Generator(model).generate(TEXT, integration(route='Hybrid')))
     assert answer.status == 'answered' and answer.decision.outcome == 'eligible'
-    assert not answer.claims and HELD not in answer.text
+    claim, = answer.claims
+    assert QUOTED in claim.text and HELD not in answer.text
     assert answer.part_ledger.canonical_parts == ('r1',)
-    assert answer.part_ledger.entries[1].reason == 'source_gap'
-    assert answer.check_attempts == 0
+    assert answer.part_ledger.entries[1].status == 'mapped'
 
 
 @pytest.mark.parametrize('issue,resolution', [('malformed_source_condition', 'resolved'),
@@ -130,11 +153,9 @@ def test_hold_does_not_hide_a_foreign_evidence_reference():
         to_draft(explanation, pack)
 
 
-def test_source_gap_notice_does_not_hide_another_parts_failed_verification():
+def test_reviewer_rejection_still_withholds_the_quoted_answer():
     model = ApprovingModel(verdict='does_not_answer')
     answer = asyncio.run(Generator(model).generate(TEXT, integration()))
     assert answer.status == 'insufficient_evidence' and not answer.claims
-    assert [(e.status, e.reason) for e in answer.part_ledger.entries] == [
-        ('unavailable', 'source_gap'), ('uncertain', 'uncertain')]
-    assert 'A supported explanation could not be verified from the supplied evidence.' in answer.text
-    assert 'incomplete or unclear' in answer.text and SAFE not in answer.text
+    assert [e.status for e in answer.part_ledger.entries] == ['uncertain', 'uncertain']
+    assert QUOTED not in answer.text and SAFE not in answer.text
