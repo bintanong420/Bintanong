@@ -210,3 +210,37 @@ def test_menu_prompt_offers_a_specific_detail_and_no_clarify_for_missing_persona
     from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
     assert 'specific' in TOPIC_INSTRUCTION
     assert 'personal details' in TOPIC_INSTRUCTION
+
+
+# Owner 30 Oct 2026: a part also requests a sibling fact whose printed section heading its own words name.
+HEADED = (DocumentTopic(subject_id='fictional_completion',
+    claims=('printed timing statements', 'printed mark meaning fields', 'printed approval fields', 'printed fee fields'),
+    claim_headings={'printed mark meaning fields': ('3.4 REMOVAL OF “INC”',),
+                    'printed approval fields': ('3.5 EXAMINATION FOR REMOVAL OR COMPLETION',),
+                    'printed fee fields': ('3.9 FICTIONAL FEES',)}),
+    DocumentTopic(subject_id='fictional_other', claims=('printed other fields',),
+                  claim_headings={'printed other fields': ('4. REMOVAL OF OTHER MARKS',)}))
+
+
+def headed(text, claims=('printed timing statements',)):
+    style = json.dumps(style_proposal('en', english=[text.split()[0]]))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Completion', language='en')
+    value['parts'][0].update(subject_id='fictional_completion', requested_claims=list(claims))
+    return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=HEADED)
+
+
+@pytest.mark.parametrize('text', ['How do I remove an incomplete grade?', 'Paano tanggalin ang INC ko?'])
+def test_a_part_naming_a_printed_heading_also_requests_that_fact(text):
+    claims = headed(text).proposed.parts[0].requested_claims
+    assert claims[0] == 'printed timing statements' and 'printed mark meaning fields' in claims
+    assert 'printed fee fields' not in claims and 'printed other fields' not in claims
+
+
+def test_removal_wording_matches_every_heading_that_prints_it():
+    claims = headed('How do I remove an incomplete grade?').proposed.parts[0].requested_claims
+    assert claims == ('printed timing statements', 'printed mark meaning fields', 'printed approval fields')
+
+
+def test_short_and_function_words_do_not_match_headings():
+    claims = headed('What is the deadline for it?').proposed.parts[0].requested_claims
+    assert claims == ('printed timing statements',)

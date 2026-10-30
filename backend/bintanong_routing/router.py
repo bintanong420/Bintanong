@@ -120,6 +120,42 @@ def prefer_printed_procedure(proposed, topics):
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
+# Words too generic to tie a part to one printed section heading.
+HEADING_STOPWORDS = frozenset('the and for with from not any are all its ang mga ng sa na at ko'.split())
+
+
+def _heading_words(text):
+    return [w for w in re.findall(r'[^\W\d_]+', text.casefold()) if len(w) >= 3 and w not in HEADING_STOPWORDS]
+
+
+def _same_word(heading, asked):
+    """A short heading word (an abbreviation such as INC) starts the asked word; longer words share a stem."""
+    return asked.startswith(heading) if len(heading) <= 4 else asked[:5] == heading[:5]
+
+
+def add_heading_claims(proposed, topics):
+    """Host guard (owner 30 Oct 2026): a document part also requests each fact of its chosen topic whose printed
+    section heading its own words name (e.g. "remove an incomplete grade" and 3.4 REMOVAL OF "INC"). Only adds
+    facts of the same topic, keeps the model's order first and never exceeds the eight-claim bound."""
+    menu = {t.subject_id: t for t in topics if t.claim_headings}
+    parts = []
+    for part in proposed.parts:
+        topic = menu.get(part.subject_id)
+        claims = list(part.requested_claims)
+        if topic is not None and part.evidence_need == 'document':
+            asked = _heading_words(part.text)
+            for claim in topic.claims:
+                if claim in claims or claim in topic.not_stated or len(claims) >= 8:
+                    continue
+                words = {w for h in topic.claim_headings.get(claim, ()) for w in _heading_words(h)}
+                if any(_same_word(h, a) for h in words for a in asked):
+                    claims.append(claim)
+        parts.append(part.model_copy(update=dict(requested_claims=tuple(claims))))
+    if all(a.requested_claims == b.requested_claims for a, b in zip(parts, proposed.parts)):
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
 def apply_not_stated_cues(proposed, topics):
     """Host guard: a part whose own words name a cued not-stated fact also requests that fact, so the
     evidence policy withholds instead of answering from a nearby printed fact."""
@@ -205,7 +241,8 @@ class Router:
                         raise ValueError('course_reference_unavailable')
                     proposed = normalize_interpretation(text, wire)
                     check_topics(proposed, topics)
-                    proposed = apply_not_stated_cues(prefer_printed_procedure(proposed, topics), topics)
+                    proposed = apply_not_stated_cues(add_heading_claims(
+                        prefer_printed_procedure(proposed, topics), topics), topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise

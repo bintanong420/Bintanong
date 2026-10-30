@@ -651,3 +651,7 @@ Each program still gets its own dated review record listing which standing rule 
   and the router menu lists each fact's own printed section headings (`fact_headings`), with the same defect and
   cut-heading rules. Honors: owner chose "Leave the check": the introduced_disjunction guard is unchanged and honors
   requirements stay a disclosed limitation. Full regression required after the router change.
+- 30 Oct 2026 (INC second attempt): owner "we need to solve both": after fact_headings alone did not change Gemma's
+  claim choice, a host guard adds facts of the chosen topic whose printed section heading the part's own words name
+  (stem/abbreviation match, generic words ignored, same topic only, eight-claim bound). Offline on 53 recorded router
+  outputs it changes only "How do I remove an incomplete grade?".
