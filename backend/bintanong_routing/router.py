@@ -149,8 +149,10 @@ def prefer_printed_procedure(proposed, topics):
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
-# Words too generic to tie a part to one printed section heading.
-HEADING_STOPWORDS = frozenset('the and for with from not any are all its ang mga ng sa na at ko'.split())
+# Words too generic to tie a part to one printed section heading or claim; institutional places and people
+# ("smoking on campus" named a littering row printing "inside the University campus", regression 30 Oct 2026).
+HEADING_STOPWORDS = frozenset('the and for with from not any are all its ang mga ng sa na at ko'.split()
+                              + 'campus university premises school student students'.split())
 
 
 def _heading_words(text):

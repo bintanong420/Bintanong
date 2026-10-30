@@ -416,3 +416,17 @@ def test_an_eligibility_check_on_an_unlisted_reviewed_course_stays_symbolic():
     result, _ = run(Transport(selected(), json.dumps(wire), text=text), text=text)
     assert result.decision.route == 'Symbolic'
     assert result.proposed.parts[0].evidence_need == 'structured'
+
+
+def test_a_generic_place_word_does_not_add_another_offense():
+    # Regression 30 Oct 2026: "smoking on campus" also kept a littering row printing "inside the campus", and the
+    # extra row made the reviewed part abstain.
+    topic = SANCTIONS.model_copy(update=dict(claims=(
+        *SANCTIONS.claims[:8], 'printed rule 8 fields: 8. Smoking inside the classroom',
+        'printed rule 9 fields: 9. Littering inside the University campus', 'missing item 10')))
+    text = 'What is the penalty for smoking on campus?'
+    value = json.loads(answer('fictional_sanctions', ('missing item 10',), text))
+    value['parts'][0]['detail'] = 'whole'
+    result = run(Transport(selected(('fictional_sanctions',)), json.dumps(value), text=text), text=text,
+                 topics=(*MENU, topic))[0]
+    assert result.proposed.parts[0].requested_claims == ('printed rule 8 fields: 8. Smoking inside the classroom',)
