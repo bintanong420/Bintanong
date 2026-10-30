@@ -68,8 +68,10 @@ Full 50 on `ac867c6`: 49/50 (probation-tagalog withheld by style check on a verb
 nondeterminism, raw model chose not-stated fact; not a code regression). Common set first run on `41dfd00`:
 77/97 (general 20/33, CoS 43/48, other 14/16; median warm 21 s). Found: Charter host replies citing held malformed
 records crashed (final_malformed_source_fidelity; regression since 28 Oct gate) -> `1468505` routes them to the
-per-part quote path; live 10-case probe 6/10, no crashes. Open: Taglish "2nd year 1st sem" listings end
-temporarily_unavailable (topic selection ambiguous), Taglish casual discipline words, several topic choices.
+per-part quote path; live 10-case probe 6/10, no crashes. `754ee9a`: an ambiguous topic selection carries no
+document topic (structured checks proceed); live 8/8 incl. all 5 CoS Taglish term listings. Open: Taglish casual
+discipline words (nangongopya/nagyosi/nambubully), topic choices (absent, good-moral requirements, honors wording),
+certification-of-grades and transfer fee, BSHM clarification. Next: rerun full 97 and 50 on HEAD.
 Owner restarts :8021 to serve the new HEAD.
 Honors guard kept by owner; INC now answers printed quotes with limitation/referral. Prior repair history remains
 in `db643c0`, dated results and [accuracy handoff](../2026-10-30-eight-failures-handoff.md).
