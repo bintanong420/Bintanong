@@ -1,10 +1,17 @@
 # Current progress
 
-Updated 30 October 2026. Phase 11 active; `feat/p11-policy-ingestion-review`.
+Updated 31 October 2026. Phase 11 active; `feat/p11-policy-ingestion-review`.
 Last full snapshots: ingestion `2f7c935`, upstream `f0889c3`; use `git show`.
 [Phase checkpoint](../phase-11-checkpoint.md) · [Ingestion checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
 
 ## Latest change
+
+31Oct:owner-requested origin/p12-evaluation-harness fetched and checked out locally
+at workspace/worktrees/Bintanong/p12,tracking origin at7327ade1f750d82fd0b28516ac67ad81dff4ef9a.
+New checkout is clean and matches the live origin tip. Source checkout only;no
+merge into ingestion,setup,service/model start,credentials or ignored-asset copy.
+Verification receipt:workspace audit-evidence/p12-checkout-20261031/receipt.json.
+This does not resume Phase12implementation or change this workstream's phase gates.
 
 [Adaptation plan](../2026-10-30-ai-ingestion-adaptation-plan.md) published to
 origin/feat/p11-policy-ingestion-review at8e75ddb0552462361339b25ce9e187680518ab63;
