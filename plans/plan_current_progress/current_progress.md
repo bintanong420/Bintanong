@@ -99,5 +99,5 @@ reference label leak; pre-existing class). Honors remains a disclosed limitation
 
 ## Next action
 
-Owner runs the 50-case regression on `91fa3c0` in their own PowerShell (suffix -owner2); then owner restarts
-backend :8021 and frontend :3216. Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
+Follow the [eight-failures handoff](../2026-10-30-eight-failures-handoff.md): owner runs the `-owner2` regression on
+HEAD, then fix the 8 failures test-first. Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.

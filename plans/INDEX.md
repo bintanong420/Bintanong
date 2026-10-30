@@ -7,6 +7,7 @@
   [latest final handoff](phase-12-handoff.md), [report](../docs/evaluation/phase12-evaluation-report.md).
 - Hosted research560 active; corrected78 retained as rollback. [Activation results](2026-10-30-hosted-560-activation-results.md).
   This is not institutional approval or public deployment. Phase 13 deployment cancelled by owner.
+- Post-Phase-12 accuracy work: [eight-failures handoff](2026-10-30-eight-failures-handoff.md) (open).
 - Worktree p12 / `p12-evaluation-harness`; [current progress](plan_current_progress/current_progress.md).
   Immutable master: [master plan](master_implementation_plan_original_long.md).
   Structural next_phase13 is cancelled; no next implementation phase authorized.
