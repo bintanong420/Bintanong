@@ -70,7 +70,17 @@ restarted on new code; live probation 200 answered 52.2 s (outer API, single obs
 Both were then stopped by Claude Code's low-memory reaper; the owner now runs them in their own terminals
 (same commands), outside the reaper. Rechecked: frontend health ready, live probation 200 answered 46.0 s.
 
+## INC/honors follow-up (30 Oct, owner-approved)
+
+`1f2f9db` ungrouped conflicting_deadlines records are quoted with their limitation (incomplete groups stay
+source_gap); `880c733` router menu lists each fact's printed headings (`fact_headings`). Honors: owner chose to keep
+the introduced_disjunction guard (disclosed limitation). Related tests 1661 pass. Regression on `880c733`: 42/50
+(prev 41; drop-subject-tagalog regained, no losses); shared 40: 28 -> 32. INC still fails: the router received
+fact_headings (fact 1 = "3.4 REMOVAL OF INC") but Gemma still chose the timing fact; stopped after this bounded
+attempt. Honors abstains (guard), probation passes. Two runs hit intermittent DNS failures to hosted Supabase and
+were rerun (`*-headings-b2`, `*-headings` diag dirs have no cases). Hosted servers stopped by owner for the run.
+
 ## Next action
 
-Owner decision: INC (router claim choice + ungrouped deadline-conflict quoting) and honors (disjunction guard vs
-printed honors list). Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.
+Owner restarts backend :8021 and frontend :3216 in their own windows (now serving `880c733`); then live recheck.
+INC needs a new owner decision (e.g. host-side heading match) if wanted. Phase 13 remains cancelled.
