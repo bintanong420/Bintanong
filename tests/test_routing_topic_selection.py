@@ -359,3 +359,43 @@ def test_a_large_topic_naming_no_printed_fact_keeps_the_model_choice():
     result = sanction_question('What is the penalty for this?')
     assert result.decision.route == 'RAG'
     assert result.proposed.parts[0].requested_claims == ('missing item 10',)
+
+
+# Owner 30 Oct 2026 benchmark: "Kailan ako considered second year?" selected one topic, then the router
+# returned an empty clarification (no parts, ambiguity or course) and the student got no answer.
+def empty_clarify(text):
+    return json.dumps(proposal(text=text, language='taglish', route=None, control='clarify',
+                               mentions=[], operations=[], parts=[]))
+
+
+def test_an_empty_clarification_after_one_settled_topic_answers_that_topic():
+    text = 'Kailan ako mag-file ng slip S?'
+    result, _ = run(Transport(selected(), empty_clarify(text), text=text), text=text)
+    assert result.decision.route == 'RAG'
+    part = result.proposed.parts[0]
+    assert (part.subject_id, part.requested_claims, part.text) == ('fictional_office', ('filing office',), text)
+
+
+def test_an_empty_clarification_with_two_selected_topics_still_clarifies():
+    text = 'Kailan ako mag-file ng slip S?'
+    result, _ = run(Transport(selected(('fictional_office', 'fictional_fees')), empty_clarify(text), text=text),
+                    text=text)
+    assert result.decision.route is None and not result.proposed.parts
+
+
+def test_an_empty_clarification_without_topic_selection_still_clarifies():
+    text = 'Kailan ako mag-file ng slip S?'
+    result, _ = run(FakeTransport(empty_clarify(text), style_outputs=[json.dumps(
+        style_proposal('taglish', english=['slip']))] * 3), text=text, topics=MENU[:1], enabled=False)
+    assert result.decision.route is None and not result.proposed.parts
+
+
+def test_a_short_asked_word_also_names_longer_printed_words():
+    # Robustness 30 Oct 2026: "exam" must reach "cheating in examinations", not only a row printing "exam".
+    topic = SANCTIONS.model_copy(update=dict(claims=(
+        *SANCTIONS.claims[:8], 'printed rule 8 fields: 8. Cheating in examinations',
+        'printed rule 9 fields: 9. Selling exam answers', 'missing item 10')))
+    result = run(Transport(selected(('fictional_sanctions',)), empty_clarify('Ano parusa sa exam?'),
+                           text='Ano parusa sa exam?'), text='Ano parusa sa exam?', topics=(*MENU, topic))[0]
+    assert result.proposed.parts[0].requested_claims == (
+        'printed rule 8 fields: 8. Cheating in examinations', 'printed rule 9 fields: 9. Selling exam answers')

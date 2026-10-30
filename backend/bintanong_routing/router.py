@@ -101,23 +101,45 @@ def transfer_direction_unstated(proposed, topics, text):
             and not _names_any(text, TRANSFER_DIRECTION_CUES))
 
 
+def _printed_claims(topic, text):
+    """The topic's printed claims for a whole request. A topic with more than a part may request (e.g. a 39-row
+    sanctions table) narrows to the claims naming the request's words, either word possibly the short form
+    ("exam" names "examinations"); none when those do not fit."""
+    printed = tuple(c for c in topic.claims if c not in topic.not_stated)
+    if len(printed) > 8:  # RequestPart.requested_claims bound
+        asked = set(_heading_words(text))
+        printed = tuple(c for c in printed if any(_same_word(w, a) or _same_word(a, w)
+                                                  for w in _heading_words(c) for a in asked))
+    return printed if len(printed) <= 8 else ()
+
+
+def answer_settled_topic(proposed, topics, text):
+    """Host guard (owner 30 Oct 2026): after the selector settled on one topic, a clarification naming no part,
+    ambiguity, course or operation (e.g. "Kailan ako considered second year?") answers that topic's printed
+    claims as one document part instead of leaving the student without an answer."""
+    if (len(topics) != 1 or proposed.control != 'clarify' or proposed.parts or proposed.ambiguities
+            or proposed.mentions or proposed.operations or proposed.claims):
+        return proposed
+    claims = _printed_claims(topics[0], text)
+    if not claims:
+        return proposed
+    part = dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='document',
+                operation_indices=[], subject_id=topics[0].subject_id, requested_claims=list(claims), detail='whole')
+    return Interpretation.parse(dict(proposed.model_dump(mode='json'), parts=[part], route='RAG', control=None))
+
+
 def prefer_printed_procedure(proposed, topics):
     """Host guard: a whole-procedure part asks for the printed procedure, so naming only facts the source
-    does not state is replaced by the topic's printed claims. Cues then re-add a not-stated fact the part's
-    own words name, which keeps withholding for an explicit ask. A topic with more printed claims than a part
-    may request (e.g. a 39-row sanctions table) narrows to the printed claims naming the part's words, and
-    keeps the model's choice when those do not fit."""
+    does not state is replaced by the topic's printed claims (see _printed_claims). Cues then re-add a
+    not-stated fact the part's own words name, which keeps withholding for an explicit ask. When the printed
+    claims do not fit, the model's choice is kept."""
     menu = {t.subject_id: t for t in topics}
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
         if (topic is not None and part.detail == 'whole' and part.requested_claims
                 and set(part.requested_claims) <= set(topic.not_stated)):
-            printed = tuple(c for c in topic.claims if c not in topic.not_stated)
-            if len(printed) > 8:  # RequestPart.requested_claims bound
-                asked = set(_heading_words(part.text))
-                printed = tuple(c for c in printed if any(_same_word(w, a) for w in _heading_words(c) for a in asked))
-                printed = printed if len(printed) <= 8 else ()
+            printed = _printed_claims(topic, part.text)
             if printed:
                 part = part.model_copy(update=dict(requested_claims=printed))
         parts.append(part)
@@ -254,6 +276,8 @@ class Router:
                         raise ValueError('course_reference_unavailable')
                     proposed = normalize_interpretation(text, wire)
                     check_topics(proposed, topics)
+                    if selection_attempts:
+                        proposed = answer_settled_topic(proposed, topics, text)
                     proposed = apply_not_stated_cues(prefer_heading_claims(
                         prefer_printed_procedure(proposed, topics), topics), topics)
                 except (ValueError, ValidationError) as error:
