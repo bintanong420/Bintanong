@@ -165,9 +165,21 @@ def test_numbered_sentences_are_not_headings():
     assert topic.source_items == ()
 
 
-def test_a_source_defect_withholds_section_headings():
+# Owner 30 Oct 2026: a recorded defect elsewhere in the chunk no longer hides its printed headings.
+def test_a_source_defect_keeps_section_headings_but_withholds_the_opening():
     topic, = candidate(*body_inputs(HEADED_BODY, limits=[dict(resolution='unresolved', issue='source_cutoff')]))
+    assert topic.source_items == ('3. FICTIONAL REMOVAL AND COMPLETION', '3.1 APPROVAL OF THE REQUEST',
+                                  '3.4 REMOVAL OF “INC”')
+    assert topic.source_opening is None
+
+
+def test_a_heading_ending_a_defective_body_may_be_cut_and_is_withheld():
+    body = 'The grade is given to a fictional student. 3.5 FICTIONAL COMPLETION OF'
+    defect = dict(resolution='unresolved', issue='source_cutoff')
+    topic, = candidate(*body_inputs(body, limits=[defect]))
     assert topic.source_items == ()
+    topic, = candidate(*body_inputs(body))
+    assert topic.source_items == ('3.5 FICTIONAL COMPLETION OF',)
 
 
 def test_numbers_without_a_section_dot_are_not_headings():

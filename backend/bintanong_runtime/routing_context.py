@@ -21,8 +21,9 @@ def _opening(text, limit=MAX_OPENING):
     return cut[:cut.rfind(' ')].rstrip() + '…' if ' ' in cut else cut + '…'
 
 
-def _reviewed_values(register, catalogue, chunks, field_name):
-    """(subject, value) of one review-bound, nonblank field per chunk, in chunk order; defects withhold it."""
+def _reviewed_values(register, catalogue, chunks, field_name, *, with_defects=False):
+    """(subject, value) of one review-bound, nonblank field per chunk, in chunk order; defects withhold it,
+    unless with_defects, which yields (subject, value, defective) instead."""
     assigned = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
     reviewed = {}
     for review in register['reviews']:
@@ -44,11 +45,14 @@ def _reviewed_values(register, catalogue, chunks, field_name):
         except (KeyError, TypeError, AttributeError, ValueError):
             continue
         value = field.get('value')
-        if (field.get('source_blank') is not False or not isinstance(value, str) or not value.strip()
-                or any(not isinstance(limit, dict) or limit.get('resolution') != 'resolved'
-                       and limit.get('issue') not in OPENING_ALLOWED_LIMITS for limit in limits)):
+        if field.get('source_blank') is not False or not isinstance(value, str) or not value.strip():
             continue
-        yield subject, value.strip()
+        defective = any(not isinstance(limit, dict) or limit.get('resolution') != 'resolved'
+                        and limit.get('issue') not in OPENING_ALLOWED_LIMITS for limit in limits)
+        if with_defects:
+            yield subject, value.strip(), defective
+        elif not defective:
+            yield subject, value.strip()
 
 
 def reviewed_openings(register, catalogue, chunks):
@@ -61,7 +65,8 @@ def reviewed_openings(register, catalogue, chunks):
 
 def reviewed_items(register, catalogue, chunks):
     """Printed row names (review-bound Cause fields) and printed numbered section headings (review-bound body
-    fields, owner 30 Oct 2026) of each subject, cut verbatim at a word; routing context only."""
+    fields, owner 30 Oct 2026) of each subject, cut verbatim at a word; routing context only. A recorded defect
+    elsewhere in a body keeps its headings (owner 30 Oct 2026), except one ending that body, which may be cut."""
     items = {}
     def add(subject, value):
         values = items.setdefault(subject, [])
@@ -70,9 +75,10 @@ def reviewed_items(register, catalogue, chunks):
             values.append(item)
     for subject, value in _reviewed_values(register, catalogue, chunks, ITEM_FIELD):
         add(subject, value)
-    for subject, value in _reviewed_values(register, catalogue, chunks, OPENING_FIELD):
+    for subject, value, defective in _reviewed_values(register, catalogue, chunks, OPENING_FIELD, with_defects=True):
         for heading in _HEADING.finditer(value):
-            add(subject, heading.group(0))
+            if not (defective and heading.end() == len(value)):
+                add(subject, heading.group(0))
     return {s: tuple(v) for s, v in items.items()}
 
 
