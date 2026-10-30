@@ -102,10 +102,16 @@ reference label leak; pre-existing class). Honors remains a disclosed limitation
 Plagiarism EN/Taglish root cause: `prefer_printed_procedure` replaced a not-stated-only choice with all 39 printed
 academic_misconduct claims (> 8 part bound) -> ValidationError -> invalid_reference clarify. `8e75428` narrows a
 large topic to printed claims naming the part's words (II.7b); test-first, related 2286 pass (4 local-DB storage
-tests not run: container stopped). Recorded outputs replay to II.7b; live not yet run. second-year-taglish differs:
-Gemma itself returns control clarify with no parts (next to diagnose).
+tests not run: container stopped). `6efe5cf` after a settled single-topic selection, an empty router clarify answers
+that topic's printed claims (second-year Taglish x3, cheating/shift short replay to RAG). `1dc5adb` an operation
+target naming a reviewed course alias (CC5 short form) keeps the Symbolic check (only cc5-en changes in recorded
+outputs). `648c4b5` fixes a 6efe5cf flaw ("ano" named "another", adding II.7g). Related suites 2281 pass.
+Not host-fixable safely: uniform Taglish (model picked II.13; a one-word label rule would wrongly move smoking
+Taglish to II.24 "campus"), grad-residence Taglish (selector/model chose handbook_residence over graduation),
+summer-load EN (same evidence as passing Taglish; EN draft dropped the 12-unit Dean exception: replay needed).
+Owner `-owner2` run in progress: b1 on 31064fb (before cc5 fix), b2 on 1dc5adb, b3 on 648c4b5.
 
 ## Next action
 
-Follow the [eight-failures handoff](../2026-10-30-eight-failures-handoff.md): owner runs the `-owner2` regression on
-HEAD (now includes `8e75428`), then continue the remaining failures test-first. Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
+After the owner's `-owner2` run: score it, rerun cc5-failed-cc4-en alone on HEAD, replay summer-load-en drafting;
+owner decisions pending on uniform/residence approach and leave-length scoring. Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
