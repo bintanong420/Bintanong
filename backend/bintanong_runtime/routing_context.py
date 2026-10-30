@@ -10,6 +10,7 @@ OPENING_FIELD = 'body'
 MAX_OPENING = 100
 ITEM_FIELD = 'Cause'  # printed row name of a penalty table
 MAX_ITEM, MAX_ITEMS = 60, 48
+MAX_CLAIM_HEADINGS = 8
 # A not-stated claim is offered separately as not_stated; other unresolved limits are source defects.
 OPENING_ALLOWED_LIMITS = frozenset(('claim_not_stated',))
 
@@ -21,9 +22,9 @@ def _opening(text, limit=MAX_OPENING):
     return cut[:cut.rfind(' ')].rstrip() + '…' if ' ' in cut else cut + '…'
 
 
-def _reviewed_values(register, catalogue, chunks, field_name, *, with_defects=False):
-    """(subject, value) of one review-bound, nonblank field per chunk, in chunk order; defects withhold it,
-    unless with_defects, which yields (subject, value, defective) instead."""
+def _reviewed_fields(register, catalogue, chunks, field_name):
+    """(subject, claims, value, defective) of one review-bound, nonblank field per chunk, in chunk order;
+    claims are the reviewed claims binding that field on that chunk."""
     assigned = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
     reviewed = {}
     for review in register['reviews']:
@@ -32,11 +33,15 @@ def _reviewed_values(register, catalogue, chunks, field_name, *, with_defects=Fa
         for ref in review.get('field_refs', []):
             if (isinstance(ref, dict) and ref.get('field_name') == field_name
                     and assigned.get(ref.get('reading_id')) == review['subject_id']):
-                reviewed.setdefault(ref['reading_id'], set()).update(review.get('reviewed_chunk_ids', ()))
+                for chunk_id in review.get('reviewed_chunk_ids', ()):
+                    claims = reviewed.setdefault((ref['reading_id'], chunk_id), [])
+                    if review['claim'] not in claims:
+                        claims.append(review['claim'])
     for chunk in chunks:
         reading = chunk.get('type_fields', {}).get('reading_id')
         subject = assigned.get(reading)
-        if subject is None or chunk.get('chunk_id') not in reviewed.get(reading, ()):
+        claims = reviewed.get((reading, chunk.get('chunk_id')))
+        if subject is None or not claims:
             continue
         try:
             record = json.loads(chunk['text'])
@@ -49,10 +54,20 @@ def _reviewed_values(register, catalogue, chunks, field_name, *, with_defects=Fa
             continue
         defective = any(not isinstance(limit, dict) or limit.get('resolution') != 'resolved'
                         and limit.get('issue') not in OPENING_ALLOWED_LIMITS for limit in limits)
-        if with_defects:
-            yield subject, value.strip(), defective
-        elif not defective:
-            yield subject, value.strip()
+        yield subject, tuple(claims), value.strip(), defective
+
+
+def _reviewed_values(register, catalogue, chunks, field_name):
+    """(subject, value) of one review-bound, nonblank field per chunk, in chunk order; defects withhold it."""
+    for subject, _, value, defective in _reviewed_fields(register, catalogue, chunks, field_name):
+        if not defective:
+            yield subject, value
+
+
+def _headings(value, defective):
+    """Printed section headings of a body; a recorded defect keeps them (owner 30 Oct 2026), except one
+    ending that body, which may be cut."""
+    return [h.group(0) for h in _HEADING.finditer(value) if not (defective and h.end() == len(value))]
 
 
 def reviewed_openings(register, catalogue, chunks):
@@ -75,11 +90,23 @@ def reviewed_items(register, catalogue, chunks):
             values.append(item)
     for subject, value in _reviewed_values(register, catalogue, chunks, ITEM_FIELD):
         add(subject, value)
-    for subject, value, defective in _reviewed_values(register, catalogue, chunks, OPENING_FIELD, with_defects=True):
-        for heading in _HEADING.finditer(value):
-            if not (defective and heading.end() == len(value)):
-                add(subject, heading.group(0))
+    for subject, _, value, defective in _reviewed_fields(register, catalogue, chunks, OPENING_FIELD):
+        for heading in _headings(value, defective):
+            add(subject, heading)
     return {s: tuple(v) for s, v in items.items()}
+
+
+def reviewed_claim_headings(register, catalogue, chunks):
+    """Each reviewed claim's own printed section headings (owner 30 Oct 2026); router routing context only."""
+    headings = {}
+    for subject, claims, value, defective in _reviewed_fields(register, catalogue, chunks, OPENING_FIELD):
+        for claim in claims:
+            values = headings.setdefault(subject, {}).setdefault(claim, [])
+            for heading in _headings(value, defective):
+                heading = _opening(heading, MAX_ITEM)
+                if heading not in values and len(values) < MAX_CLAIM_HEADINGS:
+                    values.append(heading)
+    return {s: {c: tuple(v) for c, v in claims.items() if v} for s, claims in headings.items()}
 
 
 # A printed heading: a dotted section number (3. or 3.1), then an all-capitals title ending before ". ", the next number or a sentence.

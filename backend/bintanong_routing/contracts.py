@@ -130,6 +130,9 @@ class DocumentTopic(Record):
     # Verbatim printed row names (e.g. a penalty table's causes): selector routing context only.
     source_items: tuple[Annotated[str, Field(min_length=1, max_length=64)], ...] = Field(
         default=(), max_length=48, exclude_if=lambda value: not value)
+    # Each claim's own printed section headings (owner 30 Oct 2026): router routing context only.
+    claim_headings: dict[TopicClaim, tuple[Annotated[str, Field(min_length=1, max_length=64)], ...]] = Field(
+        default_factory=dict, max_length=64, exclude_if=lambda value: not value)
     # Owner-approved topic family (28 Oct 2026): selecting one member offers all of them.
     family: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64,
         exclude_if=lambda value: value is None)
@@ -147,6 +150,9 @@ class DocumentTopic(Record):
                or not set(values) <= set(self.claim_fields.get(claim, ()))
                for claim,values in self.claim_context.items()):
             raise ValueError('context_requires_bound_fields')
+        if any(claim not in self.claims or not values or len(values) > 8
+               for claim, values in self.claim_headings.items()):
+            raise ValueError('headings_require_selectable_claim')
         if any(c.claim not in self.not_stated for c in self.cues):
             raise ValueError('cue_requires_not_stated_claim')
         return self

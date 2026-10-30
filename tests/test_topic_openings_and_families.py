@@ -186,3 +186,42 @@ def test_numbers_without_a_section_dot_are_not_headings():
     body = 'Approved by the 2 OSAS staff. A GWA of 1.20-1.45 earns 94 CUM LAUDE. 4. FICTIONAL STUDENTS Old students enrol.'
     topic, = candidate(*body_inputs(body))
     assert topic.source_items == ('4. FICTIONAL STUDENTS',)
+
+
+# Owner 30 Oct 2026: the router sees each fact's own printed section headings.
+def two_fact_inputs(limits=()):
+    bodies = {'timing': 'Fictional marks are reviewed next cycle.',
+              'meaning': '3.4 REMOVAL OF “INC”. The fictional mark is removed by an examination. '
+                         '3.5 FICTIONAL APPROVAL. The Dean approves.'}
+    reviews, chunks, assignments = [], [], []
+    for name, body in bodies.items():
+        reading, chunk_id = f'body-{name}', f'chunk-{name}'
+        assignments.append(dict(reading_id=reading, subject_id='fictional_completion'))
+        reviews.append(dict(subject_id='fictional_completion', claim=f'printed {name} fields', finding='visible_fields',
+            reviewed_chunk_ids=[chunk_id], field_refs=[dict(reading_id=reading, field_name='body')]))
+        chunks.append(dict(chunk_id=chunk_id, type_fields=dict(reading_id=reading), text=json.dumps(dict(
+            fields=[dict(name='body', value=body, source_blank=False)], source_limits=list(limits)))))
+    return dict(reviews=reviews), dict(assignments=assignments), chunks
+
+
+def test_each_fact_carries_its_own_printed_headings():
+    topic, = candidate(*two_fact_inputs())
+    assert topic.claim_headings == {'printed meaning fields': ('3.4 REMOVAL OF “INC”', '3.5 FICTIONAL APPROVAL')}
+
+
+def test_fact_headings_survive_a_recorded_defect_and_default_menus_carry_none():
+    defect = dict(resolution='unresolved', issue='conflicting_deadlines')
+    topic, = candidate(*two_fact_inputs(limits=[defect]))
+    assert topic.claim_headings['printed meaning fields'] == ('3.4 REMOVAL OF “INC”', '3.5 FICTIONAL APPROVAL')
+    topic, = topic_menu(*two_fact_inputs()[:1], catalogue=two_fact_inputs()[1], chunks=two_fact_inputs()[2])
+    assert topic.claim_headings == {} and 'claim_headings' not in topic.model_dump(mode='json')
+
+
+def test_fact_headings_reach_the_router_menu_by_fact_index():
+    topic, = candidate(*two_fact_inputs())
+    context = RequestContext(session_id='sess-a', request_id='req-a')
+    router = build_messages('How do I remove an INC?', context, (), registry(), (topic,))[0]['content']
+    menu, _ = json.JSONDecoder().raw_decode(router, router.index('[{"fact_fields"'))
+    index = list(topic.claims).index('printed meaning fields')
+    assert menu[0]['fact_headings'] == [dict(fact_indices=[index],
+                                             headings=['3.4 REMOVAL OF “INC”', '3.5 FICTIONAL APPROVAL'])]

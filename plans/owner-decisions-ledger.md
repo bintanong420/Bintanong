@@ -646,3 +646,8 @@ Each program still gets its own dated review record listing which standing rule 
   defective body may be cut and stays withheld; openings stay withheld); a claim citing an unresolved
   malformed_source_condition record becomes an exact quotation of that record plus its recorded limitation and a
   relevant-university-office referral, never an interpretation. Other source-gap rules are unchanged.
+- 30 Oct 2026 (INC and honors follow-up): owner "yes, lets proceed" for INC: a conflicting_deadlines record outside
+  any printed group is quoted with its limitation and an office referral (incomplete/mixed groups stay source_gap),
+  and the router menu lists each fact's own printed section headings (`fact_headings`), with the same defect and
+  cut-heading rules. Honors: owner chose "Leave the check": the introduced_disjunction guard is unchanged and honors
+  requirements stay a disclosed limitation. Full regression required after the router change.
