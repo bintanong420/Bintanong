@@ -69,9 +69,11 @@ nondeterminism, raw model chose not-stated fact; not a code regression). Common 
 77/97 (general 20/33, CoS 43/48, other 14/16; median warm 21 s). Found: Charter host replies citing held malformed
 records crashed (final_malformed_source_fidelity; regression since 28 Oct gate) -> `1468505` routes them to the
 per-part quote path; live 10-case probe 6/10, no crashes. `754ee9a`: an ambiguous topic selection carries no
-document topic (structured checks proceed); live 8/8 incl. all 5 CoS Taglish term listings. Open: Taglish casual
-discipline words (nangongopya/nagyosi/nambubully), topic choices (absent, good-moral requirements, honors wording),
-certification-of-grades and transfer fee, BSHM clarification. Next: rerun full 97 and 50 on HEAD.
+document topic (structured checks proceed); live 8/8 incl. all 5 CoS Taglish term listings. `48ff8d6`: owner-
+approved Filipino penalty-row words (uniporme excluded; docs table + sync test) and best-row narrowing; 440-output
+dry run: 4 intended changes; live discipline probe 8/8. Open: topic choices (absent, good-moral requirements,
+honors wording), certification-of-grades and transfer fee, BSHM clarification. Full 97 rerun was stopped by the
+host for low memory (no results); rerun the 97 and 50 on HEAD. Claude restarted :8021 on `48ff8d6` (owner-authorized).
 Owner restarts :8021 to serve the new HEAD.
 Honors guard kept by owner; INC now answers printed quotes with limitation/referral. Prior repair history remains
 in `db643c0`, dated results and [accuracy handoff](../2026-10-30-eight-failures-handoff.md).
