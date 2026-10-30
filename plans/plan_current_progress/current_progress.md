@@ -117,8 +117,16 @@ Filipino connectors only (ledger 30 Oct). Live on a29f23d (`run-a29f23d-live3`):
 CC 4/L), disc-smoking-en, leave-length-taglish ("one (1) academic year") all PASS. Related suites 2283 pass.
 Remaining: uniform Taglish, grad-residence Taglish (model choice), summer-load EN (drafting omission).
 
+## Hosted-parity regression (30 Oct, owner-approved plan)
+
+The 50-case runner read documents from the local 559-chunk package (curricula hosted). New ignored runner
+`audit-evidence/p12-hosted-regression-20261030/run_hosted_regression.py` composes exactly as `load_research_app`
+(hosted pin/seal, 560 chunks, `ResearchProvider` hosted pin check per case); old runner unchanged for comparison.
+Smoke `run-b8743ee-smoke`: cc5-en, smoking-en, leave-length-taglish PASS; same evidence IDs as local; hosted
+retrieval ~1.4 s vs ~0.5 s local. `compare_runs.py` diffs two runs.
+
 ## Next action
 
-Owner runs a full 50-case regression on HEAD (new suffix) to confirm; then summer-load-en drafting replay. Owner
-decision pending: accept uniform/residence as disclosed limits or try a bounded menu-prompt change.
+Owner runs the full 50 on the hosted runner (suffix `-hosted1-b$b`); Claude compares with local runs and records
+`plans/2026-10-30-hosted-regression-results.md`. Then summer-load-en replay; owner decision pending on uniform/residence.
 Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
