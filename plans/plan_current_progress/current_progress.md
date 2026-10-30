@@ -126,6 +126,12 @@ Full owner run `-hosted2` on 63b9653: **47/50 on hosted** (no exceptions; `-host
 Gained vs local `-owner2` 44/50: cc5-en, smoking-en, leave-length-taglish; nothing lost. Remaining: summer-load-en
 (missing Dean), grad-residence-taglish, disc-uniform-taglish. [Results](../2026-10-30-hosted-regression-results.md).
 
+## Test-suite audit (30 Oct)
+
+Read-only audit of the inherited tests (Hawksprey420: 105 files, 4,646 of 7,365): no dataset/.env/absolute-path
+dependency; contracts family fragmented across fix-pass files; redundancy unmeasured (no coverage tool installed).
+[Plan](../2026-10-30-test-suite-audit-plan.md) to be executed by Codex.
+
 ## Next action
 
 Summer-load-en drafting replay; owner decision pending on uniform/residence (disclosed limit or bounded
