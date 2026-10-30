@@ -91,7 +91,13 @@ claim_not_stated limit, 3.1 "colleges ... not named"). A reviewer instruction (`
 reverted (`6b7d2a7`). Regression (owner-run in their own PowerShell after Claude Code's memory reaper stopped
 two attempts; `run-ddf2338-owner-b1..3`, backend = 6b7d2a7): 42/50, identical cases to `880c733`, no exceptions.
 
+Reviewer replays (recorded INC call-5): removing the claim_not_stated limit kept does_not_answer; removing the
+leading limitation notice, or moving it after the quote, gave answers. `91fa3c0` quotes now lead with the printed
+text ("The printed source states (quoted exactly): ... Source note: ...; please confirm ... office"). Live INC:
+answered/validated, 49.6 s, Handbook p.46-47 3.1-3.7 cited. Open cosmetic: two model claims end "(e5)" (short
+reference label leak; pre-existing class). Honors remains a disclosed limitation (guard kept, owner).
+
 ## Next action
 
-Owner decision on the INC reviewer verdict; owner restarts backend :8021 and frontend :3216.
-Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.
+Owner runs the 50-case regression on `91fa3c0` in their own PowerShell (suffix -owner2); then owner restarts
+backend :8021 and frontend :3216. Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
