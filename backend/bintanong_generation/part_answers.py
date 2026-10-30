@@ -233,6 +233,52 @@ def conjunction_errors(draft, pack, slots=None):
     return _added_connective(CONJUNCTION, 'introduced_conjunction', draft, pack, slots)
 
 
+# A numbered exception printed right after a numbered rule ("may, however", "unless", "subject to").
+EXCEPTION = re.compile(r'\b(?:however|unless|except|subject\s+to|provided\s+that)\b', re.I)
+PRINTED_NUMBER = re.compile(r'\((\d+)\)|\b(\d+)\b')
+EXCEPTION_REPAIR = ('A claim states a printed rule but leaves out the exception, higher limit or approval '
+                    'condition printed right after it. Include each sentence below with the rule it qualifies, '
+                    'keeping its numbers, conditions and offices as printed.')
+
+
+def _numbers(text):
+    return {bracketed or bare for bracketed, bare in PRINTED_NUMBER.findall(text)}
+
+
+def _printed_sentences(card_text):
+    try:
+        values = [f['value'] for f in json.loads(card_text)['fields'] if isinstance(f.get('value'), str)]
+    except (ValueError, TypeError, KeyError):
+        values = [card_text]
+    return [s.strip() for value in values for s in re.split(r'(?<=[.;])\s+', value) if s.strip()]
+
+
+def _attached_exceptions(card_text):
+    """(rule, exception) pairs: a sentence with printed numbers directly followed by a numbered exception."""
+    sentences = _printed_sentences(card_text)
+    return [(rule, exception) for rule, exception in zip(sentences, sentences[1:])
+            if EXCEPTION.search(exception) and _numbers(exception) and _numbers(rule)]
+
+
+def omitted_exception_errors(draft, pack, slots=None):
+    """Claims giving a rule's printed numbers must also give the numbers of the exception printed right after
+    it. With slots, each answered part is checked on its own claims; host replies keep their reviewed wording."""
+    texts = {c.evidence_id: c.text for c in pack.cards}
+    groups = ([draft.claims] if slots is None else
+              [[c for c in draft.claims if c.claim_id in ids] for status, ids in slots.values() if status == 'answered'])
+    for claims in groups:
+        stated = _numbers(' '.join(c.text for c in claims))
+        for ref in {r for c in claims for r in c.evidence_ids}:
+            for rule, exception in _attached_exceptions(texts.get(ref, '')):
+                if _numbers(rule) <= stated and not _numbers(exception) <= stated:
+                    return ('omitted_printed_exception',)
+    return ()
+
+
+def printed_exceptions(pack):
+    return [exception for card in pack.cards for _, exception in _attached_exceptions(card.text)]
+
+
 def host_claims(pack):
     """Host-written replies (printed service steps, special class fee, grading table) by part; these
     parts get no model wording. Each claim is (text, evidence_id) or (text, (evidence_id, ...))."""
@@ -363,6 +409,8 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'the whole-procedure instruction applies to other parts.')
     if {'introduced_disjunction', 'introduced_conjunction'} & set(errors):
         payload['condition_instruction'] = CONDITION_REPAIR
+    if 'omitted_printed_exception' in errors:
+        payload['exception_instruction'] = dict(instruction=EXCEPTION_REPAIR, printed_exceptions=printed_exceptions(pack))
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
     return _messages(PART_PROMPT, payload, part_schema(pack, references))
