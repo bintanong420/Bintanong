@@ -379,6 +379,10 @@ $env:BINTANONG_STORAGE_EVIDENCE_DIR = "$runRoot/database"
 & $pythonPath -B -m pytest -q -p no:cacheprovider tests/test_retrieval_context.py --basetemp "$runRoot/pytest"
 ```
 
+`pytest tests/` leaves out the offline ingestion-tool tests (prospectus extractor/fixer,
+review GUI, OCR bench; about 1,800 cases). Add `--include-ingestion` to run them, or
+name one of their files directly.
+
 Adjust the interpreter/workspace to your actual environment. The example is a
 focused synthetic context test, not a full phase exit check. Database integration
 tests additionally require Docker and the local database container. Set

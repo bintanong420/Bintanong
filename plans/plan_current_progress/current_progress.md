@@ -36,6 +36,9 @@ Claude review (30 Oct, read-only): all 7,363 IDs map to originals; 115 moved bod
 renames/module-prefix drops/equal fixture matrices; no remaining top-level rebinding. Runtime suite (187 files, no
 prospectus/GUI/OCR or tool-importing tests, DB up): 4,843 pass / 2 xfail, exit 0. Nits only: 7-8 blank-line runs,
 duplicate `BIND`, misnamed `_typed_chunk`/`_source_record`, alias `_chunk_adapter_reason`.
+Owner (30 Oct): keep ingestion tools but out of the default suite. `tests/conftest.py` deselects prospectus/GUI/OCR
+files unless `--include-ingestion` or named: default 5,576 / 7,372 collected (1,796 deselected). Selection test
+RED 9 fail -> GREEN 9 pass; remaining default files 728 pass / 3 skip; with the runtime run, all 5,576 accounted.
 Closure documentation follows. Raw evidence/temp/scripts remain under ignored workspace audit-evidence.
 No production behavior, source corpus, dependency/model/lock changes, merge or push.
 
@@ -57,4 +60,4 @@ No live model benchmark or student-visible latency claim from this audit.
 
 Preserve undergraduate scope, source gaps, privacy, unknown-versus-unmet, printed terms and release guards.
 F04 stays held; research activation is not institutional approval or public deployment.
-Next: owner decides on nits and on retiring ingestion tools (contracts tests are runtime; keep). Keep branch/worktree; no merge/push or Phase 13 advancement.
+Next: owner decides on cosmetic nits; ingestion tools kept, opt-in tests. No push/merge. Keep branch/worktree; no merge/push or Phase 13 advancement.
