@@ -245,3 +245,37 @@ def test_a_single_word_match_or_a_tie_keeps_the_model_choice(text):
 def test_a_chosen_fact_whose_heading_matches_is_kept():
     claims = headed('How do I remove an incomplete grade?', claims=('printed approval fields',)).proposed.parts[0]
     assert claims.requested_claims == ('printed approval fields',)
+
+
+# Regression 30 Oct 2026: "Ano ang parusa kapag mali ang uniform ko?" chose a discourtesy row of the sanctions table;
+# only "I. Improper Uniform" names the part's word. Rows have no printed section headings, so their labels decide.
+TABLE = (DocumentTopic(subject_id='fictional_sanctions',
+    claims=('printed I fields: I. Fictional Uniform', 'printed II.13 fields: 13. Fictional discourtesy towards officials',
+            'printed II.20 fields: 20. Fictional smoking inside rooms', 'printed II.21 fields: 21. Fictional smoking near gates',
+            'the content of a fictional missing item'),
+    not_stated=('the content of a fictional missing item',)),)
+
+
+def tabled(text, claims, detail='whole'):
+    style = json.dumps(style_proposal('taglish', filipino=[text.split()[0]]))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Sanction', language='fil')
+    value['parts'][0].update(subject_id='fictional_sanctions', requested_claims=list(claims), detail=detail)
+    return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=TABLE)
+
+
+def test_the_one_row_naming_the_parts_word_replaces_an_unrelated_row():
+    claims = tabled('Ano ang parusa kapag mali ang uniform ko?', ('printed II.13 fields: 13. Fictional discourtesy towards officials',))
+    assert claims.proposed.parts[0].requested_claims == ('printed I fields: I. Fictional Uniform',)
+
+
+@pytest.mark.parametrize('text, chosen', [
+    ('Ano ang parusa sa discourtesy at uniform?', 'printed II.13 fields: 13. Fictional discourtesy towards officials'),
+    ('Ano ang parusa sa smoking?', 'printed II.13 fields: 13. Fictional discourtesy towards officials'),
+    ('Ano ang parusa kapag nagsinungaling ako?', 'printed II.13 fields: 13. Fictional discourtesy towards officials')])
+def test_a_matching_choice_two_matching_rows_or_no_match_keep_the_model_choice(text, chosen):
+    assert tabled(text, (chosen,)).proposed.parts[0].requested_claims == (chosen,)
+
+
+def test_a_chosen_not_stated_fact_is_left_to_the_withholding_guards():
+    claims = tabled('Magkano ang multa sa uniform?', ('the content of a fictional missing item',), detail='specific')
+    assert claims.proposed.parts[0].requested_claims == ('the content of a fictional missing item',)

@@ -194,6 +194,28 @@ def prefer_heading_claims(proposed, topics):
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
+def prefer_named_claim(proposed, topics):
+    """Host guard (regression 30 Oct 2026): when no chosen printed fact's own label names any of the part's words
+    and exactly one printed fact of the same topic does ("mali ang uniform ko" and "I. Improper Uniform"), that
+    fact replaces the choice. Several matches, or a chosen not-stated fact, keep the model's choice."""
+    menu = {t.subject_id: t for t in topics}
+    parts = []
+    for part in proposed.parts:
+        topic = menu.get(part.subject_id)
+        if (topic is not None and part.evidence_need == 'document' and part.requested_claims
+                and not set(part.requested_claims) & set(topic.not_stated)):
+            asked = set(_heading_words(part.text))
+            names = lambda claim: any(_same_word(w, a) for w in _heading_words(claim) for a in asked)
+            if not any(names(claim) for claim in part.requested_claims):
+                named = [c for c in topic.claims if c not in topic.not_stated and names(c)]
+                if len(named) == 1:
+                    part = part.model_copy(update=dict(requested_claims=(named[0],)))
+        parts.append(part)
+    if all(a.requested_claims == b.requested_claims for a, b in zip(parts, proposed.parts)):
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
 def apply_not_stated_cues(proposed, topics):
     """Host guard: a part whose own words name a cued not-stated fact also requests that fact, so the
     evidence policy withholds instead of answering from a nearby printed fact."""
@@ -282,8 +304,8 @@ class Router:
                     check_topics(proposed, topics)
                     if selection_attempts:
                         proposed = answer_settled_topic(proposed, topics, text)
-                    proposed = apply_not_stated_cues(prefer_heading_claims(
-                        prefer_printed_procedure(proposed, topics), topics), topics)
+                    proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_claims(
+                        prefer_printed_procedure(proposed, topics), topics), topics), topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
