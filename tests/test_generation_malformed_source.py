@@ -159,3 +159,13 @@ def test_reviewer_rejection_still_withholds_the_quoted_answer():
     assert answer.status == 'insufficient_evidence' and not answer.claims
     assert [e.status for e in answer.part_ledger.entries] == ['uncertain', 'uncertain']
     assert QUOTED not in answer.text and SAFE not in answer.text
+
+
+def test_the_reviewer_is_told_a_limitation_quote_carries_printed_answer_text():
+    model = ApprovingModel(held_parts=('r1',))
+    asyncio.run(Generator(model).generate(TEXT, integration()))
+    review = model.calls[-1]
+    assert 'limitation_quote_instruction' in review and 'quoted printed text' in review['limitation_quote_instruction']
+    plain = ApprovingModel(held_parts=())
+    asyncio.run(Generator(plain).generate(TEXT, integration()))
+    assert 'limitation_quote_instruction' not in plain.calls[-1]

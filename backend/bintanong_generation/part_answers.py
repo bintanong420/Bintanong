@@ -24,7 +24,7 @@ from .service_steps import parse_service, render_service
 from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
-from .malformed_condition import malformed_reply
+from .malformed_condition import malformed_records, malformed_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -598,6 +598,12 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
             'wording, citation and relevance to the question using the complete sources. '
             'Do not require unrelated agency actions or the whole procedure for these parts. '
             'All ordinary support, language and other-part checks still apply.')
+    held = malformed_records(pack)
+    if any(held.get(ref) == claims[c].text for _, ids in slots.items() for c in ids[1] for ref in claims[c].evidence_ids):
+        payload['limitation_quote_instruction'] = (
+            'A claim that opens with an unresolved-limitation notice is a host-written exact quotation of the '
+            'printed source. Judge whether its quoted printed text answers the part; the notice itself does not '
+            'make the part unanswered. All ordinary support, language and other-part checks still apply.')
     if references is not None:
         for card in payload['available_sources']:
             card['evidence_id'] = aliases[card['evidence_id']]
