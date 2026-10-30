@@ -24,7 +24,7 @@ from .service_steps import parse_service, render_service
 from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
-from .malformed_condition import malformed_reply
+from .malformed_condition import malformed_records, malformed_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -295,9 +295,13 @@ def printed_exceptions(pack):
 
 def host_claims(pack):
     """Host-written replies (printed service steps, special class fee, grading table) by part; these
-    parts get no model wording. Each claim is (text, evidence_id) or (text, (evidence_id, ...))."""
+    parts get no model wording. Each claim is (text, evidence_id) or (text, (evidence_id, ...)).
+    A part whose reply would cite a record held for a malformed condition is left out, so the ordinary
+    per-part path quotes that record with its limitation or reports a source gap (owner 30 Oct 2026)."""
     fixed = {**fee_claims(pack), **grade_claims(pack)}
-    return {**service_claims(pack, fixed), **fixed}
+    held = set(malformed_records(pack))
+    return {part: reply for part, reply in {**service_claims(pack, fixed), **fixed}.items()
+            if not any(set(_ids(evidence)) & held for _, evidence in reply)}
 
 
 def _ids(evidence):
