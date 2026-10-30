@@ -130,3 +130,16 @@ def test_shared_five_claim_group_is_budgeted_by_new_claims_not_repeated_slot_ref
     assert slots['r1'][0]==slots['r2'][0]=='answered'
     assert slots['r1'][1]==slots['r2'][1]==('c1','c2','c3','c4','c5')
     assert len(draft.claims)==5
+
+
+# Owner 30 Oct 2026: a conflicting-deadline record outside any printed group is quoted with its limitation.
+@pytest.mark.parametrize('language',['en','taglish'])
+def test_an_ungrouped_conflicting_deadline_record_is_quoted_with_its_limitation(language):
+    content=rows()[:1]
+    del content[0]['service_group']
+    answer=asyncio.run(Generator(ChoosingModel()).generate(TEXT,integration(language=language,content=content)))
+    assert answer.status=='answered' and UNSAFE not in answer.text
+    held,safe=answer.claims
+    assert f'"{VALUES[0]}"' in held.text and '(applicable period)' in held.text and 'office' in held.text
+    assert SAFE in safe.text
+    assert [e.status for e in answer.part_ledger.entries]==['mapped','mapped']

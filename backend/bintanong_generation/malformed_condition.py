@@ -1,7 +1,8 @@
 """Quote a record with an unresolved malformed condition instead of interpreting it.
 
 Owner 30 Oct 2026: answer the visible content and state the limitation. Only explicit
-unresolved malformed_source_condition metadata activates this rule. The quotation is the
+unresolved malformed_source_condition metadata, or conflicting_deadlines on a record outside
+any printed group (grouped conflicts are quoted by deadline_conflict.py), activates this rule. The quotation is the
 record's exact nonblank field wording, its recorded limitation and an office referral;
 the host never explains, completes or reconciles the malformed wording.
 """
@@ -18,6 +19,12 @@ _WORDS = {
 MAX_TEXT = 1200
 
 
+def _grouped(payload):
+    group = payload.get('service_group')
+    name = group.get('logical_step_id') if isinstance(group, dict) else None
+    return isinstance(name, str) and bool(name.strip())
+
+
 def malformed_records(pack):
     """Evidence id -> exact quotation, or None when the held record cannot be quoted safely."""
     records = {}
@@ -27,8 +34,9 @@ def malformed_records(pack):
         try:
             payload = json.loads(card.text)
             limits = payload.get('source_limits', [])
+            held = ('malformed_source_condition',) + (() if _grouped(payload) else ('conflicting_deadlines',))
             matching = [s for s in limits if isinstance(s, dict)
-                        and s.get('issue') == 'malformed_source_condition' and s.get('resolution') == 'unresolved']
+                        and s.get('issue') in held and s.get('resolution') == 'unresolved']
         except (ValueError, TypeError, AttributeError):
             continue
         if not matching:

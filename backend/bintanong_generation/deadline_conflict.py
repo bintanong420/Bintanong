@@ -95,8 +95,10 @@ def _group_quotations(pack, records, groups):
 
 
 def deadline_conflict_reply(pack, proposed, *, max_claims=8, existing_claims=()):
-    """Quote affected groups before ordinary relevance/support review;never choose a deadline."""
-    records = {c.evidence_id: (c, record) for c in pack.cards if (record := _conflict(c)) is not None}
+    """Quote affected groups before ordinary relevance/support review;never choose a deadline.
+    An ungrouped conflicting record is quoted by malformed_condition.py (owner 30 Oct 2026)."""
+    records = {c.evidence_id: (c, record) for c in pack.cards
+               if (record := _conflict(c)) is not None and _group(record) is not None}
     cited = {ref for claim in proposed for ref in claim.evidence_ids}
     touched = cited.intersection(records)
     if not touched:
