@@ -11,8 +11,7 @@ status: open
 
 Owner (30 Oct 2026): student evaluation next week by screen share (not deployed), about two students per program,
 mainly College of Sciences (CoS: prior questionnaire evidence of the guidance problem) plus a few other colleges.
-Priority: answer the common queries. RAGAS is planned later, not now. A new developer (32 GB RAM, any coding agent)
-takes over the test runs. Last full snapshot of this file (eight-failures handoff): `1fd0319`.
+Priority: common queries; RAGAS later. A new developer (32 GB RAM) takes over. Previous snapshot: `1fd0319`.
 
 Read first, in order: repository `AGENTS.md` (binding rules for every agent), `.agents/skills/bintanong-handoff-reminder`
 and `bintanong-phase-handoff`, [current progress](plan_current_progress/current_progress.md), the
@@ -30,8 +29,7 @@ and `bintanong-phase-handoff`, [current progress](plan_current_progress/current_
   checks, `48ff8d6` reviewed Filipino penalty words (owner list, `docs/evaluation/accepted-input-forms.md`).
 - Default `pytest tests/` now skips the offline ingestion-tool tests (prospectus/review GUI/OCR, 1,796 cases);
   `--include-ingestion` runs them. Related suites passed (1,714); the full default suite has not run on HEAD.
-- Benchmark checker fix: hosted/gate/common runners strip `[ev-...]` IDs before phrase matching (hex digits had
-  matched number expectations). The local frozen runner is unchanged on purpose.
+- Runners strip `[ev-...]` IDs before phrase matching (hex digits had matched number checks).
 
 ## New machine setup (keep the exact folder layout: `C:\Coding-projects\bintanong_workspace\...`)
 
@@ -104,7 +102,21 @@ privacy or unknown-versus-unmet guards to pass a keyword. Source-content and wor
 the exact printed text). Small Conventional Commits, no AI attribution trailers, no push or merge unless the owner
 asks. Update current progress after material work; keep this file a compact snapshot.
 
+## Accuracy ownership (owner, 30 Oct 2026)
+
+The new developer owns finding and fixing wrong answers, and adds more common queries. Owner keeps source-content
+and wording decisions, scope, word lists such as `filipino_terms.py`, and pushes/merges. Done: no exceptions or
+crashes in any set; the score target is the owner's to set, so report scores and ask.
+
+Adding common queries (`build_common_cases.py` shows the pattern; write to a new file, e.g. `cases-new.json`):
+- Real student phrasing: casual English/Taglish, short codes ("CC5"), shorthand from the accepted-input list.
+- Expected facts only from reviewed sources: curriculum cases from `all-curricula.json` (hosted reviewed rules;
+  blank cells stay unknown), general cases reuse an existing reviewed expectation or quote the printed text.
+- Run each new batch once BEFORE fixing anything and keep that score: these are the unbiased numbers. Do not tune
+  against a held-out batch; once fixes use it, label it development data, like the 50 and the 97.
+- Undergraduate scope only; no personal data; show the owner new expectations whose wording is a judgment.
+
 ## Next action
 
-Set up the machine (steps 1-7), then run steps 1-6 above and report scores per group with the failing cases;
-then fix the open failures in the order CoS > general common topics > other colleges.
+Set up the machine (setup 1-7), run steps 1-6 above and report scores per group with failing cases; then fix
+the open failures in the order CoS > general common topics > other colleges, and add new common-query batches.
