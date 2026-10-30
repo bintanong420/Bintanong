@@ -240,3 +240,15 @@ def test_topic_part_aimed_at_a_listed_course_keeps_the_course_check_without_the_
     assert (part.evidence_need, part.operation_indices, part.subject_id, part.requested_claims) == (
         'structured', (0,), None, ())
     assert part.detail == 'whole'
+
+
+def test_topic_part_aimed_at_an_unlisted_reviewed_course_keeps_the_course_check():
+    # Owner 30 Oct 2026 benchmark: "Can I take CC5 even if I failed CC4?" quoted CC5 as the operation target
+    # without listing it as a mention, so the eligibility check was read as a topic slip and answered by RAG.
+    value = topic_packet('Can I take B2?', target='B2')
+    wire = importlib.import_module('backend.bintanong_routing.wire')
+    result = wire.normalize_interpretation('Can I take B2?', wire.WireInterpretation.parse(value), course_names={'b2'})
+    part = result.parts[0]
+    assert result.route == 'Symbolic' and [result.mentions[o.target].text for o in result.operations] == ['B2']
+    assert (part.evidence_need, part.operation_indices, part.subject_id) == ('structured', (0,), None)
+    assert normalize(topic_packet('overload'), 'overload').route == 'RAG'  # unknown words keep the 24 Oct repair

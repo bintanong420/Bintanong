@@ -70,16 +70,19 @@ class WireInterpretation(Contract):
         return self
 
 
-def _topic_parts_as_documents(wire: WireInterpretation) -> WireInterpretation:
+def _topic_parts_as_documents(wire: WireInterpretation, course_names=frozenset()) -> WireInterpretation:
     """A structured part that chose a document topic and whose operations target no listed course
     (live 24 Oct 2026: "overload" checked as a course) has nothing to check; its only executable
     reading is the chosen topic. When every operation targets a listed course (gate 28 Oct 2026: an
     eligibility check that also named the prerequisite-policy topic), the course check is the explicit
-    request and the stray topic is dropped."""
+    request and the stray topic is dropped. A target exactly naming a reviewed course alias counts as a
+    listed course (owner 30 Oct 2026: "Can I take CC5 ...?" quoted CC5 without listing it)."""
     courses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind in ('course', 'term')}
     def aimed(i):
-        return i < len(wire.operations) and (wire.operations[i].target.text,
-                                             wire.operations[i].target.occurrence) in courses
+        if i >= len(wire.operations):
+            return False
+        target = wire.operations[i].target
+        return (target.text, target.occurrence) in courses or prepare_query(target.text).casefold() in course_names
     def topical(part):
         return part.evidence_need == 'structured' and part.subject_id is not None and part.operation_indices
     def slip(part):
@@ -108,10 +111,11 @@ def _topic_parts_as_documents(wire: WireInterpretation) -> WireInterpretation:
     return WireInterpretation.parse(data)
 
 
-def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretation:
-    """Resolve declared literal occurrences only; no semantic inference or alias guessing."""
+def normalize_interpretation(text: str, wire: WireInterpretation, *, course_names=frozenset()) -> Interpretation:
+    """Resolve declared literal occurrences only; no semantic inference or alias guessing. course_names
+    (casefolded reviewed course aliases) only tells a course check from a topic slip."""
     prepare_query(text)
-    wire = _topic_parts_as_documents(WireInterpretation.parse(wire.model_dump(mode='json')))
+    wire = _topic_parts_as_documents(WireInterpretation.parse(wire.model_dump(mode='json')), course_names)
     spans = {}
 
     def key(quote):

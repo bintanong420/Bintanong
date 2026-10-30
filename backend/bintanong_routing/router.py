@@ -274,7 +274,8 @@ class Router:
                 try:
                     if wire.previous_course_quote is not None and not follow_up:
                         raise ValueError('course_reference_unavailable')
-                    proposed = normalize_interpretation(text, wire)
+                    proposed = normalize_interpretation(text, wire, course_names=frozenset(
+                        prepare_query(a).casefold() for e in self.catalog if e.kind == 'course' for a in e.aliases))
                     check_topics(proposed, topics)
                     if selection_attempts:
                         proposed = answer_settled_topic(proposed, topics, text)

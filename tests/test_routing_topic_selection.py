@@ -399,3 +399,18 @@ def test_a_short_asked_word_also_names_longer_printed_words():
                            text='Ano parusa sa exam?'), text='Ano parusa sa exam?', topics=(*MENU, topic))[0]
     assert result.proposed.parts[0].requested_claims == (
         'printed rule 8 fields: 8. Cheating in examinations', 'printed rule 9 fields: 9. Selling exam answers')
+
+
+def test_an_eligibility_check_on_an_unlisted_reviewed_course_stays_symbolic():
+    # Owner 30 Oct 2026 benchmark: the target course was quoted but not listed as a mention.
+    text = 'Can I take B1?'
+    wire = dict(schema_version='bintanong-interpretation-wire-v4', language='en', part_count=1,
+        audience='undergraduate', intent='eligibility check', mentions=[], claims=[],
+        operations=[dict(name='check_prerequisite_eligibility', target=dict(text='B1', occurrence=0))],
+        parts=[dict(part_id='r1', quote=dict(text=text, occurrence=0), evidence_need='structured',
+                    operation_indices=[0], subject_id='fictional_office', requested_claims=['filing office'],
+                    detail='whole')],
+        route='Symbolic', control=None, ambiguities=[])
+    result, _ = run(Transport(selected(), json.dumps(wire), text=text), text=text)
+    assert result.decision.route == 'Symbolic'
+    assert result.proposed.parts[0].evidence_need == 'structured'
