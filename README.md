@@ -20,6 +20,8 @@ Use the phase index for current delivery status.
 2. Follow the index to the active phase plan, checkpoint and previous handoff.
    Read the [developer pipeline map](docs/development/pipelines.md) for the source
    preparation/request flows, module responsibilities and generation/API boundaries.
+   To run the system on the shared hosted research release, follow the
+   [hosted research setup](docs/development/hosted-research-setup.md).
    Institutional release remains gated; the index and Git determine current status.
    Open [backend/algorithms](backend/algorithms/README.md) for cosine math, the
    nearest-neighbor demo, Prolog reasoning and links to the runtime SQL and callers.
