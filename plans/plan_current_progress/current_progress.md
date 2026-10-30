@@ -97,7 +97,15 @@ text ("The printed source states (quoted exactly): ... Source note: ...; please 
 answered/validated, 49.6 s, Handbook p.46-47 3.1-3.7 cited. Open cosmetic: two model claims end "(e5)" (short
 reference label leak; pre-existing class). Honors remains a disclosed limitation (guard kept, owner).
 
+## Eight failures (30 Oct)
+
+Plagiarism EN/Taglish root cause: `prefer_printed_procedure` replaced a not-stated-only choice with all 39 printed
+academic_misconduct claims (> 8 part bound) -> ValidationError -> invalid_reference clarify. `8e75428` narrows a
+large topic to printed claims naming the part's words (II.7b); test-first, related 2286 pass (4 local-DB storage
+tests not run: container stopped). Recorded outputs replay to II.7b; live not yet run. second-year-taglish differs:
+Gemma itself returns control clarify with no parts (next to diagnose).
+
 ## Next action
 
 Follow the [eight-failures handoff](../2026-10-30-eight-failures-handoff.md): owner runs the `-owner2` regression on
-HEAD, then fix the 8 failures test-first. Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
+HEAD (now includes `8e75428`), then continue the remaining failures test-first. Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
