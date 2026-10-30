@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import test_evaluation_fixtures as fx
+import evaluation_fixtures as fx
 from evaluation import protocol as pr
 from evaluation import rubrics as rb
 from test_evaluation_case import findings

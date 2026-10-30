@@ -1,6 +1,6 @@
 """Synthetic case builders for the evaluation tests. Fictional students and synthetic policy only.
 
-This module holds no tests; the name keeps it next to the evaluation tests that import it.
+This helper module holds no tests.
 """
 
 from __future__ import annotations

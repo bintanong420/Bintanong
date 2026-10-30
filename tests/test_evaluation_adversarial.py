@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-import test_evaluation_fixtures as fx
+import evaluation_fixtures as fx
 from evaluation import protocol as pr
 from test_evaluation_protocol import DEV, FINAL, codes, dev_case, final_case, group_for
 
