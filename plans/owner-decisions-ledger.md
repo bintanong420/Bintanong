@@ -663,3 +663,9 @@ Each program still gets its own dated review record listing which standing rule 
   for taglish". Taglish claims keep printed rules, limits, numbers, conditions and terms in the source's English
   wording; only connecting words are Filipino. Refines the 27 Oct English/Taglish decision; English replies unchanged.
   The leave-length scorer is left as is (it already accepts "one (1) academic year").
+- 30 Oct 2026 (Filipino penalty-row words): shown a proposed Filipino -> printed English term list for the Handbook
+  sanctions table, owner: "use it but uniporme we dont really use this but the rest definitely yes, kopya/pangongopya/
+  kumopya/kumukopya ... Add these new words to the docs". Reviewed whole-word forms for cheating, examination,
+  smoking, bullying, drinking, gambling and littering live in `backend/bintanong_routing/filipino_terms.py` and the
+  table in `docs/evaluation/accepted-input-forms.md`; "uniporme" excluded. Understanding only; answers keep printed
+  English. Also authorized by owner the same day: Claude restarts the hosted research backend on :8021.

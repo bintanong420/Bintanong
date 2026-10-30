@@ -7,6 +7,7 @@ from dataclasses import replace
 
 from pydantic import ValidationError
 
+from .filipino_terms import printed_terms
 from ..bintanong_contracts.runtime import NormalizedQuery
 from ..bintanong_contracts.symbolic import EMPTY_REGISTRY
 from .contracts import Interpretation, RequestContext, prepare_query
@@ -109,8 +110,10 @@ def _printed_claims(topic, text):
     printed = tuple(c for c in topic.claims if c not in topic.not_stated)
     if len(printed) > 8:  # RequestPart.requested_claims bound
         asked = set(_heading_words(text))
-        printed = tuple(c for c in printed if any(_same_word(w, a) or (len(a) >= 4 and _same_word(a, w))
-                                                  for w in _heading_words(c) for a in asked))
+        names = lambda claim: len({a for a in asked for w in _heading_words(claim)
+                                   if _same_word(w, a) or (len(a) >= 4 and _same_word(a, w))})
+        best = max((names(c) for c in printed), default=0)
+        printed = tuple(c for c in printed if best and names(c) == best)  # the rows naming the most part words
     return printed if len(printed) <= 8 else ()
 
 
@@ -156,7 +159,9 @@ HEADING_STOPWORDS = frozenset('the and for with from not any are all its ang mga
 
 
 def _heading_words(text):
-    return [w for w in re.findall(r'[^\W\d_]+', text.casefold()) if len(w) >= 3 and w not in HEADING_STOPWORDS]
+    """Content words of a part or heading; a reviewed Filipino word also names its printed English term."""
+    words = [w for w in re.findall(r'[^\W\d_]+', text.casefold()) if len(w) >= 3 and w not in HEADING_STOPWORDS]
+    return words + [term for w in words for term in printed_terms(w) if term not in words]
 
 
 def _same_word(heading, asked):

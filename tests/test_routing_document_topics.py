@@ -305,3 +305,46 @@ def test_a_selected_topic_whose_heading_names_more_of_the_parts_words_replaces_t
                                   'Ano ang requirements?'])
 def test_an_equal_better_or_single_word_match_keeps_the_chosen_topic(text):
     assert two_topics(text).subject_id == 'fictional_residence'
+
+
+# Owner 30 Oct 2026: reviewed Filipino words name the English printed penalty rows (backend/bintanong_routing/
+# filipino_terms.py). Common-query run: "nangongopya sa pagsusulit", "nagyosi" and "nambubully" chose the
+# not-stated item and were withheld; the rows print "cheating in examinations", "Smoking" and "Bullying".
+FILLER = tuple(f'printed II.{n} fields: {n}. Fictional offense {name}' for n, name in
+               ((1, 'alpha'), (2, 'beta'), (3, 'gamma'), (4, 'delta'), (5, 'epsilon')))
+SANCTIONS = (DocumentTopic(subject_id='fictional_misconduct',
+    claims=('printed II.7a fields: a. Any form of cheating in examinations',
+            'printed II.7e fields: e. Unauthorized reproduction of examination',
+            'printed II.20 fields: 20. Smoking inside the classroom', 'printed II.25 fields: 25. Bullying is defined',
+            'printed II.26 fields: 26. Cyber bullying is the willful harm', *FILLER, 'the content of missing item 22'),
+    not_stated=('the content of missing item 22',)),)
+
+
+def sanctioned(text, claims=('the content of missing item 22',)):
+    style = json.dumps(style_proposal('taglish', filipino=[text.split()[0]]))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Sanction', language='fil')
+    value['parts'][0].update(subject_id='fictional_misconduct', requested_claims=list(claims))
+    return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text,
+               topics=SANCTIONS).proposed.parts[0].requested_claims
+
+
+@pytest.mark.parametrize('text, expected', [
+    ('Ano ang parusa kapag nahuling nangongopya sa pagsusulit?',
+     ('printed II.7a fields: a. Any form of cheating in examinations',)),
+    ('Ano parusa pag kumopya ako?', ('printed II.7a fields: a. Any form of cheating in examinations',)),
+    ('ano penalty pag nagyosi sa campus?', ('printed II.20 fields: 20. Smoking inside the classroom',)),
+    ('ano parusa sa nambubully?', ('printed II.25 fields: 25. Bullying is defined',
+                                   'printed II.26 fields: 26. Cyber bullying is the willful harm'))])
+def test_reviewed_filipino_words_name_the_printed_row(text, expected):
+    assert sanctioned(text) == expected
+
+
+def test_a_reviewed_form_inside_a_longer_word_names_nothing():
+    # "malaking" contains "alak" (drinking); only whole reviewed words count.
+    assert sanctioned('Ano ang malaking parusa?') == ('the content of missing item 22',)
+
+
+def test_reviewed_filipino_terms_are_whole_words_mapped_to_printed_english_terms():
+    from backend.bintanong_routing.filipino_terms import printed_terms
+    assert printed_terms('kumukopya') == ('cheating',) and printed_terms('pagsusulit') == ('examination',)
+    assert printed_terms('uniporme') == () and printed_terms('malaking') == ()

@@ -61,6 +61,29 @@ test questions so the probe is not inflated.
 | pa | p (lowercase only) |
 | hindi | d (lowercase only) |
 
+## Filipino words for printed penalty rows (reviewed list)
+
+Owner-approved 30 October 2026 ("use it but uniporme we dont really use this but the rest definitely yes"; kopya
+forms: kopya, pangongopya, kumopya, kumukopya). Source of truth: `backend/bintanong_routing/filipino_terms.py`;
+`tests/test_routing_filipino_terms_doc.py` keeps this table equal to it.
+
+These words let the router find the English row printed in the Handbook sanctions table ("cheating in
+examinations", "Smoking", "Bullying"); the student's words are displayed and answers keep the printed English.
+Whole words only ("malaking" never reads as "alak"). Filipino affixes change the root ("kumopya",
+"nangongopya"), so each accepted form is listed; a form not listed is left to the model's choice. A row is chosen
+only when it names more of the question's words than any other row. "uniporme" is not used by students and is
+left out; words that point to several offenses (e.g. "away", "suntok") are left out on purpose.
+
+| Printed English term | Accepted Filipino words |
+| --- | --- |
+| cheating | kopya, kumopya, kumukopya, kinopya, nangopya, nangongopya, mangopya, pangongopya, pagkopya, nagkopya |
+| examination | pagsusulit |
+| smoking | yosi, nagyosi, magyosi, nagyoyosi, pagyoyosi, sigarilyo, paninigarilyo, naninigarilyo, nagsisigarilyo |
+| bullying | bully, nambully, nambubully, binully, binubully, mambully |
+| drinking | alak, lasing, nalasing, naglalasing, paglalasing |
+| gambling | sugal, nagsusugal, sumugal, pagsusugal, pustahan, pumusta, nagpupusta |
+| littering | kalat, nagkalat, magkalat, pagkakalat, basura |
+
 ## Course names
 
 Within the student's selected curriculum, matching ignores capitalization:
