@@ -130,10 +130,14 @@ Gained vs local `-owner2` 44/50: cc5-en, smoking-en, leave-length-taglish; nothi
 
 Read-only audit of the inherited tests (Hawksprey420: 105 files, 4,646 of 7,365): no dataset/.env/absolute-path
 dependency; contracts family fragmented across fix-pass files; redundancy unmeasured (no coverage tool installed).
-[Plan](../2026-10-30-test-suite-audit-plan.md) to be executed by Codex.
+[Plan](../2026-10-30-test-suite-audit-plan.md) execution started by Codex at `3ad52e5`:
+7,365 collected; local Supabase DB started/healthy; all four full-suite baseline batches exit 0:
+7,357 passed / 6 skipped / 2 xfailed / 1,608 subtests (no test changes yet).
+Owner approved coverage + pytest-cov in evaluation venv only after baseline; no dependency/lockfile edits.
+[Execution checkpoint](../2026-10-30-test-suite-audit-results.md). No tests changed or removed yet.
 
 ## Next action
 
-Summer-load-en drafting replay; owner decision pending on uniform/residence (disclosed limit or bounded
-menu-prompt try). Full test suite (with local DB up) before claiming completion.
+Install approved coverage tools and measure task 2 (105 inherited files / 4,646 tests reconciled).
+Earlier accuracy follow-ups remain deferred; tool retirement requires the owner's task 6 decision.
 Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
