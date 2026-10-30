@@ -1,6 +1,10 @@
 # Bintanong implementation ledger
 
 ## Current state
+
+- [AI ingestion adaptation plan](2026-10-30-ai-ingestion-adaptation-plan.md) published
+  for owner review on30Oct. [Publication scope](2026-10-30-ai-ingestion-plan-publication.md):
+  documentation only;131local implementation/history commits are not published here.
 - Phase11active;this worktree is p11-policy-ingestion-review. Local backend c370f00
   merged here;backend/security delivered upstream,frontend integration separate. [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
   [Current progress](plan_current_progress/current_progress.md). No Phase11handoff;
