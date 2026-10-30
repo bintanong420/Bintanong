@@ -27,9 +27,13 @@ Stopped intermediate quickwins full-suite run after one green batch; partial log
 Task 3 committed `4e80c56`. Task 4 committed `f071293`:14 fragments folded into module files,25 ->11 files;
 all2,032 cases retained and passing.235 moved test functions checked against originals (bindings/matrices
 normalized); all7,364 cases mapped one-to-one; fresh inherited coverage4,639pass/6skip, no loss.
-Task 5: one OCR text-format test removed; retained real adapter test covers every line/arc and same text oracle.
+Task 5 committed `0f7849b`: one OCR text-format test removed; retained adapter covers every line/arc and same oracle.
 Both caught a process-local lost-newline mutation. OCR98pass/1skip; final collection7,363 (two total removals).
-No tooling retired; task 6 requires the owner's decision.
+Task 6: owner chose to keep all three tools/tests; clarified these are offline ingestion/data-preparation tools.
+Their1,787 inherited baseline cases are reported separately from runtime evidence. No tooling retired.
+Fresh Codex review found a checker vocabulary-binding collision; separate package/checker bindings restored.
+Ignored independence probe RED1fail -> GREEN1pass; contracts2,032pass; all7,363 current cases mapped.
+External Claude review remains pending. One final full suite and fresh complete-scope coverage next.
 No push, production behavior changes, additional installs or dependency/model/lock changes.
 
 ## Research release and accuracy follow-ups
@@ -56,4 +60,4 @@ and referral. Prior repairs/replays and exact decisions remain in `3ad52e5`, dat
 
 Preserve undergraduate scope, source gaps, privacy, unknown-versus-unmet, printed terms and release guards.
 F04 stays held; research activation is not school approval or public deployment.
-Next: commit verified task 5 OCR removal, obtain tooling decision (task 6), then final full-suite/coverage checks.
+Next: commit verified checker-binding correction, then final full-suite/coverage checks (task 7).

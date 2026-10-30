@@ -13,9 +13,9 @@ No push, product behavior changes, tool retirement, model download or lockfile c
 | 2 Measure | Complete: 4,640 passed / 6 skipped; 4,646 per-test records |
 | 3 Quick wins | Complete, `4e80c56`: focused 290 passed / 1 skipped; inherited coverage unchanged |
 | 4 Contracts consolidation | Complete, `f071293`: 2,032 passed; 14 fragments folded into module files |
-| 5 Other redundancy | One OCR case removed with coverage/oracle/mutation proof; focused 98 passed / 1 skipped |
-| 6 Tool retirement | Next: owner decision required; retain tooling until answered |
-| 7 Final verification | Pending |
+| 5 Other redundancy | Complete, `0f7849b`: one OCR removal with coverage/oracle/mutation proof; 98 passed / 1 skipped |
+| 6 Tool retirement | Complete: owner chose "Keep all three tools and their distinct tests" |
+| 7 Final verification | Next: final full suite and complete-scope inherited coverage |
 
 ## Decisions and boundaries
 
@@ -87,7 +87,7 @@ data and per-test exports retain them. No evidence reduction in the analysis.
 
 ## Removal proof and quick wins
 
-Only removal so far (one unparametrized case):
+Task 3 removal (one unparametrized case):
 `test_prospectus_b2_codex_review.py::test_item8_the_untouched_entry_is_still_applied` -> retained
 `test_o1_old_ledgers_still_read_and_apply_unchanged` in that same file. Identical function AST except name,
 including signature/decorators/assertion and same module globals; every measured line/arc is a subset across
@@ -152,4 +152,20 @@ After deletion: OCR family **98 passed / 1 skipped**, 20.65s; full collection **
 No negative, privacy, scope, security, source-gap or original mutation-survivor test removed.
 Tool code remains intact; final post-deletion full-suite and coverage checks still required.
 
-Next: commit the OCR removal, obtain the owner's task 6 tooling decision, then final verification (task 7).
+## Review correction and tooling decision
+
+Fresh read-only Codex review independently checked 50 moved helper ASTs, all 235 mapped functions and
+16 shared-matrix substitutions; separate external Claude review remains pending. It found a P2 global-binding
+defect: the survivor block's `VOC = base.VOCAB` overwrote the independent checker's `VOC = tl.vocabulary()`.
+A process-local production-transition mutation reproduced the regression: 12 checker errors instead of zero.
+Restored separate `_PACKAGE_VOCAB` and checker bindings. Ignored focused probe: RED1failed / GREEN1passed;
+contracts2,032passed (8.48s), signatures/bodies/case mapping rechecked. No new tracked test case or production edit.
+This correction shows why passing tests/counts/function ASTs alone do not prove global binding preservation.
+Minor review finding (stale task 6/one-removal status) corrected here and in current progress.
+
+Owner chose to **keep all three tools and their distinct tests**, then clarified that the GUI/OCR bench/fixer
+belong to offline ingestion/data preparation. Report those families separately from live runtime evidence;
+1,787 inherited baseline cases are prospectus1,290 + GUI407 + OCR90. No default test-command/CI scope changed.
+No tooling retirement or code deletion. The one final full suite still checks the entire repository.
+
+Next: commit the verified binding correction, then run task 7 final full-suite and coverage checks.

@@ -991,16 +991,16 @@ def test_register_sets_give_the_hand_written_verdict(label, recs, rejected):
 
 
 
-VOC = base.VOCAB
+_PACKAGE_VOCAB = base.VOCAB
 
 def test_every_scope_field_of_the_vocabulary_is_a_field_of_the_register_model():
-    assert set(VOC["scope_fields"]) <= set(gov.SourceDocumentVersion.model_fields)
+    assert set(_PACKAGE_VOCAB["scope_fields"]) <= set(gov.SourceDocumentVersion.model_fields)
     dims = set(gov.AffectedScope.model_fields) - {"capability"}
-    assert dims <= set(VOC["scope_fields"])
+    assert dims <= set(_PACKAGE_VOCAB["scope_fields"])
 
 def test_the_session_origins_of_the_vocabulary_are_exactly_what_a_session_fact_accepts():
     f = load("synthetic-session-fact.json")
-    for origin in VOC["session_origins"]:
+    for origin in _PACKAGE_VOCAB["session_origins"]:
         gov.SessionFact.parse({**f, "origin": origin})
     for origin in ("staff_entry", "official_record", ""):
         with pytest.raises(ValidationError, match="String should match pattern '\\^\\(user_statement\\|private_upload"):
