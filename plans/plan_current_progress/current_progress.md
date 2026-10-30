@@ -1,63 +1,56 @@
 # Current progress
 
 Updated 30 October 2026 (machine local date). Worktree p12 / `p12-evaluation-harness`.
-Phase 12 research/software evaluation write-up complete with disclosures; no active numbered phase.
-Post-phase test-suite audit authorized. Phase 13 deployment remains cancelled by owner.
-Last full progress snapshot before condensation: `3ad52e5`; recover prior detail with `git show`.
+Phase 12 research/software write-up complete with disclosures; no active numbered implementation phase.
+Post-phase test-suite audit tasks 1–7 complete; ready for external Claude review. Phase 13 remains cancelled.
+Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
-## Latest change: test-suite audit
+## Latest delivery: test-suite audit
 
-[Plan](../2026-10-30-test-suite-audit-plan.md) · [Execution checkpoint/results](../2026-10-30-test-suite-audit-results.md).
-Tasks 1–2 complete: baseline7,365 collected; full suite7,357pass/6skip/2xfail/1,608subtests, four exits0.
-Local `supabase_db_Bintanong` started and healthy. Gemma not needed; existing model container untouched.
-Inherited roster reconciled:105 collecting files /4,646 tests created by Hawksprey420 (current file incarnations).
-Owner approved coverage7.17.0 + pytest-cov7.1.0 in the evaluation venv only; installed, no lock/dependency edits.
-Corrected per-test scope includes root `evaluation/`:3,009 subset candidates /534 zero-production records;
-neither alone proves redundancy. Before/after-consolidation coverage14,444/24,492 statements,
-4,631/9,720 branches, zero lost covered sets; production hashes unchanged.
+[Completed plan](../2026-10-30-test-suite-audit-plan.md) · [Counts, removal proofs and results](../2026-10-30-test-suite-audit-results.md).
+Overall collected: **7,365 -> 7,363**; inherited Hawksprey420 cases: **4,646 -> 4,644**.
+Contracts: **25 -> 11 files**, all **2,032 cases retained**; 235 moved test functions verified against originals.
+Fourteen fix-pass/survivor fragments folded into module files; shared path/ID matrices centralized.
+Two removals: identical ledger compatibility duplicate, and OCR text-format case covered by a retained real
+adapter test with the same oracle. Per-test line/arc subsets documented; both OCR tests catch lost-newline mutant.
+Evaluation helper renamed; five imports fixed; executable builder AST unchanged.
 
-Task 3 complete: removed one identical-body prospectus ledger test, retained its descriptive compatibility twin;
-same module globals and all measured lines/arcs covered by retained test. Renamed zero-test evaluation helper
-to `evaluation_fixtures.py`; five imports updated; builder AST unchanged. Collection7,364 (exactly one removed).
-Focused290pass/1skip. Fresh inherited coverage4,639pass/6skip/13subtests; **no lost lines or branches**,
-same denominators and production hashes. Evidence/temp/scripts remain under ignored workspace audit-evidence.
+Final test code `4ed03dc`: **7,355 passed / 6 skipped / 2 xfailed / 1,608 subtests**, four batch exits 0.
+Fresh inherited run: **4,638 passed / 6 skipped / 13 subtests**, exit 0.
+Coverage before/after: **14,444 / 24,492 statements; 4,631 / 9,720 branches** (`backend/`, `scripts/`, `evaluation/`).
+Exact covered sets preserved globally and within every family; production Python hashes unchanged.
+Root evaluation coverage corrected using original archived tests and hash-verified production code.
+No negative/privacy/scope/security/source-gap/original mutation-survivor case removed.
 
-Owner changed the verification schedule: **focused checks during audit; one full suite at the end**.
-Stopped intermediate quickwins full-suite run after one green batch; partial logs are not full-suite evidence.
-Task 3 committed `4e80c56`. Task 4 committed `f071293`:14 fragments folded into module files,25 ->11 files;
-all2,032 cases retained and passing.235 moved test functions checked against originals (bindings/matrices
-normalized); all7,364 cases mapped one-to-one; fresh inherited coverage4,639pass/6skip, no loss.
-Task 5 committed `0f7849b`: one OCR text-format test removed; retained adapter covers every line/arc and same oracle.
-Both caught a process-local lost-newline mutation. OCR98pass/1skip; final collection7,363 (two total removals).
-Task 6: owner chose to keep all three tools/tests; clarified these are offline ingestion/data-preparation tools.
-Their1,787 inherited baseline cases are reported separately from runtime evidence. No tooling retired.
-Fresh Codex review found a checker vocabulary-binding collision; separate package/checker bindings restored.
-Ignored independence probe RED1fail -> GREEN1pass; contracts2,032pass; all7,363 current cases mapped.
-External Claude review remains pending. One final full suite and fresh complete-scope coverage next.
-No push, production behavior changes, additional installs or dependency/model/lock changes.
+Owner approved coverage 7.17.0 + pytest-cov 7.1.0 in the evaluation venv only; no lock/dependency edits.
+Owner amended verification to focused checks during audit and one final full suite; interrupted intermediate
+run is recorded separately and never claimed as full evidence. Owner kept review GUI, OCR bench and prospectus
+fixer as offline ingestion tools. Their inherited families: 1,787 -> 1,785 cases, separate from runtime evidence.
+No test-command/CI default changed. Local Supabase started/healthy; Gemma untouched and unnecessary here.
+
+Fresh Codex review checked helpers/matrices and found a shared vocabulary binding that weakened checker
+independence. Separate package/checker bindings restored; process-local probe RED fail -> GREEN pass, contracts
+2,032 pass. Passing counts/ASTs alone do not prove binding independence. External Claude review remains pending.
+Commits: `db643c0` baseline; `4e80c56` quick wins; `f071293` consolidation; `0f7849b` OCR; `4ed03dc` checker fix.
+Closure documentation follows. Raw evidence/temp/scripts remain under ignored workspace audit-evidence.
+No production behavior, source corpus, dependency/model/lock changes, merge or push.
 
 ## Research release and accuracy follow-ups
 
 [Phase 12 handoff](../phase-12-handoff.md) · [Frozen report](../../docs/evaluation/phase12-evaluation-report.md) ·
-[Activation results](../2026-10-30-hosted-560-activation-results.md).
-Hosted research release `p12-research-faqsplit-20261030`:560 chunks/vectors,39 curriculum links;
-corrected78 superseded and retained for rollback. Bound artifacts/source states unchanged.
-Backend :8021 uses the ignored hosted-560 config; frontend :3216; model :18088. Servers are owner-managed.
-Do not use the old corrected78/local-document config after activation or repeat staging/activation.
-
-Frozen main v2:38/50; original C40/50, rerun39/50; A strict3/50, content8/50. Participant research,
-independent scoring, institutional validation and several planned metrics remain unavailable/disclosed.
-These results are separate from subsequent development regressions; no student-visible latency SLA established.
-
-[Hosted-parity results](../2026-10-30-hosted-regression-results.md): owner-run `-hosted2` on63b9653,
-47/50, no exceptions, versus local44/50 (three gains/no losses). Both documents and curricula used hosted paths.
-Remaining:summer-load-en (Dean exception omitted), grad-residence-taglish and disc-uniform-taglish (model choices).
-Honors introduced_disjunction guard retained by owner; INC now answers exact printed quotations with limitation
-and referral. Prior repairs/replays and exact decisions remain in `3ad52e5`, dated results and
-[accuracy handoff](../2026-10-30-eight-failures-handoff.md). No new live benchmark runs during this audit.
+[Activation](../2026-10-30-hosted-560-activation-results.md).
+Hosted research `p12-research-faqsplit-20261030`: 560 chunks/vectors, 39 curricula; corrected78 retained for rollback.
+Bound artifacts/source states unchanged. Owner manages backend :8021 (hosted-560 config), frontend :3216,
+model :18088. Do not repeat activation or use the old corrected78/local-document config after the switch.
+Frozen main v2: 38/50. Participant research, independent scoring and institutional validation remain unavailable.
+[Hosted-parity development regression](../2026-10-30-hosted-regression-results.md): 47/50 on `63b9653`, no exceptions;
+separate from frozen evaluation. Remaining: summer-load-en Dean omission, grad-residence-taglish, uniform-taglish.
+Honors guard kept by owner; INC now answers printed quotes with limitation/referral. Prior repair history remains
+in `db643c0`, dated results and [accuracy handoff](../2026-10-30-eight-failures-handoff.md).
+No live model benchmark or student-visible latency claim from this audit.
 
 ## Boundaries and next action
 
 Preserve undergraduate scope, source gaps, privacy, unknown-versus-unmet, printed terms and release guards.
-F04 stays held; research activation is not school approval or public deployment.
-Next: commit verified checker-binding correction, then final full-suite/coverage checks (task 7).
+F04 stays held; research activation is not institutional approval or public deployment.
+Next: external Claude review of local audit commits. Keep branch/worktree; no merge/push or Phase 13 advancement.

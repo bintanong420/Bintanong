@@ -3,10 +3,14 @@ title: Test-suite audit and consolidation plan (inherited Phase 1-2 tests)
 date: 2026-10-30
 worktree: p12
 branch: p12-evaluation-harness
-status: planned (read-only audit done; no test changed yet)
+status: complete (tasks 1-7; owner amended verification schedule)
 ---
 
 # Test-suite audit and consolidation plan
+
+Executed 30 October 2026: [results, counts, removal proofs and verification](2026-10-30-test-suite-audit-results.md).
+Owner-approved execution amendment: focused checks during the audit and one final full suite, superseding the
+original per-commit full-suite schedule below. All three offline ingestion tools remain supported.
 
 Owner request (30 Oct 2026): the previous developer (git author `Hawksprey420`) handed over about 5,000 tests. Verify
 them, find redundant or useless tests, and plan fixes. Codex executes; Claude reviews.
