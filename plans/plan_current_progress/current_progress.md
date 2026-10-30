@@ -52,6 +52,18 @@ model :18088. Do not repeat activation or use the old corrected78/local-document
 Frozen main v2: 38/50. Participant research, independent scoring and institutional validation remain unavailable.
 [Hosted-parity development regression](../2026-10-30-hosted-regression-results.md): 47/50 on `63b9653`, no exceptions;
 separate from frozen evaluation. Remaining: summer-load-en Dean omission, grad-residence-taglish, uniform-taglish.
+Student-evaluation prep (owner 30 Oct): next week, screen-shared sessions, 2 students per program, mainly College
+of Sciences (prior questionnaire evidence) plus a few other colleges; priority is common queries. RAGAS later.
+Checker fix: evidence-ID hex matched digit expectations; hosted/gate runners now strip IDs (47/50 and frozen 38/50
+rescored unchanged). `f08712d`: omitted printed exception -> repair (RED 8 -> GREEN 8; gen/orch/API 1,014 pass;
+104-draft dry run: 8 triggers, all summer load; live repair replays EN/Taglish include 12 units + Dean). A prompt-only
+variant was replayed and reverted (1 gain, 3 regressions). `12b35d1`: one printed row naming the part's word
+replaces an unrelated row (uniform Taglish); `ac867c6`: a selected topic whose heading names more part words wins
+(graduation residence Taglish). Dry runs over 273 routing outputs: 4 and 1 triggers, all correct. Live hosted
+subsets: 8/8 and 6/6 incl. all three former failures. Full 50 on `ac867c6` running (Claude, `-claude-full`).
+Common-query set: `audit-evidence/p12-common-queries-20261030/` (97 cases: 33 general rewordings reusing reviewed
+expectations, 48 CoS across all 6 CoS curricula, 16 from 6 other colleges); first run before any fix.
+Owner restarts :8021 to serve the new HEAD.
 Honors guard kept by owner; INC now answers printed quotes with limitation/referral. Prior repair history remains
 in `db643c0`, dated results and [accuracy handoff](../2026-10-30-eight-failures-handoff.md).
 No live model benchmark or student-visible latency claim from this audit.
