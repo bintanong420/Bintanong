@@ -122,11 +122,12 @@ Remaining: uniform Taglish, grad-residence Taglish (model choice), summer-load E
 The 50-case runner read documents from the local 559-chunk package (curricula hosted). New ignored runner
 `audit-evidence/p12-hosted-regression-20261030/run_hosted_regression.py` composes exactly as `load_research_app`
 (hosted pin/seal, 560 chunks, `ResearchProvider` hosted pin check per case); old runner unchanged for comparison.
-Smoke `run-b8743ee-smoke`: cc5-en, smoking-en, leave-length-taglish PASS; same evidence IDs as local; hosted
-retrieval ~1.4 s vs ~0.5 s local. `compare_runs.py` diffs two runs.
+Full owner run `-hosted2` on 63b9653: **47/50 on hosted** (no exceptions; `-hosted1` void: Docker Desktop stopped).
+Gained vs local `-owner2` 44/50: cc5-en, smoking-en, leave-length-taglish; nothing lost. Remaining: summer-load-en
+(missing Dean), grad-residence-taglish, disc-uniform-taglish. [Results](../2026-10-30-hosted-regression-results.md).
 
 ## Next action
 
-Owner runs the full 50 on the hosted runner (suffix `-hosted1-b$b`); Claude compares with local runs and records
-`plans/2026-10-30-hosted-regression-results.md`. Then summer-load-en replay; owner decision pending on uniform/residence.
+Summer-load-en drafting replay; owner decision pending on uniform/residence (disclosed limit or bounded
+menu-prompt try). Full test suite (with local DB up) before claiming completion.
 Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
