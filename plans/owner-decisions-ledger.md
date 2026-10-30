@@ -657,3 +657,9 @@ Each program still gets its own dated review record listing which standing rule 
   or single-word match keeps the model's choice, same topic only). Adding instead of replacing exceeded
   grade_completion's 3,072-token budget (timing 1,520 + 3.4 group 1,959 tokens). Offline on 53 recorded router outputs
   it changes only "How do I remove an incomplete grade?" (timing -> 3.4 REMOVAL OF "INC" group).
+- 30 Oct 2026 (Taglish source wording): shown leave-length-taglish's reply ("hindi dapat lumagpas sa isang (1) academic
+  year", the printed rule translated into Filipino structure), owner chose (a): "we keep the answers that came from
+  the data as english as is. But for other like words that connect them like the connecting as filipino. This is
+  for taglish". Taglish claims keep printed rules, limits, numbers, conditions and terms in the source's English
+  wording; only connecting words are Filipino. Refines the 27 Oct English/Taglish decision; English replies unchanged.
+  The leave-length scorer is left as is (it already accepts "one (1) academic year").

@@ -350,3 +350,11 @@ def test_partial_ledger_needs_a_mapped_part_and_only_declared_gaps(entries, vali
     else:
         with pytest.raises(ValueError, match='ledger_status_mismatch'):
             BoundRequirementLedger.parse(value)
+
+
+def test_taglish_keeps_printed_wording_in_english_with_filipino_connectors():
+    # Owner 30 Oct 2026: "we keep the answers that came from the data as english as is ... the connecting as
+    # filipino". Observed: "shall not exceed one (1) academic year" became "hindi dapat lumagpas sa isang (1) ...".
+    from backend.bintanong_generation.part_answers import PART_PROMPT, REWRITE
+    for text in (PART_PROMPT, REWRITE['taglish']):
+        assert "printed wording in the source's English" in text and 'only the connecting words' in text

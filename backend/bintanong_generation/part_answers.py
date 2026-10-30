@@ -138,10 +138,13 @@ the responsible actor, action and object: an action on a student must not become
 an action on a form. Explain the agency action alongside the client step. Include
 applicable source conflicts, missing continuations and effectivity limitations;
 do not replace a specific discrepancy with only a generic warning.
-Write every claim in the requested style. en: plain English. taglish: everyday
-Tagalog structure with English policy terms,actions and source quotations where
-needed for accuracy,for example "I-email mo yung request form sa registrar."
-Do not force translations of source terms or target an exclusive Filipino reply.
+Write every claim in the requested style. en: plain English. taglish: keep the
+printed wording in the source's English as is: rules, limits, numbers, conditions,
+actions, offices, English policy terms and source quotations; never translate them.
+Use only the connecting words in everyday Filipino (Tagalog structure words such as
+ang, ay, sa, yung, mo, kung, pero), for example "I-email mo yung request form sa
+registrar." or "Ang request ay must be filed within five (5) days, at kailangan ng
+approval ng Dean." Do not target an exclusive Filipino reply.
 Preserve meaning,conditions and quotations;do not copy unrelated English sentences.
 The host separately renders any structured prerequisite result; do not generate or
 broaden it or assert enrollment eligibility. Each claim must cite only sources that
@@ -313,8 +316,9 @@ def part_schema(pack, references=None):
 
 
 REWRITE = dict(
-    taglish='Rewrite every claim in Taglish: Tagalog sentence structure and grammar words '
-            '(ang, sa, yung, mo, lang, po), retaining accurate English source terms and quotations. '
+    taglish="Rewrite every claim in Taglish: keep the printed wording in the source's English as is "
+            '(rules, limits, numbers, conditions, terms and quotations) and use only the connecting words in '
+            'Filipino: Tagalog sentence structure and grammar words (ang, sa, yung, mo, lang, po). '
             'Preserve the complete source meaning and conditions.')
 
 
