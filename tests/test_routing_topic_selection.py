@@ -96,14 +96,14 @@ def test_default_and_small_menu_keep_the_existing_inference_path(enabled, count)
 @pytest.mark.parametrize('raw', [
     'not json', '[]', 'null', '{}',
     selected(('absent_topic',)), selected(('fictional_office', 'fictional_office')),
-    selected(tuple(t.subject_id for t in MENU[:9])), selected(ambiguous=True),
+    selected(tuple(t.subject_id for t in MENU[:9])),
     '{"schema_version":"bintanong-topic-selection-v1","subject_ids":[],"ambiguous":"false"}',
     '{"schema_version":"bintanong-topic-selection-v1","subject_ids":[1],"ambiguous":false}',
     '{"schema_version":"bintanong-topic-selection-v1","subject_ids":[],"ambiguous":false,"answer":"yes"}',
     '{"schema_version":"bintanong-topic-selection-v1","subject_ids":[],"ambiguous":true,"ambiguous":false}',
     pytest.param(' ' * 65537, id='oversized'),
 ])
-def test_invalid_or_ambiguous_selection_withholds_without_detail_or_fallback(raw):
+def test_invalid_selection_withholds_without_detail_or_fallback(raw):
     transport = Transport(raw, answer())
     result, _ = run(transport)
     assert result.decision.control == 'evidence_unavailable' and not result.decision.dispatchable
@@ -128,6 +128,17 @@ def test_empty_selection_keeps_structured_semantics_and_excluded_audience_contro
         result, _ = run(Transport(selected(()), json.dumps(value), text='A1'), text='A1')
         assert result.decision.route == expected_route and result.decision.control == expected_control
         assert result.inference_calls == 3
+
+
+# Common-query run 30 Oct 2026: "ano mga subjects ng BSCS 2nd year 1st sem?" selected two handbook topics marked
+# ambiguous, and the whole course listing ended temporarily unavailable. An ambiguous selection now carries no
+# document topic: structured checks proceed and no document answer is authorized from a partial menu.
+@pytest.mark.parametrize('ids', [(), ('fictional_office',)])
+def test_an_ambiguous_selection_keeps_structured_semantics_without_document_topics(ids):
+    result, _ = run(Transport(selected(ids, ambiguous=True), json.dumps(proposal()), text='A1'), text='A1')
+    assert result.decision.route == 'Symbolic' and result.inference_calls == 3
+    document, _ = run(Transport(selected(ids, ambiguous=True), answer(), answer()))
+    assert document.decision.control == 'evidence_unavailable' and not document.decision.dispatchable
 
 
 def test_empty_selection_does_not_authorize_a_document_answer():

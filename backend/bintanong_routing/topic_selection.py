@@ -46,9 +46,11 @@ def build_messages(text, topics, previous=None):
 
 
 def selected_topics(value, topics):
-    """Bind only validated current-menu IDs to their complete original topic objects."""
+    """Bind only validated current-menu IDs to their complete original topic objects. An ambiguous
+    selection carries no document topic, so structured checks proceed and no document part can be
+    answered from a partial menu (common-query run, 30 Oct 2026)."""
     if (not isinstance(value, dict) or set(value) != {'schema_version', 'subject_ids', 'ambiguous'}
-            or value['schema_version'] != VERSION or value['ambiguous'] is not False):
+            or value['schema_version'] != VERSION or type(value['ambiguous']) is not bool):
         raise ValueError('topic_selection_unavailable')
     ids = value['subject_ids']
     menu = {t.subject_id: t for t in topics}
@@ -56,6 +58,8 @@ def selected_topics(value, topics):
             or any(not isinstance(subject, str) or subject not in menu for subject in ids)
             or len(set(ids)) != len(ids)):
         raise ValueError('topic_selection_unavailable')
+    if value['ambiguous']:
+        return ()
     chosen = tuple(menu[subject] for subject in ids)
     # Owner-approved families: one selected member brings its siblings, in menu order.
     families = {t.family for t in chosen if t.family is not None}
