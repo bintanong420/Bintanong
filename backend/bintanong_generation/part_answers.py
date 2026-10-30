@@ -190,12 +190,26 @@ CONFIRM_PROMPT_SHA256 = hashlib.sha256(CONFIRM_PROMPT.encode()).hexdigest()
 
 def style_errors(draft, pack, question=''):
     """No pure-English claims for Filipino styles. Owner25Oct: word formality is a
-    preference, never a hard exclusion of otherwise supported Filipino wording."""
-    if pack.language in ('fil', 'taglish') and any(
-            not has_filipino_function_word(c.text)
-            for c in draft.claims):
+    preference, never a hard exclusion of otherwise supported Filipino wording. Owner 30 Oct: printed
+    wording stays English, so a claim repeating its cited sources' words verbatim is in style when another
+    claim carries the Filipino connecting words; a reply made only of printed English is not."""
+    if pack.language not in ('fil', 'taglish'):
+        return ()
+    english = [c for c in draft.claims if not has_filipino_function_word(c.text)]
+    if english and (len(english) == len(draft.claims) or not all(_repeats_printed(c, pack) for c in english)):
         return ('claim_not_in_requested_style',)
     return ()
+
+
+def _printed_words(text):
+    return ' '.join(re.findall(r'\w+', text.casefold()))
+
+
+def _repeats_printed(claim, pack):
+    texts = {c.evidence_id: c.text for c in pack.cards}
+    printed = ' '.join(_printed_words(s) for ref in claim.evidence_ids for s in _printed_sentences(texts.get(ref, '')))
+    words = _printed_words(claim.text)
+    return bool(words) and f' {words} ' in f' {printed} '
 
 
 DISJUNCTION = re.compile(r'\b(?:or|o)\b', re.I)
