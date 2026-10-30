@@ -2,6 +2,10 @@
 
 ## Current state
 
+- [Adaptation plan published](2026-10-30-ai-ingestion-adaptation-plan.md) for owner review:
+  origin feat/p11-policy-ingestion-review at8e75ddb. [Publication scope](2026-10-30-ai-ingestion-plan-publication.md):
+  documentation only;existing local application commits remain unpublished.
+
 - Phase11 active in p11-policy-ingestion-review / feat/p11-policy-ingestion-review.
   [Plan](phase-11-backend-api-plan.md) · [Checkpoint](phase-11-checkpoint.md) ·
   [Progress](plan_current_progress/current_progress.md). No Phase11handoff;

@@ -6,35 +6,23 @@ Last full snapshots: ingestion `2f7c935`, upstream `f0889c3`; use `git show`.
 
 ## Latest change
 
-Owner30Oct:do not use the LM Studio projector,including copying/repackaging it.
-Adaptation plan/operator guide now require a separately approved compatible asset.
-Fresh shared-MODELS inventory found the Gemma GGUF but no projector;live local
-vision awaits an eligible asset. Adapter/tests can progress independently. No
-model files read for inference,moved,downloaded or launched during this correction.
-Projector-policy docs22pass/6.43s;phase statevalid;application unchanged.
+[Adaptation plan](../2026-10-30-ai-ingestion-adaptation-plan.md) published to
+origin/feat/p11-policy-ingestion-review at8e75ddb0552462361339b25ce9e187680518ab63;
+GitHub tip verified. [Publication scope](../2026-10-30-ai-ingestion-plan-publication.md):
+6documentation files only,83local links resolve,zero application files changed.
+Origin was3c1d76c;131local commits including backend/AI implementation were not
+pushed. Remote documentation commit merged locally to preserve future ancestry.
+Owner will review later;adaptation implementation has not started.
 
-[Adaptation plan](../2026-10-30-ai-ingestion-adaptation-plan.md) created from the
-reconciled developer requirements and inspected current code. Six tasks:freeze
-inputs/environment,normalize redundant-null model advice,repeatable local Gemma,
-real human correction/build proof,LlamaParse matched pilot,measured delivery.
-Reuses existing reviewer/journal/build/evaluation. No product implementation yet;
-no perfect-model prerequisite,new dependency or hosted/runtime change. Fresh plan
-docs22pass/1.51s;phase statevalid;no application tests or inference rerun.
+Plan uses existing reviewer/journal/build/evaluation;no perfect-model prerequisite.
+Owner excludes LM Studio projector,including relocated copies. Shared MODELS has
+no eligible projector;no model run/download occurred. Llama live still needs key/quota.
+[Requirements](../2026-10-30-ai-ingestion-developer-requirements.md) and original
+source notes are included with the published plan;prior source decisions unchanged.
 
-[Developer requirements reconciled](../2026-10-30-ai-ingestion-developer-requirements.md):
-original E: text prompts match the preserved repo notes. Required two paths are
-scripts+configurable vision LLM+human review,and LlamaParse+the same human review.
-Human corrections already feed reviewed chunk building. Wrong AI advice stays
-subject to HITL;no perfect-model prerequisite is invented. Formatting/binding and
-human-save safeguards remain. No Llama key in checked environment/config locations;
-real Llama comparison remains unrun. Fresh docs22pass/1.70s;phase statevalid.
-No code,model,packet or hosted changes.
-
-[Backend refresh](../2026-10-30-backend-f0889c3-ingestion-merge.md):f0889c3 merged
-at8cdba68;receipt d198955. Original dirty docs retained at2f7c935,recovery ref
-recovery/policy-before-f0889c3-20261030 at123aa1e. All local,no push.
-Verified merged-tree185Python files:3889pass/350subtests,2xfail,315.04s;studentNode
-65pass,researcher7pass/1browser-skip,bothTypeScript checks,docs22pass. Independent
+[Backend refresh](../2026-10-30-backend-f0889c3-ingestion-merge.md):8cdba68,receipt
+d198955. Its application code remains local. Earlier merged-tree verification:
+3889pass/350subtests,2xfail;Node65+7pass,bothTypeScript checks,docs22pass. Independent
 bounded integration review found no blocker;no full/live/model/browser/DB claim.
 
 ## Inherited backend delivery
@@ -62,13 +50,14 @@ Old running reviewers are not freshly checked/restarted. Native Docling had two
 conversion dependency failures;reliable vision advice,live LlamaParse,matched human
 accuracy/time/cost evaluation,actual DB roles and original T4/T5 remain unfinished.
 Models,PDFs,frozen baseline,journals and runtime pin stay untouched. No hosted access,
-automatic push,institutional approval or phase advancement.
+institutional approval or phase advancement. Only the explicit documentation push
+was authorized;no application publication or further automatic push is inferred.
 
 ## Context and next action
 
 Thesis physical17–18,routing PNG,master3/16/23/24/26,Phase11 plan,Phase10 handoff
 and workstream plan consulted;no scope/routing discrepancy. Undergraduate/read-only/
 private-file/structured-versus-RAG boundaries and English/Taglish replies preserved.
-Execute adaptation Task0:freeze genuine native candidates/source roster and verify
-existing assets/environment,then Task1 focused RED/GREEN provider compatibility.
-LlamaParse live remains conditional on key/quota;human decisions remain explicit.
+Owner reviews the published adaptation plan later;implementation has not started.
+After review,resume Task0 inputs/assets/environment,then Task1 provider RED/GREEN.
+Live vision needs an eligible projector;Llama live needs key/quota.
