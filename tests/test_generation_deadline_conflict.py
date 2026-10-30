@@ -143,3 +143,21 @@ def test_an_ungrouped_conflicting_deadline_record_is_quoted_with_its_limitation(
     assert f'"{VALUES[0]}"' in held.text and '(applicable period)' in held.text and 'office' in held.text
     assert SAFE in safe.text
     assert [e.status for e in answer.part_ledger.entries]==['mapped','mapped']
+
+
+# Owner 30 Oct 2026: a package group that is not a set of conflicting statements does not hold its record.
+def test_a_conflicting_record_alone_in_its_group_is_quoted_with_its_limitation():
+    content=rows()[:1]
+    content[0]['service_group'].update(part_count=1,part_order=0)
+    answer=asyncio.run(Generator(ChoosingModel()).generate(TEXT,integration(content=content)))
+    assert answer.status=='answered' and UNSAFE not in answer.text
+    assert f'"{VALUES[0]}"' in answer.claims[0].text and '(applicable period)' in answer.claims[0].text
+
+
+def test_a_conflicting_record_in_a_group_without_other_conflicts_is_quoted_alone():
+    content=rows()[:2]
+    for n,record in enumerate(content):record['service_group'].update(part_count=2,part_order=n)
+    content[1]['source_limits']=[]
+    answer=asyncio.run(Generator(ChoosingModel()).generate(TEXT,integration(content=content)))
+    assert answer.status=='answered' and UNSAFE not in answer.text
+    assert any(f'"{VALUES[0]}"' in c.text and '(applicable period)' in c.text for c in answer.claims)

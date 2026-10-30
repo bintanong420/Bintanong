@@ -31,6 +31,31 @@ def _group(record):
     return name if isinstance(name, str) and name.strip() else None
 
 
+def _record(card):
+    try:
+        record = json.loads(card.text) if card.kind == 'document' else None
+    except (ValueError, TypeError):
+        return None
+    return record if isinstance(record, dict) else None
+
+
+def conflict_group_ids(pack):
+    """Evidence ids quoted as one conflicting-statement group: a printed group of two or more parts whose every
+    present record carries the conflict. Other conflicting records are quoted alone (owner 30 Oct 2026)."""
+    members = {}
+    for card in pack.cards:
+        record = _record(card)
+        if record is not None and _group(record) is not None:
+            members.setdefault(_group(record), []).append((card, record))
+    grouped = set()
+    for group in members.values():
+        counts = [r.get('service_group', {}).get('part_count') for _, r in group]
+        if (all(type(c) is int and c >= 2 for c in counts)
+                and all(_conflict(card) is not None for card, _ in group)):
+            grouped.update(card.evidence_id for card, _ in group)
+    return grouped
+
+
 def _quotes(members, words):
     counts, orders, gaps, sources = set(), set(), set(), set()
     statements = []
@@ -96,9 +121,10 @@ def _group_quotations(pack, records, groups):
 
 def deadline_conflict_reply(pack, proposed, *, max_claims=8, existing_claims=()):
     """Quote affected groups before ordinary relevance/support review;never choose a deadline.
-    An ungrouped conflicting record is quoted by malformed_condition.py (owner 30 Oct 2026)."""
+    A conflicting record outside a conflict group is quoted by malformed_condition.py (owner 30 Oct 2026)."""
+    grouped = conflict_group_ids(pack)
     records = {c.evidence_id: (c, record) for c in pack.cards
-               if (record := _conflict(c)) is not None and _group(record) is not None}
+               if c.evidence_id in grouped and (record := _conflict(c)) is not None}
     cited = {ref for claim in proposed for ref in claim.evidence_ids}
     touched = cited.intersection(records)
     if not touched:
