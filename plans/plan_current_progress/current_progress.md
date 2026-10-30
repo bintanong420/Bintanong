@@ -67,7 +67,8 @@ those records carry ungrouped conflicting_deadlines, which deadline_conflict_rep
 Full suite on `9f1b9ac`: batches 7172 pass/6 skip/2 xfail; 17 DB files failed only because the local Supabase DB
 was stopped, rerun with DB up 182 pass/842 subtests. Hosted backend :8021 (81.8 s) and frontend :3216 (next dev)
 restarted on new code; live probation 200 answered 52.2 s (outer API, single observation).
-Both were then stopped by Claude Code's low-memory reaper while idle; not restarted (owner to say when).
+Both were then stopped by Claude Code's low-memory reaper; the owner now runs them in their own terminals
+(same commands), outside the reaper. Rechecked: frontend health ready, live probation 200 answered 46.0 s.
 
 ## Next action
 
