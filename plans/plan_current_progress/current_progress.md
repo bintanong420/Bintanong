@@ -88,9 +88,10 @@ INC changes across 53 recorded outputs. `1cbc68b` conflicting records outside a 
 mixed package groups) are quoted alone. Live INC now retrieves 3.1-3.7, drafts a correct answer, passes host checks
 and all six support verdicts, but the Gemma reviewer returns does_not_answer (likely the reviewer rule on a cited
 claim_not_stated limit, 3.1 "colleges ... not named"). A reviewer instruction (`3430b67`) did not change it and was
-reverted (`6b7d2a7`). Regression on `6b7d2a7` running in three batches.
+reverted (`6b7d2a7`). Regression (owner-run in their own PowerShell after Claude Code's memory reaper stopped
+two attempts; `run-ddf2338-owner-b1..3`, backend = 6b7d2a7): 42/50, identical cases to `880c733`, no exceptions.
 
 ## Next action
 
-Read the regression; owner decision on the INC reviewer verdict; owner restarts backend :8021 (frontend still up).
+Owner decision on the INC reviewer verdict; owner restarts backend :8021 and frontend :3216.
 Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.
