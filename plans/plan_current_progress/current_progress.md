@@ -80,7 +80,17 @@ fact_headings (fact 1 = "3.4 REMOVAL OF INC") but Gemma still chose the timing f
 attempt. Honors abstains (guard), probation passes. Two runs hit intermittent DNS failures to hosted Supabase and
 were rerun (`*-headings-b2`, `*-headings` diag dirs have no cases). Hosted servers stopped by owner for the run.
 
+## INC second attempt (30 Oct)
+
+`5904e09` router guard: a fact whose printed heading names >=2 of the part's words replaces a choice whose headings
+name none (adding both exceeded grade_completion's 3,072-token budget: timing 1,520 + 3.4 group 1,959); offline only
+INC changes across 53 recorded outputs. `1cbc68b` conflicting records outside a real conflict group (singleton or
+mixed package groups) are quoted alone. Live INC now retrieves 3.1-3.7, drafts a correct answer, passes host checks
+and all six support verdicts, but the Gemma reviewer returns does_not_answer (likely the reviewer rule on a cited
+claim_not_stated limit, 3.1 "colleges ... not named"). A reviewer instruction (`3430b67`) did not change it and was
+reverted (`6b7d2a7`). Regression on `6b7d2a7` running in three batches.
+
 ## Next action
 
-Owner restarts backend :8021 and frontend :3216 in their own windows (now serving `880c733`); then live recheck.
-INC needs a new owner decision (e.g. host-side heading match) if wanted. Phase 13 remains cancelled.
+Read the regression; owner decision on the INC reviewer verdict; owner restarts backend :8021 (frontend still up).
+Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.
