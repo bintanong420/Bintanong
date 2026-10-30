@@ -104,7 +104,9 @@ def transfer_direction_unstated(proposed, topics, text):
 def prefer_printed_procedure(proposed, topics):
     """Host guard: a whole-procedure part asks for the printed procedure, so naming only facts the source
     does not state is replaced by the topic's printed claims. Cues then re-add a not-stated fact the part's
-    own words name, which keeps withholding for an explicit ask."""
+    own words name, which keeps withholding for an explicit ask. A topic with more printed claims than a part
+    may request (e.g. a 39-row sanctions table) narrows to the printed claims naming the part's words, and
+    keeps the model's choice when those do not fit."""
     menu = {t.subject_id: t for t in topics}
     parts = []
     for part in proposed.parts:
@@ -112,6 +114,10 @@ def prefer_printed_procedure(proposed, topics):
         if (topic is not None and part.detail == 'whole' and part.requested_claims
                 and set(part.requested_claims) <= set(topic.not_stated)):
             printed = tuple(c for c in topic.claims if c not in topic.not_stated)
+            if len(printed) > 8:  # RequestPart.requested_claims bound
+                asked = set(_heading_words(part.text))
+                printed = tuple(c for c in printed if any(_same_word(w, a) for w in _heading_words(c) for a in asked))
+                printed = printed if len(printed) <= 8 else ()
             if printed:
                 part = part.model_copy(update=dict(requested_claims=printed))
         parts.append(part)

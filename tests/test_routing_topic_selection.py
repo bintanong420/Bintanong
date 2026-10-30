@@ -331,3 +331,31 @@ def test_a_whole_request_whose_words_name_the_not_stated_fact_keeps_it():
     result, _ = run(Transport(selected(), detail_answer(['processing deadline'], 'whole', text=text), text=text),
                     text=text)
     assert 'processing deadline' in result.proposed.parts[0].requested_claims
+
+
+# Owner 30 Oct 2026 benchmark: "What is the penalty for plagiarism?" named only a not-stated fact of a 39-fact
+# sanctions topic; replacing it with every printed fact exceeded the eight-claim bound and the host clarified.
+SANCTIONS = DocumentTopic(subject_id='fictional_sanctions',
+    claims=(*(f'printed rule {i} fields: {i}. Synthetic offense number {i}' for i in range(9)),
+            'printed rule 9 fields: 9. Littering on the synthetic campus', 'missing item 10'),
+    not_stated=('missing item 10',))
+
+
+def sanction_question(text):
+    value = json.loads(answer('fictional_sanctions', ('missing item 10',), text))
+    value['parts'][0]['detail'] = 'whole'
+    return run(Transport(selected(('fictional_sanctions',)), *[json.dumps(value)] * 2, text=text), text=text,
+               topics=(*MENU, SANCTIONS))[0]
+
+
+def test_a_large_topic_answers_the_printed_fact_the_part_names():
+    result = sanction_question('What is the penalty for littering?')
+    assert result.decision.route == 'RAG'
+    assert result.proposed.parts[0].requested_claims == (
+        'printed rule 9 fields: 9. Littering on the synthetic campus',)
+
+
+def test_a_large_topic_naming_no_printed_fact_keeps_the_model_choice():
+    result = sanction_question('What is the penalty for this?')
+    assert result.decision.route == 'RAG'
+    assert result.proposed.parts[0].requested_claims == ('missing item 10',)
