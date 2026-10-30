@@ -194,6 +194,31 @@ def prefer_heading_claims(proposed, topics):
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
+def prefer_heading_topic(proposed, topics):
+    """Host guard (regression 30 Oct 2026): the cross-topic counterpart of prefer_heading_claims. When one printed
+    fact of another selected topic has a heading naming at least two of the part's words, more than any chosen
+    fact's heading names, that topic and fact replace the choice ("residence requirement para maka-graduate" and
+    graduation's 1.4 RESIDENCE REQUIREMENTS over 1. RESIDENCE). A tie keeps the model's choice."""
+    menu = {t.subject_id: t for t in topics}
+    parts = []
+    for part in proposed.parts:
+        topic = menu.get(part.subject_id)
+        if topic is not None and part.evidence_need == 'document':
+            asked = set(_heading_words(part.text))
+            chosen = max((_heading_score(topic, claim, asked) for claim in part.requested_claims), default=0)
+            scores = {(t.subject_id, claim): _heading_score(t, claim, asked) for t in topics
+                      for claim in t.claim_headings if claim in t.claims and claim not in t.not_stated}
+            best = max(scores.values(), default=0)
+            winners = [key for key, score in scores.items() if score == best]
+            if best >= 2 and best > chosen and len(winners) == 1 and winners[0][0] != part.subject_id:
+                subject, claim = winners[0]
+                part = part.model_copy(update=dict(subject_id=subject, requested_claims=(claim,)))
+        parts.append(part)
+    if all((a.subject_id, a.requested_claims) == (b.subject_id, b.requested_claims) for a, b in zip(parts, proposed.parts)):
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
 def prefer_named_claim(proposed, topics):
     """Host guard (regression 30 Oct 2026): when no chosen printed fact's own label names any of the part's words
     and exactly one printed fact of the same topic does ("mali ang uniform ko" and "I. Improper Uniform"), that
@@ -304,8 +329,8 @@ class Router:
                     check_topics(proposed, topics)
                     if selection_attempts:
                         proposed = answer_settled_topic(proposed, topics, text)
-                    proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_claims(
-                        prefer_printed_procedure(proposed, topics), topics), topics), topics)
+                    proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
+                        prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise

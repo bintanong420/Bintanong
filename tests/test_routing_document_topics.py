@@ -279,3 +279,29 @@ def test_a_matching_choice_two_matching_rows_or_no_match_keep_the_model_choice(t
 def test_a_chosen_not_stated_fact_is_left_to_the_withholding_guards():
     claims = tabled('Magkano ang multa sa uniform?', ('the content of a fictional missing item',), detail='specific')
     assert claims.proposed.parts[0].requested_claims == ('the content of a fictional missing item',)
+
+
+# Regression 30 Oct 2026: "Ano ang residence requirement para maka-graduate?" chose the maximum-residence topic
+# ("1. RESIDENCE" names one word) although the graduation topic prints "1.4 RESIDENCE REQUIREMENTS" (two words).
+TWO_TOPICS = (DocumentTopic(subject_id='fictional_graduation', claims=('printed graduation fields',),
+                            claim_headings={'printed graduation fields': ('1. REQUIREMENTS', '1.4 RESIDENCE REQUIREMENTS')}),
+              DocumentTopic(subject_id='fictional_residence', claims=('printed residence fields',),
+                            claim_headings={'printed residence fields': ('1. RESIDENCE', '2. MAXIMUM RESIDENCE RULE')}))
+
+
+def two_topics(text, subject='fictional_residence', claims=('printed residence fields',)):
+    style = json.dumps(style_proposal('taglish', filipino=[text.split()[0]]))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Residence', language='fil')
+    value['parts'][0].update(subject_id=subject, requested_claims=list(claims))
+    return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=TWO_TOPICS).proposed.parts[0]
+
+
+def test_a_selected_topic_whose_heading_names_more_of_the_parts_words_replaces_the_choice():
+    part = two_topics('Ano ang residence requirement para maka-graduate?')
+    assert (part.subject_id, part.requested_claims) == ('fictional_graduation', ('printed graduation fields',))
+
+
+@pytest.mark.parametrize('text', ['Ano ang maximum residence rule?', 'Gaano katagal ang residence ko?',
+                                  'Ano ang requirements?'])
+def test_an_equal_better_or_single_word_match_keeps_the_chosen_topic(text):
+    assert two_topics(text).subject_id == 'fictional_residence'
