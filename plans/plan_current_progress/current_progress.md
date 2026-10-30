@@ -51,7 +51,20 @@ are model variation (identical draft request, different reply). Regression on ma
 37/50 for low memory: on 29 overlapping cases 23 -> 24 pass (fixed summer-load Taglish, grad-residence en; shift-en
 fails only on keyword wording, same clause). Remaining 21 cases not run. Hosted backend still runs pre-fix code.
 
+## Defect-rule change (30 Oct, owner-approved)
+
+Owner: "we should still show ... note the limitation and ask them to refer to the appropriate university office".
+`abbaf58` printed headings stay in the topic menu despite a defect elsewhere in the chunk (trailing possibly-cut
+heading and openings withheld). `9f1b9ac` a claim citing an unresolved malformed_source_condition record becomes an
+exact quotation + recorded limitation + office referral (never interpreted; fidelity-checked; oversized -> source_gap).
+Test-first; generation/routing/runtime/orchestration/API 1656 pass. Full suite not yet run on `9f1b9ac`.
+Pre-change regression completed (`a0eb42f`, 37 + remaining 13): 40/50; on 40 cases shared with the 38/50 run,
+28 -> 31. New-code run (`run-9f1b9ac-defect-rule`) stopped by Claude Code at 42/50 for low memory: 35 -> 36 on those
+42 (shift-en, bsit-tagalog gained; drop-subject-tagalog lost: answered the Charter DAC table, no Cashier). The new
+quote path fired in none of the 42. Not run: 8 disciplinary cases; honors/INC diagnosis questions.
+
 ## Next action
 
-Owner decision on the defect-rule strictness (answer visible content + state the gap) and on finishing the 50-case regression. Phase 13 remains cancelled. Preserve
-existing evaluations, bound artifacts and corrected78 rollback.
+Owner to say when memory allows: run the 8 remaining cases + honors/INC/probation diagnosis on `9f1b9ac`, then the
+full suite, then restart the hosted backend (still pre-fix code).
+Phase 13 remains cancelled. Preserve existing evaluations, bound artifacts and corrected78 rollback.
