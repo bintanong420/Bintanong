@@ -12,8 +12,9 @@ Tasks 1–2 complete: baseline7,365 collected; full suite7,357pass/6skip/2xfail/
 Local `supabase_db_Bintanong` started and healthy. Gemma not needed; existing model container untouched.
 Inherited roster reconciled:105 collecting files /4,646 tests created by Hawksprey420 (current file incarnations).
 Owner approved coverage7.17.0 + pytest-cov7.1.0 in the evaluation venv only; installed, no lock/dependency edits.
-Per-test report:2,926 subset candidates /707 zero-production records; neither alone proves redundancy.
-Baseline Python coverage13,893/23,545 statements and4,319/9,284 branches (`backend/` + `scripts/`).
+Corrected per-test scope includes root `evaluation/`:3,009 subset candidates /534 zero-production records;
+neither alone proves redundancy. Before/after-consolidation coverage14,444/24,492 statements,
+4,631/9,720 branches, zero lost covered sets; production hashes unchanged.
 
 Task 3 complete: removed one identical-body prospectus ledger test, retained its descriptive compatibility twin;
 same module globals and all measured lines/arcs covered by retained test. Renamed zero-test evaluation helper
@@ -23,9 +24,11 @@ same denominators and production hashes. Evidence/temp/scripts remain under igno
 
 Owner changed the verification schedule: **focused checks during audit; one full suite at the end**.
 Stopped intermediate quickwins full-suite run after one green batch; partial logs are not full-suite evidence.
-Task 3 committed `4e80c56`. Task 4 consolidation:14 fragment files folded into module files,25 ->11 files;
+Task 3 committed `4e80c56`. Task 4 committed `f071293`:14 fragments folded into module files,25 ->11 files;
 all2,032 cases retained and passing.235 moved test functions checked against originals (bindings/matrices
-normalized); all7,364 collected cases map one-to-one. Fresh inherited coverage comparison running.
+normalized); all7,364 cases mapped one-to-one; fresh inherited coverage4,639pass/6skip, no loss.
+Task 5: one OCR text-format test removed; retained real adapter test covers every line/arc and same text oracle.
+Both caught a process-local lost-newline mutation. OCR98pass/1skip; final collection7,363 (two total removals).
 No tooling retired; task 6 requires the owner's decision.
 No push, production behavior changes, additional installs or dependency/model/lock changes.
 
@@ -53,5 +56,4 @@ and referral. Prior repairs/replays and exact decisions remain in `3ad52e5`, dat
 
 Preserve undergraduate scope, source gaps, privacy, unknown-versus-unmet, printed terms and release guards.
 F04 stays held; research activation is not school approval or public deployment.
-Next: commit verified task 4 consolidation, review other candidates (task 5),
-obtain tooling decision (task 6), and run final full-suite/coverage verification (task 7).
+Next: commit verified task 5 OCR removal, obtain tooling decision (task 6), then final full-suite/coverage checks.

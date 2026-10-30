@@ -12,9 +12,9 @@ No push, product behavior changes, tool retirement, model download or lockfile c
 | 1 Baseline | Complete: 7,365 collected; 7,357 passed / 6 skipped / 2 xfailed; 1,608 subtests |
 | 2 Measure | Complete: 4,640 passed / 6 skipped; 4,646 per-test records |
 | 3 Quick wins | Complete, `4e80c56`: focused 290 passed / 1 skipped; inherited coverage unchanged |
-| 4 Contracts consolidation | Focused 2,032 passed; 14 fragments folded into module files; coverage check running |
-| 5 Other redundancy | Pending consolidation |
-| 6 Tool retirement | Owner decision required; retain tooling until answered |
+| 4 Contracts consolidation | Complete, `f071293`: 2,032 passed; 14 fragments folded into module files |
+| 5 Other redundancy | One OCR case removed with coverage/oracle/mutation proof; focused 98 passed / 1 skipped |
+| 6 Tool retirement | Next: owner decision required; retain tooling until answered |
 | 7 Final verification | Pending |
 
 ## Decisions and boundaries
@@ -117,6 +117,39 @@ under `contracts-originals/` and Git; no assertion weakening or production chang
 First focused move exposed helper/module and local-variable shadowing (110 failures); preserve that log as
 `contracts-after-initial.log`. Corrected binding names, not assertions. Pre-move 2,032 passed (10.40s);
 final focused 2,032 passed (8.91s), full collection 7,364, `git diff --check` clean.
-Fresh inherited coverage over the mapped roster is running (`coverage-consolidated*`), for final comparison.
+Mapped inherited run: 4,639 passed / 6 skipped / 13 subtests, exit 0, 358.09s; 91 collecting files.
 
-Next: commit verified consolidation, review other families' redundancy candidates (task 5).
+## Corrected coverage scope
+
+Initial scope omitted the root `evaluation/` package. Corrected with two focused 272-case runs (both pass):
+pre-change tests from a `git archive 3ad52e5` snapshot under ignored evidence, then the current tests.
+All archived/current evaluation Python hashes match. Original raw measurements remain unchanged.
+Merged supplemental data into new `*-complete` databases with original paths normalized to the worktree;
+contexts checked against the frozen collected roster. Scope is now `backend/`, `scripts/`, `evaluation/`.
+`coverage-scope-correction.json` and `comparison-consolidated-complete.json`: **14,444/24,492 statements,
+4,631/9,720 branches before and after**, zero lost line/branch sets; unchanged production hashes.
+Complete baseline analysis: 3,009 subset candidates, 534 zero-production records (supersedes narrower counts).
+Per-test sets and per-family unique lines/arcs: `per-test-before-complete.json.gz`, `analysis-before-complete.json`.
+
+## Other-family review and second removal
+
+`other-family-review.json` triages 1,226 subset candidates: prospectus901 (610 same-function input variants /
+291 cross-function), review GUI134 (50/84), evaluation163 (118/45), OCR28 (all cross-function).
+No further full-body equivalents after conservative local-variable/import-alias normalization. A matching
+coverage set alone does not remove a distinct input, error, output, privacy or scope obligation.
+Representative retained pairs: prospectus generator/ignored-ledger detail vs list/pending state;
+GUI section rollback/call order vs candidate immutability; evaluation non-finite input refusal vs canonical JSON.
+These have distinct assertions despite overlapping execution. No claim that every retained test is indispensable.
+
+Removed `test_ocr_bench_engines.py::test_text_is_rebuilt_line_by_line`; retained
+`test_the_tesseract_adapter_writes_text_words_and_run_metadata` in the same file. Same TSV and exact expected
+`CS 101\nIntro\n`; retained adapter executes the real parser and formatter (engines.py126–127), asserts that text
+and additional word/metadata results; only external Tesseract discovery/version/run are stubbed.
+Per-test production lines/arcs are subsets, one production file, no unique oracle. Both tests pass unmodified
+and both fail the same process-local lost-newline mutation (ignored pytest fixture; no production edits).
+`removal-proof.json`, `ocr-original-pair.log`, `ocr-mutant-pair.log` preserve the evidence.
+After deletion: OCR family **98 passed / 1 skipped**, 20.65s; full collection **7,363**, exit0.
+No negative, privacy, scope, security, source-gap or original mutation-survivor test removed.
+Tool code remains intact; final post-deletion full-suite and coverage checks still required.
+
+Next: commit the OCR removal, obtain the owner's task 6 tooling decision, then final verification (task 7).
