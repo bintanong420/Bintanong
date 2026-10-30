@@ -74,6 +74,8 @@ approved Filipino penalty-row words (uniporme excluded; docs table + sync test) 
 dry run: 4 intended changes; live discipline probe 8/8. Open: topic choices (absent, good-moral requirements,
 honors wording), certification-of-grades and transfer fee, BSHM clarification. Full 97 rerun was stopped by the
 host for low memory (no results); rerun the 97 and 50 on HEAD. Claude restarted :8021 on `48ff8d6` (owner-authorized).
+Owner 30 Oct: test runs move to another developer's 32 GB machine; setup, runtime files and run order are in
+the [current handoff](../2026-10-30-eight-failures-handoff.md).
 Owner restarts :8021 to serve the new HEAD.
 Honors guard kept by owner; INC now answers printed quotes with limitation/referral. Prior repair history remains
 in `db643c0`, dated results and [accuracy handoff](../2026-10-30-eight-failures-handoff.md).

@@ -1,92 +1,110 @@
 ---
-title: Handoff - fix the 8 remaining benchmark failures
+title: Handoff - common-query readiness for the student sessions (new developer machine)
 date: 2026-10-30
 worktree: p12
 branch: p12-evaluation-harness
-head_commit: see `git log -1` (handoff commit follows 9b4111f)
+head_commit: see `git log -1` (handoff commit follows 2fc829a)
 status: open
 ---
 
-# Handoff: fix the 8 remaining benchmark failures
+# Handoff: common-query readiness for the student sessions
 
-Owner request (30 Oct 2026): "lets fix those 8 questions first, do a handoff so i can switch cli new context window".
-Post-Phase-12 accuracy work on the existing p12 branch; no implementation phase is active and Phase 13 stays cancelled.
-Read this, then [current progress](plan_current_progress/current_progress.md) and the
-[owner-decisions ledger](owner-decisions-ledger.md) (30 Oct entries). Do not re-ask decisions recorded there.
+Owner (30 Oct 2026): student evaluation next week by screen share (not deployed), about two students per program,
+mainly College of Sciences (CoS: prior questionnaire evidence of the guidance problem) plus a few other colleges.
+Priority: answer the common queries. RAGAS is planned later, not now. A new developer (32 GB RAM, any coding agent)
+takes over the test runs. Last full snapshot of this file (eight-failures handoff): `1fd0319`.
 
-## State at handoff
+Read first, in order: repository `AGENTS.md` (binding rules for every agent), `.agents/skills/bintanong-handoff-reminder`
+and `bintanong-phase-handoff`, [current progress](plan_current_progress/current_progress.md), the
+[owner-decisions ledger](owner-decisions-ledger.md) (30 Oct entries). Never re-ask a decision recorded there.
 
-- Clean tree. Code commits this session (all test-first): `abbaf58` headings kept despite defects; `9f1b9ac`
-  malformed-condition records quoted with limitation + office referral; `1f2f9db`/`1cbc68b` conflicting-deadline
-  records outside a real conflict group quoted alone; `880c733` router `fact_headings`; `5904e09` router guard
-  (a heading naming >=2 of the part's words replaces a choice whose headings name none); `91fa3c0` limitation
-  quotes lead with the printed text. `3430b67` (reviewer instruction) was reverted by `6b7d2a7`.
-- Last full regression: 42/50 on `6b7d2a7` (owner-run, `audit-evidence/p12-regression-20261030/run-ddf2338-owner-b1..3`).
-  The final code `91fa3c0` is NOT yet regressed: first action is the owner `-owner2` run below.
-- INC ("How do I remove an incomplete grade?") answers on `91fa3c0` (diag `run-91fa3c0-inc-reworded`). Honors stays a
-  disclosed limitation: owner chose to keep the `introduced_disjunction` guard. Probation passes.
-- Related tests: generation/routing/runtime/orchestration/API 1670 pass on `91fa3c0`. Full suite last run on
-  `9f1b9ac` (7172 + DB rerun 182, green); rerun before claiming completion.
-- Hosted servers (:8021 backend, :3216 frontend) are stopped; the owner runs them in their own PowerShell windows.
-- Evaluation honesty: the frozen Phase 12 score stays 38/50. These 50 cases are now development data; report any new
-  score as post-fix, same cases, single runs (+/-1). A held-out set is needed for an unbiased post-fix score.
+## State at handoff (all local commits, verified on the owner's machine)
 
-## The 8 failures (run-ddf2338-owner-b*, per-case folders hold call-N-request/result and integration.json)
+- 50-case benchmark: 49/50 on `ac867c6` (development data; frozen Phase 12 score stays 38/50; single runs, +/-1).
+- New 97-case common-query set: 77/97 on `41dfd00` (general 20/33, CoS 43/48, other colleges 14/16). Fixed since
+  and checked in live subsets only: Charter host-reply crash (`1468505`), CoS Taglish term listings (`754ee9a`),
+  Taglish discipline words (`48ff8d6`). The full 97 and 50 have NOT been rerun on HEAD (owner machine ran out of RAM).
+- Fix commits today, each test-first with an offline dry run on recorded calls: `f08712d` printed-exception repair,
+  `12b35d1` named sanctions row, `ac867c6` heading-based topic switch, `41dfd00` verbatim printed sentence in
+  Taglish, `1468505` held malformed records never host-answered, `754ee9a` ambiguous selection keeps structured
+  checks, `48ff8d6` reviewed Filipino penalty words (owner list, `docs/evaluation/accepted-input-forms.md`).
+- Default `pytest tests/` now skips the offline ingestion-tool tests (prospectus/review GUI/OCR, 1,796 cases);
+  `--include-ingestion` runs them. Related suites passed (1,714); the full default suite has not run on HEAD.
+- Benchmark checker fix: hosted/gate/common runners strip `[ev-...]` IDs before phrase matching (hex digits had
+  matched number expectations). The local frozen runner is unchanged on purpose.
 
-| Case | Question | Got | Likely cause / first check |
-| --- | --- | --- | --- |
-| disc-plagiarism-en | What is the penalty for plagiarism? | clarification_needed, no route | Router clarify. Compare call-2 result; see 28 Oct Learnings (grammar-forcing clarify failed twice). |
-| disc-plagiarism-taglish | Ano ang parusa sa plagiarism? | same | Same cause as EN. |
-| second-year-taglish | Kailan ako considered second year? | insufficient_evidence, control_fallback, no route | Router failure/clarify before topics; check call-1/2. EN passes. |
-| cc5-failed-cc4-en | Can I take CC5 even if I failed CC4? I am a Computer Science student. (palsu-bscs, bscs-2018-2019) | RAG to handbook_prerequisite_policy | Should be structured/Prolog, decision ineligible citing CC 4/L. Short-form codes resolve per 21 Oct owner rule; Taglish twin passes. Check router mentions/operations. |
-| disc-uniform-taglish | Ano ang parusa kapag mali ang uniform ko? | insufficient_evidence; chose II.13 discourtesy row | Wrong penalty row (uniform row exists, EN passes). Router claim choice; compare EN menu choice. |
-| grad-residence-taglish | Ano ang residence requirement para maka-graduate? | answered with p.42 "1 1/2 times prescribed length" clause | Missing the one-year residence clause; claim/record selection or answer omission. EN passes. |
-| summer-load-en | What is the normal unit load for summer? | answered "nine (9) units" only | Omits the 12-unit exception with Dean approval. Check whether that record was retrieved and what the reviewer accepted. |
-| leave-length-taglish | Gaano katagal pwede ang leave of absence? | answered "isang (1) academic year" | Content correct; keyword check expects "1 academic year". Scoring artifact: changing cases.json/scorer needs an owner decision. |
+## New machine setup (keep the exact folder layout: `C:\Coding-projects\bintanong_workspace\...`)
 
-Rules for fixes: test-first with synthetic fixtures; no institutional data in tracked tests; never weaken
-accuracy/source/scope guards to pass a keyword (owner kept the disjunction guard); stop after a bounded attempt and
-replay the recorded request with one variable changed before changing prompts (see Learnings, 30 Oct). Prefer
-host-side deterministic fixes; check the offline blast radius on recorded router outputs before a model run.
-Reusable diagnostics (ignored): `audit-evidence/p12-eight-failures-20261030/blast2.py` (router-guard impact over
-recorded integration.json) and `replay_reworded.py` (replay a recorded review request with one change); run from p12.
+The config/pin hold absolute paths and are hash-checked; editing them changes their hashes and startup refuses.
 
-## How to run on this machine (verified 30 Oct)
+1. Code: clone/checkout `p12-evaluation-harness` into `worktrees\Bintanong\p12` (owner pushes the local commits first).
+2. Copy these ignored files to the same paths (startup verifies each):
+   - `audit-evidence\p12-hosted-560-activation-20261030\`: `hosted-research-api-config.json`,
+     `hosted-research-pin.json`, `start_hosted_research_api.py`
+   - `audit-evidence\p11-local-documents-20261029\runtime-package\`: all 8 files (`runtime-seal.json`,
+     `draft-chunks.json`, `draft-embedding-records.jsonl`, `draft-embedding-manifest.json`,
+     `draft-source-versions.json`, `draft-source-review-register.json`, `draft-subject-catalogue.json`,
+     `subject-context-budgets.json`)
+   - `audit-evidence\p05-document-evidence-calibration-20261016\encoder-verification.json`
+   - Runners and cases: `audit-evidence\p12-common-queries-20261030\` (`run_common.py`, `cases.json`,
+     `build_common_cases.py`, `all-curricula.json`, `dryrun_*.py`), `audit-evidence\p12-hosted-regression-20261030\`
+     (`run_hosted_regression.py`, `cases.json`), `audit-evidence\p11-simple-gate-20261028\cases.json`.
+     Recorded `run-*` folders are optional (only for offline dry runs).
+3. Env (owner sends privately; never commit): `p12\.env` with `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `MODELS_DIR`
+   only (no service-role key or DB password); `p12\frontend\.env.local` as the owner has it.
+4. Models at `C:\Coding-projects\bintanong_workspace\MODELS` (`GEMMA_4_E4B\gemma-4-E4B-it-UD-Q4_K_XL.gguf`,
+   `SEA-LION-E5-Embedding-600M`); encoder bytes must match `encoder-verification.json`, else copy the owner's folder.
+   Never download or duplicate weights inside Git.
+5. Model server (NVIDIA GPU, ~6 GB VRAM), same image/arguments as the owner's container:
+   ```powershell
+   docker run -d --name bintanong-model --gpus all -p 127.0.0.1:18088:8080 -v C:/Coding-projects/bintanong_workspace/MODELS:/models ghcr.io/ggml-org/llama.cpp@sha256:f66a5229a3e0586339d16155e9fe09c37834d7a7f4134bbdee7360b5a1f2546d --model /models/GEMMA_4_E4B/gemma-4-E4B-it-UD-Q4_K_XL.gguf --host 0.0.0.0 --port 8080 --ctx-size 8192 --parallel 1 --threads 8 --n-predict 768 --n-gpu-layers auto --fit-target 512 --log-verbosity 4 --no-webui --jinja
+   ```
+   Ready when `http://127.0.0.1:18088/health` returns `{"status":"ok"}`.
+6. Python 3.13 environment from `backend/pyproject.toml` + `backend/uv.lock` (`api` and `embedding` extras, pytest,
+   pytest-asyncio). Do not change the lock or dependencies; the owner authorizes the environment build on this
+   machine. Below, `$PY` is that interpreter. Frontend: `npm ci` in `p12\frontend` (lockfile unchanged).
+7. Local Supabase (`supabase start` from p12, container `supabase_db_Bintanong`) only for the DB test files.
 
-- Docker Desktop may be off after reboot: start it, then `docker start bintanong-p09-cuda-latency`, wait for
-  `http://127.0.0.1:18088/health` 200. Stop `supabase_db_Bintanong` for model runs; start it again (wait healthy)
-  before the full suite, whose 17 DB test files need it.
-- Python: `audit-evidence/p05-real-retrieval-readiness-20261012/venv/Scripts/python.exe -X utf8`, `PYTHONUTF8=1`,
-  pytest `-p no:cacheprovider --basetemp=<external>`. System Python lacks sentence_transformers.
-- Single-case diagnosis: `GATE_ONLY=<id> GATE_SUFFIX=-<tag> PY audit-evidence/p12-doc-diagnosis-20261030/run_diag.py < /dev/null`
-  (its cases.json holds inc-en/honors-en/probation-en; the regression runner below also accepts GATE_ONLY for any of
-  the 50). Runners refuse a dirty backend and a repeated suffix. Hosted Supabase DNS drops intermittently
-  (`getaddrinfo failed`): rerun with a new suffix.
-- Claude Code's low-memory reaper kills long background jobs and servers (even at ~4.7 GB free). Run the 50-case
-  regression in the owner's own non-admin PowerShell, servers stopped:
+## Runs to do, in order (record commands and results; never claim a check that did not run)
 
-```powershell
-cd C:\Coding-projects\bintanong_workspace\worktrees\Bintanong\p12
-$env:PYTHONUTF8=1
-$PY="..\..\..\audit-evidence\p05-real-retrieval-readiness-20261012\venv\Scripts\python.exe"
-$R="..\..\..\audit-evidence\p12-regression-20261030"
-foreach ($b in 1,2,3) {
-  $env:GATE_ONLY = Get-Content "$R\b-6b7d2a7-$b.txt" -Raw
-  $env:GATE_SUFFIX = "-owner2-b$b"
-  & $PY -X utf8 "$R\run_regression.py" *> "$R\run-owner2-b$b.log"
-  "batch $b exit $LASTEXITCODE"
-}
-```
+All runners: from `p12`, `$env:PYTHONUTF8=1`, `$PY -X utf8 <runner>`; `GATE_SUFFIX` must be new per run; they refuse a
+dirty `backend/`. Outputs land in `run-<commit><suffix>\` (per-case call-N request/result, `results.jsonl`).
 
-  Use a new suffix per run. Logs show harmless NativeCommandError text. Compare against `run-ddf2338-owner-b*`
-  and the 38/50 run `audit-evidence/p12-benchmark-20261029/run-38ccb83-condition-c-items`.
-- Servers (owner windows): backend `PY -X utf8 ..\..\..\audit-evidence\p12-hosted-560-activation-20261030\start_hosted_research_api.py`
-  from p12 (ready ~80-110 s, prints `app constructed`); frontend `node_modules\.bin\next dev -p 3216` from p12\frontend.
-  A reaped `next dev` can leave an orphan holding :3216.
+1. Startup: run the backend (`start_hosted_research_api.py`, prints `app constructed` in ~80-110 s) and frontend
+   (`node_modules\.bin\next dev -p 3216`); ask one question in the browser at http://127.0.0.1:3216. Stop both after.
+2. Full default suite, local DB up: `$PY -X utf8 -m pytest -p no:cacheprovider --basetemp=<ignored dir> tests/`
+   (expect about 5,576 collected, 1,796 deselected). Then once with `--include-ingestion`.
+3. Common set (97): `$PY -X utf8 ..\..\..\audit-evidence\p12-common-queries-20261030\run_common.py`, suffix `-full1`.
+   Baseline to beat: 77/97 on `41dfd00` (`run-41dfd00-first`). Report by group (general/CoS/other).
+4. 50-case hosted regression: `run_hosted_regression.py`, suffix `-full1`. Baseline 49/50 (`run-ac867c6-claude-full`).
+5. 91-case gate on hosted: `run_common.py` with `$env:CASES_FILE` = `...\p11-simple-gate-20261028\cases.json`.
+   Last scored 77/91 on the older local package (28 Oct); treat this run as the new baseline.
+6. Repeat 3-4 once more (second run) to separate nondeterminism (seen: the router's raw choice differs run to run).
+
+## Open failures (from the 77/97 run; recheck after step 3)
+
+| Case | Got | First check |
+| --- | --- | --- |
+| g-absent-casual-taglish "umabsent ako kahapon..." | sickness topic, no excuse slip | topic choice vs handbook absence clause |
+| g-goodmoral-req-casual-en | FAQ topic, missing Student ID / Official Receipt | Charter good-moral service vs FAQ |
+| g-honors-casual-en "latin honors" | honors topic, missing two years / 75% | which honors claim was drafted |
+| g-section-casual-taglish | answered, missing "misadvising" | whole-procedure coverage |
+| g-gradres-casual-taglish "ilang taon... maka graduate" | routed structured, clarified | document vs structured split |
+| fee-certification-taglish / g-certgrades-fee-casual-en | insufficient_evidence after `1468505` | held record quote vs fee part; may need an owner choice |
+| g-transfer-fee-casual-taglish | clarification_needed | owner F4 rule (leaving vs transferring in) may make this correct |
+| bshm-hotel-term-1-1-en, bshm-hotel-prereq-taglish | clarification_needed, structured | "Hospitality Management" names two BSHM curricula |
+
+## Rules for any change
+
+Test-first with synthetic fixtures (no institutional data in tracked tests); RED for the expected reason before
+production code. Prefer narrow deterministic host guards; prompt-only wording regressed other cases here (1 gain,
+3 losses) and was reverted. Dry-run every guard offline over recorded `call-N-request/result.json` (menus and cards
+are inside) before a live run; the `dryrun_*.py` scripts show the pattern. Never weaken accuracy, source-gap, scope,
+privacy or unknown-versus-unmet guards to pass a keyword. Source-content and wording choices go to the owner (show
+the exact printed text). Small Conventional Commits, no AI attribution trailers, no push or merge unless the owner
+asks. Update current progress after material work; keep this file a compact snapshot.
 
 ## Next action
 
-1. Owner runs the `-owner2` regression on the current HEAD (baseline for `91fa3c0`).
-2. Fix the failures in order: plagiarism (x2) and second-year Taglish (router), cc5 EN (structured routing),
-   uniform/grad-residence Taglish (selection), summer-load EN (completeness); ask the owner about leave-length scoring.
-3. Regression after each cohesive fix (owner-run), full suite before completion, update progress and report.
+Set up the machine (steps 1-7), then run steps 1-6 above and report scores per group with the failing cases;
+then fix the open failures in the order CoS > general common topics > other colleges.

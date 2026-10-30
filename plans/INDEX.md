@@ -7,7 +7,8 @@
   [latest final handoff](phase-12-handoff.md), [report](../docs/evaluation/phase12-evaluation-report.md).
 - Hosted research560 active; corrected78 retained as rollback. [Activation results](2026-10-30-hosted-560-activation-results.md).
   This is not institutional approval or public deployment. Phase 13 deployment cancelled by owner.
-- Post-Phase-12 accuracy work: [eight-failures handoff](2026-10-30-eight-failures-handoff.md) (open).
+- Post-Phase-12 accuracy work: [current handoff](2026-10-30-eight-failures-handoff.md) (open): common-query
+  readiness for the student sessions, new-machine setup and runs to do.
 - Test-suite audit/consolidation complete, Claude-reviewed (nits only): [plan](2026-10-30-test-suite-audit-plan.md),
   [results and verification](2026-10-30-test-suite-audit-results.md).
 - Worktree p12 / `p12-evaluation-harness`; [current progress](plan_current_progress/current_progress.md).
