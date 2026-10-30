@@ -1,9 +1,38 @@
 # Current progress
 
-Updated 30 October 2026 (machine local date). Worktree p12 / `p12-evaluation-harness`.
+Updated 31 October 2026 (machine local date). Worktree p12 / `p12-evaluation-harness`.
 Phase 12 research/software write-up complete with disclosures; no active numbered implementation phase.
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
+
+## New-machine handoff run (31 Oct, 32 GB machine, HEAD `7327ade`)
+
+Following the [current handoff](../2026-10-30-eight-failures-handoff.md). Environment and logs:
+`audit-evidence/p12-env-20261031/` (venv from frozen lock exports; portable Node 24.21.0, system Node stays 22).
+Step 1 passed: backend `app constructed` in 145 s; browser guest question answered in 17 s with one source.
+Step 2 passed apart from one known guard: default 5,604 pass / 1 fail; `--include-ingestion` 7,399 pass / 1 skip
+/ 2 xfail / 1 fail. The failure is `test_scaffold_contract` rejecting uncommitted `.env.example` credentials.
+Collected 5,607, not the handoff's ~5,576 (deselected 1,796 matches); the extra 31 are not yet explained.
+Steps 3-6 on hosted, single development runs, 0 exceptions in every set:
+97-case 88/97 twice (general 26/33, CoS 48/48, other 14/16; baseline 77/97; no pass or status flips, 3 texts differ);
+50-case 50/50 twice (baseline 49/50); 91-case gate 88/91 (new hosted baseline). Median warm pipeline 10-15 s.
+97 failures: section, honors, grad residence, absence, good-moral, certification fee, transfer fee, two BSHM.
+91 failures: library card, certification fee, overdue fee (all `insufficient_evidence`). Honors stays a disclosed
+limitation by the 30 Oct owner choice unless its answer text shows otherwise. Run folders: `run-7327ade1-*`.
+A first 50-case repeat stopped before any question on a hosted 500 statement timeout while loading curricula
+(`-full2`, no observation); the `-full2b` retry completed. Backend startup makes the same read.
+
+Setup findings the handoff omits:
+- `api` and `embedding` conflict in one `uv sync`; export each from the frozen lock (76 pins, no clash) and install.
+  The default suite also needs the `tools` extra plus `jsonschema` and `opencv-python`, at lock pins.
+- Eight encoder text files were LF here; verified hashes are of CRLF bytes, so startup would refuse them. Copied
+  the verified bytes from a local copy; 10/10 assets match; LF originals in `encoder-lf-backup/`.
+- Use `next dev -H 127.0.0.1 -p 3216`; without `-H`, Next blocks `/_next/hmr` and the page reloads repeatedly.
+- System Python 3.13.12 does not match the lock (18/76), so runs use the venv. A 16 GB WSL limit is set.
+
+Open: uncommitted `.env.example` (live hosted secrets; tracked file) and `.gitignore` await an owner decision; do
+not stage them. Docker Desktop stopped by itself at 04:38:58 (cause unknown; run discarded).
+Google sign-in docs use port 3215 while this setup uses 3216; guest use unaffected.
 
 ## Latest delivery: test-suite audit
 
@@ -85,4 +114,4 @@ No live model benchmark or student-visible latency claim from this audit.
 
 Preserve undergraduate scope, source gaps, privacy, unknown-versus-unmet, printed terms and release guards.
 F04 stays held; research activation is not institutional approval or public deployment.
-Next: owner decides on cosmetic nits; ingestion tools kept, opt-in tests. No push/merge. Keep branch/worktree; no merge/push or Phase 13 advancement.
+Next: owner sets the score target; then fix failures in order CoS > general > other colleges and add new common-query batches. No push/merge or Phase 13 advancement.
