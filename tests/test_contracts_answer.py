@@ -1,4 +1,4 @@
-"""Phase 1 Task 3, group 5b: EvidenceBundle and AnswerEnvelope (synthetic; no outcome here is policy)."""
+"""Answer envelopes and evidence bundles: schema, provenance and mutation regressions."""
 
 from __future__ import annotations
 
@@ -9,8 +9,12 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from backend.bintanong_contracts import answer, base
+from backend.bintanong_contracts import answer
+from backend.bintanong_contracts import base
+from backend.bintanong_contracts import symbolic as symbolic_contracts
+
 import contracts_fixtures as fx
+
 
 ROOT = Path(__file__).resolve().parents[1]
 EX = ROOT / "knowledge" / "manifests" / "examples"
@@ -376,3 +380,309 @@ def test_abstention_needs_a_claim_that_allows_it():
     none = answer.EvidenceBundle.parse(bundle(route="Symbolic", retrieval=False, outcome="unsupported", claims=()))
     with pytest.raises(base.ContractError, match="do not allow status"):
         answer.check_envelope_against_bundle(ok, none)
+
+
+# Decision scope and evidence consistency
+_answer_bundle = bundle
+_answer_cite = cite
+
+
+
+
+def _reject_symbolic_or_answer(cls, payload, match):
+    with pytest.raises((ValidationError, base.ContractError), match=match or None):
+        cls.parse(payload)
+
+def _symbolic_payload(outcome="eligible", **over):
+    return {**symbolic(outcome), **over}
+
+def _symbolic_result(outcome="eligible", **over):
+    return symbolic_contracts.SymbolicResult.parse(_symbolic_payload(outcome, **over))
+
+# ---------------------------------------------------------------- M-g: scope and rule spans
+def test_a_decided_result_needs_its_scope_and_rule_spans():
+    for outcome in ("eligible", "ineligible"):
+        _symbolic_result(outcome)
+        _reject_symbolic_or_answer(symbolic_contracts.SymbolicResult, _symbolic_payload(outcome, scope=None), "needs its scope")
+        _reject_symbolic_or_answer(symbolic_contracts.SymbolicResult, _symbolic_payload(outcome, rule_spans=[]), "rule source spans")
+
+def test_an_unsupported_or_error_result_has_no_scope_or_rule_spans_to_give():
+    for outcome in ("unsupported", "error"):
+        assert _symbolic_result(outcome).scope is None and _symbolic_result(outcome).rule_spans == ()
+        _reject_symbolic_or_answer(symbolic_contracts.SymbolicResult, _symbolic_payload(outcome, rule_spans=[fx.rule_span()]), "cannot cite rule source spans")
+    _symbolic_result("unknown")                                              # scope is optional for an unknown outcome
+    _symbolic_result("unknown", scope=fx.scope(), rule_spans=[fx.rule_span()])
+
+def test_a_rule_span_must_be_anchored_versioned_and_carry_printed_text():
+    for broken in ({"text": None}, {"text": "  "}, {"version_id": None}, {"page": None}):
+        span = {**fx.rule_span(), **broken}
+        _reject_symbolic_or_answer(symbolic_contracts.SymbolicResult, _symbolic_payload(rule_spans=[span]), "rule span 0")
+    _reject_symbolic_or_answer(symbolic_contracts.SymbolicResult, _symbolic_payload(rule_spans=[{**fx.rule_span(), "byte_sha256": None, "version_id": None, "page": None,
+                                                  "text": None}]), "rule span 0")
+
+def test_the_scope_names_a_release_and_editions():
+    for scope in ({**fx.scope(), "edition_ids": []}, {**fx.scope(), "edition_ids": ["doc-synth-handbook"]},
+                  {**fx.scope(), "knowledge_release_id": "fact-synth-1"},
+                  {**fx.scope(), "edition_ids": ["edition-synth-handbook-1", "edition-synth-handbook-1"]},
+                  {**fx.scope(), "scope_ids": [""]}, {**fx.scope(), "extra": 1}):
+        _reject_symbolic_or_answer(symbolic_contracts.SymbolicResult, _symbolic_payload(scope=scope), "")
+    _symbolic_result(scope={**fx.scope(), "scope_ids": ["program-synth-1"]})
+
+def test_the_scope_and_rule_spans_roundtrip():
+    r = _symbolic_result()
+    assert symbolic_contracts.SymbolicResult.parse(base.canonical_json(r)) == r
+    assert r.scope.edition_ids == ("edition-synth-handbook-1",)
+
+# ---------------------------------------------------------------- M-k and M-a: private ids in a decision
+VARIANTS = ["fact-synth-0001", "FACT-synth-0001", "fact-synth-0001 ", " fact-synth-0001", "fact-synth-0001\n", "ｆact-synth-0001",
+            "fact‑synth-0001", "x/fact-synth-0001", "sess-synth-0001\t"]
+
+@pytest.mark.parametrize("ref", VARIANTS)
+def test_a_session_fact_id_in_the_evidence_refs_of_a_standalone_result_is_rejected(ref):
+    d = {**decision("eligible"), "evidence_refs": [ref]}
+    _reject_symbolic_or_answer(symbolic_contracts.SymbolicResult, _symbolic_payload(decision=d), "another namespace")
+
+@pytest.mark.parametrize("field", ["satisfied_conditions", "evidence_refs"])
+def test_a_private_id_in_any_decision_text_field_is_rejected(field):
+    d = {**decision("eligible"), field: ["fictional-prereq-met", "see fact-synth-0001"]}
+    _reject_symbolic_or_answer(symbolic_contracts.SymbolicResult, _symbolic_payload(decision=d), "another namespace")
+
+@pytest.mark.parametrize("ref", VARIANTS)
+def test_a_session_fact_id_in_the_decision_of_a_bundle_is_rejected(ref):
+    b = bundle()
+    b["symbolic"]["decision"]["evidence_refs"] = [ref]
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "another namespace")
+
+def test_a_session_fact_id_in_a_rule_span_or_scope_is_rejected():
+    b = bundle()
+    b["symbolic"]["rule_spans"][0]["text"] = "Rule text from fact-synth-0001"
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "another namespace")
+    b = bundle()
+    b["symbolic"]["scope"]["scope_ids"] = ["sess-synth-0001"]
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "another namespace")
+
+def test_the_input_fact_reference_itself_stays_legitimate():
+    answer.EvidenceBundle.parse(bundle())
+
+def test_ordinary_prose_in_a_decision_is_not_a_private_id():
+    d = {**decision("eligible"), "satisfied_conditions": ["fact-checking passed", "edition-specific rule met"]}
+    _symbolic_result(decision=d)
+
+# ---------------------------------------------------------------- M-k: sessions and decided inputs
+def test_session_facts_from_two_sessions_cannot_share_a_bundle():
+    b = bundle(facts=("user_confirmed", "user_confirmed"))
+    b["session_facts"][1].update(fact_id="fact-synth-0002", session_id="sess-synth-0002")
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "more than one session")
+    b["session_facts"][1]["session_id"] = b["session_facts"][0]["session_id"]
+    answer.EvidenceBundle.parse(b)
+
+def test_a_decided_outcome_needs_inputs_and_each_input_needs_a_session_fact():
+    b = bundle()
+    b["symbolic"]["inputs"] = []
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "rests on no input")
+    b = bundle()
+    b["symbolic"]["inputs"][0]["fact_ref"] = None
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "cites no session fact")
+    b = bundle(outcome="ineligible", claims=("decision_ineligible",))
+    b["symbolic"]["inputs"] = []
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "rests on no input")
+    # an unknown outcome may have no input at all
+    b = bundle(outcome="unknown", claims=("unknown_explanation",), facts=())
+    b["symbolic"]["inputs"] = []
+    answer.EvidenceBundle.parse(b)
+
+# ---------------------------------------------------------------- M-i: the envelope
+def test_an_answered_symbolic_or_hybrid_envelope_needs_a_citation():
+    for route in ("Symbolic", "Hybrid"):
+        answer.AnswerEnvelope.parse(envelope(route=route, decision=decision("eligible")))
+        _reject_symbolic_or_answer(answer.AnswerEnvelope, envelope(route=route, decision=decision("eligible"), citations=[]), "at least one citation")
+    _reject_symbolic_or_answer(answer.AnswerEnvelope, envelope(citations=[]), "at least one citation")
+
+def test_unsupported_unknown_and_error_may_cite_nothing():
+    ok = {"passed": True, "checks": ["routing_checked"], "failures": []}
+    for status, outcome in (("abstained", "unsupported"), ("abstained", "unknown"), ("clarification_needed", "unknown")):
+        answer.AnswerEnvelope.parse(envelope(status=status, route="Symbolic", decision=decision(outcome), citations=[],
+                                                validation=ok))
+    answer.AnswerEnvelope.parse(envelope(status="error", route="Symbolic", decision=decision("error"), citations=[],
+                                            validation={"passed": False, "checks": [], "failures": ["engine timeout"]}))
+    answer.AnswerEnvelope.parse(envelope(status="abstained", route=None, decision=None, citations=[], validation=ok))
+
+def test_a_passed_validation_needs_a_check_that_ran():
+    answer.ValidationResult.parse({"passed": True, "checks": ["c"], "failures": []})
+    answer.ValidationResult.parse({"passed": False, "checks": [], "failures": ["f"]})
+    _reject_symbolic_or_answer(answer.ValidationResult, {"passed": True, "checks": [], "failures": []}, "at least one check")
+    _reject_symbolic_or_answer(answer.ValidationResult, {"passed": True, "checks": ["c"], "failures": ["f"]}, "exactly when")
+    _reject_symbolic_or_answer(answer.ValidationResult, {"passed": False, "checks": ["c"], "failures": []}, "exactly when")
+    _reject_symbolic_or_answer(answer.AnswerEnvelope, envelope(validation={"passed": True, "checks": [], "failures": []}), "at least one check")
+
+# ---------------------------------------------------------------- M-a: the envelope text, citations and decision
+@pytest.mark.parametrize("ref", VARIANTS)
+def test_a_private_id_in_the_answer_text_is_rejected(ref):
+    _reject_symbolic_or_answer(answer.AnswerEnvelope, envelope(text=f"Your record {ref} says so."), "another namespace|private id")
+
+@pytest.mark.parametrize("ref", VARIANTS)
+def test_a_private_id_in_a_citation_or_decision_of_an_envelope_is_rejected(ref):
+    _reject_symbolic_or_answer(answer.AnswerEnvelope, envelope(citations=[{**cite(), "locator_ref": ref}]), "private id")
+    _reject_symbolic_or_answer(answer.AnswerEnvelope, envelope(route="Hybrid", decision={**decision("eligible"), "evidence_refs": [ref]}), "private id")
+
+def test_ordinary_answer_prose_is_not_flagged():
+    answer.AnswerEnvelope.parse(envelope(text="Fact-checking is done by the Registrar; edition-specific rules apply."))
+
+# ---------------------------------------------------------------- M-m: the register check inside the bundle path
+def test_a_bundle_rejects_a_retrieved_chunk_that_claims_more_than_its_register_version():
+    b = bundle(route="RAG", sym=False, facts=(), claims=("policy_passage",))
+    b["retrieval"]["items"][0]["chunk"]["source_verification"] = "verified"
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "stale or inflated verification claim")
+
+def test_a_bundle_rejects_a_retrieval_without_its_register_versions():
+    b = bundle(route="RAG", sym=False, facts=(), claims=("policy_passage",))
+    b["retrieval"]["versions"] = []
+    _reject_symbolic_or_answer(answer.EvidenceBundle, b, "not in the result's versions")
+
+# ---------------------------------------------------------------- M-g: a section locator can be cited
+def test_a_citation_can_name_a_section_locator():
+    b = _answer_bundle(route="RAG", sym=False, facts=(), claims=("policy_passage",))
+    chunk = b["retrieval"]["items"][0]["chunk"]
+    chunk["spans"][0]["locator"] = {"kind": "section", "table_index": None, "cell_ids": [], "item_ids": [], "ref": None,
+                                    "section_path": ["Part I", "Admission"]}
+    bundle = answer.EvidenceBundle.parse(b)
+    cite = {**_answer_cite(), "locator_ref": "Part I/Admission"}
+    env = answer.AnswerEnvelope.parse(envelope(citations=[cite]))
+    answer.check_envelope_against_bundle(env, bundle)
+    other = answer.AnswerEnvelope.parse(envelope(citations=[{**cite, "locator_ref": "Part II"}]))
+    with pytest.raises(base.ContractError, match="page or locator"):
+        answer.check_envelope_against_bundle(other, bundle)
+
+
+# Answer provenance and namespace integrity
+
+
+
+
+
+def _decided_bundle(outcome="eligible", mutate=None, **kw):
+    kw.setdefault("claims", {"eligible": ("decision_eligible", "policy_passage"),
+                             "ineligible": ("decision_ineligible", "policy_passage")}[outcome])
+    s = symbolic(outcome)
+    if mutate:
+        mutate(s)
+    return bundle(outcome=outcome, **kw) | {"symbolic": s}
+
+def _reject_answer_bundle(payload, match):
+    bad(answer.EvidenceBundle, payload, match)
+
+@pytest.mark.parametrize("outcome", ["eligible", "ineligible"])
+def test_a_decision_whose_provenance_is_carried_is_accepted(outcome):
+    answer.EvidenceBundle.parse(_decided_bundle(outcome))
+
+@pytest.mark.parametrize("outcome", ["eligible", "ineligible"])
+def test_a_scope_naming_another_knowledge_release_is_refused(outcome):
+    _reject_answer_bundle(_decided_bundle(outcome, lambda s: s["scope"].update(knowledge_release_id="release-other")), "release")
+
+@pytest.mark.parametrize("outcome", ["eligible", "ineligible"])
+def test_a_rule_span_citing_a_version_the_bundle_does_not_carry_is_refused(outcome):
+    _reject_answer_bundle(_decided_bundle(outcome, lambda s: s["rule_spans"][0].update(version_id="ver-synth-unrelated-7")),
+           "ver-synth-unrelated-7")
+
+@pytest.mark.parametrize("outcome", ["eligible", "ineligible"])
+def test_a_rule_span_with_other_bytes_than_its_version_is_refused(outcome):
+    _reject_answer_bundle(_decided_bundle(outcome, lambda s: s["rule_spans"][0].update(byte_sha256="7" * 64)), "digest|bytes")
+
+@pytest.mark.parametrize("outcome", ["eligible", "ineligible"])
+def test_a_scope_edition_the_bundle_does_not_carry_is_refused(outcome):
+    _reject_answer_bundle(_decided_bundle(outcome, lambda s: s["scope"].update(edition_ids=["edition-synth-unrelated-7"])),
+           "edition-synth-unrelated-7")
+
+def test_one_unknown_edition_among_known_ones_is_refused():
+    _reject_answer_bundle(_decided_bundle("eligible", lambda s: s["scope"].update(
+        edition_ids=["edition-synth-handbook-1", "edition-synth-unrelated-7"])), "edition-synth-unrelated-7")
+
+def _two_editions(s):
+    s["rule_spans"][0].update(byte_sha256=fx.SHA["2"], version_id="ver-synth-handbook-2")
+
+def test_a_rule_span_from_an_edition_outside_the_decision_scope_is_refused():
+    both = [fx.item(1), fx.item(2, rank=2, score=0.8, edition="2", doc="doc-synth-other")]
+    payload = _decided_bundle("eligible", _two_editions, retrieval=True)
+    payload["retrieval"] = fx.retrieval(both)
+    _reject_answer_bundle(payload, "outside the decision scope")
+    ok = _decided_bundle("eligible", lambda s: (_two_editions(s), s["scope"].update(
+        edition_ids=["edition-synth-handbook-1", "edition-synth-handbook-2"])))
+    ok["retrieval"] = fx.retrieval(both)
+    answer.EvidenceBundle.parse(ok)
+
+# ---------------------------------------------------------------- no register carried
+def test_a_decided_symbolic_bundle_with_no_register_is_refused():
+    payload = _decided_bundle("eligible", retrieval=False, route="Symbolic", claims=("decision_eligible",))
+    _reject_answer_bundle(payload, "no register version")
+
+def test_a_symbolic_bundle_may_carry_the_register_slice_itself():
+    payload = _decided_bundle("eligible", retrieval=False, route="Symbolic", claims=("decision_eligible",),
+                      versions=fx.versions_for([fx.item()]))
+    answer.EvidenceBundle.parse(payload)
+
+def test_a_hybrid_bundle_with_no_passages_and_no_register_is_refused():
+    payload = _decided_bundle("eligible")
+    payload["retrieval"] = fx.retrieval(items=[], coverage="none")
+    payload["permitted_claims"] = ["decision_eligible"]
+    _reject_answer_bundle(payload, "no register version")
+
+def test_a_synthetic_decision_without_a_register_is_accepted_and_establishes_no_claim():
+    s = symbolic("eligible", synthetic=True)
+    payload = bundle(route="Symbolic", retrieval=False, claims=(), outcome="eligible") | {"symbolic": s}
+    answer.EvidenceBundle.parse(payload)
+    payload["permitted_claims"] = ["decision_eligible"]
+    _reject_answer_bundle(payload, "synthetic decision establishes no claim")
+
+@pytest.mark.parametrize("outcome", ["unknown", "unsupported", "error"])
+def test_results_without_scope_need_no_register(outcome):
+    claims = {"unknown": ("unknown_explanation",), "unsupported": ("abstention",), "error": ("error_report",)}[outcome]
+    answer.EvidenceBundle.parse(bundle(route="Symbolic", retrieval=False, claims=claims, outcome=outcome))
+
+def test_a_synthetic_decision_is_still_checked_when_a_register_is_carried():
+    s = symbolic("eligible", synthetic=True)
+    s["rule_spans"][0]["version_id"] = "ver-synth-unrelated-7"
+    payload = bundle(claims=(), outcome="eligible") | {"symbolic": s}
+    _reject_answer_bundle(payload, "ver-synth-unrelated-7")
+
+# ---------------------------------------------------------------- the carried versions themselves
+def test_carried_versions_must_agree_with_the_retrievals():
+    payload = _decided_bundle("eligible")
+    twin = copy.deepcopy(payload["retrieval"]["versions"][0])
+    twin["edition_id"] = "edition-synth-handbook-9"
+    payload["versions"] = [twin]
+    _reject_answer_bundle(payload, "carried twice with different content")
+
+def test_carried_versions_are_checked_as_a_register():
+    payload = _decided_bundle("eligible", retrieval=False, route="Symbolic", claims=("decision_eligible",))
+    a = fx.versions_for([fx.item()])[0]
+    b = copy.deepcopy(a)
+    b["version_id"], b["edition_id"] = "ver-synth-handbook-5", "edition-synth-handbook-5"
+    payload["versions"] = [a, b]                       # the same bytes under two versions
+    _reject_answer_bundle(payload, "same bytes")
+
+def test_the_same_version_carried_by_both_is_accepted():
+    payload = _decided_bundle("eligible")
+    payload["versions"] = copy.deepcopy(payload["retrieval"]["versions"])
+    answer.EvidenceBundle.parse(payload)
+
+
+# Mutation regressions: field and relationship guards
+
+
+# ---------------------------------------------------------------- the envelope against its bundle
+def test_an_answer_needs_the_decision_claim_of_its_own_outcome():
+    only_passage = answer.EvidenceBundle.parse(bundle(claims=("policy_passage",)))
+    env = answer.AnswerEnvelope.parse(envelope(route="Hybrid", decision=decision("eligible")))
+    with pytest.raises(base.ContractError, match="decision_eligible"):
+        answer.check_envelope_against_bundle(env, only_passage)
+
+def test_a_citation_can_name_a_reference_locator():
+    b = _answer_bundle(route="RAG", sym=False, facts=(), claims=("policy_passage",))
+    b["retrieval"]["items"][0]["chunk"]["spans"][0]["locator"] = {
+        "kind": "docling_ref", "table_index": None, "cell_ids": [], "item_ids": [], "ref": "#/texts/2", "section_path": []}
+    bundle = answer.EvidenceBundle.parse(b)
+    good = answer.AnswerEnvelope.parse(envelope(citations=[{**cite(), "locator_ref": "#/texts/2"}]))
+    answer.check_envelope_against_bundle(good, bundle)
+    wrong = answer.AnswerEnvelope.parse(envelope(citations=[{**cite(), "locator_ref": "#/texts/9"}]))
+    with pytest.raises(base.ContractError, match="page or locator"):
+        answer.check_envelope_against_bundle(wrong, bundle)

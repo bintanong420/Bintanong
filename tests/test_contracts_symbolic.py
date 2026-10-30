@@ -9,9 +9,13 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from backend.bintanong_contracts import base, runtime, symbolic
+from backend.bintanong_contracts import base
+from backend.bintanong_contracts import runtime
+from backend.bintanong_contracts import symbolic
 from backend.bintanong_tools.prospectus_extractor import prerequisites
+
 import contracts_fixtures as fx
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DECISIONS = json.loads((ROOT / "knowledge/manifests/examples/synthetic-decisions.json").read_text(encoding="utf-8"))
@@ -234,3 +238,15 @@ def test_symbolic_result_rejects_duplicate_input_names_and_rule_ids():
     dup = [{"name": "c", "value": "x", "fact_ref": None}, {"name": "c", "value": "y", "fact_ref": None}]
     with pytest.raises((ValidationError, base.ContractError), match='Value error, duplicate input names'):
         _result(E, inputs=dup)
+
+
+# Mutation regressions: field and relationship guards
+
+
+
+# ---------------------------------------------------------------- the symbolic result
+def test_an_unsupported_result_cannot_cite_rules_through_either_field():
+    _result(S)
+    for over in (dict(rule_ids=["rule-synth-1"]), dict(rule_bundle_version="bundle-synth-1")):
+        with pytest.raises(ValidationError, match="unsupported predicate cannot cite rules"):
+            _result(S, **over)

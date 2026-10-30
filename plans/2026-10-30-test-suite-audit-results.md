@@ -11,8 +11,8 @@ No push, product behavior changes, tool retirement, model download or lockfile c
 | --- | --- |
 | 1 Baseline | Complete: 7,365 collected; 7,357 passed / 6 skipped / 2 xfailed; 1,608 subtests |
 | 2 Measure | Complete: 4,640 passed / 6 skipped; 4,646 per-test records |
-| 3 Quick wins | Complete: focused 290 passed / 1 skipped; inherited coverage unchanged; 7,364 collected |
-| 4 Contracts consolidation | Pending quick wins |
+| 3 Quick wins | Complete, `4e80c56`: focused 290 passed / 1 skipped; inherited coverage unchanged |
+| 4 Contracts consolidation | Focused 2,032 passed; 14 fragments folded into module files; coverage check running |
 | 5 Other redundancy | Pending consolidation |
 | 6 Tool retirement | Owner decision required; retain tooling until answered |
 | 7 Final verification | Pending |
@@ -101,4 +101,22 @@ Quickwins inherited run: 4,639 passed / 6 skipped / 13 subtests, exit 0, 405.26s
 `comparison-quickwins.json`: all 13,893 previously covered lines and 4,319 branches retained; no lost sets,
 same denominators and unchanged production Python hashes. Helper builders have identical ASTs (docstring excluded).
 
-Next: commit quick wins, then task 4 contracts consolidation with focused checks and final-suite schedule.
+## Contracts consolidation
+
+Folded 14 fix-pass/survivor files into the base, answer, governance, runtime, source, symbolic and chunk-adapter
+files; embedding, adversarial, parity and the independent schema checker remain distinct responsibilities.
+Contracts family: 25 collecting files -> 11, **2,032 cases -> 2,032**, no test removed.
+Mixed survivor cases moved according to the validator they exercise; the test-local key checker stays with its
+independent schema checker. Descriptive sections replace fix-pass organization. Retain mutation rationale/comments.
+
+Moved 235 test functions. `consolidation-verification.json`: signatures, decorators and bodies match after
+explicit helper binding renames and exact fixture-matrix expansion; all 7,364 collected cases map one-to-one,
+zero missing/extra cases. `consolidation-map.json` records old/new paths and test names. Raw originals retained
+under `contracts-originals/` and Git; no assertion weakening or production changes.
+`contracts_fixtures.py` centralizes 13 exact path/ID/prose matrices; model/schema differences and ordering remain.
+First focused move exposed helper/module and local-variable shadowing (110 failures); preserve that log as
+`contracts-after-initial.log`. Corrected binding names, not assertions. Pre-move 2,032 passed (10.40s);
+final focused 2,032 passed (8.91s), full collection 7,364, `git diff --check` clean.
+Fresh inherited coverage over the mapped roster is running (`coverage-consolidated*`), for final comparison.
+
+Next: commit verified consolidation, review other families' redundancy candidates (task 5).

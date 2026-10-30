@@ -88,3 +88,161 @@ def retrieval(items=None, release="release-synth-1", coverage="sufficient", **ov
                     "embedding_model_id": "synthetic-model", "embedding_model_revision": REVISION}}
     d.update(over)
     return d
+
+
+# Exact input matrices shared by package, schema and parity checks.
+# Model/schema ID matrices retain their original distinct cases and order.
+
+INVALID_SOURCE_FILENAMES = (
+    'C:\\Users\\x\\a.pdf',
+    'C:/Users/x/a.pdf',
+    'dir\\a.pdf',
+    '/abs/a.pdf',
+    'file:///a.pdf',
+    '\\\\host\\share\\a.pdf',
+    'a/b.pdf',
+    'x:y.pdf',
+    '..',
+    '.',
+    'a\tb.pdf',
+    'a\nb.pdf',
+    '',
+)
+
+PLAIN_SOURCE_FILENAMES = (
+    'synthetic-handbook.pdf',
+    'Student Handbook (2023) v2.pdf',
+    'a.b.c.pptx',
+)
+
+PRIVATE_SOURCE_LOCATORS = (
+    'C:\\Users\\x\\a.pdf',
+    'C:/Users/x/a.pdf',
+    'd:\\a',
+    '\\\\host\\share',
+    '/home/x/a.pdf',
+    '/Users/x/a.pdf',
+    'file:///a.pdf',
+    '../a.pdf',
+    'synthetic-locator-x/../y',
+    '~/a.pdf',
+    'a\\b',
+    ' leading',
+    '',
+    'x\ny',
+)
+
+PUBLIC_SOURCE_LOCATORS = (
+    'https://example.invalid/handbook.pdf',
+    'synthetic-locator-alpha/2',
+    'registrar-shelf-3/box-2',
+)
+
+MODEL_INVALID_SOURCE_FILENAMES = (
+    'file:///a.pdf',
+    '~/a.pdf',
+    '../a.pdf',
+    'D:rel.pdf',
+    'dir\\a.pdf',
+    'C:\\x\\a.pdf',
+    '/abs/a.pdf',
+    'https://example.invalid/a.pdf',
+    'a/b.pdf',
+    '..',
+    '.',
+    'a\tb.pdf',
+    'a\nb.pdf',
+    'x:y.pdf',
+)
+
+MODEL_PRIVATE_SOURCE_LOCATORS = (
+    'file:///a.pdf',
+    'file://host/a.pdf',
+    'C:\\Users\\x\\a.pdf',
+    'C:/Users/x/a.pdf',
+    'd:\\a',
+    '\\\\host\\share',
+    '/home/x/a.pdf',
+    '/Users/x/a.pdf',
+    '../a.pdf',
+    'synthetic-locator-x/../y',
+    '~/a.pdf',
+    'a\\b',
+    ' leading',
+    'x\ny',
+    '/abs',
+)
+
+MODEL_PRIVATE_ID_VARIANTS = (
+    'fact-synth-0001 ',
+    'FACT-synth-0001',
+    'fact-synth-0001\n',
+    'ｆact-synth-0001',
+    'fact‑synth-0001',
+    'fact-synth-0001/x',
+    'sess-synth-0001\t',
+    ' fact-synth-0001',
+    'see fact-synth-0001.',
+    '(sess-synth-0001)',
+    'x/FACT‐SYNTH-1',
+    'fact-0001',
+    'sess-7',
+)
+
+MODEL_INSTITUTIONAL_ID_VARIANTS = (
+    'doc-synth-handbook\n',
+    'ver-synth-0001 ',
+    'DOC-synth-x',
+    ' edition-synth-1',
+    'edition-synth-1/x',
+    'conflict-synth-0001\t',
+    'ｖer-synth-0001',
+    'ver‑synth-0001',
+    'doc-synth-handbook/x',
+    'ver-synth-0001#a',
+    'ver-1',
+)
+
+SCHEMA_PRIVATE_ID_VARIANTS = (
+    'fact-0001',
+    'sess-7',
+    'fact-synth-0001 ',
+    ' fact-synth-0001',
+    'FACT-synth-0001',
+    'fact-synth-0001\n',
+    'ｆact-synth-0001',
+    'fact‑synth-0001',
+    'fact-synth-0001/x',
+    'sess-synth-0001#a',
+    'see fact-synth-0001.',
+    '(sess-synth-0001)',
+    'x/FACT‐SYNTH-1',
+)
+
+SCHEMA_INSTITUTIONAL_ID_VARIANTS = (
+    'ver-1',
+    'doc-synth-handbook\n',
+    'ver-synth-0001 ',
+    'DOC-synth-x',
+    ' edition-synth-1',
+    'conflict-synth-0001\t',
+    'ｖer-synth-0001',
+    'ver‑synth-0001',
+    'doc-synth-handbook/x',
+    'ver-synth-0001#a',
+)
+
+LEGITIMATE_ID_PROSE = (
+    'Fact-checking Office of Records',
+    'over-the-counter version-controlled copies',
+    'edition-specific wording',
+    'conflict-resolution procedure',
+    'Doc-ument handling',
+    'a fact',
+    'xfact-synth-0001',
+    'verification',
+    'sess',
+)
+
+FILENAME_PARITY_CASES = INVALID_SOURCE_FILENAMES + ("D:rel.pdf", "https://x.invalid/a.pdf") + PLAIN_SOURCE_FILENAMES
+LOCATOR_PARITY_CASES = PRIVATE_SOURCE_LOCATORS + PUBLIC_SOURCE_LOCATORS

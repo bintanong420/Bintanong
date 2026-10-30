@@ -23,7 +23,10 @@ same denominators and production hashes. Evidence/temp/scripts remain under igno
 
 Owner changed the verification schedule: **focused checks during audit; one full suite at the end**.
 Stopped intermediate quickwins full-suite run after one green batch; partial logs are not full-suite evidence.
-Task 4 contracts consolidation next. No tooling retired; task 6 requires the owner's decision.
+Task 3 committed `4e80c56`. Task 4 consolidation:14 fragment files folded into module files,25 ->11 files;
+all2,032 cases retained and passing.235 moved test functions checked against originals (bindings/matrices
+normalized); all7,364 collected cases map one-to-one. Fresh inherited coverage comparison running.
+No tooling retired; task 6 requires the owner's decision.
 No push, production behavior changes, additional installs or dependency/model/lock changes.
 
 ## Research release and accuracy follow-ups
@@ -50,5 +53,5 @@ and referral. Prior repairs/replays and exact decisions remain in `3ad52e5`, dat
 
 Preserve undergraduate scope, source gaps, privacy, unknown-versus-unmet, printed terms and release guards.
 F04 stays held; research activation is not school approval or public deployment.
-Next: commit verified task 3 quick wins, then consolidate contracts (task 4), review other candidates (task 5),
+Next: commit verified task 4 consolidation, review other candidates (task 5),
 obtain tooling decision (task 6), and run final full-suite/coverage verification (task 7).
