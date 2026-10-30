@@ -1,7 +1,7 @@
 # Test-suite audit and consolidation results
 
 [Approved plan](2026-10-30-test-suite-audit-plan.md). Worktree p12, branch `p12-evaluation-harness`.
-Baseline `3ad52e5`; final test code `4ed03dc`. **Tasks 1–7 complete; ready for external Claude review.**
+Baseline `3ad52e5`; final test code `4ed03dc`. **Tasks 1–7 complete; external Claude review passed with nits only.**
 Last expanded audit snapshot before condensation: `4ed03dc` (`git show` preserves its history).
 Evidence root **A**: `C:/Coding-projects/bintanong_workspace/audit-evidence/p12-test-audit-20261030/`.
 
@@ -74,7 +74,10 @@ Fresh read-only Codex review additionally checked50 moved helper ASTs,235 mapped
 It found a P2 global rebinding: survivor `VOC=base.VOCAB` overwrote independently loaded checker vocabulary.
 A focused probe reproduced12 false checker errors after a process-local production-transition mutation.
 Separate `_PACKAGE_VOCAB`/checker bindings restored: RED1fail -> GREEN1pass; contracts2,032pass (8.48s).
-Minor stale decision/removal-count wording was corrected. Separate external Claude review remains pending.
+Minor stale decision/removal-count wording was corrected. Claude review (30 Oct, read-only): all 7,363 IDs map to originals; 115 moved bodies differ only by helper
+renames/module-prefix drops/equal fixture matrices; no remaining top-level rebinding. Runtime suite (187 files, no
+prospectus/GUI/OCR or tool-importing tests, DB up): 4,843 pass / 2 xfail, exit 0. Nits only: 7-8 blank-line runs,
+duplicate `BIND`, misnamed `_typed_chunk`/`_source_record`, alias `_chunk_adapter_reason`.
 
 Review rulings: executor owns final suite/coverage; historical mutation suite not rerun (no original survivor
 removed); remaining-test indispensability is unproven; institutional source correctness is outside this audit.
@@ -130,4 +133,4 @@ Context consulted: thesis physical17–18, routing PNG, relevant master1–3/11�
 Final batch passes1,839/1,841/1,837/1,838; skips0/0/4/2; xfails2/0/0/0; subtests344/479/358/427.
 Pytest durations237.56/332.73/414.16/395.93s; all exits0. `final-summary.json` verifies sums against collection.
 Closure edits are documentation only; relative links/diff/phase-state and existing docs-hygiene checks apply.
-Next: external Claude review of local commits. Keep branch/worktree; no merge/push or Phase13 advancement.
+Next: owner decision on nits and ingestion-tool retirement. Keep branch/worktree; no merge/push or Phase13 advancement.

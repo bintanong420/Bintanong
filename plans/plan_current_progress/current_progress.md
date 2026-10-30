@@ -2,7 +2,7 @@
 
 Updated 30 October 2026 (machine local date). Worktree p12 / `p12-evaluation-harness`.
 Phase 12 research/software write-up complete with disclosures; no active numbered implementation phase.
-Post-phase test-suite audit tasks 1–7 complete; ready for external Claude review. Phase 13 remains cancelled.
+Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
 ## Latest delivery: test-suite audit
@@ -30,8 +30,12 @@ No test-command/CI default changed. Local Supabase started/healthy; Gemma untouc
 
 Fresh Codex review checked helpers/matrices and found a shared vocabulary binding that weakened checker
 independence. Separate package/checker bindings restored; process-local probe RED fail -> GREEN pass, contracts
-2,032 pass. Passing counts/ASTs alone do not prove binding independence. External Claude review remains pending.
+2,032 pass. Passing counts/ASTs alone do not prove binding independence. External Claude review done; see below.
 Commits: `db643c0` baseline; `4e80c56` quick wins; `f071293` consolidation; `0f7849b` OCR; `4ed03dc` checker fix.
+Claude review (30 Oct, read-only): all 7,363 IDs map to originals; 115 moved bodies differ only by helper
+renames/module-prefix drops/equal fixture matrices; no remaining top-level rebinding. Runtime suite (187 files, no
+prospectus/GUI/OCR or tool-importing tests, DB up): 4,843 pass / 2 xfail, exit 0. Nits only: 7-8 blank-line runs,
+duplicate `BIND`, misnamed `_typed_chunk`/`_source_record`, alias `_chunk_adapter_reason`.
 Closure documentation follows. Raw evidence/temp/scripts remain under ignored workspace audit-evidence.
 No production behavior, source corpus, dependency/model/lock changes, merge or push.
 
@@ -53,4 +57,4 @@ No live model benchmark or student-visible latency claim from this audit.
 
 Preserve undergraduate scope, source gaps, privacy, unknown-versus-unmet, printed terms and release guards.
 F04 stays held; research activation is not institutional approval or public deployment.
-Next: external Claude review of local audit commits. Keep branch/worktree; no merge/push or Phase 13 advancement.
+Next: owner decides on nits and on retiring ingestion tools (contracts tests are runtime; keep). Keep branch/worktree; no merge/push or Phase 13 advancement.
