@@ -109,9 +109,16 @@ outputs). `648c4b5` fixes a 6efe5cf flaw ("ano" named "another", adding II.7g). 
 Not host-fixable safely: uniform Taglish (model picked II.13; a one-word label rule would wrongly move smoking
 Taglish to II.24 "campus"), grad-residence Taglish (selector/model chose handbook_residence over graduation),
 summer-load EN (same evidence as passing Taglish; EN draft dropped the 12-unit Dean exception: replay needed).
-Owner `-owner2` run in progress: b1 on 31064fb (before cc5 fix), b2 on 1dc5adb, b3 on 648c4b5.
+Owner `-owner2` run (b1 31064fb, b2 1dc5adb, b3 648c4b5): 44/50 (prev 42); fixed plagiarism x2, second-year Taglish;
+lost disc-smoking-en ("campus" also kept II.24 littering -> abstained). `070438f` ignores generic institutional
+words (campus/university/premises/school/student) when matching; 310 recorded outputs: only smoking-en and
+smoking-taglish-short change. `a29f23d` owner decision (a): Taglish claims keep printed source wording in English,
+Filipino connectors only (ledger 30 Oct). Live on a29f23d (`run-a29f23d-live3`): cc5-failed-cc4-en (ineligible,
+CC 4/L), disc-smoking-en, leave-length-taglish ("one (1) academic year") all PASS. Related suites 2283 pass.
+Remaining: uniform Taglish, grad-residence Taglish (model choice), summer-load EN (drafting omission).
 
 ## Next action
 
-After the owner's `-owner2` run: score it, rerun cc5-failed-cc4-en alone on HEAD, replay summer-load-en drafting;
-owner decisions pending on uniform/residence approach and leave-length scoring. Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
+Owner runs a full 50-case regression on HEAD (new suffix) to confirm; then summer-load-en drafting replay. Owner
+decision pending: accept uniform/residence as disclosed limits or try a bounded menu-prompt change.
+Phase 13 remains cancelled. Preserve evaluations, bound artifacts, corrected78.
