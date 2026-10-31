@@ -22,6 +22,19 @@ test('proxy forwards only owned session cookie and server-resolved auth', async 
   assert.equal(response.headers.get('cache-control'), 'no-store');
 });
 
+test('a tunnel serving the configured site origin is accepted while request.url stays loopback', async () => {
+  const local = 'http://127.0.0.1:3216', tunnel = 'https://tunnel.example', seen = [];
+  const send = (origin, siteOrigin) => forwardStudentRequest(new Request(local + '/api/chat', { method: 'POST', headers: { Origin: origin }, body: '{}' }), '/chat', {
+    ...options, siteOrigin, fetch: async (_url, init) => { seen.push(init.headers.get('Origin')); return new Response(); } });
+  assert.equal((await send(tunnel, tunnel)).status, 200);
+  assert.equal((await send(local, tunnel)).status, 200);
+  assert.deepEqual(seen, [tunnel, local]);
+  assert.equal((await send('https://attacker.example', tunnel)).status, 403);
+  assert.equal((await send(tunnel, undefined)).status, 403);
+  await assert.rejects(send('http://tunnel.example', 'http://tunnel.example'), /invalid_site_origin/);
+  assert.equal(seen.length, 2);
+});
+
 test('foreign origin and unknown routes never reach upstream', async () => {
   let calls = 0;
   const fetcher = async () => { calls++; return new Response(); };

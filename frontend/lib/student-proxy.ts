@@ -1,4 +1,6 @@
-type Options = { accessToken: string | null; baseUrl?: string; fetch?: typeof fetch };
+import { siteOrigin } from "./auth-policy.ts";
+
+type Options = { accessToken: string | null; baseUrl?: string; siteOrigin?: string; fetch?: typeof fetch };
 const failure = (status: number, error: string) => Response.json({ error }, { status, headers: { "Cache-Control": "no-store" } });
 
 export async function forwardStudentRequest(request: Request, path: string, options: Options) {
@@ -10,14 +12,17 @@ export async function forwardStudentRequest(request: Request, path: string, opti
   if (!methods.includes(request.method)) return failure(405, "method_unavailable");
   const url = new URL(request.url), host = request.headers.get("host");
   if (["localhost", "127.0.0.1", "[::1]"].includes(url.hostname) && host && /^(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/.test(host)) url.host = host;
-  if (request.method !== "GET" && (request.headers.get("origin") !== url.origin || request.headers.get("sec-fetch-site") === "cross-site")) return failure(403, "origin_not_allowed");
+  // Behind a tunnel request.url stays loopback, so the public origin must come from configuration.
+  const origin = request.headers.get("origin"), configured = options.siteOrigin ?? process.env.SITE_ORIGIN;
+  const trusted = [url.origin, ...(configured ? [siteOrigin(request.url, configured)] : [])];
+  if (request.method !== "GET" && (!origin || !trusted.includes(origin) || request.headers.get("sec-fetch-site") === "cross-site")) return failure(403, "origin_not_allowed");
   const headers = new Headers({ Accept: path === "/chat" ? "text/event-stream" : "application/json" });
   // Browser headers cannot replace the cookie identity used by this workspace.
   if (request.headers.has("authorization")) return failure(401, "sign_in_required");
   if (options.accessToken) headers.set("Authorization", "Bearer " + options.accessToken);
   const credential = request.headers.get("cookie")?.split(";").map(c => c.trim()).find(c => /^__Host-bintanong_session=[A-Za-z0-9_-]{43}$/.test(c));
   if (credential) headers.set("Cookie", credential);
-  if (request.method !== "GET") headers.set("Origin", url.origin);
+  if (origin && request.method !== "GET") headers.set("Origin", origin);
   let body: Uint8Array<ArrayBuffer> | undefined;
   if (request.method === "POST") {
     const reader = request.body?.getReader(), chunks: Uint8Array[] = [];
