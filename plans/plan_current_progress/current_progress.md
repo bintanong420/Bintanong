@@ -5,6 +5,18 @@ Phase 12 research/software write-up complete with disclosures; no active numbere
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
+## ngrok access (31 Oct)
+
+Guest chat works through `ngrok http 3216` (https://overbill-subpar-palm.ngrok-free.dev). `dea1b8b`: the proxy trusted
+only `request.url`, which stays loopback behind a tunnel; it now also trusts `SITE_ORIGIN` and forwards the verified
+origin; `allowedDevOrigins` follows `SITE_ORIGIN`. Ignored config changed: `frontend/.env.local` `SITE_ORIGIN`, tunnel
+added to hosted API `allowed_origins`. Stack restarted via `audit-evidence/p12-env-20261031/keepalive.ps1`.
+Verified: RED then 67/67 unit, tsc clean; real browser via the tunnel: page, curricula, POST 200, streamed leave-of-
+absence answer with one source, no console warnings. Open: Google sign-in via the tunnel needs the owner to add
+`<tunnel>/auth/callback` in Supabase, and sign-in from 127.0.0.1 is refused while `SITE_ORIGIN` is the tunnel;
+`frontend/proxy.ts:29` redirect behind the tunnel and PDF upload through it are untested. Guests are public while
+the tunnel is up; no API rate limit found. This is not public deployment approval.
+
 ## Teammate UI integration (31 Oct)
 
 Owner asked to integrate the teammate's enhanced UI (`worktrees/Bintanong/bintanong-teammate-enhanced-ui`, an
