@@ -23,8 +23,7 @@ test('chat header has a continuous backdrop and one usable row at narrow widths'
       await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
       await dismissInitialScope(page);
       const main = await page.locator('.workspace-main').boundingBox();
-      const backdrop = await page.locator('.campus-banner').boundingBox();
-      assert.equal(backdrop.y, main.y, 'campus fade continues behind the header instead of starting at a hard edge');
+      assert.match(await page.locator('.workspace-main').evaluate(node => getComputedStyle(node).backgroundImage), /radial-gradient/, 'ambient backdrop continues behind the header instead of starting at a hard edge');
       const header = await page.locator('.workspace-toolbar').boundingBox();
       assert.ok(header.height <= 76, `${width}/${theme}: compact header stays on one row`);
       for (const name of ['Program and curriculum', 'Chat options', 'Sign out']) {

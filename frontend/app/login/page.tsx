@@ -1,5 +1,6 @@
 import { authConfiguration } from "@/lib/server-auth";
 import { AppearanceControl } from "@/components/workspace/appearance-control";
+import { BrandMark } from "@/components/workspace/brand-mark";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
@@ -17,7 +18,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
   return <main className="workspace public-page auth-page">
     <aside className="auth-art" aria-label="Palawan State University">
       <img src="/design/campus.png" alt="Entrance to Palawan State University" />
-      <div className="auth-art-caption"><a href="/">Bintanong</a><p>For the questions that come with university life.</p></div>
+      <div className="auth-art-caption"><a href="/"><BrandMark size={32} />Bintanong</a><p>For the questions that come with university life.</p></div>
     </aside>
     <div className="auth-panel">
       <header className="auth-navigation"><a href="/"><ArrowLeft size={16} aria-hidden="true" />Back to home</a><AppearanceControl /></header>

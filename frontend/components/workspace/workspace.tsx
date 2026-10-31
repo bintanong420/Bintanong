@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useId, useReducer, useRef, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
-import { ChevronDown, ClipboardList, Ellipsis, FolderOpen, LogIn, LogOut, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { ChevronDown, ClipboardList, Ellipsis, FolderOpen, LogIn, LogOut, Menu } from "lucide-react";
 import { clearStudentSession, confirmStudentFile, getStudentCurricula, removeStudentFile, sendStudentMessage, uploadStudentFile } from "@/lib/student-transport";
 import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope, type StudentSourceSummary } from "@/lib/student-contracts";
 import { createWorkspace, selectedPDF, workspaceReducer } from "@/lib/student-workspace";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Sidebar } from "./sidebar";
 import { Conversation, ConversationStarters, EmptyConversation } from "./conversation";
 import { Composer } from "./composer";
+import { BrandMark } from "./brand-mark";
 import { AppearanceControl } from "./appearance-control";
 import { PreviewDialog } from "./preview-dialog";
 import { FilePanel, type ChatFile } from "./file-panel";
@@ -103,6 +104,10 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
     return () => { data.subscription.unsubscribe(); channel.close(); };
   }, [signedIn]);
   function draft(text: string) { dispatch({ type: "draft", text }); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
+  function toggleNavigation(collapsed: boolean) {
+    setNavigationCollapsed(collapsed);
+    requestAnimationFrame(() => document.querySelector<HTMLElement>(collapsed ? ".desktop-navigation-toggle" : ".sidebar-collapse")?.focus());
+  }
   function openCurrentChat() { setMobileNavigation(false); requestAnimationFrame(() => main.current?.querySelector("textarea")?.focus()); }
   function begin(kind: "chat" | "file" | "clear" | "signout") {
     const value = { controller: new AbortController(), id: "msg-" + crypto.randomUUID(), kind };
@@ -202,15 +207,14 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
   }
   return <div className={`workspace live-workspace${navigationCollapsed ? " navigation-collapsed" : ""}`}>
     <a className="skip-link" href="#question">Skip to question</a>
-    <Sidebar currentChat={state.messages.find(message => message.role === "user")} className="desktop-sidebar" hidden={navigationCollapsed} busy={!!busy && busy !== "chat"} onNewChat={() => setClearOpen(true)} onOpenChat={openCurrentChat} />
-    <main className="workspace-main" id="question" tabIndex={-1} ref={main}>
-      {!state.messages.length && <div className="campus-banner" aria-hidden="true"><img src="/design/campus.png" alt="" /></div>}
+    <Sidebar currentChat={state.messages.find(message => message.role === "user")} className="desktop-sidebar" hidden={navigationCollapsed} busy={!!busy && busy !== "chat"} onCollapse={() => toggleNavigation(true)} onNewChat={() => setClearOpen(true)} onOpenChat={openCurrentChat} />
+    <main className={`workspace-main${state.messages.length ? "" : " welcome-surface"}`} id="question" tabIndex={-1} ref={main}>
       <header className="workspace-toolbar">
         {!!state.messages.length && <h1 className="sr-only">Your conversation with Bintanong</h1>}
         <div className="workspace-heading">
-          <Button variant="ghost" size="icon" className="desktop-navigation-toggle" aria-label={navigationCollapsed ? "Open navigation" : "Close navigation"} aria-expanded={!navigationCollapsed} onClick={() => setNavigationCollapsed(value => !value)}>{navigationCollapsed ? <PanelLeftOpen aria-hidden="true" /> : <PanelLeftClose aria-hidden="true" />}</Button>
+          {navigationCollapsed && <Button variant="ghost" size="icon" className="desktop-navigation-toggle" aria-label="Open navigation" aria-expanded="false" onClick={() => toggleNavigation(false)}><Menu aria-hidden="true" /></Button>}
           <Button variant="ghost" size="icon" className="mobile-navigation-toggle" aria-label="Open navigation" aria-expanded={mobileNavigation} onClick={() => setMobileNavigation(true)}><Menu aria-hidden="true" /></Button>
-          <span className="workspace-name">Bintanong</span>
+          <span className="workspace-name"><BrandMark />Bintanong</span>
           <Button type="button" variant="ghost" className="header-scope" disabled={!!busy} aria-label="Program and curriculum" title={scope ? `${scope.programName} · ${scope.curriculumName}` : "Choose your program and curriculum"} onClick={() => setScopeOpen(true)}>
             <span>{scope ? scope.curriculumName : "Choose curriculum"}</span><ChevronDown size={14} aria-hidden="true" />
           </Button>

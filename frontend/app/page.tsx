@@ -1,12 +1,14 @@
 import { AppearanceControl } from "@/components/workspace/appearance-control";
+import { BrandMark } from "@/components/workspace/brand-mark";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return <main className="workspace public-page landing-page">
     <a className="public-skip" href="#introduction">Skip to content</a>
     <header className="public-header">
-      <a className="public-brand" href="/" aria-label="Bintanong home">Bintanong<span>PalSU academic guide</span></a>
+      <a className="public-brand" href="/" aria-label="Bintanong home"><BrandMark size={36} />Bintanong<span className="public-tagline">PalSU academic guide</span></a>
       <nav aria-label="Main navigation">
+        <a href="/about">About Bintanong</a>
         <a href="#scope">About the research</a>
         <AppearanceControl />
         <Button asChild variant="outline"><a href="/login">Sign in</a></Button>

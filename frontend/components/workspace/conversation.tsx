@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { BookOpen, Copy, LoaderCircle, Pencil } from "lucide-react";
+import { BookOpen, CircleUserRound, Copy, LoaderCircle, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { answerNotice, type WorkspaceState } from "@/lib/student-workspace";
 import { clarificationQuestions } from "@/lib/student-clarification";
 import type { StudentSourceSummary } from "@/lib/student-contracts";
+import { BrandMark } from "./brand-mark";
 
 const suggestions = [
   { label: "Find course prerequisites", text: "What are the prerequisites of CC5/L?" },
@@ -13,8 +14,9 @@ const suggestions = [
 ];
 export function EmptyConversation() {
   return <section className="empty-conversation" aria-labelledby="welcome-title">
-    <p className="welcome-eyebrow">Undergraduate academic affairs</p><h1 id="welcome-title">Ask away, Bintanong.</h1>
-    <p className="welcome-description">Ask about your curriculum or an academic procedure. Answers depend on the reviewed information available.</p>
+    <BrandMark size={80} className="welcome-logo" /><h1 id="welcome-title">Hi, I&apos;m Bintanong</h1>
+    <p className="welcome-description">Your PalSU undergraduate academic guide. What would you like to explore today?</p>
+    <a className="welcome-about" href="/about">Learn more about me</a>
   </section>;
 }
 export function ConversationStarters({ onSuggest }: { onSuggest: (text: string) => void }) {
@@ -37,7 +39,8 @@ export function Conversation({ state, progress, onSource, onClarify, onEdit, onR
       const latest = message.id === state.messages.at(-1)?.id;
       const hasQuestions = message.answer && clarificationQuestions(message.answer, []).length > 0;
       return <article key={message.id} className={`message message-${message.role}`} aria-label={message.role === "user" ? "Your message" : "Bintanong response"}>
-      <div className="message-body">{message.role === "assistant" && <p className="message-author">Bintanong</p>}<Card className="message-card"><CardContent>
+      {message.role === "assistant" ? <BrandMark className="message-avatar" /> : <span className="message-avatar"><CircleUserRound size={28} aria-hidden="true" /></span>}
+      <div className="message-body"><Card className="message-card"><CardContent>
         {notice && <p className={`answer-notice status-${notice.tone}`}>{notice.label}</p>}
         {message.delivery === "interrupted" && <p className="supporting-copy">Response interrupted. Any text below may be incomplete.</p>}
         {message.text && <p className="message-text">{message.text}</p>}
