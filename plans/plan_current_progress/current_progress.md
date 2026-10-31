@@ -5,6 +5,29 @@ Phase 12 research/software write-up complete with disclosures; no active numbere
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
+## USG Constitution loading request (1 Nov)
+
+Owner asked to run Phase 04 Supabase chunking for the USG Constitution. Inspection only so far; no chunks, vectors,
+hosted or local database writes, and the active 560 release is unchanged. Evidence: `dataset/` is absent on this
+machine; the original (34 pages, native text, about 69,500 characters, 24 articles) is at
+`C:\Users\Hawksprey\source\repos\Bintanong\backend\bintanong_tools\bintanong_jsonifer_prolog\dataset\handbook_citizen_charter\Student Handbook and Constitutions\`
+and its SHA-256 matches the recorded `b40cca9e…`. It was not in the 30 Oct hosted snapshot or the 560 bound chunks.
+Phase 04 only loads prepared artifacts, so chunks, source register, review receipts, vectors, a new release and pin must
+be created first. Only G03 is a confirmed reading; G01/G02 stay unconfirmed; the Article XV ASG clause stays excluded.
+Blocked here: `.env` has no service-role key or `SUPABASE_HOSTED_DB_URL`; Docker is stopped (no local Supabase);
+0.8 GB RAM free; `p11-faq-split-20261028` and `p05-source-observation-preparation-20261017` are not on this machine.
+Hosted checked 1 Nov (read-only, anon key; drafts are invisible to it): active `p12-research-faqsplit-20261030`,
+560 chunks, 39 curriculum links, 5 documents, 0 chunks from this PDF; 8 Handbook chunks only mention USG.
+Owner chose short human-review batches for clause text (no directive-only approval), after the load target is settled.
+Owner chose stage inactive, after syncing hosted changes to local. Admin credentials are in `.env.example`, not `.env`
+(tracked file; never stage it). Service-key REST confirms no USG document on hosted, drafts included (5 documents, 5
+releases, 860 chunks). Synced local one way, hosted read-only: migrations 13 -> 18 by `db push --local` (no reset), then
+all 25 public tables in one transaction into the empty local database; counts and chunk id/hash set match (digest
+`6e4c9af2…`), local active release matches, anon sees 560. Hosted's own migration list is unverified; every REST-returned
+table matched local columns. auth/storage not copied. Evidence: `audit-evidence/p12-usg-load-20261101/`.
+Blocker for staging: session pooler connects but never answers (from Windows and Docker), so the slow release RPCs
+cannot run yet. Next: review batch 1 (Articles I-II) with the owner, then chunk, embed and rehearse locally.
+
 ## ngrok access (31 Oct)
 
 Guest chat works through `ngrok http 3216` (https://overbill-subpar-palm.ngrok-free.dev). `dea1b8b`: the proxy trusted
