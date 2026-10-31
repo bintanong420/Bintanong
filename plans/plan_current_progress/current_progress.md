@@ -15,7 +15,9 @@ Verified: RED then 67/67 unit, tsc clean; real browser via the tunnel: page, cur
 absence answer with one source, no console warnings. Open: Google sign-in via the tunnel needs the owner to add
 `<tunnel>/auth/callback` in Supabase, and sign-in from 127.0.0.1 is refused while `SITE_ORIGIN` is the tunnel;
 `frontend/proxy.ts:29` redirect behind the tunnel and PDF upload through it are untested. Guests are public while
-the tunnel is up; no API rate limit found. This is not public deployment approval.
+the tunnel is up. Limits in place: answer admission (`backend/bintanong_api/admission.py`, 1 running + 4 waiting,
+then 503), 2 parallel uploads, 1,000 sessions. Per-client rate limits are planned at a reverse proxy
+(`plans/2026-10-24-phase-11-security-review.md`) and none is configured on this tunnel. Not deployment approval.
 
 ## Teammate UI integration (31 Oct)
 
