@@ -5,6 +5,25 @@ Phase 12 research/software write-up complete with disclosures; no active numbere
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
+## Teammate UI integration (31 Oct)
+
+Owner asked to integrate the teammate's enhanced UI (`worktrees/Bintanong/bintanong-teammate-enhanced-ui`, an
+unversioned mock-data Next app). Its design was ported onto the live workspace; the folder itself is unchanged.
+Ported: mascot logo/favicon, orange welcome backdrop, Gemini-style sidebar, "Hi, I'm Bintanong" welcome with
+pills above a pill composer, user/assistant avatars and bubbles, public `/about` page. Dark mode kept (the
+teammate build is light-only; mascot gets a light backing). Assets resized: logo 190 KB -> 13 KB, photo 2.5 MB -> 215 KB.
+Not ported: mock chat/multi-session data and sidebar search (one server session per browser), timestamps,
+header account avatar, dependency/config changes, Tailwind rewrite. Live starters, sources, clarification,
+files, sign-in and 44 px targets kept. Landing/login keep their layout and heading; they only gain the mascot.
+About copy corrected: dropped "Graduation Tracking" and "Curriculum Flowchart" (no such capability; thesis
+physical 17-18 consulted). Open: the binturong name-origin line is the teammate's; no repo/thesis source confirms it.
+Verified: tsc clean; 66/66 unit; production build; browser suite (isolated synthetic fixture on :3219, evidence in
+`audit-evidence/p12-teammate-ui-20261031/`) 17 pass / 10 fail on the last full run. Baseline on unchanged code was
+17 / 9 of 26; the same nine fail after (older sign-out expectations, missing PDF fixture path; not investigated).
+The tenth (`live clarification`) and an earlier `Stop` failure are intermittent: Send still disabled after a
+page fill under load; each passed 3/3 alone. Real pipeline via :3216 -> :8021: CC 5/L returned CC 3/L and CC 4/L
+in 19 s, an enrollment question returned one source, both themes/phones rendered with no page errors.
+
 ## New-machine handoff run (31 Oct, 32 GB machine, HEAD `7327ade`)
 
 Following the [current handoff](../2026-10-30-eight-failures-handoff.md). Environment and logs:
