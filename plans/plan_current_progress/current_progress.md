@@ -5,12 +5,52 @@ Phase 12 research/software write-up complete with disclosures; no active numbere
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
-## Model GPU offload check (2 Nov, read-only; Docker off, nothing started)
+## Stack launcher (2 Nov)
 
-Full offload on the RTX 4060 is unproven and looks unlikely. The 24 Oct record has `bintanong-p11-bintu` capped at 32
-layers (43 total); decode on the 4060 was 12-16 then ~22 tokens/s, matching the 4 GB RTX 3050 at 35/43 (~23). WSL is
-limited to 4 processors while llama.cpp uses `--threads 8`. Next: with Docker on, read that container's args and
-offload log, then time 43/43 against the current placement and rerun benchmarks before adopting any change.
+`1b726d58` `scripts/start-bintanong.ps1`: Docker Desktop -> model `bintanong-p09-cuda-latency` :18088 -> hosted-560 API
+:8021 -> Next dev :3216, health-gated; `-Ngrok`, `-Stop`. Verified cold start (model ~100 s, API ~80 s), `/health/ready`
+ready, rerun no-op. `-Stop` and `-Ngrok` not yet exercised. Logs/pids: `audit-evidence/launcher-logs/`.
+
+## Hosted reads (2 Nov)
+
+`5f9973eb`: the per-request pin no longer reads `chunks` (it read the whole table with text and vectors on every
+readiness check and chat); it confirms the release row and curriculum links. Basis: published evidence is immutable by
+database trigger; hosted release confirmed published. Startup chunk comparison stays (ids/hashes, 92 KB). Ledgers load
+one at a time with a 3-attempt read retry in the loader; the storage client's no-retry contract is unchanged. 19 MB of
+ledgers still load at startup because Prolog runs locally. Tests: 60 pass after the final retry move; the wider run
+before it was 602 pass / 3 subtest fails from the since-removed client retry. Not yet run live. Wi-Fi corrupts larger
+Supabase downloads; WARP drops itself ("Settings Changed"). Model container is `bintanong-p09-cuda-latency`, stack stopped.
+
+## Failing-case fixes and tone (2 Nov, owner-approved; local commits, not pushed)
+
+Owner verdicts on the 12 `7327ade` failures: Fail #2-5, #7-13; Pass #6. First failure: pre-selector #2,3,4,7,8,11; draft
+#5; checker #9; hold #10; host validation #12; router split #13; none at Prolog or KNN. Context consulted: thesis physical
+11, 50, 53-54 (fluent, student-friendly replies; clarify vague intent). Tone baseline (238 answers): "supplied evidence"
+lead-in on all 171 answered, 14 generic clarifies, 56 use "you/mo/ka". Prerequisite scan (39 hosted ledgers, anon
+read-only): 2,132 courses, 1,139 unresolved (1,050 blank, 89 printed conditions); blanks stay unknown (ledger 27-29).
+- `6aad1683` no lead-in in student view; scope asked as a question; shared program name uses the selected one or lists
+  full names; whole-unresolved rules say what is printed (blank = not listed, printed condition = unverified quote, with
+  adviser/college referral); a split printed code ("HPC 8 / FL 2") names one course.
+- `d1fb38a4` a not-stated claim no longer hides a printed service title (Charter 2.4 Certifications now labelled).
+- `605c9571` (owner 9A) held-record quotes use plain labels + "Heads-up"; clean records cited beside them are quoted.
+- `041e40b1` a fee/time/requirements question beside a not-stated note on another kind of field gets the printed facts;
+  dry run over 1,108 recorded routing outputs: 2 triggers, both #7-8; #10 hold kept.
+- `1a880935` (cherry-pick of `2a2eef6f`) draft prompt: answer first, second person, printed terms exact.
+- Case files (backups `cases.before-20261102.json`): #6 drops "misadvising"; 13 prerequisite cases reject bare clarify.
+Verified: RED/GREEN per fix; related suites 1,920 pass; default suite on `6aad1683` no failures (Docker up); live probe on
+`d1fb38a4` 16/18 (both misses #7-8, fixed in `041e40b1`). Full 97/91/50 live run on `1a880935` running (`run-1a880935-*`).
+Open for owner: #10 (link, both-fines reply, limitation placement), #11 (B or B+), #4/#3 links, #5 target answer.
+
+## Model GPU speed check (2 Nov, measured; nothing restarted)
+
+The running `bintanong-p09-cuda-latency` (pinned `f66a5229`, `--n-gpu-layers auto`, ctx 8192, parallel 1) is fast:
+fixed 1841-token prompt, 256 greedy tokens: prompt ~3,200 tok/s, decode ~55 tok/s, 3.4 GB VRAM. Per-call log in real
+turns: decode 39-50 tok/s. The old 12-23 tok/s records do not describe this container; offload is no longer the
+bottleneck, so the 43/43 test and the `.wslconfig` change are dropped. Three guest questions through the local proxy:
+26.5, 21.7, 21.1 s, answer text in one delta at the end. Third-question split: 5 model calls 13.5 s (~390 generated
+tokens ~10 s; a 4.5-5.3k-token prompt re-read each turn ~1.5 s because one slot alternates with a ~7k cached prompt),
+3.5-4.9 s gap before the draft call (in-process CPU query embedding + hosted Supabase RPC, ~220 ms round trip), ~4 s
+other gaps. Another session's pytest held CPU near 91% during the runs, so the gaps may be inflated. Not a load test.
 
 ## Ingestion GUI audit (1 Nov, read-only)
 
@@ -44,6 +84,10 @@ all 25 public tables in one transaction into the empty local database; counts an
 table matched local columns. auth/storage not copied. Evidence: `audit-evidence/p12-usg-load-20261101/`.
 Blocker for staging: session pooler connects but never answers (from Windows and Docker), so the slow release RPCs
 cannot run yet. Next: review batch 1 (Articles I-II) with the owner, then chunk, embed and rehearse locally.
+2 Nov, read-only: `feat/p11-policy-ingestion-review` (`knowledge_update`, `researcher/`) already covers prepare, review,
+build and verify, plus explicit retained/replaced/removed membership and retained-vector reuse. Proposed for USG instead
+of adapted one-off scripts, pending owner choice; compatibility with the 560 package is untested. It has no automatic
+clause diff in `baseline.py`/`build.py`, and T4 stage/publish/rollback is undone, so hosted staging stays in p12.
 
 ## ngrok access (31 Oct)
 
@@ -110,8 +154,9 @@ Setup findings the handoff omits:
 - Use `next dev -H 127.0.0.1 -p 3216`; without `-H`, Next blocks `/_next/hmr` and the page reloads repeatedly.
 - System Python 3.13.12 does not match the lock (18/76), so runs use the venv. A 16 GB WSL limit is set.
 
-Open: uncommitted `.env.example` (live hosted secrets; tracked file) and `.gitignore` await an owner decision; do
-not stage them. Docker Desktop stopped by itself at 04:38:58 (cause unknown; run discarded).
+Resolved 2 Nov: owner moved the hosted secrets into ignored `.env`; `.env.example` and `.gitignore` match HEAD again.
+Local stash `3f3b096b` (31 Oct, "dont include the env vars") still holds the live values; no branch or remote ref
+contains it. Docker Desktop stopped by itself at 04:38:58 (cause unknown; run discarded).
 Google sign-in docs use port 3215 while this setup uses 3216; guest use unaffected.
 
 ## Latest delivery: test-suite audit
