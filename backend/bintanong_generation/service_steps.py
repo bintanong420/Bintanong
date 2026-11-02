@@ -495,6 +495,8 @@ def _plain_detail(lines, detail, key):
     if not paid:
         return rows + total, words['fees']
     unpaid = tuple(dict.fromkeys(i for t, ids in rows if _NO_FEE.search(t) for i in ids))
+    if len(unpaid) > MAX_CLAIM_RECORDS:  # one line cannot cite them all (live admission test): list them as printed
+        return rows + total, words['fee' if len(paid) == 1 else 'fees']
     free = [(words['free'], unpaid)] if len(paid) < len(rows) else []  # cites the steps it speaks for
     return paid + free + (total if len(paid) > 1 else []), words['fee' if len(paid) == 1 else 'fees']
 

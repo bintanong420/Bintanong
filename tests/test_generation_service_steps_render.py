@@ -151,6 +151,18 @@ def test_a_detail_over_many_records_splits_into_claims_citing_only_its_own_recor
     assert ('e12',) == tuple(i for i in fee_claims[-1][1] if i == 'e12')
 
 
+def test_a_fee_answer_over_many_free_steps_still_answers_the_fee():
+    # Live 2 Nov 2026 (admission test): "The other steps have no fee." cited more than eight records, so the fee
+    # answer was refused and the whole service table was shown. Too many free steps are listed as before instead.
+    many = [(f'e{n}', record((f'step{n}_client_step', f'{n}. Do part {n}'),
+                             (f'step{n}_fee', 'Php 100.00' if n == 3 else 'None'), (f'step{n}_action', f'{n}. Act')))
+            for n in range(1, 12)]
+    claims = render_service(parse_service(many), 'en', detail='fees')
+    text = '\n'.join(t for t, _ in claims)
+    assert claims is not None and 'Fee: Php 100.00' in text and 'Office actions' not in text
+    assert all(len(ids) <= 8 for _, ids in claims)
+
+
 def test_detail_keeps_the_printed_phase_heading_where_step_numbers_restart():
     # Real admission test: application steps 1-5 then "FOR RESULT ISSUANCE" steps 1-3; without the heading the
     # fee/time list read "Step 1 ... Step 1".
