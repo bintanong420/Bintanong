@@ -67,13 +67,14 @@ _LANGUAGE_NOTICE=('Bintanong accepts English, Filipino and Taglish questions and
 
 
 # Owner F4 (28 Oct 2026, provisional): ask whether the student is leaving PalSU or transferring in.
+# Owner 2 Nov 2026 (#11, B+): name the leaving fee so the student sees why it is asked.
 _TRANSFER_DIRECTION={
- 'en':'Are you leaving PalSU (transfer credentials / honorable dismissal), or transferring into PalSU '
-      'from another school? The requirements differ.',
- 'fil':'Aalis ka ba sa PalSU (transfer credentials / honorable dismissal), o lilipat ka sa PalSU '
-       'galing sa ibang school? Magkaiba ang requirements.',
- 'taglish':'Aalis ka ba sa PalSU (transfer credentials / honorable dismissal), o lilipat ka sa PalSU '
-       'galing sa ibang school? Magkaiba ang requirements.'}
+ 'en':"There's a fee when you leave PalSU (transfer credentials / honorable dismissal). Are you leaving PalSU, "
+      'or transferring into PalSU from another school?',
+ 'fil':'May fee kapag aalis ka sa PalSU (transfer credentials / honorable dismissal). Aalis ka ba, o lilipat '
+       'ka sa PalSU galing sa ibang school?',
+ 'taglish':'May fee kapag aalis ka sa PalSU (transfer credentials / honorable dismissal). Aalis ka ba, o lilipat '
+       'ka sa PalSU galing sa ibang school?'}
 _COURSE_CHOICE={'en':'Which course do you mean?','fil':'Aling kurso ang tinutukoy mo?',
  'taglish':'Aling course ang ibig mong sabihin?'}
 # Owner, 2 Nov 2026: a missing program or curriculum is asked as a question (also for someone asking for another).

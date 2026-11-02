@@ -50,7 +50,13 @@ def test_topics_outside_the_transfer_families_never_ask_for_a_direction():
     assert result.decision.dispatchable
 
 
-QUESTION = {'en': 'Are you leaving PalSU', 'fil': 'Aalis ka ba sa PalSU', 'taglish': 'Aalis ka ba sa PalSU'}
+QUESTION = {'en': 'Are you leaving PalSU', 'fil': 'Aalis ka ba', 'taglish': 'Aalis ka ba'}
+# Owner 2 Nov 2026 (#11, B+): the question names the leaving fee so the student sees why it is asked.
+FEE_FIRST = {'en': "There's a fee when you leave PalSU (transfer credentials / honorable dismissal). Are you leaving "
+                   'PalSU, or transferring into PalSU from another school?',
+             'taglish': 'May fee kapag aalis ka sa PalSU (transfer credentials / honorable dismissal). Aalis ka ba, '
+                        'o lilipat ka sa PalSU galing sa ibang school?'}
+FEE_FIRST['fil'] = FEE_FIRST['taglish']
 
 
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
@@ -61,6 +67,7 @@ def test_transfer_direction_reply_asks_leaving_or_transferring_in(language):
     answer_ = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('transfer?', source))
     assert answer_.status == 'clarification_needed'
     assert QUESTION[language] in answer_.text and 'transfer_direction' not in answer_.text
+    assert FEE_FIRST[language] in answer_.text.splitlines()
 
 
 @pytest.mark.parametrize('text', [
