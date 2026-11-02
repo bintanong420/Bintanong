@@ -70,6 +70,8 @@ def test_the_reply_quotes_the_printed_rule_and_leads_with_the_program_length_poi
     claim, = residence_reply(SimpleNamespace(language='en', cards=(card(RULE),)), part)
     assert claim == dict(text=f'"{RULE}" (Student Handbook 1.4)', evidence_ids=['ev-g'])
     assert 'prospectus' in POINTER['taglish'] and 'prospectus' in POINTER['en']
+    # Final run 2 Nov 2026: the pointer and the quote both named the Handbook; the quote alone names it now.
+    assert all('Student Handbook' not in POINTER[k] for k in ('en', 'taglish'))
     other = SimpleNamespace(subject_id='handbook_graduation', text='what are the graduation requirements?')
     assert residence_reply(SimpleNamespace(language='en', cards=(card(RULE),)), other) is None
     assert residence_reply(SimpleNamespace(language='en', cards=(card('Fictional other rule.'),)), part) is None

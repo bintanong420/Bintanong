@@ -8,9 +8,9 @@ from ..bintanong_routing.topic_selection import YEARS_TO_GRADUATE
 _RULE = re.compile(r'1\.4 RESIDENCE REQUIREMENTS\.\s*(No student shall be graduated.*?immediately prior to graduation\.)',
                    re.DOTALL)
 _TAGLISH = ('Depende sa ibig mong sabihin. Ang haba ng program mo ay nasa prospectus ng curriculum mo (piliin ang '
-            'program mo para ma-check ko). Para maka-graduate sa PalSU, sabi ng Student Handbook:')
+            'program mo para ma-check ko). Para maka-graduate sa PalSU:')
 POINTER = {'en': 'It depends on what you mean. How long your program takes is in your curriculum\'s prospectus '
-                 '(choose your program and I can check it). To graduate from PalSU, the Student Handbook says:',
+                 '(choose your program and I can check it). To graduate from PalSU:',
            'fil': _TAGLISH, 'taglish': _TAGLISH}
 
 
