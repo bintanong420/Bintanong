@@ -34,6 +34,15 @@ def test_the_reply_quotes_both_sections_in_full():
     assert load == dict(text=f'"{LOAD} {REST}"', evidence_ids=['ev-a', 'ev-b'])
 
 
+def test_a_taglish_reply_introduces_each_quote_with_filipino_words():
+    from backend.bintanong_routing.style import has_filipino_function_word
+    pack = SimpleNamespace(language='taglish', cards=PACK.cards)
+    part = SimpleNamespace(subject_id=PART.subject_id, text='ilang taon ako dapat mag-aral para sa latin honors?')
+    residence, load = honours_reply(pack, part)
+    assert residence['text'] == f'Ayon sa 5.1.3: "{RESIDENCE}"' and load['text'] == f'Ayon sa 5.1.4: "{LOAD} {REST}"'
+    assert has_filipino_function_word(residence['text']) and has_filipino_function_word(load['text'])
+
+
 @pytest.mark.parametrize('text', ['what grade do I need for cum laude?', 'how long is a leave of absence?'])
 def test_other_questions_are_left_to_the_draft(text):
     assert honours_reply(PACK, SimpleNamespace(subject_id=PART.subject_id, text=text)) is None

@@ -42,8 +42,10 @@ def honours_reply(pack, part):
     if rest is not None and load[1].rstrip().endswith('.') and rest[0] != load[0]:
         load_text, load_ids = f'{load[1]} {rest[1]}', [load[0], rest[0]]
     # The lead is a host line (render.py), not a claim: live, a cited lead was judged unsupported (2 Nov 2026).
-    return (dict(text=f'"{residence[1]}"', evidence_ids=[residence[0]]),
-            dict(text=f'"{load_text}"', evidence_ids=load_ids))
+    # Taglish needs Filipino connecting words around each English quote (reply-style rule, live 2 Nov 2026).
+    taglish = pack.language in ('taglish', 'fil')
+    return (dict(text=(f'Ayon sa 5.1.3: "{residence[1]}"' if taglish else f'"{residence[1]}"'), evidence_ids=[residence[0]]),
+            dict(text=(f'Ayon sa 5.1.4: "{load_text}"' if taglish else f'"{load_text}"'), evidence_ids=load_ids))
 
 
 def asks_honours_length(pack):

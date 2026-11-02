@@ -63,7 +63,11 @@ def card(text):
 def test_the_reply_quotes_the_printed_rule_and_leads_with_the_program_length_pointer():
     from backend.bintanong_generation.residence_reply import POINTER, residence_reply
     part = SimpleNamespace(subject_id='handbook_graduation', text='ilang taon dapat ako mag aral dito bago maka graduate?')
+    # Live 2 Nov 2026: a Taglish reply made only of the English quote failed the reply-style rule, so Taglish
+    # introduces it with Filipino connecting words; English keeps the bare quote.
     claim, = residence_reply(SimpleNamespace(language='taglish', cards=(card(RULE),)), part)
+    assert claim == dict(text=f'Ayon sa Student Handbook 1.4: "{RULE}"', evidence_ids=['ev-g'])
+    claim, = residence_reply(SimpleNamespace(language='en', cards=(card(RULE),)), part)
     assert claim == dict(text=f'"{RULE}" (Student Handbook 1.4)', evidence_ids=['ev-g'])
     assert 'prospectus' in POINTER['taglish'] and 'prospectus' in POINTER['en']
     other = SimpleNamespace(subject_id='handbook_graduation', text='what are the graduation requirements?')

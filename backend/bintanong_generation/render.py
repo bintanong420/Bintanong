@@ -324,9 +324,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         # Owner 2 Nov 2026 (#2 B, #5): host lead lines, shown only above their own exact quotes, never above a draft.
         from .residence_reply import POINTER,asks_years_to_graduate
         from .honours_reply import LEAD,asks_honours_length
-        if asks_years_to_graduate(pack) and claims[0].text.startswith('"No student shall be graduated'):
+        if asks_years_to_graduate(pack) and '"No student shall be graduated' in claims[0].text:
             lines.append(POINTER.get(pack.language,POINTER['en']))
-        if asks_honours_length(pack) and claims[0].text.startswith('"5.1.3 RESIDENCE'):
+        if asks_honours_length(pack) and '"5.1.3 RESIDENCE' in claims[0].text:
             lines.append(LEAD['taglish' if pack.language in ('taglish','fil') else 'en'])
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')

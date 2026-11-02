@@ -28,7 +28,10 @@ def residence_reply(pack, part):
         for field in fields:
             found = _RULE.search(' '.join(str(field.get('value', '')).split()))
             if found and not field.get('source_blank'):
-                return (dict(text=f'"{found.group(1)}" (Student Handbook 1.4)', evidence_ids=[card.evidence_id]),)
+                # Taglish needs Filipino connecting words around the English quote (reply-style rule, live 2 Nov).
+                text = (f'Ayon sa Student Handbook 1.4: "{found.group(1)}"' if pack.language in ('taglish', 'fil')
+                        else f'"{found.group(1)}" (Student Handbook 1.4)')
+                return (dict(text=text, evidence_ids=[card.evidence_id]),)
     return None
 
 
