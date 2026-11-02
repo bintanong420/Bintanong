@@ -79,6 +79,15 @@ ABSENCE_TOPICS = {'handbook_attendance': 'printed attendance fields',
                   'handbook_sickness_access': 'printed sickness access fields'}
 
 
+_YEARS = re.compile(r'(ilang\s+taon|how\s+many\s+years|how\s+long|gaano\s+(ka)?tagal).*graduat', re.IGNORECASE)
+_HONOURS = re.compile(r'honou?rs|latin|laude', re.IGNORECASE)
+
+
+def YEARS_TO_GRADUATE(text):
+    """Owner 2 Nov 2026 (#2): "how many years before I graduate", not the honours residence question."""
+    return bool(_YEARS.search(text)) and not _HONOURS.search(text)
+
+
 def add_companions(chosen, topics, text):
     """The selection plus its reviewed companions for this question, in that order; unchanged when they would
     exceed the selection limit."""
@@ -88,6 +97,8 @@ def add_companions(chosen, topics, text):
         wanted.append('charter_good_moral')
     if ids & set(ABSENCE_TOPICS) and ABSENCE.search(text):
         wanted += list(ABSENCE_TOPICS)
+    if YEARS_TO_GRADUATE(text):
+        wanted.append('handbook_graduation')
     menu = {t.subject_id: t for t in topics}
     extra = tuple(menu[s] for s in dict.fromkeys(wanted) if s in menu and s not in ids)
     return chosen + extra if len(chosen) + len(extra) <= MAX_TOPICS else chosen

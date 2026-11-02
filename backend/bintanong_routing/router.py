@@ -262,6 +262,21 @@ def prefer_named_claim(proposed, topics):
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
+def answer_years_to_graduate(proposed, topics, text):
+    """Owner 2 Nov 2026 (#2, option B): "how many years before I graduate" (not honours) is answered from the
+    graduation rules, whose printed residence requirement the host quotes beside a program-length pointer. Live:
+    the router chose year levels instead. A question naming a course or operation is left to the router."""
+    from .topic_selection import YEARS_TO_GRADUATE
+    claims = {t.subject_id: t.claims for t in topics}.get('handbook_graduation')
+    if (claims is None or not YEARS_TO_GRADUATE(text) or proposed.operations
+            or any(m.kind == 'course' for m in proposed.mentions)):
+        return proposed
+    part = dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='document', operation_indices=[],
+                subject_id='handbook_graduation', requested_claims=list(claims), detail='specific')
+    return Interpretation.parse(dict(proposed.model_dump(mode='json'), parts=[part], route='RAG', control=None,
+                                     claims=[], ambiguities=[]))
+
+
 def prefer_good_moral_checklist(proposed, topics):
     """Owner 2 Nov 2026 (#4): a requirements part about a good moral certificate that chose the Handbook FAQ is
     answered from the Charter CGMC checklist when that topic is offered; a "how do I get" part keeps the FAQ."""
@@ -368,7 +383,7 @@ class Router:
                         proposed = answer_settled_topic(proposed, topics, text)
                     proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
                         prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
-                    proposed = prefer_good_moral_checklist(proposed, topics)
+                    proposed = answer_years_to_graduate(prefer_good_moral_checklist(proposed, topics), topics, text)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise

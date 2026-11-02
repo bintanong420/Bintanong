@@ -320,6 +320,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         labels=({'program_id':'programa','curriculum_id':'bersiyon ng kurikulum'}
             if pack.language=='fil' else {'program_id':'degree program','curriculum_id':'curriculum version'})
         lines.append(shown(words['missing']+': '+', '.join(labels.get(field,field) for field in missing)))
+    if status=='answered' and claims:
+        from .residence_reply import POINTER,asks_years_to_graduate
+        if asks_years_to_graduate(pack):  # owner 2 Nov 2026 (#2 B): program-length pointer, host wording
+            lines.append(POINTER.get(pack.language,POINTER['en']))
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
     if (status=='insufficient_evidence' and ledger is not None
