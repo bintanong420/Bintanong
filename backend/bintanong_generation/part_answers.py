@@ -25,6 +25,7 @@ from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
 from .malformed_condition import malformed_records, malformed_reply
+from .fee_precedence import fee_precedence_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -560,6 +561,7 @@ def to_draft(explanation, pack):
     host = host_claims(pack)
     claims, slots, conflict_ids = [], {}, {}
     requirements = required_record_sources(pack)
+    parts_by_id = {p.part_id: p for p in (pack.understanding.parts if pack.understanding else ())}
     for index, part_id in enumerate(ids):
         conflict = context = quoted = None
         slot = explanation.answers[part_id]
@@ -567,6 +569,9 @@ def to_draft(explanation, pack):
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
             raise ValueError('non_document_evidence')
         status = slot.status
+        fee = fee_precedence_reply(pack, parts_by_id.get(part_id))
+        if fee is not None:  # owner 2 Nov 2026 (#10): Charter fee first, Handbook figure disclosed
+            proposed, status = tuple(PartClaim.parse(c) for c in fee), 'fee_precedence'
         if status == 'answered':
             reserved = sum(len(explanation.answers[p].claims) for p in ids[index+1:]
                            if explanation.answers[p].status == 'answered') + _host_claim_count(host)
@@ -599,6 +604,8 @@ def to_draft(explanation, pack):
                 if quoted is not None:
                     proposed = tuple(PartClaim.parse(c) for c in quoted)
                     status = 'answered' if proposed else 'source_gap'
+        if status == 'fee_precedence':  # the host reply skips the other rewrites, then is reviewed like any claim
+            status = 'answered'
         numbered = []
         shared = conflict is not None or context is not None or quoted is not None
         for claim in (proposed if status == 'answered' else ()):

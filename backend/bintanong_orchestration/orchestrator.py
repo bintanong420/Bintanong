@@ -37,6 +37,12 @@ _ROUTING_FAILURES = {
 
 
 
+# Owner 2 Nov 2026 (#10, CC-first): the held overdue-fine note fetches both printed fine records; the generation
+# host reply (fee_precedence.py) then answers the Charter fee first and discloses the Handbook figure.
+FEE_PRECEDENCE = {'H101/C79 overdue fine applicability and precedence unresolved':
+                  (('charter_returns', 'printed returns fields'), ('handbook_library', 'printed library fields'))}
+
+
 def _topic_intents(proposed):
     """Each chosen document topic with its facts and its parts' words, in part order (owner step 2e: every topic is
     retrieved). The words are the topic's query only when there are several topics (live: the whole two-topic
@@ -44,11 +50,14 @@ def _topic_intents(proposed):
     parts = [p for p in proposed.parts if p.evidence_need == 'document' and p.subject_id]
     if not parts:
         return [(None, dict(subject_id=None, requested_claims=None))]
-    subjects = dict.fromkeys(p.subject_id for p in parts)
-    return [(' '.join(p.text for p in parts if p.subject_id == subject) if len(subjects) > 1 else None,
-             dict(subject_id=subject, requested_claims=tuple(dict.fromkeys(
-                 c for p in parts if p.subject_id == subject for c in p.requested_claims))))
-            for subject in subjects]
+    claims, texts = {}, {}
+    for p in parts:
+        for claim in p.requested_claims:
+            for subject, wanted in FEE_PRECEDENCE.get(claim, ((p.subject_id, claim),)):
+                claims.setdefault(subject, {})[wanted] = None
+                texts.setdefault(subject, {})[p.text] = None
+    return [(' '.join(texts[s]) if len(claims) > 1 else None, dict(subject_id=s, requested_claims=tuple(claims[s])))
+            for s in claims]
 
 
 def merge_documents(results):
