@@ -13,6 +13,14 @@ bytes,SHA-256 ddf46c21d7078e95338cfc22306b19b276a29a5ad089023449dd54d4b6170a51,
 matching the published LFS hash. LM Studio projector still excluded and unused.
 No model load or inference run yet;Task0 still verifies VRAM/flags before launch.
 
+2Nov:owner approved a disposable T4-only Postgres. Container bintanong-p11-t4-scratch
+from cached supabase/postgres:17.6.1.167(--pull never),127.0.0.1:55432 only,volume
+bintanong-p11-t4-scratch-data,label purpose=p11-t4-disposable-rehearsal;healthy,empty.
+Password ignored at workspace audit-evidence/p11-t4-scratch-db/. Never use the owner's
+local Supabase(54322),postgresql-x64-18 service or hosted targets. p12 harness holds
+GPU(Gemma :18088,~3.5/8GB),API :8021,web :3216:keep p11 work CPU-only off those ports.
+Remove:`docker rm -f bintanong-p11-t4-scratch; docker volume rm bintanong-p11-t4-scratch-data`.
+
 31Oct:owner-requested origin/p12-evaluation-harness fetched and checked out locally
 at workspace/worktrees/Bintanong/p12,tracking origin at7327ade1f750d82fd0b28516ac67ad81dff4ef9a.
 New checkout is clean and matches the live origin tip. Source checkout only;no
