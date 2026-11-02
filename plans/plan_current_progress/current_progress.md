@@ -5,6 +5,23 @@ Phase 12 research/software write-up complete with disclosures; no active numbere
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
+## Model GPU offload check (2 Nov, read-only; Docker off, nothing started)
+
+Full offload on the RTX 4060 is unproven and looks unlikely. The 24 Oct record has `bintanong-p11-bintu` capped at 32
+layers (43 total); decode on the 4060 was 12-16 then ~22 tokens/s, matching the 4 GB RTX 3050 at 35/43 (~23). WSL is
+limited to 4 processors while llama.cpp uses `--threads 8`. Next: with Docker on, read that container's args and
+offload log, then time 43/43 against the current placement and rerun benchmarks before adopting any change.
+
+## Ingestion GUI audit (1 Nov, read-only)
+
+Audited `feat/p11-policy-ingestion-review` at `68aaee6` (separate worktree, 133 commits ahead of origin, 190 behind p12).
+Delivered: prepare/review/build/verify, researcher UI, vision and LlamaParse adapters, evaluation harness. Fresh: 135/135
+Python (107 in p12 venv, 28 need system-Python `pymupdf`), Node 24.21 7 pass/1 skip, tsc clean. Not done: adaptation plan
+Tasks 0-5, T4 stage/publish/rollback, T5, any real assisted packet, any institutional review decision or real bundle.
+New defects: resume re-uploads failed pages without `--retry-failed`, contradicting the guide; a corrected multi-span
+field fails build (traced in code, 3 of 298 fields affected); `load_packet` runs per request (10.15 s prospectus packet).
+Docling and Docker blockers look stale. Evidence: `audit-evidence/p12-ingestion-audit-20261101/`. No code changed there.
+
 ## USG Constitution loading request (1 Nov)
 
 Owner asked to run Phase 04 Supabase chunking for the USG Constitution. Inspection only so far; no chunks, vectors,
@@ -41,6 +58,13 @@ absence answer with one source, no console warnings. Open: Google sign-in via th
 the tunnel is up. Limits in place: answer admission (`backend/bintanong_api/admission.py`, 1 running + 4 waiting,
 then 503), 2 parallel uploads, 1,000 sessions. Per-client rate limits are planned at a reverse proxy
 (`plans/2026-10-24-phase-11-security-review.md`) and none is configured on this tunnel. Not deployment approval.
+
+## UI-only port to `frontend` (1 Nov)
+
+Owner asked for the UI change on `frontend`, "only the UI changes" for now. `2a8bda89` cherry-picked as local `47198ac8`
+(not pushed), guest/scope logic excluded; three conflicts resolved. tsc clean; 61/61 unit; webpack build passes; browser
+12 pass / 6 fail. The six (account-controls ×3, guided-clarification ×2, workspace-navigation) also fail on untouched
+`frontend` against the p12 fixture; root cause not investigated. Evidence: `audit-evidence/p12-teammate-ui-20261031/pick-*`.
 
 ## Teammate UI integration (31 Oct)
 
