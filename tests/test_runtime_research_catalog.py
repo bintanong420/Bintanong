@@ -92,6 +92,17 @@ def test_topic_menu_adds_recorded_not_stated_claims_per_subject():
         ('fees', ('printed amount',), ('individual share',))]
 
 
+def test_topic_menu_keeps_the_fields_a_not_stated_claim_was_recorded_on():
+    register = dict(reviews=[dict(subject_id='fees', claim='printed amount')])
+    catalogue = dict(assignments=[dict(reading_id='R1', subject_id='fees')])
+    chunks = [dict(chunk_id='a', type_fields=dict(reading_id='R1'), text=json.dumps(dict(fields=[],
+        source_limits=[dict(affected_claims=['title eligibility'], issue='claim_not_stated', resolution='unresolved',
+                            field_names=['service_title'])])))]
+    topic, = topic_menu(register, catalogue=catalogue, chunks=chunks)
+    assert topic.not_stated_fields == {'title eligibility': ('service_title',)}
+    assert 'not_stated_fields' not in topic_menu(register)[0].model_dump(mode='json')
+
+
 def test_claim_reviewed_as_not_stated_is_offered_as_not_stated_only():
     # Run 10 (23 Oct 2026): the pre-enrollment deadline was reviewed not_stated_in_selected_fields but
     # was offered as an answerable claim; the router requested it unasked and every answer was withheld.

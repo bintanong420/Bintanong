@@ -140,6 +140,9 @@ class DocumentTopic(Record):
     not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
     # Host-only (never shown to the model): phrases in a part that add a not-stated fact to it.
     cues: tuple[NotStatedCue, ...] = Field(default=(), max_length=16)
+    # Host-only: the printed fields each not-stated fact's limitation was recorded on (owner 2 Nov 2026).
+    not_stated_fields: dict[TopicClaim, tuple[Annotated[str, Field(min_length=1, max_length=256)], ...]] = Field(
+        default_factory=dict, max_length=16, exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _cues(self):
@@ -155,6 +158,8 @@ class DocumentTopic(Record):
             raise ValueError('headings_require_selectable_claim')
         if any(c.claim not in self.not_stated for c in self.cues):
             raise ValueError('cue_requires_not_stated_claim')
+        if any(claim not in self.not_stated or not fields for claim, fields in self.not_stated_fields.items()):
+            raise ValueError('fields_require_not_stated_claim')
         return self
 
 

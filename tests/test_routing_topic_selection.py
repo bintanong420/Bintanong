@@ -337,6 +337,32 @@ def test_a_specific_request_for_a_not_stated_fact_still_withholds():
     assert result.proposed.parts[0].requested_claims == ('processing deadline',)
 
 
+def fielded_menu(fields):
+    office = MENU[0].model_copy(update=dict(not_stated_fields={'processing deadline': fields}))
+    return (office, *MENU[1:])
+
+
+def test_a_fee_request_naming_a_not_stated_fact_of_another_field_answers_the_printed_fact():
+    # Live 2 Nov 2026 (#7-8): "how much is a certification of grades?" requested Charter 2.4's not-stated
+    # PD 907 note, recorded on the service title, so the printed fee was withheld.
+    result, _ = run(Transport(selected(), detail_answer(['processing deadline'], 'fees')),
+                    topics=fielded_menu(('service_title',)))
+    assert result.proposed.parts[0].requested_claims == ('filing office',)
+
+
+@pytest.mark.parametrize('field', ['step2_fee', 'amount_php_as_printed', 'replacement_owner_expense'])
+def test_a_fee_request_naming_a_not_stated_fee_still_withholds(field):
+    # Owner hold (#10) and per-person amounts: a note recorded on an amount field keeps withholding a fee question.
+    result, _ = run(Transport(selected(), detail_answer(['processing deadline'], 'fees')),
+                    topics=fielded_menu((field,)))
+    assert result.proposed.parts[0].requested_claims == ('processing deadline',)
+
+
+def test_a_not_stated_fact_without_recorded_fields_still_withholds():
+    result, _ = run(Transport(selected(), detail_answer(['processing deadline'], 'fees')))
+    assert result.proposed.parts[0].requested_claims == ('processing deadline',)
+
+
 def test_a_whole_request_whose_words_name_the_not_stated_fact_keeps_it():
     text = 'Where do I file slip S and what is the deadline?'
     result, _ = run(Transport(selected(), detail_answer(['processing deadline'], 'whole', text=text), text=text),

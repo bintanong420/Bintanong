@@ -132,6 +132,22 @@ def answer_settled_topic(proposed, topics, text):
     return Interpretation.parse(dict(proposed.model_dump(mode='json'), parts=[part], route='RAG', control=None))
 
 
+# Words in the printed field names a requested detail is read from (e.g. step2_fee, amount_php_as_printed,
+# replacement_owner_expense, step1_time).
+_DETAIL_FIELDS = dict(fees=('fee', 'amount', 'php', 'price', 'expense', 'charge', 'payment', 'cost'),
+                      processing_time=('time', 'deadline', 'period'), requirements=('requirement',))
+
+
+def _other_field(topic, part):
+    """Live 2 Nov 2026 (#7-8): a fee question chose Charter 2.4's not-stated PD 907 note, which was recorded on the
+    service title. A detail question whose every requested not-stated fact was recorded only on fields of another
+    kind is not asking for it. A fact recorded on the asked kind, or with no recorded fields, keeps withholding."""
+    kind = _DETAIL_FIELDS.get(part.detail)
+    fields = [topic.not_stated_fields.get(claim) for claim in part.requested_claims]
+    return kind is not None and all(fields) and not any(
+        word in name.casefold() for names in fields for name in names for word in kind)
+
+
 def prefer_printed_procedure(proposed, topics):
     """Host guard: a whole-procedure part asks for the printed procedure, so naming only facts the source
     does not state is replaced by the topic's printed claims (see _printed_claims). Cues then re-add a
@@ -141,8 +157,8 @@ def prefer_printed_procedure(proposed, topics):
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
-        if (topic is not None and part.detail == 'whole' and part.requested_claims
-                and set(part.requested_claims) <= set(topic.not_stated)):
+        if (topic is not None and part.requested_claims and set(part.requested_claims) <= set(topic.not_stated)
+                and (part.detail == 'whole' or _other_field(topic, part))):
             printed = _printed_claims(topic, part.text)
             if printed:
                 part = part.model_copy(update=dict(requested_claims=printed))

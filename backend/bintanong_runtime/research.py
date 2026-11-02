@@ -218,7 +218,7 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
         openings = reviewed_openings(register, catalogue, chunks)
         items = reviewed_items(register, catalogue, chunks)
         headings = reviewed_claim_headings(register, catalogue, chunks)
-    subjects, missing = {}, {}
+    subjects, missing, missing_fields = {}, {}, {}
     for review in register['reviews']:
         subjects.setdefault(review['subject_id'], [])
         # A claim the review found not stated is offered only as not stated, never as answerable.
@@ -240,6 +240,9 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
             if limit.get('resolution') == 'unresolved' and limit.get('issue') not in PRINTED_DEFECTS:
                 missing.setdefault(subject, []).extend(
                     c for c in limit.get('affected_claims', []) if c not in subjects[subject])
+                for claim in limit.get('affected_claims', []):
+                    names = missing_fields.setdefault(subject, {}).setdefault(claim, [])
+                    names.extend(n for n in limit.get('field_names') or () if isinstance(n, str) and n not in names)
     contexts = _reviewed_topic_context(register, catalogue, chunks)
     fields = _reviewed_claim_fields(register, readings, chunks,
         max_fields=MAX_TOPIC_FIELDS if routing_context else 32)
@@ -250,6 +253,7 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
             claim_fields=fields.get(s, {}),
             not_stated=not_stated,
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES),
+            not_stated_fields={n: tuple(f) for n, f in missing_fields.get(s, {}).items() if n in not_stated and f},
             source_labels=labels.get(s, ()), claim_context=columns.get(s, {}),
             # A printed service label already names the topic; an opening is for unlabelled bodies.
             source_opening=None if labels.get(s) else openings.get(s), source_items=items.get(s, ()),
