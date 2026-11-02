@@ -6,6 +6,13 @@ Last full snapshots: ingestion `2f7c935`, upstream `f0889c3`; use `git show`.
 
 ## Latest change
 
+2Nov:[USG fix plan](../2026-11-02-usg-ingestion-bugfix-plan.md) Task1 done. Native
+Docling prepare on the USG PDF(hash b40cca9e…8b68d verified before/after) succeeds
+in the p12 venv(docling2.133.0,hub1.32.0,torch cpu;HF offline):packet 0d37b919…,
+596items,spans1–34,load_packet pass;0 multi-span fields;1 table flagged without
+page. No install/download/hosted access. Next:owner decides Task2 multi-span
+corrected-value mapping and Task3 baseline A or B before any code change.
+
 2Nov:owner approved downloading a separate projector. Shared model file matches
 unsloth/gemma-4-E4B-it-GGUF UD-Q4_K_XL (5,126,306,944bytes,SHA-256 3cf61de1…27d7df80).
 Downloaded the same repo's mmproj-F16.gguf to shared MODELS/GEMMA_4_E4B/:990,372,672

@@ -95,7 +95,12 @@ Context refreshed:thesis17–18,routing PNG,master3.1/16;prior39–44evidence re
 
 Older delivery was pushed through3c1d76c under its own permission. The new supplied
 launch prompt requires local commits/no automatic push. AI extension remains local.
-Resolve the pre-existing native dependency mismatch in an approved environment,
-rerun the two failures,then configured live smoke/matched human evaluation.
+2Nov USG plan Task1:native Docling prepare WORKS in the p12 frozen-lock venv
+(docling2.133.0,transformers5.17.0,huggingface-hub1.32.0,torch2.14.0+cpu;
+HF offline,CPU). USG packet 0d37b919…7d0e179d58:596items,spans physical1–34,
+load_packet pass;exit0,108s;source hash unchanged. Receipt:audit-evidence/
+p11-usg-docling-20261102/receipt.json. The27Oct mismatch is specific to the older
+env;the two failing suite tests were not rerun here. Tasks2/3 await owner decisions
+(multi-span corrected-value mapping;baseline option A or B).
 Original T4 local lifecycle tooling/rehearsal and T5 full operator delivery remain
 unfinished;this extension's operator guide does not complete them. No phase closure.
