@@ -2,7 +2,8 @@
 
 Recorded 26 October 2026. Status: owner-approved; T1 and review persistence delivered;
 reviewer UI/package building verified locally. T4/T5 remain pending. This is a Phase 11 feature plan subordinate to the active
-phase plan, not a new phase.
+phase plan, not a new phase. Sequencing with the 30 Oct AI plan: see the
+[combined plan](2026-11-02-combined-ingestion-plan.md) (2 Nov); task details stay here.
 
 **Goal:** build a reusable ingestion pipeline and local researcher review UI for
 new Handbook and Citizens' Charter editions, through verified local packages.

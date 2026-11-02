@@ -13,13 +13,21 @@ bytes,SHA-256 ddf46c21d7078e95338cfc22306b19b276a29a5ad089023449dd54d4b6170a51,
 matching the published LFS hash. LM Studio projector still excluded and unused.
 No model load or inference run yet;Task0 still verifies VRAM/flags before launch.
 
+2Nov:[combined plan](../2026-11-02-combined-ingestion-plan.md) orders26Oct T4/T5 with
+30Oct AI Tasks0–5 as one pipeline;awaits owner confirmation for Stage B. T4 started:
+storage RPCs go through PostgREST(/rest/v1),and StorageConfig defaults to the owner's
+local stack(54321/54322) when env is absent,so T4 must pass explicit targets only.
+Owner approved PostgREST bintanong-p11-t4-rest at127.0.0.1:55433 on network
+bintanong-p11-t4-net;authenticator password set inside the scratch DB;HTTP200.
+
 2Nov:owner approved a disposable T4-only Postgres. Container bintanong-p11-t4-scratch
 from cached supabase/postgres:17.6.1.167(--pull never),127.0.0.1:55432 only,volume
 bintanong-p11-t4-scratch-data,label purpose=p11-t4-disposable-rehearsal;healthy,empty.
 Password ignored at workspace audit-evidence/p11-t4-scratch-db/. Never use the owner's
 local Supabase(54322),postgresql-x64-18 service or hosted targets. p12 harness holds
 GPU(Gemma :18088,~3.5/8GB),API :8021,web :3216:keep p11 work CPU-only off those ports.
-Remove:`docker rm -f bintanong-p11-t4-scratch; docker volume rm bintanong-p11-t4-scratch-data`.
+Remove:`docker rm -f bintanong-p11-t4-rest bintanong-p11-t4-scratch; docker volume rm
+bintanong-p11-t4-scratch-data; docker network rm bintanong-p11-t4-net`.
 
 31Oct:owner-requested origin/p12-evaluation-harness fetched and checked out locally
 at workspace/worktrees/Bintanong/p12,tracking origin at7327ade1f750d82fd0b28516ac67ad81dff4ef9a.
@@ -80,6 +88,6 @@ was authorized;no application publication or further automatic push is inferred.
 Thesis physical17–18,routing PNG,master3/16/23/24/26,Phase11 plan,Phase10 handoff
 and workstream plan consulted;no scope/routing discrepancy. Undergraduate/read-only/
 private-file/structured-versus-RAG boundaries and English/Taglish replies preserved.
-Owner reviews the published adaptation plan later;implementation has not started.
-After review,resume Task0 inputs/assets/environment,then Task1 provider RED/GREEN.
-Live vision needs an eligible projector;Llama live needs key/quota.
+Next:combined plan Stage A—T4 RED tests for target rejection and scratch-DB
+migrations,then local_release.py. Stage B needs owner plan confirmation;Stage C
+needs the GPU free of the p12 harness;Llama live needs key/quota.

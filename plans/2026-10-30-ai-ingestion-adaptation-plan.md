@@ -15,6 +15,8 @@ Next/React/TypeScript researcher app and SEA-LION package builder.
 [workstream plan](2026-10-26-policy-ingestion-workstream.md),AGENTS.md.
 **State:** ready;implementation not begun. Baseline78bdab6;backend f0889c3 merged
 at8cdba68. This is a Phase11 task plan,not another numbered phase or phase closure.
+**Sequencing:** 2Nov [combined plan](2026-11-02-combined-ingestion-plan.md) orders these
+tasks with original T4/T5;task details and boundaries stay here.
 
 ## Global constraints
 

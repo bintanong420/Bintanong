@@ -19,6 +19,7 @@
 - [AI ingestion](2026-10-27-ai-ingestion-results.md),[reviewer follow-through](2026-10-27-ingestion-repo-followthrough.md),
   [vision limitation](2026-10-27-local-vision-readiness.md),[operator guide](../docs/development/ai-assisted-ingestion.md).
   [Adaptation plan](2026-10-30-ai-ingestion-adaptation-plan.md) ready;current setup reused.
+  [Combined plan](2026-11-02-combined-ingestion-plan.md):single ordered checklist for T4/T5 + AI Tasks0–5.
   Existing72policy/39prospectus packets remain separate;T4/T5unfinished.
 - Corrected78/39curricula release/pin unchanged;559local package/465draft inactive.
   No hosted verification,activation,institutional approval or public deployment.
