@@ -27,6 +27,7 @@ from .service_cutoff import cutoff_reply
 from .malformed_condition import malformed_records, malformed_reply
 from .fee_precedence import fee_precedence_reply
 from .residence_reply import residence_reply
+from .honours_reply import honours_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -570,7 +571,8 @@ def to_draft(explanation, pack):
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
             raise ValueError('non_document_evidence')
         status = slot.status
-        fee = fee_precedence_reply(pack, parts_by_id.get(part_id)) or residence_reply(pack, parts_by_id.get(part_id))
+        asked = parts_by_id.get(part_id)
+        fee = fee_precedence_reply(pack, asked) or residence_reply(pack, asked) or honours_reply(pack, asked)
         if fee is not None:  # owner 2 Nov 2026 (#10): Charter fee first, Handbook figure disclosed
             proposed, status = tuple(PartClaim.parse(c) for c in fee), 'fee_precedence'
         if status == 'answered':
