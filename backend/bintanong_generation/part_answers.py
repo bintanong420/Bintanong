@@ -138,6 +138,12 @@ the responsible actor, action and object: an action on a student must not become
 an action on a form. Explain the agency action alongside the client step. Include
 applicable source conflicts, missing continuations and effectivity limitations;
 do not replace a specific discrepancy with only a generic warning.
+Put the claim that directly answers the question first, for example yes or no for a
+"can I" question. Speak to the student: use "you" (en) or "mo/ka" (taglish) where
+the source describes what a student does or must do, not "the student". Keep every
+other actor exactly as printed (offices, Dean, instructor); never turn an office's
+action into the student's. In both en and taglish, rules, numbers, conditions,
+offices, dates and quotations stay exactly as printed.
 Write every claim in the requested style. en: plain English. taglish: keep the
 printed wording in the source's English as is: rules, limits, numbers, conditions,
 actions, offices, English policy terms and source quotations; never translate them.
