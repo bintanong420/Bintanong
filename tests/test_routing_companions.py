@@ -11,7 +11,8 @@ from backend.bintanong_routing.topic_selection import add_companions
 MENU = tuple(DocumentTopic(subject_id=s, claims=(c,)) for s, c in (
     ('handbook_student_faq', 'printed student faq fields'), ('charter_good_moral', 'printed good moral fields'),
     ('handbook_attendance', 'printed attendance fields'), ('handbook_sickness_access', 'printed sickness access fields'),
-    ('charter_transfer', 'printed transfer fields')))
+    ('charter_transfer', 'printed transfer fields'), ('handbook_transfer_credentials', 'printed transfer credentials fields'),
+    ('handbook_transfer_clearance', 'printed transfer clearance fields')))
 BY_ID = {t.subject_id: t for t in MENU}
 
 
@@ -28,6 +29,10 @@ def chosen(*ids):
     ('I was absent yesterday', ('handbook_attendance',), ['handbook_attendance', 'handbook_sickness_access']),
     ('saan ang clinic para sa medical certificate?', ('handbook_sickness_access',), ['handbook_sickness_access']),
     ('magkano transfer fee?', ('charter_transfer',), ['charter_transfer']),
+    # Live fee-transfer-en: a leaving phrase also offers the leaving topics; plain 'transfer credentials' does not.
+    ('How much does it cost to get transfer credentials or honorable dismissal?', ('handbook_transfer_credentials',),
+     ['handbook_transfer_credentials', 'charter_transfer', 'handbook_transfer_clearance']),
+    ('magkano bayad sa transfer credentials?', ('handbook_transfer_credentials',), ['handbook_transfer_credentials']),
 ])
 def test_companions_are_added_only_for_their_own_questions(text, picked, expected):
     assert [t.subject_id for t in add_companions(chosen(*picked), MENU, text)] == expected

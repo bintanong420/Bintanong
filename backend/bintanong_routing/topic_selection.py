@@ -88,6 +88,16 @@ def YEARS_TO_GRADUATE(text):
     return bool(_YEARS.search(text)) and not _HONOURS.search(text)
 
 
+# Owner 2 Nov 2026: a reviewed leaving phrase (router TRANSFER_DIRECTION_CUES, leaving side only) also offers the
+# leaving-PalSU topics when the selector picked only incoming-transfer topics (live: "...transfer credentials or
+# honorable dismissal?" never saw the Charter fee). Plain "transfer credentials" keeps the direction question.
+LEAVING_CUES = ('honorable dismissal', 'transfer out', 'transferring out', 'leave palsu', 'leaving palsu',
+                'leave the university', 'leaving the university', 'to another school', 'to another university',
+                'to other school', 'aalis', 'lilipat sa ibang', 'lilipat ng ibang')
+INCOMING_TOPICS = {'handbook_transfer', 'handbook_transfer_credentials', 'handbook_transfer_load'}
+LEAVING_TOPICS = ('charter_transfer', 'handbook_transfer_clearance')
+
+
 def add_companions(chosen, topics, text):
     """The selection plus its reviewed companions for this question, in that order; unchanged when they would
     exceed the selection limit."""
@@ -99,6 +109,8 @@ def add_companions(chosen, topics, text):
         wanted += list(ABSENCE_TOPICS)
     if YEARS_TO_GRADUATE(text):
         wanted.append('handbook_graduation')
+    if ids & INCOMING_TOPICS and any(cue in text.casefold() for cue in LEAVING_CUES):
+        wanted += list(LEAVING_TOPICS)
     menu = {t.subject_id: t for t in topics}
     extra = tuple(menu[s] for s in dict.fromkeys(wanted) if s in menu and s not in ids)
     return chosen + extra if len(chosen) + len(extra) <= MAX_TOPICS else chosen
