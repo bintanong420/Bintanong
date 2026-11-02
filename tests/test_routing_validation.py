@@ -83,16 +83,39 @@ def test_program_named_in_text_with_one_curriculum_needs_no_session_scope():
     assert result.decision.route == 'Symbolic' and (result.program_id, result.curriculum_id) == ('program-a', 'curriculum-a')
 
 
-def test_shared_program_name_asks_which_program():
+def _shared_program_name():
     other = CatalogEntry.parse(dict(kind='program', entity_id='program-b', program_id='program-b', curriculum_id=None,
         aliases=['Program A'], source_ref='ver-a', review_ref='review-a', reviewed=True))
-    entries = (*catalog(), other)
     text = 'Program A A1'
     value = proposal(text=text, mentions=[dict(kind='program', text='Program A', start=0, end=9),
         dict(kind='course', text='A1', start=10, end=12)],
         operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    return text, value, (*catalog(), other)
+
+
+def test_shared_program_name_asks_which_program():
+    text, value, entries = _shared_program_name()
     result = validate(text, value, context(program_id=None, curriculum_id=None), catalog=entries)
     assert result.decision.control == 'clarify' and result.decision.route is None
+    assert result.decision.missing_facts == ('program_choice:program-a', 'program_choice:program-b')
+
+
+def test_selected_program_settles_a_name_shared_with_another_program():
+    # Live 31 Oct 2026: "Hospitality Management" with the Hotel track selected also matched Culinary.
+    text, value, entries = _shared_program_name()
+    result = validate(text, value, context(), catalog=entries)
+    assert result.decision.route == 'Symbolic' and result.program_id == 'program-a'
+
+
+@pytest.mark.parametrize('text', ['A8 / B2', 'A8/B2'])
+def test_a_printed_code_split_into_two_mentions_names_one_course(text):
+    # Live 31 Oct 2026: the model split "HPC 8 / FL 2" into "HPC 8" and "FL 2", so neither matched a course.
+    second = text.index('B2')
+    value = proposal(text=text, mentions=[dict(kind='course', text='A8', start=0, end=2),
+        dict(kind='course', text='B2', start=second, end=second + 2)])
+    result = validate(text, value, catalog=(*catalog(), entry(entity='course-joined', alias='A8 / B2')))
+    assert result.decision.route == 'Symbolic' and result.diagnostic == 'validated'
+    assert result.decision.predicate_request.inputs[-1].value == 'course-joined'
 
 
 def test_reused_course_alias_resolves_only_in_explicit_edition():

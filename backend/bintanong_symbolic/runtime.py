@@ -183,8 +183,11 @@ def _spans(courses):
 
 
 def _requirement_view(node):
-    return {'kind':node['kind'], 'course_id':node.get('course_id'),
+    view = {'kind':node['kind'], 'course_id':node.get('course_id'),
             'items':[_requirement_view(child) for child in node.get('items',[])]}
+    if node['kind'] == 'unresolved' and node.get('reason'):
+        view['reason'] = node['reason']
+    return view
 
 
 def _dependency_spans(courses):

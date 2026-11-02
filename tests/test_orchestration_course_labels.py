@@ -23,3 +23,12 @@ def test_a_course_choice_is_labelled_with_its_printed_details():
     details = (('course-a', 'ZZ 1 — Fictional Ethics (Third Year, First Semester; 3 units)'), ('course-b', 'ZZ 2 — x'))
     missing = ('course_choice:course-a', 'completion_unknown:course-b')
     assert choice_labels(details, missing) == {'course-a': 'ZZ 1 — Fictional Ethics (Third Year, First Semester; 3 units)'}
+
+
+def test_a_program_choice_is_labelled_with_its_full_name():
+    from backend.bintanong_orchestration.orchestrator import choice_labels
+    from backend.bintanong_runtime.research import program_details
+    details = program_details({'program-a': ['Bachelor of Fiction (Track A)', 'Fiction'], 'program-b': ['Bachelor of Fiction (Track B)']})
+    missing = ('program_choice:program-a', 'program_choice:program-b')
+    assert choice_labels(details, missing) == {'program-a': 'Bachelor of Fiction (Track A)',
+                                               'program-b': 'Bachelor of Fiction (Track B)'}

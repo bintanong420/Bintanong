@@ -64,6 +64,50 @@ def test_a_fact_about_one_alternative_keeps_the_eligibility_check():
     assert 'Prerequisites ng' not in text
 
 
+BLANK = 'Printed prerequisite cell is blank; no explicit no-prerequisite statement; coverage unknown'
+STANDING = 'Printed condition "3rd yr. Standing" is a year-level standing, not a course; unknown unless reviewed'
+
+
+def unresolved_pack(reason, language, tree=None):
+    from dataclasses import replace
+    from backend.bintanong_generation.evidence import prepare
+    pack = prepare(research_integration())
+    decision = pack.decision.model_copy(update=dict(missing_facts=(), unknown_conditions=('rule_unresolved',)))
+    tree = tree or RequirementView(kind='unresolved', reason=reason)
+    return replace(pack, requirement=tree, decision=decision, missing_facts=(), language=language)
+
+
+@pytest.mark.parametrize('reason,language,expected', [
+    (BLANK, 'en', "The prospectus for this curriculum doesn't list a prerequisite for course-2. "
+                  "Your program adviser or college can confirm if you need to be sure."),
+    (BLANK, 'taglish', 'Walang nakalistang prerequisite ang course-2 sa prospectus ng curriculum na ito. '
+                       'Pwede i-confirm sa program adviser o college kung gusto mong makasigurado.'),
+    (STANDING, 'en', 'The prospectus prints "3rd yr. Standing" for course-2, but it isn\'t verified in the system '
+                     'yet. Please confirm with your program adviser and the college.'),
+    (STANDING, 'taglish', '"3rd yr. Standing" ang naka-print para sa course-2 sa prospectus, pero hindi pa verified '
+                          'sa system. Paki-confirm sa program adviser at college.'),
+    ('Fictional other reason', 'en', "Sorry, I can't confirm the prerequisite of course-2 yet. "
+                                     "Please check with your program adviser or college."),
+    ('Fictional other reason', 'taglish', 'Sorry, hindi ko pa ma-confirm ang prerequisite ng course-2. '
+                                          'Paki-check sa program adviser o college.'),
+])
+def test_an_unresolved_rule_says_what_the_prospectus_shows(reason, language, expected):
+    # Owner, 2 Nov 2026: say what is printed instead of a bare "please clarify"; a blank stays unknown, never "none".
+    from backend.bintanong_generation.render import render_text
+    text = render_text(unresolved_pack(reason, language), (), 'clarification_needed')
+    assert expected in text.splitlines()
+    for generic in ('Please clarify', 'Paki-clarify', 'Conditions', 'cannot be established', 'ma-establish',
+                    'no prerequisite', 'walang prerequisite'):
+        assert generic not in text
+
+
+def test_a_partly_unresolved_rule_keeps_its_existing_reply():
+    from backend.bintanong_generation.render import render_text
+    tree = node('all_of', None, node('course', 'course-1'), RequirementView(kind='unresolved', reason=BLANK))
+    text = render_text(unresolved_pack(BLANK, 'en', tree), (), 'clarification_needed')
+    assert "doesn't list" not in text
+
+
 def test_every_alternative_still_unknown_is_listed():
     from backend.bintanong_generation.render import render_text
     text = render_text(any_of_pack(('completion_unknown:course-1', 'completion_unknown:course-3'),

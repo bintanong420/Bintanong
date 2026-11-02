@@ -107,6 +107,20 @@ def _matches(mention, catalog, program=None, curriculum=None):
     return tuple(c for c in scoped if c.entity_id in keep)
 
 
+def _split_code(text, mention, catalog, program, curriculum):
+    """Live 31 Oct 2026: the model split the printed code "HPC 8 / FL 2" into two mentions. A printed code that
+    starts at the mention and continues in the text names that one course (spacing may differ)."""
+    found = {}
+    for c in catalog:
+        if c.kind != 'course' or (c.program_id, c.curriculum_id) != (program, curriculum):
+            continue
+        for a in c.aliases:
+            m = re.compile(r'\s*'.join(map(re.escape, a.replace(' ', ''))), re.IGNORECASE).match(text, mention.start)
+            if m and m.end() > mention.end and not text[m.end():m.end() + 1].isalnum():
+                found[c.entity_id] = (c, m.end())
+    return next(iter(found.values())) if len(found) == 1 else None
+
+
 def _decision(*, route=None, control=None, request=None, missing=(), reason):
     return RoutingDecision(schema_version=RoutingDecision.SCHEMA_VERSION, route=route,
         control=control, confidence=None, predicate_request=request,
@@ -141,7 +155,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
 
     program, curriculum = context.program_id, context.curriculum_id
     resolved, ignored = {}, set()
-    scope_error = None
+    scope_error, program_choices = None, ()
     # Owner, 23 Oct 2026: a handbook-only question does not depend on program/curriculum, so a
     # phrase that matches no approved name (e.g. "Graduating undergraduate") is ignored there.
     document_only = not p.operations and bool(p.parts) and all(
@@ -151,14 +165,18 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             if mention.kind != kind:
                 continue
             matches = _matches(mention, catalog, program if kind == 'curriculum' else None)
+            selected = program if kind == 'program' else curriculum
+            if len(matches) > 1:  # a name shared by several entries means the selected one (live: BSHM tracks)
+                matches = tuple(m for m in matches if m.entity_id == selected) or matches
             if not matches and document_only:
                 ignored.add(idx)
                 continue
             if len(matches) != 1:
                 scope_error = 'unresolved_entity'
+                if kind == 'program' and matches:
+                    program_choices = tuple('program_choice:' + m.entity_id for m in matches)
                 continue
             entry = matches[0]
-            selected = program if kind == 'program' else curriculum
             if selected is not None and selected != entry.entity_id:
                 scope_error = 'scope_conflict'
                 continue
@@ -200,8 +218,13 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             if carried is not None and entry is not None:
                 resolved[idx] = entry
             continue
-        if mention.kind == 'course' and program is not None and curriculum is not None:
+        if mention.kind == 'course' and program is not None and curriculum is not None and idx not in ignored:
             matches = _matches(mention, catalog, program, curriculum)
+            joined = None if matches else _split_code(text, mention, catalog, program, curriculum)
+            if joined is not None:
+                matches = (joined[0],)
+                ignored.update(i for i, other in enumerate(p.mentions) if i != idx and other.kind == 'course'
+                               and mention.end <= other.start and other.end <= joined[1])
             if len(matches) == 1:
                 resolved[idx] = matches[0]
 
@@ -237,7 +260,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     if p.audience == 'unknown':
         return result('audience_unknown')
     if scope_error:
-        return result(scope_error)
+        return result(scope_error, missing=program_choices if scope_error == 'unresolved_entity' else ())
     if p.ambiguities or p.language == 'unknown':
         return result('model_ambiguity')
     if len(p.operations) > 1:

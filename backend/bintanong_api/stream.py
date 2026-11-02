@@ -44,6 +44,8 @@ def answer_parts(answer, message_id: str, course_labels=None) -> list[dict]:
         name = fields.get(field)
         if field.startswith(('completion_unknown:', 'enrollment_unknown:')):
             name = 'course_status'
+        if field.startswith('program_choice:'):
+            name = 'program'
         if name and name not in missing:
             missing.append(name)
     parts.append({'type': 'data-answer', 'data': {'status': answer.status,

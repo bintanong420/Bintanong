@@ -6,6 +6,7 @@ import re
 import pytest
 
 from backend.bintanong_api.presentation import humanize_codes, student_text
+from backend.bintanong_generation.render import _WORDS
 from test_generation_loop import api as generation
 from test_generation_pipeline import EchoEvidence
 from test_orchestration_pipeline import api as orchestration, ports, resources, transport, ctx
@@ -118,5 +119,19 @@ def test_student_text_leaves_out_the_candidate_preview_line(language):
     answer = answer_for('RAG').model_copy(update=dict(language=language))
     shown = student_text(answer)
     assert not any(word in shown for word in ('Candidate preview', 'Preview ng kandidato'))
+    for claim in answer.claims:
+        assert claim.text in shown
+
+
+@pytest.mark.parametrize('language, line', [('en', 'Based on the supplied evidence:'),
+                                            ('fil', 'Batay sa ibinigay na ebidensya:'),
+                                            ('taglish', 'Based sa supplied evidence:')])
+def test_student_text_leaves_out_the_supplied_evidence_lead_in(language, line):
+    # Owner, 2 Nov 2026: the reply goes straight to the answer; the canonical text keeps the line.
+    answer = answer_for('RAG')
+    canonical = answer.text.replace(_WORDS[answer.language]['answered'], line)
+    answer = answer.model_copy(update=dict(language=language, text=canonical))
+    shown = student_text(answer)
+    assert line not in shown and line in answer.text
     for claim in answer.claims:
         assert claim.text in shown

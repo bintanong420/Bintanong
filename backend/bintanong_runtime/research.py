@@ -114,6 +114,11 @@ def course_details(ledger):
     return tuple((c['course_id'], detail(c)) for c in ledger['courses'] if 'course_code' in c.get('facts', {}))
 
 
+def program_details(program_names):
+    """Display-only full program names for naming a program among choices."""
+    return tuple((program, names[0]) for program, names in program_names.items() if names)
+
+
 def course_labels(ledger):
     """Display-only printed codes, drafts included (they can appear inside conditions); a repeated
     printed code is shown with its printed title."""
@@ -327,6 +332,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         catalog.extend(research_catalog(ledger)); labels.extend(course_labels(ledger))
         details.extend(course_details(ledger))
     catalog.extend(name_catalog(ledgers, program_names or {}, curriculum_names or {}))
+    details.extend(program_details(program_names or {}))
     manifest, chunks = package['manifest'], package['chunks']
     rules_digest = hashlib.sha256(json.dumps(members, sort_keys=True).encode()).hexdigest()
     binding = dict(curricula=members, embedding_set_id=manifest['embedding_set_id'],

@@ -1,5 +1,6 @@
 """Plain-text candidate previews; canonical decisions never come from generated prose."""
 import json
+import re
 
 from .course_facts_reply import course_fact_lines
 
@@ -75,6 +76,46 @@ _TRANSFER_DIRECTION={
        'galing sa ibang school? Magkaiba ang requirements.'}
 _COURSE_CHOICE={'en':'Which course do you mean?','fil':'Aling kurso ang tinutukoy mo?',
  'taglish':'Aling course ang ibig mong sabihin?'}
+# Owner, 2 Nov 2026: a missing program or curriculum is asked as a question (also for someone asking for another).
+_SCOPE_QUESTION={
+ 'en':('Sure, I can check that! Which {fields} is this for?',' and ',
+       {'program_id':'degree program','curriculum_id':'curriculum version'}),
+ 'fil':('Sige, titingnan natin yan! Para saang {fields} ito?',' at ',
+        {'program_id':'programa','curriculum_id':'bersiyon ng kurikulum'}),
+ 'taglish':('Sige, i-check natin yan! Para saang {fields} ito?',' at ',
+            {'program_id':'degree program','curriculum_id':'curriculum version'})}
+
+
+# Owner, 2 Nov 2026: a course whose whole rule is unresolved says what the prospectus shows. A blank cell stays
+# unknown (never "no prerequisite", ledger 23 Oct); a printed non-course condition is quoted as printed.
+_TAGLISH_UNRESOLVED=dict(
+ blank='Walang nakalistang prerequisite ang {course} sa prospectus ng curriculum na ito. '
+       'Pwede i-confirm sa program adviser o college kung gusto mong makasigurado.',
+ printed='"{printed}" ang naka-print para sa {course} sa prospectus, pero hindi pa verified sa system. '
+         'Paki-confirm sa program adviser at college.',
+ other='Sorry, hindi ko pa ma-confirm ang prerequisite ng {course}. Paki-check sa program adviser o college.')
+_UNRESOLVED_RULE={
+ 'en':dict(
+  blank="The prospectus for this curriculum doesn't list a prerequisite for {course}. "
+        "Your program adviser or college can confirm if you need to be sure.",
+  printed='The prospectus prints "{printed}" for {course}, but it isn\'t verified in the system yet. '
+          'Please confirm with your program adviser and the college.',
+  other="Sorry, I can't confirm the prerequisite of {course} yet. Please check with your program adviser or college."),
+ 'fil':_TAGLISH_UNRESOLVED,'taglish':_TAGLISH_UNRESOLVED}
+
+
+def unresolved_rule_text(reason,course,language):
+    words=_UNRESOLVED_RULE.get(language,_UNRESOLVED_RULE['en'])
+    printed=re.match(r'Printed (?:condition|reference) "(.+?)"',reason or '')
+    if (reason or '').startswith('Printed prerequisite cell is blank'):
+        return words['blank'].format(course=course)
+    if printed:
+        return words['printed'].format(printed=printed.group(1),course=course)
+    return words['other'].format(course=course)
+
+
+_PROGRAM_CHOICE={'en':'Which program is this for?','fil':'Para saang programa ito?',
+ 'taglish':'Para saang program ito?'}
 _COURSE_NOT_FOUND={
  'en':'I could not find that course among the reviewed courses of your curriculum. '
       'Please give the course code as printed in your prospectus.',
@@ -242,11 +283,25 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='clarification_needed' and choices:  # owner 29 Oct 2026: name each candidate course
         lines[1]='\n'.join([_COURSE_CHOICE.get(pack.language,_COURSE_CHOICE['en']),*('- '+c for c in choices)])
         missing=tuple(field for field in missing if not field.startswith('course_choice:'))
+    programs=[shown(field.split(':',1)[1]) for field in missing if field.startswith('program_choice:')]
+    if status=='clarification_needed' and programs:  # owner 2 Nov 2026: a name shared by two programs or tracks
+        lines[1]='\n'.join([_PROGRAM_CHOICE.get(pack.language,_PROGRAM_CHOICE['en']),*('- '+p for p in programs)])
+        missing=tuple(field for field in missing if not field.startswith('program_choice:'))
     if status=='clarification_needed' and 'transfer_direction' in missing:
         lines[1]=_TRANSFER_DIRECTION.get(pack.language,_TRANSFER_DIRECTION['en'])
         missing=tuple(field for field in missing if field!='transfer_direction')
+    scope=[field for field in ('program_id','curriculum_id') if field in missing]
+    if status=='clarification_needed' and lines[1]==words[status] and scope and set(missing)==set(scope):
+        question,joiner,labels=_SCOPE_QUESTION.get(pack.language,_SCOPE_QUESTION['en'])
+        lines[1]=question.format(fields=joiner.join(labels[field] for field in scope))
+        missing=()
+    held_rule=(status=='clarification_needed' and pack.requirement is not None and pack.requirement.kind=='unresolved'
+               and pack.decision is not None and pack.decision.outcome=='unknown' and pack.structured_context is not None)
+    if held_rule:
+        course=next(i.value for i in pack.structured_context.inputs if i.name=='course_id')
+        lines[1]=shown(unresolved_rule_text(pack.requirement.reason,course,pack.language))
     canonical_allowed=pack.status=='ready' and status=='answered'
-    if pack.decision is not None and (canonical_allowed or
+    if pack.decision is not None and not held_rule and (canonical_allowed or
             (pack.status=='unknown' and pack.decision.outcome=='unknown')):
         decision=pack.decision
         lines.append(words[decision.outcome])

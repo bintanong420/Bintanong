@@ -87,8 +87,8 @@ def referenced_labels(labels, *mentions):
 
 
 def choice_labels(details, missing):
-    """Printed details for the courses a "which course do you mean" clarification lists."""
-    chosen = {field.split(':', 1)[1] for field in missing if field.startswith('course_choice:')}
+    """Printed details for the courses or programs a "which one" clarification lists."""
+    chosen = {field.split(':', 1)[1] for field in missing if field.startswith(('course_choice:', 'program_choice:'))}
     return {cid: label for cid, label in details if cid in chosen}
 
 
