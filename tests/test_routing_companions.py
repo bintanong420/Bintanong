@@ -58,6 +58,25 @@ def test_a_good_moral_requirements_part_goes_to_the_charter_checklist():
     assert prefer_good_moral_checklist(Interpretation.parse(value), topics).parts[0].subject_id == 'handbook_student_faq'
 
 
+def test_an_absence_part_is_led_by_the_attendance_rule():
+    # Live 2 Nov 2026: the router chose the sickness topic, so the host required sickness coverage and withheld a good
+    # excuse-slip answer. Every absence needs the excuse slip; sickness is the "if you were sick" branch.
+    from backend.bintanong_routing.router import lead_absence_with_attendance
+    from backend.bintanong_routing.contracts import Interpretation
+    from test_routing_contracts import proposal
+    text = 'umabsent ako kahapon, ano kailangan ko gawin?'
+    value = proposal(text=text, language='taglish', route='RAG', mentions=[], operations=[])
+    value['parts'][0].update(subject_id='handbook_sickness_access', requested_claims=['printed sickness access fields'])
+    routed = lead_absence_with_attendance(Interpretation.parse(value), MENU)
+    assert (routed.parts[0].subject_id, routed.parts[0].requested_claims) == (
+        'handbook_attendance', ('printed attendance fields',))
+    value['parts'][0]['text'] = value['parts'][0]['text']  # unchanged text; a clinic question is left alone below
+    clinic = 'saan ang clinic?'
+    other = proposal(text=clinic, language='taglish', route='RAG', mentions=[], operations=[])
+    other['parts'][0].update(subject_id='handbook_sickness_access', requested_claims=['printed sickness access fields'])
+    assert lead_absence_with_attendance(Interpretation.parse(other), MENU).parts[0].subject_id == 'handbook_sickness_access'
+
+
 def test_an_absence_part_fetches_both_records():
     from backend.bintanong_orchestration.orchestrator import _topic_intents
     part = SimpleNamespace(evidence_need='document', subject_id='handbook_sickness_access',

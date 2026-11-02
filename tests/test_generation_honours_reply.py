@@ -26,8 +26,10 @@ PART = SimpleNamespace(subject_id='handbook_undergraduate_honors_policy',
 
 
 def test_the_reply_quotes_both_sections_in_full():
-    lead, residence, load = honours_reply(PACK, PART)
-    assert lead['text'].startswith('To graduate with Latin honors')
+    # Live 2 Nov 2026: a cited lead claim was judged unsupported and sank the answer; the lead is now a host line.
+    from backend.bintanong_generation.honours_reply import LEAD
+    residence, load = honours_reply(PACK, PART)
+    assert LEAD['en'].startswith('To graduate with Latin honors')
     assert residence == dict(text=f'"{RESIDENCE}"', evidence_ids=['ev-a'])
     assert load == dict(text=f'"{LOAD} {REST}"', evidence_ids=['ev-a', 'ev-b'])
 

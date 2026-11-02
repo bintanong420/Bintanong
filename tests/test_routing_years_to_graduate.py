@@ -41,6 +41,19 @@ def test_the_part_is_answered_from_the_graduation_rules():
     assert (part.subject_id, part.requested_claims, routed.route) == ('handbook_graduation', ('printed graduation fields',), 'RAG')
 
 
+def test_an_operation_without_a_named_course_still_goes_to_the_graduation_rules():
+    # Live 2 Nov 2026: the router attached a structured operation (no course named), so the guard skipped it.
+    from backend.bintanong_routing.router import answer_years_to_graduate
+    text = 'ilang taon dapat ako mag aral dito bago maka graduate?'
+    topics = (DocumentTopic(subject_id='handbook_graduation', claims=('printed graduation fields',)),)
+    value = proposal(text=text, language='taglish', route='Symbolic',
+                     mentions=[dict(kind='term', text='ilang taon', start=0, end=10)],
+                     operations=[dict(name='list_term_courses', target=0)])
+    value['parts'][0].update(evidence_need='structured', operation_indices=[0])
+    routed = answer_years_to_graduate(Interpretation.parse(value), topics, text)
+    assert routed.parts[0].subject_id == 'handbook_graduation' and not routed.operations
+
+
 def card(text):
     return SimpleNamespace(evidence_id='ev-g', kind='document', citations=(SimpleNamespace(filename='PSU Student Handbook.pdf'),),
                            text=json.dumps(dict(fields=[dict(name='body', source_blank=False, value=(

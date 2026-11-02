@@ -268,13 +268,30 @@ def answer_years_to_graduate(proposed, topics, text):
     the router chose year levels instead. A question naming a course or operation is left to the router."""
     from .topic_selection import YEARS_TO_GRADUATE
     claims = {t.subject_id: t.claims for t in topics}.get('handbook_graduation')
-    if (claims is None or not YEARS_TO_GRADUATE(text) or proposed.operations
-            or any(m.kind == 'course' for m in proposed.mentions)):
-        return proposed
+    if claims is None or not YEARS_TO_GRADUATE(text) or any(m.kind == 'course' for m in proposed.mentions):
+        return proposed  # a named course stays with the router; an operation without one does not (live 2 Nov)
     part = dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='document', operation_indices=[],
                 subject_id='handbook_graduation', requested_claims=list(claims), detail='specific')
     return Interpretation.parse(dict(proposed.model_dump(mode='json'), parts=[part], route='RAG', control=None,
-                                     claims=[], ambiguities=[]))
+                                     claims=[], ambiguities=[], operations=[]))
+
+
+def lead_absence_with_attendance(proposed, topics):
+    """Owner 2 Nov 2026 (#3): every absence needs the excuse slip (attendance rule); the sickness certificate is the
+    "if you were sick" branch. Live, the router chose the sickness topic, so the host required sickness coverage and
+    withheld a correct excuse-slip answer. An absence part on the sickness topic is led by attendance instead; the
+    sickness record is still fetched beside it. A question that is not about an absence keeps its topic."""
+    from .topic_selection import ABSENCE, ABSENCE_TOPICS
+    attendance = {t.subject_id: t for t in topics}.get('handbook_attendance')
+    claim = ABSENCE_TOPICS['handbook_attendance']
+    if attendance is None or claim not in attendance.claims:
+        return proposed
+    parts = [part.model_copy(update=dict(subject_id='handbook_attendance', requested_claims=(claim,)))
+             if part.subject_id == 'handbook_sickness_access' and ABSENCE.search(part.text) else part
+             for part in proposed.parts]
+    if all(a.subject_id == b.subject_id for a, b in zip(parts, proposed.parts)):
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
 def prefer_good_moral_checklist(proposed, topics):
@@ -383,7 +400,8 @@ class Router:
                         proposed = answer_settled_topic(proposed, topics, text)
                     proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
                         prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
-                    proposed = answer_years_to_graduate(prefer_good_moral_checklist(proposed, topics), topics, text)
+                    proposed = answer_years_to_graduate(lead_absence_with_attendance(
+                        prefer_good_moral_checklist(proposed, topics), topics), topics, text)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise

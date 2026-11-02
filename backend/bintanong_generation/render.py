@@ -321,9 +321,13 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             if pack.language=='fil' else {'program_id':'degree program','curriculum_id':'curriculum version'})
         lines.append(shown(words['missing']+': '+', '.join(labels.get(field,field) for field in missing)))
     if status=='answered' and claims:
+        # Owner 2 Nov 2026 (#2 B, #5): host lead lines, shown only above their own exact quotes, never above a draft.
         from .residence_reply import POINTER,asks_years_to_graduate
-        if asks_years_to_graduate(pack):  # owner 2 Nov 2026 (#2 B): program-length pointer, host wording
+        from .honours_reply import LEAD,asks_honours_length
+        if asks_years_to_graduate(pack) and claims[0].text.startswith('"No student shall be graduated'):
             lines.append(POINTER.get(pack.language,POINTER['en']))
+        if asks_honours_length(pack) and claims[0].text.startswith('"5.1.3 RESIDENCE'):
+            lines.append(LEAD['taglish' if pack.language in ('taglish','fil') else 'en'])
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
     if (status=='insufficient_evidence' and ledger is not None

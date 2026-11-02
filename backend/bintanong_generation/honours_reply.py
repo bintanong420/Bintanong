@@ -10,7 +10,7 @@ _RESIDENCE = re.compile(r'5\.1\.3 RESIDENCE AND UNIT REQUIREMENTS\..*?(?=\s*5\.1
 _LOAD = re.compile(r'5\.1\.4 MINIMUM ACADEMIC LOAD REQUIREMENT\..*?(?=\s*5\.1\.5|$)', re.DOTALL)
 _CONTINUED = re.compile(r'^(It shall be the responsibility of the student to establish the veracity of the cause for '
                         r'under load.*?\.)(?=\s|$)', re.DOTALL)
-_LEAD = {'en': 'To graduate with Latin honors, the Student Handbook (5.1.3 and 5.1.4) requires the following, '
+LEAD = {'en': 'To graduate with Latin honors, the Student Handbook (5.1.3 and 5.1.4) requires the following, '
                'quoted exactly:',
          'taglish': 'Para maka-graduate with Latin honors, ito ang nakalista sa Student Handbook (5.1.3 at 5.1.4):'}
 
@@ -41,7 +41,12 @@ def honours_reply(pack, part):
     load_text, load_ids = load[1], [load[0]]
     if rest is not None and load[1].rstrip().endswith('.') and rest[0] != load[0]:
         load_text, load_ids = f'{load[1]} {rest[1]}', [load[0], rest[0]]
-    lead = _LEAD['taglish' if pack.language in ('taglish', 'fil') else 'en']
-    return (dict(text=lead, evidence_ids=[residence[0]]),
-            dict(text=f'"{residence[1]}"', evidence_ids=[residence[0]]),
+    # The lead is a host line (render.py), not a claim: live, a cited lead was judged unsupported (2 Nov 2026).
+    return (dict(text=f'"{residence[1]}"', evidence_ids=[residence[0]]),
             dict(text=f'"{load_text}"', evidence_ids=load_ids))
+
+
+def asks_honours_length(pack):
+    return pack.understanding is not None and any(
+        p.subject_id == 'handbook_undergraduate_honors_policy' and _ASKS.search(p.text) and _HONOURS.search(p.text)
+        for p in pack.understanding.parts)
