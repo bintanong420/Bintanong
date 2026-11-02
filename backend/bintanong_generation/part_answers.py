@@ -661,12 +661,17 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
             for p, (_, ids) in slots.items()])
     # Owner 2 Nov 2026 ("go check fix"): a part asking one detail is checked for that detail, not for every record of
     # the service (live: library-card requirements and leave length were rejected although correct).
-    detail = {p.part_id: p.detail for p in pack.understanding.parts if p.part_id in slots and p.detail != 'whole'}
+    # A part quoting a held record keeps the full check: its disclosed limitation made the one-detail check reject
+    # a correct library-card answer in the 2 Nov replay.
+    held = set(malformed_records(pack))
+    detail = {p.part_id: p.detail for p in pack.understanding.parts if p.part_id in slots and p.detail != 'whole'
+              and not any(set(claims[c].evidence_ids) & held for c in slots[p.part_id][1])}
     if detail:
         payload['detail_parts'] = detail
         payload['detail_instruction'] = (
             'These parts ask only for the named detail (requirements, fees, processing_time or one specific fact). '
-            'Judge whether their claims give that detail completely and correctly. Do not require the whole '
+            'Judge whether their claims give that detail completely and correctly as far as the source shows; a quoted '
+            'record with its disclosed source limitation answers what the source shows. Do not require the whole '
             'procedure, other steps or unrelated records. All support, conflict, language and scope checks apply.')
     required = {part: refs for part, refs in required_record_sources(pack).items() if part not in detail}
     if required:
