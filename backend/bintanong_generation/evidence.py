@@ -61,9 +61,13 @@ class PreparedEvidence:
 
 # Owner-settled source limits (owner 28 Oct 2026: the year-level percentages are shown as printed, no note).
 # The reviewed package keeps each original limit; a settled one stops holding its record when evidence is prepared.
+# Owner 2 Nov 2026 (#10, CC-first): the Citizen's Charter overdue fine applies; the Handbook figure is disclosed by
+# fee_precedence.py.
 OWNER_RESOLVED_LIMITS=frozenset({
     'Unavailable information: overlapping year-level percentage boundaries unresolved. '
-    'Source limitation remains unresolved (malformed_source_condition).'})
+    'Source limitation remains unresolved (malformed_source_condition).',
+    'Unavailable information: H101/C79 overdue fine applicability and precedence unresolved. '
+    'Source limitation remains unresolved (claim_not_stated).'})
 
 
 def _settled(text):

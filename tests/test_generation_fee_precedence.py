@@ -43,6 +43,13 @@ def test_the_charter_fine_leads_and_the_handbook_fine_is_disclosed(language):
     assert first['evidence_ids'] == ['ev-c'] and second['evidence_ids'] == ['ev-h']
 
 
+def test_the_reply_still_works_after_the_owner_resolved_note_is_removed_from_the_card():
+    cards = (card('ev-c', dict(CHARTER, source_limits=[]), 'PALAWAN-STATE-UNIVERSITY-Citizens-Charter-2025-4th-Edition.pdf'),
+             card('ev-h', HANDBOOK, 'PSU Student Handbook.pdf'))
+    first, _ = fee_precedence_reply(pack(cards=cards), ASKED)
+    assert first['evidence_ids'] == ['ev-c']
+
+
 def test_without_the_held_claim_nothing_changes():
     assert fee_precedence_reply(pack(), SimpleNamespace(requested_claims=('printed returns fields',))) is None
 

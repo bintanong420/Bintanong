@@ -35,10 +35,11 @@ def fee_precedence_reply(pack, part):
     for card in pack.cards:
         if card.kind != 'document':
             continue
-        fields, limits = _fields(card)
-        held = any(isinstance(limit, dict) and HELD in (limit.get('affected_claims') or ()) for limit in limits)
+        fields, _ = _fields(card)
+        # The H101/C79 note itself is owner-resolved (evidence.OWNER_RESOLVED_LIMITS) and removed from the card,
+        # so the Charter record is recognised by its printed fee field and edition; the part's request gates this.
         fine = _CHARTER_FINE.search(fields.get('step2_fee', ''))
-        if held and fine and 'Charter-2025' in (card.citations[0].filename or ''):
+        if fine and 'Charter-2025' in (card.citations[0].filename or ''):
             charter = (card.evidence_id, fine.group(0))
         printed = _HANDBOOK_FINE.search(fields.get('body', ''))
         if printed and 'FINES' in fields.get('body', ''):

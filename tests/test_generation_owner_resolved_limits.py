@@ -41,3 +41,8 @@ def test_other_limits_on_the_same_record_still_hold(monkeypatch):
 
 def test_the_year_level_overlap_is_owner_resolved():
     assert any('overlapping year-level percentage boundaries' in m for m in evidence.OWNER_RESOLVED_LIMITS)
+
+
+def test_the_overdue_fine_precedence_is_owner_resolved():
+    # Owner 2 Nov 2026 (#10, CC-first): the check otherwise rejects the Charter-first reply because of this note.
+    assert any('H101/C79 overdue fine applicability and precedence' in m for m in evidence.OWNER_RESOLVED_LIMITS)
