@@ -29,6 +29,7 @@ from .fee_precedence import fee_precedence_reply
 from .residence_reply import residence_reply
 from .honours_reply import honours_reply
 from .leave_reply import leave_reply
+from .absence_reply import sickness_branch
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -611,6 +612,10 @@ def to_draft(explanation, pack):
                     status = 'answered' if proposed else 'source_gap'
         if status == 'fee_precedence':  # the host reply skips the other rewrites, then is reviewed like any claim
             status = 'answered'
+        if status == 'answered' and len(claims) + len(proposed) < 8:
+            branch = sickness_branch(pack, asked, proposed)  # owner 2 Nov 2026 (#3): the "if you were sick" branch
+            if branch is not None:
+                proposed = (*proposed, PartClaim.parse(branch))
         numbered = []
         shared = conflict is not None or context is not None or quoted is not None
         for claim in (proposed if status == 'answered' else ()):
