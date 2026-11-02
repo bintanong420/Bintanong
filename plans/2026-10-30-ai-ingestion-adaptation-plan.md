@@ -146,6 +146,8 @@ Improved prompting is not assumed to fix the previously missed grade discrepancy
   Model:`C:/Coding-projects/bintanong_workspace/MODELS/GEMMA_4_E4B/gemma-4-E4B-it-UD-Q4_K_XL.gguf`.
   Projector:explicit path to a separately approved compatible asset under shared MODELS.
   No eligible projector was found there on30Oct;Task0 must resolve this prerequisite.
+  2Nov owner-approved:`MODELS/GEMMA_4_E4B/mmproj-F16.gguf` from the model's own
+  unsloth/gemma-4-E4B-it-GGUF repo,SHA-256 ddf46c21…4b6170a51 verified against the published LFS hash.
   The old command receipt contains the excluded asset path:reuse only its executable
   and nonasset settings,never its projector argument. Verify paths/flags;record hashes once.
 - [ ] Check free loopback port,then launch an owned ingestion-only process. Reuse observed

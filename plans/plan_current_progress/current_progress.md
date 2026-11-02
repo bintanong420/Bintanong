@@ -1,10 +1,17 @@
 # Current progress
 
-Updated 31 October 2026. Phase 11 active; `feat/p11-policy-ingestion-review`.
+Updated 2 November 2026. Phase 11 active; `feat/p11-policy-ingestion-review`.
 Last full snapshots: ingestion `2f7c935`, upstream `f0889c3`; use `git show`.
 [Phase checkpoint](../phase-11-checkpoint.md) · [Ingestion checkpoint](../2026-10-26-policy-ingestion-checkpoint.md).
 
 ## Latest change
+
+2Nov:owner approved downloading a separate projector. Shared model file matches
+unsloth/gemma-4-E4B-it-GGUF UD-Q4_K_XL (5,126,306,944bytes,SHA-256 3cf61de1…27d7df80).
+Downloaded the same repo's mmproj-F16.gguf to shared MODELS/GEMMA_4_E4B/:990,372,672
+bytes,SHA-256 ddf46c21d7078e95338cfc22306b19b276a29a5ad089023449dd54d4b6170a51,
+matching the published LFS hash. LM Studio projector still excluded and unused.
+No model load or inference run yet;Task0 still verifies VRAM/flags before launch.
 
 31Oct:owner-requested origin/p12-evaluation-harness fetched and checked out locally
 at workspace/worktrees/Bintanong/p12,tracking origin at7327ade1f750d82fd0b28516ac67ad81dff4ef9a.
