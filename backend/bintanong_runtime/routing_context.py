@@ -133,9 +133,11 @@ def reviewed_context(register, catalogue, chunks):
                 raise ValueError('invalid_routing_context')
         except (KeyError, TypeError, AttributeError, ValueError):
             raise ValueError('invalid_routing_context') from None
-        # Labels/column hints never launder a held or unknown source condition.
+        # Labels/column hints never launder a held or unknown source condition. A claim recorded as not stated is
+        # offered separately (not_stated), so it does not withhold the printed title (same rule as openings).
         available[reading] = (chunk['chunk_id'], by_name,
-            any(limit.get('resolution') != 'resolved' for limit in limits))
+            any(limit.get('resolution') != 'resolved' and limit.get('issue') not in OPENING_ALLOWED_LIMITS
+                for limit in limits))
 
     labels, columns = {}, {}
     for review in register['reviews']:

@@ -71,6 +71,18 @@ def test_unbound_held_or_malformed_records_supply_no_new_routing_labels(damage):
     assert all(not t.source_labels for t in topics)
 
 
+def test_a_printed_title_beside_a_not_stated_claim_still_labels_its_topic():
+    # Live 30 Oct 2026: Charter 2.4 "Certifications (Copy of Grades, ...)" carried only a not-stated PD 907 claim,
+    # so its title was withheld and "certification of grades" picked the TOR copy topic. A not-stated claim is
+    # offered separately; it does not make the printed title unreliable (same rule as topic openings).
+    register, catalogue, chunks = fixture()
+    fields = json.loads(chunks[0]['text'])
+    fields['source_limits'] = [dict(resolution='unresolved', issue='claim_not_stated', affected_claims=['eligibility'])]
+    chunks[0]['text'] = json.dumps(fields)
+    topic, = candidate(register, catalogue, chunks)
+    assert topic.source_labels == ('BORROWING FICTIONAL ITEMS. Students request items.',)
+
+
 def test_column_values_remain_bound_to_their_own_reviewed_claim():
     register, catalogue, chunks = fixture('descriptive_rating', 'Fictional satisfactory')
     register['reviews'].append(dict(subject_id='fictional_service', claim='different row',
