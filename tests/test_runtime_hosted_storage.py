@@ -11,10 +11,11 @@ class FakeClient:
     def __init__(self, release=None, chunks=CHUNKS):
         self.release = dict(release_id=HOSTED, status='active', release_kind='research',
                             research_authorization_ref=REF, embedding_set_id='set-1') | (release or {})
-        self.chunks, self.calls = [dict(c) for c in chunks], []
+        self.chunks, self.calls, self.columns = [dict(c) for c in chunks], [], {}
 
     def select(self, table, columns='*', filters=None, role='runtime'):
         self.calls.append(('select', table, filters, role))
+        self.columns[table] = columns
         if table == 'knowledge_releases':
             return [self.release] if filters in (None, {'release_id': 'eq.' + self.release['release_id']}) else []
         if table == 'chunks':
@@ -78,3 +79,19 @@ def test_research_builder_uses_hosted_storage_when_given(monkeypatch):
     assert research.retrieval_storage('pin', dict(manifest={}, chunks=[], versions={}, vectors={}),
         hosted=dict(client='C', release_id='H'), authorization_ref=REF) == (
         'hosted', 'C', dict(pin_release_id='pin', hosted_release_id='H', authorization_ref=REF, chunks=[]))
+
+
+def test_the_startup_chunk_check_reads_only_ids_and_hashes():
+    client = FakeClient(); storage(client)
+    assert client.columns['chunks'] == 'chunk_id,content_hash'
+
+
+@pytest.mark.parametrize('change', [dict(status='superseded'), dict(release_kind='institutional'),
+                                    dict(research_authorization_ref='research-owner-20261022')])
+def test_the_per_request_release_check_never_reads_chunks(change):
+    from backend.bintanong_runtime.hosted_storage import require_active_research_release
+    client = FakeClient()
+    require_active_research_release(client, HOSTED, REF)
+    assert not any(call[1] == 'chunks' for call in client.calls)
+    with pytest.raises(ValueError, match='hosted_release_not_active_research'):
+        require_active_research_release(FakeClient(release=change), HOSTED, REF)

@@ -25,7 +25,7 @@ from backend.bintanong_private_context.worker import extract_isolated
 from backend.bintanong_retrieval.query import QueryEncoder
 from backend.bintanong_routing.transport import LlamaTransport
 from backend.bintanong_runtime.hosted_curricula import load_release_curricula
-from backend.bintanong_runtime.hosted_storage import HostedReleaseStorage
+from backend.bintanong_runtime.hosted_storage import require_active_research_release
 from backend.bintanong_runtime.research import build_multi_research_resources
 from backend.bintanong_storage.client import SupabaseStorageClient
 from backend.bintanong_storage.config import StorageConfig
@@ -99,7 +99,7 @@ def _package(config):
         ('catalogue', FILES[3]), ('register', FILES[4]), ('subject_context_budgets', FILES[6]))}
     package['vectors'] = vectors
     # Owner 29 Oct 2026 option A: a local-documents pin serves its sealed package (the gate-tested set);
-    # curricula stay hosted. A hosted pin's chunk set is checked against the hosted release at readiness.
+    # curricula stay hosted. A hosted pin's chunk set is checked against the hosted release at startup.
     if (len(records) != len(vectors) or
             set(vectors) != {chunk['chunk_id'] for chunk in package['chunks']}
             or package['manifest']['embedding_set_id'] != pin.get('embedding_set_id')):
@@ -120,9 +120,7 @@ class ResearchProvider:
         def check():
             try:
                 if not self.local_documents:
-                    HostedReleaseStorage(self.client, pin_release_id=self.resources.pin.release_id,
-                        hosted_release_id=self.release_id, authorization_ref=self.authorization_ref,
-                        chunks=self.package['chunks'])
+                    require_active_research_release(self.client, self.release_id, self.authorization_ref)
                 links = self.client.select('release_curriculum_ledgers', role='runtime',
                                           filters={'release_id': 'eq.' + self.release_id})
                 if (len(links) != len(self.digests) or

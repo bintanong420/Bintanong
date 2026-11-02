@@ -229,19 +229,23 @@ def test_hosted_pin_serves_its_named_release_with_the_gate_composition(configure
     assert app.state.services.pipeline._topic_selection is True
 
 
-def test_hosted_pin_readiness_checks_its_named_release(configured, monkeypatch):
+def test_hosted_pin_readiness_checks_its_named_release_without_reading_chunks(configured):
     factory, path, seen = configured
     hosted_gate_pin(path)
-    monkeypatch.setattr(factory, 'HostedReleaseStorage', lambda client, **kw: seen.update(hosted=kw))
     app = factory.load_research_app(path)
     provider = app.state.services.pipeline._releases
-    filters = []
-    provider.client.select = lambda table, **kw: filters.append(kw['filters']) or [
-        {'curriculum_id': 'curriculum-a', 'ledger_sha256': 'ledger-digest'}]
+    release = dict(status='active', release_kind='research', research_authorization_ref='research-owner-20261029')
+    tables = []
+    def select(table, **kw):
+        tables.append((table, kw['filters']))
+        return [release] if table == 'knowledge_releases' else [{'curriculum_id': 'curriculum-a', 'ledger_sha256': 'ledger-digest'}]
+    provider.client.select = select
     assert asyncio.run(provider.pin()) is provider.resources
-    assert (seen['hosted']['hosted_release_id'], seen['hosted']['authorization_ref']) == (
-        'p12-research-synthetic', 'research-owner-20261029')
-    assert filters == [{'release_id': 'eq.p12-research-synthetic'}]
+    assert tables == [('knowledge_releases', {'release_id': 'eq.p12-research-synthetic'}),
+                      ('release_curriculum_ledgers', {'release_id': 'eq.p12-research-synthetic'})]
+    release['status'] = 'retired'
+    with pytest.raises(factory.ReleaseUnavailable):
+        asyncio.run(provider.pin())
 
 
 def test_hosted_pin_without_gate_composition_keeps_the_default_composition(configured):
@@ -254,9 +258,9 @@ def test_hosted_pin_without_gate_composition_keeps_the_default_composition(confi
 def test_local_documents_readiness_checks_curricula_without_hosted_chunks(configured, monkeypatch):
     factory, path, seen = configured
     local_pin(path)
-    monkeypatch.setattr(factory, 'HostedReleaseStorage', lambda *a, **kw: seen.update(hosted_checked=True))
     app = factory.load_research_app(path)
     provider = app.state.services.pipeline._releases
-    provider.client.select = lambda *a, **kw: [{'curriculum_id': 'curriculum-a', 'ledger_sha256': 'ledger-digest'}]
+    tables = []
+    provider.client.select = lambda table, **kw: tables.append(table) or [{'curriculum_id': 'curriculum-a', 'ledger_sha256': 'ledger-digest'}]
     assert asyncio.run(provider.pin()) is provider.resources
-    assert 'hosted_checked' not in seen
+    assert tables == ['release_curriculum_ledgers']

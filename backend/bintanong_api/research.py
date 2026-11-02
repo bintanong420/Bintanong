@@ -17,7 +17,7 @@ from backend.bintanong_retrieval.http_query import HttpQueryEncoder
 from backend.bintanong_retrieval.query import configuration_identity
 from backend.bintanong_routing.transport import LlamaTransport
 from backend.bintanong_runtime.hosted_curricula import load_release_curricula
-from backend.bintanong_runtime.hosted_storage import HostedReleaseStorage
+from backend.bintanong_runtime.hosted_storage import require_active_research_release
 from backend.bintanong_runtime.research import build_multi_research_resources
 from backend.bintanong_storage.client import SupabaseStorageClient
 from backend.bintanong_storage.config import StorageConfig
@@ -94,8 +94,7 @@ class ResearchProvider:
     async def pin(self):
         def check():
             try:
-                HostedReleaseStorage(self.client, pin_release_id=self.resources.pin.release_id,
-                    hosted_release_id=self.spec.hosted_release_id, authorization_ref=self.spec.authorization_ref, chunks=self.chunks)
+                require_active_research_release(self.client, self.spec.hosted_release_id, self.spec.authorization_ref)
                 rows = self.client.select('release_curriculum_ledgers', role='runtime',
                     filters={'release_id': 'eq.' + self.spec.hosted_release_id})
                 if len(rows) != len(self.digests) or {r['curriculum_id']: r['ledger_sha256'] for r in rows} != self.digests:

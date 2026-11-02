@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import copy
 
+import httpx
 import pytest
 
 from test_symbolic_runtime import fixture, rereview
@@ -19,10 +20,12 @@ class FakeClient:
                                                         ledger_sha256=ledger['content_sha256'])],
             'curriculum_ledgers': [dict(ledger_sha256=ledger['content_sha256'], program_id=ledger['scope']['program_id'],
                                         curriculum_id=ledger['scope']['curriculum_id'], ledger=ledger)]}
-        self.roles = set()
+        self.roles, self.ledger_filters = set(), []
 
     def select(self, table, *, filters=None, role):
         self.roles.add(role)
+        if table == 'curriculum_ledgers':
+            self.ledger_filters.append(filters)
         rows = self.tables[table]
         for key, expression in (filters or {}).items():
             rows = [r for r in rows if str(r.get(key)) == expression[3:]]
@@ -39,6 +42,38 @@ def test_reads_verified_ledgers_of_the_active_research_release_as_runtime():
     result = load(client)
     assert result == {ledger['scope']['curriculum_id']: ledger}
     assert client.roles == {'runtime'}
+
+
+def test_each_linked_ledger_is_read_alone_rather_than_the_whole_table():
+    ledger = rereview(fixture()); client = FakeClient(ledger)
+    load(client)
+    assert client.ledger_filters == [{'ledger_sha256': 'eq.' + ledger['content_sha256']}]
+
+
+def flaky(client, failures):
+    from backend.bintanong_storage.client import StorageError
+    real, calls = client.select, []
+    def select(table, **kw):
+        if table == 'curriculum_ledgers':
+            calls.append(table)
+            if len(calls) <= failures:
+                try:
+                    raise httpx.ReadError('synthetic corrupted record')
+                except httpx.ReadError as exc:
+                    raise StorageError('Storage transport request failed') from exc
+        return real(table, **kw)
+    client.select = select
+    return calls
+
+
+def test_a_dropped_ledger_read_is_retried_then_gives_up():
+    from backend.bintanong_storage.client import StorageError
+    ledger = rereview(fixture()); client = FakeClient(ledger); calls = flaky(client, 2)
+    assert load(client) == {ledger['scope']['curriculum_id']: ledger} and len(calls) == 3
+    client = FakeClient(ledger); calls = flaky(client, 99)
+    with pytest.raises(StorageError):
+        load(client)
+    assert len(calls) == 3
 
 
 def test_rebuilds_reviewed_printed_and_rle_fields_and_still_refuses_tampering():
