@@ -650,6 +650,17 @@ def host_only(pack):
     return draft, assess_slots(pack, draft, slots)
 
 
+def recheck_wanted(pack, review):
+    """Owner 2 Nov 2026 (option A): the check flipped on identical one-detail requests (live leave-length). A rejection
+    of only one-detail parts, with every claim judged supported, gets one more check; nothing else is rechecked."""
+    if pack.understanding is None:
+        return False
+    detail = {p.part_id: p.detail for p in pack.understanding.parts}
+    rejected = [part for part, verdict in review.parts.items() if verdict == 'does_not_answer']
+    return (bool(rejected) and all(detail.get(part, 'whole') != 'whole' for part in rejected)
+            and all(v.verdict == 'supported' for v in review.support.verdicts))
+
+
 def confirm_messages(text, pack, draft, slots, *, references=None):
     aliases = _part_aliases(pack, references)
     cards = {c.evidence_id: c for c in pack.cards if c.kind == 'document'}
