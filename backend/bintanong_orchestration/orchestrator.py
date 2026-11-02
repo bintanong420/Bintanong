@@ -12,6 +12,7 @@ from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
 from ..bintanong_routing.combined import CombinedRouter
+from ..bintanong_routing.topic_selection import ABSENCE, ABSENCE_TOPICS
 from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from .adapters import AdapterFailure
@@ -54,6 +55,11 @@ def _topic_intents(proposed):
     for p in parts:
         for claim in p.requested_claims:
             for subject, wanted in FEE_PRECEDENCE.get(claim, ((p.subject_id, claim),)):
+                claims.setdefault(subject, {})[wanted] = None
+                texts.setdefault(subject, {})[p.text] = None
+        # Owner 2 Nov 2026 (#3): an absence question gets the attendance rule and the sickness certificate together.
+        if p.subject_id in ABSENCE_TOPICS and ABSENCE.search(p.text):
+            for subject, wanted in ABSENCE_TOPICS.items():
                 claims.setdefault(subject, {})[wanted] = None
                 texts.setdefault(subject, {})[p.text] = None
     return [(' '.join(texts[s]) if len(claims) > 1 else None, dict(subject_id=s, requested_claims=tuple(claims[s])))

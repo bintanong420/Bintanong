@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 VERSION = 'bintanong-topic-selection-v1'
 MAX_TOPICS = 8
@@ -67,3 +68,26 @@ def selected_topics(value, topics):
     if len(chosen) > MAX_TOPICS:
         raise ValueError('topic_selection_unavailable')
     return chosen
+
+
+# Owner 2 Nov 2026: narrowed companions. #4 a good-moral question that picked the Handbook FAQ also sees the Charter
+# CGMC checklist; #3 an absence question sees both the attendance rule (excuse slip) and the sickness certificate.
+GOOD_MORAL = re.compile(r'good\s*-?\s*moral', re.IGNORECASE)
+ABSENCE = re.compile(r'\b(absent|absence|umabsent|nag-?absent|lumiban|liban|(hindi|di)\s+(ako\s+)?nakapasok)\b',
+                     re.IGNORECASE)
+ABSENCE_TOPICS = {'handbook_attendance': 'printed attendance fields',
+                  'handbook_sickness_access': 'printed sickness access fields'}
+
+
+def add_companions(chosen, topics, text):
+    """The selection plus its reviewed companions for this question, in that order; unchanged when they would
+    exceed the selection limit."""
+    ids = {t.subject_id for t in chosen}
+    wanted = []
+    if 'handbook_student_faq' in ids and GOOD_MORAL.search(text):
+        wanted.append('charter_good_moral')
+    if ids & set(ABSENCE_TOPICS) and ABSENCE.search(text):
+        wanted += list(ABSENCE_TOPICS)
+    menu = {t.subject_id: t for t in topics}
+    extra = tuple(menu[s] for s in dict.fromkeys(wanted) if s in menu and s not in ids)
+    return chosen + extra if len(chosen) + len(extra) <= MAX_TOPICS else chosen

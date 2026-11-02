@@ -262,6 +262,22 @@ def prefer_named_claim(proposed, topics):
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
+def prefer_good_moral_checklist(proposed, topics):
+    """Owner 2 Nov 2026 (#4): a requirements part about a good moral certificate that chose the Handbook FAQ is
+    answered from the Charter CGMC checklist when that topic is offered; a "how do I get" part keeps the FAQ."""
+    from .topic_selection import GOOD_MORAL
+    checklist = 'printed good moral metadata and checklist fields'
+    offered = {t.subject_id: t for t in topics}.get('charter_good_moral')
+    if offered is None or checklist not in offered.claims:
+        return proposed
+    parts = [part.model_copy(update=dict(subject_id='charter_good_moral', requested_claims=(checklist,)))
+             if part.subject_id == 'handbook_student_faq' and part.detail == 'requirements'
+             and GOOD_MORAL.search(part.text) else part for part in proposed.parts]
+    if all(a.subject_id == b.subject_id for a, b in zip(parts, proposed.parts)):
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
 def apply_not_stated_cues(proposed, topics):
     """Host guard: a part whose own words name a cued not-stated fact also requests that fact, so the
     evidence policy withholds instead of answering from a nearby printed fact."""
@@ -327,7 +343,7 @@ class Router:
             try:
                 raw = await self.transport.infer(selection.build_messages(
                     text, topics, previous_turn(context, self.catalog)), selection.output_schema(topics))
-                topics = selection.selected_topics(_json_proposal(raw), topics)
+                topics = selection.add_companions(selection.selected_topics(_json_proposal(raw), topics), topics, text)
             except RuntimeFailure as error:
                 return failure(str(error), 0)
             except ValueError:
@@ -352,6 +368,7 @@ class Router:
                         proposed = answer_settled_topic(proposed, topics, text)
                     proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
                         prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
+                    proposed = prefer_good_moral_checklist(proposed, topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
