@@ -167,4 +167,46 @@ def test_a_limitation_quote_leads_with_the_printed_text_and_notes_the_limitation
     answer = asyncio.run(Generator(ApprovingModel(held_parts=('r1',))).generate(TEXT, integration(language=language)))
     text = answer.claims[0].text
     assert text.index(QUOTED) < text.index(LIMIT) < text.index('office')
-    assert text.startswith(('The printed source states', 'Sabi ng printed source'))
+    assert text.startswith(("Here's what the", 'Ito yung nakalista sa'))
+
+
+class BothRecordsModel(ApprovingModel):
+    """The draft cites the held record and a clean record in one claim (live #9, library card)."""
+    async def infer(self, messages, schema):
+        result = await super().infer(messages, schema)
+        payload = json.loads(messages[1]['content'])
+        if schema['properties'].get('schema_version', {}).get('const') != 'bintanong-part-explanation-v1':
+            return result
+        cards = payload['evidence']['sources']
+        ids = [next(c['evidence_id'] for c in cards if c['text'].startswith('{')),
+               next(c['evidence_id'] for c in cards if c['text'] == SAFE)]
+        value = json.loads(result)
+        for slot in value['answers'].values():
+            slot['claims'] = [dict(text=HELD, evidence_ids=ids)]
+        return json.dumps(value)
+
+
+def test_a_clean_record_cited_beside_a_held_one_is_quoted_not_dropped():
+    # Owner 2 Nov 2026 (9A): live #9 lost the library-card steps because the draft claim also cited the held record.
+    answer = asyncio.run(Generator(BothRecordsModel()).generate(TEXT, integration()))
+    assert answer.status == 'answered' and HELD not in answer.text
+    held, clean = answer.claims
+    assert QUOTED in held.text and LIMIT in held.text
+    assert clean.text == '"' + SAFE + '"' and len(clean.evidence_ids) == 1
+
+
+@pytest.mark.parametrize('language,expected', [
+    ('en', ['- Requirements: "Form A, 1x1 photo"', '- Where to secure: "Client"',
+            '- Step 1, you: "Present form A"', '- Step 1 fee: "None"', '- Step 2, office: "Check the form"']),
+    ('taglish', ['- Requirements: "Form A, 1x1 photo"', '- Saan kukunin: "Client"',
+                 '- Step 1, ikaw: "Present form A"', '- Step 1 fee: "None"', '- Step 2, office: "Check the form"'])])
+def test_printed_fields_are_listed_with_plain_labels_and_exact_values(language, expected):
+    from backend.bintanong_generation.malformed_condition import quoted_lines
+    fields = [dict(name='requirements_column_labels', value='CHECKLIST WHERE TO SECURE', source_blank=False),
+              dict(name='requirement1', value='Form A, 1x1 photo', source_blank=False),
+              dict(name='where_to_secure1', value='Client', source_blank=False),
+              dict(name='step1_client_step', value='Present form A', source_blank=False),
+              dict(name='step1_fee', value='None', source_blank=False),
+              dict(name='step2_subaction1_action', value='Check the form', source_blank=False),
+              dict(name='step2_time', value='', source_blank=True)]
+    assert quoted_lines(fields, language) == expected
