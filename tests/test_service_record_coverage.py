@@ -158,6 +158,21 @@ def test_part_confirmation_receives_exact_requested_claims_and_record_requiremen
     assert set(payload['required_records']['r1'])=={c.evidence_id for c in pack.cards}
 
 
+@pytest.mark.parametrize('detail', ['requirements', 'fees', 'processing_time', 'specific'])
+def test_a_one_detail_part_is_checked_for_that_detail_not_every_record(detail):
+    # Owner 2 Nov 2026 ("go check fix"): live #9 and leave-length were rejected for not covering every step record
+    # of the service although they asked one detail; whole-procedure parts keep the record requirement.
+    from backend.bintanong_generation.part_answers import PartExplanation,to_draft,confirm_messages
+    pack=prepare(covered_integration(detail=detail))
+    explanation=PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id,language='en',answers=dict(r1=dict(status='answered',claims=[
+            dict(text=pack.cards[0].text,evidence_ids=[pack.cards[0].evidence_id])]))))
+    draft,slots=to_draft(explanation,pack)
+    payload=json.loads(confirm_messages(TEXT,pack,draft,slots)[1]['content'])
+    assert 'r1' not in payload.get('required_records',{}) and 'r1' not in payload.get('record_order',{})
+    assert payload['detail_parts']=={'r1':detail} and 'only' in payload['detail_instruction']
+
+
 def test_review_identity_binds_the_requested_record_floor():
     from dataclasses import replace
     from backend.bintanong_generation.part_answers import PartExplanation,to_draft

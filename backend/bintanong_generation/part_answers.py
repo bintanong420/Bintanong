@@ -659,7 +659,16 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
         parts=[dict(part_id=p, text=texts[p], requested_claims=requested[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
             source_ids=[cards[e].evidence_id for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
-    required = required_record_sources(pack)
+    # Owner 2 Nov 2026 ("go check fix"): a part asking one detail is checked for that detail, not for every record of
+    # the service (live: library-card requirements and leave length were rejected although correct).
+    detail = {p.part_id: p.detail for p in pack.understanding.parts if p.part_id in slots and p.detail != 'whole'}
+    if detail:
+        payload['detail_parts'] = detail
+        payload['detail_instruction'] = (
+            'These parts ask only for the named detail (requirements, fees, processing_time or one specific fact). '
+            'Judge whether their claims give that detail completely and correctly. Do not require the whole '
+            'procedure, other steps or unrelated records. All support, conflict, language and scope checks apply.')
+    required = {part: refs for part, refs in required_record_sources(pack).items() if part not in detail}
     if required:
         payload['required_records'] = {part: sorted(refs) for part,refs in required.items() if part in slots}
     shared = {part: covering for part, covering in shared_record_coverage(pack).items()
@@ -669,7 +678,8 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
         payload['shared_record_coverage_instruction'] = (
             'For each part named here, the listed part carries the shared records; judge whether the '
             'named part answers its own specific ask without requiring it to repeat the procedure.')
-    order = {part: sequences for part, sequences in required_record_order(pack).items() if part in slots}
+    order = {part: sequences for part, sequences in required_record_order(pack).items()
+             if part in slots and part not in detail}
     if order:
         payload['record_order'] = order
     quotes = quoted_field_parts(pack)
