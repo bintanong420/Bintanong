@@ -669,3 +669,15 @@ Each program still gets its own dated review record listing which standing rule 
   smoking, bullying, drinking, gambling and littering live in `backend/bintanong_routing/filipino_terms.py` and the
   table in `docs/evaluation/accepted-input-forms.md`; "uniporme" excluded. Understanding only; answers keep printed
   English. Also authorized by owner the same day: Claude restarts the hosted research backend on :8021.
+- 2 Nov 2026 (failing-case fixes and tone): owner approved, in order, the student view without the supplied-evidence
+  line; scope asked as a question; a shared program name using the selected program; whole-unresolved prerequisite
+  replies (blank = "not listed" with adviser/college referral, printed condition = unverified quote; blanks stay unknown,
+  first-term inference withdrawn per lines 27-29); a split printed code naming one course; #6 drops "misadvising";
+  9A held-record quotes with plain labels, a "Heads-up" and kept steps; the draft tone prompt; #11 option B+ (ask
+  leaving or incoming, naming the fee); #5 target covers Handbook 5.1.3 and 5.1.4.
+- 2 Nov 2026 (#10 overdue fine, "go #10 CC-first, its fine, but with transparency din ha"): for fees, the Citizen's
+  Charter prevails over the Student Handbook (owner view; RA 11032 Sec. 6 requires Charter fees and Sec. 21(c) bars
+  costs not in the Charter; the Charter is the 2025 edition, the Handbook 2021). Scope: fees of Charter-listed services
+  with a recorded conflict, starting with H101/C79. The reply leads with the Charter Php 10.00/day and quotes the
+  Handbook "General Circulation Books – Php 2.00/day" (Reserved Books amount not printed) with a University Library
+  referral. Not university confirmation; the source limitation and data stay unchanged (option c not chosen).
