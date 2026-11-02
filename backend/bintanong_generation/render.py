@@ -342,7 +342,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='answered':
         lines.extend(unavailable_part_lines(pack,ledger))
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
-        lines.extend(notices[kind] for kind in limit_notices(selected_cards(pack,claims)))
+        # A held record quoted with its own heads-up is not noted again (final run 2 Nov 2026, #9).
+        held={ref for claim in claims if 'Heads-up:' in claim.text for ref in claim.evidence_ids}
+        lines.extend(notices[kind] for kind in limit_notices([c for c in selected_cards(pack,claims) if c.evidence_id not in held]))
     for card in selected_cards(pack,claims):
         for cite in card.citations:
             locator=cite.locator.ref or '/'.join((*cite.locator.section_path,*cite.locator.cell_ids,*cite.locator.item_ids))

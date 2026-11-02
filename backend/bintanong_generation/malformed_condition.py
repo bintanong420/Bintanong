@@ -30,6 +30,7 @@ _STEP = re.compile(r'step(\d+)_(?:subaction\d+_)?(client_step|action|fee|time|pe
 _STEP_LABELS = dict(action='Step {n}, office', fee='Step {n} fee', time='Step {n} processing time',
                     person='Step {n} person in charge', office='Step {n} office')
 MAX_TEXT = 1200
+_OMITTED_COLUMNS = re.compile(r'step\d+_(?:subaction\d+_)?(?:time|person|office)|total_time')
 
 
 def _label(name, words):
@@ -82,6 +83,9 @@ def clean_quote(card, language):
         if (not isinstance(fields, list) or any(not isinstance(f, dict) or not isinstance(f.get('value'), str)
                 or type(f.get('source_blank')) is not bool for f in fields)):
             return None
+        # Final run 2 Nov 2026 (#9): keep what the student and office do and the fee; per-step time, person and office
+        # columns made the reply a raw field list. The full record stays cited.
+        fields = [f for f in fields if not _OMITTED_COLUMNS.fullmatch(f['name'])]
         lines = quoted_lines(fields, language)
         text = '\n'.join(lines) if len(lines) > 1 else (lines[0].split(': ', 1)[1] if lines else '')
     except (ValueError, TypeError, AttributeError, KeyError):

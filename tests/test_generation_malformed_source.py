@@ -5,6 +5,7 @@ claim from an explicitly held record, even when a reviewer would approve it.
 """
 import asyncio
 import json
+from types import SimpleNamespace
 
 import pytest
 
@@ -193,6 +194,27 @@ def test_a_clean_record_cited_beside_a_held_one_is_quoted_not_dropped():
     held, clean = answer.claims
     assert QUOTED in held.text and LIMIT in held.text
     assert clean.text == '"' + SAFE + '"' and len(clean.evidence_ids) == 1
+
+
+def test_a_quoted_held_record_is_not_noted_twice():
+    # Final run 2 Nov 2026 (#9): the quote's own "Heads-up" was followed by the generic cut-off note for the same record.
+    answer = asyncio.run(Generator(ApprovingModel(held_parts=('r1', 'r2'))).generate(TEXT, integration()))
+    assert answer.status == 'answered' and 'Heads-up:' in answer.text
+    assert 'Note: part of the cited source' not in answer.text
+
+
+def test_a_clean_step_quote_keeps_actions_and_fees_but_not_every_column():
+    # Final run 2 Nov 2026 (#9): the library-card reply listed processing time, person and office for every step.
+    from backend.bintanong_generation.malformed_condition import clean_quote
+    fields = [dict(name='step2_client_step', value='Fill out the form', source_blank=False),
+              dict(name='step2_fee', value='Php 10.00', source_blank=False),
+              dict(name='step2_action', value='Check the form', source_blank=False),
+              dict(name='step2_time', value='5 minutes', source_blank=False),
+              dict(name='step2_person', value='Fictional Librarian', source_blank=False),
+              dict(name='step2_office', value='Library', source_blank=False)]
+    card = SimpleNamespace(text=json.dumps(dict(fields=fields)))
+    assert clean_quote(card, 'en') == ('- Step 2, you: "Fill out the form"\n- Step 2 fee: "Php 10.00"\n'
+                                       '- Step 2, office: "Check the form"')
 
 
 @pytest.mark.parametrize('language,expected', [
