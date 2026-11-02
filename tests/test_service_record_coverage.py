@@ -265,39 +265,6 @@ def test_final_validation_cannot_bypass_the_record_requirement():
         _answer(pack,'answered',claims=old_answer.claims,reason='validated',ledger=rebound)
 
 
-class FlakyCheckModel(ProcedureModel):
-    """The check first rejects a fully supported one-detail answer, then accepts it (live leave-length flips)."""
-    def __init__(self, verdicts, support='supported'):
-        super().__init__()
-        self.verdicts, self.support = list(verdicts), support
-
-    async def infer(self, messages, schema):
-        result = await super().infer(messages, schema)
-        if schema['properties'].get('schema_version', {}).get('const') == 'bintanong-part-explanation-v1':
-            return result
-        value = json.loads(result)
-        value['parts']['r1'] = self.verdicts.pop(0)
-        for verdict in value['support']['verdicts']:
-            verdict['verdict'] = self.support
-        return json.dumps(value)
-
-
-@pytest.mark.parametrize('detail,verdicts,support,status,checks', [
-    ('processing_time', ['does_not_answer', 'answers'], 'supported', 'answered', 2),
-    ('processing_time', ['does_not_answer', 'does_not_answer'], 'supported', 'insufficient_evidence', 2),
-    ('processing_time', ['does_not_answer'], 'unsupported', 'insufficient_evidence', 1),
-    ('whole', ['does_not_answer'], 'supported', 'abstained', None),
-])
-def test_a_supported_one_detail_answer_rejected_by_the_check_is_rechecked_once(detail, verdicts, support, status, checks):
-    # Owner 2 Nov 2026 (option A): the check flipped on identical leave-length requests; a one-detail part whose claims
-    # are all supported gets one more check. Whole-procedure parts and unsupported claims are never rechecked.
-    model = FlakyCheckModel(verdicts, support)
-    answer = asyncio.run(Generator(model).generate(TEXT, covered_integration(detail=detail)))
-    assert answer.status == status
-    if checks is not None:
-        assert sum('parts' in call for call in model.calls) == checks
-
-
 def test_a_part_asking_one_detail_need_not_cite_every_procedure_record():
     # Owner 28 Oct 2026: answer only the detail asked. Gate run 2: "When is the deadline for a subject
     # substitution petition?" was answered correctly from one record twice and refused for whole coverage.

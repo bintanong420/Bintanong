@@ -23,7 +23,7 @@ from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
 from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExplanation,decode_part_explanation,
                            answered_slots,assess_slots,bind_confirmation,
-                           confirm_messages,confirm_schema,conjunction_errors,recheck_wanted,disjunction_errors,host_only,omitted_exception_errors,part_messages,part_schema,
+                           confirm_messages,confirm_schema,conjunction_errors,disjunction_errors,host_only,omitted_exception_errors,part_messages,part_schema,
                            record_coverage_errors,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
 from .quoted_field import quoted_field_parts
@@ -213,16 +213,6 @@ class Generator:
                             review=(bind_confirmation(pack,proposal,_parse(review_raw,PartConfirmationOutput))
                                     if per_part else
                                     _parse(review_raw,RequirementReview if part_review else CoverageReview))
-                            if per_part and recheck_wanted(pack,review):
-                                # Owner 2 Nov 2026 (option A): one more check; only a full pass replaces the first.
-                                try:
-                                    second=bind_confirmation(pack,proposal,_parse(await self.transport.infer(
-                                        messages_to_review,confirm_schema(pack,proposal,reviewed)),PartConfirmationOutput))
-                                    if (all(v=='answers' for v in second.parts.values())
-                                            and all(v.verdict=='supported' for v in second.support.verdicts)):
-                                        review=second
-                                except (ValueError,TypeError,RecursionError,RuntimeFailure):
-                                    pass
                             if part_review:
                                 ledger=(assess_slots(pack,proposal,slots,review) if per_part else
                                         assess(pack,proposal,review))
