@@ -91,10 +91,22 @@ def test_long_checklist_splits_with_exact_item_citations_without_raising_claim_l
 
 # Owner 28 Oct 2026: answer only the printed detail that was asked (the whole service when asked for everything).
 def test_fee_detail_lists_only_printed_fees_and_the_printed_total():
+    # Owner 2 Nov 2026 (#7-8 polish): a plain lead, only the steps that charge, then "the other steps have no fee";
+    # a single charge needs no separate total. Printed values stay verbatim.
     claims = render_service(table(), 'en', detail='fees')
-    assert claims == (('2. ISSUANCE OF FICTIONAL CERTIFICATE\nFees as printed:\n'
-                       'Step 1: 1. Pay the fee — Fee: Php 100.00\nStep 2: 2. Present the receipt — Fee: None\n'
-                       'Printed total: Php 100.00', ('e1', 'e2')),)
+    assert claims == (("2. ISSUANCE OF FICTIONAL CERTIFICATE\nHere's the fee for this service:\n"
+                       'Step 1: 1. Pay the fee — Fee: Php 100.00\nThe other steps have no fee.', ('e1', 'e2')),)
+
+
+def test_a_not_stated_note_is_left_out_of_a_fee_answer_and_other_notes_read_as_a_heads_up():
+    # Live #7: "Source limitation: Unavailable information: PD907 eligibility ... (claim_not_stated)." reached
+    # students for a price question; a note about another fact is left out, a source defect stays as a heads-up.
+    other = parse_service([('e1', FIRST), ('e2', limited('claim_not_stated'))])
+    text = '\n'.join(t for t, _ in render_service(other, 'en', detail='fees'))
+    assert 'claim_not_stated' not in text and 'Source limitation' not in text and 'Note:' not in text
+    held = parse_service([('e1', FIRST), ('e2', limited('malformed_source_condition'))])
+    text = '\n'.join(t for t, _ in render_service(held, 'en', detail='fees'))
+    assert 'Heads-up: fictional malformed_source_condition.' in text and 'Source limitation' not in text
 
 
 def test_requirements_detail_is_the_checklist_without_steps():
@@ -104,18 +116,18 @@ def test_requirements_detail_is_the_checklist_without_steps():
 
 def test_time_detail_lists_printed_processing_times_and_total():
     claims = render_service(table(), 'en', detail='processing_time')
-    assert claims == (('2. ISSUANCE OF FICTIONAL CERTIFICATE\nProcessing time as printed:\n'
+    assert claims == (("2. ISSUANCE OF FICTIONAL CERTIFICATE\nHere are the processing times for this service:\n"
                        'Step 1: 1. Pay the fee — Processing time: 5 minutes\n'
                        'Step 2: 2. Present the receipt — Processing time: 10 minutes\n'
                        'Step 3: 3. Receive the certificate\n  3.1. Seal it — Processing time: 1 minute\n'
-                       'Printed total: 16 minutes', ('e1', 'e2')),)
+                       'Total: 16 minutes', ('e1', 'e2')),)
 
 
 def test_detail_keeps_source_limits_and_taglish_lead_ins():
     held = parse_service([('e1', FIRST), ('e2', limited('malformed_source_condition'))])
-    text = render_service(held, 'taglish', detail='fees')[-1][0]
-    assert 'Eto ang mga bayarin ayon sa nakaprint:' in text
-    assert 'Source limitation: Unavailable information: fictional malformed_source_condition.' in text
+    text = '\n'.join(t for t, _ in render_service(held, 'taglish', detail='fees'))
+    assert 'Ito ang bayad para dito:' in text and 'Walang bayad sa ibang steps.' in text
+    assert 'Heads-up: fictional malformed_source_condition.' in text
 
 
 def test_whole_detail_is_the_existing_rendering():
@@ -147,6 +159,6 @@ def test_detail_keeps_the_printed_phase_heading_where_step_numbers_restart():
               ('application_step1_fee', 'Php 100.00'),
               ('result_phase_heading', 'FOR RESULT ISSUANCE'),
               ('result_step1_client_step', '1. Claim result'), ('result_step1_action', 'Release result'),
-              ('result_step1_fee', 'None')]
+              ('result_step1_fee', 'Php 20.00')]  # both phases charge, so both fee lines are listed
     text = render_service(parse_service([('e', record(*fields))]), 'en', detail='fees')[0][0]
     assert text.index('Step 1: 1. Submit') < text.index('FOR RESULT ISSUANCE') < text.index('Step 1: 1. Claim result')

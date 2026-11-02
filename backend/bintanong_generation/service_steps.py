@@ -59,6 +59,7 @@ class ServiceTable:
     checklist_headings: tuple[tuple[int, str], ...] = ()
     printed_total: str | None = None
     field_evidence: tuple[tuple[str, str], ...] = ()
+    not_stated: tuple[str, ...] = ()  # messages of limits recording a fact the source does not state
 
 
 def _put(target, key, value):
@@ -68,7 +69,7 @@ def _put(target, key, value):
 
 
 def _table(records):
-    meta, requirements, wheres, totals, steps, limits = {}, {}, {}, {}, {}, []
+    meta, requirements, wheres, totals, steps, limits, not_stated = {}, {}, {}, {}, {}, [], []
     notes, headings = [], {}
     row_numbers = []
     overview, total_records = [], []
@@ -111,6 +112,8 @@ def _table(records):
             # Owner29Oct: defective printed tables are shown as printed with a note (no interpretation).
             if limit['resolution'] == 'unresolved' and limit['message'] not in limits:
                 limits.append(limit['message'])
+                if limit.get('issue') == 'claim_not_stated':
+                    not_stated.append(limit['message'])
         for field in fields:
             name, value = field['name'], field['value']
             name = {'service_title_and_description': 'service_title', 'service_title_and_note': 'service_title',
@@ -324,7 +327,7 @@ def _table(records):
     return ServiceTable(meta.get('service_title'), meta.get('office'), checklist, tuple(built),
                         totals.get('fee'), totals.get('time'), tuple(e for e, _ in records), tuple(limits),
                         tuple(overview), tuple(dict.fromkeys(total_records)), tuple(notes), tuple(positions),
-                        totals.get('printed'), tuple(field_evidence))
+                        totals.get('printed'), tuple(field_evidence), tuple(not_stated))
 
 
 def parse_service(records):
@@ -470,6 +473,39 @@ def _detail_lines(table, detail):
     return lines
 
 
+# Owner 2 Nov 2026 (#7-8 polish): a fee or time answer leads plainly, lists only the steps that charge, and shows
+# a source defect as a short heads-up; a not-stated note concerns another fact and is left out. Values stay verbatim.
+PLAIN = dict(
+    en=dict(fee="Here's the fee for this service:", fees='Here are the fees for this service:',
+            processing_time='Here are the processing times for this service:', free='The other steps have no fee.',
+            total='Total', heads='Heads-up: {note} Please confirm with the office.'),
+    taglish=dict(fee='Ito ang bayad para dito:', fees='Ito ang mga bayad para dito:',
+                 processing_time='Ito ang processing time para dito:', free='Walang bayad sa ibang steps.',
+                 total='Total', heads='Heads-up: {note} Paki-confirm sa office.'))
+_NO_FEE = re.compile(r'— Fee: (None|\(blank in the printed table\))$')
+
+
+def _plain_detail(lines, detail, key):
+    words = PLAIN[key]
+    total = [(t.replace('Printed total:', words['total'] + ':'), ids) for t, ids in lines if t.startswith('Printed total:')]
+    rows = [(t, ids) for t, ids in lines if not t.startswith('Printed total:')]
+    if detail != 'fees':
+        return rows + total, words['processing_time']
+    paid = [(t, ids) for t, ids in rows if not _NO_FEE.search(t)]
+    if not paid:
+        return rows + total, words['fees']
+    unpaid = tuple(dict.fromkeys(i for t, ids in rows if _NO_FEE.search(t) for i in ids))
+    free = [(words['free'], unpaid)] if len(paid) < len(rows) else []  # cites the steps it speaks for
+    return paid + free + (total if len(paid) > 1 else []), words['fee' if len(paid) == 1 else 'fees']
+
+
+def _heads_up(table, key):
+    notes = [m for m in table.limits if m not in table.not_stated]
+    notes = [re.sub(r'^Unavailable information: ', '', re.sub(r' Source limitation remains unresolved \([a-z_]+\)\.$', '', m))
+             for m in notes]
+    return [PLAIN[key]['heads'].format(note=n) for n in notes]
+
+
 def _pack(lines, first, last):
     """Consecutive (text, records) lines into claims within ProseClaim limits; first/last frame the list."""
     claims = []
@@ -494,7 +530,8 @@ def render_service(table, language, max_claims=8, detail='whole'):
         lines = _detail_lines(table, detail)
         if not lines:
             return None
-        claims = _pack(lines, '\n'.join(x for x in (_end(table.title or ''), LEADS[key][detail]) if x), limits)
+        lines, lead = _plain_detail(lines, detail, key)
+        claims = _pack(lines, '\n'.join(x for x in (_end(table.title or ''), lead) if x), _heads_up(table, key))
         return claims if len(claims) <= max_claims and all(_fits(t, ids) for t, ids in claims) else None
     def sources(name):
         return tuple(dict.fromkeys(e for n, e in table.field_evidence if n == name)) or table.overview_evidence_ids

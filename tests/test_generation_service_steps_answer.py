@@ -80,5 +80,5 @@ def test_a_part_asking_for_everything_keeps_the_whole_service():
 
 def test_different_details_of_one_service_are_both_shown():
     answer = asyncio.run(Generator(PartModel()).generate(TEXT, integration(details=('requirements', 'fees'))))
-    assert 'Student ID (1 copy)' in answer.text and 'Fees as printed:' in answer.text
+    assert 'Student ID (1 copy)' in answer.text and "Here's the fee for this service:" in answer.text
     assert 'Office actions' not in answer.text
