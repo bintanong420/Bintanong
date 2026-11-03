@@ -17,6 +17,9 @@ another developer's 39 x 3 handover (39 curricula: BSCS counts twice). Verified:
 this machine), tsc, `next build`, `scope-onboarding.mjs` 3/3 against mocked APIs, screenshots 390/1440 light/dark.
 Not run here (fixture on the other machine): `account-controls.mjs`, `chat-workspace.mjs` still use the old dialog
 selectors and need updating there. Backend still accepts chats without a program (frontend-only lock).
+Round 2 (`63880e5`, `6eb12c9`): colleges collapsed until tapped/searched; program button shows short names (BSCS);
+light bulb toggle in chat header (light default), removed from /about; phone bottom-sheet picker; composer re-measures
+after unlock. Verified: unit 79/81 (2 need backend deps absent here), tsc, scope-onboarding 3/3, 375px screenshots.
 
 ## Stack launcher (2 Nov)
 
