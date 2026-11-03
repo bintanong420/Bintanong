@@ -149,3 +149,28 @@ def test_a_condition_clause_is_not_read_as_a_verdict(facts, draft):
     from backend.bintanong_generation.decision_reply import explanation_errors
     pack = prepare(research_integration(facts=facts))
     assert explanation_errors(pack, draft) == ()
+
+
+@pytest.mark.parametrize('draft,kind', [
+    # Live 3 Nov 2026: a single-prerequisite rule was described with "both".
+    ("Dahil naipasa mo ang course-1, satisfied ang prerequisite. Ang rule ay nangangailangan ng 'both'.", 'course'),
+    ('You need either course-1 or another course.', 'course'),
+    ('Kailangan ang parehong course-1 at course-3.', 'any_of'),
+])
+def test_an_explanation_must_keep_the_rules_connective(draft, kind):
+    from backend.bintanong_generation.decision_reply import explanation_errors
+    from backend.bintanong_contracts.symbolic import RequirementView
+    pack = prepare(research_integration(facts=(('course-1', 'passed'),)))
+    if kind == 'any_of':
+        pack = replace(pack, requirement=RequirementView(kind='any_of', items=(
+            RequirementView(kind='course', course_id='course-1'), RequirementView(kind='course', course_id='course-3'))))
+    assert 'wrong_connective' in explanation_errors(pack, draft)
+
+
+def test_both_is_accepted_for_an_all_of_rule():
+    from backend.bintanong_generation.decision_reply import explanation_errors
+    from backend.bintanong_contracts.symbolic import RequirementView
+    pack = prepare(research_integration(facts=(('course-1', 'passed'),)))
+    pack = replace(pack, requirement=RequirementView(kind='all_of', items=(
+        RequirementView(kind='course', course_id='course-1'), RequirementView(kind='course', course_id='course-3'))))
+    assert 'wrong_connective' not in explanation_errors(pack, 'You need both course-1 and course-3.')

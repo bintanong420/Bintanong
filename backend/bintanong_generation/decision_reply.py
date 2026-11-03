@@ -206,6 +206,16 @@ def _verdict_text(text):
     return _CONDITION.sub(' ', text)
 
 
+# The rule's own connectives (memory/eligibility plan, Task 3): "both" only for an all-of rule, "either" only for
+# an any-of rule. Live 3 Nov 2026: a single-prerequisite rule was explained with "both".
+_BOTH = re.compile(r"\b(?:both|all of|parehong|pareho|lahat ng)\b", re.I)
+_EITHER = re.compile(r"\b(?:either|one of|alinman|isa sa)\b", re.I)
+
+
+def _kinds(requirement):
+    return {requirement.kind, *(k for item in requirement.items for k in _kinds(item))}
+
+
 _PROMISE = re.compile(r'\b(?:enrolled|naka-?enroll ka na|approv\w*|guarantee\w*|reserv\w*|slots?|official(?:ly)?|'
                       r'sigurado)\b', re.I)
 _FAILURE = re.compile(r'\b(?:fail(?:ed|ing)?|bagsak|bumagsak|binagsak)\b', re.I)
@@ -236,6 +246,9 @@ def explanation_errors(pack, explanation, language=None, label=str):
         errors.append('reversed_verdict')
     if outcome in ('ineligible', 'unknown') and _POSITIVE.search(_verdict_text(explanation)):
         errors.append('reversed_verdict')
+    kinds = _kinds(pack.requirement) if pack.requirement is not None else set()
+    if (_BOTH.search(explanation) and 'all_of' not in kinds) or (_EITHER.search(explanation) and 'any_of' not in kinds):
+        errors.append('wrong_connective')
     if _PROMISE.search(explanation):
         errors.append('enrollment_promise')
     if _FAILURE.search(explanation):
