@@ -51,8 +51,9 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, co
         conflicts = symbolic.decision.unresolved_conflicts
         if status is None and symbolic.decision.outcome not in ('eligible','ineligible'):
             status = 'conflict' if conflicts else symbolic.decision.outcome
-    if dependencies is not None and status is None and dependencies.status != 'complete':
-        status = {'partial':'unknown', 'unsupported':'unsupported', 'error':'error'}[dependencies.status]
+    if dependencies is not None and status is None and dependencies.status not in ('complete', 'partial'):
+        # A partial list is answered with its limitation named (owner report, 4 Nov 2026), never as a bare clarify.
+        status = {'unsupported':'unsupported', 'error':'error'}[dependencies.status]
     if course_facts is not None and status is None and course_facts.status != 'complete':
         # Unreviewed or unknown facts are missing information (E1 referral), never guessed.
         status = {'not_reviewed':'no_evidence', 'not_found':'no_evidence', 'unsupported':'unsupported'}[course_facts.status]
