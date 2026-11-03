@@ -374,8 +374,14 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             if pack.structured_context is not None else None
         if canonical_allowed and target is not None:  # owner report, 4 Nov 2026: answer, never a list of unknowns
             from .dependency_reply import dependency_lines
-            reply=dependency_lines(pack.dependencies,target,pack.language,shown,term=pack.asked_term)
+            recovery=pack.recovery if pack.recovery is not None and pack.recovery.failed_course_id==target else None
+            # Ask mode lists every delayed course with its prescribed term; the drafts follow (owner 4 Nov 2026).
+            reply=dependency_lines(pack.dependencies,target,pack.language,shown,
+                                   term=None if recovery else pack.asked_term,with_terms=recovery is not None)
             lines.extend(reply)
+            if recovery is not None:
+                from .recovery_reply import recovery_lines
+                lines.extend(recovery_lines(recovery,pack.language,shown))
             if pack.assumptions:
                 from .student_facts_reply import assumption_text
                 lines.insert(lines.index(reply[0])+1,assumption_text(pack.assumptions,pack.language,shown))
@@ -408,6 +414,8 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             lines[1:2]=notices
     if status=='answered':
         lines.extend(unavailable_part_lines(pack,ledger))
+        lines.extend(_PART_UNAVAILABLE.get(pack.language,_PART_UNAVAILABLE['en']).format(words=words_)
+                     for words_ in pack.unavailable_parts)  # owner GUI 4 Nov 2026: a part with no reviewed topic
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
         # A held record quoted with its own heads-up is not noted again (final run 2 Nov 2026, #9).
         held={ref for claim in claims if 'Heads-up:' in claim.text for ref in claim.evidence_ids}

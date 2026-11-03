@@ -13,6 +13,7 @@ from .term_assessment import TermAssessmentResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_routing.contracts import RequestPart, Operation
+from ..bintanong_planning.contracts import RecoveryResult
 
 Text = Annotated[str, Field(min_length=1)]
 ReleaseID = Annotated[str, Field(pattern=r'^release-[a-z0-9-]+$', max_length=128)]
@@ -299,6 +300,10 @@ class IntegrationResult(Contract):
     course_labels: dict[str, Text] = Field(default_factory=dict, max_length=256)
     # Memory/eligibility plan: what-if premises ('<state>:<course id>') this check assumed; request-only, never saved.
     assumed_facts: tuple[Text, ...] = Field(default=(), max_length=32, exclude_if=lambda value: not value)
+    # Ask mode (owner 4 Nov 2026): recovery routes and drafts for the failed course of a dependency listing.
+    recovery: RecoveryResult | None = Field(default=None, exclude_if=lambda value: value is None)
+    # Owner GUI 4 Nov 2026: the words of document parts with no reviewed topic, named as unavailable in the reply.
+    unavailable_parts: tuple[Text, ...] = Field(default=(), max_length=8, exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _result(self):
@@ -328,4 +333,11 @@ class IntegrationResult(Contract):
             elif (len(plan.operations) != 1 or plan.predicate_request is None or indices != {0}
                   or any(p.evidence_need == 'structured' and not p.operation_indices for p in plan.parts)):
                 raise ValueError('structured_understanding_needs_one_operation')
+        if self.recovery is not None:
+            dependencies = None if self.evidence is None else self.evidence.dependencies
+            inputs = {} if dependencies is None else {i.name: i.value for i in dependencies.inputs}
+            if (self.status != 'ready' or self.recovery.synthetic is not self.evidence.pin.synthetic
+                    or (inputs.get('curriculum_id'), inputs.get('course_id'))
+                    != (self.recovery.curriculum_id, self.recovery.failed_course_id)):
+                raise ValueError('recovery_requires_its_ready_dependency_listing')
         return self

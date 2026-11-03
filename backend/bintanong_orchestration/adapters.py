@@ -128,14 +128,17 @@ def student_facts(facts) -> StudentFacts:
 
 
 class SymbolicAdapter:
-    def __init__(self, runtime, *, research=False):
+    def __init__(self, runtime, *, research=False, recovery=None):
         # research: owner-authorized real-rule mode; results keep their research labels.
+        # recovery: (LoadPolicy | None, RecoveryRoutes) for Ask mode drafts, or None (no drafts are offered).
         self.research = research is True
         if self.research and runtime.synthetic is not False:
             raise ValueError('research_runtime_required')
         if not self.research and runtime.synthetic is not True:
             raise ValueError('synthetic_runtime_required')
-        self.runtime = runtime
+        if recovery is not None and any(part is not None and part.synthetic is self.research for part in recovery):
+            raise ValueError('recovery_sources_must_match_runtime')
+        self.runtime, self.recovery = runtime, recovery
         self.release_id = runtime.release_id
         self.rule_bundle_version = runtime.rule_bundle_version
         self._worker = _BoundedWorker()
@@ -177,6 +180,22 @@ class SymbolicAdapter:
             raise ValueError('symbolic_result_kind_mismatch')
         return kind.parse(result.model_dump(mode='json'))
 
+    async def recover(self, request: PredicateRequest, context: RequestContext, affected, stated_term,
+                      *, regular_asked=False):
+        """Ask mode: recovery drafts for the failed course of a dependency listing, or None without sources."""
+        if self.recovery is None or request.predicate != 'list_affected_courses':
+            return None
+        args = {i.name: i.value for i in request.inputs}
+        if args.get('curriculum_id') != context.curriculum_id:
+            raise ValueError('request_scope_mismatch')
+        from ..bintanong_planning.recovery import plan_recovery
+        policy, routes = self.recovery
+        # completion results only: an enrollment statement is about the current term, not the drafted ones
+        facts = tuple((f.course_id, f.state) for f in context.facts if f.state not in ('enrolled', 'not_enrolled'))
+        return await self._worker.run(lambda: plan_recovery(
+            self.runtime, args['curriculum_id'], args['course_id'], tuple(affected), facts, stated_term, policy, routes,
+            regular_asked=regular_asked))
+
 
 class MultiCurriculumSymbolicAdapter:
     """Several reviewed curricula in one research release; each check runs on the runtime of the
@@ -195,3 +214,10 @@ class MultiCurriculumSymbolicAdapter:
         if curriculum not in self.adapters:
             raise ValueError('curriculum_not_in_release')
         return await self.adapters[curriculum].execute(request, context)
+
+    async def recover(self, request, context, affected, stated_term, *, regular_asked=False):
+        curriculum = next((i.value for i in request.inputs if i.name == 'curriculum_id'), None)
+        if curriculum not in self.adapters:
+            raise ValueError('curriculum_not_in_release')
+        return await self.adapters[curriculum].recover(request, context, affected, stated_term,
+                                                       regular_asked=regular_asked)
