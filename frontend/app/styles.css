@@ -440,7 +440,10 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
   .composer-tools { flex-wrap: nowrap; min-inline-size: 0; inline-size: 100%; }
   .composer-tools .program-chip { min-inline-size: 0; max-inline-size: 100%; }
   .sample-questions { margin-block-start: 1.25rem; }
-  .welcome-mode .empty-conversation { padding-block: 0.5rem; }
+  /* The chat bar stays at the bottom; the welcome content scrolls and centres in the space above it. */
+  .workspace-content.welcome-mode { justify-content: flex-start; overflow: hidden; padding-block: 0; }
+  .welcome-mode .empty-conversation { flex: 1 1 auto; min-block-size: 0; justify-content: safe center; overflow-y: auto; padding-block: 0.5rem; }
+  .welcome-mode .composer-area { padding-block: 0.5rem max(0.75rem, env(safe-area-inset-bottom)); }
   .welcome-logo { inline-size: 64px !important; block-size: 64px !important; margin-block-end: 0.5rem; }
   .empty-conversation h1 { font-size: 1.75rem; }
 }
@@ -457,7 +460,8 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .navigation-dialog .sidebar { min-block-size: calc(100dvh - 7rem); padding-block: 0; border: 0; background: var(--background); }
 .navigation-dialog .sidebar-heading, .navigation-dialog .sidebar-history, .navigation-dialog .sidebar-footer { padding-inline: 0; }
 @media (max-width: 48rem) {
-  .live-workspace, .live-workspace.navigation-collapsed { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+  /* One full-height row: the desktop sidebar is hidden on phones, so its row would leave a gap below the chat. */
+  .live-workspace:not(.public-page), .live-workspace.navigation-collapsed { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
   .live-workspace .workspace-main { grid-column: 1; }
   .live-workspace .desktop-sidebar, .desktop-navigation-toggle { display: none; }
   .mobile-navigation-toggle { display: inline-flex; }

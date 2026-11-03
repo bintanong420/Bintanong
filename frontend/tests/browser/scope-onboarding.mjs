@@ -80,11 +80,22 @@ for (const width of [390, 1440]) test(`chat is locked until a program is chosen;
     await page.waitForFunction(() => document.querySelectorAll('.message-assistant').length === 2);
     assert.equal(submissions[1].programId, 'palsu-bscs');
     assert.equal(submissions[1].curriculumId, 'bscs-proposed-2025-2026');
+    for (const height of [844, 915]) {
+      await page.setViewportSize({ width, height });
+      const gap = await page.evaluate(() => innerHeight - document.querySelector('.workspace-main').getBoundingClientRect().bottom);
+      assert.ok(Math.abs(gap) <= 1, `chat fills the screen height at ${width}x${height}; ${gap}px left empty below it`);
+    }
+    await page.setViewportSize({ width, height: 900 });
     if (width < 768) await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
     await page.getByRole('button', { name: 'New chat', exact: true }).click();
     await page.getByRole('button', { name: 'Clear chat', exact: true }).click();
     await samples.getByText('Ano ang prerequisites ng Thesis 3?', { exact: true }).waitFor();
     assert.equal(await question.isEnabled(), true, 'New chat keeps the chosen program');
+    if (width < 768) for (const height of [780, 915]) {
+      await page.setViewportSize({ width, height });
+      const below = await page.evaluate(() => innerHeight - document.querySelector('.composer-area').getBoundingClientRect().bottom);
+      assert.ok(Math.abs(below) <= 1, `welcome chat bar sits at the bottom at ${width}x${height}; ${below}px below it`);
+    }
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     await context.close();
   } finally { await browser.close(); }
