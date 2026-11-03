@@ -21,9 +21,17 @@ def capture(result: RoutingResult) -> ConversationContext | None:
     courses = ({i.value for i in request.inputs if i.name == 'course_id'} if request is not None
                else {e.value for e in result.query.entities if e.kind == 'course'})
     subjects = {p.subject_id for p in result.proposed.parts if p.subject_id} if result.proposed else set()
+    details = {p.detail for p in result.proposed.parts if p.subject_id} if result.proposed else set()
+    # Owner GUI 3 Nov 2026: the question's structure (operation, year, semester, detail), so a follow-up can re-ask it.
+    given = {i.name: i.value for i in request.inputs} if request is not None else {}
+    year = given.get('year_level')
     return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id,
                                course_id=courses.pop() if len(courses) == 1 else None,
-                               subject_id=subjects.pop() if len(subjects) == 1 else None)
+                               subject_id=subjects.pop() if len(subjects) == 1 else None,
+                               detail=details.pop() if len(subjects | set()) <= 1 and len(details) == 1 else None,
+                               operation=request.predicate if request is not None else None,
+                               year_level=int(year) if year and year.isdigit() else None,
+                               semester=given.get('semester'))
 
 
 def follow_up_context(view: SessionView, *, request_id: str, program_id: str | None = None,

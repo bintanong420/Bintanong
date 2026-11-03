@@ -201,9 +201,12 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         if len(editions) == 1:
             curriculum = editions[0].entity_id
     carried = context.conversation.course_id if context.conversation else None
+    last = context.conversation
+    prior_term = ((last.year_level, last.semester or 'any') if last is not None and last.operation in TERM_OPERATIONS
+                  and last.year_level is not None else None)  # owner GUI 3 Nov 2026: follow-up memory
     for idx, mention in enumerate(p.mentions):
         if mention.kind == 'term':  # read by the host; a term with no stated year stays unresolved (clarify)
-            if parse_term(mention.text) is not None:
+            if parse_term(mention.text, prior_term) is not None:
                 ignored.add(idx)
             continue
         names_course = program is not None and curriculum is not None and bool(
@@ -329,7 +332,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         if not synthetic:
             return result('institutional_execution_held', 'evidence_unavailable')
         if op.name in TERM_OPERATIONS:
-            year, semester = parse_term(p.mentions[op.target].text)
+            year, semester = parse_term(p.mentions[op.target].text, prior_term)
             target = (('year_level', str(year)), ('semester', semester))
         else:
             target = (('course_id', resolved[op.target].entity_id),)

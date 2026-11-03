@@ -53,6 +53,11 @@ class ConversationContext(Record):
     # detail its question asked; no text is kept.
     pending: Literal['transfer_direction'] | None = None
     detail: Literal['whole', 'requirements', 'fees', 'processing_time', 'specific'] | None = None
+    # Owner GUI 3 Nov 2026 ("memory system"): the previous question's structure, so a follow-up that changes one
+    # thing ("e yung 2nd sem?", "how about CC 5?") can re-ask it. Fixed values only, never text.
+    operation: str | None = Field(default=None, pattern=r'^[a-z][a-z_]*$', max_length=64)
+    year_level: int | None = Field(default=None, ge=1, le=6)
+    semester: Literal['first_semester', 'second_semester', 'summer', 'any'] | None = None
 
 
 class RequestContext(Record):

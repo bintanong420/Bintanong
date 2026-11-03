@@ -275,6 +275,15 @@ If the message names a course, asks about something else, or it is unclear which
 set previous_course_quote to null. A previous course is never a grade or a passed/failed fact. A
 message that continues the previous document topic may use the same subject_id.'''
 
+# Owner GUI 3 Nov 2026 ("memory system"): a follow-up that changes one thing re-asks the previous question.
+REPEAT_INSTRUCTION = '''previous_turn.operation is the previous question's check (term is its year_level and
+semester); previous_turn.detail is the detail its document part asked. A short follow-up that keeps the
+previous question and changes one thing (another course, year, semester, program or track, or another detail
+such as fees) asks the same thing again: use the same operation, targeting the new course or the words that
+name the new year or semester (for example "2nd sem"), or the same subject_id with the new detail. The host
+fills a year or semester the message leaves out from previous_turn.term. A message that asks something new is
+interpreted on its own.'''
+
 DOCUMENT_FOLLOW_UP_INSTRUCTION = '''Previous turn: previous_turn.subject_id is the previous document
 topic, not a course or evidence. No previous course is available. A clear follow-up about that
 procedure or a numbered step may use the same subject_id and relevant reviewed claims; keep the
@@ -300,6 +309,12 @@ def previous_turn(context, catalog):
         shown['course_available'] = True
     if conversation.subject_id is not None:
         shown['subject_id'] = conversation.subject_id
+        if conversation.detail is not None:
+            shown['detail'] = conversation.detail
+    if conversation.operation is not None:  # owner GUI 3 Nov 2026: the previous question's structure
+        shown['operation'] = conversation.operation
+        if conversation.year_level is not None:
+            shown['term'] = dict(year_level=conversation.year_level, semester=conversation.semester)
     return shown or None
 
 
@@ -353,6 +368,8 @@ def build_messages(text, context, catalog, registry, topics=()):
     course_available = bool(previous and previous.get('course_available'))
     menu += '' if previous is None else chr(10) + (
         FOLLOW_UP_INSTRUCTION if course_available else DOCUMENT_FOLLOW_UP_INSTRUCTION)
+    if previous is not None and ('operation' in previous or 'detail' in previous):
+        menu += chr(10) + REPEAT_INSTRUCTION
     schema = display_schema(topics, follow_up=course_available)
     return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(schema))),
             dict(role='user', content=canonical(data))]

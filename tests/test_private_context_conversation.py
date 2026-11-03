@@ -12,7 +12,8 @@ ITS = dict(text='its', start=9, end=12)
 
 
 def previous(course='course-a', **updates):
-    value = dict(program_id='program-a', curriculum_id='curriculum-a', course_id=course, subject_id=None)
+    value = dict(program_id='program-a', curriculum_id='curriculum-a', course_id=course, subject_id=None,
+                 operation='check_prerequisite_eligibility')  # owner GUI 3 Nov 2026: the question's structure too
     value.update(updates)
     return ConversationContext.parse(value)
 
