@@ -102,3 +102,23 @@ def test_the_parser_folds_a_fact_part_that_repeats_the_check():
     result = normalize_interpretation(text, WireInterpretation.parse(json.loads(json.dumps(wire))))
     assert [(p.part_id, p.operation_indices) for p in result.parts] == [('r1', (0,))]
     assert [c.state for c in result.claims] == ['failed']
+
+def test_a_named_course_with_next_semester_is_an_eligibility_check():
+    # Gate 4 Nov 2026 (recorded, 19 of 25): "Can I take AE8 next semester? I haven't taken AE3 yet." chose the
+    # term-plan check because of "next semester" and asked for a term; it names the course it asks about.
+    from backend.bintanong_routing.router import named_course_check
+    from test_routing_contracts import proposal
+    text = 'Can I take B1 next semester? Not taken A1.'
+    mentions = [dict(kind='course', text='B1', start=11, end=13), dict(kind='course', text='A1', start=39, end=41),
+                dict(kind='term', text='next semester', start=14, end=27)]
+    value = Interpretation.parse(proposal(text=text, mentions=mentions,
+        claims=[dict(entity=1, state='not_taken', mode='asserted', text='Not taken A1.', start=29, end=42)],
+        operations=[dict(name='assess_term_prerequisites', target=2)],
+        parts=[dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured', operation_indices=[0])]))
+    fixed = named_course_check(value)
+    assert (fixed.operations[0].name, fixed.operations[0].target) == ('check_prerequisite_eligibility', 0)
+    plan = Interpretation.parse(proposal(text='What can I take next semester?', mentions=[dict(kind='term',
+        text='next semester', start=16, end=29)], operations=[dict(name='assess_term_prerequisites', target=0)],
+        parts=[dict(part_id='r1', text='What can I take next semester?', start=0, end=30, evidence_need='structured',
+                    operation_indices=[0])]))
+    assert named_course_check(plan) is None

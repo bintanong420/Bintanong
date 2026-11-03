@@ -173,6 +173,21 @@ def repeat_previous_check(proposed, text, conversation):
     return Interpretation.parse(value)
 
 
+def named_course_check(proposed):
+    """Gate 4 Nov 2026 (recorded 19/25): "Can I take AE8 next semester? I haven't taken AE3 yet." chose the term plan
+    check because of "next semester". A term check on a message that names exactly one course without a stated
+    result (the course asked about) is that course's eligibility check; "What can I take next semester?" is kept."""
+    if len(proposed.operations) != 1 or proposed.operations[0].name != 'assess_term_prerequisites':
+        return None
+    stated = {c.entity for c in proposed.claims}
+    asked = [i for i, m in enumerate(proposed.mentions) if m.kind == 'course' and i not in stated]
+    if len(asked) != 1:
+        return None
+    value = proposed.model_dump(mode='json')
+    value['operations'][0].update(name='check_prerequisite_eligibility', target=asked[0])
+    return Interpretation.parse(value)
+
+
 def transfer_direction_unstated(proposed, topics, text):
     families = {t.subject_id: t.family for t in topics}
     return (any(families.get(p.subject_id) in TRANSFER_FAMILIES for p in proposed.parts)
@@ -482,7 +497,8 @@ class Router:
                         prefer_good_moral_checklist(proposed, topics), topics), topics, text)
                     resolved = (answer_transfer_direction(proposed, self.topics, text, context.conversation)
                                 or answer_detail_follow_up(proposed, self.topics, text, context.conversation)
-                                or repeat_previous_check(proposed, text, context.conversation))
+                                or repeat_previous_check(proposed, text, context.conversation)
+                                or named_course_check(proposed))
                     if resolved is not None:  # owner GUI 3 Nov 2026: the reply to the direction question
                         proposed = resolved
                 except (ValueError, ValidationError) as error:
