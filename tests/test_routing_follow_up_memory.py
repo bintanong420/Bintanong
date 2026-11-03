@@ -84,3 +84,21 @@ def test_how_about_another_course_keeps_the_previous_check():
     assert repeat_previous_check(value, 'pano yung A1?', before).operations[0].name == 'list_missing_prerequisites'
     assert repeat_previous_check(value, 'How many units is A1?', before) is None
     assert repeat_previous_check(value, 'pano yung A1?', ConversationContext.parse(dict(operation='list_term_courses'))) is None
+
+def test_the_parser_folds_a_fact_part_that_repeats_the_check():
+    # Live replay 3 Nov 2026: the wire parser rejected this shape as uncontained_part_target before validation ran.
+    import json
+    from backend.bintanong_routing.wire import WireInterpretation, normalize_interpretation
+    text = 'Can I take B1 next sem?\n\nNot passed A1.'
+    quote = lambda t, n=0: dict(text=t, occurrence=n)
+    wire = dict(schema_version='bintanong-interpretation-wire-v4', language='en', audience='undergraduate', control=None,
+                part_count=2, parts=[dict(part_id='r1', quote=quote('Can I take B1 next sem?'), evidence_need='structured',
+                                          operation_indices=[0], subject_id=None, requested_claims=[], detail='whole'),
+                                     dict(part_id='r2', quote=quote('Not passed A1.', 1), evidence_need='structured',
+                                          operation_indices=[0], subject_id=None, requested_claims=[], detail='whole')],
+                intent='eligibility check', mentions=[dict(kind='course', quote=quote('B1')), dict(kind='course', quote=quote('A1', 1))],
+                claims=[dict(quote=quote('Not passed A1.', 1), entity=quote('A1', 1), state='failed', mode='asserted')],
+                operations=[dict(name='check_prerequisite_eligibility', target=quote('B1'))], route='Symbolic', ambiguities=[])
+    result = normalize_interpretation(text, WireInterpretation.parse(json.loads(json.dumps(wire))))
+    assert [(p.part_id, p.operation_indices) for p in result.parts] == [('r1', (0,))]
+    assert [c.state for c in result.claims] == ['failed']

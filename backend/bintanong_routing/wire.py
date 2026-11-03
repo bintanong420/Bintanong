@@ -200,10 +200,20 @@ def normalize_interpretation(text: str, wire: WireInterpretation, *, course_name
         entity = result.mentions[claim.entity]
         if not claim.start <= entity.start < entity.end <= claim.end:
             raise ValueError('uncontained_claim_entity')
+    def holds(part, index):
+        target = result.mentions[result.operations[index].target]
+        return part.start <= target.start < target.end <= part.end
+    # Owner GUI 3 Nov 2026 (image 18): "Hindi pa ako passed sa BU-2/L." was its own part repeating the check on
+    # BU-3/L; a part that only states a grade fact, while another part holds the check's course, qualifies that check.
+    stated = [part for part in result.parts if part.operation_indices
+              and not any(holds(part, i) for i in part.operation_indices)
+              and any(part.start <= c.start and c.end <= part.end for c in result.claims)
+              and all(any(holds(other, i) for other in result.parts if other is not part) for i in part.operation_indices)]
+    if stated:
+        result = result.model_copy(update=dict(parts=tuple(p for p in result.parts if p not in stated)))
     for part in result.parts:
         for index in part.operation_indices:
-            target = result.mentions[result.operations[index].target]
-            if not part.start <= target.start < target.end <= part.end:
+            if not holds(part, index):
                 raise ValueError('uncontained_part_target')
     if result.route in ('Symbolic', 'Hybrid') and result.audience == 'undergraduate' and not result.ambiguities:
         # Reject this structural mismatch while the router can still ask the model to repair it.
