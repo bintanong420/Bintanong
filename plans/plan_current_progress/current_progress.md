@@ -20,6 +20,12 @@ selectors and need updating there. Backend still accepts chats without a program
 Round 2 (`63880e5`, `6eb12c9`): colleges collapsed until tapped/searched; program button shows short names (BSCS);
 light bulb toggle in chat header (light default), removed from /about; phone bottom-sheet picker; composer re-measures
 after unlock. Verified: unit 79/81 (2 need backend deps absent here), tsc, scope-onboarding 3/3, 375px screenshots.
+Round 3 (`7ce7438`, `fb9314b`): "Try asking" alternates every 4 s between 3 random Handbook FAQs and the selected
+curriculum's prerequisite checks (from `Context/sample-query-results-20261103.md`, 115/116 pass; Psychology tracks have
+1 tested question each); About "i" icon at top left once chatting (new tab keeps the chat).
+**Known failure to fix later:** `bsba-buseco-2018-2019` "Can I take BE 2001 next semester? I haven't taken GE-PC yet."
+returned `clarification_needed` (lists GE-PC, asks which passed) instead of not eligible. Swapped in the UI for
+"Can I take BE 2001 if I already passed GE-PC?" (passed for BSBA FM, same rule; not yet run live for BusEco).
 
 ## Stack launcher (2 Nov)
 
