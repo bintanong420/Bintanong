@@ -50,17 +50,16 @@ def dependency_lines(dependencies, target, language, shown, term=None) -> list[s
     # Printed order of the curriculum (year, then term), not internal ids (live 4 Nov 2026).
     ordered = sorted(dependencies.course_ids, key=lambda c: (placed.get(c, (9, ''))[0],
         TERM_ORDER.index(placed[c][1]) if c in placed and placed[c][1] in TERM_ORDER else 9, shown(c)))
-    dependencies = dependencies.model_copy(update=dict(course_ids=tuple(ordered)))
     if term is not None:
         name = term_name(*term) if term[1] != 'any' else f'{term_name(term[0], "first_semester").split(",")[0]}'
-        inside = [c for c in dependencies.course_ids if in_term(c)]
-        later = [c for c in dependencies.course_ids if not in_term(c)]
+        inside = [c for c in ordered if in_term(c)]
+        later = [c for c in ordered if not in_term(c)]
         lines = [words['term_some'].format(term=name, target=shown(target), courses=', '.join(map(shown, inside)))
                  if inside else words['term_none'].format(term=name, target=shown(target))]
         if later:
             lines.append(words['also' if inside else 'later'].format(courses=', '.join(map(with_term, later))))
     else:
-        courses = [shown(c) for c in dependencies.course_ids]
+        courses = [shown(c) for c in ordered]
         lines = [words['some'].format(target=shown(target), courses=', '.join(courses)) if courses
                  else words['none'].format(target=shown(target))]
     printed = dict(dependencies.printed_conditions)

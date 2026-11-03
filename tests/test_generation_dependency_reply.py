@@ -116,3 +116,21 @@ def test_the_year_is_read_from_the_whole_question_even_outside_the_asked_part():
     text = "Im currently second year. What can't I take in second semester if I fail SYN 131?"
     answer = ask(text, 'SYN 131', part="What can't I take in second semester if I fail SYN 131?")
     assert student_text(answer).splitlines()[0] == 'In second year, second semester, failing SYN 131 blocks: SYN 251.'
+
+
+def test_several_affected_courses_are_listed_in_curriculum_order():
+    # Live 4 Nov 2026: reordering the listed courses raised a contract error with more than one course.
+    answer = ask('What courses are blocked if I fail SYN 141?', 'SYN 141')
+    assert answer.status == 'answered'
+    assert student_text(answer).splitlines()[0].endswith('(directly or through another course): SYN 241, SYN 251.')
+
+
+def test_curriculum_order_can_differ_from_id_order_without_touching_the_result():
+    from backend.bintanong_generation.dependency_reply import dependency_lines
+    from test_term_prerequisite_advising import course_request
+    result = CurriculumRuntime(ledger()).list_affected_courses(course_request('list_affected_courses', 'SYN 141'))
+    swapped = result.model_copy(update=dict(placements=((term.cid('SYN 251'), 1, 'first_semester'),
+                                                        (term.cid('SYN 241'), 2, 'second_semester'))))
+    shown = {term.cid('SYN 241'): 'SYN 241', term.cid('SYN 251'): 'SYN 251', term.cid('SYN 141'): 'SYN 141'}.get
+    lines = dependency_lines(swapped, term.cid('SYN 141'), 'en', lambda c: shown(c, c))
+    assert lines[0].endswith(': SYN 251, SYN 241.')
