@@ -709,3 +709,7 @@ Each program still gets its own dated review record listing which standing rule 
   printed succeeding term (Handbook 3.2, Resolution 279, Series of 2018; 3.7 "within a period of one term ... shall
   automatically become 5.0"). Every answer that uses this period also prints the discrepancy: the same section also
   states "within one year" (3.3, 3.7). The source text is unchanged; this is a reading for answers, not a correction.
+- 4 Nov 2026 (semester load ceiling, "we can safely do this as a working assumption, just communicate it in a friendly
+  student way"): working assumption that the semester's prescribed total units (Handbook p. 35, maximum academic load)
+  is the ceiling for any mix of courses. A plan above it is shown with a friendly major warning naming the units, the
+  clause and the Dean or Registrar, never blocked. This is a reading for plan checks, not an institutional ruling.

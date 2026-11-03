@@ -117,8 +117,15 @@ standing.
 - D2: Step 5 drafts — yes / later / no; if yes, inside Chapter 3 or as a disclosed extension.
 - D3: replace `Context/bintanong_thesis_for_context.pdf` with the newer external copy.
 - D4: numbered phase or a bounded task list on `p12-evaluation-harness`.
-- D5: reading of the maximum-load clause: the semester's prescribed total units is the ceiling for any mix of courses
-  (a mix above it gets the major warning), or only the prescribed courses themselves.
+- D5 (decided as a working assumption, owner 4 Nov 2026: "we can safely do this as a working assumption, just
+  communicate it in a friendly student way"): the semester's prescribed total units is the ceiling for any mix of
+  courses; a plan above it is shown with a major warning, not blocked. Wording proposed (owner may edit):
+  - en: "Heads-up: this semester comes to 24 units, but your curriculum lists 21 for it. The Student Handbook says units
+    above the prescribed load may not be credited (p. 35). It's worth checking with your Dean or the Registrar before you
+    enroll."
+  - taglish: "Heads-up: 24 units ang sem na 'to, pero 21 lang ang nakalista sa curriculum mo. Ayon sa Student Handbook,
+    puwedeng hindi ma-credit ang sobrang units (p. 35). Mas okay kung i-check mo muna sa Dean o sa Registrar bago ka
+    mag-enroll."
 - D6 (decided, owner 4 Nov 2026: "yes go ahead, just print the discrepancy"): the removal period is the succeeding
   term (3.2, Resolution 279, 2018; 3.7). Every answer that uses it also prints the discrepancy: the same section
   also says "within one year" (3.3, 3.7).
