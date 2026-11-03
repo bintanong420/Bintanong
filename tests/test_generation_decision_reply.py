@@ -214,3 +214,13 @@ def test_an_answer_with_no_checked_result_records_no_explanation_check():
                                missing_facts=('course_id',), events=())
     answer = asyncio.run(Generator(Fake()).generate('Z9', source))
     assert answer.explanation_check is None
+
+
+def test_a_stated_result_is_never_called_an_assumption():
+    # Live 4 Nov 2026: "under that assumption" for a result the student actually stated.
+    from backend.bintanong_generation.decision_reply import explanation_errors
+    pack = prepare(research_integration(facts=(('course-1', 'failed'),)))
+    assert 'assumption_without_what_if' in explanation_errors(
+        pack, 'Under that assumption, you have not completed course-1, so course-2 has to wait.')
+    assert 'assumption_without_what_if' not in explanation_errors(prepare(what_if()),
+        'Under that assumption, course-1 is still needed before course-2.')
