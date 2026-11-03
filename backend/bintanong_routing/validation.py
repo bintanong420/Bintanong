@@ -280,8 +280,12 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         return result('inconsistent_proposal', 'evidence_unavailable')
     # Owner GUI 3 Nov 2026 (image 18): a structured part that only states a grade fact ("Hindi pa ako passed sa
     # BU-2/L.") qualifies the check beside it; it is not a second question needing its own operation.
-    if any(part.evidence_need == 'structured' and part.operation_indices for part in p.parts):
-        stated = [part for part in p.parts if part.evidence_need == 'structured' and not part.operation_indices
+    def holds_target(part):
+        return any(part.start <= p.mentions[p.operations[i].target].start
+                   and p.mentions[p.operations[i].target].end <= part.end for i in part.operation_indices)
+    if any(part.evidence_need == 'structured' and holds_target(part) for part in p.parts):
+        # live: the fact part may also repeat the check whose course lies in the other part
+        stated = [part for part in p.parts if part.evidence_need == 'structured' and not holds_target(part)
                   and any(part.start <= c.start and c.end <= part.end for c in p.claims)]
         if stated:
             p = p.model_copy(update=dict(parts=tuple(part for part in p.parts if part not in stated)))

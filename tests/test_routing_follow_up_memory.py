@@ -2,6 +2,8 @@
 question. Session memory keeps the previous operation, year and semester as ids and fixed values, never text."""
 import importlib
 
+import pytest
+
 from backend.bintanong_private_context.conversation import capture
 from backend.bintanong_routing.contracts import ConversationContext, Interpretation, RequestContext
 from backend.bintanong_routing.prompt import build_messages, previous_turn
@@ -53,7 +55,8 @@ def test_memory_holds_no_text():
     assert set(ConversationContext.model_fields) <= {'program_id', 'curriculum_id', 'course_id', 'subject_id', 'pending',
                                                      'detail', 'operation', 'year_level', 'semester'}
 
-def test_a_fact_only_part_is_folded_into_the_check_it_qualifies():
+@pytest.mark.parametrize('fact_part_operations', [[], [0]])  # live: the fact part repeated the check
+def test_a_fact_only_part_is_folded_into_the_check_it_qualifies(fact_part_operations):
     # Owner GUI 3 Nov 2026 (image 18): "Pwede ko bang i-take ang BU-3/L next sem? Hindi pa ako passed sa BU-2/L."
     # was split into a check part and a fact-only part, and the fact-only part made the reply an empty clarify.
     from test_routing_contracts import proposal
@@ -66,7 +69,7 @@ def test_a_fact_only_part_is_folded_into_the_check_it_qualifies():
                      parts=[dict(part_id='r1', text='Can I take B1?', start=0, end=14, evidence_need='structured',
                                  operation_indices=[0]),
                             dict(part_id='r2', text='Not passed A1.', start=15, end=29, evidence_need='structured',
-                                 operation_indices=[])])
+                                 operation_indices=fact_part_operations)])
     result = plain(text, value)
     assert result.diagnostic == 'validated' and result.decision.predicate_request.predicate == 'check_prerequisite_eligibility'
     assert [(c.course_id, c.state) for c in result.claims] == [('course-a', 'failed')]
