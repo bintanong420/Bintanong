@@ -93,7 +93,13 @@ def reviewed_items(register, catalogue, chunks):
     for subject, _, value, defective in _reviewed_fields(register, catalogue, chunks, OPENING_FIELD):
         for heading in _headings(value, defective):
             add(subject, heading)
+        # Owner GUI 3 Nov 2026 (H4, H6, H8): printed numbered questions (a Handbook FAQ) name what the body answers.
+        for question in _QUESTION.finditer(' '.join(value.split())):
+            add(subject, question.group(0))  # cut at a word like other items
     return {s: tuple(v) for s, v in items.items()}
+
+
+_QUESTION = re.compile(r'(?<!\S)\d+\.\s+(?:How|What|Where|When|Who|Can|Is|Are)\b[^?]{3,80}\?')
 
 
 def reviewed_claim_headings(register, catalogue, chunks):

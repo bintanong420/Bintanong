@@ -34,6 +34,15 @@ def test_long_reviewed_body_supplies_a_verbatim_opening_cut_at_a_word():
     assert LONG_BODY.startswith(topic.source_opening[:-1])
 
 
+def test_printed_numbered_questions_become_menu_items():
+    # Owner GUI 3 Nov 2026 (H4, H6, H8): the Handbook FAQ answers them, but the menu showed only its first question.
+    body = ('FREQUENTLY ASKED QUESTIONS 1. How to secure fictional slip A? A. Fictional answer. '
+            '4. How do I claim fictional insurance? A. Report it. 6. What do I do when I lose a fictional card? A. Report.')
+    topic, = candidate(*body_inputs(body))
+    assert topic.source_items == ('1. How to secure fictional slip A?', '4. How do I claim fictional insurance?',
+                                  '6. What do I do when I lose a fictional card?')
+
+
 def test_short_reviewed_body_is_its_own_complete_opening():
     topic, = candidate(*body_inputs('FICTIONAL RESIDENCE. Residence means years enrolled.'))
     assert topic.source_opening == 'FICTIONAL RESIDENCE. Residence means years enrolled.'
@@ -161,8 +170,11 @@ def test_printed_numbered_section_headings_become_verbatim_items():
 
 
 def test_numbered_sentences_are_not_headings():
-    topic, = candidate(*body_inputs())
+    topic, = candidate(*body_inputs('7. Students shall file fictional slips at the Fictional Office. B. The slip is signed.'))
     assert topic.source_items == ()
+    # A printed numbered question is an FAQ item (owner GUI 3 Nov 2026), not a sentence heading.
+    topic, = candidate(*body_inputs())
+    assert topic.source_items == ('7. How to file fictional slips?',)
 
 
 # Owner 30 Oct 2026: a recorded defect elsewhere in the chunk no longer hides its printed headings.
