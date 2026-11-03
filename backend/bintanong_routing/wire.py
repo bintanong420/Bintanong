@@ -178,7 +178,23 @@ def normalize_interpretation(text: str, wire: WireInterpretation, *, course_name
     data.pop('previous_course_quote')
     if wire.previous_course_quote is not None:
         data['context_reference'] = span(wire.previous_course_quote)
-    claims = [dict(**span(c.quote), entity=course_index(c.entity), state=c.state, mode=c.mode)
+    def own_entity(claim):
+        """Live 3 Nov 2026: a code repeated across claims was miscounted. When the declared occurrence lies outside
+        the claim's own quote and exactly one copy of the course text lies inside it, that copy is the only reading
+        (same rule as occurrence repair); otherwise the declared one stays and later checks refuse it."""
+        inside, entity = span(claim.quote), claim.entity
+        declared = span(entity)
+        if inside['start'] <= declared['start'] and declared['end'] <= inside['end']:
+            return entity
+        found, position = [], text.find(entity.text)
+        while position >= 0:
+            found.append(position)
+            position = text.find(entity.text, position + 1)
+        within = [i for i, at_ in enumerate(found)
+                  if inside['start'] <= at_ and at_ + len(entity.text) <= inside['end']]
+        return QuoteReference(text=entity.text, occurrence=within[0]) if len(within) == 1 else entity
+
+    claims = [dict(**span(c.quote), entity=course_index(own_entity(c)), state=c.state, mode=c.mode)
               for c in wire.claims]
     operations = [dict(name=o.name, target=course_index(o.target, 'term' if o.name in TERM_OPERATIONS else 'course'))
                   for o in wire.operations]
