@@ -10,7 +10,7 @@
 - Post-Phase-12 accuracy work: [current handoff](2026-10-30-eight-failures-handoff.md) (open): common-query
   readiness for the student sessions, new-machine setup and runs to do.
 - Academic Recovery Planner (owner plan, 4 Nov): [ingestion and thesis-bounded scope](2026-11-04-academic-recovery-planner-ingestion.md);
-  proposed only, awaiting owner decision 1; no phase started.
+  [plan of action](2026-11-04-academic-recovery-plan-of-action.md); proposed only, awaiting owner D1–D4; no phase started.
 - Test-suite audit/consolidation complete, Claude-reviewed (nits only): [plan](2026-10-30-test-suite-audit-plan.md),
   [results and verification](2026-10-30-test-suite-audit-results.md).
 - Worktree p12 / `p12-evaluation-harness`; [current progress](plan_current_progress/current_progress.md).

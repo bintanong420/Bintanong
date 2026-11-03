@@ -81,4 +81,6 @@ The plan's printed page numbers run 1–2 below these release pages (printed ver
 
 ## Next action
 
-Owner answers decision 1. No implementation starts before it.
+Owner direction (4 Nov): backport the scheduler's useful functions; suggestions only as drafts approved by actual
+university people. Sequenced in the [plan of action](2026-11-04-academic-recovery-plan-of-action.md); the owner answers its
+decisions D1–D4 before any step starts.
