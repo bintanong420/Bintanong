@@ -314,6 +314,15 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         return result('model_ambiguity')
     if len(p.operations) > 1:
         return result('compound_request')
+    named = {e.entity_id for e in resolved.values() if e.kind == 'program'}
+    if (p.control in (None, 'clarify') and not p.operations and not p.claims and reference is None and len(named) == 1
+            and len(resolved) == len(p.mentions) and all(m.kind == 'program' for m in p.mentions)
+            and all(part.evidence_need == 'unknown' for part in p.parts)
+            and not re.search(r'\w', ''.join(c for i, c in enumerate(text) if not any(
+                m.start <= i < m.end for m in p.mentions)))):
+        # Thesis leader, 4 Nov 2026: a message that is only a program name asks what the student wants to know
+        # about it; the model has nothing to call a part ("unknown"), which read as an outage.
+        return result('bare_program_name', missing=('program_topic:' + next(iter(named)),))
     if p.control is not None:
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
