@@ -37,6 +37,9 @@ versions (uv marks api/embedding as conflicting). Hosted-560 API :8021 (startup 
 "Can I take BE 2001 if I already passed GE-PC?" eligible 33.9 s (replacement now verified), shifting via tunnel 52.7 s.
 All detached; pids in `audit-evidence/launcher-logs/pids.txt`; stop with `scripts/start-bintanong.ps1 -Stop`.
 Guests are public while the tunnel is up; Google sign-in via the tunnel needs `<tunnel>/auth/callback` in Supabase.
+Capacity: 1 running + 4 waiting answers, then 503 `answers_busy`; no per-client rate limit. Frontend now retries a busy
+refusal every 15 s (4 times, then manual Try again), with Try again now/Cancel and no interrupted bubble
+(browser test `busy-retry.mjs` 3/3).
 
 ## Stack launcher (2 Nov)
 
