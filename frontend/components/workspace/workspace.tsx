@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useId, useReducer, useRef, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
-import { ChevronDown, ClipboardList, Ellipsis, FolderOpen, GraduationCap, Lock, LogIn, LogOut, Menu } from "lucide-react";
+import { ChevronDown, ClipboardList, Ellipsis, FolderOpen, GraduationCap, Info, Lock, LogIn, LogOut, Menu } from "lucide-react";
 import { clearStudentSession, confirmStudentFile, getStudentCurricula, removeStudentFile, sendStudentMessage, uploadStudentFile } from "@/lib/student-transport";
 import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope, type StudentSourceSummary } from "@/lib/student-contracts";
 import { createWorkspace, selectedPDF, workspaceReducer } from "@/lib/student-workspace";
@@ -205,6 +205,10 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
           {navigationCollapsed && <Button variant="ghost" size="icon" className="desktop-navigation-toggle" aria-label="Open navigation" aria-expanded="false" onClick={() => toggleNavigation(false)}><Menu aria-hidden="true" /></Button>}
           <Button variant="ghost" size="icon" className="mobile-navigation-toggle" aria-label="Open navigation" aria-expanded={mobileNavigation} onClick={() => setMobileNavigation(true)}><Menu aria-hidden="true" /></Button>
           <span className="workspace-name"><BrandMark />Bintanong</span>
+          {!!state.messages.length && <Button asChild variant="ghost" size="icon" className="header-about">
+            {/* A new tab keeps this temporary chat, which lives only in this page. */}
+            <a href="/about" target="_blank" rel="noopener" aria-label="About Bintanong (opens in a new tab)" title="About Bintanong"><Info aria-hidden="true" /></a>
+          </Button>}
         </div>
         <div className="workspace-account-actions">
           {details.length > 0 && <Button type="button" variant="ghost" size="sm" className="header-details" aria-label={`You supplied (${details.length})`} title={`You supplied (${details.length})`} disabled={!!busy || signInNeeded} onClick={() => setDetailsOpen(true)}><ClipboardList size={16} aria-hidden="true" /><span className="account-action-label">You supplied ({details.length})</span></Button>}

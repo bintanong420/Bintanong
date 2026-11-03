@@ -58,10 +58,16 @@ for (const width of [390, 1440]) test(`chat is locked until a program is chosen;
     const year = page.getByRole('dialog', { name: 'When did you start?', exact: true });
     await year.getByRole('radio', { name: 'Before 2023', exact: true }).check();
     await year.getByRole('button', { name: 'Use this program', exact: true }).click();
+    const samples = page.getByRole('region', { name: 'Try asking' });
+    await samples.getByText('What are the prerequisites of CS 13/L?', { exact: true }).waitFor();
+    assert.equal(await page.getByRole('link', { name: /About Bintanong/ }).count(), 0, 'no About icon before chatting');
     await question.fill('A synthetic course question');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
     await page.getByText('Synthetic response.', { exact: true }).waitFor();
     assert.equal(submissions[0].curriculumId, 'bscs-2018-2019');
+    const about = page.getByRole('link', { name: 'About Bintanong (opens in a new tab)', exact: true });
+    assert.equal(await about.getAttribute('href'), '/about');
+    assert.equal(await about.getAttribute('target'), '_blank');
 
     // Switch mid-chat to the new BSCS curriculum.
     await page.getByRole('button', { name: /^Program: Bachelor of Science in Computer Science/ }).click();
@@ -74,6 +80,11 @@ for (const width of [390, 1440]) test(`chat is locked until a program is chosen;
     await page.waitForFunction(() => document.querySelectorAll('.message-assistant').length === 2);
     assert.equal(submissions[1].programId, 'palsu-bscs');
     assert.equal(submissions[1].curriculumId, 'bscs-proposed-2025-2026');
+    if (width < 768) await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
+    await page.getByRole('button', { name: 'New chat', exact: true }).click();
+    await page.getByRole('button', { name: 'Clear chat', exact: true }).click();
+    await samples.getByText('Ano ang prerequisites ng Thesis 3?', { exact: true }).waitFor();
+    assert.equal(await question.isEnabled(), true, 'New chat keeps the chosen program');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     await context.close();
   } finally { await browser.close(); }

@@ -1,36 +1,43 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowUpRight, BookOpen, CircleUserRound, Copy, Info, ListChecks, LoaderCircle, Pencil } from "lucide-react";
+import { ArrowUpRight, BookOpen, CircleUserRound, Copy, Info, LoaderCircle, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { answerNotice, type WorkspaceState } from "@/lib/student-workspace";
 import { clarificationQuestions } from "@/lib/student-clarification";
 import type { StudentCurriculum, StudentSourceSummary } from "@/lib/student-contracts";
-import { sampleQuestionSets } from "@/lib/sample-questions";
+import { pickFaqQuestions, sampleQuestionSets } from "@/lib/sample-questions";
 import { BrandMark } from "./brand-mark";
 
-const rotateEveryMs = 7000;
+const rotateEveryMs = 4000;
+/**
+ * "Try asking": two sets alternate every 4 s, three random Handbook FAQs and the selected curriculum's
+ * prerequisite checks. A program change shows that program's checks at once. Hover or focus pauses it.
+ */
 function SampleQuestions({ scope, onSuggest }: { scope: StudentCurriculum | null; onSuggest: (text: string) => void }) {
-  const sets = useMemo(() => sampleQuestionSets(scope), [scope]);
-  const [index, setIndex] = useState(0), [paused, setPaused] = useState(false);
-  const current = sets[index % sets.length];
-  useEffect(() => { setIndex(0); }, [sets]);
+  const prerequisites = useMemo(() => sampleQuestionSets(scope, undefined, () => 0)[1]?.questions ?? null, [scope]);
+  // The first render is deterministic so server and browser markup match; the draw becomes random after hydration.
+  const [faq, setFaq] = useState(() => pickFaqQuestions(() => 0));
+  const [showing, setShowing] = useState<"faq" | "prerequisite">("faq"), [paused, setPaused] = useState(false);
+  useEffect(() => { setFaq(pickFaqQuestions()); }, []);
+  useEffect(() => { setShowing(prerequisites ? "prerequisite" : "faq"); }, [prerequisites]);
   useEffect(() => {
-    if (paused || sets.length < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = setInterval(() => setIndex(value => (value + 1) % sets.length), rotateEveryMs);
-    return () => clearInterval(timer);
-  }, [paused, sets]);
-  return <section className="sample-questions" aria-label="Sample questions" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
+    if (paused || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = setTimeout(() => {
+      if (showing === "faq" && prerequisites) setShowing("prerequisite");
+      else { setFaq(pickFaqQuestions()); setShowing("faq"); }
+    }, rotateEveryMs);
+    return () => clearTimeout(timer);
+  }, [paused, showing, prerequisites, faq]);
+  const questions = showing === "prerequisite" && prerequisites ? prerequisites : faq;
+  return <section className="sample-questions" aria-label="Try asking" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
     onFocus={() => setPaused(true)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}>
-    <p className="sample-label">{current.label}</p>
-    <ul key={index} className="sample-list">{current.questions.map(question => <li key={question}>
-      <button type="button" className="sample-question" onClick={() => onSuggest(question)}>
-        {current.kind === "faq" ? <BookOpen size={16} aria-hidden="true" /> : <ListChecks size={16} aria-hidden="true" />}
-        <span>{question}</span><ArrowUpRight size={14} aria-hidden="true" className="sample-arrow" />
-      </button>
+    <p className="sample-label">Try asking</p>
+    <ul key={questions.join("|")} className="sample-list">{questions.map(question => <li key={question}>
+      <button type="button" className="sample-question" onClick={() => onSuggest(question)}><span>{question}</span></button>
     </li>)}</ul>
-    {sets.length > 1 && <div className="sample-pager" role="group" aria-label="Sample question sets">
-      {sets.map((set, position) => <button key={position} type="button" aria-label={`Show sample set ${position + 1} of ${sets.length}: ${set.label}`}
-        aria-pressed={position === index % sets.length} onClick={() => setIndex(position)} />)}
+    {prerequisites && <div className="sample-pager" role="group" aria-label="Sample question sets">
+      <button type="button" aria-label="Show Student Handbook questions" aria-pressed={showing === "faq"} onClick={() => setShowing("faq")} />
+      <button type="button" aria-label="Show prerequisite questions for your program" aria-pressed={showing === "prerequisite"} onClick={() => setShowing("prerequisite")} />
     </div>}
   </section>;
 }
