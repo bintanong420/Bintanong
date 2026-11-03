@@ -16,8 +16,23 @@ from .prompt import build_messages, output_schema, previous_turn
 from .style import StyleProposal, build_style_messages, floor_style, style_output_schema
 from .transport import RuntimeFailure
 from . import topic_selection as selection
+from .recovery_cue import recovery_request
 from .validation import RoutingResult, _decision, validate_interpretation
 from .wire import WireInterpretation, normalize_interpretation
+
+
+def drop_untopical_parts(proposed, topics):
+    """Owner GUI 4 Nov 2026: a document part with no reviewed topic cannot sink an answerable structured part. With a
+    topic menu, such parts are taken out and their words returned, so the reply names them as not in the reviewed
+    sources; a message with no structured part is left as it was."""
+    loose = [p for p in proposed.parts if p.evidence_need == 'document' and p.subject_id is None]
+    if not topics or not loose or not any(p.evidence_need == 'structured' and p.operation_indices
+                                          for p in proposed.parts):
+        return proposed, ()
+    kept = [p.model_dump(mode='json') for p in proposed.parts if p not in loose]
+    route = 'Hybrid' if any(p['evidence_need'] == 'document' for p in kept) else 'Symbolic'
+    return (Interpretation.parse(dict(proposed.model_dump(mode='json'), parts=kept, route=route)),
+            tuple(p.text for p in loose))
 
 
 def _unique_object(pairs):
@@ -528,6 +543,8 @@ class Router:
                         proposed, text, context.conversation, self.catalog)
                     if switch is not None:
                         proposed = switch[0]
+                    proposed = recovery_request(proposed, text) or proposed  # owner 4 Nov 2026: Ask mode
+                    proposed, unavailable = drop_untopical_parts(proposed, topics)
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
@@ -580,7 +597,8 @@ class Router:
                     return replace(result, proposed=proposed, attempts=attempt,
                         style_attempts=style_attempt, style_evidence=style,
                         style_floor_applied=floored, offset_corrections=0,
-                        selection_attempts=selection_attempts)
+                        selection_attempts=selection_attempts,
+                        unavailable_parts=unavailable if result.decision.dispatchable else ())
                 except ValueError:
                     return failure('invalid_grounding', attempt, style_attempt)
         raise AssertionError('unreachable')

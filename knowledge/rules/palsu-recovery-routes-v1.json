@@ -1,0 +1,43 @@
+{
+  "schema_version": "bintanong-recovery-routes-v1",
+  "routes_id": "routes-palsu-handbook-2021-recovery-v1",
+  "synthetic": false,
+  "clauses": [
+    {
+      "kind": "regular_class",
+      "topic": "handbook_class_types",
+      "page": 37,
+      "text": "REGULAR CLASS. Regular class is a class prescribed in the curriculum during the semester/term it is offered, regardless of size.",
+      "conditions": []
+    },
+    {
+      "kind": "special_class",
+      "topic": "handbook_class_types",
+      "page": 37,
+      "text": "SPECIAL CLASS. Special class is a class which is not prescribed in the curriculum during a given semester/term but is requested by a student/s to be offered during the semester/term, subject to the availability of faculty and a special class fee, corresponding to the number of lecture/laboratory units. Special class must have a maximum of fifteen (15) students. Special class assessment shall be paid to the University Cashier. All special classes must observe the regular number of class hours prescribed for the subject.",
+      "conditions": ["subject to the availability of faculty and a special class fee", "a maximum of fifteen (15) students"]
+    },
+    {
+      "kind": "off_semester",
+      "topic": "handbook_class_types",
+      "page": 37,
+      "text": "An off-semester subject may still be offered as a regular class provided there are at least 35 students for lecture and 25 students for laboratory who will enroll in the subject and a faculty is available to teach the subject.",
+      "conditions": ["at least 35 students for lecture and 25 students for laboratory", "a faculty is available to teach the subject"]
+    },
+    {
+      "kind": "summer",
+      "topic": "handbook_summer_load",
+      "page": 35,
+      "text": "SUMMER LOAD. The normal load for the summer term shall be nine (9) units for both the undergraduate and graduate students. Graduating undergraduate students may, however, be allowed a higher load but not to exceed twelve (12) units, subject to prior approval of the Dean.",
+      "conditions": ["nine (9) units"]
+    }
+  ],
+  "source_chunk_ids": [
+    "124bdab4d76ca90dc89977c7aeb0bd6e2a0fcfee0a3cccdf7fffe7c2c640af22",
+    "4ea493a3761e47367468c1346e3be00c29a7e49378c052c78219b4b2af5a07da"
+  ],
+  "review_refs": [
+    "owner-2026-11-04-d1-recovery-steps-1-4",
+    "owner-2026-11-04-track-a-summer-load"
+  ]
+}

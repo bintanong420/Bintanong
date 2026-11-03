@@ -38,6 +38,8 @@ class PreparedEvidence:
     assumptions: tuple[str,...]=()  # what-if premises '<state>:<course id>' (request-only)
     term_assessment: object=None  # TermAssessmentResult: each course of one term checked, rendered by the host
     asked_term: tuple|None=None  # (year, semester) the whole question names, read by the host (display only)
+    recovery: object=None  # RecoveryResult: Ask mode routes and drafts, rendered by the host (owner 4 Nov 2026)
+    unavailable_parts: tuple[str,...]=()  # words of parts with no reviewed topic, named as unavailable
 
     def model_payload(self):
         payload = dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -151,4 +153,5 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
-        symbolic.requirement if symbolic else None,facts,coverage,order,quotes,result.assumed_facts,term)
+        symbolic.requirement if symbolic else None,facts,coverage,order,quotes,result.assumed_facts,term,
+        recovery=result.recovery,unavailable_parts=result.unavailable_parts)

@@ -134,16 +134,20 @@ class Orchestrator:
         prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         events, resources, route, style = [], None, None, 'unknown'
-        understanding, assumed = None, ()
+        understanding, assumed, recovery, routed = None, (), None, None
 
         def finish(status, evidence=None, missing=()):
+            ready = status == 'ready'
+            drafts = recovery if ready else None
             return IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
                 request_id=context.request_id, route=route, response_style=style,
                 status=status, evidence=evidence, understanding=understanding,
                 missing_facts=tuple(missing), events=tuple(events), assumed_facts=assumed,
+                recovery=drafts, unavailable_parts=routed.unavailable_parts if ready and routed is not None else (),
                 course_labels=referenced_labels(resources.course_labels if resources else (),
                     evidence.model_dump(mode='json') if evidence is not None else None,
                     understanding.model_dump(mode='json') if understanding is not None else None,
+                    drafts.model_dump(mode='json') if drafts is not None else None,
                     tuple(missing)) | choice_labels(resources.course_details if resources else (), tuple(missing)))
 
         async def stage(name, call):
@@ -322,6 +326,7 @@ class Orchestrator:
             return finish(failure)
         if isinstance(result, DependencyResult):
             dependencies = result
+            recovery = await self._recovery(text, routed.decision.predicate_request, scoped, resources, result)
         elif isinstance(result, CourseFactsResult):
             course_facts = result
         elif isinstance(result, TermAssessmentResult):
@@ -336,3 +341,19 @@ class Orchestrator:
 
         evidence, failure = await stage('integration', integrate)
         return finish(failure) if failure else finish(evidence.status, evidence, evidence.missing_facts)
+
+    async def _recovery(self, text, request, scoped, resources, dependencies):
+        """Ask mode (owner 4 Nov 2026): recovery routes and greedy drafts when the dependency question also asks
+        what to take or how to recover. A draft failure keeps the plain dependency answer; it never fails the turn."""
+        from ..bintanong_routing.recovery_cue import asks_recovery
+        from ..bintanong_routing.terms import parse_term
+        recover = getattr(resources.symbolic, 'recover', None)
+        if recover is None or not asks_recovery(text) or dependencies.status not in ('complete', 'partial'):
+            return None
+        try:
+            async with asyncio.timeout(self.stage_timeout):
+                value = await recover(request, scoped, dependencies.course_ids, parse_term(text),
+                                      regular_asked=bool(re.search(r'\bregular\b', text, re.I)))
+        except (ValueError, TypeError, KeyError, AttributeError, AdapterFailure, TimeoutError):
+            return None
+        return None if value is None or value.synthetic is not resources.pin.synthetic else value

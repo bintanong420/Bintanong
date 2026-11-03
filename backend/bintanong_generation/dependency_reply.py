@@ -34,8 +34,9 @@ _WORDS = {
 }
 
 
-def dependency_lines(dependencies, target, language, shown, term=None) -> list[str]:
-    """term: (year, semester) the question asked about, or None; 'any' semester means the whole year."""
+def dependency_lines(dependencies, target, language, shown, term=None, with_terms=False) -> list[str]:
+    """term: (year, semester) the question asked about, or None; 'any' semester means the whole year.
+    with_terms: name each listed course's prescribed term (Ask mode, owner 4 Nov 2026)."""
     from .term_reply import term_name
     words = _WORDS['en' if language in ('en', 'unknown') else 'taglish']
     placed = {course: (year, semester) for course, year, semester in dependencies.placements}
@@ -59,7 +60,7 @@ def dependency_lines(dependencies, target, language, shown, term=None) -> list[s
         if later:
             lines.append(words['also' if inside else 'later'].format(courses=', '.join(map(with_term, later))))
     else:
-        courses = [shown(c) for c in ordered]
+        courses = [with_term(c) if with_terms else shown(c) for c in ordered]
         lines = [words['some'].format(target=shown(target), courses=', '.join(courses)) if courses
                  else words['none'].format(target=shown(target))]
     printed = dict(dependencies.printed_conditions)

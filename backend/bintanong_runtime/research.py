@@ -323,6 +323,8 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
     Each curriculum keeps its own runtime, release identity and rule-bundle version (listed in the
     pin); the release identity of the set is a digest of those members.
     """
+    from ..bintanong_planning.recovery import palsu_recovery_sources
+    recovery = palsu_recovery_sources()  # reviewed load policy and Handbook route clauses (owner 4 Nov 2026)
     adapters, members, sources, catalog, labels, details = {}, [], {}, [], [], []
     for curriculum, ledger in sorted(ledgers.items()):
         if ledger['scope']['curriculum_id'] != curriculum:
@@ -331,7 +333,7 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         runtime = CurriculumRuntime.for_offline_research(bundle, authorization=dict(
             purpose='offline_curriculum_acceptance', authorization_ref=authorization_ref,
             bundle_sha256=bundle['content_sha256'], operations=list(OPERATIONS)))
-        adapters[curriculum] = SymbolicAdapter(runtime, research=True)
+        adapters[curriculum] = SymbolicAdapter(runtime, research=True, recovery=recovery)
         members.append(dict(curriculum_id=curriculum, release_id=runtime.release_id,
                             rule_bundle_version=runtime.rule_bundle_version))
         sources.update({s['version_id']: s['byte_sha256'] for s in bundle['ledger']['sources']})
