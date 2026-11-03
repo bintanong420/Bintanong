@@ -13,6 +13,7 @@ from .prompt import output_schema as routing_schema
 from .router import Router, _json_proposal, _repair_messages
 from .style import STYLE_PROMPT, STYLE_PROMPT_SHA256, STYLE_PROMPT_VERSION, StyleEvidence, style_output_schema
 from .transport import RuntimeFailure
+from .recovery_cue import recovery_request
 from .validation import RoutingResult, _decision, validate_interpretation
 from .wire import WireInterpretation, normalize_interpretation
 
@@ -93,6 +94,7 @@ class CombinedRouter(Router):
                 data=_json_proposal(raw)
                 packet=CombinedProposal.parse(data)
                 proposed=normalize_interpretation(text,packet.interpretation)
+                proposed=recovery_request(proposed,text) or proposed  # owner 4 Nov 2026: Ask mode
             except (ValueError,ValidationError):
                 if attempt==2:
                     return failure('invalid_model_output',attempt)

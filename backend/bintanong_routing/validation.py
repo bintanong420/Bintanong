@@ -42,6 +42,7 @@ class RoutingResult:
     style_evidence: StyleEvidence | None = None
     style_floor_applied: bool = False
     selection_attempts: int = 0
+    unavailable_parts: tuple[str, ...] = ()  # document parts with no reviewed topic, taken out by the router
 
     @property
     def inference_calls(self):
