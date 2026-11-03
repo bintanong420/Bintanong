@@ -122,9 +122,12 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
     if (flight.current || signInNeeded || !state.draft.trim()) return;
     try {
       const text = followUpMessage(state.draft, scope, details, selectedDetails);
-      const typed = clarification ? typedReply(clarification.original, clarification.answer, state.draft) : state.draft.trim();
+      const typed = clarification ? typedReply(clarification.original, clarification.answer, state.draft, curricula) : null;
       if (selectedDetails.length) setReview({ text, scope });
-      else void send(typed !== state.draft.trim() ? { text: typed, scope, clearDraft: true } : undefined);
+      else if (typed && typed.text !== state.draft.trim()) {
+        if (typed.scope) changeScope(curricula.find(c => sameScope(c, typed.scope)) ?? null);
+        void send({ text: typed.text, scope: typed.scope ?? scope, clearDraft: true });
+      } else void send();
     } catch { dispatch({ type: "warning", warning: "This message could not be prepared. Shorten the question or review the selected course details." }); }
   }
   async function send(confirmed?: { text: string; scope: StudentScope | null; clearDraft?: boolean }) {

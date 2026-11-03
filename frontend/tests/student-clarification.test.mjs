@@ -96,7 +96,16 @@ test('a bare clarification cannot invent another question or resend an unknown d
 // dialog choice; live, "aalis ako sa PalSU" alone was checked as the question and the fee answer was rejected.
 test('a typed reply to the direction question carries the original question', () => {
   const asked = { status: 'clarification_needed', language: 'taglish', missingFields: ['transfer_direction'], clarification: { courses: [], scope: null } };
-  assert.equal(typedReply('magkano bayad sa transfer credentials?', asked, ' aalis ako sa PalSU '), 'magkano bayad sa transfer credentials?\n\naalis ako sa PalSU');
-  assert.equal(typedReply('Can I take A1?', answer, 'passed B2/L'), 'passed B2/L');
-  assert.equal(typedReply('X'.repeat(8190), asked, 'aalis ako'), 'aalis ako');
+  assert.deepEqual(typedReply('magkano bayad sa transfer credentials?', asked, ' aalis ako sa PalSU ', curricula), { text: 'magkano bayad sa transfer credentials?\n\naalis ako sa PalSU', scope: null });
+  assert.deepEqual(typedReply('Can I take A1?', answer, 'passed B2/L', curricula), { text: 'passed B2/L', scope: null });
+  assert.deepEqual(typedReply('X'.repeat(8190), asked, 'aalis ako', curricula), { text: 'aalis ako', scope: null });
+});
+
+// Owner GUI 3 Nov 2026 (#12): typing one of the offered program names answers 'Which program is this for?' like the
+// dialog choice; the name alone reached the router as a question and failed.
+test('a typed program name selects that program and resends the original question', () => {
+  const program = { status: 'clarification_needed', language: 'en', missingFields: ['program'], clarification: { courses: [], scope: null } };
+  assert.deepEqual(typedReply('What are my first-term subjects?', program, ' synthetic PROGRAM ', curricula),
+    { text: 'What are my first-term subjects?\n\nSynthetic program · Reviewed edition', scope: { programId: 'program-a', curriculumId: 'curriculum-a' } });
+  assert.deepEqual(typedReply('What are my first-term subjects?', program, 'Another program', curricula), { text: 'Another program', scope: null });
 });
