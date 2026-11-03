@@ -4,16 +4,20 @@ import { MessageSquare, PanelLeftClose, SquarePen } from "lucide-react";
 import type { Message } from "@/lib/student-workspace";
 import { BrandMark } from "./brand-mark";
 
-export function Sidebar({ currentChat, onNewChat, onOpenChat, onCollapse, busy = false, hidden = false, className = "" }: {
-  currentChat?: Message; onNewChat: () => void; onOpenChat: () => void; onCollapse?: () => void; busy?: boolean; hidden?: boolean; className?: string;
+export function SidebarBrand() {
+  return <a className="brand" href="/" title="Bintanong home"><BrandMark />Bintanong</a>;
+}
+
+export function Sidebar({ currentChat, onNewChat, onOpenChat, onCollapse, busy = false, hidden = false, showBrand = true, className = "" }: {
+  currentChat?: Message; onNewChat: () => void; onOpenChat: () => void; onCollapse?: () => void; busy?: boolean; hidden?: boolean; showBrand?: boolean; className?: string;
 }) {
   const title = currentChat?.text.trim().replace(/\s+/g, " ");
   return <aside className={`sidebar ${className}`} hidden={hidden} aria-label="Conversation sidebar">
     <div className="sidebar-heading">
-      <div className="sidebar-brand">
-        <a className="brand" href="/" title="Bintanong home"><BrandMark />Bintanong</a>
+      {showBrand && <div className="sidebar-brand">
+        <SidebarBrand />
         {onCollapse && <Button variant="ghost" size="icon" className="sidebar-collapse" aria-label="Close navigation" aria-expanded="true" onClick={onCollapse}><PanelLeftClose aria-hidden="true" /></Button>}
-      </div>
+      </div>}
       <Button variant="secondary" className="new-chat justify-start" disabled={busy} onClick={onNewChat}>
         <SquarePen aria-hidden="true" /> New chat
       </Button>

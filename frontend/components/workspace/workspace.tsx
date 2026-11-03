@@ -7,7 +7,7 @@ import { clearStudentSession, confirmStudentFile, getStudentCurricula, removeStu
 import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope, type StudentSourceSummary } from "@/lib/student-contracts";
 import { createWorkspace, selectedPDF, workspaceReducer } from "@/lib/student-workspace";
 import { Button } from "@/components/ui/button";
-import { Sidebar } from "./sidebar";
+import { Sidebar, SidebarBrand } from "./sidebar";
 import { Conversation, EmptyConversation } from "./conversation";
 import { ProgramPicker, type CurriculumState } from "./program-picker";
 import { programShortName } from "@/lib/programs";
@@ -238,7 +238,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
           {details.length > 0 && <Button type="button" variant="ghost" size="sm" disabled={!!busy || signInNeeded} onClick={() => setDetailsOpen(true)}>Include earlier details{selectedDetails.length ? ` (${selectedDetails.length})` : ""}</Button>}</>}
       />
       </div>
-      {mobileNavigation && <PreviewDialog title="Navigation" side className="navigation-dialog" onClose={() => setMobileNavigation(false)}><Sidebar currentChat={state.messages.find(message => message.role === "user")} busy={!!busy && busy !== "chat"} onNewChat={() => { setMobileNavigation(false); setClearOpen(true); }} onOpenChat={openCurrentChat} /></PreviewDialog>}
+      {mobileNavigation && <PreviewDialog title="Navigation" heading={<SidebarBrand />} side className="navigation-dialog" onClose={() => setMobileNavigation(false)}><Sidebar showBrand={false} currentChat={state.messages.find(message => message.role === "user")} busy={!!busy && busy !== "chat"} onNewChat={() => { setMobileNavigation(false); setClearOpen(true); }} onOpenChat={openCurrentChat} /></PreviewDialog>}
       {sources && <SourcePanel key={sources.map(s => s.sourceId).join(",")} sources={sources} onError={authError} onClose={() => setSources(null)} />}
       {clarification && <ClarificationDialog key={clarification.id} original={clarification.original} answer={clarification.answer} curricula={curricula} status={curriculaStatus} open={clarification.open && !busy}
         onClose={() => setClarification(previous => previous ? { ...previous, open: false } : null)} onRetry={() => setCurriculaAttempt(n => n + 1)}

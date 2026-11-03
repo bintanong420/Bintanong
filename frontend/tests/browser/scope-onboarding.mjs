@@ -86,7 +86,17 @@ for (const width of [390, 1440]) test(`chat is locked until a program is chosen;
       assert.ok(Math.abs(gap) <= 1, `chat fills the screen height at ${width}x${height}; ${gap}px left empty below it`);
     }
     await page.setViewportSize({ width, height: 900 });
-    if (width < 768) await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
+    if (width < 768) {
+      await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
+      const navigation = page.getByRole('dialog', { name: 'Navigation', exact: true });
+      await navigation.waitFor();
+      assert.equal(await navigation.getByText('Navigation', { exact: true }).count(), 0, 'no visible "Navigation" title');
+      const brand = navigation.locator('a.brand');
+      assert.equal(await brand.count(), 1, 'Bintanong appears once, as the panel title');
+      assert.equal(await brand.getAttribute('href'), '/');
+      const [brandBox, closeBox] = [await brand.boundingBox(), await navigation.getByRole('button', { name: 'Close Navigation' }).boundingBox()];
+      assert.ok(Math.abs((brandBox.y + brandBox.height / 2) - (closeBox.y + closeBox.height / 2)) <= 4, 'brand sits in the top row beside the close button');
+    }
     await page.getByRole('button', { name: 'New chat', exact: true }).click();
     await page.getByRole('button', { name: 'Clear chat', exact: true }).click();
     await samples.getByText('Ano ang prerequisites ng Thesis 3?', { exact: true }).waitFor();
