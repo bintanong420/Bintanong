@@ -13,8 +13,8 @@ the conclusion, and the chat keeps what the student said. Delivery, verification
 [results](../2026-11-03-memory-eligibility-results.md). Verified: the full suite has the same 82 failures and 9 errors as
 the baseline (missing jsonschema/cv2/docling) and zero new failures; 17/17 source-backed cases pass on the reviewed ledgers.
 Live with Gemma, the rerun passed 7/7 turns after four defects found live were fixed (BSCS demo, Civil/Mechanical
-Phy 11/L, Lawrence). Model container left running.
-**Next action:** owner decides whether to push/PR `feat/memory-eligibility` or run the 39-curriculum live gate.
+Phy 11/L, Lawrence). Model container stopped again.
+**Next action:** the other developer (32 GB machine) runs the `curricula` and `recorded` gates with `evaluation/memory_eligibility/` (README there); then owner decides on push/PR.
 
 ## Teammate frontend fixes (3 Nov, owner-directed; local commits, not pushed)
 

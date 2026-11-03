@@ -54,6 +54,14 @@ research/software work only: it grants no school approval, release activation or
   - Wording seen live and still open: one explanation used the internal word "all_of", and one said "your record
     shows" for a what-if.
 
+## Handoff: long live gates (owner, 3 Nov: run on the other developer's 32 GB machine)
+
+Run them with `evaluation/memory_eligibility/` (see its README): `offline` (passed 14/14 here), `scenarios`,
+`curricula` (every release member) and `recorded` (113 questions). Here the `curricula` gate was stopped at the
+owner's request after its first curriculum: `abcomm-2018-2019` passed 3/3. Neither `curricula` nor `recorded` has a
+complete result yet. Every answer now records `explanation_check` (accepted/rejected/unavailable/skipped) and the
+validator's error codes, so the explanation acceptance rate can be measured on those runs.
+
 ## Open gates (not done; do not report as passing)
 
 - The live runs above go through the chat turn path in-process, not the HTTP `POST /chat` stream or the browser, and
