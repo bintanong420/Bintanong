@@ -50,7 +50,7 @@ def test_a_year_standing_condition_names_no_course_so_it_cannot_make_a_list_part
     assert result.unknown_conditions == (f'rule_unresolved:{term.cid("SYN 280")}',)  # the printed group condition
 
 
-def ask(text, target, language='en', claims=()):
+def ask(text, target, language='en', claims=(), part=None):
     runtime = CurriculumRuntime(ledger())
     pin = ReleasePin.parse(dict(release_id=runtime.release_id, synthetic=True, rule_bundle_version=runtime.rule_bundle_version,
                                 sources=[dict(version_id=SOURCE.version_id, byte_sha256=SOURCE.byte_sha256)], documents=[]))
@@ -64,7 +64,9 @@ def ask(text, target, language='en', claims=()):
     start = text.index(target)
     value = proposal(text=text, language=language, mentions=[dict(kind='course', text=target, start=start, end=start + len(target))],
                      claims=list(claims), operations=[dict(name='list_affected_courses', target=0)])
-    value['parts'] = [dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured', operation_indices=[0])]
+    part = text if part is None else part
+    value['parts'] = [dict(part_id='r1', text=part, start=text.index(part), end=text.index(part) + len(part),
+                           evidence_need='structured', operation_indices=[0])]
     style = style_proposal(language, english=[text.split()[0]] if language == 'en' else [], filipino=[] if language == 'en' else [text.split()[0]])
     integration = asyncio.run(Orchestrator(FakeTransport(json.dumps(value), style_outputs=[json.dumps(style)]),
         releases=SyntheticReleaseProvider(resources)).run(text, RequestContext.parse(context(curriculum_id='curriculum-synthetic-1'))))
@@ -106,3 +108,11 @@ def test_a_named_term_with_no_affected_course_says_so_and_names_later_ones():
     assert student_text(answer).splitlines()[:2] == [
         'In first year, second semester, no course needs SYN 131.',
         'Courses in other terms that need it: SYN 251 (second year, second semester).']
+
+
+
+def test_the_year_is_read_from_the_whole_question_even_outside_the_asked_part():
+    # Live 4 Nov 2026: the model quoted only the question sentence; "Im currently second year" stood outside it.
+    text = "Im currently second year. What can't I take in second semester if I fail SYN 131?"
+    answer = ask(text, 'SYN 131', part="What can't I take in second semester if I fail SYN 131?")
+    assert student_text(answer).splitlines()[0] == 'In second year, second semester, failing SYN 131 blocks: SYN 251.'

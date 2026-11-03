@@ -37,6 +37,7 @@ class PreparedEvidence:
     field_quotes: tuple[tuple[str,str,str,str],...]=()  # subject,claim,evidence id,exact text
     assumptions: tuple[str,...]=()  # what-if premises '<state>:<course id>' (request-only)
     term_assessment: object=None  # TermAssessmentResult: each course of one term checked, rendered by the host
+    asked_term: tuple|None=None  # (year, semester) the whole question names, read by the host (display only)
 
     def model_payload(self):
         payload = dict(release_id=self.release_id,language=self.language,route=self.route,

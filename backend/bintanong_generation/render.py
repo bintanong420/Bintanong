@@ -366,9 +366,7 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             if pack.structured_context is not None else None
         if canonical_allowed and target is not None:  # owner report, 4 Nov 2026: answer, never a list of unknowns
             from .dependency_reply import dependency_lines
-            from ..bintanong_routing.terms import parse_term
-            asked=parse_term(' '.join(p.text for p in pack.understanding.parts)) if pack.understanding else None
-            reply=dependency_lines(pack.dependencies,target,pack.language,shown,term=asked)
+            reply=dependency_lines(pack.dependencies,target,pack.language,shown,term=pack.asked_term)
             lines.extend(reply)
             if pack.assumptions:
                 from .student_facts_reply import assumption_text
