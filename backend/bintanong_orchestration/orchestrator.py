@@ -201,7 +201,7 @@ class Orchestrator:
             # Recheck metadata at this request boundary; the provider is trusted.
             return ReleaseResources(value.pin, value.catalog, value.registry,
                                     value.retrieval, value.symbolic, value.topics, value.document_scope,
-                                    value.course_labels)
+                                    value.course_labels, value.course_details)  # choice labels (live #12, 3 Nov)
 
         resources, failure = await stage('release', pin_release)
         if failure:
