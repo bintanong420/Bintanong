@@ -128,3 +128,24 @@ Once the coordinator has normal Git access, split the shared wire/validation hun
 Coordinator splits the four bug commits and runs the 23 environment-blocked tests and live checks with
 normal Git/process permissions. Do not repeat completed offline setup. Offline success does not establish
 live accuracy or school approval. `phase_state.py validate` and final `git diff --check` passed.
+
+## Coordinator audit (Claude, 4 Nov 2026)
+
+- Committed as one commit (`e9efcfc5`), not four: the fixes share hunks in wire.py and validation.py and non-interactive
+  hunk splitting was not available; the commit message names all four. Codex's current_progress.md edit was left out
+  (the file carries an uncommitted owner paragraph on p12).
+- Full requested suites with normal permissions, including the 23 sandbox-blocked cases: 2065 passed, 2 xfailed, 0 failed.
+- Regression strength: the five changed/new test files run against the pre-fix code (`8a4a89b8`) give 18 failed /
+  32 passed; on the fix all pass.
+- Code review: the wire placeholder exception is narrow (zero declared parts, one empty unknown part, no operation,
+  topic or claim); the dropped claim must target both a discarded operation and a program/curriculum mention; the
+  punctuation trim applies only when the trimmed text is a reviewed alias and the untrimmed one is not; facts_noted
+  requires every claim asserted, no "?", no document part and no unclaimed words besides joining words, so friend,
+  hypothetical and question messages are not saved. The orchestrator change fixes a real cross-curriculum fact leak
+  after a track switch (facts are filtered to the resolved scope).
+- Notes, not defects: the shifting destination rule names the two shifting topic ids in validation.py (same pattern as
+  existing topic companions); a course missing from the switched track renders the existing "not among the reviewed
+  courses of your curriculum" text, which reads slightly off for another track.
+- Live (`ca82cc22`): all 30 implemented conversations pass; bare program name and the eligibility track switch now
+  work; open: the shifting follow-up "ilang units ang mate-transfer?" routes to transfer credentials, and the Filipino
+  bare-name follow-up "yung subjects" fails.
