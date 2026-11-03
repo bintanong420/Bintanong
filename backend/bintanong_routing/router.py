@@ -130,6 +130,49 @@ def answer_transfer_direction(proposed, menu, text, conversation):
                                                if m['kind'] != 'course']))
 
 
+# Owner GUI 3 Nov 2026 ("memory system"): a short follow-up naming one detail ("magkano naman?") after a procedure
+# answer re-asks the previous topic for that detail, when the router would otherwise ask an empty clarification.
+_DETAIL_CUES = {
+    'fees': re.compile(r'\b(magkano|how much|fees?|bayad|babayaran|cost|presyo)\b', re.I),
+    'processing_time': re.compile(r'\b(gaano\s+(katagal|kabilis)|how long|ilang\s+araw|processing time|tagal)\b', re.I),
+    'requirements': re.compile(r'\b(requirements?|kailangan(g)?\s+dalhin|dadalhin|what (do|should) i (need|bring))\b', re.I),
+}
+
+
+def answer_detail_follow_up(proposed, menu, text, conversation):
+    if conversation is None or conversation.subject_id is None or len(text.split()) > 6:
+        return None
+    if proposed.control != 'clarify' and any(p.evidence_need == 'document' and p.subject_id for p in proposed.parts):
+        return None
+    named = [detail for detail, cue in _DETAIL_CUES.items() if cue.search(text)]
+    topic = next((t for t in menu if t.subject_id == conversation.subject_id), None)
+    if len(named) != 1 or topic is None:
+        return None
+    part = dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='document', operation_indices=[],
+                subject_id=topic.subject_id, requested_claims=[c for c in topic.claims if c not in topic.not_stated][:8],
+                detail=named[0])
+    return Interpretation.parse(dict(proposed.model_dump(mode='json'), parts=[part], route='RAG', control=None,
+                                     claims=[], ambiguities=[], operations=[],
+                                     mentions=[m for m in proposed.model_dump(mode='json')['mentions']
+                                               if m['kind'] != 'course']))
+
+
+# Owner GUI 3 Nov 2026 ("memory system"): "pano yung CS 10/L?" after a prerequisite question keeps that check;
+# the router read it as a course-facts lookup. Only a short how-about message naming one course is changed.
+_HOW_ABOUT = re.compile(r'^\s*(pano|paano|e|eh|ee|how|what)\s+(yung|about|naman|kung)\b', re.I)
+_COURSE_CHECKS = ('check_prerequisite_eligibility', 'list_missing_prerequisites')
+
+
+def repeat_previous_check(proposed, text, conversation):
+    if (conversation is None or conversation.operation not in _COURSE_CHECKS or len(text.split()) > 6
+            or not _HOW_ABOUT.search(text) or len(proposed.operations) != 1
+            or proposed.operations[0].name != 'course_facts'):
+        return None
+    value = proposed.model_dump(mode='json')
+    value['operations'][0]['name'] = conversation.operation
+    return Interpretation.parse(value)
+
+
 def transfer_direction_unstated(proposed, topics, text):
     families = {t.subject_id: t.family for t in topics}
     return (any(families.get(p.subject_id) in TRANSFER_FAMILIES for p in proposed.parts)
@@ -437,7 +480,9 @@ class Router:
                         prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
                     proposed = answer_years_to_graduate(lead_absence_with_attendance(
                         prefer_good_moral_checklist(proposed, topics), topics), topics, text)
-                    resolved = answer_transfer_direction(proposed, self.topics, text, context.conversation)
+                    resolved = (answer_transfer_direction(proposed, self.topics, text, context.conversation)
+                                or answer_detail_follow_up(proposed, self.topics, text, context.conversation)
+                                or repeat_previous_check(proposed, text, context.conversation))
                     if resolved is not None:  # owner GUI 3 Nov 2026: the reply to the direction question
                         proposed = resolved
                 except (ValueError, ValidationError) as error:

@@ -120,3 +120,33 @@ def test_a_question_naming_an_excluded_program_gets_the_scope_notice(text):
 @pytest.mark.parametrize('text', ['Is there a law subject in my program?', 'Where do I file slip S for my faculty adviser?'])
 def test_ordinary_undergraduate_wording_is_not_an_excluded_program(text):
     assert route(text, 'fictional_office').decision.dispatchable
+
+# Owner GUI 3 Nov 2026 ("memory system"): "magkano naman?" after a procedure answer re-asks that topic for its fee.
+def detail_follow_up(text, subject='fictional_office', clarify=True):
+    from test_routing_contracts import context
+    reply = answer(subject, (MENU_CLAIMS[subject],), text=text)
+    if clarify:
+        reply = reply.replace('"control": null', '"control": "clarify"').replace('"route": "RAG"', '"route": null')
+    result, _ = run(Transport(selected((subject,)), reply, text=text), text=text, topics=MENU,
+                    ctx=context(conversation=dict(subject_id=subject, detail='whole')))
+    return result
+
+
+@pytest.mark.parametrize('text,detail', [('magkano naman?', 'fees'), ('how much is it?', 'fees'),
+                                         ('gaano katagal?', 'processing_time'), ('ano ang requirements?', 'requirements')])
+def test_a_short_detail_follow_up_re_asks_the_previous_topic(text, detail):
+    result = detail_follow_up(text)
+    assert result.decision.dispatchable and result.decision.route == 'RAG'
+    part, = result.proposed.parts
+    assert (part.subject_id, part.detail) == ('fictional_office', detail)
+
+
+def test_a_detail_word_without_a_previous_topic_is_left_to_the_router():
+    result = detail_follow_up('magkano naman?')
+    assert result.proposed.parts[0].subject_id == 'fictional_office'
+    from test_routing_contracts import context
+    reply = answer('fictional_office', (MENU_CLAIMS['fictional_office'],), text='magkano naman?').replace(
+        '"control": null', '"control": "clarify"').replace('"route": "RAG"', '"route": null')
+    alone, _ = run(Transport(selected(('fictional_office',)), reply, text='magkano naman?'), text='magkano naman?',
+                   topics=MENU, ctx=context())
+    assert not alone.decision.dispatchable

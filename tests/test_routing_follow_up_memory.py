@@ -52,3 +52,32 @@ def test_without_a_previous_term_a_semester_alone_still_asks_for_the_year():
 def test_memory_holds_no_text():
     assert set(ConversationContext.model_fields) <= {'program_id', 'curriculum_id', 'course_id', 'subject_id', 'pending',
                                                      'detail', 'operation', 'year_level', 'semester'}
+
+def test_a_fact_only_part_is_folded_into_the_check_it_qualifies():
+    # Owner GUI 3 Nov 2026 (image 18): "Pwede ko bang i-take ang BU-3/L next sem? Hindi pa ako passed sa BU-2/L."
+    # was split into a check part and a fact-only part, and the fact-only part made the reply an empty clarify.
+    from test_routing_contracts import proposal
+    from test_routing_validation import validate as plain
+    text = 'Can I take B1? Not passed A1.'
+    value = proposal(text=text, mentions=[dict(kind='course', text='B1', start=11, end=13),
+                                          dict(kind='course', text='A1', start=26, end=28)],
+                     claims=[dict(entity=1, state='failed', mode='asserted', text='Not passed A1.', start=15, end=29)],
+                     operations=[dict(name='check_prerequisite_eligibility', target=0)],
+                     parts=[dict(part_id='r1', text='Can I take B1?', start=0, end=14, evidence_need='structured',
+                                 operation_indices=[0]),
+                            dict(part_id='r2', text='Not passed A1.', start=15, end=29, evidence_need='structured',
+                                 operation_indices=[])])
+    result = plain(text, value)
+    assert result.diagnostic == 'validated' and result.decision.predicate_request.predicate == 'check_prerequisite_eligibility'
+    assert [(c.course_id, c.state) for c in result.claims] == [('course-a', 'failed')]
+
+def test_how_about_another_course_keeps_the_previous_check():
+    # Owner GUI 3 Nov 2026: "pano yung CS 10/L?" after a prerequisites question was answered with course units.
+    from backend.bintanong_routing.router import repeat_previous_check
+    from test_routing_contracts import proposal
+    value = Interpretation.parse(proposal(text='pano yung A1?', mentions=[dict(kind='course', text='A1', start=10, end=12)],
+                                          operations=[dict(name='course_facts', target=0)]))
+    before = ConversationContext.parse(dict(operation='list_missing_prerequisites'))
+    assert repeat_previous_check(value, 'pano yung A1?', before).operations[0].name == 'list_missing_prerequisites'
+    assert repeat_previous_check(value, 'How many units is A1?', before) is None
+    assert repeat_previous_check(value, 'pano yung A1?', ConversationContext.parse(dict(operation='list_term_courses'))) is None
