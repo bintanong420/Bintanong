@@ -40,6 +40,10 @@ Guests are public while the tunnel is up; Google sign-in via the tunnel needs `<
 Capacity: 1 running + 4 waiting answers, then 503 `answers_busy`; no per-client rate limit. Frontend now retries a busy
 refusal every 15 s (4 times, then manual Try again), with Try again now/Cancel and no interrupted bubble
 (browser test `busy-retry.mjs` 3/3).
+Per-person limit (`81bf231`, `a25c44b`, owner): 5 admitted questions per 5 min, per account or per guest browser
+(anonymous `__Host-bintanong_client` cookie, survives New chat; clearing cookies resets it; IP limits rejected for shared
+campus networks). 429 `rate_limited` + `retryAfter`; UI waits m:ss and auto-sends. Verified: API tests 197+5 pass,
+browser 7/7, live via proxy: 5 answered, 6th 429 (239 s), still 429 after New chat. API restarted (pid in launcher-logs).
 
 ## Stack launcher (2 Nov)
 
