@@ -1,4 +1,5 @@
 import type { StudentCurriculum } from "./student-contracts";
+import { prerequisiteQuestions } from "./prerequisite-questions.ts";
 
 // Student-phrased versions of the eight Student Handbook FAQ items (retrieval samples).
 export const handbookFaqQuestions = [
@@ -12,21 +13,19 @@ export const handbookFaqQuestions = [
   "How do I shift to another program?",
 ];
 
-/**
- * Prerequisite eligibility samples: three per curriculum ID, 39 curricula (BSCS 2018-2019 and
- * BSCS 2025-2026 are separate entries).
- * PLACEHOLDER: awaiting another developer's handover of the 39 x 3 questions. Until a curriculum
- * has its three entries, it shows the Handbook FAQ samples only.
- */
-export const prerequisiteQuestions: Record<string, string[]> = {};
+/** Three different FAQ questions; `random` returns [0, 1) like Math.random. */
+export function pickFaqQuestions(random: () => number = Math.random): string[] {
+  const pool = [...handbookFaqQuestions], picked: string[] = [];
+  while (picked.length < 3) picked.push(pool.splice(Math.floor(random() * pool.length), 1)[0]);
+  return picked;
+}
 
-export type SampleQuestionSet = { kind: "faq" | "prerequisite"; label: string; questions: string[] };
+export type SampleQuestionSet = { kind: "faq" | "prerequisite"; questions: string[] };
 
-export function sampleQuestionSets(scope: StudentCurriculum | null, table: Record<string, string[]> = prerequisiteQuestions): SampleQuestionSet[] {
-  const faqPages = [0, 3, 6].map(start => ({ kind: "faq" as const, label: "From the Student Handbook FAQ",
-    questions: [0, 1, 2].map(offset => handbookFaqQuestions[(start + offset) % handbookFaqQuestions.length]) }));
+/** Two alternating sets: three random FAQs, then the selected curriculum's prerequisite checks. */
+export function sampleQuestionSets(scope: StudentCurriculum | null, table: Record<string, string[]> = prerequisiteQuestions,
+  random: () => number = Math.random): SampleQuestionSet[] {
+  const faq: SampleQuestionSet = { kind: "faq", questions: pickFaqQuestions(random) };
   const prerequisites = scope ? table[scope.curriculumId]?.slice(0, 3) : undefined;
-  if (!scope || !prerequisites || prerequisites.length < 3) return faqPages;
-  const prerequisiteSet = { kind: "prerequisite" as const, label: `Prerequisite checks · ${scope.curriculumName} curriculum`, questions: prerequisites };
-  return faqPages.flatMap(page => [page, prerequisiteSet]);
+  return prerequisites?.length ? [faq, { kind: "prerequisite", questions: prerequisites }] : [faq];
 }
