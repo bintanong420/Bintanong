@@ -109,3 +109,11 @@ test('a typed program name selects that program and resends the original questio
     { text: 'What are my first-term subjects?\n\nSynthetic program · Reviewed edition', scope: { programId: 'program-a', curriculumId: 'curriculum-a' } });
   assert.deepEqual(typedReply('What are my first-term subjects?', program, 'Another program', curricula), { text: 'Another program', scope: null });
 });
+
+// Owner GUI 3 Nov 2026 (#12 follow-up): after an answer, typing another program name asks the last question again for
+// that program; the server keeps ids only, so the name alone had no question.
+test('a typed program name after an answer asks the last question for that program', () => {
+  assert.deepEqual(typedReply('What are my first-term subjects?\n\nOther program · 2018', null, 'Synthetic program', curricula),
+    { text: 'What are my first-term subjects?\n\nSynthetic program · Reviewed edition', scope: { programId: 'program-a', curriculumId: 'curriculum-a' } });
+  assert.deepEqual(typedReply('What are my first-term subjects?', null, 'What about Ethics?', curricula), { text: 'What about Ethics?', scope: null });
+});

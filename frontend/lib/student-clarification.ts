@@ -73,11 +73,14 @@ export function clarificationReply(original: string, answer: Answer, curricula: 
 // the dialog choice is; the server keeps ids only, so the reply alone loses what was asked. Too long: the reply alone.
 // Owner GUI 3 Nov 2026 (#12): a typed program name answering "Which program is this for?" selects that program, as
 // the dialog choice does; a name with several curricula, or no match, is sent as typed.
-export function typedReply(original: string, answer: Answer, typed: string, curricula: StudentCurriculum[]): { text: string; scope: StudentScope | null } {
+// With no pending question (answer null), a typed program name asks the last question again for that program; the
+// last question is its first paragraph, before any choice lines the GUI appended.
+export function typedReply(original: string, answer: Answer | null, typed: string, curricula: StudentCurriculum[]): { text: string; scope: StudentScope | null } {
   const reply = typed.trim(), alone = { text: reply, scope: null };
+  if (!answer) original = original.split("\n\n")[0];
   if (!original.trim()) return alone;
   let line = reply, scope: StudentScope | null = null;
-  if (answer.missingFields.includes("program")) {
+  if (!answer || answer.missingFields.includes("program")) {
     const named = curricula.filter(c => c.programName.trim().toLowerCase() === reply.toLowerCase());
     if (named.length !== 1) return alone;
     line = `${named[0].programName} · ${named[0].curriculumName}`;

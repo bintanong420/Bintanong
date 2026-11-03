@@ -122,7 +122,8 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
     if (flight.current || signInNeeded || !state.draft.trim()) return;
     try {
       const text = followUpMessage(state.draft, scope, details, selectedDetails);
-      const typed = clarification ? typedReply(clarification.original, clarification.answer, state.draft, curricula) : null;
+      const last = state.messages.findLast(m => m.role === "user")?.text ?? "";
+      const typed = typedReply(clarification?.original ?? last, clarification?.answer ?? null, state.draft, curricula);
       if (selectedDetails.length) setReview({ text, scope });
       else if (typed && typed.text !== state.draft.trim()) {
         if (typed.scope) changeScope(curricula.find(c => sameScope(c, typed.scope)) ?? null);
