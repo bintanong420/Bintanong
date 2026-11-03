@@ -235,20 +235,33 @@ def _without(text, code):
     return re.sub(r'(?<![\w-])' + pattern + r'(?![\w-])', ' ', text, flags=re.I)
 
 
-def explanation_errors(pack, explanation, language=None, label=str):
+def _shared_errors(pack, explanation, language, allowed):
+    """Checks every Bintu explanation gets: reply language, size, only checked courses, no internal names, no
+    enrollment promise and no private reference."""
     errors = []
     if language is not None and language != _lang(pack.language):
         errors.append('wrong_language')
     if not explanation.strip() or len(explanation) > 400:
         errors.append('empty_or_long')
-    allowed = {label(c) for c in (_target(pack), *(_referenced(pack.requirement) if pack.requirement else ()),
-               *(c.split(':', 1)[1] for c in pack.decision.satisfied_conditions + pack.decision.violated_conditions
-                 + pack.decision.missing_facts + pack.decision.unknown_conditions if ':' in c))}
     residue = explanation
     for code in sorted(allowed, key=len, reverse=True):
         residue = _without(residue, code)
     if _CODE.search(residue):  # any other course-like code is not in the checked evidence
         errors.append('unlisted_course')
+    if _INTERNAL.search(explanation):
+        errors.append('internal_term')
+    if _PROMISE.search(explanation):
+        errors.append('enrollment_promise')
+    if foreign_ids(explanation, 'institutional'):
+        errors.append('private_reference')
+    return errors
+
+
+def explanation_errors(pack, explanation, language=None, label=str):
+    allowed = {label(c) for c in (_target(pack), *(_referenced(pack.requirement) if pack.requirement else ()),
+               *(c.split(':', 1)[1] for c in pack.decision.satisfied_conditions + pack.decision.violated_conditions
+                 + pack.decision.missing_facts + pack.decision.unknown_conditions if ':' in c))}
+    errors = _shared_errors(pack, explanation, language, allowed)
     outcome = pack.decision.outcome
     if outcome in ('eligible', 'unknown') and _NEGATIVE.search(_verdict_text(explanation)):
         errors.append('reversed_verdict')
@@ -257,16 +270,10 @@ def explanation_errors(pack, explanation, language=None, label=str):
     kinds = _kinds(pack.requirement) if pack.requirement is not None else set()
     if (_BOTH.search(explanation) and 'all_of' not in kinds) or (_EITHER.search(explanation) and 'any_of' not in kinds):
         errors.append('wrong_connective')
-    if _INTERNAL.search(explanation):
-        errors.append('internal_term')
     if pack.assumptions and _RECORD.search(explanation):
         errors.append('what_if_called_record')
-    if _PROMISE.search(explanation):
-        errors.append('enrollment_promise')
     if _FAILURE.search(explanation):
         errors.append('failure_wording')
-    if foreign_ids(explanation, 'institutional'):
-        errors.append('private_reference')
     return tuple(dict.fromkeys(errors))
 
 
@@ -319,19 +326,10 @@ def term_explanation_messages(text, pack, label=str):
 
 def term_explanation_errors(pack, explanation, language=None, label=str):
     term = pack.term_assessment
-    errors = []
-    if language is not None and language != _lang(pack.language):
-        errors.append('wrong_language')
-    if not explanation.strip() or len(explanation) > 400:
-        errors.append('empty_or_long')
     reasons = {label(c.split(':', 1)[1]) for course in term.courses for c in (*course.violated, *course.missing)
                if ':' in c}
     allowed = {c.code for c in term.courses} | reasons
-    residue = explanation
-    for code in sorted(allowed, key=len, reverse=True):
-        residue = _without(residue, code)
-    if _CODE.search(residue):
-        errors.append('unlisted_course')
+    errors = _shared_errors(pack, explanation, language, allowed)
     waiting = {c.code for c in term.courses if c.group in ('blocked', 'needs_info')}
     met = {c.code for c in term.courses if c.group == 'met' and not c.retake} - reasons
     for sentence in re.split(r'[.;!?]', explanation):
@@ -340,12 +338,6 @@ def term_explanation_errors(pack, explanation, language=None, label=str):
             errors.append('reversed_verdict')
         if named & met and _NEGATIVE.search(_verdict_text(sentence)):
             errors.append('reversed_verdict')
-    if _INTERNAL.search(explanation):
-        errors.append('internal_term')
-    if _PROMISE.search(explanation):
-        errors.append('enrollment_promise')
-    if foreign_ids(explanation, 'institutional'):
-        errors.append('private_reference')
     return tuple(dict.fromkeys(errors))
 
 
