@@ -16,9 +16,9 @@ _SAFE_METHODS = frozenset({'GET', 'HEAD', 'OPTIONS'})
 
 
 class ApiError(Exception):
-    def __init__(self, status: int, code: str):
+    def __init__(self, status: int, code: str, *, retry_after: int | None = None):
         super().__init__(code)
-        self.status, self.code = status, code
+        self.status, self.code, self.retry_after = status, code, retry_after
 
 
 @dataclass(frozen=True)
