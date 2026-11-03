@@ -11,6 +11,7 @@ from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
+from ..bintanong_routing.validation import effective_facts, facts_for_term
 from ..bintanong_routing.combined import CombinedRouter
 from ..bintanong_routing.topic_selection import ABSENCE, ABSENCE_TOPICS, SHIFT, SHIFT_TOPICS
 from ..bintanong_symbolic.course_facts import CourseFactsResult
@@ -232,8 +233,10 @@ class Orchestrator:
             if route is not None:
                 # Bound the merged assertion set within the guarded routing stage.
                 # Nothing is persisted, and overflow cannot escape as an exception.
-                facts = (*context.facts, *(ScopedFact(**{name:getattr(c,name) for name in ScopedFact.model_fields})
-                    for c in value.claims if c.mode == 'asserted'))
+                # A what-if premise replaces the record for its course in this check only; nothing is persisted here.
+                facts = tuple(f if type(f) is ScopedFact else
+                              ScopedFact(**{name:getattr(f,name) for name in ScopedFact.model_fields})
+                              for f in facts_for_term(effective_facts(context.facts, value.claims), text))
                 scoped = RequestContext(session_id=context.session_id, request_id=context.request_id,
                     program_id=value.program_id or context.program_id,
                     curriculum_id=value.curriculum_id or context.curriculum_id, facts=facts)

@@ -109,12 +109,14 @@ A program named inside a question ("subjects of BSIT", "CC 5 in BSCS 2018-2019")
 mention, its school year a curriculum mention; a school year is never a term mention.
 An operation never targets a program/curriculum mention. Program requirements are not
 course prerequisites just because the word "requirements" occurs.
-claims capture every supplied explicit passed/failed/enrolled/not_enrolled statement, with mode asserted,
+claims capture every supplied explicit course result or enrollment statement, with mode asserted,
 hypothetical or reported. Their quote must contain the course mention and the complete relevant
 statement, including negation. Do not omit a stated condition because the target is a different course.
-A course stated as not passed, not yet passed or not taken yet (Filipino "hindi pa naipapasa",
-"di pa pasado", "hindi ko pa nakukuha") is a claim with state failed: failed means not completed,
-never a recorded failing grade. It is never passed and never omitted.
+Keep the result the student stated: passed (passed/pasado/naipasa), failed (failed/bagsak/did not pass),
+not_passed (not yet passed: "haven't passed", "hindi pa naipapasa", "di pa pasado"), not_taken (never or not yet
+taken: "haven't taken", "hindi ko pa nakukuha"), taken_unknown (took it, result not said: "natake ko na"),
+enrolled or not_enrolled (taking it this term or not). A negated course is never passed and never omitted.
+A message that only states results with no question has control clarify, its claims and operations [].
 asserted: the speaker directly supplies their own unqualified completion/enrollment premise,
 including a past-event clause attached to their own request. It is request-local supplied context,
 not a verified official grade or an instruction to write a record. Lack of official verification

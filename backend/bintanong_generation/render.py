@@ -291,6 +291,11 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='clarification_needed' and 'transfer_direction' in missing:
         lines[1]=_TRANSFER_DIRECTION.get(pack.language,_TRANSFER_DIRECTION['en'])
         missing=tuple(field for field in missing if field!='transfer_direction')
+    noted=[field for field in missing if field.startswith('noted_')]
+    if status=='clarification_needed' and noted:  # memory/eligibility plan: a result stated without a question
+        from .student_facts_reply import noted_text
+        lines[1]=noted_text(noted,pack.language,shown)
+        missing=tuple(field for field in missing if not field.startswith('noted_'))
     scope=[field for field in ('program_id','curriculum_id') if field in missing]
     if status=='clarification_needed' and lines[1]==words[status] and scope and set(missing)==set(scope):
         question,joiner,labels=_SCOPE_QUESTION.get(pack.language,_SCOPE_QUESTION['en'])

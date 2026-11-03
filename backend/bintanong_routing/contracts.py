@@ -14,7 +14,14 @@ Kind = Literal['program', 'curriculum', 'course']
 # A student's year/semester words ("first year, second sem"); read by the host, never a catalog entity.
 MentionKind = Literal['program', 'curriculum', 'course', 'term']
 TERM_OPERATIONS = ('list_term_courses',)  # operations whose target is a term mention
-State = Literal['passed', 'failed', 'enrolled', 'not_enrolled']
+# A course result as the student stated it (memory/eligibility plan, Task 1): an explicit failure, "not yet passed",
+# "never taken" and "took it, result not said" stay distinct; enrollment is a separate dimension.
+State = Literal['passed', 'failed', 'not_passed', 'not_taken', 'taken_unknown', 'enrolled', 'not_enrolled']
+COMPLETION_STATES = ('passed', 'failed', 'not_passed', 'not_taken', 'taken_unknown')
+
+
+def fact_dimension(state: str) -> str:
+    return 'completion' if state in COMPLETION_STATES else 'enrollment'
 Language = Literal['en', 'fil', 'taglish', 'unknown']
 
 
@@ -41,6 +48,11 @@ class ScopedFact(Record):
     curriculum_id: Identifier
     course_id: Identifier
     state: State
+    # Memory/eligibility plan, Task 2 (absent fields keep earlier dumps): who supplied the fact (an upload
+    # confirmation when absent), an opaque turn reference, and for enrollment the term it covers.
+    source: Literal['user_statement', 'private_upload'] | None = Field(default=None, exclude_if=lambda v: v is None)
+    ref: str | None = Field(default=None, pattern=r'^turn-[a-f0-9]{16}$', exclude_if=lambda v: v is None)
+    period: Literal['current', 'next'] | None = Field(default=None, exclude_if=lambda v: v is None)
 
 
 class ConversationContext(Record):
