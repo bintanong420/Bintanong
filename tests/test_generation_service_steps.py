@@ -132,7 +132,7 @@ def test_scoped_checklists_and_service_notes_keep_their_printed_scope():
     text = '\n'.join(t for t, _ in render_service(table, 'en'))
     assert 'Registration description' in text and '*Second copy needs a letter' in text
     assert text.index('CHECKLIST (In-Campus)') < text.index('Program proposal') < text.index('CHECKLIST (Out of Campus)') < text.index('Travel order')
-    assert '1. A SERVICE *Note: a condition' in text
+    assert 'A SERVICE *Note: a condition' in text
 
 
 def test_complete_unnumbered_record_rows_keep_their_local_columns_and_printed_total():
@@ -260,8 +260,7 @@ def test_same_number_staff_pairs_stay_separate_without_splitting_joint_labels():
     assert table is not None
     from backend.bintanong_generation.service_steps import render_service
     text = '\n'.join(t for t, _ in render_service(table, 'en'))
-    assert 'Person responsible: Assistant / Clerk\n    Office: Registrar' in text
-    assert 'Person responsible: Cashier staff\n    Office: Cashier office' in text
+    assert '   - Issue form and receipt (Registrar (Assistant / Clerk) · Cashier office (Cashier staff))' in text
     assert parse_service([('e', record(*fields[:-1]))]) is None
 
 
@@ -279,8 +278,8 @@ def test_phase_scoped_steps_preserve_reset_numbering_result_heading_and_requirem
     assert table is not None
     from backend.bintanong_generation.service_steps import render_service
     text = '\n'.join(t for t, _ in render_service(table, 'en'))
-    assert text.index('Step 2: 2. Receive permit') < text.index('FOR RESULT ISSUANCE') < text.index('Step 1: 1. Claim result')
-    assert 'Additional Requirement for Issuance of Result\n- Claim stub — where to secure: Client\n- ID — where to secure: Client' in text
+    assert text.index('2. Receive permit') < text.index('FOR RESULT ISSUANCE') < text.index('1. Claim result')
+    assert 'Additional Requirement for Issuance of Result\n- Claim stub\n- ID' in text
     assert parse_service([('e', record(*[f for f in fields if f[0] != 'result_phase_heading']))]) is None
 
 

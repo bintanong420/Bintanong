@@ -8,29 +8,38 @@ def table(*extra):
     return parse_service([('e1', FIRST), ('e2', SECOND), *extra])
 
 
-def test_overview_puts_office_and_each_requirement_on_its_own_line():
+# Owner 3 Nov 2026 ("go"): a plain lead, "What to bring", one line per step with its fee, time and office, and the
+# office actions in one sentence. Printed values stay verbatim; items the student supplies drop "where to secure".
+def test_overview_leads_plainly_and_lists_what_to_bring():
     overview, _ = render_service(table(), 'en')[0]
-    assert overview == ('2. ISSUANCE OF FICTIONAL CERTIFICATE\nOffice: Fictional Office\nRequirements:\n'
-                        '- Student ID (1 copy) — where to secure: Student\n- Copy of record — where to secure: Client')
+    assert overview == ("Here's the process for ISSUANCE OF FICTIONAL CERTIFICATE at the Fictional Office, based on "
+                        "the Citizen's Charter.\nWhat to bring:\n- Student ID (1 copy)\n- Copy of record")
 
 
-def test_each_column_and_each_office_action_starts_a_new_line():
+def test_each_step_is_one_line_with_its_fee_time_and_office_then_the_office_actions():
     claims = render_service(table(), 'en')
-    assert claims[1] == ('Steps to follow:\nStep 1: 1. Pay the fee\nFee: Php 100.00\nOffice actions:\n'
-                         '  1.1. Receive payment\n  1.2. Issue receipt\nPerson responsible: Cashier\n'
-                         'Office: Cashier Office\nProcessing time: 5 minutes', ('e1',))
-    assert claims[3][0] == ('Step 3: 3. Receive the certificate\nOffice actions:\n  3.1. Seal it\n'
-                            '    Person responsible: Counselor\n    Office: OSAS\n    Processing time: 1 minute\n'
-                            'Printed total: Php 100.00; 16 minutes')
+    assert claims[1] == ('Steps:\n1. Pay the fee\n   Fee: Php 100.00 · about 5 minutes · Cashier Office (Cashier)\n'
+                         '   What the office does: Receive payment; Issue receipt.', ('e1',))
+    assert claims[3][0] == ('3. Receive the certificate\n   about 1 minute · OSAS (Counselor)\n'
+                            '   What the office does: Seal it.\nTotal: Php 100.00 · about 16 minutes')
 
 
-def test_taglish_uses_tagalog_lead_ins_but_keeps_english_source_data_and_labels():
+def test_a_secured_item_names_where_it_comes_from():
+    extra = record(('requirement2', 'Official Receipt'), ('where_to_secure2', 'Cashier Office'))
+    overview = render_service(parse_service([('e1', FIRST), ('e2', SECOND), ('e3', extra)]), 'en')[0][0]
+    assert '- Official Receipt (from Cashier Office)' in overview
+    unspaced = record(('step1_client_step', '1. Pay'), ('step1_subaction1_action', '1.1. Pay'), ('step1_subaction2_action', '1.2.Issue receipt'))
+    assert 'What the office does: Pay; Issue receipt.' in render_service(parse_service([('e1', unspaced)]), 'en')[-1][0]
+
+
+def test_taglish_uses_tagalog_lead_ins_but_keeps_english_source_data():
     claims = render_service(table(), 'taglish')
-    assert claims[0][0].startswith('2. ISSUANCE OF FICTIONAL CERTIFICATE\nOffice: Fictional Office\n'
-                                   'Eto ang mga requirements na kailangan mo:\n- Student ID (1 copy) — where to secure: Student')
-    assert claims[1][0].startswith('Eto ang mga kailangan mong gawin:\nStep 1: 1. Pay the fee\nFee: Php 100.00')
+    assert claims[0][0] == ("Ito ang process para sa ISSUANCE OF FICTIONAL CERTIFICATE sa Fictional Office, ayon sa "
+                            "Citizen's Charter.\nDalhin:\n- Student ID (1 copy)\n- Copy of record")
+    assert claims[1][0].startswith('Steps:\n1. Pay the fee\n   Fee: Php 100.00 · mga 5 minutes · Cashier Office (Cashier)\n'
+                                   '   Gagawin ng office: Receive payment; Issue receipt.')
+    assert 'Walang fee' in claims[2][0]
     assert render_service(table(), 'fil') == claims
-
 
 def test_printed_defects_are_shown_as_printed_with_the_original_document_note():
     held = parse_service([('e1', FIRST), ('e2', limited('malformed_source_condition'))])
@@ -69,9 +78,8 @@ def test_a_step_longer_than_one_claim_continues_in_the_next_claim_without_changi
     assert len(claims) >= 2 and all(len(t) <= 1200 for t, _ in claims)
     assert claims[1][0].startswith('Step 1 (continued):\n')
     joined = '\n'.join(t for t, _ in claims)
-    for k in range(1, 7):
-        assert f'  1.{k}. ' + ('Verify the submitted document carefully. ' * 6).rstrip().rstrip('.') in joined
-    assert joined.index('1.1.') < joined.index('1.6.') < joined.index('Processing time: 1 day')
+    line = '   - ' + ('Verify the submitted document carefully. ' * 6).rstrip().rstrip('.')
+    assert joined.count(line) == 6 and joined.index('about 1 day') < joined.index(line)
 
 
 def test_long_checklist_splits_with_exact_item_citations_without_raising_claim_limits():
@@ -86,7 +94,7 @@ def test_long_checklist_splits_with_exact_item_citations_without_raising_claim_l
     for n in range(1, 11):
         matching = [(t, ids) for t, ids in claims if f'Item {n}:' in t]
         assert len(matching) == 1 and f'req{n}' in matching[0][1]
-    assert 'Eto ang mga requirements' in claims[0][0]
+    assert 'Dalhin:' in claims[0][0] and ' (kunin sa Office 1)' in claims[0][0]
 
 
 # Owner 28 Oct 2026: answer only the printed detail that was asked (the whole service when asked for everything).
@@ -111,7 +119,8 @@ def test_a_not_stated_note_is_left_out_of_a_fee_answer_and_other_notes_read_as_a
 
 def test_requirements_detail_is_the_checklist_without_steps():
     claims = render_service(table(), 'en', detail='requirements')
-    assert claims == render_service(table(), 'en')[:1]
+    assert claims == (('2. ISSUANCE OF FICTIONAL CERTIFICATE\nOffice: Fictional Office\nRequirements:\n'
+                       '- Student ID (1 copy) — where to secure: Student\n- Copy of record — where to secure: Client', ('e1',)),)
 
 
 def test_time_detail_lists_printed_processing_times_and_total():

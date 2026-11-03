@@ -410,33 +410,80 @@ def _columns(source, keys, indent):
             if key in keys and getattr(source, key) is not None]
 
 
-def _step_units(step):
-    """Indivisible line blocks: header, each office action with its own columns, shared columns."""
-    header = ([step.heading] if step.heading else []) + [f'Step {step.number}: {_end(step.client_step)}']
-    if step.fee is not None:
-        header.append(f'Fee: {_value(step.fee)}')
-    header += list(step.notes)
-    units = [header + ['Office actions:']]
+# Owner 3 Nov 2026 ("go"): conversational whole-procedure layout; printed values stay verbatim.
+WHOLE = dict(
+    en=dict(lead="Here's the process for {title}{office}, based on the Citizen's Charter.", at=' at the {office}',
+            bring='What to bring:', source=' (from {where})', steps='Steps:', free='No fee', fee='Fee: {fee}',
+            time='about {time}', does='What the office does:', total='Total: {total}'),
+    taglish=dict(lead="Ito ang process para sa {title}{office}, ayon sa Citizen's Charter.", at=' sa {office}',
+                 bring='Dalhin:', source=' (kunin sa {where})', steps='Steps:', free='Walang fee', fee='Fee: {fee}',
+                 time='mga {time}', does='Gagawin ng office:', total='Total: {total}'))
+SELF_SUPPLIED = ('student', 'client')  # printed "where to secure" for an item the student brings
+_NUMBERED = re.compile(r'^\d+(?:\.\d+)*\.\s*|^\d+(?:\.\d+)+\s+')
+
+
+def _fee(fee, words):
+    return words['free'] if fee == 'None' else words['fee'].format(fee=_value(fee))
+
+
+def _time(time, words):
+    return f'Processing time: {BLANK}' if time == '' else words['time'].format(time=_end(time))
+
+
+def _where(person, office):
+    """'Office (Person)'; a missing or blank column is shown as printed."""
+    if office is None:
+        return _value(person) if person is not None else None
+    return f'{_value(office)} ({_value(person)})' if person is not None else _value(office)
+
+
+def _cols(action, keys, words):
+    cols = []
+    if 'time' in keys and action.time is not None:
+        cols.append(_time(action.time, words))
+    if 'person' in keys or 'office' in keys:
+        place = _where(action.person if 'person' in keys else None, action.office if 'office' in keys else None)
+        if place:
+            cols.append(place)
+    cols += [_where(p, o) for p, o in action.staff]
+    if action.window is not None:
+        cols.append(_value(action.window))
+    if action.fee is not None:
+        cols.append(_fee(action.fee, words))
+    return cols
+
+
+def _step_units(step, key='en'):
+    """Indivisible line blocks: the step with its fee/time/office line, then what the office does. Actions with their
+    own columns keep them on their own line (service-table association policy)."""
+    words = WHOLE[key]
+    client = _end(step.client_step)
+    header = ([step.heading] if step.heading else []) + [client if re.match(r'^\d', client) else f'{step.number}. {client}']
+    info = [_fee(step.fee, words)] if step.fee is not None else []
     own = [k for k, _ in LABELS if k not in step.shared]
-    for action in step.actions:
-        unit = [f'  {_end(action.action)}', *_columns(action, own, '    ')]
-        if action.window is not None:
-            unit.append(f'    {_value(action.window)}')
-        for person, office in action.staff:
-            unit += [f'    Person responsible: {_value(person)}', f'    Office: {_value(office)}']
-        if action.fee is not None:
-            unit.append(f'    Fee: {_value(action.fee)}')
-        units.append(unit)
-    shared = _columns(step.actions[0], step.shared, '')
-    if shared:
-        units.append(shared)
+    single = len(step.actions) == 1 and not step.actions[0].staff and step.actions[0].window is None
+    info += _cols(step.actions[0], step.shared if not single else [k for k, _ in LABELS], words) if (
+        single or step.shared) else []
+    if info:
+        header.append('   ' + ' · '.join(info))
+    header += list(step.notes)
+    actions = [_NUMBERED.sub('', _end(a.action)) for a in step.actions]
+    if single or not any(_cols(a, own, words) for a in step.actions):
+        compact = header + [f"   {words['does']} {'; '.join(actions)}."]
+        if len('\n'.join(compact)) <= PIECE_CHARS:
+            return [compact]
+        return [header + [f"   {words['does']}"]] + [[f'   - {text}'] for text in actions]  # too long for one line
+    units = [header + [f"   {words['does']}"]]
+    for action, text in zip(step.actions, actions):
+        cols = _cols(action, own, words)
+        units.append([f'   - {text}' + (f" ({' · '.join(cols)})" if cols else '')])
     return units
 
 
-def _step_pieces(step):
+def _step_pieces(step, key='en'):
     """One text per claim; a step too long for one claim continues as 'Step N (continued):'."""
     pieces, current = [], []
-    for unit in _step_units(step):
+    for unit in _step_units(step, key):
         if current and len('\n'.join(current + unit)) > PIECE_CHARS:
             pieces.append('\n'.join(current))
             current = [f'Step {step.number} (continued):']
@@ -538,22 +585,34 @@ def render_service(table, language, max_claims=8, detail='whole'):
     def sources(name):
         return tuple(dict.fromkeys(e for n, e in table.field_evidence if n == name)) or table.overview_evidence_ids
 
+    words = WHOLE[key]
+    whole = detail == 'whole'
     overview = []
-    if table.title:
-        overview.append((_end(table.title), sources('service_title')))
-    if table.office:
-        overview.append((f'Office: {table.office}', sources('office')))
+    if whole and table.title:
+        office = words['at'].format(office=_end(table.office)) if table.office else ''
+        overview.append((words['lead'].format(title=_NUMBERED.sub('', _end(table.title)), office=office),
+                         tuple(dict.fromkeys((*sources('service_title'), *(sources('office') if office else ()))))))
+    else:
+        if table.title:
+            overview.append((_end(table.title), sources('service_title')))
+        if table.office:
+            overview.append((f'Office: {table.office}', sources('office')))
     overview += [(_end(note), sources(f'note{i}')) for i, note in enumerate(table.notes)]
     if table.checklist:
         headings = dict(table.checklist_headings)
         for index, (r, w) in enumerate(table.checklist):
             lines, ids = [], sources(f'item{index}')
             if index == 0:
-                lines.append(LEADS[key]['requirements'])
+                lines.append(words['bring'] if whole else LEADS[key]['requirements'])
             if index in headings:
                 lines.append(headings[index])
                 ids = tuple(dict.fromkeys((*ids, *sources(f'heading{index}'))))
-            lines.append(f'- {_end(r)}' + (f' — where to secure: {_end(w)}' if w else ''))
+            if not whole:
+                lines.append(f'- {_end(r)}' + (f' — where to secure: {_end(w)}' if w else ''))
+            elif w and _end(w).casefold() not in SELF_SUPPLIED:
+                lines.append(f'- {_end(r)}' + words['source'].format(where=_end(w)))
+            else:
+                lines.append(f'- {_end(r)}')
             overview.append(('\n'.join(lines), ids))
     claims = []
     for text, ids in overview:
@@ -572,10 +631,12 @@ def render_service(table, language, max_claims=8, detail='whole'):
     if table.printed_total is not None:
         tail.append(table.printed_total)
     if table.total_fee is not None or table.total_time is not None:
-        tail.append('Printed total: ' + '; '.join(_value(v) for v in (table.total_fee, table.total_time) if v is not None))
+        parts = ([_value(table.total_fee)] if table.total_fee is not None else []) + (
+            [_time(table.total_time, words)] if table.total_time is not None else [])
+        tail.append(words['total'].format(total=' · '.join(parts)))
     tail += limits
     budget = max_claims - len(claims)
-    groups = [[(piece, step.evidence_ids)] for step in table.steps for piece in _step_pieces(step)]
+    groups = [[(piece, step.evidence_ids)] for step in table.steps for piece in _step_pieces(step, key)]
     while len(groups) > budget:  # merge the consecutive pair that stays smallest
         options = [(len('\n'.join(t for t, _ in groups[i] + groups[i+1])), i) for i in range(len(groups) - 1)]
         if not options:
@@ -583,7 +644,7 @@ def render_service(table, language, max_claims=8, detail='whole'):
         _, i = min(options)
         groups[i:i+2] = [groups[i] + groups[i+1]]
     for index, group in enumerate(groups):
-        lines = [LEADS[key]['steps']] if index == 0 else []
+        lines = [words['steps']] if index == 0 else []
         lines += [t for t, _ in group]
         ids = tuple(dict.fromkeys(e for _, evidence in group for e in evidence))
         if index == len(groups) - 1:

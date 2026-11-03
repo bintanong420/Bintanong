@@ -42,7 +42,7 @@ def test_a_parsed_service_is_answered_with_printed_steps_and_no_model_call():
     answer = asyncio.run(Generator(model).generate(TEXT, integration()))
     assert answer.status == 'answered' and model.calls == []
     assert [(c.text, c.evidence_ids) for c in answer.claims] == list(expected(prepare(integration())))
-    assert 'Step 1: 1. Pay the fee' in answer.text and 'Printed total: Php 100.00; 16 minutes' in answer.text
+    assert '1. Pay the fee' in answer.text and 'Total: Php 100.00 · about 16 minutes' in answer.text
 
 
 def test_other_parts_are_still_explained_by_the_model_beside_the_printed_steps():
