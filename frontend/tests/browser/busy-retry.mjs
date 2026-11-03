@@ -15,7 +15,7 @@ function answer(route) {
     body: parts.map(part => 'data: ' + JSON.stringify(part) + '\n\n').join('') + 'data: [DONE]\n\n' });
 }
 
-async function open(busyCalls) {
+async function open(busyCalls, refusal = { status: 503, json: { error: 'answers_busy' } }) {
   const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
@@ -25,7 +25,7 @@ async function open(busyCalls) {
   await page.route('**/api/curricula', route => route.fulfill({ json: { curricula } }));
   await page.route('**/api/chat', route => {
     calls.push(route.request().postDataJSON());
-    return calls.length <= busyCalls ? route.fulfill({ status: 503, json: { error: 'answers_busy' } }) : answer(route);
+    return calls.length <= busyCalls ? route.fulfill(refusal) : answer(route);
   });
   await page.goto(new URL('/chat', process.env.BINTANONG_BROWSER_URL).href, { waitUntil: 'networkidle' });
   await dismissInitialScope(page);
@@ -81,5 +81,20 @@ test('after four automatic retries it stops and offers a manual try', async () =
     await notice.getByRole('button', { name: 'Try again', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('.busy-retry')?.textContent?.includes('attempt 6'));
     assert.equal(calls.length, 6);
+  } finally { await browser.close(); }
+});
+
+test('a per-person limit shows the wait, offers no early retry and sends the question when allowed', async () => {
+  const { browser, page, calls } = await open(1, { status: 429, json: { error: 'rate_limited', retryAfter: 90 } });
+  try {
+    const notice = page.locator('.busy-retry');
+    await page.waitForFunction(() => /You can ask again in 1:30/.test(document.querySelector('.busy-retry')?.textContent ?? ''));
+    assert.equal(await page.getByText('Response interrupted', { exact: false }).count(), 0);
+    assert.equal(await notice.getByRole('button', { name: /Try again/ }).count(), 0, 'retrying early would only be refused');
+    await page.clock.runFor(60000);
+    assert.equal(calls.length, 1);
+    await page.clock.runFor(31000);
+    await page.getByText('Synthetic answer after waiting.', { exact: true }).waitFor();
+    assert.equal(calls.length, 2);
   } finally { await browser.close(); }
 });

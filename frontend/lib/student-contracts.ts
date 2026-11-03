@@ -42,5 +42,7 @@ export type StudentChoice = z.infer<typeof choiceSchema>;
 export class StudentTransportError extends Error {
   readonly status: number;
   readonly code: string;
-  constructor(code: string, status = 502) { super(code); this.code = code; this.status = status; }
+  /** Whole seconds until the server will accept another question (rate limit), when it said so. */
+  readonly retryAfter: number | null;
+  constructor(code: string, status = 502, retryAfter: number | null = null) { super(code); this.code = code; this.status = status; this.retryAfter = retryAfter; }
 }

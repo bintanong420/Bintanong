@@ -35,11 +35,15 @@ versions (uv marks api/embedding as conflicting). Hosted-560 API :8021 (startup 
 3.39.13 tunnel https://snorkel-overturn-defiance.ngrok-free.dev (new account; added to API `allowed_origins` and
 `SITE_ORIGIN`; backups `.before-ngrok-20261103`). Live checks: CS 12/L eligible 64.7 s, drop subject 43.5 s, BusEco
 "Can I take BE 2001 if I already passed GE-PC?" eligible 33.9 s (replacement now verified), shifting via tunnel 52.7 s.
-All detached; pids in `audit-evidence/launcher-logs/pids.txt`; stop with `scripts/start-bintanong.ps1 -Stop`.
+Stopped 3 Nov via `scripts/start-bintanong.ps1 -Stop` (API, Next, ngrok, model container); restart steps above.
 Guests are public while the tunnel is up; Google sign-in via the tunnel needs `<tunnel>/auth/callback` in Supabase.
 Capacity: 1 running + 4 waiting answers, then 503 `answers_busy`; no per-client rate limit. Frontend now retries a busy
 refusal every 15 s (4 times, then manual Try again), with Try again now/Cancel and no interrupted bubble
 (browser test `busy-retry.mjs` 3/3).
+Per-person limit (`81bf231`, `a25c44b`, owner): 5 admitted questions per 5 min, per account or per guest browser
+(anonymous `__Host-bintanong_client` cookie, survives New chat; clearing cookies resets it; IP limits rejected for shared
+campus networks). 429 `rate_limited` + `retryAfter`; UI waits m:ss and auto-sends. Verified: API tests 197+5 pass,
+browser 7/7, live via proxy: 5 answered, 6th 429 (239 s), still 429 after New chat. API restarted (pid in launcher-logs).
 
 ## Stack launcher (2 Nov)
 

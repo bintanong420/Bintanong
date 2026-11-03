@@ -9,6 +9,7 @@ from fastapi import Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 
 from backend.bintanong_api.admission import AdmittedStream, AnswerAdmission
+from backend.bintanong_api.rate_limit import CLIENT_COOKIE, CLIENT_COOKIE_MAX_AGE, QuestionRateLimit, client_id
 from backend.bintanong_api.auth import authorize
 from backend.bintanong_api.chat import ChatRequest, ChatTurns, CurriculumOption
 from backend.bintanong_api.main import HealthStatus, dependency_health, health_live, health_ready
@@ -29,6 +30,8 @@ class ApiSettings:
     max_parallel_uploads: int = 2  # each upload starts a parser process
     max_running_answers: int = 1  # Gemma serves one request at a time (`--parallel 1`)
     max_waiting_answers: int = 4
+    max_questions_per_window: int = 5  # per person (account, or guest browser); owner 3 Nov 2026
+    question_window_seconds: int = 300
     require_auth: bool = False  # trusted offline/test compositions preserve their existing contract
     allow_guests: bool = False  # explicit access policy; supplied credentials still require verification
 
@@ -61,6 +64,8 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     turns = ChatTurns(services.sessions, services.pipeline, services.curricula)
     app.state.admission = admission = AnswerAdmission(running=settings.max_running_answers,
                                                       waiting=settings.max_waiting_answers)
+    app.state.question_limit = question_limit = QuestionRateLimit(limit=settings.max_questions_per_window,
+                                                                  window_seconds=settings.question_window_seconds)
     app.include_router(upload_router(services, turns, settings.max_upload_bytes, settings.max_parallel_uploads))
     app.add_api_route('/health/live', health_live, methods=['GET'])
     if services.supabase_probe is not None:
@@ -94,7 +99,10 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
 
     @app.exception_handler(ApiError)
     async def api_error(_request: Request, error: ApiError):
-        return JSONResponse({'error': error.code}, status_code=error.status)
+        if error.retry_after is None:
+            return JSONResponse({'error': error.code}, status_code=error.status)
+        return JSONResponse({'error': error.code, 'retryAfter': error.retry_after}, status_code=error.status,
+                            headers={'Retry-After': str(error.retry_after)})
 
     @app.middleware('http')
     async def attach_session_cookie(request: Request, call_next):
@@ -103,6 +111,10 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
         if credential is not None:
             response.set_cookie(SESSION_COOKIE, credential, httponly=True, secure=True, samesite='strict',
                                 path='/')
+        browser = getattr(request.state, 'issued_client', None)
+        if browser is not None:
+            response.set_cookie(CLIENT_COOKIE, browser, max_age=CLIENT_COOKIE_MAX_AGE, httponly=True, secure=True,
+                                samesite='strict', path='/')
         return response
 
     @app.post('/chat')
@@ -110,7 +122,20 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
         turn = turns.prepare(body)
         identity = ('account:' + session.account_id if session.account_id is not None
                     else 'guest:' + session.view.session_id)
-        reservation = admission.reserve(account_id=identity)  # last: no raises before response
+        if session.account_id is not None:
+            person = 'account:' + session.account_id
+        else:
+            browser, issued = client_id(request.cookies.get(CLIENT_COOKIE))
+            if issued:
+                request.state.issued_client = browser
+            person = 'browser:' + browser
+        reservation = admission.reserve(account_id=identity)
+        # Counted only once admitted, so a busy refusal never uses the person's quota.
+        wait = question_limit.admit(person)
+        if wait is not None:
+            reservation.release()
+            raise ApiError(429, 'rate_limited', retry_after=wait)
+        # Last: no raises after the reservation is handed to the response.
         return AdmittedStream(chat_stream(turns, session, turn, services.sources, reservation,
                                           services.course_labels), reservation,
                               media_type='text/event-stream', headers=STREAM_HEADERS)

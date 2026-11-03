@@ -99,3 +99,12 @@ test('answer metadata carries the subtle guidance notice', async () => {
   const answer = await sendStudentMessage(request, { signal: new AbortController().signal, onText() {}, fetch: async () => response(raw) });
   assert.equal(answer.notice, 'Not official university guidance.');
 });
+
+test('a rate limit keeps the server wait time, accepting only a sane whole number of seconds', async () => {
+  const attempt = raw => sendStudentMessage(request, { signal: new AbortController().signal, onText() {}, fetch: async () => Response.json(raw, { status: 429 }) }).catch(error => error);
+  const limited = await attempt({ error: 'rate_limited', retryAfter: 120 });
+  assert.equal(limited.code, 'rate_limited');
+  assert.equal(limited.status, 429);
+  assert.equal(limited.retryAfter, 120);
+  for (const bad of [-5, 0, 1.5, 99999, '60']) assert.equal((await attempt({ error: 'rate_limited', retryAfter: bad })).retryAfter, null);
+});

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Inter } from "next/font/google";
 import { appearanceBootstrap } from "@/lib/appearance";
+import { PrivacyNotice } from "@/components/privacy-notice";
 import "./styles.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
@@ -15,7 +16,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <head><script dangerouslySetInnerHTML={{ __html: appearanceBootstrap }} /></head>
-      <body className={`${geist.variable} ${inter.variable}`}>{children}</body>
+      <body className={`${geist.variable} ${inter.variable}`}>{children}<PrivacyNotice /></body>
     </html>
   );
 }

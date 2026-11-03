@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { SIGN_IN_ENABLED } from "@/lib/auth-policy";
 import { ArrowUpRight, CheckCircle2, BookOpen, GraduationCap, ChevronDown, Menu, X } from "lucide-react";
 
 // Illustrative only: these describe how Bintanong builds an answer, not institutional facts.
@@ -58,7 +59,7 @@ const faqs = [
   },
   {
     q: "What happens to my information?",
-    a: "Guest access needs no account. Optional PSU Google sign-in stores your account email. Chat messages, uploaded files, and course details stay in temporary memory, separate from institutional knowledge. Clear your session when you finish.",
+    a: "No account is needed. Chat messages, uploaded files, and course details stay in temporary memory, separate from institutional knowledge, and are not stored permanently. Start a new chat to clear them when you finish.",
   },
 ];
 
@@ -95,7 +96,7 @@ export default function LandingPage() {
           </nav>
 
           <div className="hidden md:flex items-center gap-5">
-            <Link href="/login" className="text-[13.5px] font-medium text-[#52525B] hover:text-[#09090B] transition-colors">Sign in</Link>
+            {SIGN_IN_ENABLED && <Link href="/login" className="text-[13.5px] font-medium text-[#52525B] hover:text-[#09090B] transition-colors">Sign in</Link>}
             <Link href="/chat" className="inline-flex items-center justify-center px-4.5 py-2 rounded-full bg-[#0A0A0A] hover:bg-black text-white text-[13px] font-medium shadow-xs hover:shadow-md transition-all active:scale-95">
               Ask a question
             </Link>
@@ -117,7 +118,7 @@ export default function LandingPage() {
             {navLinks.map(([href, label]) => <a key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium text-neutral-700 py-1">{label}</a>)}
             <div className="pt-2 flex flex-col gap-2">
               <Link href="/chat" className="w-full text-center py-2.5 rounded-full bg-neutral-950 text-white text-sm font-medium">Ask a question</Link>
-              <Link href="/login" className="w-full text-center py-2.5 rounded-full border border-neutral-200 text-neutral-800 text-sm font-medium">Sign in</Link>
+              {SIGN_IN_ENABLED && <Link href="/login" className="w-full text-center py-2.5 rounded-full border border-neutral-200 text-neutral-800 text-sm font-medium">Sign in</Link>}
             </div>
           </div>
         )}
@@ -126,9 +127,9 @@ export default function LandingPage() {
           <div className="flex items-center justify-center mb-5 sm:mb-6 select-none">
             <img src="/landing/bintanong-full-logo.png" alt="Bintanong" fetchPriority="high" className="h-24 sm:h-32 md:h-36 w-auto object-contain drop-shadow-xs transition-transform duration-300 hover:scale-105" />
           </div>
-          <h1 className="text-[46px] sm:text-[68px] md:text-[84px] font-bold tracking-[-0.038em] text-[#0F172A] leading-[1.04] max-w-4xl mx-auto">
-            PalSU Academic Guide <br />
-            For <span className="text-[#C2410C]">Every Student.</span>
+          <h1 className="text-[38px] sm:text-[56px] md:text-[68px] font-bold tracking-[-0.038em] text-[#0F172A] leading-[1.06] max-w-5xl mx-auto">
+            AI Academic Guide <br />
+            For <span className="text-[#C2410C]">Every PalSU Undergraduate Student.</span>
           </h1>
           <p className="mt-6 md:mt-7 text-[15px] sm:text-[17px] text-[#52525B] max-w-xl md:max-w-2xl mx-auto leading-[1.6]">
             Check your course prerequisites, understand your prospectus, and ask about PalSU rules. English, Filipino, or Taglish.
@@ -139,7 +140,6 @@ export default function LandingPage() {
               <span aria-hidden="true" className="ml-2 text-sm transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
             </Link>
           </div>
-          <p className="mt-5 text-xs text-[#52525B]">Continue as a guest or sign in with your PSU Google account. Research preview; university validation is pending.</p>
         </main>
       </div>
 
@@ -282,7 +282,6 @@ export default function LandingPage() {
           <div className="absolute -top-24 -right-24 w-80 h-80 bg-amber-500/20 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-xl mx-auto space-y-5">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Start a conversation with Bintanong</h2>
-            <p className="text-xs sm:text-sm text-neutral-300">For Palawan State University undergraduates. No account needed to start.</p>
             <div className="pt-2">
               <Link href="/chat" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-white text-[#0A0A0A] hover:bg-neutral-100 text-sm font-medium shadow-md transition-all active:scale-95">
                 <span>Start a chat</span>

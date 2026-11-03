@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { serverAuth } from "@/lib/server-auth";
-import { siteOrigin } from "@/lib/auth-policy";
+import { SIGN_IN_ENABLED, siteOrigin } from "@/lib/auth-policy";
 
 export async function POST(request: Request) {
   const origin = siteOrigin(request.url, process.env.SITE_ORIGIN);
+  if (!SIGN_IN_ENABLED) return NextResponse.redirect(new URL("/", origin), 303);  // sign-in switched off (owner, 4 Nov 2026)
   if (request.headers.get("origin") !== origin || request.headers.get("sec-fetch-site") === "cross-site") return new Response(null, { status: 403 });
   const client = await serverAuth();
   if (!client) return NextResponse.redirect(new URL("/login?error=unavailable", origin), 303);

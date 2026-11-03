@@ -11,6 +11,7 @@ import { Sidebar, SidebarBrand } from "./sidebar";
 import { Conversation, EmptyConversation } from "./conversation";
 import { ProgramPicker, type CurriculumState } from "./program-picker";
 import { programShortName } from "@/lib/programs";
+import { SIGN_IN_ENABLED } from "@/lib/auth-policy";
 import { Composer } from "./composer";
 import { BrandMark } from "./brand-mark";
 import { AppearanceControl } from "./appearance-control";
@@ -21,6 +22,8 @@ import { ClarificationDialog } from "./clarification-dialog";
 import { clarificationQuestions, confirmedDetails, followUpMessage, sameScope, typedReply } from "@/lib/student-clarification";
 import { RephraseDialog, SuppliedDetailsPanel } from "./follow-up-dialog";
 
+/** m:ss, for the question-limit wait. */
+const clockText = (ms: number) => { const seconds = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`; };
 const stages: Record<string, string> = { waiting: "Waiting for a free answer slot… You can stop waiting.", understanding: "Checking the information for your question…", writing: "Preparing the response…" };
 function errorText(error: unknown) {
   if (error instanceof StudentTransportError) {
@@ -41,8 +44,9 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
   const [files, setFiles] = useState<ChatFile[]>([]), [fileWarning, setFileWarning] = useState<string | null>(null);
   const [sources, setSources] = useState<StudentSourceSummary[] | null>(null), [progress, setProgress] = useState("Connecting…");
   const [detailsOpen, setDetailsOpen] = useState(false), [rephraseOpen, setRephraseOpen] = useState(false), [selectedDetails, setSelectedDetails] = useState<string[]>([]);
-  // A busy-refused question; `retryAt` (epoch ms) is when it is sent again, null once automatic retries stop.
-  const [retry, setRetry] = useState<{ text: string; scope: StudentScope | null; attempt: number; retryAt: number | null } | null>(null);
+  // A question refused before it started: all answer slots busy, or this person's question limit (`limited`).
+  // `retryAt` (epoch ms) is when it is sent again, null once automatic busy retries stop.
+  const [retry, setRetry] = useState<{ text: string; scope: StudentScope | null; attempt: number; retryAt: number | null; limited: boolean } | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const [review, setReview] = useState<{ text: string; scope: StudentScope | null } | null>(null);
   const [busy, setBusy] = useState<"chat" | "file" | "clear" | "signout" | null>(null), [signInNeeded, setSignInNeeded] = useState(false);
@@ -140,12 +144,12 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
     } catch (error) {
       if (value.controller.signal.aborted) return;
       authError(error);
-      if (error instanceof StudentTransportError && error.code === "answers_busy") {
-        // Refused before it started: show it as waiting, not as an interrupted answer, and retry it.
-        const attempt = confirmed?.attempt ?? 1;
+      if (error instanceof StudentTransportError && (error.code === "answers_busy" || error.code === "rate_limited")) {
+        // Refused before it started: show it as waiting, not as an interrupted answer, and send it again later.
+        const attempt = confirmed?.attempt ?? 1, limited = error.code === "rate_limited";
         dispatch({ type: "withdraw", id: value.id });
-        const delay = busyRetryDelay(attempt);
-        setRetry({ text, scope: selectedScope, attempt, retryAt: delay === null ? null : Date.now() + delay * 1000 });
+        const delay = limited ? error.retryAfter ?? 60 : busyRetryDelay(attempt);
+        setRetry({ text, scope: selectedScope, attempt, limited, retryAt: delay === null ? null : Date.now() + delay * 1000 });
         setNow(Date.now());
       } else dispatch({ type: "interrupt", id: value.id, warning: errorText(error) });
     }
@@ -153,16 +157,18 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
   }
   // The retry timer calls the latest send with the latest retry state.
   const sendRef = useRef(send), retryRef = useRef(retry); sendRef.current = send; retryRef.current = retry;
-  function retryNow() { if (retry) void send({ text: retry.text, scope: retry.scope, attempt: retry.attempt + 1, clearDraft: false }); }
+  // A limit wait is not a busy attempt, so it does not use up the automatic busy retries.
+  const resend = (current: NonNullable<typeof retry>) => sendRef.current({ text: current.text, scope: current.scope,
+    attempt: current.limited ? current.attempt : current.attempt + 1, clearDraft: false });
+  function retryNow() { if (retry) void resend(retry); }
   function cancelRetry() { if (retry) { dispatch({ type: "draft", text: retry.text }); setRetry(null); } }
   useEffect(() => {
     if (!retry || retry.retryAt === null) return;
-    const attempt = retry.attempt;
+    const scheduled = retry;
     const send = setTimeout(function fire() {
       // Another request (for example a file) holds the connection: check again shortly.
       if (flight.current) { setTimeout(fire, 1000); return; }
-      const current = retryRef.current;
-      if (current?.attempt === attempt) void sendRef.current({ text: current.text, scope: current.scope, attempt: attempt + 1, clearDraft: false });
+      if (retryRef.current === scheduled) void resend(scheduled);
     }, Math.max(0, retry.retryAt - Date.now()));
     const tick = setInterval(() => setNow(Date.now()), 1000);  // only refreshes the countdown text
     return () => { clearTimeout(send); clearInterval(tick); };
@@ -245,7 +251,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
           <AppearanceControl className="header-theme-toggle" />
           <Button variant="ghost" size="icon" aria-label="Chat options" title="Chat options" popoverTarget={optionsId}><Ellipsis aria-hidden="true" /></Button>
           {signedIn ? <Button variant="ghost" className="header-signout" aria-label={busy === "signout" ? "Signing out…" : "Sign out"} title={busy === "signout" ? "Signing out…" : "Sign out"} disabled={busy === "file" || busy === "clear" || busy === "signout"} onClick={() => void signOut()}><LogOut size={16} aria-hidden="true" /><span className="account-action-label">{busy === "signout" ? "Signing out…" : "Sign out"}</span></Button>
-            : <Button asChild variant="ghost"><a href="/login" aria-label="Sign in" title="Sign in"><LogIn size={16} aria-hidden="true" /><span className="account-action-label">Sign in</span></a></Button>}</div>
+            : SIGN_IN_ENABLED && <Button asChild variant="ghost"><a href="/login" aria-label="Sign in" title="Sign in"><LogIn size={16} aria-hidden="true" /><span className="account-action-label">Sign in</span></a></Button>}</div>
         <div id={optionsId} popover="auto" className="workspace-options"><p className="supporting-copy">Research preview. University validation is still pending.</p></div>
       </header>
       {!signedIn && <p className="session-notice"><span>Guest</span> · Temporary chat</p>}
@@ -254,13 +260,17 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
       {signOutFailed && <div className="outcome-notice status-danger" role="alert"><p>We couldn't finish signing you out. Try again before leaving this device.</p><Button variant="outline" disabled={!!busy} onClick={() => void signOut()}>Try signing out again</Button></div>}
       {retry && <div className="outcome-notice busy-retry" role="status">
         <p className="busy-question">{retry.text}</p>
-        {retry.retryAt === null
+        {retry.limited && retry.retryAt !== null
+          ? <p><span aria-hidden="true">You&apos;ve asked several questions in a short time. You can ask again in {clockText(retry.retryAt - now)}. </span>
+              <span className="sr-only">You&apos;ve asked several questions in a short time. Bintanong will send this question when you can ask again. </span>
+              <span className="busy-attempt">It will be sent automatically.</span></p>
+          : retry.retryAt === null
           ? <p>Still busy. Try again in a moment. <span className="busy-attempt">(attempt {retry.attempt})</span></p>
           : <p><span aria-hidden="true">All answer slots are busy. Retrying in {Math.max(0, Math.ceil((retry.retryAt - now) / 1000))} s </span>
               <span className="sr-only">All answer slots are busy. Bintanong will try again automatically. </span>
               <span className="busy-attempt">(attempt {retry.attempt})</span></p>}
         <div className="card-actions">
-          <Button type="button" size="sm" disabled={!!busy} onClick={retryNow}>{retry.retryAt === null ? "Try again" : "Try again now"}</Button>
+          {!retry.limited && <Button type="button" size="sm" disabled={!!busy} onClick={retryNow}>{retry.retryAt === null ? "Try again" : "Try again now"}</Button>}
           <Button type="button" size="sm" variant="outline" onClick={cancelRetry}>Cancel</Button>
         </div>
       </div>}
