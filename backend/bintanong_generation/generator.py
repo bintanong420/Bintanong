@@ -23,7 +23,7 @@ from .requirements import RequirementReview
 from .understanding import check_question, assess, review_messages, review_schema
 from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExplanation,decode_part_explanation,
                            answered_slots,assess_slots,bind_confirmation,
-                           confirm_messages,confirm_schema,conjunction_errors,disjunction_errors,host_only,omitted_exception_errors,part_messages,part_schema,
+                           confirm_messages,confirm_schema,conjunction_errors,host_quote_override,disjunction_errors,host_only,omitted_exception_errors,part_messages,part_schema,
                            record_coverage_errors,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
 from .quoted_field import quoted_field_parts
@@ -51,7 +51,8 @@ def _parse(raw,contract):
     return contract.parse(json.loads(raw,object_pairs_hook=_unique))
 
 
-def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None,coverage=None,ledger=None):
+def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None,coverage=None,ledger=None,
+            overrides=()):
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
         text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld',
@@ -61,7 +62,7 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage,
-        part_ledger=ledger,research_ref=pack.research_ref)
+        part_ledger=ledger,research_ref=pack.research_ref,host_quote_override=tuple(overrides))
     validate_final(answer,pack,claims)
     return answer
 
@@ -196,6 +197,7 @@ class Generator:
                         # Owner "Answer what's covered": a declared-unavailable part is named when the structured
                         # check answers; with nothing mapped the slot ledger stays unresolved and withholds.
                         errors=tuple(e for e in errors if e!='missing_document_claim')
+                    overrides=()
                     if not errors and proposal.claims and (not per_part or answered_slots(slots)):
                         checks+=1
                         reviewed=answered_slots(slots) if per_part else None
@@ -213,6 +215,10 @@ class Generator:
                             review=(bind_confirmation(pack,proposal,_parse(review_raw,PartConfirmationOutput))
                                     if per_part else
                                     _parse(review_raw,RequirementReview if part_review else CoverageReview))
+                            if per_part:  # owner 2 Nov 2026 ("ok host quotes"): see host_quote_override
+                                overrides=host_quote_override(pack,review)
+                                if overrides:
+                                    review=review.model_copy(update=dict(parts={**review.parts,**{p:'answers' for p in overrides}}))
                             if part_review:
                                 ledger=(assess_slots(pack,proposal,slots,review) if per_part else
                                         assess(pack,proposal,review))
@@ -241,7 +247,8 @@ class Generator:
                             return _answer(pack,'insufficient_evidence',reason='parts_unresolved',
                                 attempts=attempts,checks=checks,ledger=ledger,guard=guard,coverage=coverage)
                         return _answer(pack,'answered',claims=proposal.claims,reason='validated',
-                                       attempts=attempts,checks=checks,guard=guard,coverage=coverage,ledger=ledger)
+                                       attempts=attempts,checks=checks,guard=guard,coverage=coverage,ledger=ledger,
+                                       overrides=overrides)
         except (TimeoutError,RuntimeFailure) as error:
             timeout=isinstance(error,TimeoutError) or str(error)=='model_timeout'
             if guard_started is not None and guard is None:

@@ -657,6 +657,18 @@ def host_only(pack):
     return draft, assess_slots(pack, draft, slots)
 
 
+def host_quote_override(pack, review):
+    """Owner 2 Nov 2026 ("ok host quotes"): parts answered by an owner-approved exact host quote (#2 residence, #5
+    honours, leave length, #10 overdue fine) whose "answers" verdict flipped although every claim is supported.
+    Identical check requests gave opposite verdicts live; the owner-approved rule already decided these quotes answer
+    these questions. Drafts and unsupported claims keep the full check. Returns the part ids to accept."""
+    if pack.understanding is None or not all(v.verdict == 'supported' for v in review.support.verdicts):
+        return ()
+    quoted = {p.part_id for p in pack.understanding.parts
+              if fee_precedence_reply(pack, p) or residence_reply(pack, p) or honours_reply(pack, p) or leave_reply(pack, p)}
+    return tuple(part for part, verdict in review.parts.items() if verdict != 'answers' and part in quoted)
+
+
 def confirm_messages(text, pack, draft, slots, *, references=None):
     aliases = _part_aliases(pack, references)
     cards = {c.evidence_id: c for c in pack.cards if c.kind == 'document'}

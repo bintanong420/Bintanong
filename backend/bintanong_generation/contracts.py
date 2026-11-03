@@ -111,6 +111,10 @@ class CandidateAnswer(Contract):
     draft_attempts: int=Field(ge=0,le=2)
     check_attempts: int=Field(ge=0,le=2)
     answer_repairs: int=Field(ge=0,le=1)
+    # Owner 2 Nov 2026 ("ok host quotes"): parts whose flipped "answers" verdict was not decisive for an exact host
+    # quote with every claim supported; recorded so evaluation evidence shows it.
+    host_quote_override: tuple[Annotated[str,Field(pattern=r'^r[1-8]$')],...]=Field(default=(),
+        exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _limits(self):
