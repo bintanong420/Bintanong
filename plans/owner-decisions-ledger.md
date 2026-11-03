@@ -686,3 +686,10 @@ Each program still gets its own dated review record listing which standing rule 
   when the check judges every claim supported. Evidence: byte-identical check requests got opposite verdicts in
   different runs (#2 and leave length). Each skip is recorded on the answer as host_quote_override. Drafts and any
   unsupported claim keep the full check; the recheck tried earlier was reverted.
+- 3 Nov 2026 (follow-up memory, "memory system.. to talaga"; owner chose option 2 of three): session memory (master 23)
+  may also keep the previous question's structure as fixed values: its check operation, year level and semester,
+  and the detail its document part asked. Still never the student's text or a grade. A follow-up that changes one
+  thing re-asks that question; the host fills only a year or semester the follow-up leaves out. Options 1 (more
+  browser-side patches) and 3 (sending earlier turns' text to the router) were not chosen.
+- 3 Nov 2026 (procedure layout, "go"): whole Charter procedures open with a plain lead, "What to bring", one line per
+  step with fee, time and office, then what the office does; printed values, limits and the original note unchanged.
