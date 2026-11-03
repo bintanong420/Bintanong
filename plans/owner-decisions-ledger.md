@@ -696,5 +696,5 @@ Each program still gets its own dated review record listing which standing rule 
     standing, self-referencing cells and other recorded source gaps keep their limits.
   - Unchanged: blank units or other blank fields keep their own rulings.
   - The ledgers themselves are not edited; the mapping belongs in the runtime or bundle compilation.
-  - Not yet implemented: assigned to another developer
-    (`plans/2026-11-04-handoff-affected-courses-and-followup.md`).
+  - Implemented 4 Nov 2026 on `feat/memory-eligibility` (`1376e0e`) at the owner's request; year-level standing
+    (names no course) no longer makes a dependency list uncertain (`671ad26`).

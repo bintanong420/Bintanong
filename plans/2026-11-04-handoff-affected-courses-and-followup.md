@@ -1,5 +1,23 @@
 # Handoff: two owner-reported chat failures (4 November 2026)
 
+**Status, 4 Nov (later the same day): fixed on `feat/memory-eligibility` at the owner's request.**
+
+| Item | Commit |
+| --- | --- |
+| 2: the named-course term slip | `adf20ca` |
+| Blank cells mean no prerequisite | `1376e0e` |
+| 1: the dependency answer (year standing names no course) | `671ad26` |
+| "under that assumption" wording | (this branch, after `671ad26`) |
+
+Live check with Gemma, replaying one chat in the friend's order:
+- The CS 13/L what-if answers "Walang course … may CS 13/L bilang prerequisite …" with one note on CS 20's "70% of
+  units" condition.
+- The CS 17/L question that followed answers "Not yet. You need to pass CS 11/L …".
+- "Can I take GE-PS?" answers "Yes. The reviewed prospectus lists no prerequisite …".
+- The offline gate passes 15/15 on the real ledgers.
+
+Still open: generic clarifies without a named question. The sections below are the original analysis.
+
 Reported by the owner from the live site, which runs the `feat/memory-eligibility` backend (BSCS 2018–2019). They are
 not fixed: the owner assigned them to another developer. Follow the repository workflow: write a failing regression
 first, then fix. Background: [results](2026-11-03-memory-eligibility-results.md),
