@@ -681,3 +681,8 @@ Each program still gets its own dated review record listing which standing rule 
   with a recorded conflict, starting with H101/C79. The reply leads with the Charter Php 10.00/day and quotes the
   Handbook "General Circulation Books – Php 2.00/day" (Reserved Books amount not printed) with a University Library
   referral. Not university confirmation; the source limitation and data stay unchanged (option c not chosen).
+- 2 Nov 2026 (host quotes, "ok host quotes"): for the owner-approved exact host quotes only (#2 Handbook 1.4 residence,
+  #5 Handbook 5.1.3/5.1.4, leave length, #10 Charter-first overdue fine), a "does_not_answer" verdict is not decisive
+  when the check judges every claim supported. Evidence: byte-identical check requests got opposite verdicts in
+  different runs (#2 and leave length). Each skip is recorded on the answer as host_quote_override. Drafts and any
+  unsupported claim keep the full check; the recheck tried earlier was reverted.
