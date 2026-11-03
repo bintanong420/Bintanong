@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import math
 import subprocess
 import sys
@@ -19,7 +20,7 @@ from ..bintanong_contracts.runtime import BoundInput, PredicateRequest
 from ..bintanong_contracts.source import SourceSpan
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry, DecisionScope, SymbolicResult
 from .bundle import prepare_runtime_bundle, validate_runtime_bundle
-from .course_facts import TERM_ORDER, CourseFactsResult, course_facts, list_term_courses, printed_course
+from .course_facts import TERM_ORDER, TERMS, YEARS, CourseFactsResult, course_facts, list_term_courses, printed_course
 
 _ADMISSION = threading.Lock()
 _WORKER = Path(__file__).with_name('_janus_worker.py')
@@ -87,6 +88,10 @@ class DependencyResult(Contract):
     rule_ids: tuple[_Text, ...]
     rule_spans: tuple[SourceSpan, ...]
     error_code: _Text | None
+    # Display context (owner report, 4 Nov 2026), absent when empty so earlier dumps keep their digests: the reviewed
+    # year/semester of each listed course, and the printed condition of each course left unknown.
+    placements: tuple[tuple[_CourseID, int, str], ...] = Field(default=(), exclude_if=lambda v: not v)
+    printed_conditions: tuple[tuple[_CourseID, _Text], ...] = Field(default=(), exclude_if=lambda v: not v)
 
     @model_validator(mode='after')
     def _boundaries(self):
@@ -180,6 +185,23 @@ def _spans(courses):
     for course in courses:
         collect(course['prerequisites'])
     return list({_json(s):s for s in spans}.values())
+
+
+def _printed_conditions(ledger, unknown):
+    """(course id, printed text) for each course a listing left unknown, from its recorded unresolved reason."""
+    by_id = {c['course_id']: c for c in ledger['courses']}
+    found = []
+    for condition in unknown:
+        course = by_id.get(condition.split(':', 1)[1]) if ':' in condition else None
+        stack = [course['prerequisites']] if course else []
+        while stack:
+            node = stack.pop()
+            printed = re.match(r'Printed (?:condition|reference|prerequisite) "(.+?)"', node.get('reason') or '')
+            if node.get('kind') == 'unresolved' and printed:
+                found.append((course['course_id'], ' '.join(printed.group(1).split())))
+                break
+            stack.extend(reversed(node.get('items', [])))
+    return found
 
 
 def _requirement_view(node):
@@ -467,7 +489,11 @@ class CurriculumRuntime:
             'rule_bundle_version':None if evaluation is None else self._version,
             'scope':_scope(ledger,self._release_id) if known_input and evaluation is not None else None,
             'rule_ids':['rule-'+c['course_id'] for c in courses], 'rule_spans':_dependency_spans(courses),
-            'error_code':error}
+            'error_code':error,
+            'placements':[(c['course_id'], YEARS[c['facts']['year_level']['value']], TERMS[c['facts']['semester']['value']])
+                          for c in courses if c.get('facts', {}).get('year_level', {}).get('value') in YEARS
+                          and c['facts'].get('semester', {}).get('value') in TERMS],
+            'printed_conditions':_printed_conditions(ledger, () if evaluation is None else evaluation.unknown_conditions)}
         if self._research_json is not None:
             data['research'] = json.loads(self._research_json)
         if status != 'error' and len(_json(data).encode()) > 65_536:

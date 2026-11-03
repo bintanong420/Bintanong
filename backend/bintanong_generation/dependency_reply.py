@@ -11,35 +11,58 @@ _WORDS = {
                     'course.',
                some='If you fail {target}, these courses are affected because their prerequisites include it (directly '
                     'or through another course): {courses}.',
-               note_one="Note: {courses} has a printed prerequisite condition that isn't verified course by course yet, "
-                        'so please confirm it with your program adviser if you plan to take it.',
-               note_many="Note: {courses} have printed prerequisite conditions that aren't verified course by course "
-                         'yet, so please confirm them with your program adviser if you plan to take them.',
-               join=' and '),
+               term_some='In {term}, failing {target} blocks: {courses}.',
+               term_none='In {term}, no course needs {target}.',
+               later='Courses in other terms that need it: {courses}.',
+               also='It also affects courses in other terms: {courses}.',
+               note='Note: {course} requires "{printed}" (as printed). I can\'t check that from individual course results, '
+                    'so please confirm it with your program adviser.',
+               note_unprinted="Note: {course} has a prerequisite condition I can't check from individual course results, "
+                              'so please confirm it with your program adviser.'),
     'taglish': dict(none='Walang course sa prospectus mo na may {target} bilang prerequisite, kaya hindi nito mabo-block '
                          'ang ibang course.',
                     some='Kung ma-fail mo ang {target}, apektado ang mga course na ito dahil kasama ito sa prerequisites '
                          'nila (direkta o sa ibang course): {courses}.',
-                    note_one='Note: may naka-print na prerequisite condition ang {courses} na hindi pa verified course by '
-                             'course, kaya paki-confirm sa program adviser kung balak mo itong i-take.',
-                    note_many='Note: may naka-print na prerequisite conditions ang {courses} na hindi pa verified course '
-                              'by course, kaya paki-confirm sa program adviser kung balak mo silang i-take.',
-                    join=' at '),
+                    term_some='Sa {term}, mabo-block ng pag-fail sa {target} ang: {courses}.',
+                    term_none='Sa {term}, walang course na nangangailangan ng {target}.',
+                    later='Mga course sa ibang term na nangangailangan nito: {courses}.',
+                    also='Apektado rin ang mga course sa ibang term: {courses}.',
+                    note='Note: "{printed}" ang naka-print na requirement ng {course}, at hindi ko ito ma-check gamit ang '
+                         'bawat course result. Paki-confirm sa program adviser.',
+                    note_unprinted='Note: may prerequisite condition ang {course} na hindi ko ma-check gamit ang bawat '
+                                   'course result. Paki-confirm sa program adviser.'),
 }
 
 
-def _join(items, join):
-    items = list(items)
-    return items[0] if len(items) == 1 else ', '.join(items[:-1]) + join + items[-1]
-
-
-def dependency_lines(dependencies, target, language, shown) -> list[str]:
+def dependency_lines(dependencies, target, language, shown, term=None) -> list[str]:
+    """term: (year, semester) the question asked about, or None; 'any' semester means the whole year."""
+    from .term_reply import term_name
     words = _WORDS['en' if language in ('en', 'unknown') else 'taglish']
-    courses = [shown(c) for c in dependencies.course_ids]
-    lines = [words['some'].format(target=shown(target), courses=', '.join(courses)) if courses
-             else words['none'].format(target=shown(target))]
-    unverified = [shown(u.split(':', 1)[1]) for u in dependencies.unknown_conditions if ':' in u]
-    if unverified:
-        key = 'note_one' if len(unverified) == 1 else 'note_many'
-        lines.append(words[key].format(courses=_join(unverified, words['join'])))
+    placed = {course: (year, semester) for course, year, semester in dependencies.placements}
+
+    def in_term(course):
+        year, semester = placed.get(course, (None, None))
+        return year == term[0] and (term[1] == 'any' or semester == term[1])
+
+    def with_term(course):
+        return f'{shown(course)} ({term_name(*placed[course])})' if course in placed else shown(course)
+    if term is not None:
+        name = term_name(*term) if term[1] != 'any' else f'{term_name(term[0], "first_semester").split(",")[0]}'
+        inside = [c for c in dependencies.course_ids if in_term(c)]
+        later = [c for c in dependencies.course_ids if not in_term(c)]
+        lines = [words['term_some'].format(term=name, target=shown(target), courses=', '.join(map(shown, inside)))
+                 if inside else words['term_none'].format(term=name, target=shown(target))]
+        if later:
+            lines.append(words['also' if inside else 'later'].format(courses=', '.join(map(with_term, later))))
+    else:
+        courses = [shown(c) for c in dependencies.course_ids]
+        lines = [words['some'].format(target=shown(target), courses=', '.join(courses)) if courses
+                 else words['none'].format(target=shown(target))]
+    printed = dict(dependencies.printed_conditions)
+    for condition in dependencies.unknown_conditions:
+        course = condition.split(':', 1)[1] if ':' in condition else None
+        if course is None:
+            continue
+        lines.append(words['note'].format(course=shown(course), printed=printed[course]) if course in printed
+                     else words['note_unprinted'].format(course=shown(course)))
     return lines

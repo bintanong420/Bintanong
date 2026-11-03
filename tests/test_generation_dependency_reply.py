@@ -76,8 +76,8 @@ def test_failing_a_course_nothing_depends_on_blocks_no_course_with_a_short_note(
     assert answer.status == 'answered'
     assert student_text(answer).splitlines()[:2] == [
         'No course in your prospectus lists SYN 260 as a prerequisite, so failing it does not block another course.',
-        "Note: SYN 280 has a printed prerequisite condition that isn't verified course by course yet, so please confirm "
-        'it with your program adviser if you plan to take it.']
+        'Note: SYN 280 requires "All major subjects" (as printed). I can\'t check that from individual course results, '
+        'so please confirm it with your program adviser.']
 
 
 def test_failing_a_course_lists_the_courses_whose_reviewed_rules_need_it():
@@ -91,3 +91,18 @@ def test_taglish_dependency_answer():
     answer = ask('Kung bagsak ako sa SYN 260, ano ang hindi ko ma-take?', 'SYN 260', language='taglish')
     assert student_text(answer).splitlines()[0] == (
         'Walang course sa prospectus mo na may SYN 260 bilang prerequisite, kaya hindi nito mabo-block ang ibang course.')
+
+
+
+# Owner report, 4 Nov 2026: "Im currently first year, what specific course i can not take in second semester when i
+# fail computer programming 1?" listed every dependent course of all four years.
+def test_a_question_that_names_a_term_answers_for_that_term_first():
+    answer = ask("I'm second year. What can't I take in second semester if I fail SYN 131?", 'SYN 131')
+    assert student_text(answer).splitlines()[0] == 'In second year, second semester, failing SYN 131 blocks: SYN 251.'
+
+
+def test_a_named_term_with_no_affected_course_says_so_and_names_later_ones():
+    answer = ask("I'm first year. What can't I take in second semester if I fail SYN 131?", 'SYN 131')
+    assert student_text(answer).splitlines()[:2] == [
+        'In first year, second semester, no course needs SYN 131.',
+        'Courses in other terms that need it: SYN 251 (second year, second semester).']
