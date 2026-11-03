@@ -509,14 +509,22 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
     return _messages(PART_PROMPT, payload, part_schema(pack, references))
 
 
+# Owner 3 Nov 2026 (H8): when both are fetched (the orchestrator's shifting companion), a shifting answer covers the
+# Handbook 4.1 rule and the FAQ 8 printed steps.
+COVERED_TOGETHER = (('handbook_shifting', 'printed shifting fields'),
+                    ('handbook_drop_shift_faq', 'printed FAQ 8 shifting steps'))
+
+
 def required_record_sources(pack):
     """Exact reviewed subject/claim requirements, never keyword inference from the question."""
     required = {}
     for part in (pack.understanding.parts if pack.understanding else ()):
         if part.evidence_need != 'document':
             continue
-        ids = {i for subject, claim, refs in pack.record_coverage
-               if subject == part.subject_id and claim in part.requested_claims for i in refs}
+        wanted = {(part.subject_id, claim) for claim in part.requested_claims}
+        if wanted & set(COVERED_TOGETHER):
+            wanted |= set(COVERED_TOGETHER)
+        ids = {i for subject, claim, refs in pack.record_coverage if (subject, claim) in wanted for i in refs}
         if ids:
             required[part.part_id] = ids
     for part,(_,ref) in quoted_field_parts(pack).items():
