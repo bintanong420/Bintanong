@@ -713,3 +713,9 @@ Each program still gets its own dated review record listing which standing rule 
   student way"): working assumption that the semester's prescribed total units (Handbook p. 35, maximum academic load)
   is the ceiling for any mix of courses. A plan above it is shown with a friendly major warning naming the units, the
   clause and the Dean or Registrar, never blocked. This is a reading for plan checks, not an institutional ruling.
+- 4 Nov 2026 (thesis copies, "Complement, not replace"): Context/bintanong_thesis_for_context.pdf stays the
+  thesis-leader-approved copy; the newer owner-supplied working draft (SHA-256 614f9e21...) is supplementary context.
+  Where they differ, the approved copy governs scope.
+- 4 Nov 2026 (academic recovery delivery, "ikaw bahala"): a bounded task list on p12-evaluation-harness, not a numbered
+  phase. Owner direction the same day: plain questions ("bagsak ako sa DSA, ano pwede ko itake...") must trigger the
+  recovery help, and drafts follow the greedy prerequisite chain (earliest term for each blocked course).

@@ -75,6 +75,13 @@ CC 5/L on top of a full prescribed load stays in the plan, with a major warning 
   for excess units, quoting the clause, not a block; D5), a denied
   special class, a 9-unit summer boundary, Civil vs Mechanical (Phy 11/L), and one synthetic curriculum with unfamiliar
   codes; no program-specific code. Exit: all pass offline, then live through `POST /chat`.
+- **Ask mode (owner 4 Nov 2026):** a plain question must be enough, e.g. "Hala, bagsak ako sa DSA, paano na yung major
+  subs ko? Ano pwede ko itake para maging regular load ako agad? Ano pwede options ko?" The router reads it as one
+  recovery request (failed course, goal "back on the prescribed sequence", wants options) and the reply combines, in
+  order: what gets delayed (Step 3), the recovery routes (Step 4), and the greedy chain draft (Step 5) already run
+  through this checker. The student does not have to type a term-by-term plan; a typed plan is still checked as is.
+  "Regular load" in the student's words means back on the prescribed sequence, and the reply says so without
+  claiming the Handbook's "regular" classification.
 
 ### Step 3 — earliest term and what gets delayed
 
@@ -91,9 +98,18 @@ CC 5/L on top of a full prescribed load stays in the plan, with a major warning 
 
 ### Step 5 — suggested drafts (only after Step 2 is in use and a separate owner go)
 
-- Up to three drafts over the next two or three terms, produced by trying the documented routes and keeping only
-  plans that pass the Step 2 checker. Ordered by a stated, simple rule (fewest unconfirmed approvals, then earliest
-  return to the prescribed sequence), never called "best" or "optimal".
+- **Method: the greedy prerequisite chain (owner 4 Nov 2026, the BSCS DSA example).** Start from the failed course
+  and walk its reviewed dependency chain. Place each blocked course in the **earliest term** its prerequisites allow,
+  term by term: first the failed course itself (next regular offering, or a special-class request, or summer), then
+  each course it unlocks as soon as everything it needs is (assumed) passed, e.g. CC 4/L → CS 4/L and CS 6 → CC 5/L
+  → later CS courses. Keep the student's other prescribed courses in their terms. Each term is then run through the
+  Step 2 checker (prerequisites, D5 load warning, 9-unit summer). Greedy means "as early as possible, one term at a
+  time", not a search for the best plan; it is explainable step by step.
+- Variants, at most three, each a small change to the same greedy chain: (A) retake at the next regular offering
+  only; (B) with a special-class request; (C) with summer used where the load allows. A variant whose route is
+  unavailable (special class denied, no summer) is dropped and the reply says why.
+- Ordered by a stated, simple rule (fewest unconfirmed approvals, then earliest return to the prescribed sequence),
+  never called "best" or "optimal".
 - Every draft headed: "Draft, not approved. Show this to your program adviser." with each required approval listed.
 - A student's "approved na ng adviser" is recorded as student-reported, not as an institutional fact.
 - Disclosure: an extension beyond the thesis objectives unless the owner adds it to Chapter 3; kept out of the formal
@@ -105,6 +121,36 @@ CC 5/L on top of a full prescribed load stays in the plan, with a major warning 
   numerators per curriculum. Add plan-check cases per program (owner plan §7, ARP-01…10, as check cases).
 - Measure warm backend time for plan checks separately from Gemma and browser time.
 
+## Thesis leader's list (sent to the owner, 4 Nov 2026)
+
+| Leader item | Where it is handled | State |
+| --- | --- | --- |
+| Partial unreviewed data, possibly missed items | Prerequisite review GUI (`feat/p11-prereq-queue`): 241 open cells (219 unresolved references, 19 unreadable, 3 or/exception); then decisions into the ledgers and the hosted release | GUI ready; owner review pending; ledger update step not built |
+| Follow-up clarification | Follow-up memory (`723416de` … `837646b3`); remaining: a bare program name still says "temporarily unavailable"; "how about the hotel track?" without a term | Mostly done; two gaps |
+| Conversationality testing | A fixed multi-turn Taglish/English conversation set (follow-ups, corrections, topic switches) run through the GUI route, plus an owner GUI round | Not started |
+| Curriculum planning | This plan, Steps 1–6 | Planned; decisions open |
+| Shifting/switching courses → refer to the appropriate office (NEW) | Answer from Handbook 4.1 and FAQ 8 (already fetched together), end with the offices the source names (Dean of both colleges, OSAS/Guidance, Registrar); never evaluate credits or approve the shift | Partly done (answer); referral wording to add |
+
+## What can run in parallel
+
+One GPU serves the model, so live runs (gates, probes, GUI testing) happen one at a time; offline code and tests,
+and the owner's review work, can overlap freely. `backend/bintanong_routing/{router,prompt,validation}.py` is shared
+by several tracks, so changes there go one track at a time.
+
+| Track | Work | Runs alongside | Waits for |
+| --- | --- | --- | --- |
+| A — owner review | Prerequisite review GUI (241 cells); Step 1 load-clause review | everything | nothing |
+| B — planner core | Step 2 checker (new `bintanong_planning` package, offline tests) | A, C-offline, D-authoring | D1 |
+| B2 | Step 3 (earliest term, delayed) and Step 4 (recovery options) | B (different files) | D1 |
+| B3 | Step 5 greedy chain drafts and Ask mode | — | B, B2, D2 |
+| C — conversation fixes | bare program name reply; shifting referral wording; "how about the hotel track?" | A, B (not the routing files at the same time) | — |
+| D — testing | author the conversation test set (offline) | everything | — |
+| D-live | gates, 116 sample queries, conversation set, owner GUI round | A only | the code it tests |
+| E — ledger update | apply reviewed prerequisite decisions to the ledgers and hosted release | — | A |
+
+Suggested order: start A, B, C and D now (after D1); B2 when B's contracts exist; one D-live run after each merged
+step; B3 only after D2; E after A finishes.
+
 ## Not in this plan
 
 Automatic enrollment, COR, grades or standing; confirmed offerings, sections, schedules or professors; fees beyond the
@@ -115,8 +161,12 @@ standing.
 
 - D1: approve Steps 1–4 and 6 as in scope (thesis-bounded).
 - D2: Step 5 drafts — yes / later / no; if yes, inside Chapter 3 or as a disclosed extension.
-- D3: replace `Context/bintanong_thesis_for_context.pdf` with the newer external copy.
-- D4: numbered phase or a bounded task list on `p12-evaluation-harness`.
+- D3 (decided, owner 4 Nov 2026): complement, not replace. `Context/bintanong_thesis_for_context.pdf` stays the
+  thesis-leader-approved copy; the newer external copy is a working draft used as supplementary context, cited by
+  hash (`614f9e21…`). Where they differ, the approved copy governs scope.
+- D4 (owner: "ikaw bahala"; chosen): a bounded task list on `p12-evaluation-harness`, not a numbered phase. Phase 13 is
+  cancelled and no next phase is authorized; this keeps the work in small committed steps without implying phase
+  advancement. If the owner later wants it as a phase, AGENTS.md's pre-phase research record comes first.
 - D5 (decided as a working assumption, owner 4 Nov 2026: "we can safely do this as a working assumption, just
   communicate it in a friendly student way"): the semester's prescribed total units is the ceiling for any mix of
   courses; a plan above it is shown with a major warning, not blocked. Wording proposed (owner may edit):
@@ -134,4 +184,4 @@ standing.
 
 ## Next action
 
-Owner answers D1–D7; on D1 "go", start Step 1 by showing the Check clauses for review.
+Owner answers D1, D2 and D7 (D3–D6 decided); on D1 "go", start tracks A, B, C and D.
