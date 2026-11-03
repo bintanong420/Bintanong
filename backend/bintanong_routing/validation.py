@@ -196,6 +196,11 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         for idx, mention in enumerate(p.mentions):
             if mention.kind != kind:
                 continue
+            if (kind == 'program' and document_only and all(part.subject_id in (
+                    'handbook_shifting', 'handbook_drop_shift_faq') for part in p.parts)):
+                # The program named in a shifting procedure is the destination, not a change to chat scope.
+                ignored.add(idx)
+                continue
             matches = _matches(mention, catalog, program if kind == 'curriculum' else None)
             selected = program if kind == 'program' else curriculum
             if len(matches) > 1:  # a name shared by several entries means the selected one (live: BSHM tracks)
@@ -234,6 +239,16 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             curriculum = editions[0].entity_id
     carried = context.conversation.course_id if context.conversation else None
     last = context.conversation
+    switched_course = None
+    switch_matches = ()
+    if p.reason == 'program_switch_follow_up' and last is not None and last.operation in (
+            'check_prerequisite_eligibility', 'list_missing_prerequisites'):
+        switched_course = next((c for c in catalog if c.kind == 'course' and c.entity_id == carried
+                               and c.program_id == last.program_id and c.curriculum_id == last.curriculum_id), None)
+        if switched_course is not None and switched_course.course_code is not None:
+            switch_matches = tuple(c for c in catalog if c.kind == 'course' and c.program_id == program
+                                   and c.curriculum_id == curriculum and c.course_code is not None
+                                   and _key(c.course_code) == _key(switched_course.course_code))
     prior_term = ((last.year_level, last.semester or 'any') if last is not None and last.operation in TERM_OPERATIONS
                   and last.year_level is not None else None)  # owner GUI 3 Nov 2026: follow-up memory
     # Thesis leader 4 Nov 2026: the router's program-switch follow-up names no term; the previous listing's term is it.
@@ -256,6 +271,10 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         # Words that name a course are never a back-reference (live F5: "What about CC 4?" -> CC 4).
         if mention.kind == 'course' and reference is not None and not names_course and (
                 mention.start, mention.end) == (reference.start, reference.end):
+            if p.reason == 'program_switch_follow_up':
+                if len(switch_matches) == 1:
+                    resolved[idx] = switch_matches[0]
+                continue
             # The model only marks the words; the course comes from session context and must still be
             # in the request's curriculum, otherwise the mention stays unresolved and the host clarifies.
             entry = next((c for c in catalog if c.kind == 'course' and c.entity_id == carried
@@ -329,13 +348,16 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         # Thesis leader, 4 Nov 2026: a message that is only a program name asks what the student wants to know
         # about it; the model has nothing to call a part ("unknown"), which read as an outage.
         return result('bare_program_name', missing=('program_topic:' + next(iter(named)),))
+    asserted = [c for c in claims if c.mode == 'asserted']
+    unclaimed = ''.join(c for i, c in enumerate(text) if not any(claim.start <= i < claim.end for claim in p.claims))
+    if (p.control in (None, 'clarify') and not p.operations and p.claims
+            and len(asserted) == len(p.claims) and '?' not in text
+            and all(part.evidence_need != 'document' for part in p.parts)
+            and set(re.findall(r'\w+', unclaimed.casefold())) <= {'and', 'at', 'but', 'pero', 'saka', 'tapos'}):
+        return result('facts_noted', missing=tuple(f'noted_{c.state}:{c.course_id}' for c in asserted))
     if p.control is not None:
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
-        asserted = [c for c in claims if c.mode == 'asserted']
-        if p.control == 'clarify' and not p.operations and p.claims and len(asserted) == len(p.claims):
-            # A message that only states results (memory/eligibility plan, Task 1): acknowledge the scoped facts.
-            return result('facts_noted', missing=tuple(f'noted_{c.state}:{c.course_id}' for c in asserted))
         if p.control == 'clarify' and not (p.operations or p.claims or reference):
             # Nothing named to clarify (live: "Pwede ba mag-shift ng course?"): missing information with an
             # office referral, not a bare "please clarify" (owner E3, 24 Oct 2026).
@@ -395,6 +417,10 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             # results in this message are still kept by the host.
             return result('missing_term', missing=('term',))
     if len(resolved) + len(ignored) != len(p.mentions):
+        if p.reason == 'program_switch_follow_up' and p.operations[0].name not in TERM_OPERATIONS:
+            return result('course_not_in_curriculum' if not switch_matches else 'unresolved_entity',
+                          missing=tuple('course_choice:' + c.entity_id for c in switch_matches)
+                          if switch_matches else ('course_id',))
         unresolved = [m for i, m in enumerate(p.mentions) if i not in resolved and i not in ignored]
         # Owner step 2c (24 Oct 2026): a course that matches no reviewed course of the curriculum ("CS 999") asks
         # for the printed code; an ambiguous match or an unfilled back-reference keeps the plain clarification.

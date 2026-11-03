@@ -256,12 +256,15 @@ class CatalogEntry(Record):
     program_id: Identifier
     curriculum_id: Identifier | None
     aliases: tuple[Text, ...] = Field(min_length=1, max_length=32)
+    course_code: Text | None = Field(default=None, exclude_if=lambda value: value is None)
     source_ref: str = Field(pattern=r'^ver-[a-z0-9-]+$')
     review_ref: Text
     reviewed: Literal[True]
 
     @model_validator(mode='after')
     def _scope(self):
+        if self.course_code is not None and (self.kind != 'course' or self.course_code not in self.aliases):
+            raise ValueError('course_code_requires_course_alias')
         if any(not x.strip() for x in self.aliases) or not self.review_ref.strip():
             raise ValueError('empty_alias_or_review')
         if self.kind != 'program' and self.curriculum_id is None:

@@ -57,4 +57,4 @@ def conflict_text(fields, language, shown) -> str:
 def noted_text(fields, language, shown) -> str:
     """fields: 'noted_<state>:<course_id>' entries; shown maps an internal course id to its printed code."""
     pairs = [(field[len('noted_'):].split(':', 1)[0], shown(field.split(':', 1)[1])) for field in fields]
-    return _NOTED[_language(language)].format(facts=stated_facts(pairs, language))
+    return '\n'.join(_NOTED[_language(language)].format(facts=stated_facts([pair], language)) for pair in pairs)

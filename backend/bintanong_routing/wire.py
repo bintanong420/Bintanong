@@ -65,7 +65,11 @@ class WireInterpretation(Contract):
     def _part_count(self):
         # A greeting or out-of-scope refusal runs no part (Interpretation rejects any it lists), so its count cannot
         # change the outcome (live 24 Oct 2026: such a refusal was shown as "temporarily unavailable").
-        if self.part_count != len(self.parts) and self.control not in ('greeting', 'unsupported_scope'):
+        placeholder = (self.part_count == 0 and len(self.parts) == 1 and not self.operations
+                       and self.parts[0].evidence_need == 'unknown' and not self.parts[0].operation_indices
+                       and self.parts[0].subject_id is None and not self.parts[0].requested_claims)
+        if (self.part_count != len(self.parts) and not placeholder
+                and self.control not in ('greeting', 'unsupported_scope')):
             raise ValueError('part_count_mismatch')
         return self
 
@@ -101,6 +105,11 @@ def _topic_parts_as_documents(wire: WireInterpretation, course_names=frozenset()
     if not dropped or any(i in dropped for p in wire.parts if not slip(p) for i in p.operation_indices):
         return wire
     data = wire.model_dump(mode='json')
+    noncourses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind in ('program', 'curriculum')}
+    dropped_targets = {(o.target.text, o.target.occurrence) for i, o in enumerate(wire.operations) if i in dropped}
+    # A discarded topic operation cannot turn its program target into a student course result.
+    data['claims'] = [c for c in data['claims']
+                      if (c['entity']['text'], c['entity']['occurrence']) not in dropped_targets & noncourses]
     kept = [i for i in range(len(wire.operations)) if i not in dropped]
     data['operations'] = [data['operations'][i] for i in kept]
     for part, value in zip(wire.parts, data['parts']):
@@ -155,8 +164,16 @@ def normalize_interpretation(text: str, wire: WireInterpretation, *, course_name
 
     # A program/curriculum quote that reads as a year level or semester (live: "second year" listed as a
     # curriculum) is a term; reviewed curricula are school years, never "<ordinal> year".
+    def course_span(quote):
+        found = span(quote)
+        trimmed = quote.text.rstrip('.,;:!?')
+        if (trimmed != quote.text and prepare_query(quote.text).casefold() not in course_names
+                and prepare_query(trimmed).casefold() in course_names):
+            return dict(text=trimmed, start=found['start'], end=found['start'] + len(trimmed))
+        return found
+
     listed = [dict(kind='term' if m.kind in ('program', 'curriculum') and parse_term(m.quote.text) else m.kind,
-                   **span(m.quote)) for m in wire.mentions]
+                   **(course_span(m.quote) if m.kind == 'course' else span(m.quote))) for m in wire.mentions]
     at = {(m['start'], m['text']): index for index, m in enumerate(listed)}
 
     def course_index(quote, kind='course'):
@@ -164,7 +181,7 @@ def normalize_interpretation(text: str, wire: WireInterpretation, *, course_name
         if index is None:
             # A quoted course (or term) the model did not list (owner, 23 Oct 2026) becomes a mention of
             # that kind; the host still has to resolve it. A miscount reuses the mention at that place.
-            found = span(quote)
+            found = course_span(quote) if kind == 'course' else span(quote)
             index = at.setdefault((found['start'], found['text']), len(listed))
             if index == len(listed):
                 listed.append(dict(kind=kind, **found))

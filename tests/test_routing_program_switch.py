@@ -14,7 +14,8 @@ from test_routing_router import FakeTransport, style_proposal
 
 def entry(kind, entity, program, curriculum, *aliases):
     return CatalogEntry.parse(dict(kind=kind, entity_id=entity, program_id=program, curriculum_id=curriculum,
-                                   aliases=list(aliases), source_ref='ver-a', review_ref='review-a', reviewed=True))
+                                   aliases=list(aliases), course_code=aliases[0] if kind == 'course' else None,
+                                   source_ref='ver-a', review_ref='review-a', reviewed=True))
 
 
 def catalog(third=False):
@@ -72,3 +73,78 @@ def test_a_word_fitting_two_tracks_asks_which_one():
 def test_other_messages_are_not_a_track_switch(text, memory):
     result = route(text, memory)
     assert result.proposed.reason != 'program_switch_follow_up'
+
+
+CHECK_MEMORY = dict(program_id='program-hotel', curriculum_id='curriculum-hotel',
+                    course_id='course-hotel', operation='check_prerequisite_eligibility')
+
+
+def check_route(*, missing=False, third=False, repeated=False):
+    from backend.bintanong_contracts.symbolic import Capability, CapabilityRegistry
+    text = 'how about the culinary track?'
+    value = proposal(text=text, mentions=[], operations=[], route=None, control='clarify', parts=[])
+    items = [*catalog(third), entry('course', 'course-hotel', 'program-hotel', 'curriculum-hotel', 'H 1', 'Shared Title')]
+    if not missing:
+        items.append(entry('course', 'course-culinary', 'program-culinary', 'curriculum-culinary', 'H 1', 'Shared Title'))
+    else:  # the same title with a different code must never count as the same course
+        items.append(entry('course', 'course-other', 'program-culinary', 'curriculum-culinary', 'X 2', 'Shared Title'))
+    if repeated:
+        items.append(entry('course', 'course-repeat', 'program-culinary', 'curriculum-culinary', 'H 1'))
+    capabilities = CapabilityRegistry({'check_prerequisite_eligibility': Capability(
+        'synthetic_prerequisite_check', ('curriculum_id', 'course_id'))})
+    ctx = RequestContext.parse(context(program_id='program-hotel', curriculum_id='curriculum-hotel',
+        conversation=CHECK_MEMORY, facts=[dict(fact_id='fact-old', session_id='sess-a', program_id='program-hotel',
+        curriculum_id='curriculum-hotel', course_id='course-hotel', state='passed', source='user_statement')]))
+    router = Router(FakeTransport(json.dumps(value), style_outputs=[json.dumps(style_proposal('en', english=['how']))]),
+                    catalog=items, registry=capabilities, documents_available=True, synthetic=True)
+    return asyncio.run(router.route(text, ctx))
+
+
+def test_eligibility_track_switch_repeats_the_check_using_the_new_curriculums_course_id():
+    result = check_route()
+    assert result.diagnostic == 'validated'
+    assert result.decision.predicate_request.predicate == 'check_prerequisite_eligibility'
+    assert inputs(result) == {'curriculum_id': 'curriculum-culinary', 'course_id': 'course-culinary'}
+    assert result.query.session_fact_refs == () and result.claims == ()
+
+
+def test_eligibility_track_switch_reports_a_course_missing_from_that_curriculum():
+    result = check_route(missing=True)
+    assert result.diagnostic == 'course_not_in_curriculum'
+    assert result.decision.predicate_request is None
+    assert result.decision.missing_facts == ('course_id',)
+
+
+def test_eligibility_track_switch_with_two_matching_tracks_asks_which_program():
+    result = check_route(third=True)
+    assert result.diagnostic == 'program_switch_ambiguous'
+    assert result.decision.missing_facts == ('program_choice:program-culinary', 'program_choice:program-kitchen')
+
+
+def test_a_repeated_code_in_the_new_track_never_picks_a_course_by_title():
+    result = check_route(repeated=True)
+    assert result.decision.control == 'clarify'
+    assert result.decision.predicate_request is None
+    assert result.decision.missing_facts == ('course_choice:course-culinary', 'course_choice:course-repeat')
+
+
+def test_orchestration_executes_the_switched_check_without_old_curriculum_facts():
+    from test_orchestration_pipeline import api, ports, resources
+    base = resources()
+    items = (*catalog(), entry('course', 'course-hotel', 'program-hotel', 'curriculum-hotel', 'H 1'),
+             entry('course', 'course-culinary', 'program-culinary', 'curriculum-culinary', 'H 1'))
+    items = tuple(c.model_copy(update=dict(source_ref='ver-synth-handbook-1')) for c in items)
+    release = ports().ReleaseResources(base.pin, items, base.registry, base.retrieval, base.symbolic)
+    text = 'how about the culinary track?'
+    value = proposal(text=text, mentions=[], operations=[], route=None, control='clarify', parts=[])
+    ctx = RequestContext.parse(context(program_id='program-hotel', curriculum_id='curriculum-hotel',
+        conversation=CHECK_MEMORY, facts=[dict(fact_id='fact-old', session_id='sess-a', program_id='program-hotel',
+        curriculum_id='curriculum-hotel', course_id='course-hotel', state='passed', source='user_statement')]))
+    transport = FakeTransport(json.dumps(value), style_outputs=[json.dumps(style_proposal('en', english=['how']))])
+    asyncio.run(api().Orchestrator(transport, releases=ports().SyntheticReleaseProvider(release)).run(text, ctx))
+    assert len(base.symbolic.calls) == 1
+    request, switched = base.symbolic.calls[0]
+    assert (switched.program_id, switched.curriculum_id, switched.facts) == (
+        'program-culinary', 'curriculum-culinary', ())
+    assert {i.name: i.value for i in request.inputs} == {
+        'course_id': 'course-culinary', 'curriculum_id': 'curriculum-culinary'}

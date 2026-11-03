@@ -9,6 +9,7 @@ from backend.bintanong_orchestration.contracts import IntegrationResult
 from test_generation_loop import Fake, api as generation
 from test_routing_router import FakeTransport, run, style_proposal
 from test_routing_contracts import proposal
+from routing_wire_fixtures import wire_fixture
 
 TEXT = 'Program A'
 
@@ -27,6 +28,17 @@ def test_a_bare_program_name_asks_what_the_student_wants_to_know():
     assert result.decision.control == 'clarify' and result.decision.route is None
     assert result.decision.missing_facts == ('program_topic:program-a',)
     assert result.diagnostic == 'bare_program_name'
+
+
+def test_zero_parts_with_an_unknown_placeholder_reaches_bare_program_clarification():
+    # Recorded cx-bare-bscs/cx-bare-cs wire shape, with a synthetic program.
+    value = wire_fixture(json.loads(bare_name(language='en')), TEXT)
+    value['part_count'] = 0
+    result = run(FakeTransport(json.dumps(value), json.dumps(value), style_outputs=[
+        json.dumps(style_proposal('en', english=[TEXT]))]), text=TEXT)
+    assert result.diagnostic == 'bare_program_name'
+    assert result.decision.missing_facts == ('program_topic:program-a',)
+    assert result.attempts == 1
 
 
 @pytest.mark.parametrize('language,expected', [

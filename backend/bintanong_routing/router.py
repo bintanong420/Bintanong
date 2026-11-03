@@ -174,16 +174,16 @@ def repeat_previous_check(proposed, text, conversation):
     return Interpretation.parse(value)
 
 
-SWITCH_REASON = 'program_switch_follow_up'  # read by validation.py: the term comes from the previous listing
+SWITCH_REASON = 'program_switch_follow_up'  # validation binds the previous term or printed course code
 
 
 def switch_program_follow_up(proposed, text, conversation, catalog):
-    """Thesis leader, 4 Nov 2026: after a term listing, a short message naming another program or track of the same
-    name family ("how about the hotel track?") re-asks the same listing there. Returns (interpretation, program_ids):
-    one program re-runs the listing for it (validation picks its one reviewed curriculum, else asks); several ask
-    which one. The track is found from the catalog's own program names: a word only the other program's names print.
-    None when the message is not such a follow-up."""
-    if (conversation is None or conversation.operation not in TERM_OPERATIONS or conversation.year_level is None
+    """A short named-track follow-up repeats the previous term listing or course check there.
+    Returns (interpretation, program_ids); validation binds its reviewed curriculum and course code.
+    Track words come from the catalog's program names; several matching tracks ask which one."""
+    term = conversation is not None and conversation.operation in TERM_OPERATIONS and conversation.year_level is not None
+    course = conversation is not None and conversation.operation in _COURSE_CHECKS and conversation.course_id is not None
+    if (not (term or course)
             or conversation.program_id is None or not text.strip() or len(text.split()) > 6 or parse_term(text)
             or any(m.kind == 'course' for m in proposed.mentions) or proposed.claims
             or proposed.control not in (None, 'clarify')):
@@ -202,11 +202,13 @@ def switch_program_follow_up(proposed, text, conversation, catalog):
     span = text.strip()
     start = text.index(span)
     value = proposed.model_dump(mode='json')
-    value.update(mentions=[dict(kind='term', text=span, start=start, end=start + len(span))], claims=[],
+    value.update(mentions=[dict(kind='term' if term else 'course', text=span, start=start, end=start + len(span))], claims=[],
                  ambiguities=[], control=None, route='Symbolic', reason=SWITCH_REASON,
                  operations=[dict(name=conversation.operation, target=0)],
                  parts=[dict(part_id='r1', text=span, start=start, end=start + len(span), evidence_need='structured',
                              operation_indices=[0], subject_id=None, requested_claims=[], detail='whole')])
+    if course:
+        value['context_reference'] = dict(text=span, start=start, end=start + len(span))
     return Interpretation.parse(value), tuple(named)
 
 
