@@ -20,8 +20,10 @@ export async function forwardStudentRequest(request: Request, path: string, opti
   // Browser headers cannot replace the cookie identity used by this workspace.
   if (request.headers.has("authorization")) return failure(401, "sign_in_required");
   if (options.accessToken) headers.set("Authorization", "Bearer " + options.accessToken);
-  const credential = request.headers.get("cookie")?.split(";").map(c => c.trim()).find(c => /^__Host-bintanong_session=[A-Za-z0-9_-]{43}$/.test(c));
-  if (credential) headers.set("Cookie", credential);
+  // Only the chat session and the anonymous browser id (per-person question limit) reach the API.
+  const owned = request.headers.get("cookie")?.split(";").map(c => c.trim())
+    .filter(c => /^__Host-bintanong_(session|client)=[A-Za-z0-9_-]{43}$/.test(c)) ?? [];
+  if (owned.length) headers.set("Cookie", owned.join("; "));
   if (origin && request.method !== "GET") headers.set("Origin", origin);
   let body: Uint8Array<ArrayBuffer> | undefined;
   if (request.method === "POST") {
@@ -58,7 +60,7 @@ export async function forwardStudentRequest(request: Request, path: string, opti
     for (const name of ["content-type", "x-vercel-ai-ui-message-stream"]) {
       const value = upstream.headers.get(name); if (value) outgoing.set(name, value);
     }
-    for (const cookie of upstream.headers.getSetCookie()) if (cookie.startsWith("__Host-bintanong_session=")) outgoing.append("Set-Cookie", cookie);
+    for (const cookie of upstream.headers.getSetCookie()) if (/^__Host-bintanong_(session|client)=/.test(cookie)) outgoing.append("Set-Cookie", cookie);
     return new Response(upstream.body, { status: upstream.status, headers: outgoing });
   } catch { return failure(503, "connection_failed"); }
 }

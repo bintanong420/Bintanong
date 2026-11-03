@@ -97,3 +97,16 @@ test('oversize JSON is rejected before upstream and cancellation is forwarded', 
     controller.abort(); assert.equal(init.signal.aborted, true); return new Response();
   } });
 });
+
+test('proxy forwards the anonymous browser id cookie both ways, and nothing else', async () => {
+  const browserId = '__Host-bintanong_client=' + 'b'.repeat(43);
+  const response = await forwardStudentRequest(request('/api/chat', 'POST', { Cookie: cookie + '; ' + browserId + '; unrelated=secret' }), '/chat', { ...options,
+    fetch: async (_url, init) => {
+      assert.equal(init.headers.get('Cookie'), cookie + '; ' + browserId);
+      const headers = new Headers();
+      headers.append('Set-Cookie', browserId + '; Max-Age=2592000; Secure; HttpOnly; SameSite=Strict; Path=/');
+      headers.append('Set-Cookie', 'other=1; Path=/');
+      return new Response('data', { headers });
+    } });
+  assert.deepEqual(response.headers.getSetCookie().map(value => value.split('=')[0]), ['__Host-bintanong_client']);
+});
