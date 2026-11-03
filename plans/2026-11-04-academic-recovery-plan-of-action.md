@@ -110,6 +110,18 @@ CC 5/L on top of a full prescribed load stays in the plan, with a major warning 
   unavailable (special class denied, no summer) is dropped and the reply says why.
 - Ordered by a stated, simple rule (fewest unconfirmed approvals, then earliest return to the prescribed sequence),
   never called "best" or "optimal".
+- **Precedent: Aurora** (Lugones et al., 2026, arXiv 2602.17999; code github.com/Damrl-lab/Aurora, no license shown),
+  already the thesis's central related work (external copy pp. 45, 62, 69, 112–113). Its long-term roadmap is a
+  greedy planner (Algorithm 1): each term it takes the remaining courses whose prerequisites are met, ranks them by
+  "unlock weight" (how many later courses each unlocks) and packs them up to the term's credit cap; Prolog enforces
+  prerequisites, co-requisites, credit caps and term availability; the LLM only phrases the verified plan and answers
+  INSUFFICIENT_CONTEXT when data is missing. Bintanong adopts the unlock weight as the tie-break when a term cannot
+  hold every unblocked course (e.g. CC 4/L first, since it unlocks the most). Differences kept on purpose: Bintanong
+  plans recovery from a failed course rather than filling every term, keeps the student's prescribed courses, uses
+  the Handbook routes (special class, summer, removal) with their conditions, warns instead of hard-capping load (D5),
+  and labels every draft for adviser approval. Aurora has no approval step (adviser override is its future work),
+  does not treat failed courses or retakes, and was evaluated on synthetic data with 20 queries. No Aurora code is
+  copied (no license shown); only the published method is followed and cited.
 - Every draft headed: "Draft, not approved. Show this to your program adviser." with each required approval listed.
 - A student's "approved na ng adviser" is recorded as student-reported, not as an institutional fact.
 - Disclosure: an extension beyond the thesis objectives unless the owner adds it to Chapter 3; kept out of the formal
