@@ -686,3 +686,15 @@ Each program still gets its own dated review record listing which standing rule 
   when the check judges every claim supported. Evidence: byte-identical check requests got opposite verdicts in
   different runs (#2 and leave length). Each skip is recorded on the answer as host_quote_override. Drafts and any
   unsupported claim keep the full check; the recheck tried earlier was reverted.
+- 4 Nov 2026 (blank prerequisite cells, owner): "those blank literally means no prerequisites, they are usually
+  foundational subjects that are usually found in first and second years. I've reviewed all of the prospectus so im
+  confident in it." Asked how far it applies, the owner chose: everywhere. A blank printed prerequisite cell in a
+  reviewed prospectus ledger now means no prerequisite. It is treated like a printed "None" (verified none) in
+  eligibility checks, term lists and dependency lists. It supersedes the earlier "Blank prerequisite cell -> unknown"
+  rulings (17 Oct review03 note, 23 Oct scenario list, 2 Nov reply wording) for prerequisite cells only.
+  - Unchanged: printed-but-unverified conditions (e.g. BSEd FS 2 "all professional education courses"), year
+    standing, self-referencing cells and other recorded source gaps keep their limits.
+  - Unchanged: blank units or other blank fields keep their own rulings.
+  - The ledgers themselves are not edited; the mapping belongs in the runtime or bundle compilation.
+  - Not yet implemented: assigned to another developer
+    (`plans/2026-11-04-handoff-affected-courses-and-followup.md`).

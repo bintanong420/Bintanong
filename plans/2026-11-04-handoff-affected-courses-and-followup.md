@@ -31,7 +31,34 @@ prove the course does not depend on CS 13/L. Suggested wording:
 - The router's operation is `list_affected_courses`. The "what if" is a request-only premise and does not change
   the listing.
 
-**Suggested fix, smallest first:**
+**Owner decision, 4 Nov 2026 (settles most of this):** a blank prerequisite cell means no prerequisite
+("those blank literally means no prerequisites… I've reviewed all of the prospectus"). It applies everywhere, not
+only to this listing; see the owner decisions ledger and AGENTS.md. Implement it as below. Blank cells then stop
+making the listing partial, and this question answers "no subject" with no limitation line. Only the remaining
+non-blank unresolved rules (about 89 across the release: printed but unverified conditions, year standing,
+self-references) can still make a listing partial.
+
+**Implementing the blank-cell decision:**
+- **Where blanks live:** in the ledgers, a blank cell is an `unresolved` rule node whose `reason` starts
+  "Printed prerequisite cell is blank". It is matched today in `render.py`'s `unresolved_rule_text` and in
+  `term_reply.py`.
+- **Map it at bundle preparation or compilation** (`backend/bintanong_symbolic/bundle.py` or `compiler.py`): such a
+  node becomes no prerequisite. Keep a distinct marker (for example `verified_none` with an origin `printed_blank`)
+  so answers can say "the prospectus lists no prerequisite" and evidence stays traceable to the blank cell. Do not
+  edit the stored ledgers or their review digests, and leave every other `unresolved` reason as it is.
+- **The effects to verify, each with a regression test written first:**
+  - `check_prerequisite_eligibility` on a blank-cell course is eligible.
+  - `dependencies/4` no longer counts it under `rule_unresolved`.
+  - `assess_term_prerequisites` lists it under "Prerequisites met".
+  - The 2 Nov "not listed, confirm with your adviser" wording is retired for blank cells.
+- **Tests and checks that will need updating:** these encode the old rule.
+  - `tests/test_term_prerequisite_advising.py` (SYN 290 "blank", needs information).
+  - The `GE-PS` expectation in `evaluation/memory_eligibility/gates.py` (offline term case) and the
+    plan's "GE-PS must remain unresolved".
+  - `unresolved_rule_text`/blank wording tests in `tests/test_generation_*`.
+  - Grep for `Printed prerequisite cell is blank` and `rule_unresolved`.
+
+**Suggested fix for the listing, smallest first:**
 - Answer a `partial` listing with the courses found (here none) plus one limitation sentence that gives the count
   of unresolved courses. Don't list them all, and don't ask a question.
 - Keep `complete` versus `partial` in the evidence so the limitation is never dropped.
