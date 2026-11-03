@@ -27,6 +27,17 @@ curriculum's prerequisite checks (from `Context/sample-query-results-20261103.md
 returned `clarification_needed` (lists GE-PC, asks which passed) instead of not eligible. Swapped in the UI for
 "Can I take BE 2001 if I already passed GE-PC?" (passed for BSBA FM, same rule; not yet run live for BusEco).
 
+## Live stack on the joel laptop (3 Nov)
+
+RTX 3050 4 GB (Gemma 35/43 layers on GPU), `.wslconfig` memory=6GB (owner). Venv
+`audit-evidence/p12-env-20261031/venv` built with pip, api+embedding+dev extras constrained to `backend/uv.lock`
+versions (uv marks api/embedding as conflicting). Hosted-560 API :8021 (startup ~100-112 s), Next dev :3216, ngrok
+3.39.13 tunnel https://snorkel-overturn-defiance.ngrok-free.dev (new account; added to API `allowed_origins` and
+`SITE_ORIGIN`; backups `.before-ngrok-20261103`). Live checks: CS 12/L eligible 64.7 s, drop subject 43.5 s, BusEco
+"Can I take BE 2001 if I already passed GE-PC?" eligible 33.9 s (replacement now verified), shifting via tunnel 52.7 s.
+All detached; pids in `audit-evidence/launcher-logs/pids.txt`; stop with `scripts/start-bintanong.ps1 -Stop`.
+Guests are public while the tunnel is up; Google sign-in via the tunnel needs `<tunnel>/auth/callback` in Supabase.
+
 ## Stack launcher (2 Nov)
 
 `1b726d58` `scripts/start-bintanong.ps1`: Docker Desktop -> model `bintanong-p09-cuda-latency` :18088 -> hosted-560 API
