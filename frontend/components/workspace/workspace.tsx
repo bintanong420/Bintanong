@@ -11,6 +11,7 @@ import { Sidebar, SidebarBrand } from "./sidebar";
 import { Conversation, EmptyConversation } from "./conversation";
 import { ProgramPicker, type CurriculumState } from "./program-picker";
 import { programShortName } from "@/lib/programs";
+import { SIGN_IN_ENABLED } from "@/lib/auth-policy";
 import { Composer } from "./composer";
 import { BrandMark } from "./brand-mark";
 import { AppearanceControl } from "./appearance-control";
@@ -250,7 +251,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
           <AppearanceControl className="header-theme-toggle" />
           <Button variant="ghost" size="icon" aria-label="Chat options" title="Chat options" popoverTarget={optionsId}><Ellipsis aria-hidden="true" /></Button>
           {signedIn ? <Button variant="ghost" className="header-signout" aria-label={busy === "signout" ? "Signing out…" : "Sign out"} title={busy === "signout" ? "Signing out…" : "Sign out"} disabled={busy === "file" || busy === "clear" || busy === "signout"} onClick={() => void signOut()}><LogOut size={16} aria-hidden="true" /><span className="account-action-label">{busy === "signout" ? "Signing out…" : "Sign out"}</span></Button>
-            : <Button asChild variant="ghost"><a href="/login" aria-label="Sign in" title="Sign in"><LogIn size={16} aria-hidden="true" /><span className="account-action-label">Sign in</span></a></Button>}</div>
+            : SIGN_IN_ENABLED && <Button asChild variant="ghost"><a href="/login" aria-label="Sign in" title="Sign in"><LogIn size={16} aria-hidden="true" /><span className="account-action-label">Sign in</span></a></Button>}</div>
         <div id={optionsId} popover="auto" className="workspace-options"><p className="supporting-copy">Research preview. University validation is still pending.</p></div>
       </header>
       {!signedIn && <p className="session-notice"><span>Guest</span> · Temporary chat</p>}
