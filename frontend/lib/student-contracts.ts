@@ -4,7 +4,7 @@ const id = z.string().min(1).max(128);
 export const answerMetadataSchema = z.strictObject({
   status: z.enum(["answered", "clarification_needed", "source_conflict", "insufficient_evidence", "out_of_scope", "temporarily_unavailable", "greeting", "abstained"]),
   conditional: z.boolean(), language: z.enum(["en", "fil", "taglish", "unknown"]),
-  missingFields: z.array(z.enum(["program", "curriculum", "course", "course_status"])).max(4),
+  missingFields: z.array(z.enum(["program", "curriculum", "course", "course_status", "transfer_direction"])).max(5),
   notice: z.string().min(1).max(240).optional(),
   clarification: z.strictObject({
     courses: z.array(z.strictObject({ code: z.string().min(1).max(240), kind: z.enum(["completion", "enrollment"]) })).max(32),

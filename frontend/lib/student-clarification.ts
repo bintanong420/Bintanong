@@ -38,6 +38,16 @@ export function clarificationQuestions(answer: Answer, curricula: StudentCurricu
       ] });
   }
   if (answer.missingFields.includes("course_status") && !answer.clarification?.courses.length) questions.push({ key: "course_status", title: copy.status, options: extra });
+  // Owner GUI 3 Nov 2026 (H2): the leaving-or-incoming question; the chosen text names the side the router reads.
+  if (answer.missingFields.includes("transfer_direction")) questions.push({ key: "transfer_direction",
+    title: en ? "Are you leaving PalSU, or transferring into PalSU?" : "Aalis ka ba sa PalSU, o lilipat ka sa PalSU?",
+    options: [
+      { value: "leaving", label: en ? "Leaving PalSU" : "Aalis sa PalSU",
+        text: en ? "I am leaving PalSU (transfer credentials / honorable dismissal)." : "Aalis ako sa PalSU (transfer credentials / honorable dismissal)." },
+      { value: "incoming", label: en ? "Transferring into PalSU" : "Lilipat sa PalSU",
+        text: en ? "I am transferring into PalSU from another school." : "Lilipat ako sa PalSU galing sa ibang school." },
+      ...extra,
+    ] });
   return questions;
 }
 

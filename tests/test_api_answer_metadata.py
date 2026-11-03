@@ -28,6 +28,15 @@ def test_answer_and_insufficient_metadata_golden(status, language, conditional, 
     assert encode(summary(answer)) == expected
 
 
+@pytest.mark.parametrize('missing,fields', [(('transfer_direction',), ['transfer_direction']),
+                                            (('program_choice:program-a', 'program_choice:program-b'), ['program'])])
+def test_direction_and_program_choices_reach_the_clarification_dialog(missing, fields):
+    # Owner GUI 3 Nov 2026 (H2): the direction question showed "No specific clarification question was provided."
+    answer = answer_for('Symbolic').model_copy(update={'status': 'clarification_needed', 'missing_facts': missing,
+                                                       'decision': None})
+    assert summary(answer)['data']['missingFields'] == fields
+
+
 def test_clarification_golden_carries_only_printed_unknown_course_and_scoped_choices():
     answer = answer_for('Symbolic')
     context = answer.structured_context.model_copy(update={'inputs': (

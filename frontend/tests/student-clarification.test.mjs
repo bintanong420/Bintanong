@@ -70,6 +70,20 @@ test('prerequisite replies send the original question and selected facts without
   assert.ok(!reply.text.includes('failed'), 'not passed never asserts a failed grade');
 });
 
+test('the leaving-or-incoming question offers both sides and resends the original question with the choice', () => {
+  // Owner GUI 3 Nov 2026 (H2): the direction question had no choices ("No specific clarification question was provided.").
+  for (const [language, leaving, incoming] of [
+    ['en', 'I am leaving PalSU (transfer credentials / honorable dismissal).', 'I am transferring into PalSU from another school.'],
+    ['taglish', 'Aalis ako sa PalSU (transfer credentials / honorable dismissal).', 'Lilipat ako sa PalSU galing sa ibang school.']]) {
+    const asked = { status: 'clarification_needed', language, missingFields: ['transfer_direction'], clarification: { courses: [], scope: null } };
+    const [question] = clarificationQuestions(asked, curricula);
+    assert.equal(question.key, 'transfer_direction');
+    assert.deepEqual(question.options.slice(0, 2).map(o => o.text), [leaving, incoming]);
+    assert.equal(clarificationReply('How to secure Transfer Credentials?', asked, curricula,
+      { transfer_direction: { value: 'leaving', explanation: '' } }).text, 'How to secure Transfer Credentials?\n\n' + leaving);
+  }
+});
+
 test('a bare clarification cannot invent another question or resend an unknown detail', () => {
   for (const language of ['en', 'fil', 'taglish', 'unknown']) {
     const bare = { status: 'clarification_needed', language, missingFields: [], clarification: { courses: [], scope: null } };

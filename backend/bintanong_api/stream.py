@@ -46,6 +46,8 @@ def answer_parts(answer, message_id: str, course_labels=None) -> list[dict]:
             name = 'course_status'
         if field.startswith('program_choice:'):
             name = 'program'
+        if field == 'transfer_direction':  # owner GUI 3 Nov 2026: the dialog offers leaving or transferring in
+            name = 'transfer_direction'
         if name and name not in missing:
             missing.append(name)
     parts.append({'type': 'data-answer', 'data': {'status': answer.status,
