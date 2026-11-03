@@ -256,3 +256,14 @@ def test_a_load_policy_needs_review_and_a_positive_summer_load():
     for change in ({'review_refs': []}, {'summer_normal_units': 0}, {'clauses': []}):
         with pytest.raises(ValueError):
             LoadPolicy.parse({**data, **change})
+
+
+def test_the_reviewed_palsu_load_policy_record_loads():
+    # Owner 4 Nov 2026 (Track A, "go"): the semester ceiling (D5) and the nine-unit summer load, printed on Handbook
+    # p. 35; the record quotes both clauses verbatim and is not synthetic.
+    from pathlib import Path
+    from backend.bintanong_planning.policies import load_policy
+    policy = load_policy(Path(__file__).resolve().parents[1] / 'knowledge' / 'rules' / 'palsu-load-policy-v1.json')
+    assert not policy.synthetic and policy.summer_normal_units == 9
+    assert policy.regular_ceiling == 'prescribed_semester_total'
+    assert 'nine (9) units' in policy.clause('summer').text and 'prescribed for the semester' in policy.clause('regular').text

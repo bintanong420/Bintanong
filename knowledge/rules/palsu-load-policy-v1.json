@@ -1,0 +1,23 @@
+{
+  "schema_version": "bintanong-load-policy-v1",
+  "policy_id": "policy-palsu-handbook-2021-load-v1",
+  "synthetic": false,
+  "regular_ceiling": "prescribed_semester_total",
+  "summer_normal_units": 9,
+  "clauses": [
+    {
+      "topic": "handbook_unit_load",
+      "page": 35,
+      "text": "MAXIMUM ACADEMIC LOAD. The maximum academic load per semester is the load prescribed for the semester in the curriculum. Students who enroll in more than the prescribed load for the semester will not be given credit for the excess units."
+    },
+    {
+      "topic": "handbook_summer_load",
+      "page": 35,
+      "text": "SUMMER LOAD. The normal load for the summer term shall be nine (9) units for both the undergraduate and graduate students. Graduating undergraduate students may, however, be allowed a higher load but not to exceed twelve (12) units, subject to prior approval of the Dean."
+    }
+  ],
+  "review_refs": [
+    "owner-2026-11-04-d5-working-load-ceiling",
+    "owner-2026-11-04-track-a-summer-load"
+  ]
+}

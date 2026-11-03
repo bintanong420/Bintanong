@@ -726,3 +726,12 @@ Each program still gets its own dated review record listing which standing rule 
   referral names only offices printed in the reviewed chunks (Deans of both colleges, or Department Head and Dean
   within a college; College Guidance Practitioner; Office of the University Registrar). OSAS, which appears only in
   the 4.3 section heading, is not named.
+- 4 Nov 2026 (academic recovery Track A, "go" on each): (1) summer load: over nine units is a friendly heads-up; a
+  student who says they are graduating is told up to twelve is possible with the Dean's prior approval (p. 35);
+  (2) overload: mentioned only to a student who says it is their last semester and they are graduating, always as
+  needing Dean and Registrar approval, never above 28 units and never after a stated delinquency (p. 36); (3) the
+  prerequisite waiver is quoted as an option only for graduating students, with its conditions, never planned
+  automatically (owner: "as long there is a graduating student clause"; p. 31); (4) 4.0/INC removal within the
+  succeeding term with the D6 discrepancy printed, before enrollment when it is a prerequisite of next semester's
+  subjects, a heads-up when a plan re-enrolls a subject with an open 4.0/INC, and no removal route for 5.0 (pp. 46-47).
+  The semester ceiling and the summer normal load are stored as knowledge/rules/palsu-load-policy-v1.json.
