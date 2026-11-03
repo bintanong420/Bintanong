@@ -347,6 +347,10 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .workspace-account-actions a[data-slot="button"] { min-block-size: 2.75rem; min-inline-size: 2.75rem; }
 .header-signout { color: var(--muted-foreground); }
 .header-about { color: var(--muted-foreground); }
+.busy-retry { display: grid; gap: 0.5rem; padding: 0.875rem 1rem; border: 1px solid var(--border); border-radius: 0.875rem; background: var(--secondary); color: var(--foreground); }
+.busy-retry p { margin: 0; font-size: 0.875rem; line-height: 1.5; }
+.busy-retry .busy-question { font-weight: 600; overflow-wrap: anywhere; }
+.busy-retry .busy-attempt { color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
 .curriculum-dialog { inline-size: min(32rem, calc(100vw - 2rem)); }
 .curriculum-dialog p, .curriculum-dialog .scope-field { font-size: 1rem; line-height: 1.6; }
 .curriculum-dialog .supporting-copy { font-size: 0.875rem; }

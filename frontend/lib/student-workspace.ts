@@ -22,7 +22,8 @@ export type WorkspaceState = { draft: string; messages: Message[]; pending: stri
 export type WorkspaceAction = { type: "draft"; text: string } | { type: "submit"; id: string; text?: string; clearDraft?: boolean }
   | { type: "remember"; details: SuppliedDetail[] } | { type: "forget-details" }
   | { type: "delta"; id: string; text: string } | { type: "complete"; id: string; answer: StudentAnswer }
-  | { type: "interrupt"; id: string; warning: string } | { type: "warning"; warning: string | null } | { type: "clear" };
+  | { type: "interrupt"; id: string; warning: string } | { type: "withdraw"; id: string }
+  | { type: "warning"; warning: string | null } | { type: "clear" };
 export const createWorkspace = (): WorkspaceState => ({ draft: "", messages: [], pending: null, warning: null, supplied: [] });
 export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction): WorkspaceState {
   if (action.type === "draft") return { ...state, draft: action.text };
@@ -45,12 +46,19 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
       { id: action.id + "-answer", role: "assistant", text: "", delivery: "streaming" }] };
   }
   if (state.pending !== action.id) return state;
+  // The server refused the question before starting it (all answer slots busy): nothing ran, so nothing is shown.
+  if (action.type === "withdraw") return { ...state, pending: null,
+    messages: state.messages.filter(message => message.id !== action.id && message.id !== action.id + "-answer") };
   const messages = state.messages.map(message => message.id !== action.id + "-answer" ? message :
     action.type === "delta" ? { ...message, text: message.text + action.text } :
     action.type === "complete" ? { ...message, text: action.answer.text, answer: action.answer, delivery: undefined } :
     { ...message, delivery: "interrupted" as const });
   return { ...state, messages, pending: action.type === "delta" ? state.pending : null,
     warning: action.type === "interrupt" ? action.warning : state.warning };
+}
+/** Seconds before automatic busy retry `attempt` (1-based); null once retries stop. */
+export function busyRetryDelay(attempt: number): number | null {
+  return attempt <= 4 ? 15 : null;
 }
 export function shouldSend(event: { key: string; shiftKey: boolean; isComposing: boolean; keyCode: number }) {
   return event.key === "Enter" && !event.shiftKey && !event.isComposing && event.keyCode !== 229;

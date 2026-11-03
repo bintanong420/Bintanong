@@ -5,7 +5,7 @@ import { createBrowserClient } from "@supabase/ssr";
 import { ChevronDown, ClipboardList, Ellipsis, FolderOpen, GraduationCap, Info, Lock, LogIn, LogOut, Menu } from "lucide-react";
 import { clearStudentSession, confirmStudentFile, getStudentCurricula, removeStudentFile, sendStudentMessage, uploadStudentFile } from "@/lib/student-transport";
 import { StudentTransportError, type StudentAnswer, type StudentChoice, type StudentCurriculum, type StudentScope, type StudentSourceSummary } from "@/lib/student-contracts";
-import { createWorkspace, selectedPDF, workspaceReducer } from "@/lib/student-workspace";
+import { busyRetryDelay, createWorkspace, selectedPDF, workspaceReducer } from "@/lib/student-workspace";
 import { Button } from "@/components/ui/button";
 import { Sidebar, SidebarBrand } from "./sidebar";
 import { Conversation, EmptyConversation } from "./conversation";
@@ -41,6 +41,9 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
   const [files, setFiles] = useState<ChatFile[]>([]), [fileWarning, setFileWarning] = useState<string | null>(null);
   const [sources, setSources] = useState<StudentSourceSummary[] | null>(null), [progress, setProgress] = useState("Connecting…");
   const [detailsOpen, setDetailsOpen] = useState(false), [rephraseOpen, setRephraseOpen] = useState(false), [selectedDetails, setSelectedDetails] = useState<string[]>([]);
+  // A busy-refused question; `retryAt` (epoch ms) is when it is sent again, null once automatic retries stop.
+  const [retry, setRetry] = useState<{ text: string; scope: StudentScope | null; attempt: number; retryAt: number | null } | null>(null);
+  const [now, setNow] = useState(() => Date.now());
   const [review, setReview] = useState<{ text: string; scope: StudentScope | null } | null>(null);
   const [busy, setBusy] = useState<"chat" | "file" | "clear" | "signout" | null>(null), [signInNeeded, setSignInNeeded] = useState(false);
   const [signOutFailed, setSignOutFailed] = useState(false);
@@ -117,12 +120,12 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
       } else void send();
     } catch { dispatch({ type: "warning", warning: "This message could not be prepared. Shorten the question or review the selected course details." }); }
   }
-  async function send(confirmed?: { text: string; scope: StudentScope | null; clearDraft?: boolean }) {
+  async function send(confirmed?: { text: string; scope: StudentScope | null; clearDraft?: boolean; attempt?: number }) {
     const text = (confirmed?.text ?? state.draft).trim(), selectedScope = confirmed ? confirmed.scope : scope;
     // Owner decision, 3 Nov 2026: chat is locked until a program is chosen, whatever the DOM says.
     if (flight.current || !text || signInNeeded || !selectedScope) return;
     const value = begin("chat");
-    setClarification(null); setSelectedDetails([]); setReview(null);
+    setClarification(null); setSelectedDetails([]); setReview(null); setRetry(null);
     dispatch({ type: "submit", id: value.id, ...(confirmed ? { text, clearDraft: confirmed.clearDraft } : {}) }); setProgress("Connecting…");
     try {
       const answer = await sendStudentMessage({ id: value.id, text, programId: selectedScope.programId, curriculumId: selectedScope.curriculumId }, {
@@ -134,9 +137,36 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
         dispatch({ type: "complete", id: value.id, answer });
         if (clarificationQuestions(answer, curricula).length) setClarification({ id: value.id + "-answer", original: text, answer, scope: selectedScope, open: false });
       }
-    } catch (error) { if (!value.controller.signal.aborted) { authError(error); dispatch({ type: "interrupt", id: value.id, warning: errorText(error) }); } }
+    } catch (error) {
+      if (value.controller.signal.aborted) return;
+      authError(error);
+      if (error instanceof StudentTransportError && error.code === "answers_busy") {
+        // Refused before it started: show it as waiting, not as an interrupted answer, and retry it.
+        const attempt = confirmed?.attempt ?? 1;
+        dispatch({ type: "withdraw", id: value.id });
+        const delay = busyRetryDelay(attempt);
+        setRetry({ text, scope: selectedScope, attempt, retryAt: delay === null ? null : Date.now() + delay * 1000 });
+        setNow(Date.now());
+      } else dispatch({ type: "interrupt", id: value.id, warning: errorText(error) });
+    }
     finally { finish(value); }
   }
+  // The retry timer calls the latest send with the latest retry state.
+  const sendRef = useRef(send), retryRef = useRef(retry); sendRef.current = send; retryRef.current = retry;
+  function retryNow() { if (retry) void send({ text: retry.text, scope: retry.scope, attempt: retry.attempt + 1, clearDraft: false }); }
+  function cancelRetry() { if (retry) { dispatch({ type: "draft", text: retry.text }); setRetry(null); } }
+  useEffect(() => {
+    if (!retry || retry.retryAt === null) return;
+    const attempt = retry.attempt;
+    const send = setTimeout(function fire() {
+      // Another request (for example a file) holds the connection: check again shortly.
+      if (flight.current) { setTimeout(fire, 1000); return; }
+      const current = retryRef.current;
+      if (current?.attempt === attempt) void sendRef.current({ text: current.text, scope: current.scope, attempt: attempt + 1, clearDraft: false });
+    }, Math.max(0, retry.retryAt - Date.now()));
+    const tick = setInterval(() => setNow(Date.now()), 1000);  // only refreshes the countdown text
+    return () => { clearTimeout(send); clearInterval(tick); };
+  }, [retry]);
   function stop() {
     const value = flight.current;
     if (!value || value.kind !== "chat") return;
@@ -149,7 +179,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
     try {
       await clearStudentSession(value.controller.signal);
       if (!value.controller.signal.aborted) {
-        dispatch({ type: "clear" }); setClarification(null); setFiles([]); setSources(null); setFileWarning(null); setClearOpen(false); setFilesOpen(false);
+        dispatch({ type: "clear" }); setClarification(null); setFiles([]); setSources(null); setFileWarning(null); setClearOpen(false); setFilesOpen(false); setRetry(null);
         setSelectedDetails([]); setReview(null); setDetailsOpen(false); setRephraseOpen(false);
       }
     } catch (error) { authError(error); dispatch({ type: "warning", warning: "Clearing was not confirmed. Your conversation and files are still here." }); }
@@ -190,7 +220,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
       if (response.status !== 204) throw new Error("signout_unavailable");
       const channel = new BroadcastChannel("bintanong-access");
       channel.postMessage({ identity: null }); channel.close();
-      dispatch({ type: "clear" }); setClarification(null); setFiles([]); setSelectedDetails([]); setReview(null); setDetailsOpen(false);
+      dispatch({ type: "clear" }); setClarification(null); setFiles([]); setSelectedDetails([]); setReview(null); setDetailsOpen(false); setRetry(null);
       window.location.assign(response.headers.get("x-bintanong-signout-notice") === "cleanup_pending" ? "/login?notice=cleanup_pending" : "/login?notice=signed_out");
     } catch { setSignOutFailed(true); }
     finally { finish(value); }
@@ -222,6 +252,18 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
       <div className={`workspace-content${state.messages.length ? "" : " welcome-mode"}`}>
       {state.messages.length ? <Conversation state={state} progress={progress} onSource={setSources} canClarify={!!clarification && !signInNeeded} onEdit={draft} onRephrase={() => setRephraseOpen(true)} onClarify={() => { if (!flight.current) setClarification(previous => previous ? { ...previous, open: true } : null); }} /> : <EmptyConversation scope={scope} onSuggest={text => { draft(text); if (!scope) openPicker(); }} />}
       {signOutFailed && <div className="outcome-notice status-danger" role="alert"><p>We couldn't finish signing you out. Try again before leaving this device.</p><Button variant="outline" disabled={!!busy} onClick={() => void signOut()}>Try signing out again</Button></div>}
+      {retry && <div className="outcome-notice busy-retry" role="status">
+        <p className="busy-question">{retry.text}</p>
+        {retry.retryAt === null
+          ? <p>Still busy. Try again in a moment. <span className="busy-attempt">(attempt {retry.attempt})</span></p>
+          : <p><span aria-hidden="true">All answer slots are busy. Retrying in {Math.max(0, Math.ceil((retry.retryAt - now) / 1000))} s </span>
+              <span className="sr-only">All answer slots are busy. Bintanong will try again automatically. </span>
+              <span className="busy-attempt">(attempt {retry.attempt})</span></p>}
+        <div className="card-actions">
+          <Button type="button" size="sm" disabled={!!busy} onClick={retryNow}>{retry.retryAt === null ? "Try again" : "Try again now"}</Button>
+          <Button type="button" size="sm" variant="outline" onClick={cancelRetry}>Cancel</Button>
+        </div>
+      </div>}
       {state.warning && <div className="outcome-notice status-danger" role="alert"><p>{state.warning}</p>{signInNeeded && <a href="/login">Sign in again</a>}{state.messages.some(message => message.role === "user") && <Button variant="outline" size="sm" onClick={() => draft(state.messages.findLast(message => message.role === "user")?.text ?? "")}>Edit question</Button>}</div>}
       {signInNeeded && !state.warning && <p className="session-notice" role="alert">Your sign-in needs attention. <a href="/login">Sign in again</a> to continue.</p>}
       <Composer live picker={picker} locked={!scope && <>
