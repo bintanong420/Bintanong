@@ -96,6 +96,37 @@ def _names_any(text, phrases):
     return any(re.search(r'(?<![\w-])' + re.escape(c) + r'(?![\w-])', text, re.IGNORECASE) for c in phrases)
 
 
+# Owner GUI 3 Nov 2026 (H2, #11): replies to the bot's own "Aalis ka ba sa PalSU ..., o lilipat ka sa PalSU galing sa
+# ibang school?" question. These read the answer to that question only; they are not a routing word list.
+_LEAVING_REPLY = ('aalis', 'alis', 'leaving', 'leave palsu', 'transfer out', 'transferring out', 'honorable dismissal',
+                  'to another school', 'sa ibang school ako lilipat')
+_INCOMING_REPLY = ('transferring in', 'transfer in', 'transferring into', 'transferee', 'lilipat sa palsu',
+                   'lilipat ako sa palsu', 'galing sa ibang school', 'from another school', 'papasok')
+
+
+def answer_transfer_direction(proposed, menu, text, conversation):
+    """The previous turn asked leaving or transferring in; a reply naming one side is answered from that side's
+    topic, keeping the detail the original question asked. A reply naming neither or both returns None."""
+    if conversation is None or conversation.pending != 'transfer_direction':
+        return None
+    leaving, incoming = _names_any(text, _LEAVING_REPLY), _names_any(text, _INCOMING_REPLY)
+    if leaving == incoming:
+        return None
+    family = 'leaving_palsu_transfer_credentials' if leaving else 'transferring_into_palsu'
+    preferred = 'charter_transfer' if leaving else 'handbook_transfer_credentials'
+    members = [t for t in menu if t.family == family]
+    topic = next((t for t in members if t.subject_id == preferred), members[0] if members else None)
+    if topic is None:
+        return None
+    part = dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='document', operation_indices=[],
+                subject_id=topic.subject_id, requested_claims=[c for c in topic.claims if c not in topic.not_stated][:8],
+                detail=conversation.detail or 'whole')
+    return Interpretation.parse(dict(proposed.model_dump(mode='json'), parts=[part], route='RAG', control=None,
+                                     claims=[], ambiguities=[], operations=[],
+                                     mentions=[m for m in proposed.model_dump(mode='json')['mentions']
+                                               if m['kind'] != 'course']))
+
+
 def transfer_direction_unstated(proposed, topics, text):
     families = {t.subject_id: t.family for t in topics}
     return (any(families.get(p.subject_id) in TRANSFER_FAMILIES for p in proposed.parts)
@@ -388,6 +419,7 @@ class Router:
             except RuntimeFailure as error:
                 return failure(str(error), attempt)
             problem = None
+            resolved = None
             try:
                 wire = WireInterpretation.parse(_json_proposal(raw))
                 try:
@@ -402,6 +434,9 @@ class Router:
                         prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
                     proposed = answer_years_to_graduate(lead_absence_with_attendance(
                         prefer_good_moral_checklist(proposed, topics), topics), topics, text)
+                    resolved = answer_transfer_direction(proposed, self.topics, text, context.conversation)
+                    if resolved is not None:  # owner GUI 3 Nov 2026: the reply to the direction question
+                        proposed = resolved
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
@@ -439,7 +474,8 @@ class Router:
                     if result.decision.dispatchable and _names_any(text, EXCLUDED_PROGRAM_CUES):
                         result = replace(result, decision=_decision(control='unsupported_scope',
                             reason='excluded program named'), diagnostic='excluded_program_named')
-                    elif result.decision.dispatchable and transfer_direction_unstated(proposed, topics, text):
+                    elif (result.decision.dispatchable and resolved is None
+                            and transfer_direction_unstated(proposed, topics, text)):
                         result = replace(result, decision=_decision(control='clarify',
                             missing=('transfer_direction',), reason='transfer direction unstated'),
                             diagnostic='transfer_direction_unstated')

@@ -10,6 +10,11 @@ def capture(result: RoutingResult) -> ConversationContext | None:
     """Only a validated turn is kept. The course is the one the turn's check asked about (owner,
     23 Oct 2026: "Can I take CC 5? I passed CC 4." -> "it" is CC 5); without a check, only a single
     mentioned course is kept, so a later "its" never has to choose between two antecedents."""
+    if result.diagnostic == 'transfer_direction_unstated':  # owner GUI 3 Nov 2026: remember the question asked
+        detail = next((p.detail for p in result.proposed.parts if p.evidence_need == 'document'), None) \
+            if result.proposed else None
+        return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id,
+                                   pending='transfer_direction', detail=detail)
     if result.diagnostic != 'validated':
         return None
     request = result.decision.predicate_request

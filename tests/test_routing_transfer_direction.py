@@ -45,6 +45,37 @@ def test_a_stated_direction_answers_without_asking(text, subject):
     assert result.decision.dispatchable and result.decision.route == 'RAG'
 
 
+def test_the_direction_question_is_remembered_for_the_next_turn():
+    # Owner GUI 3 Nov 2026 (H2, #11): after "Aalis ka ba ...?" every reply was treated as a new question with no topic.
+    from backend.bintanong_private_context.conversation import capture
+    asked = route('What are the requirements for transfer credentials?', 'fictional_incoming')
+    remembered = capture(asked)
+    assert remembered is not None and remembered.pending == 'transfer_direction'
+
+
+def follow_up(text, subject='fictional_office'):
+    from test_routing_contracts import context
+    transport = Transport(selected((subject,)), answer(subject, (MENU_CLAIMS[subject],), text=text), text=text)
+    result, _ = run(transport, text=text, topics=MENU,
+                    ctx=context(conversation=dict(pending='transfer_direction', detail='fees')))
+    return result
+
+
+@pytest.mark.parametrize('text,expected', [
+    ('aalis ako', 'fictional_outgoing'), ('leaving PalSU', 'fictional_outgoing'),
+    ('transferring in', 'fictional_incoming'), ('lilipat ako sa PalSU galing sa ibang school', 'fictional_incoming')])
+def test_a_reply_that_picks_a_side_is_answered_from_that_side(text, expected):
+    result = follow_up(text)
+    assert result.decision.dispatchable and result.decision.route == 'RAG'
+    part, = result.proposed.parts
+    assert (part.subject_id, part.detail) == (expected, 'fees')
+
+
+def test_a_reply_that_picks_no_side_is_asked_again():
+    result = follow_up('pwede both?', 'fictional_incoming')
+    assert result.decision.control == 'clarify' and result.decision.missing_facts == ('transfer_direction',)
+
+
 def test_topics_outside_the_transfer_families_never_ask_for_a_direction():
     result = route('Where do I file the transfer slip?', 'fictional_office')
     assert result.decision.dispatchable

@@ -49,6 +49,10 @@ class ConversationContext(Record):
     curriculum_id: Identifier | None = None
     course_id: Identifier | None = None
     subject_id: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    # Owner GUI 3 Nov 2026: the previous turn asked whether the student is leaving or transferring in, and the
+    # detail its question asked; no text is kept.
+    pending: Literal['transfer_direction'] | None = None
+    detail: Literal['whole', 'requirements', 'fees', 'processing_time', 'specific'] | None = None
 
 
 class RequestContext(Record):
