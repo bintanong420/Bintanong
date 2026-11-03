@@ -735,3 +735,9 @@ Each program still gets its own dated review record listing which standing rule 
   succeeding term with the D6 discrepancy printed, before enrollment when it is a prerequisite of next semester's
   subjects, a heads-up when a plan re-enrolls a subject with an open 4.0/INC, and no removal route for 5.0 (pp. 46-47).
   The semester ceiling and the summer normal load are stored as knowledge/rules/palsu-load-policy-v1.json.
+- 4 Nov 2026 (plan checker behaviors, "2a ok too" / 2b "pwede naman"): (2a) terms are read in time order; a course
+  that works in its own term counts as passed for every later term (CC 4/L in the 2nd semester, then CS 4/L and
+  CS 6 in summer, works), and a course scheduled before its prerequisite is blocked and earns no credit for later
+  terms (p. 31). (2b) a special-class, off-semester or summer request never changes a term's outcome; the term reads
+  "Works, needs confirmation" / "Works, may kailangan pang i-confirm" with each request listed as requested, not yet
+  approved, with its printed conditions and source, plus what changes if it does not open.
