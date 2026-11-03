@@ -53,10 +53,11 @@ def validate_final(answer,pack,claims):
                                explanation=answer.decision_explanation):
         raise ValueError('final_render_mismatch')
     if answer.decision_explanation is not None:
-        from .decision_reply import explanation_errors,prerequisite_check
+        from .decision_reply import explanation_errors,explanation_kind,term_explanation_errors
         from .render import shown_label
-        if not prerequisite_check(pack) or explanation_errors(pack,answer.decision_explanation,
-                                                              label=shown_label(pack)):
+        kind=explanation_kind(pack)
+        check={'decision':explanation_errors,'term':term_explanation_errors}.get(kind)
+        if check is None or check(pack,answer.decision_explanation,label=shown_label(pack)):
             raise ValueError('final_decision_explanation_invalid')
     if answer.citations!=selected_cards(pack,claims):
         raise ValueError('final_citation_mismatch')

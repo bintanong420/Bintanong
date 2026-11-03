@@ -352,7 +352,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         lines.extend(course_fact_lines(pack.course_facts,pack.language))
     if pack.term_assessment is not None and canonical_allowed:  # memory/eligibility plan, Task 4
         from .term_reply import term_lines
-        lines.extend(term_lines(pack.term_assessment,pack.language,shown))
+        listed=term_lines(pack.term_assessment,pack.language,shown)
+        lines.extend(listed)
+        if explanation:  # Bintu's explanation right after the heading; the groups stay host-written
+            lines.insert(lines.index(listed[0])+1,explanation)
     if pack.dependencies is not None:
         if canonical_allowed:
             lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))

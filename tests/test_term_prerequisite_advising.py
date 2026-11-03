@@ -202,3 +202,49 @@ def test_a_term_question_without_a_year_asks_only_for_the_term_and_keeps_the_fai
     answer = asyncio.run(Generator(NoModel()).generate(text, integration))
     assert student_text(answer) == ('Which year level and semester is this for? For example: '
                                     '"second year, second semester".')
+
+
+# ---- Bintu's one explanation for the checked term (plan Task 4 / addendum) --------------------------------------
+class Model:
+    def __init__(self, *outputs):
+        self.outputs, self.calls = list(outputs), []
+
+    async def infer(self, messages, schema):
+        self.calls.append((messages, schema))
+        return self.outputs.pop(0)
+
+
+def explained(text, language='en'):
+    return json.dumps(dict(schema_version='bintanong-decision-explanation-v1', language=language, explanation=text))
+
+
+def test_bintu_explains_the_checked_term_from_its_groups():
+    note = 'SYN 251 needs both SYN 131 and SYN 141, so it has to wait; SYN 260 has no prerequisite.'
+    model = Model(explained(note))
+    answer = asyncio.run(Generator(model).generate(EXAMPLE_B, run()))
+    lines = student_text(answer).splitlines()
+    assert lines[1] == note and answer.decision_explanation == note
+    evidence = json.loads(model.calls[0][0][1]['content'])['evidence']
+    assert evidence['term'] == 'second year, second semester'
+    assert evidence['blocked'] == [{'course': 'SYN 251', 'needs': ['SYN 131', 'SYN 141']},
+                                   {'course': 'SYN 241', 'needs': ['SYN 141']}]
+    assert evidence['met'] == ['SYN 260']
+
+
+@pytest.mark.parametrize('draft', [
+    'You can take SYN 251 next term.',                 # a blocked course called takeable
+    'SYN 260 is blocked for now.',                     # a met course called blocked
+    'You can already take SYN 290.',                   # an unresolved course given a verdict
+    'You also need SYN 999 first.',                    # a course not in the checked term
+    'Your enrollment in SYN 260 is approved.',         # a promise
+])
+def test_a_term_explanation_that_contradicts_a_group_is_dropped(draft):
+    answer = asyncio.run(Generator(Model(explained(draft))).generate(EXAMPLE_B, run()))
+    assert answer.decision_explanation is None and draft not in answer.text
+    assert student_text(answer).splitlines()[1] == 'Prerequisites met: SYN 260'
+
+
+def test_a_term_the_source_does_not_cover_makes_no_model_call():
+    text = 'I failed SYN 131 and SYN 141. What can I take in third year, first sem?'
+    answer = asyncio.run(Generator(NoModel()).generate(text, run(text, term='third year, first sem')))
+    assert answer.decision_explanation is None

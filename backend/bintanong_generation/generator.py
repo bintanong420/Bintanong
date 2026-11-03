@@ -27,7 +27,8 @@ from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExpla
                            record_coverage_errors,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
 from .decision_reply import (EXPLANATION_SECONDS,DecisionExplanation,decision_lines,explanation_errors,
-                             explanation_messages,explanation_schema,prerequisite_check)
+                             explanation_messages,explanation_schema,prerequisite_check,term_explainable,
+                             term_explanation_errors,term_explanation_messages)
 from .quoted_field import quoted_field_parts
 
 TRUNCATED_DRAFT_OUTPUT_TOKENS=1536
@@ -93,7 +94,7 @@ class Generator:
         self.explanation_profile=explanation_profile
         self.review_reference_profile=review_reference_profile
 
-    async def _explain(self,text,pack,remaining_seconds):
+    async def _explain(self,text,pack,remaining_seconds,*,term=False):
         """One bounded post-Prolog call; any failure, timeout or invalid draft leaves the host wording alone."""
         from .render import shown_label
         label=shown_label(pack)
@@ -104,11 +105,13 @@ class Generator:
             return None
         try:
             async with asyncio.timeout(seconds):
-                raw=await self.transport.infer(explanation_messages(text,pack,label),explanation_schema())
+                messages=(term_explanation_messages if term else explanation_messages)(text,pack,label)
+                raw=await self.transport.infer(messages,explanation_schema())
             value=_parse(raw,DecisionExplanation)
         except Exception:
             return None
-        return None if explanation_errors(pack,value.explanation,value.language,label) else value.explanation
+        errors=(term_explanation_errors if term else explanation_errors)(pack,value.explanation,value.language,label)
+        return None if errors else value.explanation
 
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
@@ -132,6 +135,12 @@ class Generator:
                     release_id=pack.release_id,decision_outcome=pack.decision.outcome,claims=())
                 return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft),explanation=explanation)
             return _answer(pack,fallback_status(pack.status),explanation=explanation)
+        if term_explainable(pack):
+            # Memory/eligibility plan, Task 4: one Bintu explanation for the checked term; the groups stay fixed.
+            explanation=await self._explain(text,pack,remaining_seconds,term=True)
+            draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
+                release_id=pack.release_id,decision_outcome=None,claims=())
+            return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft),explanation=explanation)
         if pack.status!='ready' or pack.language=='unknown':
             context = unresolved_deadline_context(pack)
             if context:
