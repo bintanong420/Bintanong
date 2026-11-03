@@ -120,6 +120,9 @@ class Generator:
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
         pack=prepare(integration)
+        from dataclasses import replace as _replace
+        from ..bintanong_routing.terms import parse_term
+        pack=_replace(pack,asked_term=parse_term(text))  # live 4 Nov 2026: the year can stand outside the asked part
         check_question(text,pack)
         try:
             quotes=quoted_field_parts(pack)

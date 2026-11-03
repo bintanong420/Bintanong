@@ -362,9 +362,18 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         if explanation:  # Bintu's explanation right after the heading; the groups stay host-written
             lines.insert(lines.index(listed[0])+1,explanation)
     if pack.dependencies is not None:
-        if canonical_allowed:
+        target=next((i.value for i in pack.structured_context.inputs if i.name=='course_id'),None) \
+            if pack.structured_context is not None else None
+        if canonical_allowed and target is not None:  # owner report, 4 Nov 2026: answer, never a list of unknowns
+            from .dependency_reply import dependency_lines
+            reply=dependency_lines(pack.dependencies,target,pack.language,shown,term=pack.asked_term)
+            lines.extend(reply)
+            if pack.assumptions:
+                from .student_facts_reply import assumption_text
+                lines.insert(lines.index(reply[0])+1,assumption_text(pack.assumptions,pack.language,shown))
+        elif canonical_allowed:
             lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))
-        if (canonical_allowed or pack.status=='unknown') and pack.dependencies.unknown_conditions:
+        if pack.status=='unknown' and pack.dependencies.unknown_conditions:
             lines.append(shown(words['missing']+': '+', '.join(pack.dependencies.unknown_conditions)))
     if missing and (canonical_allowed or status=='clarification_needed'):
         labels=({'program_id':'programa','curriculum_id':'bersiyon ng kurikulum'}

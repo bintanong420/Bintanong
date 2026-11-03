@@ -238,7 +238,11 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                   and last.year_level is not None else None)  # owner GUI 3 Nov 2026: follow-up memory
     for idx, mention in enumerate(p.mentions):
         if mention.kind == 'term':  # read by the host; a term with no stated year stays unresolved (clarify)
-            if parse_term(mention.text, prior_term) is not None:
+            # Beside a course question, time words only scope the answer and the host reads them from the text
+            # (live 4 Nov 2026: "second semester" alone blocked a dependency question); only the target of a term
+            # operation must name its own year, which a follow-up may take from the previous question (prior_term).
+            term_target = any(o.name in TERM_OPERATIONS and o.target == idx for o in p.operations)
+            if parse_term(mention.text, prior_term) is not None or not term_target:
                 ignored.add(idx)
             continue
         names_course = program is not None and curriculum is not None and bool(
@@ -361,9 +365,20 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             return result('missing_scope', missing=missing)
     if (p.operations and p.operations[0].name == 'assess_term_prerequisites'
             and parse_term(p.mentions[p.operations[0].target].text) is None):
-        # "next sem" names no year level: ask only for the term (memory/eligibility plan, Task 4); the stated
-        # results in this message are still kept by the host.
-        return result('missing_term', missing=('term',))
+        claimed = {c.entity for c in p.claims}
+        named = [i for i, m in enumerate(p.mentions) if m.kind == 'course' and i in resolved and i not in claimed]
+        if len(named) == 1 and registry.supports('check_prerequisite_eligibility'):
+            # Live 4 Nov 2026: with a previous course in context, "Can I take CS 17/L next semester?" was read as
+            # a term check on "next semester". One named course with no stated result is the only target the
+            # message has, so it is checked on that course; the term words only say when.
+            ignored.add(p.operations[0].target)
+            data = p.model_dump(mode='json')
+            data['operations'][0] = dict(name='check_prerequisite_eligibility', target=named[0])
+            p = Interpretation.parse(data)
+        else:
+            # "next sem" names no year level: ask only for the term (memory/eligibility plan, Task 4); the stated
+            # results in this message are still kept by the host.
+            return result('missing_term', missing=('term',))
     if len(resolved) + len(ignored) != len(p.mentions):
         unresolved = [m for i, m in enumerate(p.mentions) if i not in resolved and i not in ignored]
         # Owner step 2c (24 Oct 2026): a course that matches no reviewed course of the curriculum ("CS 999") asks

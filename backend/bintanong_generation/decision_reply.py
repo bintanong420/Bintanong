@@ -221,6 +221,7 @@ def _kinds(requirement):
 
 # Live 3 Nov 2026: internal names ("all_of", "completion_unknown") and "your record" for a what-if reached drafts.
 _INTERNAL = re.compile(r"(?<![\w-])[a-z]+(?:_[a-z]+)+(?![\w-])")
+_ASSUMED = re.compile(r"\b(?:assum\w*|what-?if|kung sakali|halimbawa lang)\b", re.I)
 _RECORD = re.compile(r"\b(?:your record|your transcript|record mo|sa record)\b", re.I)
 
 
@@ -272,6 +273,8 @@ def explanation_errors(pack, explanation, language=None, label=str):
         errors.append('wrong_connective')
     if pack.assumptions and _RECORD.search(explanation):
         errors.append('what_if_called_record')
+    if not pack.assumptions and _ASSUMED.search(explanation):  # live 4 Nov 2026: a stated result called an assumption
+        errors.append('assumption_without_what_if')
     if _FAILURE.search(explanation):
         errors.append('failure_wording')
     return tuple(dict.fromkeys(errors))

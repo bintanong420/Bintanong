@@ -693,3 +693,15 @@ Each program still gets its own dated review record listing which standing rule 
   browser-side patches) and 3 (sending earlier turns' text to the router) were not chosen.
 - 3 Nov 2026 (procedure layout, "go"): whole Charter procedures open with a plain lead, "What to bring", one line per
   step with fee, time and office, then what the office does; printed values, limits and the original note unchanged.
+- 4 Nov 2026 (blank prerequisite cells, owner): "those blank literally means no prerequisites, they are usually
+  foundational subjects that are usually found in first and second years. I've reviewed all of the prospectus so im
+  confident in it." Asked how far it applies, the owner chose: everywhere. A blank printed prerequisite cell in a
+  reviewed prospectus ledger now means no prerequisite. It is treated like a printed "None" (verified none) in
+  eligibility checks, term lists and dependency lists. It supersedes the earlier "Blank prerequisite cell -> unknown"
+  rulings (17 Oct review03 note, 23 Oct scenario list, 2 Nov reply wording) for prerequisite cells only.
+  - Unchanged: printed-but-unverified conditions (e.g. BSEd FS 2 "all professional education courses"), year
+    standing, self-referencing cells and other recorded source gaps keep their limits.
+  - Unchanged: blank units or other blank fields keep their own rulings.
+  - The ledgers themselves are not edited; the mapping belongs in the runtime or bundle compilation.
+  - Implemented 4 Nov 2026 on `feat/memory-eligibility` (`1376e0e`) at the owner's request; year-level standing
+    (names no course) no longer makes a dependency list uncertain (`671ad26`).

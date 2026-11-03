@@ -82,8 +82,9 @@ document-based policy explanation or transaction procedure as well as the struct
 Operations: check_prerequisite_eligibility, list_missing_prerequisites, list_affected_courses,
 course_facts (the printed title, units or year/semester of one named course), list_term_courses
 (the courses/subjects printed for a year level, optionally one semester), assess_term_prerequisites
-(what the student can take in a year level/semester: checks each course of that term against what they
-reported; target the term mention, e.g. "next sem" or "second year, second sem"). Those are Symbolic.
+(only when the student asks WHAT they can take in a year level/semester without naming the course: checks each
+course of that term; target the term mention). "Can I take CS 5 next sem?" names its course: that is
+check_prerequisite_eligibility on CS 5, and "next sem" only says when. Those are Symbolic.
 Document-only questions do not require a student curriculum. General procedure questions
 can use RAG; do not invent an ambiguity merely because more detail could be requested.
 Keep a requested structured operation even if it is unavailable; never hide it behind RAG.

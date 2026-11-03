@@ -98,9 +98,17 @@ def offline(h, out):
     term = run('bscs-2018-2019', 'assess_term_prerequisites', [('CC 3/L', 'failed'), ('CC 4/L', 'failed')],
                year_level='2', semester='second_semester')
     groups = {x.code: x.group for x in term.courses if not x.retake}
+    # GE-PS has a blank printed cell: no prerequisite (owner decision, 4 Nov 2026).
     rows.append(dict(case='Old BSCS 2nd year 2nd sem after failing CC 3/L and CC 4/L', outcome=str(groups),
                      ok=groups.get('CC 5/L') == 'blocked' and groups.get('CS 4/L') == 'blocked'
-                     and groups.get('GE-PS') == 'needs_info'))
+                     and groups.get('GE-PS') == 'met'))
+    from backend.bintanong_contracts.runtime import PredicateRequest as _Request
+    blocked = adapter('bscs-2018-2019').runtime.list_affected_courses(_Request.parse({'predicate': 'list_affected_courses',
+        'inputs': [{'name': 'curriculum_id', 'value': 'bscs-2018-2019', 'fact_ref': None},
+                   {'name': 'course_id', 'value': cid('bscs-2018-2019', 'CS 13/L'), 'fact_ref': None}]}))
+    left = sorted(codes['bscs-2018-2019'][u.split(':', 1)[1]] for u in blocked.unknown_conditions)
+    rows.append(dict(case="Owner 4 Nov: failing CS 13/L blocks no course (only CS 20's unit condition noted)",
+                     outcome=str((blocked.course_ids, left)), ok=blocked.course_ids == () and left == ['CS 20']))
     mid = run('bsmid-2019-2020', 'assess_term_prerequisites', [], year_level='2', semester='first_semester')
     rows.append(dict(case='Midwifery 2nd year not covered', ok=mid.status == 'not_covered', outcome=mid.status))
     return rows
