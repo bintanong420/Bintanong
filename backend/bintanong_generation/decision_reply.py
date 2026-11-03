@@ -197,6 +197,15 @@ _NEGATIVE = re.compile(r"\b(?:not eligible|ineligible|cannot take|can't take|can
                        r"hindi ka (?:pwede|puwede|pasok)|hindi mo pa (?:pwede|puwede|makukuha|ma-take|makuha))", re.I)
 _POSITIVE = re.compile(r"\b(?:you can (?:now |already )?take|you are eligible|you're eligible|you meet|eligible ka|"
                        r"(?:pwede|puwede) (?:mo|ka) na(?:ng)?|pasok ka|qualified ka|you qualify)", re.I)
+# A condition or purpose clause ("before you can take X", "bago mo ma-take", "so that you can") states the rule,
+# not a verdict, so it is set aside before the verdict phrases are checked.
+_CONDITION = re.compile(r"\b(?:before|until|so that|in order to|para|bago|hanggang)\b[^.;!?]*", re.I)
+
+
+def _verdict_text(text):
+    return _CONDITION.sub(' ', text)
+
+
 _PROMISE = re.compile(r'\b(?:enrolled|naka-?enroll ka na|approv\w*|guarantee\w*|reserv\w*|slots?|official(?:ly)?|'
                       r'sigurado)\b', re.I)
 _FAILURE = re.compile(r'\b(?:fail(?:ed|ing)?|bagsak|bumagsak|binagsak)\b', re.I)
@@ -223,9 +232,9 @@ def explanation_errors(pack, explanation, language=None, label=str):
     if _CODE.search(residue):  # any other course-like code is not in the checked evidence
         errors.append('unlisted_course')
     outcome = pack.decision.outcome
-    if outcome in ('eligible', 'unknown') and _NEGATIVE.search(explanation):
+    if outcome in ('eligible', 'unknown') and _NEGATIVE.search(_verdict_text(explanation)):
         errors.append('reversed_verdict')
-    if outcome in ('ineligible', 'unknown') and _POSITIVE.search(explanation):
+    if outcome in ('ineligible', 'unknown') and _POSITIVE.search(_verdict_text(explanation)):
         errors.append('reversed_verdict')
     if _PROMISE.search(explanation):
         errors.append('enrollment_promise')
@@ -302,9 +311,9 @@ def term_explanation_errors(pack, explanation, language=None, label=str):
     met = {c.code for c in term.courses if c.group == 'met' and not c.retake} - reasons
     for sentence in re.split(r'[.;!?]', explanation):
         named = {code for code in allowed if _without(sentence, code) != sentence}
-        if named & waiting and _POSITIVE.search(sentence):
+        if named & waiting and _POSITIVE.search(_verdict_text(sentence)):
             errors.append('reversed_verdict')
-        if named & met and _NEGATIVE.search(sentence):
+        if named & met and _NEGATIVE.search(_verdict_text(sentence)):
             errors.append('reversed_verdict')
     if _PROMISE.search(explanation):
         errors.append('enrollment_promise')

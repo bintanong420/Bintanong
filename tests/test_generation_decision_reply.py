@@ -137,3 +137,15 @@ def test_a_what_if_premise_is_never_remembered():
     claim = SimpleNamespace(mode='hypothetical', session_id='sess-a', program_id='program-a', curriculum_id='c',
                             course_id='course-1', state='failed', period=None)
     assert accepted_facts(SimpleNamespace(claims=(claim,)), 'msg-1') == ()
+
+
+@pytest.mark.parametrize('facts,draft', [
+    # Live draft, 3 Nov 2026 (Lawrence case): "before you can take" is the condition, not a verdict.
+    ((('course-1', 'failed'),), 'The rule requires that you must have passed course-1 before you can take course-2.'),
+    ((('course-1', 'failed'),), 'Kailangan mo munang maipasa ang course-1 bago mo ma-take ang course-2.'),
+    ((('course-1', 'failed'),), 'You need course-1 first so that you can take course-2.'),
+])
+def test_a_condition_clause_is_not_read_as_a_verdict(facts, draft):
+    from backend.bintanong_generation.decision_reply import explanation_errors
+    pack = prepare(research_integration(facts=facts))
+    assert explanation_errors(pack, draft) == ()
