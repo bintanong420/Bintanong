@@ -272,10 +272,11 @@ def test_maximum_context_plus_new_assertion_has_a_bounded_failure():
     async def scenario():
         base = ctx().model_dump(mode='json')
         base['facts'] = [dict(base['facts'][0],fact_id=f'fact-existing-{n}') for n in range(256)]
-        value = proposal(claims=[dict(entity=0,state='passed',mode='asserted',text='A1',start=0,end=2)])
+        value = proposal(text='A1 passed policy',
+                         claims=[dict(entity=0,state='passed',mode='asserted',text='A1 passed',start=0,end=9)])
         release = resources()
         result = await api().Orchestrator(FakeTransport(json.dumps(value)),releases=
-            ports().SyntheticReleaseProvider(release)).run('A1 policy',RequestContext.parse(base))
+            ports().SyntheticReleaseProvider(release)).run('A1 passed policy',RequestContext.parse(base))
         assert result.status == 'invalid_output' and not release.symbolic.calls
         assert result.events[-1].outcome == 'invalid_output'
     asyncio.run(scenario())

@@ -11,11 +11,13 @@ from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
+from ..bintanong_routing.validation import effective_facts, facts_for_term
 from ..bintanong_routing.combined import CombinedRouter
 from ..bintanong_routing.topic_selection import ABSENCE, ABSENCE_TOPICS, SHIFT, SHIFT_TOPICS
 from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from .adapters import AdapterFailure
+from .term_assessment import TermAssessmentResult
 from .contracts import DocumentResult, IntegrationResult, StageEvent, RequestUnderstanding
 from .integration import assemble
 from .ports import HeldReleaseProvider, ReleaseResources, ReleaseUnavailable
@@ -132,13 +134,13 @@ class Orchestrator:
         prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         events, resources, route, style = [], None, None, 'unknown'
-        understanding = None
+        understanding, assumed = None, ()
 
         def finish(status, evidence=None, missing=()):
             return IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
                 request_id=context.request_id, route=route, response_style=style,
                 status=status, evidence=evidence, understanding=understanding,
-                missing_facts=tuple(missing), events=tuple(events),
+                missing_facts=tuple(missing), events=tuple(events), assumed_facts=assumed,
                 course_labels=referenced_labels(resources.course_labels if resources else (),
                     evidence.model_dump(mode='json') if evidence is not None else None,
                     understanding.model_dump(mode='json') if understanding is not None else None,
@@ -183,6 +185,10 @@ class Orchestrator:
                 elif isinstance(value, CourseFactsResult):
                     observed = {'complete':'ready','not_reviewed':'no_evidence','not_found':'no_evidence',
                                 'unsupported':'unsupported'}[value.status]
+                elif isinstance(value, TermAssessmentResult):
+                    observed = {'complete':'ready','partial':'unknown','not_covered':'no_evidence',
+                                'not_reviewed':'no_evidence','not_found':'no_evidence',
+                                'unsupported':'unsupported'}[value.status]
                 elif name == 'integration':
                     observed = value.status
             metadata = dict(stage=name, duration_ms=(perf_counter()-start)*1000,
@@ -217,7 +223,7 @@ class Orchestrator:
         scoped = None
 
         async def route_request():
-            nonlocal scoped, route, style, understanding
+            nonlocal scoped, route, style, understanding, assumed
             value = await router.route(text, context)
             route, style = value.decision.route, value.response_style
             # A failed result can carry style (for its clarification) but never its rejected parts.
@@ -232,8 +238,11 @@ class Orchestrator:
             if route is not None:
                 # Bound the merged assertion set within the guarded routing stage.
                 # Nothing is persisted, and overflow cannot escape as an exception.
-                facts = (*context.facts, *(ScopedFact(**{name:getattr(c,name) for name in ScopedFact.model_fields})
-                    for c in value.claims if c.mode == 'asserted'))
+                assumed = tuple(f'{c.state}:{c.course_id}' for c in value.claims if c.mode == 'hypothetical')
+                # A what-if premise replaces the record for its course in this check only; nothing is persisted here.
+                facts = tuple(f if type(f) is ScopedFact else
+                              ScopedFact(**{name:getattr(f,name) for name in ScopedFact.model_fields})
+                              for f in facts_for_term(effective_facts(context.facts, value.claims), text))
                 scoped = RequestContext(session_id=context.session_id, request_id=context.request_id,
                     program_id=value.program_id or context.program_id,
                     curriculum_id=value.curriculum_id or context.curriculum_id, facts=facts)
@@ -270,6 +279,11 @@ class Orchestrator:
             request = routed.decision.predicate_request
             resources.registry.goal(request)
             value = await resources.symbolic.execute(request, scoped)
+            if request.predicate == 'assess_term_prerequisites':  # each course of the term, same release and facts
+                if (type(value) is not TermAssessmentResult or value.inputs != request.inputs
+                        or value.synthetic is research_pin):
+                    raise ValueError('operation_result_mismatch')
+                return TermAssessmentResult.parse(value.model_dump(mode='json'))
             if request.predicate in ('course_facts', 'list_term_courses'):  # printed facts; no rule executed
                 if (type(value) is not CourseFactsResult or value.inputs != request.inputs
                         or value.predicate != request.predicate or value.synthetic is research_pin):
@@ -290,7 +304,7 @@ class Orchestrator:
                 raise ValueError('dependency_operation_mismatch')
             return dependency_kind.parse(value.model_dump(mode='json'))
 
-        documents, symbolic, dependencies, course_facts = None, None, None, None
+        documents, symbolic, dependencies, course_facts, term_assessment = None, None, None, None, None
         research_pin = not resources.pin.synthetic
         if route == 'Hybrid':
             (documents, doc_failure), (result, sym_failure) = await asyncio.gather(
@@ -307,12 +321,15 @@ class Orchestrator:
             dependencies = result
         elif isinstance(result, CourseFactsResult):
             course_facts = result
+        elif isinstance(result, TermAssessmentResult):
+            term_assessment = result
         else:
             symbolic = result
 
         async def integrate():
             return assemble(resources.pin, route, documents=documents,
-                            symbolic=symbolic, dependencies=dependencies, course_facts=course_facts)
+                            symbolic=symbolic, dependencies=dependencies, course_facts=course_facts,
+                            term_assessment=term_assessment)
 
         evidence, failure = await stage('integration', integrate)
         return finish(failure) if failure else finish(evidence.status, evidence, evidence.missing_facts)

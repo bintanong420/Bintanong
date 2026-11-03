@@ -26,6 +26,8 @@ OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'l
 CAPABILITIES = dict(zip(OPERATIONS, ('offline_research_prerequisite_check',
     'offline_research_missing_prerequisites', 'offline_research_dependency_inspection',
     'offline_research_course_facts', 'offline_research_term_courses')))
+# Composed by the adapter from the term lookup and the prerequisite check (memory/eligibility plan, Task 4).
+CAPABILITIES['assess_term_prerequisites'] = 'offline_research_term_prerequisites'
 # Phase 05 selected document-development profile (uncalibrated; research status rule applies).
 SETTINGS = RetrievalSettings(top_k=3, min_similarity=.25, context_budget=2048,
                              policy_id='uncalibrated-document-development-v1')

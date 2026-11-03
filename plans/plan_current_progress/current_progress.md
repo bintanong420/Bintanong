@@ -5,6 +5,17 @@ Phase 12 research/software write-up complete with disclosures; no active numbere
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
+## Memory and eligibility (3 Nov, owner-requested; branch `feat/memory-eligibility`, worktree `p12-memory-eligibility`)
+
+Owner plan `plans/prolog/Bintanong_Backend_Memory_and_Eligibility_Plan.md`, Tasks 1–4, implemented and pushed
+to `origin/feat/memory-eligibility` (3 Nov; no PR yet). The owner's intent (3 Nov): Prolog results are the evidence, Bintu reasons over them and writes
+the conclusion, and the chat keeps what the student said. Delivery, verification and open gates:
+[results](../2026-11-03-memory-eligibility-results.md). Verified: the full suite has the same 82 failures and 9 errors as
+the baseline (missing jsonschema/cv2/docling) and zero new failures; 17/17 source-backed cases pass on the reviewed ledgers.
+Live with Gemma, the rerun passed 7/7 turns after four defects found live were fixed (BSCS demo, Civil/Mechanical
+Phy 11/L, Lawrence). Model container stopped again.
+**Next action:** the other developer (32 GB machine) runs the `curricula` and `recorded` gates with `evaluation/memory_eligibility/` (README there); then owner decides on push/PR.
+
 ## Teammate frontend fixes (3 Nov, owner-directed; local commits, not pushed)
 
 Owner decision: chat is locked until a program is chosen (undergraduates always have one); this supersedes the

@@ -8,13 +8,15 @@ from dataclasses import dataclass
 
 from ..bintanong_contracts.runtime import BoundInput, NormalizedQuery, PredicateRequest, ResolvedEntity, RoutingDecision, negation_tokens, time_phrases
 from ..bintanong_contracts.symbolic import CapabilityRegistry, EMPTY_REGISTRY, UnsupportedRequest
-from .contracts import TERM_OPERATIONS, CatalogEntry, Interpretation, RequestContext, ScopedFact, prepare_query
+from .claim_evidence import enrollment_period, inside_if_clause, stated_result
+from .contracts import (TERM_OPERATIONS, CatalogEntry, Interpretation, RequestContext, ScopedFact, fact_dimension,
+                        prepare_query)
 from .style import StyleEvidence
 from .languages import unsupported_language
 from .terms import parse_term
 
 OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
-              'course_facts', 'list_term_courses')
+              'course_facts', 'list_term_courses', 'assess_term_prerequisites')
 
 
 class GroundedClaim(ScopedFact):
@@ -119,6 +121,36 @@ def _split_code(text, mention, catalog, program, curriculum):
             if m and m.end() > mention.end and not text[m.end():m.end() + 1].isalnum():
                 found[c.entity_id] = (c, m.end())
     return next(iter(found.values())) if len(found) == 1 else None
+
+
+def effective_facts(context_facts, claims):
+    """The facts one check uses. A what-if premise replaces the record for its course and dimension in this check
+    only; a newer self-report replaces an older one. A confirmed upload is never replaced by a chat statement,
+    so a disagreement with it stays a conflict (memory/eligibility plan, Task 2)."""
+    def key(f):
+        return f.course_id, fact_dimension(f.state)
+    hypothetical = {key(c) for c in claims if c.mode == 'hypothetical'}
+    stated = {key(c) for c in claims if c.mode == 'asserted'}
+    kept = tuple(f for f in context_facts if key(f) not in hypothetical
+                 and not (key(f) in stated and getattr(f, 'source', None) == 'user_statement'))
+    return kept + tuple(claims)
+
+
+def facts_for_term(facts, question: str):
+    """An enrollment statement counts only for the term it covers: "taking it this term" cannot satisfy a
+    co-requisite of a course asked about for next term (memory/eligibility plan, Task 2). Completion facts and
+    upload facts (no period) are unaffected."""
+    asked = enrollment_period(question)
+    return tuple(f for f in facts if fact_dimension(f.state) != 'enrollment' or f.period in (None, asked))
+
+
+def conflicting(context_facts, claims) -> tuple[str, ...]:
+    """Courses with two different results the check would use (e.g. a statement against a confirmed upload)."""
+    states = {}
+    for f in effective_facts(context_facts, claims):
+        if f.state != 'taken_unknown':
+            states.setdefault((f.course_id, fact_dimension(f.state)), set()).add(f.state)
+    return tuple(sorted({course for (course, _), s in states.items() if len(s) > 1}))
 
 
 def _decision(*, route=None, control=None, request=None, missing=(), reason):
@@ -232,15 +264,25 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                 resolved[idx] = matches[0]
 
     claims = []
+    course_spans = [(m.start, m.end) for m in p.mentions if m.kind == 'course']
     for idx, claim in enumerate(p.claims):
         course = resolved.get(claim.entity)
-        if course is None:
+        if course is None or claim.mode == 'reported':  # another person's result is no fact about the speaker
             continue
-        identity = f'{context.session_id}:{context.request_id}:{idx}:{course.entity_id}:{claim.state}:{claim.mode}:{claim.start}:{claim.end}'
+        entity = p.mentions[claim.entity]
+        # The host keeps only the result the student's own words state (memory/eligibility plan, Task 1).
+        state = stated_result(text, (claim.start, claim.end), (entity.start, entity.end),
+                              tuple(s for s in course_spans if s != (entity.start, entity.end)))
+        if state is None:
+            continue
+        mode = 'hypothetical' if claim.mode == 'asserted' and inside_if_clause(text, entity.start) else claim.mode
+        identity = f'{context.session_id}:{context.request_id}:{idx}:{course.entity_id}:{state}:{mode}:{claim.start}:{claim.end}'
         claims.append(GroundedClaim(fact_id='fact-' + hashlib.sha256(identity.encode()).hexdigest(),
             session_id=context.session_id, program_id=course.program_id,
-            curriculum_id=course.curriculum_id, course_id=course.entity_id, state=claim.state,
-            mode=claim.mode, text=claim.text, start=claim.start, end=claim.end))
+            curriculum_id=course.curriculum_id, course_id=course.entity_id, state=state,
+            source='user_statement', period=(enrollment_period(claim.text)
+                                             if fact_dimension(state) == 'enrollment' else None),
+            mode=mode, text=claim.text, start=claim.start, end=claim.end))
     query = NormalizedQuery(schema_version=NormalizedQuery.SCHEMA_VERSION, original_text=text,
         normalized_text=normalized, language_hints={'en':('en',), 'fil':('tl',),
         'taglish':('tl','en'), 'unknown':()}[p.language], intent=p.intent,
@@ -271,6 +313,10 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     if p.control is not None:
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
+        asserted = [c for c in claims if c.mode == 'asserted']
+        if p.control == 'clarify' and not p.operations and p.claims and len(asserted) == len(p.claims):
+            # A message that only states results (memory/eligibility plan, Task 1): acknowledge the scoped facts.
+            return result('facts_noted', missing=tuple(f'noted_{c.state}:{c.course_id}' for c in asserted))
         if p.control == 'clarify' and not (p.operations or p.claims or reference):
             # Nothing named to clarify (live: "Pwede ba mag-shift ng course?"): missing information with an
             # office referral, not a bare "please clarify" (owner E3, 24 Oct 2026).
@@ -313,6 +359,11 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         missing = tuple(k for k, v in (('program_id', program), ('curriculum_id', curriculum)) if v is None)
         if missing:
             return result('missing_scope', missing=missing)
+    if (p.operations and p.operations[0].name == 'assess_term_prerequisites'
+            and parse_term(p.mentions[p.operations[0].target].text) is None):
+        # "next sem" names no year level: ask only for the term (memory/eligibility plan, Task 4); the stated
+        # results in this message are still kept by the host.
+        return result('missing_term', missing=('term',))
     if len(resolved) + len(ignored) != len(p.mentions):
         unresolved = [m for i, m in enumerate(p.mentions) if i not in resolved and i not in ignored]
         # Owner step 2c (24 Oct 2026): a course that matches no reviewed course of the curriculum ("CS 999") asks
@@ -328,13 +379,9 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                    if curriculum is not None and len(unresolved) == 1 and unresolved[0].kind == 'course' else ())
         return result('unresolved_entity', missing=tuple('course_choice:' + c.entity_id for c in choices)
                       if len(choices) > 1 else ())
-    if any(c.mode != 'asserted' for c in claims):
-        return result('nonasserted_facts')
-    states = {}
-    for f in (*context.facts, *claims):
-        states.setdefault(f.course_id, set()).add(f.state)
-    if p.operations and any({'passed','failed'} <= s or {'enrolled','not_enrolled'} <= s for s in states.values()):
-        return result('conflicting_facts')
+    disputed = conflicting(context.facts, claims) if p.operations else ()
+    if disputed:  # name each disputed course so the reply can say what to fix (memory/eligibility plan, Task 2)
+        return result('conflicting_facts', missing=tuple(f'conflict:{course}' for course in disputed))
     request = None
     if p.operations:
         op = p.operations[0]

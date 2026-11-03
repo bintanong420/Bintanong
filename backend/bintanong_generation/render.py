@@ -175,7 +175,8 @@ def selected_cards(pack,claims):
             return ()
     ids={ref for claim in claims for ref in claim.evidence_ids}
     return tuple(c for c in pack.cards if c.evidence_id in ids or
-                 (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None)))
+                 (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None
+                                      or pack.term_assessment is not None)))
 
 
 _WITHHELD={
@@ -252,7 +253,14 @@ def limit_notices(cards):
     return kinds
 
 
-def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False):
+def shown_label(pack):
+    """A course id as its printed code (display only)."""
+    labels=dict(pack.course_labels)
+    return lambda course: labels.get(course,course)
+
+
+def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False,
+                explanation=None):
     words=_WORDS.get(pack.language,_WORDS['en'])
     message=(words['thanks'] if thanked else _UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
         _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
@@ -267,11 +275,18 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         values='; '.join(f'{i.name}={i.value}' for i in context.inputs)
         editions=', '.join(context.scope.edition_ids) if context.scope else ''
         lines.append(shown(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}'))
+    from .decision_reply import asked_fields,decision_lines
     if _lists_requirement(pack,status):
         listing=_REQUIREMENT.get(pack.language,_REQUIREMENT['en'])
         course=next(i.value for i in pack.structured_context.inputs if i.name=='course_id')
-        lines[1]=shown(f"{listing['heading']} {course}: {requirement_text(pack.requirement,pack.language)}.")
-        lines.append(shown(listing['ask'].format(course=course)))
+        reply=decision_lines(pack,shown)
+        if reply is not None and len(_referenced(pack.requirement,('course','co_requisite')))==1:
+            lines[1]=reply[0]  # memory/eligibility plan: one prerequisite is asked about directly
+        else:
+            lines[1]=shown(f"{listing['heading']} {course}: {requirement_text(pack.requirement,pack.language)}.")
+            lines.append(shown(listing['ask'].format(course=course)))
+        if explanation:
+            lines.insert(2,explanation)
         return '\n'.join(lines)
     missing=pack.missing_facts
     if status=='clarification_needed' and 'language' in missing:
@@ -291,6 +306,20 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='clarification_needed' and 'transfer_direction' in missing:
         lines[1]=_TRANSFER_DIRECTION.get(pack.language,_TRANSFER_DIRECTION['en'])
         missing=tuple(field for field in missing if field!='transfer_direction')
+    disputed=[field for field in missing if field.startswith('conflict:')]
+    if status=='clarification_needed' and disputed:  # a statement that disagrees with a confirmed upload
+        from .student_facts_reply import conflict_text
+        lines[1]=conflict_text(disputed,pack.language,shown)
+        missing=tuple(field for field in missing if not field.startswith('conflict:'))
+    noted=[field for field in missing if field.startswith('noted_')]
+    if status=='clarification_needed' and noted:  # memory/eligibility plan: a result stated without a question
+        from .student_facts_reply import noted_text
+        lines[1]=noted_text(noted,pack.language,shown)
+        missing=tuple(field for field in missing if not field.startswith('noted_'))
+    if status=='clarification_needed' and 'term' in missing:  # a term question with no year level stated
+        from .term_reply import term_question
+        lines[1]=term_question(pack.language)
+        missing=tuple(field for field in missing if field!='term')
     scope=[field for field in ('program_id','curriculum_id') if field in missing]
     if status=='clarification_needed' and lines[1]==words[status] and scope and set(missing)==set(scope):
         question,joiner,labels=_SCOPE_QUESTION.get(pack.language,_SCOPE_QUESTION['en'])
@@ -305,12 +334,33 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if pack.decision is not None and not held_rule and (canonical_allowed or
             (pack.status=='unknown' and pack.decision.outcome=='unknown')):
         decision=pack.decision
-        lines.append(words[decision.outcome])
-        conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
-        if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
-        missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
+        reply=decision_lines(pack,shown)
+        if reply is not None:  # memory/eligibility plan, Task 3: the scoped conclusion first, then Bintu's explanation
+            if status=='answered':
+                lines.extend(reply)
+            else:
+                lines[1:2]=reply[:1]
+                lines.extend(reply[1:])
+            if explanation:
+                lines.insert(lines.index(reply[0])+1,explanation)
+            if pack.assumptions:  # a what-if answer says it is conditional and unsaved, right after the conclusion
+                from .student_facts_reply import assumption_text
+                lines.insert(lines.index(reply[0])+1,assumption_text(pack.assumptions,pack.language,shown))
+            asked=asked_fields(decision)
+            missing=tuple(f for f in dict.fromkeys((*missing,*decision.missing_facts)) if f not in asked)
+        else:
+            lines.append(words[decision.outcome])
+            conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
+            if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
+            missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
     if pack.course_facts is not None and canonical_allowed:
         lines.extend(course_fact_lines(pack.course_facts,pack.language))
+    if pack.term_assessment is not None and canonical_allowed:  # memory/eligibility plan, Task 4
+        from .term_reply import term_lines
+        listed=term_lines(pack.term_assessment,pack.language,shown)
+        lines.extend(listed)
+        if explanation:  # Bintu's explanation right after the heading; the groups stay host-written
+            lines.insert(lines.index(listed[0])+1,explanation)
     if pack.dependencies is not None:
         if canonical_allowed:
             lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))

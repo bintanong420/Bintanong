@@ -72,7 +72,7 @@ def test_a_fact_only_part_is_folded_into_the_check_it_qualifies(fact_part_operat
                                  operation_indices=fact_part_operations)])
     result = plain(text, value)
     assert result.diagnostic == 'validated' and result.decision.predicate_request.predicate == 'check_prerequisite_eligibility'
-    assert [(c.course_id, c.state) for c in result.claims] == [('course-a', 'failed')]
+    assert [(c.course_id, c.state) for c in result.claims] == [('course-a', 'not_passed')]  # owner plan state
 
 def test_how_about_another_course_keeps_the_previous_check():
     # Owner GUI 3 Nov 2026: "pano yung CS 10/L?" after a prerequisites question was answered with course units.

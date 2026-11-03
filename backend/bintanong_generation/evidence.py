@@ -35,6 +35,8 @@ class PreparedEvidence:
     record_coverage: tuple[tuple[str,str,tuple[str,...]],...]=()  # exact subject/claim -> evidence ids
     record_order: tuple[tuple[str,str,tuple[str,...]],...]=()  # explicit reviewed sequence only
     field_quotes: tuple[tuple[str,str,str,str],...]=()  # subject,claim,evidence id,exact text
+    assumptions: tuple[str,...]=()  # what-if premises '<state>:<course id>' (request-only)
+    term_assessment: object=None  # TermAssessmentResult: each course of one term checked, rendered by the host
 
     def model_payload(self):
         payload = dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -100,7 +102,8 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     evidence=result.evidence
     if evidence is not None:
         checked=assemble(evidence.pin,evidence.route,documents=evidence.documents,
-            symbolic=evidence.symbolic,dependencies=evidence.dependencies,course_facts=evidence.course_facts)
+            symbolic=evidence.symbolic,dependencies=evidence.dependencies,course_facts=evidence.course_facts,
+            term_assessment=evidence.term_assessment)
         if checked!=evidence:
             raise ValueError('integration_policy_mismatch')
     cards=[]
@@ -108,7 +111,8 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         cards.extend(_card('document',_settled(p.text),p.citations) for p in evidence.documents.passages)
     symbolic=evidence.symbolic if evidence else None
     dependencies=evidence.dependencies if evidence else None
-    reasoning=symbolic if symbolic is not None else dependencies
+    term=evidence.term_assessment if evidence else None
+    reasoning=symbolic if symbolic is not None else dependencies if dependencies is not None else term
     if reasoning is not None:
         for span in reasoning.rule_spans:
             citation=DocumentCitation(version_id=span.version_id,byte_sha256=span.byte_sha256,
@@ -118,7 +122,9 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     if len(cards)>32 or sum(len(c.text) for c in cards)>65536:
         raise ValueError('generation_evidence_limit')
     facts=evidence.course_facts if evidence else None
-    context=StructuredContext(operation=facts.predicate,
+    context=StructuredContext(operation=term.predicate,
+        inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in term.inputs),
+        scope=term.scope,rule_bundle_version=None) if term is not None else StructuredContext(operation=facts.predicate,
         inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in facts.inputs),
         scope=facts.scope,rule_bundle_version=None) if facts is not None else None if reasoning is None else StructuredContext(
         operation=symbolic.decision.predicate if symbolic else 'list_affected_courses',
@@ -144,4 +150,4 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
-        symbolic.requirement if symbolic else None,facts,coverage,order,quotes)
+        symbolic.requirement if symbolic else None,facts,coverage,order,quotes,result.assumed_facts,term)

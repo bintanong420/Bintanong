@@ -74,8 +74,9 @@ def test_occurrence_is_a_strict_bounded_integer(occurrence):
         normalize(value)
 
 
+# Memory/eligibility plan, Task 1: a what-if premise applies only to its check; a reported result adds no fact.
 @pytest.mark.parametrize('mode', ['hypothetical', 'reported'])
-def test_nonasserted_mode_survives_and_existing_dispatch_guard_still_clarifies(mode):
+def test_nonasserted_mode_survives_and_is_kept_out_of_the_students_record(mode):
     from backend.bintanong_routing.contracts import RequestContext
     from backend.bintanong_routing.validation import validate_interpretation
     from test_routing_validation import entry, registry
@@ -88,7 +89,8 @@ def test_nonasserted_mode_survives_and_existing_dispatch_guard_still_clarifies(m
         catalog=(entry(), entry(entity='course-b', alias='B2')),
         registry=registry(), documents_available=True, synthetic=True)
     assert interpretation.claims[0].mode == mode
-    assert result.diagnostic == 'nonasserted_facts' and not result.decision.dispatchable
+    assert result.diagnostic == 'validated'
+    assert [(c.state, c.mode) for c in result.claims] == ([('failed', 'hypothetical')] if mode == 'hypothetical' else [])
 
 
 def test_missing_occurrence_and_legacy_index_or_offset_fields_are_not_accepted():
@@ -252,3 +254,40 @@ def test_topic_part_aimed_at_an_unlisted_reviewed_course_keeps_the_course_check(
     assert result.route == 'Symbolic' and [result.mentions[o.target].text for o in result.operations] == ['B2']
     assert (part.evidence_need, part.operation_indices, part.subject_id) == ('structured', (0,), None)
     assert normalize(topic_packet('overload'), 'overload').route == 'RAG'  # unknown words keep the 24 Oct repair
+
+
+def test_a_claims_miscounted_course_is_read_from_inside_its_own_quote():
+    # Live 3 Nov 2026 (shape kept, codes fictional): a code repeated in two claims was declared as occurrence 1 for
+    # both; the first claim's quote contains only occurrence 0, so that is the one reading.
+    text = ('I passed ZZ 11/L. Hindi ko pa napapasa ang ZZ 12/L, pero naka-enroll ako sa ZZ 12/L this term. '
+            'Can I take YY 11/L this term?')
+    value = dict(schema_version='bintanong-interpretation-wire-v4', language='taglish', audience='undergraduate',
+        control=None, part_count=1, intent='eligibility check',
+        parts=[dict(part_id='r1', quote=quote('Can I take YY 11/L this term?'), evidence_need='structured',
+                    operation_indices=[0])],
+        mentions=[dict(kind='course', quote=quote('ZZ 11/L')), dict(kind='course', quote=quote('ZZ 12/L', 1)),
+                  dict(kind='course', quote=quote('YY 11/L'))],
+        claims=[dict(quote=quote('I passed ZZ 11/L.'), entity=quote('ZZ 11/L'), state='passed', mode='asserted'),
+                dict(quote=quote('Hindi ko pa napapasa ang ZZ 12/L,', 1), entity=quote('ZZ 12/L', 1),
+                     state='not_passed', mode='asserted'),
+                dict(quote=quote('naka-enroll ako sa ZZ 12/L this term.', 1), entity=quote('ZZ 12/L', 1),
+                     state='enrolled', mode='asserted')],
+        operations=[dict(name='check_prerequisite_eligibility', target=quote('YY 11/L'))],
+        route='Hybrid', ambiguities=[])
+    result = normalize(value, text)
+    first, second = text.index('ZZ 12/L'), text.index('ZZ 12/L', text.index('ZZ 12/L') + 1)
+    assert [result.mentions[c.entity].start for c in result.claims[1:]] == [first, second]
+    assert [c.state for c in result.claims] == ['passed', 'not_passed', 'enrolled']
+
+
+def test_a_claim_whose_quote_holds_two_copies_of_the_course_is_not_guessed():
+    text = 'I failed ZZ 1 and then ZZ 1 again. Can I take YY 2?'
+    value = dict(schema_version='bintanong-interpretation-wire-v4', language='en', audience='undergraduate',
+        control=None, part_count=1, intent='eligibility check',
+        parts=[dict(part_id='r1', quote=quote('Can I take YY 2?'), evidence_need='structured', operation_indices=[0])],
+        mentions=[dict(kind='course', quote=quote('YY 2'))],
+        claims=[dict(quote=quote('I failed ZZ 1 and then ZZ 1 again.'), entity=quote('ZZ 1', 5), state='failed',
+                     mode='asserted')],
+        operations=[dict(name='check_prerequisite_eligibility', target=quote('YY 2'))], route='Symbolic', ambiguities=[])
+    with pytest.raises(ValueError):
+        normalize(value, text)

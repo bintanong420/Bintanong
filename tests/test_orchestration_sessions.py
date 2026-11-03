@@ -37,21 +37,19 @@ def test_followup_reuses_only_explicitly_supplied_context_and_does_not_persist_i
     asyncio.run(scenario())
 
 
-def test_new_assertion_is_request_local_and_hypotheticals_never_enter_runtime():
+def test_new_assertion_and_what_if_are_request_local_and_reported_results_add_nothing():
+    # Memory/eligibility plan, Task 1: a what-if premise applies only to its own check; a reported result adds no fact.
     async def scenario():
-        for mode,expected in [('asserted','ready'),('hypothetical','clarify'),('reported','clarify')]:
+        for mode,expected in [('asserted','ineligible'),('hypothetical','ineligible'),('reported','unknown')]:
             release = resources()
-            value = proposal(claims=[dict(entity=0,state='failed',mode=mode,text='A1',start=0,end=2)])
+            value = proposal(text='A1 failed',
+                             claims=[dict(entity=0,state='failed',mode=mode,text='A1 failed',start=0,end=9)])
             context = ctx('a',None)
             result = await api().Orchestrator(FakeTransport(json.dumps(value)), releases=
-                ports().SyntheticReleaseProvider(release)).run('A1', context)
-            assert result.status == expected
+                ports().SyntheticReleaseProvider(release)).run('A1 failed', context)
             assert context.facts == ()
-            if mode == 'asserted':
-                assert release.symbolic.calls[0][1].facts[0].state == 'failed'
-                assert result.evidence.symbolic.decision.outcome == 'ineligible'
-            else:
-                assert not release.symbolic.calls
+            assert result.evidence.symbolic.decision.outcome == expected
+            assert [f.state for f in release.symbolic.calls[0][1].facts] == ([] if mode == 'reported' else ['failed'])
     asyncio.run(scenario())
 
 

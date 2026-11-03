@@ -49,8 +49,16 @@ def validate_final(answer,pack,claims):
         raise ValueError('coverage_requires_ready_rag')
     if answer.text!=render_text(pack,claims,answer.status,decision_withheld=answer.validation=='decision_withheld',
                                question_uncovered=answer.validation in ('question_uncovered','parts_unresolved'),
-                               ledger=answer.part_ledger,thanked=answer.validation=='thanks'):
+                               ledger=answer.part_ledger,thanked=answer.validation=='thanks',
+                               explanation=answer.decision_explanation):
         raise ValueError('final_render_mismatch')
+    if answer.decision_explanation is not None:
+        from .decision_reply import explanation_errors,explanation_kind,term_explanation_errors
+        from .render import shown_label
+        kind=explanation_kind(pack)
+        check={'decision':explanation_errors,'term':term_explanation_errors}.get(kind)
+        if check is None or check(pack,answer.decision_explanation,label=shown_label(pack)):
+            raise ValueError('final_decision_explanation_invalid')
     if answer.citations!=selected_cards(pack,claims):
         raise ValueError('final_citation_mismatch')
     if answer.claims!=tuple(claims):
