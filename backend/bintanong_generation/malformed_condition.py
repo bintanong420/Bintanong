@@ -164,7 +164,13 @@ def malformed_reply(pack, proposed, *, max_claims=8):
 def malformed_errors(pack, claims):
     """A positive model verdict cannot authorize any other wording attached to a held record."""
     records = malformed_records(pack)
+    if not records:
+        return ()
+    from .part_answers import printed_held_claims  # owner 3 Nov 2026: host-printed steps with the record's limitation
+    printed = printed_held_claims(pack)
     for claim in claims:
+        if (claim.text, tuple(claim.evidence_ids)) in printed:
+            continue
         for ref in set(claim.evidence_ids).intersection(records):
             if records[ref] is None or claim.text != records[ref] or tuple(claim.evidence_ids) != (ref,):
                 return ('malformed_source_fidelity',)

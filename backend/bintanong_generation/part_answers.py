@@ -311,8 +311,41 @@ def host_claims(pack):
     per-part path quotes that record with its limitation or reports a source gap (owner 30 Oct 2026)."""
     fixed = {**fee_claims(pack), **grade_claims(pack)}
     held = set(malformed_records(pack))
-    return {part: reply for part, reply in {**service_claims(pack, fixed), **fixed}.items()
-            if not any(set(_ids(evidence)) & held for _, evidence in reply)}
+    service = service_claims(pack, fixed)
+    printed = held_service_parts(pack, service) - set(fixed)
+    return {part: reply for part, reply in {**service, **fixed}.items()
+            if part in printed or not any(set(_ids(evidence)) & held for _, evidence in reply)}
+
+
+def held_service_parts(pack, service):
+    """Owner 3 Nov 2026 (fix 1): whole-procedure parts whose host-printed steps cite a held record and print that
+    record's own limitation line. An 11-record procedure cannot fit the eight-claim draft, so the model path abstained."""
+    whole = {p.part_id for p in pack.understanding.parts if p.detail == 'whole'} if pack.understanding else set()
+    held = set(malformed_records(pack))
+    notes = {}
+    for card in pack.cards:
+        try:
+            limits = json.loads(card.text).get('source_limits', [])
+        except (ValueError, AttributeError):
+            continue
+        notes[card.evidence_id] = [l.get('message') for l in limits if isinstance(l, dict)
+                                   and l.get('issue') == 'malformed_source_condition' and l.get('resolution') == 'unresolved']
+    parts = set()
+    for part, reply in service.items():
+        refs = {ref for _, evidence in reply for ref in _ids(evidence)} & held
+        text = '\n'.join(t for t, _ in reply)
+        if part in whole and refs and all(notes.get(r) and all(m and f'Source limitation: {m}' in text for m in notes[r])
+                                          for r in refs):
+            parts.add(part)
+    return parts
+
+
+def printed_held_claims(pack):
+    """The exact host claims of held_service_parts; the final malformed-source check accepts only these."""
+    fixed = {**fee_claims(pack), **grade_claims(pack)}
+    service = service_claims(pack, fixed)
+    return {(text, _ids(evidence)) for part in held_service_parts(pack, service) - set(fixed)
+            for text, evidence in service[part]}
 
 
 def _ids(evidence):
