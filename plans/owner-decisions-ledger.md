@@ -705,3 +705,7 @@ Each program still gets its own dated review record listing which standing rule 
   - The ledgers themselves are not edited; the mapping belongs in the runtime or bundle compilation.
   - Implemented 4 Nov 2026 on `feat/memory-eligibility` (`1376e0e`) at the owner's request; year-level standing
     (names no course) no longer makes a dependency list uncertain (`671ad26`).
+- 4 Nov 2026 (removal period, "yes go ahead, just print the discrepancy"): for removing a grade of 4.0 or INC, use the
+  printed succeeding term (Handbook 3.2, Resolution 279, Series of 2018; 3.7 "within a period of one term ... shall
+  automatically become 5.0"). Every answer that uses this period also prints the discrepancy: the same section also
+  states "within one year" (3.3, 3.7). The source text is unchanged; this is a reading for answers, not a correction.

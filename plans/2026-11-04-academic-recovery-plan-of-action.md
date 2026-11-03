@@ -119,9 +119,9 @@ standing.
 - D4: numbered phase or a bounded task list on `p12-evaluation-harness`.
 - D5: reading of the maximum-load clause: the semester's prescribed total units is the ceiling for any mix of courses
   (a mix above it gets the major warning), or only the prescribed courses themselves.
-- D6: the removal period. The same section prints both `within the succeeding term` (3.2, Resolution 279, 2018; 3.7
-  `within a period of one term ... automatically become 5.0`) and `within one year` (3.3, 3.7). Proposed: use the
-  2018 resolution's succeeding term and disclose the printed one-year wording as a recorded source conflict.
+- D6 (decided, owner 4 Nov 2026: "yes go ahead, just print the discrepancy"): the removal period is the succeeding
+  term (3.2, Resolution 279, 2018; 3.7). Every answer that uses it also prints the discrepancy: the same section
+  also says "within one year" (3.3, 3.7).
 - D7: what counts as an `advance course` (a course prescribed for a later term than the student's year level?), or
   cite the restriction without checking it.
 
