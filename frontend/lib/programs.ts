@@ -15,50 +15,55 @@ const colleges = {
 const otherPrograms: College = { code: "", name: "Other programs" };
 
 // Grouping follows the college folders of the prospectus corpus (Tiniguiban - Main). It is UI navigation only.
-const programs: Record<string, { college: keyof typeof colleges; aliases: string[] }> = {
-  "palsu-bsa": { college: "CAD", aliases: ["BS Archi", "Architecture"] },
-  "palsu-abcomm": { college: "CAH", aliases: ["AB Comm", "ABComm"] },
-  "palsu-abphilstud": { college: "CAH", aliases: ["AB PhilStud"] },
-  "palsu-abpolsci": { college: "CAH", aliases: ["AB PolSci"] },
-  "palsu-bspsych-clin": { college: "CAH", aliases: ["BS Psych", "Psychology"] },
-  "palsu-bspsych-io": { college: "CAH", aliases: ["BS Psych", "Psychology"] },
-  "palsu-bssw": { college: "CAH", aliases: ["BSSW"] },
-  "palsu-bsacct": { college: "CBA", aliases: ["BSAc", "Accountancy"] },
-  "palsu-bsma": { college: "CBA", aliases: ["BSMA"] },
-  "palsu-bsba-buseco": { college: "CBA", aliases: ["BSBA", "BusEco"] },
-  "palsu-bsba-fm": { college: "CBA", aliases: ["BSBA", "FM"] },
-  "palsu-bsba-hrm": { college: "CBA", aliases: ["BSBA", "HRM"] },
-  "palsu-bsba-mm": { college: "CBA", aliases: ["BSBA", "MM"] },
-  "palsu-bse-agri": { college: "CBA", aliases: ["BS Entrep", "Entrep"] },
-  "palsu-bse-franchise": { college: "CBA", aliases: ["BS Entrep", "Entrep"] },
-  "palsu-bse-innotech": { college: "CBA", aliases: ["BS Entrep", "Entrep"] },
-  "palsu-bscrim": { college: "CCJE", aliases: ["BS Crim", "Crim"] },
-  "palsu-bshm-culinary": { college: "CHTM", aliases: ["BSHM"] },
-  "palsu-bshm-hotel": { college: "CHTM", aliases: ["BSHM"] },
-  "palsu-bstm": { college: "CHTM", aliases: ["BSTM"] },
-  "palsu-bsmid": { college: "CNHS", aliases: ["BS Mid"] },
-  "palsu-bsn": { college: "CNHS", aliases: ["BSN"] },
-  "palsu-bsce": { college: "CoE", aliases: ["BSCE"] },
-  "palsu-bsee": { college: "CoE", aliases: ["BSEE"] },
-  "palsu-bsme": { college: "CoE", aliases: ["BSME"] },
-  "palsu-bspe": { college: "CoE", aliases: ["BSPE", "PetE"] },
-  "palsu-bsbio-medbio": { college: "CS", aliases: ["BS Bio", "Med Bio"] },
-  "palsu-bsmb": { college: "CS", aliases: ["Marine Bio"] },
-  "palsu-bscs": { college: "CS", aliases: ["BSCS", "CompSci", "ComSci"] },
-  "palsu-bses": { college: "CS", aliases: ["BSES", "EnviSci"] },
-  "palsu-bsit": { college: "CS", aliases: ["BSIT"] },
-  "palsu-beed": { college: "CTE", aliases: ["BEEd", "Elem Ed"] },
-  "palsu-bsed-eng": { college: "CTE", aliases: ["BSEd"] },
-  "palsu-bsed-fil": { college: "CTE", aliases: ["BSEd"] },
-  "palsu-bsed-math": { college: "CTE", aliases: ["BSEd"] },
-  "palsu-bsed-sci": { college: "CTE", aliases: ["BSEd"] },
-  "palsu-bsed-ss": { college: "CTE", aliases: ["BSEd"] },
-  "palsu-bsed-valed": { college: "CTE", aliases: ["BSEd", "ValEd"] },
+const programs: Record<string, { short: string; college: keyof typeof colleges; aliases: string[] }> = {
+  "palsu-bsa": { short: "BS Archi", college: "CAD", aliases: ["BS Archi", "Architecture"] },
+  "palsu-abcomm": { short: "AB Comm", college: "CAH", aliases: ["AB Comm", "ABComm"] },
+  "palsu-abphilstud": { short: "AB PhilStud", college: "CAH", aliases: ["AB PhilStud"] },
+  "palsu-abpolsci": { short: "AB PolSci", college: "CAH", aliases: ["AB PolSci"] },
+  "palsu-bspsych-clin": { short: "BS Psych (Clinical)", college: "CAH", aliases: ["BS Psych", "Psychology"] },
+  "palsu-bspsych-io": { short: "BS Psych (IO)", college: "CAH", aliases: ["BS Psych", "Psychology"] },
+  "palsu-bssw": { short: "BSSW", college: "CAH", aliases: ["BSSW"] },
+  "palsu-bsacct": { short: "BSA (Accountancy)", college: "CBA", aliases: ["BSAc", "Accountancy"] },
+  "palsu-bsma": { short: "BSMA", college: "CBA", aliases: ["BSMA"] },
+  "palsu-bsba-buseco": { short: "BSBA BusEco", college: "CBA", aliases: ["BSBA", "BusEco"] },
+  "palsu-bsba-fm": { short: "BSBA FM", college: "CBA", aliases: ["BSBA", "FM"] },
+  "palsu-bsba-hrm": { short: "BSBA HRM", college: "CBA", aliases: ["BSBA", "HRM"] },
+  "palsu-bsba-mm": { short: "BSBA MM", college: "CBA", aliases: ["BSBA", "MM"] },
+  "palsu-bse-agri": { short: "BS Entrep (Agri)", college: "CBA", aliases: ["BS Entrep", "Entrep"] },
+  "palsu-bse-franchise": { short: "BS Entrep (Franchise)", college: "CBA", aliases: ["BS Entrep", "Entrep"] },
+  "palsu-bse-innotech": { short: "BS Entrep (InnoTech)", college: "CBA", aliases: ["BS Entrep", "Entrep"] },
+  "palsu-bscrim": { short: "BS Crim", college: "CCJE", aliases: ["BS Crim", "Crim"] },
+  "palsu-bshm-culinary": { short: "BSHM (Culinary)", college: "CHTM", aliases: ["BSHM"] },
+  "palsu-bshm-hotel": { short: "BSHM (Hotel)", college: "CHTM", aliases: ["BSHM"] },
+  "palsu-bstm": { short: "BSTM", college: "CHTM", aliases: ["BSTM"] },
+  "palsu-bsmid": { short: "BS Midwifery", college: "CNHS", aliases: ["BS Mid"] },
+  "palsu-bsn": { short: "BSN", college: "CNHS", aliases: ["BSN"] },
+  "palsu-bsce": { short: "BSCE", college: "CoE", aliases: ["BSCE"] },
+  "palsu-bsee": { short: "BSEE", college: "CoE", aliases: ["BSEE"] },
+  "palsu-bsme": { short: "BSME", college: "CoE", aliases: ["BSME"] },
+  "palsu-bspe": { short: "BSPE", college: "CoE", aliases: ["BSPE", "PetE"] },
+  "palsu-bsbio-medbio": { short: "BS Bio (MedBio)", college: "CS", aliases: ["BS Bio", "Med Bio"] },
+  "palsu-bsmb": { short: "BS Marine Bio", college: "CS", aliases: ["Marine Bio"] },
+  "palsu-bscs": { short: "BSCS", college: "CS", aliases: ["BSCS", "CompSci", "ComSci"] },
+  "palsu-bses": { short: "BSES", college: "CS", aliases: ["BSES", "EnviSci"] },
+  "palsu-bsit": { short: "BSIT", college: "CS", aliases: ["BSIT"] },
+  "palsu-beed": { short: "BEEd", college: "CTE", aliases: ["BEEd", "Elem Ed"] },
+  "palsu-bsed-eng": { short: "BSEd English", college: "CTE", aliases: ["BSEd"] },
+  "palsu-bsed-fil": { short: "BSEd Filipino", college: "CTE", aliases: ["BSEd"] },
+  "palsu-bsed-math": { short: "BSEd Math", college: "CTE", aliases: ["BSEd"] },
+  "palsu-bsed-sci": { short: "BSEd Science", college: "CTE", aliases: ["BSEd"] },
+  "palsu-bsed-ss": { short: "BSEd Social Studies", college: "CTE", aliases: ["BSEd"] },
+  "palsu-bsed-valed": { short: "BSEd ValEd", college: "CTE", aliases: ["BSEd", "ValEd"] },
 };
 
 export function collegeOf(programId: string): College {
   const entry = programs[programId];
   return entry ? colleges[entry.college] : otherPrograms;
+}
+
+/** A compact label for the program button; unknown programs keep their full name. */
+export function programShortName(programId: string, programName: string): string {
+  return programs[programId]?.short ?? programName;
 }
 
 export type ProgramChoice = { programId: string; programName: string; college: College; curricula: StudentCurriculum[] };
@@ -76,7 +81,7 @@ export function groupPrograms(curricula: StudentCurriculum[], query: string): Co
   }
   const needle = normalize(query);
   const matches = (program: ProgramChoice) => !needle
-    || [program.programName, program.college.name, program.college.code, ...(programs[program.programId]?.aliases ?? [])].some(text => normalize(text).includes(needle));
+    || [program.programName, program.college.name, program.college.code, programShortName(program.programId, ""), ...(programs[program.programId]?.aliases ?? [])].some(text => normalize(text).includes(needle));
   const groups = new Map<string, CollegeGroup>();
   for (const program of byProgram.values()) {
     if (!matches(program)) continue;

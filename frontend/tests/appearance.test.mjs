@@ -21,3 +21,11 @@ test("storage denial falls back to light rather than breaking rendering", () => 
   runInNewContext(appearanceBootstrap, { document, localStorage: { getItem() { throw Error("Storage denied"); } } });
   assert.equal(document.documentElement.dataset.appearance, "light");
 });
+
+test("the light bulb toggles between light and dark, starting from light", async () => {
+  const { nextAppearance } = await import("../lib/appearance.ts");
+  assert.equal(nextAppearance("light"), "dark");
+  assert.equal(nextAppearance("dark"), "light");
+  assert.equal(nextAppearance("system", false), "dark");
+  assert.equal(nextAppearance("system", true), "light");
+});

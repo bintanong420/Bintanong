@@ -9,3 +9,9 @@ export const appearanceKey = "bintanong-appearance";
 
 // Apply the saved visual preference before paint; no chat or file state is persisted.
 export const appearanceBootstrap = `try{document.documentElement.dataset.appearance=(${appearanceValue.toString()})(localStorage.getItem(${JSON.stringify(appearanceKey)}))}catch{document.documentElement.dataset.appearance="light"}`;
+
+/** The light bulb flips between light and dark; a saved "system" flips away from what is showing. */
+export function nextAppearance(current: Appearance, systemPrefersDark = false): "light" | "dark" {
+  if (current === "system") return systemPrefersDark ? "light" : "dark";
+  return current === "dark" ? "light" : "dark";
+}

@@ -42,3 +42,15 @@ test("BSCS start year picks the curriculum: 2025 and later use the new one", () 
   for (const year of ["before-2023", "2023", "2024"]) assert.equal(curriculumForStartYear(bscs, year).curriculumId, "bscs-2018-2019");
   for (const year of ["2025", "2026"]) assert.equal(curriculumForStartYear(bscs, year).curriculumId, "bscs-proposed-2025-2026");
 });
+
+test("every program has a short name for the compact program button", async () => {
+  const { programShortName } = await import("../lib/programs.ts");
+  assert.equal(programShortName("palsu-bscs", "Bachelor of Science in Computer Science"), "BSCS");
+  assert.equal(programShortName("palsu-bspsych-clin", "x"), "BS Psych (Clinical)");
+  assert.equal(programShortName("palsu-bsed-math", "x"), "BSEd Math");
+  assert.equal(programShortName("palsu-unknown", "Unlisted Program"), "Unlisted Program");
+  const ids = ["palsu-abcomm","palsu-abphilstud","palsu-abpolsci","palsu-beed","palsu-bsa","palsu-bsacct","palsu-bsba-buseco","palsu-bsba-fm","palsu-bsba-hrm","palsu-bsba-mm","palsu-bsbio-medbio","palsu-bsce","palsu-bscrim","palsu-bscs","palsu-bse-agri","palsu-bse-franchise","palsu-bse-innotech","palsu-bsed-eng","palsu-bsed-fil","palsu-bsed-math","palsu-bsed-sci","palsu-bsed-ss","palsu-bsed-valed","palsu-bsee","palsu-bses","palsu-bshm-culinary","palsu-bshm-hotel","palsu-bsit","palsu-bsma","palsu-bsmb","palsu-bsme","palsu-bsmid","palsu-bsn","palsu-bspe","palsu-bspsych-clin","palsu-bspsych-io","palsu-bssw","palsu-bstm"];
+  const names = ids.map(id => programShortName(id, "fallback"));
+  assert.ok(names.every(name => name !== "fallback" && name.length <= 22), names.join());
+  assert.equal(new Set(names).size, ids.length, "short names must tell programs apart");
+});
