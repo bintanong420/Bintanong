@@ -55,7 +55,7 @@ def _parse(raw,contract):
 
 
 def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None,coverage=None,ledger=None,
-            overrides=(),explanation=None):
+            overrides=(),explanation=None,explained=(None,())):
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
         text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld',
@@ -66,7 +66,7 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage,
         part_ledger=ledger,research_ref=pack.research_ref,host_quote_override=tuple(overrides),
-        decision_explanation=explanation)
+        decision_explanation=explanation,explanation_check=explained[0],explanation_errors=tuple(explained[1]))
     validate_final(answer,pack,claims)
     return answer
 
@@ -95,23 +95,27 @@ class Generator:
         self.review_reference_profile=review_reference_profile
 
     async def _explain(self,text,pack,remaining_seconds,*,term=False):
-        """One bounded post-Prolog call; any failure, timeout or invalid draft leaves the host wording alone."""
+        """One bounded post-Prolog call; any failure, timeout or invalid draft leaves the host wording alone.
+        Returns (explanation or None, check, error codes)."""
         from .render import shown_label
         label=shown_label(pack)
         seconds=min(self.timeout_seconds,EXPLANATION_SECONDS)
         if remaining_seconds is not None and type(remaining_seconds) in (int,float) and math.isfinite(remaining_seconds):
             seconds=min(seconds,remaining_seconds)
         if seconds<=0:
-            return None
+            return None,'skipped',()
         try:
             async with asyncio.timeout(seconds):
                 messages=(term_explanation_messages if term else explanation_messages)(text,pack,label)
                 raw=await self.transport.infer(messages,explanation_schema())
-            value=_parse(raw,DecisionExplanation)
         except Exception:
-            return None
+            return None,'unavailable',()
+        try:
+            value=_parse(raw,DecisionExplanation)
+        except (ValueError,TypeError,RecursionError):
+            return None,'rejected',('invalid_output',)
         errors=(term_explanation_errors if term else explanation_errors)(pack,value.explanation,value.language,label)
-        return None if errors else value.explanation
+        return (None,'rejected',errors) if errors else (value.explanation,'accepted',())
 
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
@@ -129,18 +133,20 @@ class Generator:
             return _answer(pack,'greeting',reason='thanks')
         if explainable(pack):
             # Memory/eligibility plan, Task 3: Bintu explains the checked Prolog result; the verdict stays fixed.
-            explanation=await self._explain(text,pack,remaining_seconds)
+            explanation,*explained=await self._explain(text,pack,remaining_seconds)
             if pack.status=='ready':
                 draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
                     release_id=pack.release_id,decision_outcome=pack.decision.outcome,claims=())
-                return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft),explanation=explanation)
-            return _answer(pack,fallback_status(pack.status),explanation=explanation)
+                return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft),explanation=explanation,
+                               explained=explained)
+            return _answer(pack,fallback_status(pack.status),explanation=explanation,explained=explained)
         if term_explainable(pack):
             # Memory/eligibility plan, Task 4: one Bintu explanation for the checked term; the groups stay fixed.
-            explanation=await self._explain(text,pack,remaining_seconds,term=True)
+            explanation,*explained=await self._explain(text,pack,remaining_seconds,term=True)
             draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
                 release_id=pack.release_id,decision_outcome=None,claims=())
-            return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft),explanation=explanation)
+            return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft),explanation=explanation,
+                           explained=explained)
         if pack.status!='ready' or pack.language=='unknown':
             context = unresolved_deadline_context(pack)
             if context:

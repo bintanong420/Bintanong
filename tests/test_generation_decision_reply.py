@@ -194,3 +194,23 @@ def test_a_what_if_explanation_cannot_call_the_premise_the_students_record():
     pack = prepare(what_if())
     assert 'what_if_called_record' in explanation_errors(pack, 'Your record shows course-1 is not completed.')
     assert explanation_errors(pack, 'Under that assumption, course-1 is still needed before course-2.') == ()
+
+
+@pytest.mark.parametrize('output,check', [
+    (explained('course-1 is the one prerequisite of course-2, and you passed it.'), ('accepted', ())),
+    (explained('Hindi ka pa pwede kumuha ng course-2.'), ('rejected', ('reversed_verdict',))),
+    (RuntimeFailure('model_timeout'), ('unavailable', ())),
+])
+def test_each_answer_records_what_happened_to_the_explanation_without_its_text(output, check):
+    answer = asyncio.run(Generator(Model(output)).generate('A1', research_integration(facts=(('course-1', 'passed'),))))
+    assert (answer.explanation_check, answer.explanation_errors) == check
+
+
+def test_an_answer_with_no_checked_result_records_no_explanation_check():
+    from test_generation_loop import Fake
+    from test_routing_unknown_course import IntegrationResult
+    source = IntegrationResult(understanding=None, schema_version=IntegrationResult.SCHEMA_VERSION, request_id='req-a',
+                               route=None, response_style='en', status='clarify', evidence=None,
+                               missing_facts=('course_id',), events=())
+    answer = asyncio.run(Generator(Fake()).generate('Z9', source))
+    assert answer.explanation_check is None
