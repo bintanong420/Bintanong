@@ -12,6 +12,35 @@ labelled drafts); Bintanong verifies it against reviewed curriculum rules and re
 and names every approval or offering that is not confirmed. It never claims availability, approval, a future grade
 or academic standing (thesis Scope/Limitations, printed pp. 16–17; Research Implementation, printed pp. 82–83).
 
+## Handbook rules that govern recovery (reviewed release text, 4 Nov read)
+
+Quoted from the reviewed Student Handbook topics in `p12-research-faqsplit-20261030` (release pages). "Check" = a
+structured rule in Step 1/2 after owner review; "Cite" = explained with the source in Step 4; "Caveat" = stated,
+never determined.
+
+| Rule (topic, page) | Printed effect | Use |
+| --- | --- | --- |
+| Maximum academic load (`handbook_unit_load`, 35) | "The maximum academic load per semester is the load prescribed for the semester in the curriculum. Students who enroll in more than the prescribed load ... will not be given credit for the excess units." | Check (reading D5) |
+| Summer load (`handbook_summer_load`, 35) | Normal nine (9) units; graduating students up to twelve (12) with prior Dean approval | Check |
+| Overload (`handbook_overload`, 36) | Only a graduating student, better-than-average record, last semester, +6 units, total ≤ 28, Dean approval; none after scholastic delinquency in the preceding semester | Check |
+| Prerequisites and waiver (`handbook_prerequisite_policy`, 31) | No credit without passing the prerequisite; waiver only for graduating students in meritorious cases who fully attended the course before, taking both simultaneously on Dean approval; if the prerequisite is failed, the higher subject gets no credit | Check + Cite |
+| Advance courses (`handbook_standing`, 39–41) | Students with scholastic delinquency "shall not be allowed to take advance courses during regular semesters" | Check only if the student states a delinquency (reading D7); Cite |
+| Warning / probation / dismissal (`handbook_standing`, 39–41) | 25–49% failed units → warning; 50–75% → probation; >75% → dropped; 100% → permanent disqualification; probation removed by passing >50% next semester | Caveat (never computed as the student's standing) |
+| Special class (`handbook_class_types`, 37) | Not prescribed that term, requested by students, subject to faculty availability and a special-class fee, maximum fifteen (15), regular class hours | Cite; always "requested, not confirmed" |
+| Off-semester regular class (`handbook_class_types`, 37) | Needs at least 35 students (lecture) / 25 (laboratory) and an available faculty | Cite; "not confirmed" |
+| Removal of 4.0 / INC (`grade_completion`, 46–47) | Removal within the succeeding term; one re-examination for "4" (pass → 3, fail → 5); removal exams for prerequisites of next-semester subjects must be taken before enrollment; re-enrolling forfeits the right to remove; unremoved 4.0 → 5.0, INC → NC | Check (timing, forfeiture) + Cite (reading D6) |
+| Cross-enrollment elsewhere (`handbook_cross_enrollment`, 34) | Allowed when the subject is not offered at PalSU, with Dean and Registrar approval (conditions continue in the source) | Cite |
+| Substitution (`handbook_substitution`, 44–45); curriculum change (`handbook_curriculum_change`, 45) | Substitution when a required subject is not offered or the curriculum is superseded; students follow the curriculum they started with | Cite; the checker keeps the student's own curriculum |
+| Change of section/subject (`handbook_change_sections`, 44) | Allowed for lack of prerequisite or conflict of schedule, with instructor consent and Dean approval | Cite |
+| Maximum residence (`handbook_residence`, 42) | Degree requirements within 1½ times the prescribed program length | Caveat on long plans |
+| Leave of absence (`handbook_leave`, 38–39) | Written, before the semester, at most one academic year, Dean approval | Cite |
+| Classification and year level (`handbook_student_classification`, 36; `handbook_year_levels`, 37–38) | "Regular" means pursuing a program of study, full load or not; year level follows completed units (25/50/75/85%) | Caveat: "back on the prescribed sequence" is not the Handbook's "regular" |
+
+Consequences for the owner plan: the BSCS 3rd-year-1st-semester special CC 5/L on top of a full prescribed load is not
+just "flagged": under the maximum-load clause the excess units earn no credit, so the checker reports it as blocked
+unless the student takes fewer prescribed units that term (D5). The plan's "regular-student" outcome is not the
+Handbook's "regular" classification and stays a caveat.
+
 ## Steps
 
 | Step | Delivers | Builds on | Rough size | Owner gate |
@@ -26,8 +55,9 @@ or academic standing (thesis Scope/Limitations, printed pp. 16–17; Research Im
 
 ### Step 1 — load policy as reviewed data
 
-- Show the owner the exact printed clauses (summer nine units and the graduating-student exception; overload limit
-  and the scholastic-delinquency bar; any regular-semester load rule) with page and wording, in short batches.
+- Show the owner the exact printed clauses marked Check in the table above (maximum semester load, summer load,
+  overload, prerequisite waiver, advance-course restriction, removal timing and forfeiture) with page and wording,
+  in short batches.
 - Record each accepted reading as a versioned policy record (source span, audience, parameters, unresolved markers);
   generate the runtime rule from it. A clause not accepted stays unused, and a load question then says the limit is
   not available and refers the student to the Registrar.
@@ -41,7 +71,8 @@ or academic standing (thesis Scope/Limitations, printed pp. 16–17; Research Im
   as request-only assumptions (never stored as grades); unit total against the reviewed load rule for that term type.
 - Output per term: works / blocked (which course, which prerequisite or limit) / unknown (missing rule, unit or
   policy); plus the conditions it depends on (special class requested, not approved; summer offering not confirmed).
-- Tests first: the BSCS four-term scenario from the owner plan (§6, 24-vs-21 load flagged, not approved), a denied
+- Tests first: the BSCS four-term scenario from the owner plan (§6; the 24-vs-21 term is blocked for excess units
+  unless fewer prescribed units are taken, per D5), a denied
   special class, a 9-unit summer boundary, Civil vs Mechanical (Phy 11/L), and one synthetic curriculum with unfamiliar
   codes; no program-specific code. Exit: all pass offline, then live through `POST /chat`.
 
@@ -86,7 +117,14 @@ standing.
 - D2: Step 5 drafts — yes / later / no; if yes, inside Chapter 3 or as a disclosed extension.
 - D3: replace `Context/bintanong_thesis_for_context.pdf` with the newer external copy.
 - D4: numbered phase or a bounded task list on `p12-evaluation-harness`.
+- D5: reading of the maximum-load clause: the semester's prescribed total units is the ceiling for any mix of courses
+  (so a special class fits only if prescribed units are dropped), or only the prescribed courses themselves.
+- D6: the removal period. The same section prints both `within the succeeding term` (3.2, Resolution 279, 2018; 3.7
+  `within a period of one term ... automatically become 5.0`) and `within one year` (3.3, 3.7). Proposed: use the
+  2018 resolution's succeeding term and disclose the printed one-year wording as a recorded source conflict.
+- D7: what counts as an `advance course` (a course prescribed for a later term than the student's year level?), or
+  cite the restriction without checking it.
 
 ## Next action
 
-Owner answers D1–D4; on D1 "go", start Step 1 by showing the load clauses for review.
+Owner answers D1–D7; on D1 "go", start Step 1 by showing the Check clauses for review.
