@@ -36,10 +36,10 @@ never determined.
 | Leave of absence (`handbook_leave`, 38–39) | Written, before the semester, at most one academic year, Dean approval | Cite |
 | Classification and year level (`handbook_student_classification`, 36; `handbook_year_levels`, 37–38) | "Regular" means pursuing a program of study, full load or not; year level follows completed units (25/50/75/85%) | Caveat: "back on the prescribed sequence" is not the Handbook's "regular" |
 
-Consequences for the owner plan: the BSCS 3rd-year-1st-semester special CC 5/L on top of a full prescribed load is not
-just "flagged": under the maximum-load clause the excess units earn no credit, so the checker reports it as blocked
-unless the student takes fewer prescribed units that term (D5). The plan's "regular-student" outcome is not the
-Handbook's "regular" classification and stays a caveat.
+Consequences for the owner plan (owner 4 Nov: a major warning, not a blocker): the BSCS 3rd-year-1st-semester special
+CC 5/L on top of a full prescribed load stays in the plan, with a major warning that quotes the maximum-load clause
+(excess units over the semester's prescribed load earn no credit) and names who decides (Dean / Registrar). The plan's
+"regular-student" outcome is not the Handbook's "regular" classification and stays a caveat.
 
 ## Steps
 
@@ -69,10 +69,10 @@ Handbook's "regular" classification and stays a caveat.
   CC 4/L now; CS 4/L and CS 6 in summer; CC 5/L in 1st sem"). Router operation `check_plan`, curriculum-scoped.
 - For each term in order: prerequisite check on the start-of-term state; assumed passes from earlier terms added only
   as request-only assumptions (never stored as grades); unit total against the reviewed load rule for that term type.
-- Output per term: works / blocked (which course, which prerequisite or limit) / unknown (missing rule, unit or
-  policy); plus the conditions it depends on (special class requested, not approved; summer offering not confirmed).
-- Tests first: the BSCS four-term scenario from the owner plan (§6; the 24-vs-21 term is blocked for excess units
-  unless fewer prescribed units are taken, per D5), a denied
+- Output per term: works / works with a major warning (e.g. units above the semester's prescribed load, quoting
+  the clause and who decides) / blocked (an unmet prerequisite) / unknown (missing rule, unit or policy); plus the conditions it depends on (special class requested, not approved; summer offering not confirmed).
+- Tests first: the BSCS four-term scenario from the owner plan (§6; the 24-vs-21 term carries a major warning
+  for excess units, quoting the clause, not a block; D5), a denied
   special class, a 9-unit summer boundary, Civil vs Mechanical (Phy 11/L), and one synthetic curriculum with unfamiliar
   codes; no program-specific code. Exit: all pass offline, then live through `POST /chat`.
 
@@ -118,7 +118,7 @@ standing.
 - D3: replace `Context/bintanong_thesis_for_context.pdf` with the newer external copy.
 - D4: numbered phase or a bounded task list on `p12-evaluation-harness`.
 - D5: reading of the maximum-load clause: the semester's prescribed total units is the ceiling for any mix of courses
-  (so a special class fits only if prescribed units are dropped), or only the prescribed courses themselves.
+  (a mix above it gets the major warning), or only the prescribed courses themselves.
 - D6: the removal period. The same section prints both `within the succeeding term` (3.2, Resolution 279, 2018; 3.7
   `within a period of one term ... automatically become 5.0`) and `within one year` (3.3, 3.7). Proposed: use the
   2018 resolution's succeeding term and disclose the printed one-year wording as a recorded source conflict.
