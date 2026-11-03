@@ -239,13 +239,16 @@ class Orchestrator:
                 # Bound the merged assertion set within the guarded routing stage.
                 # Nothing is persisted, and overflow cannot escape as an exception.
                 assumed = tuple(f'{c.state}:{c.course_id}' for c in value.claims if c.mode == 'hypothetical')
+                program = value.program_id or context.program_id
+                curriculum = value.curriculum_id or context.curriculum_id
+                context_facts = tuple(f for f in context.facts
+                                      if (f.program_id, f.curriculum_id) == (program, curriculum))
                 # A what-if premise replaces the record for its course in this check only; nothing is persisted here.
                 facts = tuple(f if type(f) is ScopedFact else
                               ScopedFact(**{name:getattr(f,name) for name in ScopedFact.model_fields})
-                              for f in facts_for_term(effective_facts(context.facts, value.claims), text))
+                              for f in facts_for_term(effective_facts(context_facts, value.claims), text))
                 scoped = RequestContext(session_id=context.session_id, request_id=context.request_id,
-                    program_id=value.program_id or context.program_id,
-                    curriculum_id=value.curriculum_id or context.curriculum_id, facts=facts)
+                    program_id=program, curriculum_id=curriculum, facts=facts)
             return value
 
         routed, failure = await stage('routing', route_request)

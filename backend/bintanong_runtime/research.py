@@ -89,7 +89,7 @@ def research_catalog(ledger):
             if initials is not None and compact(initials) not in compact_codes:
                 aliases.add(initials)
         entries.append(CatalogEntry(kind='course', entity_id=cid, program_id=c['program_id'],
-            curriculum_id=c['curriculum_id'], aliases=tuple(sorted(aliases)),
+            curriculum_id=c['curriculum_id'], aliases=tuple(sorted(aliases)), course_code=c['facts']['course_code']['value'],
             source_ref=c['source_version_id'], review_ref=c['review_refs'][0], reviewed=True))
     return tuple(entries)
 

@@ -282,6 +282,47 @@ def test_a_fresh_chat_remembers_nothing():
     assert pipeline.calls[0][0] == 'Oo, pasado.' and pipeline.calls[0][1].facts == ()
 
 
+def test_a_standalone_result_is_acknowledged_and_used_by_the_next_named_check():
+    from test_routing_standalone_results import route_statement
+    from backend.bintanong_api.presentation import student_text
+    from backend.bintanong_orchestration.contracts import IntegrationResult
+    from test_generation_loop import Fake, api as generation
+    first = route_statement()
+
+    class RoutedPipeline:
+        async def run(self, text, ctx, *, routed_sink, progress):
+            from dataclasses import replace
+            routed = replace(first, claims=tuple(c.model_copy(update=dict(session_id=ctx.session_id))
+                                                for c in first.claims))
+            routed_sink(routed)
+            source = IntegrationResult(understanding=None, schema_version=IntegrationResult.SCHEMA_VERSION,
+                request_id=ctx.request_id, route=None, response_style='en', status='clarify', evidence=None,
+                missing_facts=routed.decision.missing_facts, events=(), course_labels=LABELS)
+            return await generation().Generator(Fake(), explanation_profile='legacy').generate(text, source)
+
+    store = SessionStore()
+    s = session(store)
+    result = turn(store, s, RoutedPipeline(), 'I passed A1.', 'msg-1')
+    assert student_text(result).startswith('Noted: you passed A 1.')
+    later = Answering()
+    turn(store, s, later, 'Can I take B1?', 'msg-2')
+    assert [(f.course_id, f.state) for f in later.calls[0][1].facts] == [('course-a', 'passed')]
+    from backend.bintanong_orchestration.adapters import student_facts
+    from backend.bintanong_symbolic.runtime import CurriculumRuntime
+    from test_symbolic_authoring import fixture
+    from test_symbolic_compiler import rereview
+    data = fixture()
+    data[0].update(program_id='program-a', curriculum_id='curriculum-a')
+    for course, cid in zip(data[2], ('course-a', 'course-b')):
+        course.update(data[0], course_id=cid)
+    data[2][1]['prerequisites']['course_id'] = 'course-a'
+    ctx = later.calls[0][1]
+    check = validate('B1', proposal(mentions=[dict(kind='course', text='B1', start=0, end=2)]),
+                     ctx.model_dump(mode='json'))
+    decision = CurriculumRuntime(rereview(data)).check(check.decision.predicate_request, student_facts(ctx.facts)).decision
+    assert decision.outcome == 'eligible' and decision.missing_facts == ()
+
+
 def test_a_curriculum_switch_before_the_reply_carries_no_fact_and_no_question():
     store = SessionStore()
     s = session(store)

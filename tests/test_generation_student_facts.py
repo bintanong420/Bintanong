@@ -29,7 +29,8 @@ def test_several_noted_results_keep_their_own_states():
                                missing_facts=('noted_passed:course-a', 'noted_not_taken:course-b'), events=(),
                                course_labels={'course-a': 'A 1', 'course-b': 'B 1'})
     answer = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('A1 B1', source))
-    assert student_text(answer) == ('Noted: you passed A 1, and you have not taken B 1 yet. '
+    assert student_text(answer) == ('Noted: you passed A 1. I will use this in this chat for your selected curriculum.\n'
+                                    'Noted: you have not taken B 1 yet. '
                                     'I will use this in this chat for your selected curriculum.')
 
 

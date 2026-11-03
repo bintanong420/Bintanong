@@ -25,6 +25,7 @@ def test_owner_alias_rule_adds_spacing_and_lab_suffix_variants():
     entry = catalog[0]
     assert entry.kind == 'course' and entry.curriculum_id == 'curriculum-fictional'
     assert entry.source_ref == 'ver-fictional' and entry.review_ref == 'review-fictional'
+    assert entry.course_code == 'ZZ 5/L'
 
 
 def test_draft_identities_are_left_out():
