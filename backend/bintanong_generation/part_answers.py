@@ -430,6 +430,33 @@ REWRITE = dict(
             'Preserve the complete source meaning and conditions.')
 
 
+# Owner 3 Nov 2026 (H4): the printed Handbook FAQ pages are split across consecutive records.
+CONTINUED_TOPICS = ('handbook_student_faq', 'handbook_drop_shift_faq')
+CONTINUED_INSTRUCTION = (
+    'Each list is consecutive records of one printed FAQ page, in printed order. A numbered question or sentence '
+    'that ends one record continues at the start of the next; read them as one text. That split is not a source '
+    'cutoff. A real gap inside the printed text is still disclosed.')
+
+
+def continued_records(pack):
+    """Canonical evidence ids, in pack order, of each FAQ-topic part's records (two or more)."""
+    if not pack.understanding:
+        return []
+    documents = [c.evidence_id for c in pack.cards if c.kind == 'document']
+    required = required_record_sources(pack)
+    parts = [p for p in pack.understanding.parts if p.evidence_need == 'document']
+    groups = []
+    for part in parts:
+        if part.subject_id not in CONTINUED_TOPICS:
+            continue
+        refs = required.get(part.part_id) or (set(documents) if all(p.subject_id in CONTINUED_TOPICS for p in parts)
+                                               else set())
+        group = [i for i in documents if i in refs]
+        if len(group) >= 2 and group not in groups:
+            groups.append(group)
+    return groups
+
+
 def part_messages(text, pack, *, errors=(), previous='', references=None):
     payload = dict(untrusted_question=text, evidence=document_payload(pack, compact=True),
         validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
@@ -452,6 +479,10 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'For each part named here, the listed part carries the full explanation of the shared '
             'records; answer only what that part specifically asks, citing its own records, and do '
             'not repeat the whole procedure.')
+    continued = continued_records(pack)
+    if continued:
+        payload['continued_records'] = [[aliases[i] for i in group] for group in continued]
+        payload['continued_records_instruction'] = CONTINUED_INSTRUCTION
     order = required_record_order(pack)
     if order:
         payload['record_order'] = {part: [[aliases[i] for i in sequence] for sequence in sequences]
@@ -731,6 +762,10 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
     required = {part: refs for part, refs in required_record_sources(pack).items() if part not in detail}
     if required:
         payload['required_records'] = {part: sorted(refs) for part,refs in required.items() if part in slots}
+    continued = continued_records(pack)
+    if continued:
+        payload['continued_records'] = continued
+        payload['continued_records_instruction'] = CONTINUED_INSTRUCTION
     shared = {part: covering for part, covering in shared_record_coverage(pack).items()
               if part in slots and covering in slots}
     if shared:
