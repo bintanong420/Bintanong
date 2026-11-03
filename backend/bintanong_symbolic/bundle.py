@@ -7,6 +7,7 @@ from .compiler import _digest, _json, compile_curriculum_review_bundle
 
 _ENGINE = Path(__file__).resolve().parents[1]/'algorithms/curriculum_runtime.pl'
 _MAX_PAYLOAD_BYTES = 524_288
+BLANK_CELL = 'Printed prerequisite cell is blank'  # the reviewed ledgers' reason for a blank cell
 
 
 def prepare_runtime_bundle(ledger) -> dict:
@@ -17,7 +18,15 @@ def prepare_runtime_bundle(ledger) -> dict:
     checked = compiled['ledger']
 
     def expression(node):
-        # An unresolved part is exported as an unknown leaf (no reason text); the engine decides
+        # Owner decision, 4 November 2026 (after reviewing every prospectus): a blank printed prerequisite cell
+        # means no prerequisite, exported like a printed "None". The ledger keeps its blank record and reason.
+        if node['kind'] == 'unresolved' and (node.get('reason') or '').startswith(BLANK_CELL):
+            return {'kind':'verified_none'}
+        # A year-level standing names no course (standing approval, 23 October 2026): still unknown for an
+        # eligibility check, but it cannot make a "what does failing X block" list uncertain.
+        if node['kind'] == 'unresolved' and 'year-level standing' in (node.get('reason') or ''):
+            return {'kind':'unresolved', 'course_free':True}
+        # Any other unresolved part is exported as an unknown leaf (no reason text); the engine decides
         # only from the reviewed parts beside it (owner decision, 23 October 2026).
         if node['kind'] == 'unresolved':
             return {'kind':'unresolved'}

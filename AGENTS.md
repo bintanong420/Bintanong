@@ -189,6 +189,12 @@
   automatic approval or completion. A known gap limits the affected capability;
   do not repeatedly ask the owner to reconstruct unavailable source content or
   expand the study scope. These are standing requirements, not a deployment claim.
+- Owner exception, 4 November 2026: a blank prerequisite cell in a reviewed prospectus
+  means no prerequisite (owner reviewed every prospectus: "those blank literally means
+  no prerequisites"). It is treated like a printed "None" in checks, term lists and
+  dependency lists. Printed-but-unverified conditions, year standing and other recorded
+  gaps keep their limits. See `plans/owner-decisions-ledger.md`; supersedes the earlier
+  "blank cell -> unknown" rulings for prerequisite cells only.
 
 ## Phase 05 completion boundary — owner approval, 17 October 2026
 

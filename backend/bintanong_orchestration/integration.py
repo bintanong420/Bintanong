@@ -14,7 +14,7 @@ def _identity_pinned(pin, result):
             and (getattr(result, 'rule_bundle_version', None) in (None, version)))
 
 
-def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, course_facts=None):
+def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, course_facts=None, term_assessment=None):
     pin = ReleasePin.parse(pin.model_dump(mode='json'))
     if documents is not None:
         documents = DocumentResult.parse(documents.model_dump(mode='json'))
@@ -23,12 +23,15 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, co
         status='ready', permitted_scope='document_explanation' if route == 'RAG' else
         'combined_explanation' if route == 'Hybrid' else
         'dependency_listing' if dependencies is not None else
-        'course_facts_listing' if course_facts is not None else 'scoped_prerequisite_check')
+        'course_facts_listing' if course_facts is not None else
+        'term_prerequisite_listing' if term_assessment is not None else 'scoped_prerequisite_check')
     if course_facts is not None:
         data['course_facts'] = course_facts
+    if term_assessment is not None:
+        data['term_assessment'] = term_assessment
     # Validate component shape and reject offline/real-rule subtypes BEFORE copying.
     checked = CandidateEvidence(**data)
-    result = next((r for r in (symbolic, dependencies, course_facts) if r is not None), None)
+    result = next((r for r in (symbolic, dependencies, course_facts, term_assessment) if r is not None), None)
     status = None
     sources = {s.version_id:s.byte_sha256 for s in pin.sources}
     members = {d.chunk_id:(d.version_id,d.byte_sha256) for d in pin.documents}
@@ -48,11 +51,17 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, co
         conflicts = symbolic.decision.unresolved_conflicts
         if status is None and symbolic.decision.outcome not in ('eligible','ineligible'):
             status = 'conflict' if conflicts else symbolic.decision.outcome
-    if dependencies is not None and status is None and dependencies.status != 'complete':
-        status = {'partial':'unknown', 'unsupported':'unsupported', 'error':'error'}[dependencies.status]
+    if dependencies is not None and status is None and dependencies.status not in ('complete', 'partial'):
+        # A partial list is answered with its limitation named (owner report, 4 Nov 2026), never as a bare clarify.
+        status = {'unsupported':'unsupported', 'error':'error'}[dependencies.status]
     if course_facts is not None and status is None and course_facts.status != 'complete':
         # Unreviewed or unknown facts are missing information (E1 referral), never guessed.
         status = {'not_reviewed':'no_evidence', 'not_found':'no_evidence', 'unsupported':'unsupported'}[course_facts.status]
+    if term_assessment is not None and status is None and term_assessment.status not in ('complete', 'partial',
+                                                                                        'not_covered'):
+        # A covered term is answered; a term the source does not include is answered as a coverage gap.
+        status = {'not_reviewed':'no_evidence', 'not_found':'no_evidence', 'unsupported':'unsupported'}[
+            term_assessment.status]
     if documents is not None:
         doc_status = {'conflicting_sources':'conflict', 'release_changed':'release_mismatch',
             'needs_scope':'clarify', 'uncalibrated':'uncalibrated',

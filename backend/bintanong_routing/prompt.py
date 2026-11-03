@@ -81,7 +81,10 @@ result does not by itself require document retrieval. Hybrid requires a separate
 document-based policy explanation or transaction procedure as well as the structured check.
 Operations: check_prerequisite_eligibility, list_missing_prerequisites, list_affected_courses,
 course_facts (the printed title, units or year/semester of one named course), list_term_courses
-(the courses/subjects printed for a year level, optionally one semester). Those are Symbolic.
+(the courses/subjects printed for a year level, optionally one semester), assess_term_prerequisites
+(only when the student asks WHAT they can take in a year level/semester without naming the course: checks each
+course of that term; target the term mention). "Can I take CS 5 next sem?" names its course: that is
+check_prerequisite_eligibility on CS 5, and "next sem" only says when. Those are Symbolic.
 Document-only questions do not require a student curriculum. General procedure questions
 can use RAG; do not invent an ambiguity merely because more detail could be requested.
 Keep a requested structured operation even if it is unavailable; never hide it behind RAG.
@@ -109,12 +112,14 @@ A program named inside a question ("subjects of BSIT", "CC 5 in BSCS 2018-2019")
 mention, its school year a curriculum mention; a school year is never a term mention.
 An operation never targets a program/curriculum mention. Program requirements are not
 course prerequisites just because the word "requirements" occurs.
-claims capture every supplied explicit passed/failed/enrolled/not_enrolled statement, with mode asserted,
+claims capture every supplied explicit course result or enrollment statement, with mode asserted,
 hypothetical or reported. Their quote must contain the course mention and the complete relevant
 statement, including negation. Do not omit a stated condition because the target is a different course.
-A course stated as not passed, not yet passed or not taken yet (Filipino "hindi pa naipapasa",
-"di pa pasado", "hindi ko pa nakukuha") is a claim with state failed: failed means not completed,
-never a recorded failing grade. It is never passed and never omitted.
+Keep the result the student stated: passed (passed/pasado/naipasa), failed (failed/bagsak/did not pass),
+not_passed (not yet passed: "haven't passed", "hindi pa naipapasa", "di pa pasado"), not_taken (never or not yet
+taken: "haven't taken", "hindi ko pa nakukuha"), taken_unknown (took it, result not said: "natake ko na"),
+enrolled or not_enrolled (taking it this term or not). A negated course is never passed and never omitted.
+A message that only states results with no question has control clarify, its claims and operations [].
 asserted: the speaker directly supplies their own unqualified completion/enrollment premise,
 including a past-event clause attached to their own request. It is request-local supplied context,
 not a verified official grade or an instruction to write a record. Lack of official verification

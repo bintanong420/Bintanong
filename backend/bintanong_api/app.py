@@ -61,7 +61,7 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     app = FastAPI(title='Bintanong API', version='0.0.0', lifespan=lifespan,
                   dependencies=[Depends(check_origin), Depends(authorize)])
     app.state.services, app.state.settings = services, settings
-    turns = ChatTurns(services.sessions, services.pipeline, services.curricula)
+    turns = ChatTurns(services.sessions, services.pipeline, services.curricula, course_labels=services.course_labels)
     app.state.admission = admission = AnswerAdmission(running=settings.max_running_answers,
                                                       waiting=settings.max_waiting_answers)
     app.state.question_limit = question_limit = QuestionRateLimit(limit=settings.max_questions_per_window,

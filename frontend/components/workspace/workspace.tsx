@@ -307,7 +307,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
       {detailsOpen && <SuppliedDetailsPanel details={details} selected={selectedDetails} scopeLabel={scope ? `${scope.programName} · ${scope.curriculumName}` : "No curriculum selected"} onClose={() => setDetailsOpen(false)} onUse={keys => { setSelectedDetails(keys); setDetailsOpen(false); }} />}
       {review && <PreviewDialog title="Review your next message" onClose={() => setReview(null)}>
         <p className="supporting-copy">{scope ? `${scope.programName} · ${scope.curriculumName}` : "No curriculum selected"}</p>
-        <p className="clarification-review">{review.text}</p><p className="supporting-copy">Only this question and the details shown here will be sent. Earlier messages are not automatically attached.</p>
+        <p className="clarification-review">{review.text}</p><p className="supporting-copy">Only this question and the details shown here will be sent. Course results you stated earlier in this chat are remembered for this curriculum until you start a new chat.</p>
         <div className="card-actions"><Button disabled={!!busy || signInNeeded} onClick={() => { if (review.scope === scope || sameScope(review.scope, scope)) void send({ ...review, clearDraft: true }); }}>Confirm and send</Button><Button variant="outline" onClick={() => setReview(null)}>Edit more</Button></div>
       </PreviewDialog>}
       {filesOpen && <FilePanel files={files} busy={busy === "file"} warning={fileWarning} onClose={() => setFilesOpen(false)} onPick={() => picker.current?.click()}

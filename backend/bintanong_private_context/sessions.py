@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 
 from ..bintanong_routing.contracts import ConversationContext, RequestContext, ScopedFact
 from .grades import ExtractionResult, confirm_rows
+from .memory import PendingCheck, merge_facts
 
 IDLE_SECONDS = 30 * 60
 MAX_SESSIONS = 1000
@@ -39,6 +40,7 @@ class SessionView:
     pending: ExtractionResult | None
     conversation: ConversationContext | None
     pending_upload_id: str | None = None
+    pending_check: PendingCheck | None = None  # the check waiting on one stated result (memory plan, Task 2)
 
 
 @dataclass
@@ -54,6 +56,7 @@ class _Session:
     pending_upload_id: str | None = None
     upload_facts: dict[str, tuple[str, ...]] = field(default_factory=dict)  # upload id -> fact ids it confirmed
     account_id: str | None = None  # verified opaque identity, never an email or bearer token
+    pending_check: PendingCheck | None = None
 
 
 def _digest(credential: object) -> str | None:
@@ -89,7 +92,8 @@ class SessionStore:
         with self._lock:
             session = self._live(credential, account_id=account_id)
             return None if session is None else SessionView(session.session_id, session.facts, session.pending,
-                                                                 session.conversation, session.pending_upload_id)
+                                                                 session.conversation, session.pending_upload_id,
+                                                                 session.pending_check)
 
     def set_facts(self, credential: object, facts: tuple[ScopedFact, ...], *, account_id: str | None = None) -> None:
         with self._lock:
@@ -159,15 +163,25 @@ class SessionStore:
             session.turn_in_flight = True
 
     def end_turn(self, credential: object, message_id: str, *, completed: bool,
-                 account_id: str | None = None) -> None:
-        """A session deleted or expired during the turn stays gone."""
+                 account_id: str | None = None, facts: tuple[ScopedFact, ...] = (),
+                 pending_check: PendingCheck | None = None) -> None:
+        """A session deleted or expired during the turn stays gone. A completed turn commits its accepted
+        statements and its waiting check together (memory/eligibility plan, Task 2); any other completed turn
+        retires the earlier waiting check, and a failed or cancelled turn commits nothing."""
         with self._lock:
             session = self._live(credential, account_id=account_id)
             if session is None:
                 return
             session.turn_in_flight = False
-            if completed:
-                session.answered_message = message_id
+            if not completed:
+                return
+            session.answered_message = message_id
+            if any(f.session_id != session.session_id for f in facts):
+                raise ValueError('foreign_session_fact')
+            merged = merge_facts(session.facts, facts)
+            if len(merged) <= MAX_FACTS:  # over the limit, the turn's new statements are not kept
+                session.facts = merged
+            session.pending_check = pending_check
 
     def delete(self, credential: object, *, account_id: str | None = None) -> bool:
         key = _digest(credential)
@@ -204,7 +218,7 @@ class SessionStore:
         """Owner, 24 Oct 2026: cookie-less requests must not lock students out, so the least recently used
         session that holds nothing the student stated (and no running turn) makes room."""
         empty = [(s.last_seen, k) for k, s in self._sessions.items()
-                 if not (s.facts or s.pending or s.conversation or s.turn_in_flight)]
+                 if not (s.facts or s.pending or s.conversation or s.pending_check or s.turn_in_flight)]
         if not empty:
             return False
         del self._sessions[min(empty)[1]]

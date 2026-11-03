@@ -9,6 +9,7 @@ from ..bintanong_contracts.governance import ID_VER, SHA256
 from ..bintanong_contracts.source import SpanLocator
 from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_symbolic.course_facts import CourseFactsResult
+from .term_assessment import TermAssessmentResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_routing.contracts import RequestPart, Operation
@@ -18,7 +19,7 @@ ReleaseID = Annotated[str, Field(pattern=r'^release-[a-z0-9-]+$', max_length=128
 Status = Literal['ready', 'unknown', 'unsupported', 'error', 'timeout', 'conflict',
     'release_mismatch', 'no_evidence', 'uncalibrated', 'clarify']
 Scope = Literal['none', 'document_explanation', 'scoped_prerequisite_check',
-    'dependency_listing', 'combined_explanation', 'course_facts_listing']
+    'dependency_listing', 'combined_explanation', 'course_facts_listing', 'term_prerequisite_listing']
 DocumentStatus = Literal['ok', 'insufficient_evidence', 'needs_scope', 'conflicting_sources',
     'uncalibrated', 'release_changed', 'configuration_mismatch', 'encoder_unavailable',
     'invalid_query', 'storage_error', 'policy_binding_error', 'needs_subject',
@@ -198,6 +199,7 @@ class CandidateEvidence(Contract):
     missing_facts: tuple[Text, ...] = ()
     conflicts: tuple[Text, ...] = ()
     course_facts: CourseFactsResult | None = None  # printed course facts (no rule executed)
+    term_assessment: TermAssessmentResult | None = None  # each course of one term checked (memory plan, Task 4)
 
     @model_serializer(mode='wrap')
     def _omit_absent_course_facts(self, handler):
@@ -205,12 +207,16 @@ class CandidateEvidence(Contract):
         data = handler(self)
         if self.course_facts is None:
             data.pop('course_facts', None)
+        if self.term_assessment is None:
+            data.pop('term_assessment', None)
         return data
 
     @model_validator(mode='after')
     def _shape(self):
         has_symbolic = ((self.symbolic is not None) + (self.dependencies is not None)
-                        + (self.course_facts is not None))
+                        + (self.course_facts is not None) + (self.term_assessment is not None))
+        if self.term_assessment is not None and self.term_assessment.synthetic is not self.pin.synthetic:
+            raise ValueError('term_assessment_must_match_pin')
         if self.route == 'RAG' and (self.documents is None or has_symbolic):
             raise ValueError('RAG_requires_documents_only')
         if self.route == 'Symbolic' and (self.documents is not None or has_symbolic != 1):
@@ -291,6 +297,8 @@ class IntegrationResult(Contract):
     events: tuple[StageEvent, ...]
     # Display-only printed course codes keyed by internal course identity.
     course_labels: dict[str, Text] = Field(default_factory=dict, max_length=256)
+    # Memory/eligibility plan: what-if premises ('<state>:<course id>') this check assumed; request-only, never saved.
+    assumed_facts: tuple[Text, ...] = Field(default=(), max_length=32, exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _result(self):

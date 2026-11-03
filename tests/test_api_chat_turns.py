@@ -206,3 +206,147 @@ def test_message_the_router_would_refuse_is_a_422_before_any_answer_work(text):
     with pytest.raises(ApiError) as raised:
         turns.prepare(request(text))
     assert (raised.value.status, raised.value.code) == (422, 'invalid_message')
+
+
+# Memory/eligibility plan, Task 2: stated results and the waiting check carry across turns of one chat only.
+from types import SimpleNamespace
+
+from test_routing_contracts import proposal
+
+LABELS = {'course-a': 'A 1', 'course-b': 'B 1'}
+SCOPE = dict(programId='program-a', curriculumId='curriculum-a')
+
+
+class Answering(Pipeline):
+    def __init__(self, routed=None, result=None, **options):
+        super().__init__(routed=routed, **options)
+        self.result = result
+
+    async def run(self, text, ctx, *, routed_sink, progress):
+        await super().run(text, ctx, routed_sink=routed_sink, progress=progress)
+        return self.result
+
+
+def checked(session_id, text='Natake ko na yung A1. Can I take B1?', state='passed', curriculum='curriculum-a'):
+    """The routing result of a check on B1 whose text states a result for A1."""
+    start, target = text.index('A1'), text.rindex('B1')
+    value = proposal(text=text, mentions=[dict(kind='course', text='A1', start=start, end=start + 2),
+                                          dict(kind='course', text='B1', start=target, end=target + 2)],
+                     claims=[dict(entity=0, state=state, mode='asserted', text=text, start=0, end=len(text))],
+                     operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    value['parts'] = [dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured',
+                           operation_indices=[0])]
+    return validate(text, value, context(session_id=session_id, curriculum_id=curriculum))
+
+
+def waiting_on(course='course-a'):
+    return SimpleNamespace(decision=SimpleNamespace(outcome='unknown', missing_facts=(f'completion_unknown:{course}',),
+                                                    unknown_conditions=()))
+
+
+def turn(store, s, pipeline, text, message_id, **scope):
+    return answer(ChatTurns(store, pipeline, CURRICULA, course_labels=LABELS), session_of(store, s),
+                  request(text, message_id=message_id, **(scope or SCOPE)))
+
+
+def test_a_bare_reply_reruns_the_waiting_check_and_the_result_is_remembered_for_later_turns():
+    store = SessionStore()
+    s = session(store)
+    turn(store, s, Answering(checked(s.view.session_id), waiting_on()), 'Natake ko na yung A1. Can I take B1?', 'msg-1')
+    view = store.resolve(s.credential)
+    assert [(f.course_id, f.state, f.source) for f in view.facts] == [('course-a', 'taken_unknown', 'user_statement')]
+    assert (view.pending_check.course_id, view.pending_check.target_course_id) == ('course-a', 'course-b')
+
+    reply = Answering()
+    turn(store, s, reply, 'Oo, pasado.', 'msg-2')
+    text, ctx = reply.calls[0]
+    assert text == 'Pwede ko na bang i-take ang B 1?'
+    assert [(f.course_id, f.state) for f in ctx.facts] == [('course-a', 'passed')]
+    view = store.resolve(s.credential)
+    assert [(f.course_id, f.state) for f in view.facts] == [('course-a', 'passed')] and view.pending_check is None
+
+    turn(store, s, Answering(), 'Where is the registrar?', 'msg-3')   # an unrelated question in between
+    later = Answering()
+    turn(store, s, later, 'Pasok ba ako sa prerequisites ng B1?', 'msg-4')
+    assert later.calls[0][0] == 'Pasok ba ako sa prerequisites ng B1?'
+    assert [(f.course_id, f.state) for f in later.calls[0][1].facts] == [('course-a', 'passed')]
+
+
+def test_a_fresh_chat_remembers_nothing():
+    store = SessionStore()
+    s = session(store)
+    turn(store, s, Answering(checked(s.view.session_id), waiting_on()), 'Natake ko na yung A1. Can I take B1?', 'msg-1')
+    fresh = session(store)
+    pipeline = Answering()
+    turn(store, fresh, pipeline, 'Oo, pasado.', 'msg-1')
+    assert pipeline.calls[0][0] == 'Oo, pasado.' and pipeline.calls[0][1].facts == ()
+
+
+def test_a_curriculum_switch_before_the_reply_carries_no_fact_and_no_question():
+    store = SessionStore()
+    s = session(store)
+    turns = (CurriculumOption('program-a', 'curriculum-a', 'A', 'A'), CurriculumOption('program-a', 'curriculum-z', 'A', 'Z'))
+    answer(ChatTurns(store, Answering(checked(s.view.session_id), waiting_on()), turns, course_labels=LABELS), s,
+           request('Natake ko na yung A1. Can I take B1?', **SCOPE))
+    switched = Answering()
+    answer(ChatTurns(store, switched, turns, course_labels=LABELS), session_of(store, s),
+           request('Oo, pasado.', message_id='msg-2', programId='program-a', curriculumId='curriculum-z'))
+    text, ctx = switched.calls[0]
+    assert text == 'Oo, pasado.' and ctx.facts == ()
+    assert [(f.curriculum_id, f.state) for f in store.resolve(s.credential).facts] == [('curriculum-a', 'taken_unknown')]
+
+
+def test_a_failed_reply_turn_commits_no_partial_memory():
+    store = SessionStore()
+    s = session(store)
+    turn(store, s, Answering(checked(s.view.session_id), waiting_on()), 'Natake ko na yung A1. Can I take B1?', 'msg-1')
+    with pytest.raises(ApiError):
+        turn(store, s, Answering(error=RuntimeError('model down')), 'Oo, pasado.', 'msg-2')
+    view = store.resolve(s.credential)
+    assert [f.state for f in view.facts] == ['taken_unknown'] and view.pending_check is not None
+
+
+def test_a_correction_replaces_the_earlier_self_report_and_regeneration_does_not_duplicate_it():
+    store = SessionStore()
+    s = session(store)
+    sid = s.view.session_id
+    turn(store, s, Answering(checked(sid, 'I passed A1. Can I take B1?')), 'I passed A1. Can I take B1?', 'msg-1')
+    corrected = checked(sid, 'Sorry, I failed A1. Can I take B1?', state='failed')
+    turn(store, s, Answering(corrected), 'Sorry, I failed A1. Can I take B1?', 'msg-2')
+    answer(ChatTurns(store, Answering(corrected), CURRICULA, course_labels=LABELS), session_of(store, s),
+           request('Sorry, I failed A1. Can I take B1?', message_id='msg-2', trigger='regenerate-message', **SCOPE))
+    assert [(f.course_id, f.state) for f in store.resolve(s.credential).facts] == [('course-a', 'failed')]
+
+
+def missing_term(session_id, text='I failed A1. What can I take next sem?'):
+    start, term = text.index('A1'), text.index('next sem')
+    value = proposal(text=text, mentions=[dict(kind='course', text='A1', start=start, end=start + 2),
+                                          dict(kind='term', text='next sem', start=term, end=term + 8)],
+                     claims=[dict(entity=0, state='failed', mode='asserted', text='I failed A1', start=0, end=11)],
+                     operations=[dict(name='assess_term_prerequisites', target=1)])
+    value['parts'] = [dict(part_id='r1', text=text[13:], start=13, end=len(text), evidence_need='structured',
+                           operation_indices=[0])]
+    return validate(text, value, context(session_id=session_id))
+
+
+def test_failures_are_kept_while_the_term_is_asked_and_a_bare_term_reply_runs_the_term_check():
+    store = SessionStore()
+    s = session(store)
+    first = missing_term(s.view.session_id)
+    assert first.diagnostic == 'missing_term'
+    turn(store, s, Answering(first, SimpleNamespace(decision=None)), 'I failed A1. What can I take next sem?', 'msg-1')
+    view = store.resolve(s.credential)
+    assert [(f.course_id, f.state) for f in view.facts] == [('course-a', 'failed')]
+    assert view.pending_check.dimension == 'term'
+    reply = Answering()
+    turn(store, s, reply, 'second year, second sem', 'msg-2')
+    text, ctx = reply.calls[0]
+    assert text == 'What can I take in second year, second semester?'
+    assert [(f.course_id, f.state) for f in ctx.facts] == [('course-a', 'failed')]
+    taglish = Answering()
+    store2 = SessionStore()
+    s2 = session(store2)
+    turn(store2, s2, Answering(missing_term(s2.view.session_id), SimpleNamespace(decision=None)),
+         'I failed A1. What can I take next sem?', 'msg-1')
+    turn(store2, s2, taglish, 'ikalawang taon, unang sem po', 'msg-2')
+    assert taglish.calls[0][0] == 'Ano ang pwede kong i-take sa second year, first semester?'

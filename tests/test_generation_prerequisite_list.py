@@ -23,11 +23,12 @@ def test_runtime_returns_the_reviewed_requirement_tree(kind):
     assert result.requirement == node(kind, None, node('course', 'course-1'), node('course', 'course-3'))
 
 
-def test_no_stated_fact_lists_the_prerequisites_and_asks_which_were_passed():
+def test_no_stated_fact_asks_about_the_single_prerequisite_directly():
+    # Memory/eligibility plan (owner, 3 Nov 2026): one prerequisite is asked about by name; several are still listed
+    # with "tell me which of these you passed" (step 2b, see the multi-course rendering tests below).
     answer = asyncio.run(Generator(NoModel()).generate('A1', research_integration()))  # fixture style: Taglish
     assert answer.status == 'clarification_needed'
-    assert 'Prerequisites ng course-2: course-1.' in answer.text
-    assert 'Sabihin mo kung alin dito ang na-pass mo na' in answer.text
+    assert 'course-1 ang prerequisite ng course-2. Naipasa mo na ba ang course-1?' in answer.text
     assert 'Hindi pa ma-establish ang eligibility' not in answer.text
 
 
@@ -113,3 +114,17 @@ def test_every_alternative_still_unknown_is_listed():
     text = render_text(any_of_pack(('completion_unknown:course-1', 'completion_unknown:course-3'),
                                    ('enrollment_unknown:course-3',)), (), 'clarification_needed')
     assert 'Prerequisites ng course-2: one of: course-1, course-3 (or i-take nang sabay).' in text
+
+
+def test_several_prerequisites_with_no_stated_fact_are_still_listed():
+    from dataclasses import replace
+    from backend.bintanong_generation.evidence import prepare
+    from backend.bintanong_generation.render import render_text
+    pack = prepare(research_integration())
+    missing = ('completion_unknown:course-1', 'completion_unknown:course-3')
+    decision = pack.decision.model_copy(update=dict(missing_facts=missing))
+    pack = replace(pack, requirement=node('all_of', None, node('course', 'course-1'), node('course', 'course-3')),
+                   decision=decision, missing_facts=missing)
+    text = render_text(pack, (), 'clarification_needed')
+    assert 'Prerequisites ng course-2: course-1 and course-3.' in text
+    assert 'Sabihin mo kung alin dito ang na-pass mo na' in text

@@ -134,3 +134,17 @@ def test_course_fact_operations_answer_from_reviewed_facts_within_the_request_sc
         with pytest.raises(ValueError, match='scope'):
             await adapter.execute(runtime_request('course_facts', course_id='course-syn101'), other)
     asyncio.run(scenario())
+
+
+@pytest.mark.parametrize('state,outcome', [('passed', 'eligible'), ('failed', 'ineligible'),
+                                           ('not_passed', 'ineligible'), ('not_taken', 'ineligible'),
+                                           ('taken_unknown', 'unknown')])
+def test_only_a_stated_pass_completes_and_a_bare_took_it_supplies_no_outcome(state, outcome):
+    # Memory/eligibility plan, Task 1: noncompletion covers failed, not yet passed and never taken.
+    async def scenario():
+        adapter = api().SymbolicAdapter(CurriculumRuntime(ledger(fixture())))
+        result = await adapter.execute(request(), context(state=state))
+        assert result.decision.outcome == outcome
+        if state == 'taken_unknown':
+            assert result.decision.missing_facts == ('completion_unknown:course-1',)
+    asyncio.run(scenario())
