@@ -63,7 +63,10 @@ def follow_up(text, subject='fictional_office'):
 
 @pytest.mark.parametrize('text,expected', [
     ('aalis ako', 'fictional_outgoing'), ('leaving PalSU', 'fictional_outgoing'),
-    ('transferring in', 'fictional_incoming'), ('lilipat ako sa PalSU galing sa ibang school', 'fictional_incoming')])
+    ('transferring in', 'fictional_incoming'), ('lilipat ako sa PalSU galing sa ibang school', 'fictional_incoming'),
+    # Owner GUI 3 Nov 2026 (#11): typed Taglish replies, sent after the original question by the GUI.
+    ('magkano bayad sa transfer credentials\n\nlipat to PalSU from ibang school', 'fictional_incoming'),
+    ('magkano bayad sa transfer credentials\n\nlilipat ako to ibang school', 'fictional_outgoing')])
 def test_a_reply_that_picks_a_side_is_answered_from_that_side(text, expected):
     result = follow_up(text)
     assert result.decision.dispatchable and result.decision.route == 'RAG'

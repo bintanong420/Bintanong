@@ -80,7 +80,9 @@ TRANSFER_DIRECTION_CUES = (
     'leave the university', 'leaving the university', 'to another school', 'to another university',
     'to other school', 'aalis', 'lilipat sa ibang', 'lilipat ng ibang',
     'transferee', 'from another school', 'from other school', 'from another university',
-    'galing sa ibang', 'transfer to palsu', 'transferring to palsu', 'lilipat sa palsu', 'lumipat sa palsu')
+    'galing sa ibang', 'transfer to palsu', 'transferring to palsu', 'lilipat sa palsu', 'lumipat sa palsu',
+    # Owner GUI 3 Nov 2026 (#11): typed Taglish.
+    'lipat to palsu', 'lipat sa palsu', 'from ibang school', 'galing ibang school', 'to ibang school', 'lipat sa ibang school')
 
 
 # Owner, 28 Oct 2026: a question explicitly naming an excluded program gets the undergraduate-scope notice even
@@ -99,9 +101,10 @@ def _names_any(text, phrases):
 # Owner GUI 3 Nov 2026 (H2, #11): replies to the bot's own "Aalis ka ba sa PalSU ..., o lilipat ka sa PalSU galing sa
 # ibang school?" question. These read the answer to that question only; they are not a routing word list.
 _LEAVING_REPLY = ('aalis', 'alis', 'leaving', 'leave palsu', 'transfer out', 'transferring out', 'honorable dismissal',
-                  'to another school', 'sa ibang school ako lilipat')
+                  'to another school', 'sa ibang school ako lilipat', 'to ibang school', 'lipat sa ibang school')
 _INCOMING_REPLY = ('transferring in', 'transfer in', 'transferring into', 'transferee', 'lilipat sa palsu',
-                   'lilipat ako sa palsu', 'galing sa ibang school', 'from another school', 'papasok')
+                   'lilipat ako sa palsu', 'galing sa ibang school', 'from another school', 'papasok',
+                   'lipat to palsu', 'lipat sa palsu', 'into palsu', 'from ibang school', 'galing ibang school')
 
 
 def answer_transfer_direction(proposed, menu, text, conversation):
