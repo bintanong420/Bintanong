@@ -6,6 +6,29 @@ from .context import build_context
 from .query import EncoderUnavailable, configuration_identity, validate_vector
 from .types import RetrievalSettings
 from .evidence_policy import SourceAwareEvidencePolicy, PolicyBindingError
+import json, os
+from datetime import datetime, timezone
+
+
+def _trace(subject_id, requested_claims, candidates, evidence, status):
+    """Owner GUI 3 Nov 2026: opt-in retrieval trace (BINTANONG_RETRIEVAL_TRACE = a JSONL path). Ids, ranks and
+    similarities only, never question or chunk text. A trace failure never affects the answer."""
+    path = os.environ.get('BINTANONG_RETRIEVAL_TRACE')
+    if not path:
+        return
+    def chunk_id(row):
+        return (row.get('chunk') or {}).get('chunk_id', row.get('chunk_id'))
+    record = dict(time=datetime.now(timezone.utc).isoformat(timespec='seconds'), subject_id=subject_id,
+        requested_claims=list(requested_claims or ()), status=status,
+        candidates=[dict(rank=i, chunk_id=chunk_id(row), similarity=None if row.get('similarity') is None
+                         else float(row['similarity'])) for i, row in enumerate(candidates, 1)],
+        emitted=[dict(chunk_id=e.get('chunk_id'), similarity=e.get('similarity'), selection=e.get('selection'))
+                 for e in evidence])
+    try:
+        with open(path, 'a', encoding='utf-8') as out:
+            out.write(json.dumps(record, ensure_ascii=False) + '\n')
+    except (OSError, TypeError, ValueError):
+        pass
 
 
 def _source_issue(candidates, scope):
@@ -137,6 +160,7 @@ class RetrievalEngine:
         response['coverage']='partial' if response['evidence'] else 'none'
         report=policy._assess(subject_id,requested_claims,[e['chunk_id'] for e in response['evidence']],
                               emitted_evidence=response['evidence'])
+        _trace(subject_id,requested_claims,candidates,response['evidence'],report['status'])
         response['evidence_policy'].update(assessment=report,not_run_reason=None)
         if report['status']=='insufficient_evidence':
             return fail('insufficient_evidence','requested_claim_not_established')
