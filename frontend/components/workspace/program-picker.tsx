@@ -1,8 +1,8 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Check, Search, X } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { StudentCurriculum } from "@/lib/student-contracts";
-import { curriculumForStartYear, groupPrograms, startYearOptions, type ProgramChoice, type StartYear } from "@/lib/programs";
+import { curriculumForStartYear, groupPrograms, programShortName, startYearOptions, type ProgramChoice, type StartYear } from "@/lib/programs";
 
 export type CurriculumState = "loading" | "ready" | "failed";
 
@@ -29,7 +29,7 @@ export function ProgramPicker({ open, openCount, ...props }: PickerProps & { ope
   }, [open, openCount]);
   return <div ref={host} className="dialog-host">
     <dialog ref={dialog} aria-labelledby={titleId} className="workspace-dialog confirmation-dialog program-dialog" onClose={() => { if (open) props.onClose(); }}>
-      <header className="dialog-heading"><h2 id={titleId}>{title}</h2><Button type="button" variant="ghost" size="icon" aria-label="Close program choice" onClick={() => dialog.current?.close()}><X aria-hidden="true" /></Button></header>
+      <header className="dialog-heading"><h2 id={titleId} tabIndex={-1} autoFocus>{title}</h2><Button type="button" variant="ghost" size="icon" aria-label="Close program choice" onClick={() => dialog.current?.close()}><X aria-hidden="true" /></Button></header>
       {open && <PickerContent key={openCount} {...props} onTitle={setTitle} />}
     </dialog>
   </div>;
@@ -39,7 +39,12 @@ function PickerContent({ curricula, current, status, busy, onRetry, onSave, onTi
   const [query, setQuery] = useState(""), [versioned, setVersioned] = useState<ProgramChoice | null>(null);
   const [startYear, setStartYear] = useState<StartYear | null>(null);
   const groups = useMemo(() => groupPrograms(curricula, query), [curricula, query]);
-  const searchId = useId(), yearName = useId();
+  const searchId = useId(), yearName = useId(), baseId = useId();
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
+  const searching = query.trim().length > 0;
+  function toggle(name: string) {
+    setExpanded(previous => { const next = new Set(previous); if (next.has(name)) next.delete(name); else next.add(name); return next; });
+  }
   useEffect(() => { onTitle(versioned ? "When did you start?" : "Choose your program"); }, [versioned, onTitle]);
   function choose(program: ProgramChoice) {
     if (program.curricula.length === 1) onSave(program.curricula[0]);
@@ -68,23 +73,38 @@ function PickerContent({ curricula, current, status, busy, onRetry, onSave, onTi
       <label className="program-search" htmlFor={searchId}>
         <Search size={16} aria-hidden="true" />
         <span className="sr-only">Search programs</span>
-        <input id={searchId} type="search" autoFocus placeholder="Search programs or colleges" autoComplete="off" value={query} onChange={event => setQuery(event.target.value)} disabled={status !== "ready"} />
+        <input id={searchId} type="search" enterKeyHint="search" placeholder="Search programs or colleges" autoComplete="off" value={query} onChange={event => setQuery(event.target.value)} disabled={status !== "ready"} />
       </label>
       {status === "loading" && <p role="status">Loading programs…</p>}
       {status === "failed" && <div className="curriculum-status" role="alert"><p>We couldn&apos;t load the program list. Try again in a moment.</p><Button variant="outline" onClick={onRetry}>Try again</Button></div>}
       {status === "ready" && !curricula.length && <p role="status">No programs are available yet.</p>}
       {status === "ready" && !!curricula.length && <div className="program-groups" aria-label="Programs by college">
         {!groups.length && <p role="status" className="supporting-copy">No program matches “{query.trim()}”.</p>}
-        {groups.map(group => <section key={group.college.name} className="program-group" aria-label={group.college.name}>
-          <h3>{group.college.name}</h3>
-          <ul>{group.programs.map(program => {
-            const selected = current?.programId === program.programId;
-            return <li key={program.programId}><button type="button" className="program-option" aria-current={selected ? "true" : undefined} disabled={busy} onClick={() => choose(program)}>
-              <span>{program.programName}</span>
-              {selected ? <Check size={16} aria-label="Current program" /> : program.curricula.length > 1 && <small>{program.curricula.length} curricula</small>}
-            </button></li>;
-          })}</ul>
-        </section>)}
+        {groups.map(group => {
+          // Colleges start collapsed; a search opens every college with a match.
+          const open = searching || expanded.has(group.college.name), listId = `${baseId}-${group.college.code || "other"}`;
+          const holdsCurrent = group.programs.some(program => program.programId === current?.programId);
+          return <section key={group.college.name} className="program-group" aria-label={group.college.name}>
+            <h3><button type="button" className="college-toggle" aria-expanded={open} aria-controls={listId} onClick={event => {
+              const header = event.currentTarget;
+              toggle(group.college.name);
+              // Bring the opened college's programs into view; on phones they would otherwise sit below the fold.
+              if (!open) requestAnimationFrame(() => header.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }));
+            }}>
+              <span className="college-name">{group.college.name}</span>
+              {holdsCurrent && <span className="college-current">Current</span>}
+              <span className="college-count">{group.programs.length}</span>
+              <ChevronDown size={18} aria-hidden="true" className="college-chevron" />
+            </button></h3>
+            {open && <ul id={listId}>{group.programs.map(program => {
+              const selected = current?.programId === program.programId;
+              return <li key={program.programId}><button type="button" className="program-option" aria-current={selected ? "true" : undefined} disabled={busy} onClick={() => choose(program)}>
+                <span className="program-option-text"><span>{program.programName}</span><small>{programShortName(program.programId, program.programName)}{program.curricula.length > 1 ? ` · ${program.curricula.length} curricula` : ""}</small></span>
+                {selected && <Check size={18} aria-label="Current program" />}
+              </button></li>;
+            })}</ul>}
+          </section>;
+        })}
       </div>}
     </>;
 }

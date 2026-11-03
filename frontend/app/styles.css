@@ -94,7 +94,6 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 .toolbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
 .toolbar-actions { min-inline-size: 0; max-inline-size: 100%; }
 .toolbar-actions button { max-inline-size: 100%; block-size: auto; min-block-size: 2.75rem; white-space: normal; text-align: start; }
-.toolbar-actions .appearance-control select { min-block-size: 2.75rem; }
 .toolbar-actions form { margin: 0; }
 .source-link { max-inline-size: 100%; block-size: auto; min-block-size: 2.75rem; white-space: normal; text-align: start; }
 .source-link span { min-inline-size: 0; overflow-wrap: anywhere; }
@@ -126,8 +125,8 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 .example-picker select { min-inline-size: 0; max-inline-size: 100%; min-block-size: 2rem; border: 1px solid var(--control-border); border-radius: 0.375rem; background: var(--background); color: var(--foreground); padding: 0.25rem 0.5rem; font: inherit; }
 .preview-notice { margin: 0; padding: 0.25rem 0; color: var(--foreground); font-size: 0.75rem; line-height: 1.5; }
 .preview-notice span { font-weight: 500; }
-.appearance-control { display: flex; flex-shrink: 0; align-items: center; gap: 0.5rem; color: var(--muted-foreground); }
-.appearance-control select { min-block-size: 2rem; max-inline-size: 7rem; border: 1px solid var(--control-border); border-radius: 0.375rem; padding: 0.25rem 0.5rem; background: var(--background); color: var(--foreground); font: inherit; font-size: 0.75rem; }
+.theme-toggle { display: inline-flex; flex: none; align-items: center; justify-content: center; inline-size: 2.75rem; block-size: 2.75rem; padding: 0; border: 0; border-radius: 9999px; background: transparent; color: var(--foreground); transition: background-color 150ms ease, color 150ms ease; }
+.theme-toggle[aria-label="Switch to dark mode"] svg { color: light-dark(oklch(0.62 0.15 60), oklch(0.82 0.13 80)); }
 .empty-conversation { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-block: 3rem; text-align: center; }
 .empty-conversation h1 { margin: 0; font-family: var(--font-geist), sans-serif; font-size: clamp(2rem, 3.5vw, 2.75rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.2; }
 .welcome-description { max-inline-size: 38rem; margin-block: 1rem 0; color: var(--muted-foreground); font-size: 1rem; line-height: 1.5; }
@@ -317,14 +316,17 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .welcome-logo { margin-block-end: 1rem; }
 /* A tinted pill so the About link reads as clickable against the warm welcome glow. */
 .welcome-about { display: inline-flex; align-items: center; gap: 0.375rem; min-block-size: 2.75rem; margin-block-start: 0.75rem; padding-inline: 1rem; border: 1px solid light-dark(oklch(0.85 0.08 60), oklch(0.45 0.08 60)); border-radius: 9999px; background: light-dark(oklch(0.95 0.05 70), oklch(0.3 0.05 60)); color: light-dark(oklch(0.4 0.11 50), oklch(0.9 0.07 70)); font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background-color 150ms ease, border-color 150ms ease; }
-.welcome-about:hover { background: light-dark(oklch(0.91 0.07 68), oklch(0.35 0.06 60)); border-color: light-dark(oklch(0.75 0.11 58), oklch(0.55 0.09 60)); }
+@media (hover: hover) {
+  .theme-toggle:hover, .college-toggle:hover, .program-option:hover { background: var(--secondary); }
+  .sample-question:hover { border-color: var(--control-border); background: var(--background); }
+}
+@media (hover: hover) { .welcome-about:hover { background: light-dark(oklch(0.91 0.07 68), oklch(0.35 0.06 60)); border-color: light-dark(oklch(0.75 0.11 58), oklch(0.55 0.09 60)); } }
 .sample-questions { display: grid; gap: 0.5rem; inline-size: min(100%, 30rem); margin-block-start: 1.5rem; text-align: start; }
 .sample-label { margin: 0; color: var(--muted-foreground); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
 .sample-list { display: grid; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
 .sample-question { display: flex; align-items: center; gap: 0.625rem; inline-size: 100%; min-block-size: 2.75rem; padding: 0.5rem 0.875rem; border: 1px solid var(--border); border-radius: 0.75rem; background: color-mix(in oklch, var(--background) 82%, transparent); color: var(--foreground); font: inherit; font-size: 0.875rem; line-height: 1.35; text-align: start; transition: border-color 150ms ease, background-color 150ms ease; }
 .sample-question > svg { flex: none; color: var(--muted-foreground); }
 .sample-question > span { flex: 1; min-inline-size: 0; }
-.sample-question:hover { border-color: var(--control-border); background: var(--background); }
 .sample-pager { display: flex; justify-content: center; gap: 0.25rem; }
 .sample-pager button { inline-size: 1.5rem; block-size: 1.5rem; padding: 0; border: 0; background: transparent; }
 .sample-pager button::before { content: ""; display: block; inline-size: 0.5rem; block-size: 0.5rem; margin: auto; border-radius: 9999px; background: var(--border); transition: inline-size 150ms ease, background-color 150ms ease; }
@@ -339,8 +341,7 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .mobile-navigation-toggle { display: none; }
 .workspace-options { position: fixed; inset-block: 4rem auto; inset-inline: auto 1rem; margin: 0; inline-size: min(18rem, calc(100vw - 2rem)); padding: 1rem; border: 1px solid var(--border); border-radius: 0.75rem; background: var(--background); color: var(--foreground); box-shadow: 0 0.5rem 1.5rem oklch(0 0 none / 0.12); font: inherit; }
 .workspace-options:popover-open { display: grid; gap: 1rem; }
-.workspace-options .appearance-control { justify-content: space-between; }
-.workspace-options .appearance-control select, .workspace-options button { min-block-size: 2.75rem; }
+.workspace-options button { min-block-size: 2.75rem; }
 .workspace-options p, .workspace-options form { margin: 0; }
 .workspace-options form button { inline-size: 100%; }
 .workspace-account-actions { display: flex; align-items: center; gap: 0.125rem; }
@@ -404,13 +405,22 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .program-search:focus-within { outline: 2px solid var(--foreground); outline-offset: 2px; }
 .program-search input { flex: 1; min-inline-size: 0; min-block-size: 2.75rem; border: 0; background: transparent; color: var(--foreground); font: inherit; font-size: 1rem; }
 .program-search input:focus-visible { outline: none; }
-.program-groups { display: grid; gap: 1rem; max-block-size: min(55dvh, 30rem); overflow-y: auto; padding-inline-end: 0.25rem; }
-.program-group h3 { position: sticky; inset-block-start: 0; margin: 0; padding-block: 0.375rem; background: var(--background); color: var(--muted-foreground); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
-.program-group ul { display: grid; margin: 0; padding: 0; list-style: none; }
-.program-option { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; inline-size: 100%; min-block-size: 2.75rem; padding: 0.5rem 0.625rem; border: 0; border-radius: 0.5rem; background: transparent; color: var(--foreground); font: inherit; font-size: 0.9375rem; text-align: start; }
-.program-option:hover { background: var(--secondary); }
+.program-groups { display: grid; max-block-size: min(55dvh, 30rem); overflow-y: auto; padding-inline-end: 0.25rem; }
+.program-group h3 { margin: 0; scroll-margin-block-start: 0.25rem; }
+.program-dialog h2:focus { outline: none; }
+.college-toggle { display: flex; align-items: center; gap: 0.5rem; inline-size: 100%; min-block-size: 3rem; padding: 0.5rem 0.625rem; border: 0; border-radius: 0.625rem; background: transparent; color: var(--foreground); font: inherit; font-size: 0.9375rem; font-weight: 600; text-align: start; }
+.college-name { flex: 1; min-inline-size: 0; }
+.college-current { flex: none; padding: 0.125rem 0.5rem; border-radius: 9999px; background: light-dark(oklch(0.95 0.05 70), oklch(0.3 0.05 60)); color: light-dark(oklch(0.4 0.11 50), oklch(0.9 0.07 70)); font-size: 0.6875rem; font-weight: 600; }
+.college-count { flex: none; min-inline-size: 1.5rem; color: var(--muted-foreground); font-size: 0.8125rem; font-weight: 500; text-align: end; font-variant-numeric: tabular-nums; }
+.college-chevron { flex: none; color: var(--muted-foreground); transition: transform 150ms ease; }
+.college-toggle[aria-expanded="true"] .college-chevron { transform: rotate(180deg); }
+.program-groups { gap: 0.125rem; }
+.program-group + .program-group { border-block-start: 1px solid var(--border); }
+.program-group ul { display: grid; gap: 0.125rem; margin: 0 0 0.5rem; padding: 0 0 0 0.5rem; list-style: none; }
+.program-option { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; inline-size: 100%; min-block-size: 3rem; padding: 0.5rem 0.75rem; border: 0; border-radius: 0.625rem; background: transparent; color: var(--foreground); font: inherit; font-size: 0.9375rem; text-align: start; }
 .program-option[aria-current="true"] { background: var(--secondary); font-weight: 600; }
-.program-option small { flex: none; color: var(--muted-foreground); font-size: 0.75rem; }
+.program-option-text { display: grid; gap: 0.125rem; min-inline-size: 0; }
+.program-option-text small { color: var(--muted-foreground); font-size: 0.75rem; font-weight: 500; }
 .start-year-step { display: grid; gap: 1rem; }
 .start-year-step p { margin: 0; }
 .start-year-options { display: grid; gap: 0.25rem; margin: 0; padding: 0; border: 0; }
@@ -418,6 +428,27 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .start-year-option { display: flex; align-items: center; gap: 0.75rem; min-block-size: 2.75rem; padding-inline: 0.625rem; border: 1px solid var(--border); border-radius: 0.5rem; cursor: pointer; }
 .start-year-option:has(input:checked) { border-color: var(--foreground); background: var(--secondary); }
 .start-year-option input { inline-size: 1.125rem; block-size: 1.125rem; accent-color: var(--primary); }
+@media (max-width: 48rem) {
+  /* Phones: the program picker is a bottom sheet within thumb reach. */
+  .program-dialog[open] { display: flex; flex-direction: column; inline-size: 100vw; max-inline-size: 100vw; max-block-size: 88dvh; margin: auto 0 0; padding: 0.5rem 1rem calc(1rem + env(safe-area-inset-bottom)); border-inline: 0; border-block-end: 0; border-radius: 1.25rem 1.25rem 0 0; }
+  .program-dialog[open]::before { content: ""; align-self: center; flex: none; inline-size: 2.5rem; block-size: 0.25rem; margin-block-end: 0.25rem; border-radius: 9999px; background: var(--border); }
+  .program-dialog > :not(:last-child) { margin-block-end: 0.75rem; }
+  .program-dialog .program-groups { flex: 1 1 auto; min-block-size: 0; max-block-size: none; }
+  .program-dialog .card-actions { flex-direction: column; align-items: stretch; }
+  .program-dialog .card-actions button { inline-size: 100%; }
+  .program-search input { font-size: 1rem; }
+  .composer-meta { gap: 0.25rem; }
+  .composer-tools { flex-wrap: nowrap; min-inline-size: 0; inline-size: 100%; }
+  .composer-tools .program-chip { min-inline-size: 0; max-inline-size: 100%; }
+  .sample-questions { margin-block-start: 1.25rem; }
+  .welcome-mode .empty-conversation { padding-block: 0.5rem; }
+  .welcome-logo { inline-size: 64px !important; block-size: 64px !important; margin-block-end: 0.5rem; }
+  .empty-conversation h1 { font-size: 1.75rem; }
+}
+@media (max-width: 48rem) and (prefers-reduced-motion: no-preference) {
+  .workspace-dialog.program-dialog[open] { animation: sheet-enter 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes sheet-enter { from { transform: translateY(2rem); opacity: 0.6; } to { transform: translateY(0); opacity: 1; } }
+}
 .composer-scope-label { min-inline-size: 0; max-inline-size: 14ch; overflow: clip; text-overflow: ellipsis; white-space: nowrap; }
 .live-workspace .suggestions { margin-block: 0 1rem; }
 .live-workspace .suggestions button { block-size: auto; border-radius: 9999px; white-space: normal; font-size: 0.8125rem; font-weight: 500; padding-block: 0.5rem; border-color: var(--control-border); box-shadow: none; }
@@ -467,7 +498,6 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .public-brand .public-tagline { grid-column: 2; font-family: var(--font-inter), sans-serif; font-size: 0.7rem; font-weight: 400; color: var(--muted-foreground); }
 .public-header nav, .public-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
 .public-header nav > a, .public-actions > a { display: inline-flex; align-items: center; font-size: 0.875rem; text-decoration: none; }
-.public-header .appearance-control { margin: 0; }
 .public-skip { position: absolute; inset-inline-start: 1rem; inset-block-start: -5rem; z-index: 20; padding: 0.75rem; background: var(--background); }
 .public-skip:focus { inset-block-start: 0.5rem; }
 .public-eyebrow { margin: 0 0 1rem; color: var(--muted-foreground); font-size: 0.75rem; }
@@ -480,7 +510,6 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .about-page::before { content: ""; position: fixed; z-index: -1; inset: 0; background: linear-gradient(light-dark(oklch(0.98 0.01 85 / 0.6), oklch(0.19 0.004 260 / 0.82))), url("/design/psu-administration.jpg") center / cover no-repeat; }
 .about-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; inline-size: min(100%, 64rem); margin-inline: auto; padding: 1rem clamp(1rem, 4vw, 1.5rem); }
 .about-header > a { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 2.75rem; padding-inline: 0.875rem; border-radius: 9999px; background: var(--about-panel); font-size: 0.875rem; font-weight: 500; text-decoration: none; }
-.about-header .appearance-control { padding-inline: 0.5rem; border-radius: 0.5rem; background: var(--about-panel); }
 .about-content { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; inline-size: min(100%, 56rem); margin-inline: auto; padding: 1rem clamp(1rem, 4vw, 1.5rem) 3rem; }
 .about-hero { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 1.25rem; border-radius: 1rem; background: var(--about-panel); text-align: center; }
 .about-hero h1 { max-inline-size: 100%; margin: 0; overflow-wrap: anywhere; font-family: var(--font-geist), sans-serif; font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.2; }

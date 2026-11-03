@@ -3,6 +3,7 @@
 export async function dismissInitialScope(page) {
   const dialog = page.getByRole('dialog', { name: 'Choose your program', exact: true });
   await dialog.waitFor();
+  await dialog.locator('.college-toggle').first().click();
   await dialog.locator('.program-option').first().click();
   const year = page.getByRole('dialog', { name: 'When did you start?', exact: true });
   if (await year.isVisible()) {

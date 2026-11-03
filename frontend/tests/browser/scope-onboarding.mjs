@@ -35,6 +35,11 @@ for (const width of [390, 1440]) test(`chat is locked until a program is chosen;
     await picker.waitFor();
     assert.equal(await picker.getByRole('region', { name: 'College of Sciences' }).isVisible(), true);
     assert.equal(await picker.getByRole('region', { name: 'College of Nursing and Health Sciences' }).isVisible(), true);
+    assert.equal(await picker.locator('.program-option').count(), 0, 'colleges start collapsed');
+    await picker.getByRole('button', { name: /College of Sciences/ }).click();
+    assert.equal(await picker.locator('.program-option').count(), 1);
+    await picker.getByRole('button', { name: /College of Sciences/ }).click();
+    assert.equal(await picker.locator('.program-option').count(), 0);
     await picker.getByRole('searchbox', { name: 'Search programs' }).fill('nursing');
     assert.equal(await picker.locator('.program-option').count(), 1);
 
@@ -48,6 +53,7 @@ for (const width of [390, 1440]) test(`chat is locked until a program is chosen;
     assert.equal(await page.getByText('Enter to send', { exact: false }).count(), 0);
 
     await page.getByRole('button', { name: 'Choose your program', exact: true }).click();
+    await picker.getByRole('button', { name: /College of Sciences/ }).click();
     await picker.getByRole('button', { name: /Computer Science/ }).click();
     const year = page.getByRole('dialog', { name: 'When did you start?', exact: true });
     await year.getByRole('radio', { name: 'Before 2023', exact: true }).check();
@@ -59,6 +65,7 @@ for (const width of [390, 1440]) test(`chat is locked until a program is chosen;
 
     // Switch mid-chat to the new BSCS curriculum.
     await page.getByRole('button', { name: /^Program: Bachelor of Science in Computer Science/ }).click();
+    await picker.getByRole('searchbox', { name: 'Search programs' }).fill('bscs');
     await picker.getByRole('button', { name: /Computer Science/ }).click();
     await year.getByRole('radio', { name: 'S.Y. 2025–2026', exact: true }).check();
     await year.getByRole('button', { name: 'Use this program', exact: true }).click();

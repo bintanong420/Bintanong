@@ -1,6 +1,5 @@
 import { ArrowLeft, BookOpen, CircleCheck, Landmark, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AppearanceControl } from "@/components/workspace/appearance-control";
 import { BrandMark } from "@/components/workspace/brand-mark";
 
 const capabilities = [
@@ -14,7 +13,6 @@ export default function About() {
     <a className="public-skip" href="#about-title">Skip to content</a>
     <header className="about-header">
       <a href="/chat"><ArrowLeft size={16} aria-hidden="true" />Back to chat</a>
-      <AppearanceControl />
     </header>
     <div className="about-content">
       <section className="about-hero">

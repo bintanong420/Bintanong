@@ -27,12 +27,12 @@ type ComposerProps = {
 
 export function Composer({ draft, attachments, warning, pending, onDraft, onSend, onSelect, onRemove, picker, live = false, onStop, tools, starters, contextNote, locked }: ComposerProps) {
   const input = useRef<HTMLTextAreaElement>(null);
-  const hintId = useId();
+  const hintId = useId(), isLocked = !!locked; // the locked placeholder is taller, so re-measure on unlock
   useLayoutEffect(() => {
     if (!input.current) return;
     input.current.style.height = "auto";
     input.current.style.height = `${Math.min(input.current.scrollHeight, 160)}px`;
-  }, [draft, attachments.length]);
+  }, [draft, attachments.length, isLocked]);
 
   return <footer className="composer-area">
     {warning && <Alert variant="destructive" className="upload-warning">

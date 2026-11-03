@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Sidebar } from "./sidebar";
 import { Conversation, EmptyConversation } from "./conversation";
 import { ProgramPicker, type CurriculumState } from "./program-picker";
+import { programShortName } from "@/lib/programs";
 import { Composer } from "./composer";
 import { BrandMark } from "./brand-mark";
 import { AppearanceControl } from "./appearance-control";
@@ -207,10 +208,11 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
         </div>
         <div className="workspace-account-actions">
           {details.length > 0 && <Button type="button" variant="ghost" size="sm" className="header-details" aria-label={`You supplied (${details.length})`} title={`You supplied (${details.length})`} disabled={!!busy || signInNeeded} onClick={() => setDetailsOpen(true)}><ClipboardList size={16} aria-hidden="true" /><span className="account-action-label">You supplied ({details.length})</span></Button>}
+          <AppearanceControl className="header-theme-toggle" />
           <Button variant="ghost" size="icon" aria-label="Chat options" title="Chat options" popoverTarget={optionsId}><Ellipsis aria-hidden="true" /></Button>
           {signedIn ? <Button variant="ghost" className="header-signout" aria-label={busy === "signout" ? "Signing out…" : "Sign out"} title={busy === "signout" ? "Signing out…" : "Sign out"} disabled={busy === "file" || busy === "clear" || busy === "signout"} onClick={() => void signOut()}><LogOut size={16} aria-hidden="true" /><span className="account-action-label">{busy === "signout" ? "Signing out…" : "Sign out"}</span></Button>
             : <Button asChild variant="ghost"><a href="/login" aria-label="Sign in" title="Sign in"><LogIn size={16} aria-hidden="true" /><span className="account-action-label">Sign in</span></a></Button>}</div>
-        <div id={optionsId} popover="auto" className="workspace-options"><AppearanceControl /><p className="supporting-copy">Research preview. University validation is still pending.</p></div>
+        <div id={optionsId} popover="auto" className="workspace-options"><p className="supporting-copy">Research preview. University validation is still pending.</p></div>
       </header>
       {!signedIn && <p className="session-notice"><span>Guest</span> · Temporary chat</p>}
       <div className={`workspace-content${state.messages.length ? "" : " welcome-mode"}`}>
@@ -226,7 +228,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
         onDraft={text => dispatch({ type: "draft", text })} onSend={prepareSend} onStop={busy === "chat" ? stop : undefined} onSelect={selectFiles} onRemove={() => {}}
         contextNote={selectedDetails.length ? `${selectedDetails.length} earlier details selected. Review before sending.` : undefined}
         tools={<><Button type="button" variant={scope ? "outline" : "default"} size="sm" className="program-chip" disabled={busy === "file" || busy === "clear" || busy === "signout"} aria-label={scope ? `Program: ${scope.programName}, ${scope.curriculumName} curriculum. Change program` : "Choose your program"} title={scope ? `${scope.programName} · ${scope.curriculumName}` : "Choose your program"} onClick={() => openPicker()}>
-            <GraduationCap size={16} aria-hidden="true" />{scope ? <><span className="program-chip-label">{scope.programName}</span><span className="program-chip-year">{scope.curriculumName}</span></> : <span>Choose program</span>}<ChevronDown size={14} aria-hidden="true" />
+            <GraduationCap size={16} aria-hidden="true" />{scope ? <><span className="program-chip-label">{programShortName(scope.programId, scope.programName)}</span><span className="program-chip-year">{scope.curriculumName}</span></> : <span>Choose program</span>}<ChevronDown size={14} aria-hidden="true" />
           </Button>
           <Button type="button" variant="ghost" size="sm" disabled={!!busy || !scope} aria-label="Files in this chat" onClick={() => setFilesOpen(true)}><FolderOpen size={16} aria-hidden="true" />Files{files.length ? ` (${files.length})` : ""}</Button>
           {details.length > 0 && <Button type="button" variant="ghost" size="sm" disabled={!!busy || signInNeeded} onClick={() => setDetailsOpen(true)}>Include earlier details{selectedDetails.length ? ` (${selectedDetails.length})` : ""}</Button>}</>}

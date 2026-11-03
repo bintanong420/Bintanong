@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Monitor, Moon, Sun } from "lucide-react";
-import { appearanceKey, appearanceValue, type Appearance } from "@/lib/appearance";
+import { Lightbulb, LightbulbOff } from "lucide-react";
+import { appearanceKey, appearanceValue, nextAppearance, type Appearance } from "@/lib/appearance";
 
-export function AppearanceControl() {
-  const [appearance, setAppearance] = useState<Appearance>("system");
+/** A light bulb button that switches between light (the default) and dark. */
+export function AppearanceControl({ className = "" }: { className?: string }) {
+  const [appearance, setAppearance] = useState<Appearance>("light");
 
   useEffect(() => {
     setAppearance(appearanceValue(document.documentElement.dataset.appearance));
@@ -19,19 +20,14 @@ export function AppearanceControl() {
     return () => window.removeEventListener("storage", sync);
   }, []);
 
-  const Icon = appearance === "light" ? Sun : appearance === "dark" ? Moon : Monitor;
-  return <label className="appearance-control" title="Appearance">
-    <Icon size={16} aria-hidden="true" />
-    <span className="sr-only">Appearance</span>
-    <select aria-label="Appearance" value={appearance} onChange={event => {
-      const value = appearanceValue(event.target.value);
-      document.documentElement.dataset.appearance = value;
-      setAppearance(value);
-      try { localStorage.setItem(appearanceKey, value); } catch { /* Appearance still works when browser storage is blocked. */ }
-    }}>
-      <option value="system">System</option>
-      <option value="light">Light</option>
-      <option value="dark">Dark</option>
-    </select>
-  </label>;
+  const dark = appearance === "dark" || (appearance === "system" && typeof window !== "undefined" && matchMedia("(prefers-color-scheme: dark)").matches);
+  const label = dark ? "Switch to light mode" : "Switch to dark mode";
+  return <button type="button" className={`theme-toggle ${className}`} aria-label={label} title={label} onClick={() => {
+    const value = nextAppearance(appearance, matchMedia("(prefers-color-scheme: dark)").matches);
+    document.documentElement.dataset.appearance = value;
+    setAppearance(value);
+    try { localStorage.setItem(appearanceKey, value); } catch { /* The theme still switches when browser storage is blocked. */ }
+  }}>
+    {dark ? <LightbulbOff size={18} aria-hidden="true" /> : <Lightbulb size={18} aria-hidden="true" />}
+  </button>;
 }

@@ -28,11 +28,9 @@ test('chat header has a continuous backdrop and one usable row at narrow widths'
         const box = await button.boundingBox();
         assert.ok(box.height >= 44 && box.width >= 44 && box.x >= main.x && box.x + box.width <= main.x + main.width + 1, name);
       }
-      await page.getByRole('button', { name: 'Chat options', exact: true }).click();
-      await page.getByRole('combobox', { name: 'Appearance', exact: true }).selectOption(theme === 'light' ? 'dark' : 'light');
+      await page.getByRole('button', { name: theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode', exact: true }).click();
       assert.equal(await page.evaluate(() => document.documentElement.dataset.appearance), theme === 'light' ? 'dark' : 'light');
-      await page.getByRole('combobox', { name: 'Appearance', exact: true }).selectOption(theme);
-      await page.keyboard.press('Escape');
+      await page.getByRole('button', { name: theme === 'light' ? 'Switch to light mode' : 'Switch to dark mode', exact: true }).click();
       await page.locator('.workspace-toolbar').evaluate(node => Promise.all(node.getAnimations({ subtree: true }).map(animation => animation.finished.catch(() => {}))));
       assert.equal(await page.getByRole('button', { name: 'Chat options', exact: true }).evaluate(node => document.activeElement === node), true);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
