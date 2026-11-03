@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { clarificationQuestions, clarificationReply } from '../lib/student-clarification.ts';
+import { clarificationQuestions, clarificationReply, typedReply } from '../lib/student-clarification.ts';
 
 const curricula = [{ programId: 'program-a', curriculumId: 'curriculum-a', programName: 'Synthetic program', curriculumName: 'Reviewed edition' }];
 const answer = { status: 'clarification_needed', language: 'en', missingFields: ['course_status'],
@@ -90,4 +90,13 @@ test('a bare clarification cannot invent another question or resend an unknown d
     assert.deepEqual(clarificationQuestions(bare, curricula), []);
     assert.equal(clarificationReply('Original question', bare, curricula, { details: { value: 'unknown', explanation: '' } }), null);
   }
+});
+
+// Owner 3 Nov 2026 (fix 2): a typed reply to the leaving-or-incoming question carries the original question, like the
+// dialog choice; live, "aalis ako sa PalSU" alone was checked as the question and the fee answer was rejected.
+test('a typed reply to the direction question carries the original question', () => {
+  const asked = { status: 'clarification_needed', language: 'taglish', missingFields: ['transfer_direction'], clarification: { courses: [], scope: null } };
+  assert.equal(typedReply('magkano bayad sa transfer credentials?', asked, ' aalis ako sa PalSU '), 'magkano bayad sa transfer credentials?\n\naalis ako sa PalSU');
+  assert.equal(typedReply('Can I take A1?', answer, 'passed B2/L'), 'passed B2/L');
+  assert.equal(typedReply('X'.repeat(8190), asked, 'aalis ako'), 'aalis ako');
 });

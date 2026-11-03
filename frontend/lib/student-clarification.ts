@@ -69,6 +69,15 @@ export function clarificationReply(original: string, answer: Answer, curricula: 
   return { text, scope };
 }
 
+// Owner 3 Nov 2026 (fix 2): a typed reply to the leaving-or-incoming question is sent with the original question, as
+// the dialog choice is; the server keeps ids only, so the reply alone loses what was asked. Too long: the reply alone.
+export function typedReply(original: string, answer: Answer, typed: string) {
+  const reply = typed.trim();
+  if (!answer.missingFields.includes("transfer_direction") || !original.trim()) return reply;
+  const text = `${original.trim()}\n\n${reply}`;
+  return text.length > 8192 || new TextEncoder().encode(text).byteLength > 16384 ? reply : text;
+}
+
 export function sameScope(a: StudentScope | null, b: StudentScope | null) {
   return !!a && !!b && a.programId === b.programId && a.curriculumId === b.curriculumId;
 }

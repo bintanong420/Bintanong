@@ -16,7 +16,7 @@ import { PreviewDialog } from "./preview-dialog";
 import { FilePanel, type ChatFile } from "./file-panel";
 import { SourcePanel } from "./source-panel";
 import { ClarificationDialog } from "./clarification-dialog";
-import { clarificationQuestions, confirmedDetails, followUpMessage, sameScope } from "@/lib/student-clarification";
+import { clarificationQuestions, confirmedDetails, followUpMessage, sameScope, typedReply } from "@/lib/student-clarification";
 import { RephraseDialog, SuppliedDetailsPanel } from "./follow-up-dialog";
 
 const stages: Record<string, string> = { waiting: "Waiting for a free answer slot… You can stop waiting.", understanding: "Checking the information for your question…", writing: "Preparing the response…" };
@@ -122,8 +122,9 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
     if (flight.current || signInNeeded || !state.draft.trim()) return;
     try {
       const text = followUpMessage(state.draft, scope, details, selectedDetails);
+      const typed = clarification ? typedReply(clarification.original, clarification.answer, state.draft) : state.draft.trim();
       if (selectedDetails.length) setReview({ text, scope });
-      else void send();
+      else void send(typed !== state.draft.trim() ? { text: typed, scope, clearDraft: true } : undefined);
     } catch { dispatch({ type: "warning", warning: "This message could not be prepared. Shorten the question or review the selected course details." }); }
   }
   async function send(confirmed?: { text: string; scope: StudentScope | null; clearDraft?: boolean }) {
