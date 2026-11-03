@@ -20,7 +20,7 @@ def _words(*items):
 
 
 _UNSURE = _words(r"(?:do not|don't|dont) know", r'not sure', r'(?:hindi|di) ko (?:pa )?(?:alam|sure)', 'ewan')
-_FAIL = _words('failed', 'fail', 'flunked', 'bagsak', 'bumagsak', 'binagsak', 'ibinagsak', 'nabagsak',
+_FAIL = _words('failed', 'fail', 'failing', 'flunked', 'flunk', 'bagsak', 'bumagsak', 'binagsak', 'ibinagsak', 'nabagsak',
                r'(?:did not|didn\'t|didnt) pass', r'(?:hindi|di) (?:ako )?(?:pumasa|nakapasa)')
 _PASS = _words(r'pass(?:ed)?', 'pasado', 'pumasa', 'nakapasa', 'napasa', 'naipasa', 'napapasa', 'naipapasa',
                'nakakapasa', r'complet(?:ed|e)', r'finish(?:ed)?', 'natapos', r'tapos na')

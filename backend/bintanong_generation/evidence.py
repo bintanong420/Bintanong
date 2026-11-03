@@ -35,6 +35,7 @@ class PreparedEvidence:
     record_coverage: tuple[tuple[str,str,tuple[str,...]],...]=()  # exact subject/claim -> evidence ids
     record_order: tuple[tuple[str,str,tuple[str,...]],...]=()  # explicit reviewed sequence only
     field_quotes: tuple[tuple[str,str,str,str],...]=()  # subject,claim,evidence id,exact text
+    assumptions: tuple[str,...]=()  # what-if premises '<state>:<course id>' (request-only)
 
     def model_payload(self):
         payload = dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -144,4 +145,4 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
-        symbolic.requirement if symbolic else None,facts,coverage,order,quotes)
+        symbolic.requirement if symbolic else None,facts,coverage,order,quotes,result.assumed_facts)

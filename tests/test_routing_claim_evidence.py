@@ -21,6 +21,7 @@ def read(text, course, *others):
     ('I failed ZZ 10', 'ZZ 10', 'failed'),
     ('Bumagsak ako sa ZZ-2/L', 'ZZ-2/L', 'failed'),
     ("I didn't pass ZZ 10", 'ZZ 10', 'failed'),
+    ('Can I take ZZ 11 after failing ZZ 10?', 'ZZ 10', 'failed'),
     ("I haven't passed ZZ 10 yet", 'ZZ 10', 'not_passed'),
     ('Hindi ko pa napapasa ang ZZ-2/L', 'ZZ-2/L', 'not_passed'),
     ('di pa pasado sa ZZ 10', 'ZZ 10', 'not_passed'),

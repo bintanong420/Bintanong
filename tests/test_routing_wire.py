@@ -74,8 +74,9 @@ def test_occurrence_is_a_strict_bounded_integer(occurrence):
         normalize(value)
 
 
+# Memory/eligibility plan, Task 1: a what-if premise applies only to its check; a reported result adds no fact.
 @pytest.mark.parametrize('mode', ['hypothetical', 'reported'])
-def test_nonasserted_mode_survives_and_existing_dispatch_guard_still_clarifies(mode):
+def test_nonasserted_mode_survives_and_is_kept_out_of_the_students_record(mode):
     from backend.bintanong_routing.contracts import RequestContext
     from backend.bintanong_routing.validation import validate_interpretation
     from test_routing_validation import entry, registry
@@ -88,7 +89,8 @@ def test_nonasserted_mode_survives_and_existing_dispatch_guard_still_clarifies(m
         catalog=(entry(), entry(entity='course-b', alias='B2')),
         registry=registry(), documents_available=True, synthetic=True)
     assert interpretation.claims[0].mode == mode
-    assert result.diagnostic == 'nonasserted_facts' and not result.decision.dispatchable
+    assert result.diagnostic == 'validated'
+    assert [(c.state, c.mode) for c in result.claims] == ([('failed', 'hypothetical')] if mode == 'hypothetical' else [])
 
 
 def test_missing_occurrence_and_legacy_index_or_offset_fields_are_not_accepted():

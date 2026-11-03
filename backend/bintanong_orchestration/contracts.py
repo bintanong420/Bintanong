@@ -291,6 +291,8 @@ class IntegrationResult(Contract):
     events: tuple[StageEvent, ...]
     # Display-only printed course codes keyed by internal course identity.
     course_labels: dict[str, Text] = Field(default_factory=dict, max_length=256)
+    # Memory/eligibility plan: what-if premises ('<state>:<course id>') this check assumed; request-only, never saved.
+    assumed_facts: tuple[Text, ...] = Field(default=(), max_length=32, exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _result(self):

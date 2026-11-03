@@ -115,6 +115,9 @@ class CandidateAnswer(Contract):
     # quote with every claim supported; recorded so evaluation evidence shows it.
     host_quote_override: tuple[Annotated[str,Field(pattern=r'^r[1-8]$')],...]=Field(default=(),
         exclude_if=lambda value: not value)
+    # Memory/eligibility plan, Task 3: Bintu's validated explanation of a checked prerequisite result.
+    decision_explanation: str|None=Field(default=None,min_length=1,max_length=400,
+        exclude_if=lambda value: value is None)
 
     @model_validator(mode='after')
     def _limits(self):

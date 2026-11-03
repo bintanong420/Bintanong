@@ -26,6 +26,8 @@ from .part_answers import (PartConfirmationOutput,PartExplanation,ShortPartExpla
                            confirm_messages,confirm_schema,conjunction_errors,host_quote_override,disjunction_errors,host_only,omitted_exception_errors,part_messages,part_schema,
                            record_coverage_errors,style_errors,to_draft)
 from .ledger_contracts import ANSWERED_LEDGERS
+from .decision_reply import (EXPLANATION_SECONDS,DecisionExplanation,decision_lines,explanation_errors,
+                             explanation_messages,explanation_schema,prerequisite_check)
 from .quoted_field import quoted_field_parts
 
 TRUNCATED_DRAFT_OUTPUT_TOKENS=1536
@@ -52,17 +54,18 @@ def _parse(raw,contract):
 
 
 def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=0,guard=None,coverage=None,ledger=None,
-            overrides=()):
+            overrides=(),explanation=None):
     answer=CandidateAnswer(schema_version=CandidateAnswer.SCHEMA_VERSION,
         request_id=pack.request_id,release_id=pack.release_id,language=pack.language,status=status,
         text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld',
             question_uncovered=reason in ('question_uncovered','parts_unresolved'),ledger=ledger,
-            thanked=reason=='thanks'),
+            thanked=reason=='thanks',explanation=explanation),
         decision=pack.decision,dependencies=pack.dependencies,
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage,
-        part_ledger=ledger,research_ref=pack.research_ref,host_quote_override=tuple(overrides))
+        part_ledger=ledger,research_ref=pack.research_ref,host_quote_override=tuple(overrides),
+        decision_explanation=explanation)
     validate_final(answer,pack,claims)
     return answer
 
@@ -90,6 +93,23 @@ class Generator:
         self.explanation_profile=explanation_profile
         self.review_reference_profile=review_reference_profile
 
+    async def _explain(self,text,pack,remaining_seconds):
+        """One bounded post-Prolog call; any failure, timeout or invalid draft leaves the host wording alone."""
+        from .render import shown_label
+        label=shown_label(pack)
+        seconds=min(self.timeout_seconds,EXPLANATION_SECONDS)
+        if remaining_seconds is not None and type(remaining_seconds) in (int,float) and math.isfinite(remaining_seconds):
+            seconds=min(seconds,remaining_seconds)
+        if seconds<=0:
+            return None
+        try:
+            async with asyncio.timeout(seconds):
+                raw=await self.transport.infer(explanation_messages(text,pack,label),explanation_schema())
+            value=_parse(raw,DecisionExplanation)
+        except Exception:
+            return None
+        return None if explanation_errors(pack,value.explanation,value.language,label) else value.explanation
+
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
         pack=prepare(integration)
@@ -104,6 +124,14 @@ class Generator:
         review_references=EvidenceReferences(pack) if self.review_reference_profile=='short' else None
         if pack.status=='greeting' and THANKS.search(text):
             return _answer(pack,'greeting',reason='thanks')
+        if explainable(pack):
+            # Memory/eligibility plan, Task 3: Bintu explains the checked Prolog result; the verdict stays fixed.
+            explanation=await self._explain(text,pack,remaining_seconds)
+            if pack.status=='ready':
+                draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
+                    release_id=pack.release_id,decision_outcome=pack.decision.outcome,claims=())
+                return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft),explanation=explanation)
+            return _answer(pack,fallback_status(pack.status),explanation=explanation)
         if pack.status!='ready' or pack.language=='unknown':
             context = unresolved_deadline_context(pack)
             if context:
@@ -263,6 +291,14 @@ class Generator:
                            guard=guard,coverage=coverage)
         return _answer(pack,'abstained',reason='repair_exhausted',attempts=attempts,checks=checks,
                        guard=guard,coverage=coverage)
+
+
+def explainable(pack):
+    """A checked prerequisite result the host can word: ready, or a checked unknown that asks for a result."""
+    from .render import shown_label
+    return (pack.route=='Symbolic' and pack.status in ('ready','unknown') and pack.language!='unknown'
+            and prerequisite_check(pack) and not (pack.requirement is not None and pack.requirement.kind=='unresolved')
+            and decision_lines(pack,shown_label(pack)) is not None)
 
 
 class AnswerPipeline:

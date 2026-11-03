@@ -28,6 +28,16 @@ def stated_facts(pairs, language) -> str:
     return phrases[0] if len(phrases) == 1 else ', '.join(phrases[:-1]) + _JOIN[lang] + phrases[-1]
 
 
+_ASSUMED = {'en': 'This answer assumes, as you asked, that {facts}. It is not saved as your record.',
+            'taglish': 'Assumption lang ito base sa tanong mo: {facts}. Hindi ito sine-save bilang record mo.'}
+
+
+def assumption_text(assumptions, language, shown) -> str:
+    """assumptions: '<state>:<course id>' what-if premises of this check."""
+    pairs = [(a.split(':', 1)[0], shown(a.split(':', 1)[1])) for a in assumptions]
+    return _ASSUMED[_language(language)].format(facts=stated_facts(pairs, language))
+
+
 def noted_text(fields, language, shown) -> str:
     """fields: 'noted_<state>:<course_id>' entries; shown maps an internal course id to its printed code."""
     pairs = [(field[len('noted_'):].split(':', 1)[0], shown(field.split(':', 1)[1])) for field in fields]

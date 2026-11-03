@@ -133,13 +133,13 @@ class Orchestrator:
         prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         events, resources, route, style = [], None, None, 'unknown'
-        understanding = None
+        understanding, assumed = None, ()
 
         def finish(status, evidence=None, missing=()):
             return IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
                 request_id=context.request_id, route=route, response_style=style,
                 status=status, evidence=evidence, understanding=understanding,
-                missing_facts=tuple(missing), events=tuple(events),
+                missing_facts=tuple(missing), events=tuple(events), assumed_facts=assumed,
                 course_labels=referenced_labels(resources.course_labels if resources else (),
                     evidence.model_dump(mode='json') if evidence is not None else None,
                     understanding.model_dump(mode='json') if understanding is not None else None,
@@ -218,7 +218,7 @@ class Orchestrator:
         scoped = None
 
         async def route_request():
-            nonlocal scoped, route, style, understanding
+            nonlocal scoped, route, style, understanding, assumed
             value = await router.route(text, context)
             route, style = value.decision.route, value.response_style
             # A failed result can carry style (for its clarification) but never its rejected parts.
@@ -233,6 +233,7 @@ class Orchestrator:
             if route is not None:
                 # Bound the merged assertion set within the guarded routing stage.
                 # Nothing is persisted, and overflow cannot escape as an exception.
+                assumed = tuple(f'{c.state}:{c.course_id}' for c in value.claims if c.mode == 'hypothetical')
                 # A what-if premise replaces the record for its course in this check only; nothing is persisted here.
                 facts = tuple(f if type(f) is ScopedFact else
                               ScopedFact(**{name:getattr(f,name) for name in ScopedFact.model_fields})
