@@ -171,8 +171,9 @@ standing.
 
 ## Decisions needed (owner)
 
-- D1: approve Steps 1–4 and 6 as in scope (thesis-bounded).
-- D2: Step 5 drafts — yes / later / no; if yes, inside Chapter 3 or as a disclosed extension.
+- D1 (decided, owner 4 Nov 2026: "go"): Steps 1–4 and 6 approved as in scope.
+- D2 (taken from the owner's "go" on the recommendation, 4 Nov 2026): Step 5 drafts are built and belong in Chapter 3,
+  with Aurora (Lugones et al., 2026) as the precedent; the owner may still revise this.
 - D3 (decided, owner 4 Nov 2026): complement, not replace. `Context/bintanong_thesis_for_context.pdf` stays the
   thesis-leader-approved copy; the newer external copy is a working draft used as supplementary context, cited by
   hash (`614f9e21…`). Where they differ, the approved copy governs scope.
@@ -191,9 +192,8 @@ standing.
 - D6 (decided, owner 4 Nov 2026: "yes go ahead, just print the discrepancy"): the removal period is the succeeding
   term (3.2, Resolution 279, 2018; 3.7). Every answer that uses it also prints the discrepancy: the same section
   also says "within one year" (3.3, 3.7).
-- D7: what counts as an `advance course` (a course prescribed for a later term than the student's year level?), or
-  cite the restriction without checking it.
-
+- D7 (taken from the owner's "go" on the recommendation): the advance-course restriction is quoted, not checked:
+  a student who states a warning or probation is told the rule and to ask the Dean which subjects count.
 ## Next action
 
-Owner answers D1, D2 and D7 (D3–D6 decided); on D1 "go", start tracks A, B, C and D.
+Tracks A, B, C and D started 4 Nov 2026 (owner "go").

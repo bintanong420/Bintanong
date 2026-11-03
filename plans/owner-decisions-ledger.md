@@ -719,3 +719,6 @@ Each program still gets its own dated review record listing which standing rule 
 - 4 Nov 2026 (academic recovery delivery, "ikaw bahala"): a bounded task list on p12-evaluation-harness, not a numbered
   phase. Owner direction the same day: plain questions ("bagsak ako sa DSA, ano pwede ko itake...") must trigger the
   recovery help, and drafts follow the greedy prerequisite chain (earliest term for each blocked course).
+- 4 Nov 2026 (academic recovery, "go"): Steps 1-4 and 6 of the plan of action approved (D1). Taken from the same "go"
+  on the stated recommendations, revisable by the owner: Step 5 drafts are built and belong in Chapter 3 with Aurora
+  as precedent (D2); the advance-course restriction is quoted with a Dean referral, not checked (D7).
