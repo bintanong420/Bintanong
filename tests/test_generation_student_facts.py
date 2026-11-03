@@ -31,3 +31,20 @@ def test_several_noted_results_keep_their_own_states():
     answer = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('A1 B1', source))
     assert student_text(answer) == ('Noted: you passed A 1, and you have not taken B 1 yet. '
                                     'I will use this in this chat for your selected curriculum.')
+
+
+CONFLICT = {'en': 'What you said about A 1 differs from your confirmed record upload, so I cannot check this yet. '
+                  'If the upload is wrong, remove it and tell me again; otherwise please ask again without the '
+                  'different result.',
+            'taglish': 'Iba ang sinabi mo tungkol sa A 1 kumpara sa na-confirm mong record upload, kaya hindi ko pa '
+                       'ito ma-check. Kung mali ang upload, i-remove ito at sabihin ulit; kung hindi, mag-ask ulit nang '
+                       'wala ang ibang result.'}
+
+
+@pytest.mark.parametrize('language', ['en', 'taglish'])
+def test_a_conflict_with_an_upload_is_explained_for_its_course(language):
+    source = IntegrationResult(understanding=None, schema_version=IntegrationResult.SCHEMA_VERSION, request_id='req-a',
+                               route=None, response_style=language, status='clarify', evidence=None,
+                               missing_facts=('conflict:course-a',), events=(), course_labels={'course-a': 'A 1'})
+    answer = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('A1 failed', source))
+    assert student_text(answer) == CONFLICT[language]

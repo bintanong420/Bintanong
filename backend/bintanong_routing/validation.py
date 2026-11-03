@@ -144,12 +144,13 @@ def facts_for_term(facts, question: str):
     return tuple(f for f in facts if fact_dimension(f.state) != 'enrollment' or f.period in (None, asked))
 
 
-def conflicting(context_facts, claims) -> bool:
+def conflicting(context_facts, claims) -> tuple[str, ...]:
+    """Courses with two different results the check would use (e.g. a statement against a confirmed upload)."""
     states = {}
     for f in effective_facts(context_facts, claims):
         if f.state != 'taken_unknown':
             states.setdefault((f.course_id, fact_dimension(f.state)), set()).add(f.state)
-    return any(len(s) > 1 for s in states.values())
+    return tuple(sorted({course for (course, _), s in states.items() if len(s) > 1}))
 
 
 def _decision(*, route=None, control=None, request=None, missing=(), reason):
@@ -364,8 +365,9 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                    if curriculum is not None and len(unresolved) == 1 and unresolved[0].kind == 'course' else ())
         return result('unresolved_entity', missing=tuple('course_choice:' + c.entity_id for c in choices)
                       if len(choices) > 1 else ())
-    if p.operations and conflicting(context.facts, claims):
-        return result('conflicting_facts')
+    disputed = conflicting(context.facts, claims) if p.operations else ()
+    if disputed:  # name each disputed course so the reply can say what to fix (memory/eligibility plan, Task 2)
+        return result('conflicting_facts', missing=tuple(f'conflict:{course}' for course in disputed))
     request = None
     if p.operations:
         op = p.operations[0]

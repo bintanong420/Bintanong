@@ -333,3 +333,11 @@ def test_a_result_stated_inside_an_if_clause_is_request_only(text, mode):
     assert result.diagnostic == 'validated'
     state = 'not_passed' if "haven't passed" in text else 'failed'
     assert [(c.state, c.mode) for c in result.claims] == [(state, mode)]
+
+
+def test_a_statement_that_disagrees_with_a_confirmed_upload_names_the_course():
+    value = proposal(text='A1 failed', claims=[dict(entity=0, state='failed', mode='asserted', text='A1 failed', start=0, end=9)])
+    ctx = context(facts=[dict(fact_id='fact-upload', session_id='sess-a', program_id='program-a',
+                              curriculum_id='curriculum-a', course_id='course-a', state='passed')])
+    result = validate('A1 failed', value, ctx)
+    assert result.diagnostic == 'conflicting_facts' and result.decision.missing_facts == ('conflict:course-a',)

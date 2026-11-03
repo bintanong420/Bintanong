@@ -306,6 +306,11 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='clarification_needed' and 'transfer_direction' in missing:
         lines[1]=_TRANSFER_DIRECTION.get(pack.language,_TRANSFER_DIRECTION['en'])
         missing=tuple(field for field in missing if field!='transfer_direction')
+    disputed=[field for field in missing if field.startswith('conflict:')]
+    if status=='clarification_needed' and disputed:  # a statement that disagrees with a confirmed upload
+        from .student_facts_reply import conflict_text
+        lines[1]=conflict_text(disputed,pack.language,shown)
+        missing=tuple(field for field in missing if not field.startswith('conflict:'))
     noted=[field for field in missing if field.startswith('noted_')]
     if status=='clarification_needed' and noted:  # memory/eligibility plan: a result stated without a question
         from .student_facts_reply import noted_text
