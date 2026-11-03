@@ -236,13 +236,19 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     last = context.conversation
     prior_term = ((last.year_level, last.semester or 'any') if last is not None and last.operation in TERM_OPERATIONS
                   and last.year_level is not None else None)  # owner GUI 3 Nov 2026: follow-up memory
+    # Thesis leader 4 Nov 2026: the router's program-switch follow-up names no term; the previous listing's term is it.
+    switching = prior_term is not None and p.reason == 'program_switch_follow_up'
+
+    def term_of(words):
+        return parse_term(words, prior_term) or (prior_term if switching else None)
+
     for idx, mention in enumerate(p.mentions):
         if mention.kind == 'term':  # read by the host; a term with no stated year stays unresolved (clarify)
             # Beside a course question, time words only scope the answer and the host reads them from the text
             # (live 4 Nov 2026: "second semester" alone blocked a dependency question); only the target of a term
             # operation must name its own year, which a follow-up may take from the previous question (prior_term).
             term_target = any(o.name in TERM_OPERATIONS and o.target == idx for o in p.operations)
-            if parse_term(mention.text, prior_term) is not None or not term_target:
+            if term_of(mention.text) is not None or not term_target:
                 ignored.add(idx)
             continue
         names_course = program is not None and curriculum is not None and bool(
@@ -314,6 +320,15 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         return result('model_ambiguity')
     if len(p.operations) > 1:
         return result('compound_request')
+    named = {e.entity_id for e in resolved.values() if e.kind == 'program'}
+    if (p.control in (None, 'clarify') and not p.operations and not p.claims and reference is None and len(named) == 1
+            and len(resolved) == len(p.mentions) and all(m.kind == 'program' for m in p.mentions)
+            and all(part.evidence_need == 'unknown' for part in p.parts)
+            and not re.search(r'\w', ''.join(c for i, c in enumerate(text) if not any(
+                m.start <= i < m.end for m in p.mentions)))):
+        # Thesis leader, 4 Nov 2026: a message that is only a program name asks what the student wants to know
+        # about it; the model has nothing to call a part ("unknown"), which read as an outage.
+        return result('bare_program_name', missing=('program_topic:' + next(iter(named)),))
     if p.control is not None:
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
@@ -364,7 +379,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         if missing:
             return result('missing_scope', missing=missing)
     if (p.operations and p.operations[0].name == 'assess_term_prerequisites'
-            and parse_term(p.mentions[p.operations[0].target].text) is None):
+            and parse_term(p.mentions[p.operations[0].target].text) is None and not switching):
         claimed = {c.entity for c in p.claims}
         named = [i for i, m in enumerate(p.mentions) if m.kind == 'course' and i in resolved and i not in claimed]
         if len(named) == 1 and registry.supports('check_prerequisite_eligibility'):
@@ -405,7 +420,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         if not synthetic:
             return result('institutional_execution_held', 'evidence_unavailable')
         if op.name in TERM_OPERATIONS:
-            year, semester = parse_term(p.mentions[op.target].text, prior_term)
+            year, semester = term_of(p.mentions[op.target].text)
             target = (('year_level', str(year)), ('semester', semester))
         else:
             target = (('course_id', resolved[op.target].entity_id),)

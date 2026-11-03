@@ -10,7 +10,8 @@ from pydantic import ValidationError
 from .filipino_terms import printed_terms
 from ..bintanong_contracts.runtime import NormalizedQuery
 from ..bintanong_contracts.symbolic import EMPTY_REGISTRY
-from .contracts import Interpretation, RequestContext, prepare_query
+from .contracts import TERM_OPERATIONS, Interpretation, RequestContext, prepare_query
+from .terms import parse_term
 from .prompt import build_messages, output_schema, previous_turn
 from .style import StyleProposal, build_style_messages, floor_style, style_output_schema
 from .transport import RuntimeFailure
@@ -171,6 +172,42 @@ def repeat_previous_check(proposed, text, conversation):
     value = proposed.model_dump(mode='json')
     value['operations'][0]['name'] = conversation.operation
     return Interpretation.parse(value)
+
+
+SWITCH_REASON = 'program_switch_follow_up'  # read by validation.py: the term comes from the previous listing
+
+
+def switch_program_follow_up(proposed, text, conversation, catalog):
+    """Thesis leader, 4 Nov 2026: after a term listing, a short message naming another program or track of the same
+    name family ("how about the hotel track?") re-asks the same listing there. Returns (interpretation, program_ids):
+    one program re-runs the listing for it (validation picks its one reviewed curriculum, else asks); several ask
+    which one. The track is found from the catalog's own program names: a word only the other program's names print.
+    None when the message is not such a follow-up."""
+    if (conversation is None or conversation.operation not in TERM_OPERATIONS or conversation.year_level is None
+            or conversation.program_id is None or not text.strip() or len(text.split()) > 6 or parse_term(text)
+            or any(m.kind == 'course' for m in proposed.mentions) or proposed.claims
+            or proposed.control not in (None, 'clarify')):
+        return None
+    words = lambda entry: {w for a in entry.aliases for w in re.findall(r'[^\W\d_]{4,}', a.casefold())}
+    programs = {c.entity_id: c for c in catalog if c.kind == 'program'}
+    current = programs.get(conversation.program_id)
+    if current is None:
+        return None
+    family = [c for c in programs.values() if c.entity_id != current.entity_id
+              and {a.casefold() for a in c.aliases} & {a.casefold() for a in current.aliases}]
+    asked = set(re.findall(r'[^\W\d_]{4,}', text.casefold()))
+    named = [c.entity_id for c in family if (words(c) - words(current)) & asked]
+    if not named:
+        return None
+    span = text.strip()
+    start = text.index(span)
+    value = proposed.model_dump(mode='json')
+    value.update(mentions=[dict(kind='term', text=span, start=start, end=start + len(span))], claims=[],
+                 ambiguities=[], control=None, route='Symbolic', reason=SWITCH_REASON,
+                 operations=[dict(name=conversation.operation, target=0)],
+                 parts=[dict(part_id='r1', text=span, start=start, end=start + len(span), evidence_need='structured',
+                             operation_indices=[0], subject_id=None, requested_claims=[], detail='whole')])
+    return Interpretation.parse(value), tuple(named)
 
 
 def transfer_direction_unstated(proposed, topics, text):
@@ -485,6 +522,10 @@ class Router:
                                 or repeat_previous_check(proposed, text, context.conversation))
                     if resolved is not None:  # owner GUI 3 Nov 2026: the reply to the direction question
                         proposed = resolved
+                    switch = None if resolved is not None else switch_program_follow_up(
+                        proposed, text, context.conversation, self.catalog)
+                    if switch is not None:
+                        proposed = switch[0]
                 except (ValueError, ValidationError) as error:
                     problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
                     raise
@@ -513,9 +554,16 @@ class Router:
                     style.ground(text)
                     style, floored = floor_style(style, text, names)
                     effective = Interpretation.parse(dict(proposed.model_dump(mode='json'), language=style.language))
-                    result = validate_interpretation(text, context, effective, catalog=self.catalog,
+                    scope = context
+                    if switch is not None and len(switch[1]) == 1:  # the named program; its curriculum is chosen there
+                        scope = RequestContext.parse(dict(context.model_dump(mode='json'), program_id=switch[1][0],
+                                                          curriculum_id=None, facts=[]))
+                    result = validate_interpretation(text, scope, effective, catalog=self.catalog,
                         registry=self.registry, documents_available=self.documents_available,
                         synthetic=self.synthetic)
+                    if switch is not None and len(switch[1]) > 1:  # several tracks fit: ask which one
+                        result = replace(result, decision=_decision(control='clarify', reason='program switch ambiguous',
+                            missing=tuple('program_choice:' + p for p in switch[1])), diagnostic='program_switch_ambiguous')
                     if selection_attempts and result.decision.dispatchable and any(
                             p.evidence_need == 'document' and p.subject_id is None for p in proposed.parts):
                         return failure('topic_selection_unavailable', attempt, style_attempt, style, floored)

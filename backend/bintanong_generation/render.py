@@ -117,6 +117,10 @@ def unresolved_rule_text(reason,course,language):
 
 _PROGRAM_CHOICE={'en':'Which program is this for?','fil':'Para saang programa ito?',
  'taglish':'Para saang program ito?'}
+_PROGRAM_TOPIC={
+ 'en':'Got it: {program}. What would you like to know about it, such as subjects for a term or a prerequisite?',
+ 'fil':'Sige: {program}. Ano ang gusto mong malaman tungkol dito, halimbawa subjects sa isang sem o prerequisite?',
+ 'taglish':'Sige: {program}. Ano ang gusto mong malaman tungkol dito, halimbawa subjects sa isang sem o prerequisite?'}
 _COURSE_NOT_FOUND={
  'en':'I could not find that course among the reviewed courses of your curriculum. '
       'Please give the course code as printed in your prospectus.',
@@ -303,6 +307,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='clarification_needed' and programs:  # owner 2 Nov 2026: a name shared by two programs or tracks
         lines[1]='\n'.join([_PROGRAM_CHOICE.get(pack.language,_PROGRAM_CHOICE['en']),*('- '+p for p in programs)])
         missing=tuple(field for field in missing if not field.startswith('program_choice:'))
+    topics=[shown(field.split(':',1)[1]) for field in missing if field.startswith('program_topic:')]
+    if status=='clarification_needed' and topics:  # thesis leader 4 Nov 2026: a message that is only a program name
+        lines[1]=_PROGRAM_TOPIC.get(pack.language,_PROGRAM_TOPIC['en']).format(program=topics[0])
+        missing=tuple(field for field in missing if not field.startswith('program_topic:'))
     if status=='clarification_needed' and 'transfer_direction' in missing:
         lines[1]=_TRANSFER_DIRECTION.get(pack.language,_TRANSFER_DIRECTION['en'])
         missing=tuple(field for field in missing if field!='transfer_direction')
@@ -404,6 +412,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         # A held record quoted with its own heads-up is not noted again (final run 2 Nov 2026, #9).
         held={ref for claim in claims if 'Heads-up:' in claim.text for ref in claim.evidence_ids}
         lines.extend(notices[kind] for kind in limit_notices([c for c in selected_cards(pack,claims) if c.evidence_id not in held]))
+        from .shifting_reply import shifting_referral  # thesis leader 4 Nov 2026: end with the printed offices
+        referral=shifting_referral(pack)
+        if referral: lines.append(referral)
     for card in selected_cards(pack,claims):
         for cite in card.citations:
             locator=cite.locator.ref or '/'.join((*cite.locator.section_path,*cite.locator.cell_ids,*cite.locator.item_ids))
