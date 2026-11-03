@@ -175,7 +175,8 @@ def selected_cards(pack,claims):
             return ()
     ids={ref for claim in claims for ref in claim.evidence_ids}
     return tuple(c for c in pack.cards if c.evidence_id in ids or
-                 (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None)))
+                 (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None
+                                      or pack.term_assessment is not None)))
 
 
 _WITHHELD={
@@ -310,6 +311,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         from .student_facts_reply import noted_text
         lines[1]=noted_text(noted,pack.language,shown)
         missing=tuple(field for field in missing if not field.startswith('noted_'))
+    if status=='clarification_needed' and 'term' in missing:  # a term question with no year level stated
+        from .term_reply import term_question
+        lines[1]=term_question(pack.language)
+        missing=tuple(field for field in missing if field!='term')
     scope=[field for field in ('program_id','curriculum_id') if field in missing]
     if status=='clarification_needed' and lines[1]==words[status] and scope and set(missing)==set(scope):
         question,joiner,labels=_SCOPE_QUESTION.get(pack.language,_SCOPE_QUESTION['en'])
@@ -345,6 +350,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
     if pack.course_facts is not None and canonical_allowed:
         lines.extend(course_fact_lines(pack.course_facts,pack.language))
+    if pack.term_assessment is not None and canonical_allowed:  # memory/eligibility plan, Task 4
+        from .term_reply import term_lines
+        lines.extend(term_lines(pack.term_assessment,pack.language,shown))
     if pack.dependencies is not None:
         if canonical_allowed:
             lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))

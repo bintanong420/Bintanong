@@ -10,6 +10,7 @@ from typing import Literal
 
 from ..bintanong_routing.claim_evidence import clause_reading
 from ..bintanong_routing.contracts import ScopedFact, fact_dimension
+from ..bintanong_routing.terms import parse_term
 
 # Operations whose answer can wait on one student result and be asked again once it is supplied.
 RESUMABLE = ('check_prerequisite_eligibility', 'list_missing_prerequisites')
@@ -25,12 +26,12 @@ class PendingCheck:
     target_code: str
     course_id: str
     course_code: str
-    dimension: Literal['completion', 'enrollment']
+    dimension: Literal['completion', 'enrollment', 'term']  # 'term': a term check waiting for its year level
 
 
 @dataclass(frozen=True)
 class BoundReply:
-    fact: ScopedFact
+    fact: ScopedFact | None  # None when the reply supplied the waiting term, not a course result
     text: str  # the waiting check asked again, so it runs through the normal route
 
 
@@ -80,6 +81,9 @@ def accepted_facts(routed, message_id: str) -> tuple[ScopedFact, ...]:
 
 def pending_from(routed, answer, labels) -> PendingCheck | None:
     """A checked answer missing exactly one student result waits for it; anything else waits for nothing."""
+    if routed is not None and routed.diagnostic == 'missing_term':  # "What can I take next sem?" without a year
+        return PendingCheck(routed.program_id, routed.curriculum_id, 'assess_term_prerequisites', '', '', '', '',
+                            'term')
     decision = getattr(answer, 'decision', None)
     if (routed is None or routed.diagnostic != 'validated' or decision is None or decision.outcome != 'unknown'
             or routed.decision.predicate_request is None
@@ -121,6 +125,22 @@ _ASK = {('check_prerequisite_eligibility', 'en'): 'Can I take {code}?',
         ('list_missing_prerequisites', 'taglish'): 'Ano pa ang kulang kong prerequisite para sa {code}?'}
 
 
+_ORDINAL = {1: 'first', 2: 'second', 3: 'third', 4: 'fourth', 5: 'fifth'}
+_TERM = {'first_semester': ', first semester', 'second_semester': ', second semester', 'summer': ', summer', 'any': ''}
+_TERM_FILIPINO = {'taon', 'unang', 'una', 'ikalawang', 'ikalawa', 'pangalawang', 'ikatlong', 'pangatlong', 'ikaapat',
+                  'ika-apat', 'ikalimang', 'po', 'na', 'sa', 'yung', 'ang', 'ako'}
+
+
+def _term_reply(text) -> BoundReply | None:
+    """A short reply naming a year level (and semester) answers a waiting term check."""
+    term = parse_term(text)
+    if term is None or '?' in text or len(text.split()) > 10:
+        return None
+    name = f'{_ORDINAL[term[0]]} year{_TERM[term[1]]}'
+    filipino = set(re.findall(r"[a-z]+(?:-[a-z]+)*", text.casefold())) & _TERM_FILIPINO
+    return BoundReply(None, f'Ano ang pwede kong i-take sa {name}?' if filipino else f'What can I take in {name}?')
+
+
 def _without_code(text, code):
     """The reply with the waiting course's printed code removed (spacing and a "/L" suffix may differ)."""
     stem = re.sub(r'/L$', '', code.replace(' ', ''), flags=re.I)
@@ -133,6 +153,8 @@ def bind_reply(text, check: PendingCheck | None, scope, *, session_id) -> BoundR
     asks something, names another course or states no result is routed as a new message."""
     if check is None or tuple(scope) != (check.program_id, check.curriculum_id):
         return None
+    if check.dimension == 'term':
+        return _term_reply(text)
     remaining = _without_code(text, check.course_code).casefold().replace('’', "'")
     tokens = re.findall(r"[a-z]+(?:[-'][a-z]+)*", remaining)
     if re.search(r'[0-9?]', remaining) or not tokens or len(tokens) > 10 or not set(tokens) <= _REPLY_WORDS:

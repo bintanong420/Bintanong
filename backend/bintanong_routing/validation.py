@@ -16,7 +16,7 @@ from .languages import unsupported_language
 from .terms import parse_term
 
 OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
-              'course_facts', 'list_term_courses')
+              'course_facts', 'list_term_courses', 'assess_term_prerequisites')
 
 
 class GroundedClaim(ScopedFact):
@@ -343,6 +343,11 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         missing = tuple(k for k, v in (('program_id', program), ('curriculum_id', curriculum)) if v is None)
         if missing:
             return result('missing_scope', missing=missing)
+    if (p.operations and p.operations[0].name == 'assess_term_prerequisites'
+            and parse_term(p.mentions[p.operations[0].target].text) is None):
+        # "next sem" names no year level: ask only for the term (memory/eligibility plan, Task 4); the stated
+        # results in this message are still kept by the host.
+        return result('missing_term', missing=('term',))
     if len(resolved) + len(ignored) != len(p.mentions):
         unresolved = [m for i, m in enumerate(p.mentions) if i not in resolved and i not in ignored]
         # Owner step 2c (24 Oct 2026): a course that matches no reviewed course of the curriculum ("CS 999") asks

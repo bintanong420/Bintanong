@@ -112,7 +112,7 @@ class ChatTurns:
         view = self._sessions.resolve(session.credential, account_id=session.account_id) or session.view
         bound = bind_reply(turn.text, view.pending_check, (turn.program_id, turn.curriculum_id),
                            session_id=view.session_id)
-        if bound is not None:
+        if bound is not None and bound.fact is not None:
             view = replace(view, facts=merge_facts(view.facts, (bound.fact,)))
         context = follow_up_context(view, request_id=f'req-{secrets.token_hex(8)}',
                                     program_id=turn.program_id, curriculum_id=turn.curriculum_id)
@@ -130,7 +130,7 @@ class ChatTurns:
                                         account_id=session.account_id)
         route = routed[0] if routed else None
         stated = tuple(f for f in accepted_facts(route, turn.message_id) if f.session_id == view.session_id)
-        if bound is not None:
+        if bound is not None and bound.fact is not None:
             stated = (bound.fact.model_copy(update=dict(ref=turn_ref(turn.message_id))),) + stated
         self._sessions.end_turn(session.credential, turn.message_id, completed=True, account_id=session.account_id,
                                 facts=stated, pending_check=pending_from(route, result, self._labels))

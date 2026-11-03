@@ -316,3 +316,37 @@ def test_a_correction_replaces_the_earlier_self_report_and_regeneration_does_not
     answer(ChatTurns(store, Answering(corrected), CURRICULA, course_labels=LABELS), session_of(store, s),
            request('Sorry, I failed A1. Can I take B1?', message_id='msg-2', trigger='regenerate-message', **SCOPE))
     assert [(f.course_id, f.state) for f in store.resolve(s.credential).facts] == [('course-a', 'failed')]
+
+
+def missing_term(session_id, text='I failed A1. What can I take next sem?'):
+    start, term = text.index('A1'), text.index('next sem')
+    value = proposal(text=text, mentions=[dict(kind='course', text='A1', start=start, end=start + 2),
+                                          dict(kind='term', text='next sem', start=term, end=term + 8)],
+                     claims=[dict(entity=0, state='failed', mode='asserted', text='I failed A1', start=0, end=11)],
+                     operations=[dict(name='assess_term_prerequisites', target=1)])
+    value['parts'] = [dict(part_id='r1', text=text[13:], start=13, end=len(text), evidence_need='structured',
+                           operation_indices=[0])]
+    return validate(text, value, context(session_id=session_id))
+
+
+def test_failures_are_kept_while_the_term_is_asked_and_a_bare_term_reply_runs_the_term_check():
+    store = SessionStore()
+    s = session(store)
+    first = missing_term(s.view.session_id)
+    assert first.diagnostic == 'missing_term'
+    turn(store, s, Answering(first, SimpleNamespace(decision=None)), 'I failed A1. What can I take next sem?', 'msg-1')
+    view = store.resolve(s.credential)
+    assert [(f.course_id, f.state) for f in view.facts] == [('course-a', 'failed')]
+    assert view.pending_check.dimension == 'term'
+    reply = Answering()
+    turn(store, s, reply, 'second year, second sem', 'msg-2')
+    text, ctx = reply.calls[0]
+    assert text == 'What can I take in second year, second semester?'
+    assert [(f.course_id, f.state) for f in ctx.facts] == [('course-a', 'failed')]
+    taglish = Answering()
+    store2 = SessionStore()
+    s2 = session(store2)
+    turn(store2, s2, Answering(missing_term(s2.view.session_id), SimpleNamespace(decision=None)),
+         'I failed A1. What can I take next sem?', 'msg-1')
+    turn(store2, s2, taglish, 'ikalawang taon, unang sem po', 'msg-2')
+    assert taglish.calls[0][0] == 'Ano ang pwede kong i-take sa second year, first semester?'

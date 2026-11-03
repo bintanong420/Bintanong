@@ -81,7 +81,9 @@ result does not by itself require document retrieval. Hybrid requires a separate
 document-based policy explanation or transaction procedure as well as the structured check.
 Operations: check_prerequisite_eligibility, list_missing_prerequisites, list_affected_courses,
 course_facts (the printed title, units or year/semester of one named course), list_term_courses
-(the courses/subjects printed for a year level, optionally one semester). Those are Symbolic.
+(the courses/subjects printed for a year level, optionally one semester), assess_term_prerequisites
+(what the student can take in a year level/semester: checks each course of that term against what they
+reported; target the term mention, e.g. "next sem" or "second year, second sem"). Those are Symbolic.
 Document-only questions do not require a student curriculum. General procedure questions
 can use RAG; do not invent an ambiguity merely because more detail could be requested.
 Keep a requested structured operation even if it is unavailable; never hide it behind RAG.

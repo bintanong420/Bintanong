@@ -10,6 +10,7 @@ from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import (DependencyResult, ResearchDependencyResult,
                                          ResearchSymbolicResult, StudentFacts)
 from .contracts import DocumentResult
+from .term_assessment import TermAssessmentResult, assess_term
 
 
 class AdapterFailure(RuntimeError):
@@ -106,7 +107,8 @@ SIGNATURES = {'check_prerequisite_eligibility': ('curriculum_id', 'course_id'),
               'list_missing_prerequisites': ('curriculum_id', 'course_id'),
               'list_affected_courses': ('curriculum_id', 'course_id'),
               'course_facts': ('curriculum_id', 'course_id'),
-              'list_term_courses': ('curriculum_id', 'year_level', 'semester')}
+              'list_term_courses': ('curriculum_id', 'year_level', 'semester'),
+              'assess_term_prerequisites': ('curriculum_id', 'year_level', 'semester')}
 
 
 # Only the facts a rule can use (memory/eligibility plan, Task 1): a stated pass completes; a failure, "not yet
@@ -157,6 +159,12 @@ class SymbolicAdapter:
             return CourseFactsResult.parse(result.model_dump(mode='json'))
         # The context contains user assertions, never verified university grades.
         facts = student_facts(context.facts)
+        if operation == 'assess_term_prerequisites':  # each reviewed course of the term, same release and facts
+            retakes = tuple(dict.fromkeys(f.course_id for f in context.facts if f.state == 'failed'))
+            result = await self._worker.run(lambda: assess_term(self.runtime, request, facts, retakes))
+            if type(result) is not TermAssessmentResult or result.synthetic is self.research:
+                raise ValueError('term_result_kind_mismatch')
+            return TermAssessmentResult.parse(result.model_dump(mode='json'))
         if operation == 'list_affected_courses':
             result = await self._worker.run(lambda: self.runtime.list_affected_courses(request))
             kind = ResearchDependencyResult if self.research else DependencyResult
