@@ -1,26 +1,46 @@
-import { useEffect, useRef, useState } from "react";
-import { BookOpen, CircleUserRound, Copy, LoaderCircle, Pencil } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowUpRight, BookOpen, CircleUserRound, Copy, Info, ListChecks, LoaderCircle, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { answerNotice, type WorkspaceState } from "@/lib/student-workspace";
 import { clarificationQuestions } from "@/lib/student-clarification";
-import type { StudentSourceSummary } from "@/lib/student-contracts";
+import type { StudentCurriculum, StudentSourceSummary } from "@/lib/student-contracts";
+import { sampleQuestionSets } from "@/lib/sample-questions";
 import { BrandMark } from "./brand-mark";
 
-const suggestions = [
-  { label: "Find course prerequisites", text: "What are the prerequisites of CC5/L?" },
-  { label: "Understand a procedure", text: "What do the reviewed institutional sources say about enrollment?" },
-  { label: "Review a private PDF", text: "I would like to review course details from my PDF." },
-];
-export function EmptyConversation() {
+const rotateEveryMs = 7000;
+function SampleQuestions({ scope, onSuggest }: { scope: StudentCurriculum | null; onSuggest: (text: string) => void }) {
+  const sets = useMemo(() => sampleQuestionSets(scope), [scope]);
+  const [index, setIndex] = useState(0), [paused, setPaused] = useState(false);
+  const current = sets[index % sets.length];
+  useEffect(() => { setIndex(0); }, [sets]);
+  useEffect(() => {
+    if (paused || sets.length < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = setInterval(() => setIndex(value => (value + 1) % sets.length), rotateEveryMs);
+    return () => clearInterval(timer);
+  }, [paused, sets]);
+  return <section className="sample-questions" aria-label="Sample questions" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
+    onFocus={() => setPaused(true)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}>
+    <p className="sample-label">{current.label}</p>
+    <ul key={index} className="sample-list">{current.questions.map(question => <li key={question}>
+      <button type="button" className="sample-question" onClick={() => onSuggest(question)}>
+        {current.kind === "faq" ? <BookOpen size={16} aria-hidden="true" /> : <ListChecks size={16} aria-hidden="true" />}
+        <span>{question}</span><ArrowUpRight size={14} aria-hidden="true" className="sample-arrow" />
+      </button>
+    </li>)}</ul>
+    {sets.length > 1 && <div className="sample-pager" role="group" aria-label="Sample question sets">
+      {sets.map((set, position) => <button key={position} type="button" aria-label={`Show sample set ${position + 1} of ${sets.length}: ${set.label}`}
+        aria-pressed={position === index % sets.length} onClick={() => setIndex(position)} />)}
+    </div>}
+  </section>;
+}
+export function EmptyConversation({ scope, onSuggest }: { scope: StudentCurriculum | null; onSuggest: (text: string) => void }) {
   return <section className="empty-conversation" aria-labelledby="welcome-title">
     <BrandMark size={80} className="welcome-logo" /><h1 id="welcome-title">Hi, I&apos;m Bintanong</h1>
     <p className="welcome-description">Your PalSU undergraduate academic guide. What would you like to explore today?</p>
-    <a className="welcome-about" href="/about">Learn more about me</a>
+    <a className="welcome-about" href="/about"><Info size={16} aria-hidden="true" />Learn more about me<ArrowUpRight size={14} aria-hidden="true" /></a>
+    <SampleQuestions scope={scope} onSuggest={onSuggest} />
   </section>;
-}
-export function ConversationStarters({ onSuggest }: { onSuggest: (text: string) => void }) {
-  return <div className="suggestions" role="group" aria-label="Suggested questions">{suggestions.map(item => <Button key={item.label} type="button" variant="outline" onClick={() => onSuggest(item.text)}>{item.label}</Button>)}</div>;
 }
 export function Conversation({ state, progress, onSource, onClarify, onEdit, onRephrase, canClarify }: {
   state: WorkspaceState; progress: string; onSource: (sources: StudentSourceSummary[]) => void; onClarify: () => void;

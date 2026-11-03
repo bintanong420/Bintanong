@@ -11,7 +11,7 @@ export function Sidebar({ currentChat, onNewChat, onOpenChat, onCollapse, busy =
   return <aside className={`sidebar ${className}`} hidden={hidden} aria-label="Conversation sidebar">
     <div className="sidebar-heading">
       <div className="sidebar-brand">
-        <p className="brand"><BrandMark />Bintanong</p>
+        <a className="brand" href="/" title="Bintanong home"><BrandMark />Bintanong</a>
         {onCollapse && <Button variant="ghost" size="icon" className="sidebar-collapse" aria-label="Close navigation" aria-expanded="true" onClick={onCollapse}><PanelLeftClose aria-hidden="true" /></Button>}
       </div>
       <Button variant="secondary" className="new-chat justify-start" disabled={busy} onClick={onNewChat}>

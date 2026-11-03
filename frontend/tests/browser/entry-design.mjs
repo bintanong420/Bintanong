@@ -21,7 +21,8 @@ test('chat header has a continuous backdrop and one usable row at narrow widths'
       assert.match(await page.locator('.workspace-main').evaluate(node => getComputedStyle(node).backgroundImage), /radial-gradient/, 'ambient backdrop continues behind the header instead of starting at a hard edge');
       const header = await page.locator('.workspace-toolbar').boundingBox();
       assert.ok(header.height <= 76, `${width}/${theme}: compact header stays on one row`);
-      for (const name of ['Program and curriculum', 'Chat options', 'Sign out']) {
+      // The program control moved beside the chat bar (3 Nov 2026); the header keeps account actions.
+      for (const name of ['Chat options', 'Sign out']) {
         const button = page.getByRole('button', { name, exact: true });
         assert.equal(await button.isVisible(), true);
         const box = await button.boundingBox();
