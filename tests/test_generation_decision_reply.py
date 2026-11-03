@@ -174,3 +174,23 @@ def test_both_is_accepted_for_an_all_of_rule():
     pack = replace(pack, requirement=RequirementView(kind='all_of', items=(
         RequirementView(kind='course', course_id='course-1'), RequirementView(kind='course', course_id='course-3'))))
     assert 'wrong_connective' not in explanation_errors(pack, 'You need both course-1 and course-3.')
+
+
+@pytest.mark.parametrize('draft', [
+    # Live 3 Nov 2026 (Civil): an internal rule name reached the explanation.
+    "Dahil ang rule ay 'all_of', kailangan mong maipasa ang course-1.",
+    'This is a co_requisite rule, so course-1 must be passed.',
+    'The completion_unknown condition is course-1.',
+])
+def test_internal_rule_names_never_reach_the_student(draft):
+    from backend.bintanong_generation.decision_reply import explanation_errors
+    pack = prepare(research_integration(facts=(('course-1', 'failed'),)))
+    assert 'internal_term' in explanation_errors(pack, draft)
+
+
+def test_a_what_if_explanation_cannot_call_the_premise_the_students_record():
+    # Live 3 Nov 2026 (Lawrence): "your record shows" for an assumption the student asked about.
+    from backend.bintanong_generation.decision_reply import explanation_errors
+    pack = prepare(what_if())
+    assert 'what_if_called_record' in explanation_errors(pack, 'Your record shows course-1 is not completed.')
+    assert explanation_errors(pack, 'Under that assumption, course-1 is still needed before course-2.') == ()
