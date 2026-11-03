@@ -77,6 +77,9 @@ ABSENCE = re.compile(r'\b(absent|absence|umabsent|nag-?absent|lumiban|liban|(hin
                      re.IGNORECASE)
 ABSENCE_TOPICS = {'handbook_attendance': 'printed attendance fields',
                   'handbook_sickness_access': 'printed sickness access fields'}
+# Owner 3 Nov 2026 (H8): a shifting question gets the Handbook 4.1 rule and the FAQ 8 printed steps together.
+SHIFT = re.compile(r'\b(shift|shifting|mag-?shift|change\s+(of\s+)?(curricular\s+)?(course|program))\b', re.IGNORECASE)
+SHIFT_TOPICS = {'handbook_shifting': 'printed shifting fields', 'handbook_drop_shift_faq': 'printed FAQ 8 shifting steps'}
 
 
 _YEARS = re.compile(r'(ilang\s+taon|how\s+many\s+years|how\s+long|gaano\s+(ka)?tagal).*graduat', re.IGNORECASE)
@@ -107,6 +110,8 @@ def add_companions(chosen, topics, text):
         wanted.append('charter_good_moral')
     if ids & set(ABSENCE_TOPICS) and ABSENCE.search(text):
         wanted += list(ABSENCE_TOPICS)
+    if ids & set(SHIFT_TOPICS) and SHIFT.search(text):
+        wanted += list(SHIFT_TOPICS)
     if YEARS_TO_GRADUATE(text):
         wanted.append('handbook_graduation')
     if ids & INCOMING_TOPICS and any(cue in text.casefold() for cue in LEAVING_CUES):

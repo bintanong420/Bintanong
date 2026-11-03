@@ -12,7 +12,8 @@ MENU = tuple(DocumentTopic(subject_id=s, claims=(c,)) for s, c in (
     ('handbook_student_faq', 'printed student faq fields'), ('charter_good_moral', 'printed good moral fields'),
     ('handbook_attendance', 'printed attendance fields'), ('handbook_sickness_access', 'printed sickness access fields'),
     ('charter_transfer', 'printed transfer fields'), ('handbook_transfer_credentials', 'printed transfer credentials fields'),
-    ('handbook_transfer_clearance', 'printed transfer clearance fields')))
+    ('handbook_transfer_clearance', 'printed transfer clearance fields'),
+    ('handbook_shifting', 'printed shifting fields'), ('handbook_drop_shift_faq', 'printed FAQ 8 shifting steps')))
 BY_ID = {t.subject_id: t for t in MENU}
 
 
@@ -33,6 +34,10 @@ def chosen(*ids):
     ('How much does it cost to get transfer credentials or honorable dismissal?', ('handbook_transfer_credentials',),
      ['handbook_transfer_credentials', 'charter_transfer', 'handbook_transfer_clearance']),
     ('magkano bayad sa transfer credentials?', ('handbook_transfer_credentials',), ['handbook_transfer_credentials']),
+    # Owner 3 Nov 2026 (H8): a shifting question that picked Handbook 4.1 also sees FAQ 8's printed steps.
+    ('How to shift/change curricular program?', ('handbook_shifting',), ['handbook_shifting', 'handbook_drop_shift_faq']),
+    ('paano mag-shift ng program?', ('handbook_shifting',), ['handbook_shifting', 'handbook_drop_shift_faq']),
+    ('what does residence mean?', ('handbook_shifting',), ['handbook_shifting']),
 ])
 def test_companions_are_added_only_for_their_own_questions(text, picked, expected):
     assert [t.subject_id for t in add_companions(chosen(*picked), MENU, text)] == expected
@@ -93,3 +98,14 @@ def test_an_absence_part_fetches_both_records():
     clinic = SimpleNamespace(evidence_need='document', subject_id='handbook_sickness_access',
                              requested_claims=('printed sickness access fields',), text='saan ang clinic?')
     assert len(_topic_intents(SimpleNamespace(parts=(clinic,)))) == 1
+
+
+def test_a_shifting_question_fetches_the_rule_and_the_faq_steps_together():
+    from backend.bintanong_orchestration.orchestrator import _topic_intents
+    part = SimpleNamespace(evidence_need='document', subject_id='handbook_shifting',
+                           requested_claims=('printed shifting fields',), text='How to shift/change curricular program?')
+    assert [(i['subject_id'], i['requested_claims']) for _, i in _topic_intents(SimpleNamespace(parts=(part,)))] == [
+        ('handbook_shifting', ('printed shifting fields',)), ('handbook_drop_shift_faq', ('printed FAQ 8 shifting steps',))]
+    drop = SimpleNamespace(evidence_need='document', subject_id='handbook_drop_shift_faq',
+                           requested_claims=('printed FAQ 7 dropping steps',), text='How to drop subjects?')
+    assert len(_topic_intents(SimpleNamespace(parts=(drop,)))) == 1
