@@ -1,0 +1,894 @@
+{
+ "defaults": {
+  "forbidden": [
+   "temporarily unavailable",
+   "Paki-clarify muna ang missing information"
+  ]
+ },
+ "conversations": [
+  {
+   "id": "term-bscs-2y1s-3y",
+   "category": "term_followup",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "en",
+   "note": "year-only follow-up after a term list",
+   "turns": [
+    {
+     "text": "What subjects are in 2nd year 1st sem?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "what about 3rd year?",
+     "expect": {
+      "status": "answered"
+     }
+    }
+   ]
+  },
+  {
+   "id": "term-bscs-2y1s-2s",
+   "category": "term_followup",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "taglish",
+   "note": "semester-only follow-up; old BSCS 2nd yr 2nd sem lists CC 5/L and CS 4/L (memory-eligibility results, term scenario)",
+   "turns": [
+    {
+     "text": "What subjects are in 2nd year 1st sem?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "e yung 2nd sem?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "CC 5/L",
+       "CS 4/L"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "term-culinary-1y1s-2s",
+   "category": "term_followup",
+   "curriculum_id": "bshm-culinary-2018-2019",
+   "language": "taglish",
+   "note": "semester-only follow-up (probe scenario)",
+   "turns": [
+    {
+     "text": "What subjects will I take in 1st year 1st sem?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "e yung 2nd sem?",
+     "expect": {
+      "status": "answered"
+     }
+    }
+   ]
+  },
+  {
+   "id": "term-bsit-fil",
+   "category": "term_followup",
+   "curriculum_id": "bsit-2018-2019",
+   "language": "fil",
+   "note": "Filipino term question then year follow-ups",
+   "turns": [
+    {
+     "text": "Ano ang mga subjects sa 1st year 2nd sem?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "e sa 2nd year, ano naman?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "tapos 3rd year 1st sem?",
+     "expect": {
+      "status": "answered"
+     }
+    }
+   ]
+  },
+  {
+   "id": "course-bscs-prereq",
+   "category": "course_followup",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "taglish",
+   "note": "prerequisite list then another course (probe scenario)",
+   "turns": [
+    {
+     "text": "What are the prerequisites of CS 13/L?",
+     "expect": {
+      "status": "clarification_needed",
+      "required": [
+       "CC 5/L"
+      ]
+     }
+    },
+    {
+     "text": "pano yung CS 10/L?",
+     "expect": {
+      "status": "clarification_needed",
+      "required": [
+       "CS 10/L",
+       "CS 6"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "course-bscs-elig",
+   "category": "course_followup",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "en",
+   "note": "eligibility then 'how about <code>' (probe scenario)",
+   "turns": [
+    {
+     "text": "Can I take CS 13/L if I already passed CC 5/L?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "CS 13/L"
+      ]
+     }
+    },
+    {
+     "text": "how about CS 17/L?",
+     "expect": {
+      "status": null,
+      "required": [
+       "CS 17/L",
+       "CS 11/L"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "course-bsit-prereq",
+   "category": "course_followup",
+   "curriculum_id": "bsit-2018-2019",
+   "language": "en",
+   "note": "prerequisite follow-up to a sibling course",
+   "turns": [
+    {
+     "text": "What are the prerequisites of IT 14/L?",
+     "expect": {
+      "status": "clarification_needed",
+      "required": [
+       "IT 3/L"
+      ]
+     }
+    },
+    {
+     "text": "how about IT 15/L?",
+     "expect": {
+      "status": "clarification_needed",
+      "required": [
+       "IT 7/L"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "course-bsce-fil",
+   "category": "course_followup",
+   "curriculum_id": "bsce-2018-2019",
+   "language": "fil",
+   "note": "Filipino prerequisite question then short code follow-up",
+   "turns": [
+    {
+     "text": "Ano ang prerequisites ng CE 36/L?",
+     "expect": {
+      "status": "clarification_needed",
+      "required": [
+       "CE 32/L"
+      ]
+     }
+    },
+    {
+     "text": "e yung AC 31?",
+     "expect": {
+      "status": null,
+      "required": [
+       "AC 31",
+       "Phy 11/L"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "state-bscs-passed",
+   "category": "stated_results",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "en+taglish",
+   "note": "result stated, then eligibility (memory scenario)",
+   "turns": [
+    {
+     "text": "I passed CC 5/L.",
+     "expect": {
+      "status": null
+     }
+    },
+    {
+     "text": "Can I take CS 13/L?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "CS 13/L"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "state-bsacct-fil",
+   "category": "stated_results",
+   "curriculum_id": "bsacct-2023-2024",
+   "language": "fil",
+   "note": "Filipino stated pass then eligibility; AE8 needs AE3",
+   "turns": [
+    {
+     "text": "Pasado na ako sa AE3.",
+     "expect": {
+      "status": null
+     }
+    },
+    {
+     "text": "Pwede ko na bang i-take ang AE8?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "AE"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "state-bsit-notyet",
+   "category": "stated_results",
+   "curriculum_id": "bsit-2018-2019",
+   "language": "en",
+   "note": "stated not-yet-passed then eligibility; IT 15/L needs IT 7/L",
+   "turns": [
+    {
+     "text": "I haven't taken IT 7/L yet.",
+     "expect": {
+      "status": null
+     }
+    },
+    {
+     "text": "Can I take IT 15/L?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "IT 7/L"
+      ],
+      "forbidden": [
+       "conditions satisfied"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "state-bsedmath",
+   "category": "stated_results",
+   "curriculum_id": "bsed-math-2018-2019",
+   "language": "taglish",
+   "note": "Taglish stated pass then eligibility",
+   "turns": [
+    {
+     "text": "Pasado na ako sa Math 12.",
+     "expect": {
+      "status": null
+     }
+    },
+    {
+     "text": "Pwede ko na bang i-take ang Math 19?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Math 12"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "corr-bscs",
+   "category": "correction",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "en+taglish",
+   "note": "a stated pass is corrected to a fail; the later reply must not stay eligible",
+   "turns": [
+    {
+     "text": "I passed CC 5/L. Can I take CS 13/L?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "CS 13/L"
+      ]
+     }
+    },
+    {
+     "text": "ay mali, bagsak pala ako sa CC 5/L. Pwede pa ba ako sa CS 13/L?",
+     "expect": {
+      "status": null,
+      "required": [
+       "CC 5/L"
+      ],
+      "forbidden": [
+       "Oo. Pasok ka",
+       "conditions satisfied",
+       "satisfied ang conditions",
+       "Conditions: CC 5/L: passed"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "corr-bsit",
+   "category": "correction",
+   "curriculum_id": "bsit-2018-2019",
+   "language": "en",
+   "note": "English correction",
+   "turns": [
+    {
+     "text": "Can I take IT 16/L if I already passed IT 10/L?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "IT 10/L"
+      ]
+     }
+    },
+    {
+     "text": "Sorry, I mean I failed IT 10/L. Can I still take IT 16/L?",
+     "expect": {
+      "status": null,
+      "required": [
+       "IT 10/L"
+      ],
+      "forbidden": [
+       "IT 10/L: passed",
+       "conditions satisfied"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "corr-bsce",
+   "category": "correction",
+   "curriculum_id": "bsce-2018-2019",
+   "language": "fil",
+   "note": "Filipino correction",
+   "turns": [
+    {
+     "text": "Pwede ko ba i-take ang BES 2? Pasado na ako sa BES 1.",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "BES 1"
+      ]
+     }
+    },
+    {
+     "text": "ay mali, hindi ko pa pala naipasa ang BES 1",
+     "expect": {
+      "status": null,
+      "required": [
+       "BES 1"
+      ],
+      "forbidden": [
+       "BES 1: passed",
+       "Oo. Pasok ka"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "detail-gmc-fee",
+   "category": "detail_followup",
+   "curriculum_id": null,
+   "language": "taglish",
+   "note": "fee after the procedure",
+   "turns": [
+    {
+     "text": "How to secure good moral certificate?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Php 100.00"
+      ]
+     }
+    },
+    {
+     "text": "magkano naman?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Php 100.00"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "detail-gmc-time",
+   "category": "detail_followup",
+   "curriculum_id": null,
+   "language": "fil",
+   "note": "duration after the procedure",
+   "turns": [
+    {
+     "text": "How to secure good moral certificate?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "gaano katagal?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "30 minutes"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "detail-gmc-req",
+   "category": "detail_followup",
+   "curriculum_id": null,
+   "language": "taglish",
+   "note": "requirements after the procedure",
+   "turns": [
+    {
+     "text": "How to secure good moral certificate?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "ano requirements?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Student ID"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "detail-insurance",
+   "category": "detail_followup",
+   "curriculum_id": null,
+   "language": "en+fil",
+   "note": "claim window after accident insurance",
+   "turns": [
+    {
+     "text": "How do I claim accident insurance?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "OSAS"
+      ]
+     }
+    },
+    {
+     "text": "hanggang kailan ko pwedeng i-report?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "1 month"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "switch-term-insurance",
+   "category": "topic_switch",
+   "curriculum_id": "bshm-culinary-2018-2019",
+   "language": "en",
+   "note": "term list then unrelated FAQ (probe scenario)",
+   "turns": [
+    {
+     "text": "What subjects will I take in 1st year 1st sem?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "How do I claim accident insurance?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "OSAS"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "switch-elig-gmc",
+   "category": "topic_switch",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "en",
+   "note": "eligibility then a procedure",
+   "turns": [
+    {
+     "text": "Can I take CS 13/L if I already passed CC 5/L?",
+     "expect": {
+      "status": "answered"
+     }
+    },
+    {
+     "text": "By the way, how to secure good moral certificate?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Php 100.00"
+      ],
+      "forbidden": [
+       "CS 13/L"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "switch-gmc-prereq",
+   "category": "topic_switch",
+   "curriculum_id": "bsit-2018-2019",
+   "language": "taglish",
+   "note": "procedure then a prerequisite question",
+   "turns": [
+    {
+     "text": "How to secure good moral certificate?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Php 100.00"
+      ]
+     }
+    },
+    {
+     "text": "Ano ang prerequisites ng IT 14/L?",
+     "expect": {
+      "status": "clarification_needed",
+      "required": [
+       "IT 3/L"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "transfer-in-out",
+   "category": "transfer",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "taglish",
+   "note": "transfer direction flip; observational, no source fact asserted",
+   "turns": [
+    {
+     "text": "How do I transfer to PalSU from another school?",
+     "expect": {
+      "status": null
+     }
+    },
+    {
+     "text": "e kung from PalSU papunta sa ibang school?",
+     "expect": {
+      "status": null,
+      "forbidden": [
+       "Php 100.00"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "transfer-detail",
+   "category": "transfer",
+   "curriculum_id": null,
+   "language": "en",
+   "note": "transfer then detail; observational",
+   "turns": [
+    {
+     "text": "What do I need to transfer out of PalSU?",
+     "expect": {
+      "status": null
+     }
+    },
+    {
+     "text": "how long does it take?",
+     "expect": {
+      "status": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "shift-faq",
+   "category": "shifting",
+   "curriculum_id": null,
+   "language": "en+taglish",
+   "note": "shifting FAQ is answered from the Handbook (sample results, retrieval item 3)",
+   "turns": [
+    {
+     "text": "How to shift/change curricular program?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "shifting form",
+       "OSAS"
+      ]
+     }
+    },
+    {
+     "text": "sino magaapprove?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Dean"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "shift-referral",
+   "category": "shifting",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "taglish",
+   "note": "shifting a program should end in an office referral",
+   "turns": [
+    {
+     "text": "Pwede ba akong mag-shift sa BSIT kasi bagsak ako?",
+     "expect": {
+      "status": null,
+      "required_any": [
+       "Registrar",
+       "OSAS",
+       "Dean"
+      ]
+     }
+    },
+    {
+     "text": "ilang units ang mate-transfer?",
+     "expect": {
+      "status": null,
+      "required_any": [
+       "Registrar",
+       "Dean"
+      ]
+     }
+    }
+   ],
+   "pending": "shifting-referral"
+  },
+  {
+   "id": "bare-program",
+   "category": "bare_program",
+   "curriculum_id": null,
+   "language": "en",
+   "note": "a bare program name should get a clarifying offer, not an error",
+   "turns": [
+    {
+     "text": "BSCS",
+     "expect": {
+      "status": "clarification_needed"
+     }
+    }
+   ],
+   "pending": "bare-program"
+  },
+  {
+   "id": "bare-program-fil",
+   "category": "bare_program",
+   "curriculum_id": null,
+   "language": "fil",
+   "note": "bare program name in Filipino then a follow-up",
+   "turns": [
+    {
+     "text": "Computer Science",
+     "expect": {
+      "status": "clarification_needed"
+     }
+    },
+    {
+     "text": "yung subjects",
+     "expect": {
+      "status": null
+     }
+    }
+   ],
+   "pending": "bare-program"
+  },
+  {
+   "id": "track-switch",
+   "category": "track_switch",
+   "curriculum_id": "bshm-culinary-2018-2019",
+   "language": "en",
+   "note": "switch track mid-conversation; hotel track has THC-RM",
+   "turns": [
+    {
+     "text": "Can I take HMPE 5 if I already passed THC-LA?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "THC-LA"
+      ]
+     }
+    },
+    {
+     "text": "how about the hotel track?",
+     "expect": {
+      "status": null,
+      "required": [
+       "Hotel"
+      ]
+     }
+    }
+   ],
+   "pending": "track-switch"
+  },
+  {
+   "id": "dsa-failed",
+   "category": "dsa_failure",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "taglish",
+   "note": "owner GUI case; CC 4/L dependants (CC 5/L needs CC 3/L and CC 4/L)",
+   "turns": [
+    {
+     "text": "What subjects ang hindi ko matake if nabagsak ko DSA?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "CC 4/L",
+       "CC 5/L"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "oos-law",
+   "category": "out_of_scope",
+   "curriculum_id": null,
+   "language": "en",
+   "note": "Law is outside the undergraduate scope",
+   "turns": [
+    {
+     "text": "How do I enroll in the Juris Doctor program?",
+     "expect": {
+      "status": null,
+      "required_any": [
+       "undergraduate"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "oos-medicine",
+   "category": "out_of_scope",
+   "curriculum_id": null,
+   "language": "taglish",
+   "note": "Medicine is outside the undergraduate scope",
+   "turns": [
+    {
+     "text": "Paano mag-apply sa Doctor of Medicine program ng PalSU?",
+     "expect": {
+      "status": null,
+      "required_any": [
+       "undergraduate"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "oos-graduate",
+   "category": "out_of_scope",
+   "curriculum_id": null,
+   "language": "en",
+   "note": "graduate programs are outside scope; an in-scope question afterwards still works",
+   "turns": [
+    {
+     "text": "What are the requirements for the master's thesis defense?",
+     "expect": {
+      "status": null,
+      "required_any": [
+       "undergraduate"
+      ]
+     }
+    },
+    {
+     "text": "OK, how to secure good moral certificate?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Php 100.00"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "greeting",
+   "category": "greeting",
+   "curriculum_id": null,
+   "language": "en+fil",
+   "note": "greeting then a real question",
+   "turns": [
+    {
+     "text": "Hi po!",
+     "expect": {
+      "status": null
+     }
+    },
+    {
+     "text": "magkano ang good moral certificate?",
+     "expect": {
+      "status": "answered",
+      "required": [
+       "Php 100.00"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "recovery-ask",
+   "category": "recovery_ask",
+   "curriculum_id": "bscs-2018-2019",
+   "language": "taglish",
+   "note": "recovery Ask mode (owner 4 Nov plan, step 2)",
+   "turns": [
+    {
+     "text": "Hala, bagsak ako sa DSA, paano na yung major subs ko? Ano pwede ko itake para maging regular load ako agad? Ano pwede options ko?",
+     "expect": {
+      "status": null,
+      "required": [
+       "CC 4/L"
+      ]
+     }
+    },
+    {
+     "text": "paano kung summer?",
+     "expect": {
+      "status": null,
+      "required_any": [
+       "summer",
+       "Summer"
+      ]
+     }
+    }
+   ],
+   "pending": "recovery-ask"
+  }
+ ]
+}
