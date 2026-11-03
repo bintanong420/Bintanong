@@ -2,7 +2,7 @@
 
 Branch `feat/memory-eligibility` (worktree `p12-memory-eligibility`), from `395079c`. Requirements: the
 [owner plan](prolog/Bintanong_Backend_Memory_and_Eligibility_Plan.md); design: the
-[implementation plan](2026-11-03-memory-eligibility-implementation-plan.md). Local commits, not pushed. This is
+[implementation plan](2026-11-03-memory-eligibility-implementation-plan.md). Pushed to origin, no PR yet. This is
 research/software work only: it grants no school approval, release activation or scope change.
 
 ## Delivered

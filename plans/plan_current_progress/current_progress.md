@@ -7,8 +7,8 @@ Last expanded progress snapshot before condensation: `db643c0`; recover prior hi
 
 ## Memory and eligibility (3 Nov, owner-requested; branch `feat/memory-eligibility`, worktree `p12-memory-eligibility`)
 
-Owner plan `plans/prolog/Bintanong_Backend_Memory_and_Eligibility_Plan.md`, Tasks 1–4, implemented in local
-commits (not pushed). The owner's intent (3 Nov): Prolog results are the evidence, Bintu reasons over them and writes
+Owner plan `plans/prolog/Bintanong_Backend_Memory_and_Eligibility_Plan.md`, Tasks 1–4, implemented and pushed
+to `origin/feat/memory-eligibility` (3 Nov; no PR yet). The owner's intent (3 Nov): Prolog results are the evidence, Bintu reasons over them and writes
 the conclusion, and the chat keeps what the student said. Delivery, verification and open gates:
 [results](../2026-11-03-memory-eligibility-results.md). Verified: the full suite has the same 82 failures and 9 errors as
 the baseline (missing jsonschema/cv2/docling) and zero new failures; 17/17 source-backed cases pass on the reviewed ledgers.
