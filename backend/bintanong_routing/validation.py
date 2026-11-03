@@ -235,7 +235,11 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     carried = context.conversation.course_id if context.conversation else None
     for idx, mention in enumerate(p.mentions):
         if mention.kind == 'term':  # read by the host; a term with no stated year stays unresolved (clarify)
-            if parse_term(mention.text) is not None:
+            # Beside a course question, time words only scope the answer and the host reads them from the text
+            # (live 4 Nov 2026: "second semester" alone blocked a dependency question); only the target of a term
+            # operation must name its own year.
+            term_target = any(o.name in TERM_OPERATIONS and o.target == idx for o in p.operations)
+            if parse_term(mention.text) is not None or not term_target:
                 ignored.add(idx)
             continue
         names_course = program is not None and curriculum is not None and bool(

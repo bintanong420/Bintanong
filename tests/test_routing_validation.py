@@ -371,3 +371,17 @@ def test_a_named_course_question_read_as_a_term_check_is_checked_on_that_course(
 def test_a_real_term_question_still_asks_for_the_term():
     result = term_slip("What can I take next semester? I haven't taken A1 yet.", 'next semester')
     assert result.diagnostic == 'missing_term'
+
+
+def test_time_words_beside_a_course_question_never_block_it():
+    # Live 4 Nov 2026: "Im currently first year, what ... can not take in second semester when i fail A1?" listed
+    # "second semester" (no year of its own) as a term mention and fell back to a bare clarify.
+    text = "Im currently first year, what can I not take in second semester when i fail A1?"
+    mentions = [dict(kind='term', text='first year', start=text.index('first year'), end=text.index('first year') + 10),
+                dict(kind='term', text='second semester', start=text.index('second semester'),
+                     end=text.index('second semester') + 15),
+                dict(kind='course', text='A1', start=text.index('A1'), end=text.index('A1') + 2)]
+    value = proposal(text=text, mentions=mentions, operations=[dict(name='check_prerequisite_eligibility', target=2)])
+    value['parts'] = [dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured', operation_indices=[0])]
+    result = validate(text, value)
+    assert result.diagnostic == 'validated'
