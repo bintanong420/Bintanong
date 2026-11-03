@@ -319,3 +319,17 @@ def test_enrollment_counts_only_for_the_term_the_question_asks_about():
     assert [f.state for f in api().facts_for_term(facts, 'Can I take B1 this term?')] == ['enrolled', 'passed']
     assert [f.state for f in api().facts_for_term(facts, 'Can I take B1 next sem?')] == ['passed']
     assert [f.state for f in api().facts_for_term((fact('enrolled', 'next'),), 'Pwede ko bang kunin ang B1 sa susunod na sem?')] == ['enrolled']
+
+
+@pytest.mark.parametrize('text,mode', [
+    ("So if I haven't passed A1, can I take B1?", 'hypothetical'),  # live 3 Nov shape: the model said asserted
+    ('Kung bagsak ako sa A1, pwede ko pa bang kunin ang B1?', 'hypothetical'),
+    ('What if I failed A1? Can I take B1?', 'hypothetical'),
+    ('I failed A1. Can I take B1?', 'asserted'),
+    ('I failed A1 even though I studied. Can I take B1?', 'asserted'),
+])
+def test_a_result_stated_inside_an_if_clause_is_request_only(text, mode):
+    result = stated(text, 'failed')
+    assert result.diagnostic == 'validated'
+    state = 'not_passed' if "haven't passed" in text else 'failed'
+    assert [(c.state, c.mode) for c in result.claims] == [(state, mode)]

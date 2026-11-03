@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 from ..bintanong_contracts.runtime import BoundInput, NormalizedQuery, PredicateRequest, ResolvedEntity, RoutingDecision, negation_tokens, time_phrases
 from ..bintanong_contracts.symbolic import CapabilityRegistry, EMPTY_REGISTRY, UnsupportedRequest
-from .claim_evidence import enrollment_period, stated_result
+from .claim_evidence import enrollment_period, inside_if_clause, stated_result
 from .contracts import (TERM_OPERATIONS, CatalogEntry, Interpretation, RequestContext, ScopedFact, fact_dimension,
                         prepare_query)
 from .style import StyleEvidence
@@ -271,13 +271,14 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
                               tuple(s for s in course_spans if s != (entity.start, entity.end)))
         if state is None:
             continue
-        identity = f'{context.session_id}:{context.request_id}:{idx}:{course.entity_id}:{state}:{claim.mode}:{claim.start}:{claim.end}'
+        mode = 'hypothetical' if claim.mode == 'asserted' and inside_if_clause(text, entity.start) else claim.mode
+        identity = f'{context.session_id}:{context.request_id}:{idx}:{course.entity_id}:{state}:{mode}:{claim.start}:{claim.end}'
         claims.append(GroundedClaim(fact_id='fact-' + hashlib.sha256(identity.encode()).hexdigest(),
             session_id=context.session_id, program_id=course.program_id,
             curriculum_id=course.curriculum_id, course_id=course.entity_id, state=state,
             source='user_statement', period=(enrollment_period(claim.text)
                                              if fact_dimension(state) == 'enrollment' else None),
-            mode=claim.mode, text=claim.text, start=claim.start, end=claim.end))
+            mode=mode, text=claim.text, start=claim.start, end=claim.end))
     query = NormalizedQuery(schema_version=NormalizedQuery.SCHEMA_VERSION, original_text=text,
         normalized_text=normalized, language_hints={'en':('en',), 'fil':('tl',),
         'taglish':('tl','en'), 'unknown':()}[p.language], intent=p.intent,

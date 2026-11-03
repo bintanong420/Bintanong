@@ -98,3 +98,13 @@ _NEXT_TERM = re.compile(r'(?<![\w-])(?:next|susunod na|upcoming) (?:sem|semester
 def enrollment_period(text: str) -> str:
     """The term an enrollment statement covers: 'next' only when it says so, otherwise the current term."""
     return 'next' if _NEXT_TERM.search(folded(text)) else 'current'
+
+
+_IF = re.compile(r'(?<![\w-])(?:if|what if|kung|kapag|pag|assuming|suppose|supposing|halimbawa)(?![\w-])')
+
+
+def inside_if_clause(text: str, course_start: int) -> bool:
+    """True when the course is stated inside an "if/kung/kapag" clause of its own sentence: a premise for this check,
+    never a report to remember (memory/eligibility plan, Example A)."""
+    sentence = max(text.rfind(mark, 0, course_start) for mark in '.?!') + 1
+    return bool(_IF.search(folded(text[sentence:course_start])))

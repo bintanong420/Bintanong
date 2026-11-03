@@ -75,3 +75,11 @@ def test_a_completion_and_an_enrollment_of_the_same_course_are_read_separately()
     second = text.index('ZZ 12', first + 1)
     assert stated_result(text, (0, len(text)), (first, first + 5), ((second, second + 5),)) == 'not_passed'
     assert stated_result(text, (0, len(text)), (second, second + 5), ((first, first + 5),)) == 'enrolled'
+
+
+def test_courses_inside_an_if_clause_are_premises_in_the_live_sentence():
+    from backend.bintanong_routing.claim_evidence import inside_if_clause
+    text = "Can I take ZZ 5 if I haven't passed ZZ 3 and ZZ 4?"
+    assert inside_if_clause(text, text.index('ZZ 3')) and inside_if_clause(text, text.index('ZZ 4'))
+    assert not inside_if_clause(text, text.index('ZZ 5'))
+    assert not inside_if_clause('I failed ZZ 3. If so, what next?', 9)
