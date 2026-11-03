@@ -5,6 +5,19 @@ Phase 12 research/software write-up complete with disclosures; no active numbere
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
 Last expanded progress snapshot before condensation: `db643c0`; recover prior history with `git show`.
 
+## Teammate frontend fixes (3 Nov, owner-directed; local commits, not pushed)
+
+Owner decision: chat is locked until a program is chosen (undergraduates always have one); this supersedes the
+"skip and ask policy questions without a curriculum" behaviour. BSCS asks the start year: before 2023-2024 ->
+`bscs-2018-2019`, 2025 and later -> `bscs-proposed-2025-2026`. `dedea05` light default theme; `f0e86dc` college grouping
+(prospectus corpus college folders) and sample sets; `e846fd5` picker beside the chat bar, lock (also refused in send
+code), mid-chat switching, scope kept on New chat, Enter hint removed, sidebar logo -> `/`, tinted Learn more, rotating
+samples (8 Handbook FAQs). Prerequisite samples are an empty placeholder (`frontend/lib/sample-questions.ts`) awaiting
+another developer's 39 x 3 handover (39 curricula: BSCS counts twice). Verified: unit 77/79 (2 need pytest, absent on
+this machine), tsc, `next build`, `scope-onboarding.mjs` 3/3 against mocked APIs, screenshots 390/1440 light/dark.
+Not run here (fixture on the other machine): `account-controls.mjs`, `chat-workspace.mjs` still use the old dialog
+selectors and need updating there. Backend still accepts chats without a program (frontend-only lock).
+
 ## Stack launcher (2 Nov)
 
 `1b726d58` `scripts/start-bintanong.ps1`: Docker Desktop -> model `bintanong-p09-cuda-latency` :18088 -> hosted-560 API
