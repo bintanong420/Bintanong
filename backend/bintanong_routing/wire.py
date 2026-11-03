@@ -80,7 +80,11 @@ def _topic_parts_as_documents(wire: WireInterpretation, course_names=frozenset()
     courses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind in ('course', 'term')}
     def aimed(i):
         if i >= len(wire.operations):
-            return False
+            # Owner GUI 4 Nov 2026 (DSA): the single-operation index repair below applies here too, or a
+            # miscounted index beside a stray topic reads as no target and the course check is dropped.
+            if len(wire.operations) != 1:
+                return False
+            i = 0
         target = wire.operations[i].target
         return (target.text, target.occurrence) in courses or prepare_query(target.text).casefold() in course_names
     def topical(part):

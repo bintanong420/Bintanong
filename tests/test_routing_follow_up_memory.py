@@ -102,3 +102,20 @@ def test_the_parser_folds_a_fact_part_that_repeats_the_check():
     result = normalize_interpretation(text, WireInterpretation.parse(json.loads(json.dumps(wire))))
     assert [(p.part_id, p.operation_indices) for p in result.parts] == [('r1', (0,))]
     assert [c.state for c in result.claims] == ['failed']
+
+def test_a_miscounted_operation_index_beside_a_stray_topic_keeps_the_course_check():
+    # Owner GUI 4 Nov 2026: "What subjects ang hindi ko matake if nabagsak ko DSA?" gave part operation index 1 (only
+    # one operation) plus the prerequisite-policy topic; the slip rule read index 1 as no target and dropped the check.
+    import json
+    from backend.bintanong_routing.wire import WireInterpretation, normalize_interpretation
+    text = 'What can I not take if I failed B1?'
+    quote = lambda t, n=0: dict(text=t, occurrence=n)
+    wire = dict(schema_version='bintanong-interpretation-wire-v4', language='en', audience='undergraduate', control=None,
+                part_count=1, parts=[dict(part_id='r1', quote=quote(text), evidence_need='structured', operation_indices=[1],
+                                          subject_id='fictional_policy', requested_claims=['printed policy fields'],
+                                          detail='whole')],
+                intent='affected courses', mentions=[dict(kind='course', quote=quote('B1'))], claims=[],
+                operations=[dict(name='list_affected_courses', target=quote('B1'))], route='Symbolic', ambiguities=[])
+    result = normalize_interpretation(text, WireInterpretation.parse(json.loads(json.dumps(wire))))
+    assert [(p.evidence_need, p.operation_indices, p.subject_id) for p in result.parts] == [('structured', (0,), None)]
+    assert [o.name for o in result.operations] == ['list_affected_courses']
