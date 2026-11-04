@@ -38,8 +38,8 @@ def rule(value):
     if value == 'printed':
         return {'kind': 'unresolved', 'reason': 'Printed condition "All major subjects" is not a reviewed course',
                 'source_spans': spans}
-    if value[0] == 'course':
-        return {'kind': 'course', 'course_id': cid(value[1]), 'source_spans': spans}
+    if value[0] in ('course', 'co_requisite'):
+        return {'kind': value[0], 'course_id': cid(value[1]), 'source_spans': spans}
     return {'kind': value[0], 'items': [rule(('course', c)) for c in value[1:]], 'source_spans': spans}
 
 
@@ -138,7 +138,7 @@ def release():
     registry = CapabilityRegistry({'assess_term_prerequisites': Capability(
         'synthetic_term_prerequisites', ('curriculum_id', 'year_level', 'semester'))})
     catalog = tuple(entry(entity=cid(code), alias=code, curriculum='curriculum-synthetic-1').model_copy(
-        update=dict(source_ref=SOURCE.version_id)) for code, *_ in ROWS)
+        update=dict(source_ref=SOURCE.version_id, program_id=SCOPE['program_id'])) for code, *_ in ROWS)
     return ReleaseResources(pin, catalog, registry, None, SymbolicAdapter(runtime),
                             course_labels=tuple((cid(code), code) for code, *_ in ROWS))
 
@@ -160,7 +160,7 @@ def interpretation(text=EXAMPLE_B, term='second year, second sem', language='en'
 
 def run(text=EXAMPLE_B, **options):
     from test_routing_contracts import context
-    ctx = RequestContext.parse(context(curriculum_id='curriculum-synthetic-1'))
+    ctx = RequestContext.parse(context(program_id=SCOPE['program_id'], curriculum_id='curriculum-synthetic-1'))
     from test_routing_router import style_proposal
     language = options.get('language', 'en')
     style = style_proposal(language, english=['What can I take'], filipino=[] if language == 'en' else ['I failed'])
@@ -223,17 +223,43 @@ def explained(text, language='en'):
     return json.dumps(dict(schema_version='bintanong-decision-explanation-v1', language=language, explanation=text))
 
 
-def test_bintu_explains_the_checked_term_from_its_groups():
+def test_term_dependencies_keep_host_wording_without_model_paraphrase():
     note = 'SYN 251 needs both SYN 131 and SYN 141, so it has to wait; SYN 260 has no prerequisite.'
     model = Model(explained(note))
     answer = asyncio.run(Generator(model).generate(EXAMPLE_B, run()))
     lines = student_text(answer).splitlines()
-    assert lines[1] == note and answer.decision_explanation == note
-    evidence = json.loads(model.calls[0][0][1]['content'])['evidence']
-    assert evidence['term'] == 'second year, second semester'
-    assert evidence['blocked'] == [{'course': 'SYN 251', 'needs': ['SYN 131', 'SYN 141']},
-                                   {'course': 'SYN 241', 'needs': ['SYN 141']}]
-    assert evidence['met'] == ['SYN 290', 'SYN 260']
+    assert not model.calls and answer.decision_explanation is None
+    assert lines[2] == ('Blocked by a known prerequisite: SYN 251 (needs SYN 131 and SYN 141), '
+                        'SYN 241 (needs SYN 141)')
+
+
+@pytest.mark.parametrize('kind', ['all_of', 'any_of', 'co_requisite'])
+@pytest.mark.parametrize('program', ['program-synthetic', 'program-other'])
+def test_term_without_rule_tree_never_invents_connectives(kind, program, monkeypatch):
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'SCOPE', dict(SCOPE, program_id=program))
+    prerequisite = (kind, 'SYN 131', 'SYN 141') if kind != 'co_requisite' else (kind, 'SYN 131')
+    rows = [(code, year, term, prerequisite if code == 'SYN 251' else rule_value)
+            for code, year, term, rule_value in ROWS]
+    monkeypatch.setattr(module, 'ROWS', rows)
+    integration = run()
+    model = Model(explained('SYN 251 needs SYN 131 or SYN 141.'))
+    answer = asyncio.run(Generator(model).generate(EXAMPLE_B, integration))
+    assert answer.status == 'answered' and answer.decision_explanation is None and not model.calls
+    assert 'Blocked by a known prerequisite:' in student_text(answer)
+
+
+def test_all_met_term_still_allows_group_explanation():
+    integration = run()
+    term = integration.evidence.term_assessment
+    met = term.model_copy(update={'courses': tuple(c for c in term.courses if c.group == 'met')})
+    integration = integration.model_copy(update={'evidence': integration.evidence.model_copy(
+        update={'term_assessment': met})})
+    note = 'The prerequisites for SYN 290 and SYN 260 are met.'
+    model = Model(explained(note))
+    answer = asyncio.run(Generator(model).generate(EXAMPLE_B, integration))
+    assert answer.decision_explanation == note and len(model.calls) == 1
 
 
 @pytest.mark.parametrize('draft', [

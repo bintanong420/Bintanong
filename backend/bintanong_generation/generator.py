@@ -99,6 +99,9 @@ class Generator:
     async def _explain(self,text,pack,remaining_seconds,*,term=False):
         """One bounded post-Prolog call; any failure, timeout or invalid draft leaves the host wording alone.
         Returns (explanation or None, check, error codes)."""
+        if term and any(c.group in ('blocked', 'needs_info') for c in pack.term_assessment.courses):
+            # Term results carry flattened conditions, not the prerequisite tree needed to validate prose.
+            return None,'skipped',()
         from .render import shown_label
         label=shown_label(pack)
         seconds=min(self.timeout_seconds,EXPLANATION_SECONDS)
