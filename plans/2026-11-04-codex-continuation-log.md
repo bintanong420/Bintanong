@@ -85,3 +85,16 @@ New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 
 - Independent planning recheck: 70 passed / exit 0 in 221.44 s, covering `test_planning_chat.py`,
   `test_planning_earliest_provenance.py`, `test_planning_recovery.py`, `test_generation_recovery_reply.py`.
   Reviewer confirmed both fixes and existing recovery compatibility; v1 serialized plan results intentionally refused.
+- GUI-route baseline OFF completed: 30/30 implemented conversations, 32/35 including pending-labelled cases.
+  Failures: shifting transfer-units follow-up asks transfer direction; hotel-track follow-up omits Hotel;
+  recovery Ask message becomes generic clarification, then summer follow-up unavailable. Bare program cases pass.
+  Results and each turn retained under `conversations-off/`; do not erase pending failures behind 30/30 headline.
+- API restarted for compilation ON comparison, parent PID `67244`, logs `compare-api-on.*`. Model/frontend unchanged;
+  comparison uses the existing prompt (chat-plan prompt changes intentionally held out to isolate switch effect).
+- First ON startup failed reading a hosted ledger (`StorageError: Storage transport request failed`), before
+  inference. Retry parent PID `81880`, `compare-api-on-retry.*`, ready after 147.71 s. Initial health watcher
+  timed out across the failed start; replacement watcher launched `conversations-on/` after retry readiness.
+- Track-switch oracle limitation discovered by reading both cached reviewed BSHM ledgers: HMPE 5 requires THC-LA
+  in Culinary AND Hotel. The fixture note incorrectly says Hotel has THC-RM and its second-turn assertion merely
+  requires the word Hotel. Preserve original run and failure; missing Hotel is not proof of a wrong scope.
+  A follow-up check must observe actual resolved scope/memory isolation, not invent a different prerequisite.
