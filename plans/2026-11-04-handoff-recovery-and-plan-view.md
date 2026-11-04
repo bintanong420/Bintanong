@@ -14,6 +14,10 @@ then one backend restart (tell the owner first) and the owner's GUI test of the 
 | `p12rr` | `feat/recovery-routes-more` | 5 commits (b9ab2922..c30027c4) + uncommitted `plan_check_reply.py`, `recovery_reply.py`, `render.py` | Track A clauses, removal/overload/waiver/D7, units a+b, greedy drafts, reply layout, unknown-load wording, Prolog memoization |
 | `p12pv` | `feat/plan-view` | no commits; uncommitted `bintanong_api/presentation.py`, `stream.py`, `generation/contracts.py`, `generator.py`, `render.py`, new `tests/test_api_plan_view.py` | typed `plan_view` in the API answer (backend only; owner: frontend later) |
 
+Where each worker stopped (owner usage limit): `p12rr` was updating `removal_lines`/`status_lines` to accept a
+`cite`, and the matching call in the plan-check reply; `p12pv` was fixing its test fixtures (the fixture reply is
+Taglish, so assert the Taglish note; repair the empty-drafts fixture).
+
 Before relaunching anything: `git -C <wt> log --oneline b57db6a4..HEAD` and `git -C <wt> status --short`. Uncommitted
 edits are unverified: run their tests first; never reset or delete them. Both touch `render.py`: expect a merge
 conflict; resolve by keeping both changes.
