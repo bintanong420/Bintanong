@@ -98,3 +98,11 @@ New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 
   in Culinary AND Hotel. The fixture note incorrectly says Hotel has THC-RM and its second-turn assertion merely
   requires the word Hotel. Preserve original run and failure; missing Hotel is not proof of a wrong scope.
   A follow-up check must observe actual resolved scope/memory isolation, not invent a different prerequisite.
+- Another account/tool transition stopped ON API and runner after 20 completed conversations (20 passed).
+  Partial outputs preserved. Resumed API ON parent `69704` (`compare-api-on-resume.*`), then remaining 15 cases
+  from `conversations-on-remainder-cases.json` into separate `conversations-on-remainder/`; no completed case rerun.
+- Typed-plan chat code awaiting main integration: `b324ec01` plus `a7d9a789` (prior term alignment + offering
+  conditions); 52 end-to-end cases and related 165 pass on its branch. Earliest-term wiring in same isolated tree.
+- Further independent review: unsuffixed off-semester placements must get request/unconfirmed treatment even if
+  student omits a mode; shared checker correction underway in `p12pc`. Plan routes also need actual pinned-chunk
+  text/page proof rather than matching only the synthetic flag; that boundary correction is underway in plan-chat.
