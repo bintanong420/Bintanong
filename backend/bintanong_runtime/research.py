@@ -57,6 +57,23 @@ def _initials(title):
     return ''.join(letters) + suffix if len(letters) >= 2 else None
 
 
+def _extra_forms(title):
+    """Owner, 4 Nov 2026 ("DSA ... NetCom ... DS1 and DS2"): the first three letters of each main word joined (NetCom)
+    and, for a numbered title, the initials with a space before the number (DS 1). Added only when unique."""
+    words = [w for w in re.split(r'[\s/\-–:,()&.]+', title) if w]
+    suffix = ''
+    if len(words) > 1 and _TRAILING_NUMBER.match(words[-1]):
+        suffix, words = words[-1].upper(), words[:-1]
+    main = [w for w in words if w[0].isalpha() and w.casefold() not in _SMALL_WORDS]
+    if len(main) < 2:
+        return set()
+    forms = {''.join(w[:3].capitalize() for w in main) + suffix}
+    initials = _initials(title)
+    if suffix and initials is not None and initials.endswith(suffix):
+        forms.add(initials[:-len(suffix)] + ' ' + suffix)
+    return forms
+
+
 def research_catalog(ledger):
     """Course entries for reviewed identities; draft identities are left out."""
     courses = [c for c in ledger['courses'] if c['review_state'] == 'reviewed' and c['review_refs']
@@ -77,7 +94,7 @@ def research_catalog(ledger):
     codes = {fold(a) for forms in [*printed.values(), *short.values()] for a in forms}
     compact = lambda text: re.sub(r'[^a-z0-9]', '', text.casefold())
     compact_codes = {compact(a) for forms in printed.values() for a in forms}
-    entries = []
+    entries, base, extras = [], {}, {}
     for c in courses:
         cid = c['course_id']
         aliases = printed[cid] | {a for a in short[cid] if counts[a] == 1}
@@ -88,6 +105,18 @@ def research_catalog(ledger):
             initials = _initials(title)
             if initials is not None and compact(initials) not in compact_codes:
                 aliases.add(initials)
+            extras[cid] = _extra_forms(title)
+        base[cid] = aliases
+    # The 4 Nov extra forms join only when they name one course and match no printed code or other alias.
+    owners = {}
+    scope = {c['course_id']: c['curriculum_id'] for c in courses}
+    for cid in base:
+        for a in base[cid] | extras.get(cid, set()):
+            owners.setdefault((scope[cid], compact(a)), set()).add(cid)
+    for c in courses:
+        cid = c['course_id']
+        aliases = base[cid] | {a for a in extras.get(cid, set())
+                               if owners[(scope[cid], compact(a))] == {cid} and compact(a) not in compact_codes}
         entries.append(CatalogEntry(kind='course', entity_id=cid, program_id=c['program_id'],
             curriculum_id=c['curriculum_id'], aliases=tuple(sorted(aliases)), course_code=c['facts']['course_code']['value'],
             source_ref=c['source_version_id'], review_ref=c['review_refs'][0], reviewed=True))
