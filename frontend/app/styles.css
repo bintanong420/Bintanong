@@ -411,9 +411,8 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .composer-notes { flex: 1 1 12rem; min-inline-size: 0; }
 .composer-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; min-inline-size: 0; }
 .composer-tools button { min-block-size: 2.75rem; max-inline-size: 100%; block-size: auto; padding-inline: 0.5rem; white-space: normal; color: var(--muted-foreground); font-weight: 400; }
-.composer-tools .program-chip { border-radius: 9999px; border-color: var(--control-border); color: var(--foreground); font-weight: 500; white-space: nowrap; }
+.composer-tools .program-chip { gap: 0.375rem; padding-inline: 0.25rem; border-radius: 9999px; color: var(--foreground); font-weight: 500; white-space: nowrap; }
 .composer-tools .program-chip[data-variant="default"] { color: var(--primary-foreground); }
-.program-chip-year { flex: none; padding-inline-start: 0.375rem; border-inline-start: 1px solid var(--border); color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
 .program-chip-label { min-inline-size: 0; max-inline-size: min(36ch, 60vw); overflow: clip; text-overflow: ellipsis; white-space: nowrap; }
 /* Locked until a program is chosen: greyed input; sending is also refused in code. */
 .composer-locked { background: var(--secondary); opacity: 0.7; }
