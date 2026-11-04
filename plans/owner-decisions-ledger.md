@@ -752,3 +752,9 @@ Each program still gets its own dated review record listing which standing rule 
   "a/b" in a reviewed prospectus (e.g. "2/1" for CC 4/L) is lecture units / laboratory units, total a+b ("2/1" -> 3);
   a plain number is the total ("3" -> 3); any other form (e.g. "None", a malformed value) stays unknown. The printed
   value is unchanged and answers keep it as printed; this is a reading for load checks, not a source correction.
+- 4 Nov 2026 (recovery draft preference, owner "Draft B, but make sure it needs to be program agnostic"): for the owner's
+  BSCS 2018-2019 CC 4/L case the preferred draft is special CC 4/L (2nd yr 2nd sem) -> summer CS 4/L + CS 6 -> special
+  CC 5/L on top of 3rd yr 1st sem -> regular, over the all-summer draft (CS 4/L + CS 6 + CC 5/L in summer). Generic rule
+  proposed by the coordinator to reproduce it (revisable by the owner): "just in time": each delayed course is placed in
+  the latest term that still delays none of the courses that need it; summer holds only courses needed by the next
+  term. Other drafts remain shown as alternatives; every step still needs approval.
