@@ -741,3 +741,10 @@ Each program still gets its own dated review record listing which standing rule 
   terms (p. 31). (2b) a special-class, off-semester or summer request never changes a term's outcome; the term reads
   "Works, needs confirmation" / "Works, may kailangan pang i-confirm" with each request listed as requested, not yet
   approved, with its printed conditions and source, plus what changes if it does not open.
+- 4 Nov 2026 (conversational wording, "Ok"): host-written prerequisite replies use plain conversational wording in
+  English and Taglish, e.g. "Yes, you can take CS 13/L! You've passed its prerequisite, CC 5/L." / "Oo, pwede mo nang
+  i-take ang CS 13/L! Pasado ka na sa prerequisite nito, ang CC 5/L."; "Not yet. COMM BC 13 needs COMM BC 11 first.
+  Once you pass it, you're good to go."; "COMM BC 14 needs COMM BC 13. Have you passed it? Tell me and I'll check for
+  you."; every clarification names what is missing (never the empty "Paki-clarify muna ang missing information");
+  quoted procedure fields read as steps, not "Reviewed source fields (quoted)"; "temporarily unavailable" only for a
+  real outage. Sources, unknown-versus-unmet and the advisory boundary are unchanged.
