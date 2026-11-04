@@ -540,7 +540,7 @@ _OTHER_COURSES = re.compile(r'^\s*(any|anything|something|what|which|ano|anong|a
 _OWN_PREREQS_BEFORE = re.compile(r'\b(?:pre-?req\w*|requirements?)\s+(?:of|for|ng|ni)\s*\Z', re.I)
 _OWN_PREREQS_AFTER = re.compile(r'\s*(?:needs?|requires?)\b', re.I)
 _DEPENDANTS_BEFORE = re.compile(r'\b(?:subjects?|courses?)\b[^.?!;\n]*\Z', re.I)
-_AS_PREREQUISITE = re.compile(r'\s*(?:(?:as|ang|yung|is|a|the)\s+)*pre[-\s]?req(?:uisite)?s?\b', re.I)
+_AS_PREREQUISITE = re.compile(r'\s*(?:(?:as|ang|yung|is|a|the|their)\s+)*pre[-\s]?req(?:uisite)?s?\b', re.I)
 _LISTING = re.compile(r'\b(subjects?|courses?|kurso|prospectus|curriculum)\b', re.I)
 
 

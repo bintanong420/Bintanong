@@ -44,6 +44,13 @@ It preserves opposite-direction questions and leaves multiple-course ambiguity t
 Router prompt now defines list_affected_courses as the reverse relation. No benchmark-specific course IDs.
 RED: 20 failures across two synthetic curricula, five phrasings and two incorrect model operations.
 GREEN: 168 dialogue/compiler/session tests, including eight opposite-direction safeguards.
+Follow-up refinement: added full "pre-requisite" and "as their pre-req" regression variants.
+Dependency replies now describe prerequisite links neutrally in English/Taglish instead of injecting
+"if you fail" into a question with no failure premise. Generic rendering applies to every curriculum;
+direct/transitive scope and uncheckable printed-condition notes remain. Recovery-draft failure premises
+remain explicit in the separate recovery renderer. RED: two neutral-prose and four "their" cases.
+Related routing/dialogue/dependency/recovery run: 186 passed, one stale wording assertion; corrected
+that assertion's course-order check, then full dependency reply file 11 passed. No new live probes.
 The fixes do not establish that the live model will choose a usable operation on every paraphrase.
 Owner supplied ngrok -> localhost:3216; this is the existing gathering app, not a p12-dev server.
 No restart, merge into p12, or shared-model probe was performed. Old diagnostic text in the report is

@@ -330,6 +330,8 @@ def test_a_phrase_asking_what_the_course_itself_needs_is_never_turned_into_its_d
     'kung may subject ba na {code} yung pre requisite',
     'Ano yung courses na {code} ang pre-req',
     'Ano yung courses na need {code} as pre-req?',
+    'Ano yung courses na need {code} as pre-requisite?',
+    'Do succeeding courses need {code} as their pre-req?',
     'Which subjects require {code} as a prerequisite?',
 ])
 def test_named_course_target_keeps_reverse_prerequisite_direction(key, operation, phrase, monkeypatch):

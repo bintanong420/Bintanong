@@ -62,6 +62,8 @@ is inferred here. Preserved owner note:
 Development candidate: explicit reviewed course operations can proceed without an optional history marker;
 removed the redundant frontend clarification diagnostic. BSIT reverse-prerequisite intent now has a prompt
 definition and compiler direction check for direct course targets; 20 RED cases, final gate 168 passed.
+Further variants cover full "pre-requisite" and "as their pre-req"; dependency prose no longer invents
+a failure premise. Related gate 186 passed / one stale wording assertion, corrected file 11 passed.
 New BSCS/Civil/BSIT reports and revised 24-query PDF tracked in
 [regression handoff](../2026-11-04-post-gathering-regressions.md). Exact live causes remain unverified.
 Next: run its held-out acceptance cases on isolated development runtime when shared model is available;

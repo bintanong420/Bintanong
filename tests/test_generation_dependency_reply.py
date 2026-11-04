@@ -79,7 +79,7 @@ def test_failing_a_course_nothing_depends_on_blocks_no_course_with_a_short_note(
     answer = ask('What courses are blocked if I fail SYN 260?', 'SYN 260')
     assert answer.status == 'answered'
     assert student_text(answer).splitlines()[:2] == [
-        'No course in your prospectus lists SYN 260 as a prerequisite, so failing it does not block another course.',
+        'No course in your prospectus lists SYN 260 as a prerequisite.',
         'Note: SYN 280 requires "All major subjects" (as printed). I can\'t check that from individual course results, '
         'so please confirm it with your program adviser.']
 
@@ -87,14 +87,21 @@ def test_failing_a_course_nothing_depends_on_blocks_no_course_with_a_short_note(
 def test_failing_a_course_lists_the_courses_whose_reviewed_rules_need_it():
     answer = ask('What courses are blocked if I fail SYN 131?', 'SYN 131')
     assert student_text(answer).splitlines()[0] == (
-        'If you fail SYN 131, these courses are affected because their prerequisites include it (directly or through '
-        'another course): SYN 251.')
+        'Courses that use SYN 131 as a prerequisite, directly or through another course: SYN 251.')
+
+
+@pytest.mark.parametrize('language', ['en', 'taglish'])
+def test_dependency_question_does_not_invent_a_failed_result(language):
+    answer = ask('Which courses need SYN 131 as a prerequisite?', 'SYN 131', language=language)
+    first = student_text(answer).splitlines()[0]
+    assert 'SYN 251' in first and 'SYN 131' in first
+    assert not any(word in first.lower() for word in ('fail', 'bagsak', 'block'))
 
 
 def test_taglish_dependency_answer():
     answer = ask('Kung bagsak ako sa SYN 260, ano ang hindi ko ma-take?', 'SYN 260', language='taglish')
     assert student_text(answer).splitlines()[0] == (
-        'Walang course sa prospectus mo na may SYN 260 bilang prerequisite, kaya hindi nito mabo-block ang ibang course.')
+        'Walang course sa prospectus mo na may SYN 260 bilang prerequisite.')
 
 
 
@@ -102,7 +109,7 @@ def test_taglish_dependency_answer():
 # fail computer programming 1?" listed every dependent course of all four years.
 def test_a_question_that_names_a_term_answers_for_that_term_first():
     answer = ask("I'm second year. What can't I take in second semester if I fail SYN 131?", 'SYN 131')
-    assert student_text(answer).splitlines()[0] == 'In second year, second semester, failing SYN 131 blocks: SYN 251.'
+    assert student_text(answer).splitlines()[0] == 'In second year, second semester, these courses use SYN 131 as a prerequisite, directly or through another course: SYN 251.'
 
 
 def test_a_named_term_with_no_affected_course_says_so_and_names_later_ones():
@@ -117,14 +124,14 @@ def test_the_year_is_read_from_the_whole_question_even_outside_the_asked_part():
     # Live 4 Nov 2026: the model quoted only the question sentence; "Im currently second year" stood outside it.
     text = "Im currently second year. What can't I take in second semester if I fail SYN 131?"
     answer = ask(text, 'SYN 131', part="What can't I take in second semester if I fail SYN 131?")
-    assert student_text(answer).splitlines()[0] == 'In second year, second semester, failing SYN 131 blocks: SYN 251.'
+    assert student_text(answer).splitlines()[0] == 'In second year, second semester, these courses use SYN 131 as a prerequisite, directly or through another course: SYN 251.'
 
 
 def test_several_affected_courses_are_listed_in_curriculum_order():
     # Live 4 Nov 2026: reordering the listed courses raised a contract error with more than one course.
     answer = ask('What courses are blocked if I fail SYN 141?', 'SYN 141')
     assert answer.status == 'answered'
-    assert student_text(answer).splitlines()[0].endswith('(directly or through another course): SYN 241, SYN 251.')
+    assert student_text(answer).splitlines()[0].endswith(': SYN 241, SYN 251.')
 
 
 def test_curriculum_order_can_differ_from_id_order_without_touching_the_result():

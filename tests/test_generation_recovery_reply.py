@@ -172,8 +172,7 @@ def test_without_a_recovery_cue_the_dependency_reply_is_unchanged():
     integration, answer = run(text, value, language='en')
     assert integration.recovery is None
     assert student_text(answer).splitlines()[0] == (
-        f'If you fail {X}, these courses are affected because their prerequisites include it (directly or through '
-        f'another course): {CODES["Y"]}, {CODES["Z"]}, {CODES["W"]}.')
+        f'Courses that use {X} as a prerequisite, directly or through another course: {CODES["Y"]}, {CODES["Z"]}, {CODES["W"]}.')
     assert not any(l.startswith('#### Draft') for l in student_text(answer).splitlines())
 
 
@@ -195,7 +194,7 @@ def test_a_part_with_no_reviewed_topic_is_named_unavailable_beside_the_answered_
     assert answer.status == 'answered' and integration.route == 'Symbolic'
     assert lines[-1] == ('Yung part tungkol sa "tapos saan ang office ng dean?" ay wala pa sa reviewed sources ng '
                          'Bintanong. Paki-ask sa tamang university office.')
-    assert lines[0].startswith(f'Kung ma-fail mo ang {X}')
+    assert lines[0].startswith(f'Mga course na may {X} bilang prerequisite')
 
 
 @pytest.mark.parametrize('curriculum', sorted(CURRICULA))
