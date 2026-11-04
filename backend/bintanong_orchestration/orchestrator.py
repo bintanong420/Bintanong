@@ -46,7 +46,7 @@ FEE_PRECEDENCE = {'H101/C79 overdue fine applicability and precedence unresolved
                   (('charter_returns', 'printed returns fields'), ('handbook_library', 'printed library fields'))}
 
 
-def _topic_intents(proposed):
+def _topic_intents(proposed, conversation=None):
     """Each chosen document topic with its facts and its parts' words, in part order (owner step 2e: every topic is
     retrieved). The words are the topic's query only when there are several topics (live: the whole two-topic
     message found nothing for its special-class fee part); a single topic keeps the whole message."""
@@ -55,18 +55,21 @@ def _topic_intents(proposed):
         return [(None, dict(subject_id=None, requested_claims=None))]
     claims, texts = {}, {}
     for p in parts:
+        shifting_follow_up = (conversation is not None and conversation.subject_id in SHIFT_TOPICS
+                              and p.subject_id in SHIFT_TOPICS and not SHIFT.search(p.text))
+        query = 'shifting: ' + p.text if shifting_follow_up else p.text
         for claim in p.requested_claims:
             for subject, wanted in FEE_PRECEDENCE.get(claim, ((p.subject_id, claim),)):
                 claims.setdefault(subject, {})[wanted] = None
-                texts.setdefault(subject, {})[p.text] = None
+                texts.setdefault(subject, {})[query] = None
         # Owner 2 Nov 2026 (#3): an absence question gets the attendance rule and the sickness certificate together.
         # Owner 3 Nov 2026 (H8): a shifting question gets the 4.1 rule and the FAQ 8 steps together.
         for topics, cue in ((ABSENCE_TOPICS, ABSENCE), (SHIFT_TOPICS, SHIFT)):
-            if p.subject_id not in topics or not cue.search(p.text):
+            if p.subject_id not in topics or not (cue.search(p.text) or topics is SHIFT_TOPICS and shifting_follow_up):
                 continue
             for subject, wanted in topics.items():
                 claims.setdefault(subject, {})[wanted] = None
-                texts.setdefault(subject, {})[p.text] = None
+                texts.setdefault(subject, {})[query] = None
     return [(' '.join(texts[s]) if len(claims) > 1 else None, dict(subject_id=s, requested_claims=tuple(claims[s])))
             for s in claims]
 
@@ -274,7 +277,7 @@ class Orchestrator:
                 # Only document versions hold chunks; curriculum sources are for Prolog.
                 document_version_ids=tuple(dict.fromkeys(d.version_id for d in resources.pin.documents)))
             results = []
-            for words, intent in (_topic_intents(routed.proposed) if resources.topics else [(None, {})]):
+            for words, intent in (_topic_intents(routed.proposed, context.conversation) if resources.topics else [(None, {})]):
                 topic_request = request if words is None else replace(request, query=prepare_query(words))
                 value = await resources.retrieval.retrieve(topic_request, **intent)
                 if type(value) is not DocumentResult:

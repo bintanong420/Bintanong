@@ -120,3 +120,9 @@ New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 
 - Targeted Hotel scope probe passes: resolved conversation changes Culinary -> Hotel and eligibility becomes unknown.
   First wording was conditional and stored no facts, so it proves scope selection but not persisted-fact isolation;
   explicit self-reported-pass variant prepared for stronger verification.
+- Exact two-turn routing trace confirms both shifting turns resolve to `handbook_shifting`; the second topic
+  selector originally offers transfer-load, but the compiler correctly returns shifting. Evidence query lacked
+  the previous topic words and companion FAQ. Added context-aware retrieval query for validated shifting
+  follow-ups plus existing companion selection; original question words retained, source guards unchanged.
+  Port-level RED 1 failure -> GREEN 23 tests across multi-topic/document/topic-selection/referral suites.
+  No live success claim until replay against the integrated API.
