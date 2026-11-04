@@ -1,8 +1,8 @@
 """One chat turn (master 16.1, 23.3), independent of the HTTP transport.
 
-The AI SDK client posts its whole message list, but only the last user message is used: the session's
-structured conversation context carries follow-ups, never a transcript (master 23.2). A routing result
-becomes the next turn's context only when the turn finishes; a cancelled or failed turn leaves nothing.
+The client message list supplies only the current utterance. Bounded server-owned exchanges are kept
+ephemerally, separate from accepted academic facts. Facts, dialogue and legacy follow-up context commit
+together only after a completed turn; a cancelled or failed turn leaves nothing.
 """
 from __future__ import annotations
 
@@ -17,6 +17,8 @@ from backend.bintanong_private_context.conversation import capture, follow_up_co
 from backend.bintanong_private_context.memory import (accepted_facts, bind_reply, merge_facts, pending_from,
                                                      turn_ref)
 from backend.bintanong_private_context.sessions import SessionStore
+from backend.bintanong_private_context.dialogue import (DialogueEntity, DialogueExchange, UnresolvedDialogue,
+                                                       bounded_text)
 from backend.bintanong_routing.contracts import prepare_query
 
 MAX_MESSAGES = 500
@@ -109,35 +111,56 @@ class ChatTurns:
             raise ApiError(409, 'session_ended') from None
         # Fresh state under the turn (memory/eligibility plan, Task 2): a short reply answers the check waiting on
         # it in the same scope, and that check is asked again with the stated result.
-        view = self._sessions.resolve(session.credential, account_id=session.account_id) or session.view
-        bound = bind_reply(turn.text, view.pending_check, (turn.program_id, turn.curriculum_id),
-                           session_id=view.session_id)
-        if bound is not None and bound.fact is not None:
-            view = replace(view, facts=merge_facts(view.facts, (bound.fact,)))
-        context = follow_up_context(view, request_id=f'req-{secrets.token_hex(8)}',
-                                    program_id=turn.program_id, curriculum_id=turn.curriculum_id)
         routed, completed = [], False
         try:
+            view = self._sessions.resolve(session.credential, account_id=session.account_id)
+            if view is None:
+                raise ApiError(409, 'session_ended')
+            bound = bind_reply(turn.text, view.pending_check, (turn.program_id, turn.curriculum_id),
+                               session_id=view.session_id)
+            if bound is not None and bound.fact is not None:
+                view = replace(view, facts=merge_facts(view.facts, (bound.fact,)))
+            context = follow_up_context(view, request_id=f'req-{secrets.token_hex(8)}',
+                                        program_id=turn.program_id, curriculum_id=turn.curriculum_id)
             try:
                 result = await self._pipeline.run(bound.text if bound else turn.text, context,
                                                   routed_sink=routed.append, progress=progress)
             except Exception:
                 raise ApiError(503, 'answer_unavailable') from None
+            route = routed[0] if routed else None
+            stated = tuple(f for f in accepted_facts(route, turn.message_id) if f.session_id == view.session_id)
+            if bound is not None and bound.fact is not None:
+                stated = (bound.fact.model_copy(update=dict(ref=turn_ref(turn.message_id))),) + stated
+            conversation = capture(route) if route is not None else None
+            from .presentation import student_text
+            user_text, user_cut = bounded_text(turn.text)
+            assistant_text, assistant_cut = bounded_text(result if isinstance(result, str) else student_text(result))
+            entities = tuple(dict.fromkeys((e.kind, e.value) for e in route.query.entities
+                if e.kind in ('course', 'program', 'curriculum', 'topic'))) if route is not None else ()
+            known = tuple(DialogueEntity(kind=kind, entity_id=value) for kind, value in entities[:32])
+            status = getattr(result, 'status', 'answered')
+            missing = tuple(getattr(result, 'missing_facts', ()))
+            request = route.decision.predicate_request if route is not None else None
+            unresolved = UnresolvedDialogue(originating_message_id=turn.message_id,
+                requested_operation=request.predicate if request is not None else None,
+                missing_slots=missing[:32], candidates=known) if status == 'clarification_needed' else None
+            exchange = DialogueExchange(message_id=turn.message_id, user_text=user_text,
+                program_id=route.program_id if route is not None else turn.program_id,
+                curriculum_id=route.curriculum_id if route is not None else turn.curriculum_id,
+                assistant_text=assistant_text, answer_status=status, entities=known,
+                source_refs=tuple(c.evidence_id for c in getattr(result, 'citations', ()))[:32],
+                text_truncated=user_cut or assistant_cut)
+            try:
+                self._sessions.commit_turn_result(session.credential, turn.message_id,
+                    expected_revision=view.dialogue.revision, exchange=exchange, facts=stated,
+                    pending_check=pending_from(route, result, self._labels),
+                    conversation=conversation if conversation is not None else view.conversation,
+                    unresolved=unresolved, account_id=session.account_id)
+            except (ValueError, KeyError):
+                raise ApiError(409, 'conversation_changed') from None
             completed = True
         finally:
             if not completed:  # a failed or cancelled turn commits nothing
                 self._sessions.end_turn(session.credential, turn.message_id, completed=False,
                                         account_id=session.account_id)
-        route = routed[0] if routed else None
-        stated = tuple(f for f in accepted_facts(route, turn.message_id) if f.session_id == view.session_id)
-        if bound is not None and bound.fact is not None:
-            stated = (bound.fact.model_copy(update=dict(ref=turn_ref(turn.message_id))),) + stated
-        self._sessions.end_turn(session.credential, turn.message_id, completed=True, account_id=session.account_id,
-                                facts=stated, pending_check=pending_from(route, result, self._labels))
-        conversation = capture(route) if route is not None else None
-        if conversation is not None:
-            try:
-                self._sessions.set_conversation(session.credential, conversation, account_id=session.account_id)
-            except KeyError:  # deleted or expired during the turn; it stays gone
-                pass
         return result
