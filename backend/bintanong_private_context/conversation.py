@@ -15,6 +15,10 @@ def capture(result: RoutingResult) -> ConversationContext | None:
             if result.proposed else None
         return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id,
                                    pending='transfer_direction', detail=detail)
+    if result.diagnostic == 'bare_program_name' and result.compiled:
+        # Compiled routing (owner 4 Nov 2026): the reply asked what the student wants to know about the named
+        # program, so the next turn ("yung subjects") keeps that program.
+        return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id)
     if result.diagnostic != 'validated':
         return None
     request = result.decision.predicate_request

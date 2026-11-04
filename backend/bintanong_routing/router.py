@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 from dataclasses import replace
 
@@ -19,6 +20,26 @@ from . import topic_selection as selection
 from .recovery_cue import recovery_request
 from .validation import RoutingResult, _decision, validate_interpretation
 from .wire import WireInterpretation, normalize_interpretation
+from .compile import compile_reply, stay_on_shifting
+
+
+def compile_enabled():
+    """Owner 4 Nov 2026: compiled routing is on only with BINTANONG_ROUTER_COMPILE=1 (default off)."""
+    return os.environ.get('BINTANONG_ROUTER_COMPILE') == '1'
+
+
+def listing_without_term(result, conversation):
+    """A term listing whose words name no year level (e.g. "yung subjects" after a program name) asks for the term,
+    like a term check does, instead of a bare clarification."""
+    p = result.proposed
+    if result.diagnostic != 'unresolved_entity' or p is None or len(p.operations) != 1:
+        return False
+    op = p.operations[0]
+    prior = ((conversation.year_level, conversation.semester or 'any') if conversation is not None
+             and conversation.operation in TERM_OPERATIONS and conversation.year_level is not None else None)
+    unresolved_courses = [m for m in p.mentions if m.kind == 'course']
+    return (op.name == 'list_term_courses' and not unresolved_courses
+            and parse_term(p.mentions[op.target].text, prior) is None)
 
 
 def drop_untopical_parts(proposed, topics):
@@ -513,6 +534,31 @@ class Router:
                 return failure('topic_selection_unavailable', 0)
 
         messages = build_messages(text, context, self.catalog, self.registry, topics)
+
+        def guarded(proposed, compiled=False):
+            """The host guards every interpretation passes through, whichever path built it."""
+            check_topics(proposed, topics)
+            if selection_attempts:
+                proposed = answer_settled_topic(proposed, topics, text)
+            proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
+                prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
+            proposed = answer_years_to_graduate(lead_absence_with_attendance(
+                prefer_good_moral_checklist(proposed, topics), topics), topics, text)
+            resolved = (answer_transfer_direction(proposed, self.topics, text, context.conversation)
+                        or answer_detail_follow_up(proposed, self.topics, text, context.conversation)
+                        or repeat_previous_check(proposed, text, context.conversation)
+                        or (stay_on_shifting(proposed, self.topics, text, context.conversation,
+                                             _names_any(text, TRANSFER_DIRECTION_CUES)) if compiled else None))
+            if resolved is not None:  # owner GUI 3 Nov 2026: the reply to the direction question
+                proposed = resolved
+            switch = None if resolved is not None else switch_program_follow_up(
+                proposed, text, context.conversation, self.catalog)
+            if switch is not None:
+                proposed = switch[0]
+            proposed = recovery_request(proposed, text) or proposed  # owner 4 Nov 2026: Ask mode
+            proposed, unavailable = drop_untopical_parts(proposed, topics)
+            return proposed, resolved, switch, unavailable
+
         for attempt in (1, 2):
             try:
                 raw = await self.transport.infer(messages, output_schema(topics, follow_up=follow_up))
@@ -520,34 +566,28 @@ class Router:
                 return failure(str(error), attempt)
             problem = None
             resolved = None
-            try:
-                wire = WireInterpretation.parse(_json_proposal(raw))
+            compiled = False
+            if compile_enabled():
+                # Owner 4 Nov 2026: read the reply for meaning and rebuild its structure; the existing path stays
+                # the fallback when nothing coherent can be built.
                 try:
-                    if wire.previous_course_quote is not None and not follow_up:
-                        raise ValueError('course_reference_unavailable')
-                    proposed = normalize_interpretation(text, wire, course_names=frozenset(
-                        prepare_query(a).casefold() for e in self.catalog if e.kind == 'course' for a in e.aliases))
-                    check_topics(proposed, topics)
-                    if selection_attempts:
-                        proposed = answer_settled_topic(proposed, topics, text)
-                    proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
-                        prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
-                    proposed = answer_years_to_graduate(lead_absence_with_attendance(
-                        prefer_good_moral_checklist(proposed, topics), topics), topics, text)
-                    resolved = (answer_transfer_direction(proposed, self.topics, text, context.conversation)
-                                or answer_detail_follow_up(proposed, self.topics, text, context.conversation)
-                                or repeat_previous_check(proposed, text, context.conversation))
-                    if resolved is not None:  # owner GUI 3 Nov 2026: the reply to the direction question
-                        proposed = resolved
-                    switch = None if resolved is not None else switch_program_follow_up(
-                        proposed, text, context.conversation, self.catalog)
-                    if switch is not None:
-                        proposed = switch[0]
-                    proposed = recovery_request(proposed, text) or proposed  # owner 4 Nov 2026: Ask mode
-                    proposed, unavailable = drop_untopical_parts(proposed, topics)
-                except (ValueError, ValidationError) as error:
-                    problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
-                    raise
+                    proposed, resolved, switch, unavailable = guarded(
+                        compile_reply(_json_proposal(raw), text, context, self.catalog, topics), compiled=True)
+                    compiled = True
+                except (ValueError, ValidationError):
+                    resolved = None
+            try:
+                if not compiled:
+                    wire = WireInterpretation.parse(_json_proposal(raw))
+                    try:
+                        if wire.previous_course_quote is not None and not follow_up:
+                            raise ValueError('course_reference_unavailable')
+                        proposed = normalize_interpretation(text, wire, course_names=frozenset(
+                            prepare_query(a).casefold() for e in self.catalog if e.kind == 'course' for a in e.aliases))
+                        proposed, resolved, switch, unavailable = guarded(proposed)
+                    except (ValueError, ValidationError) as error:
+                        problem = str(error) if str(error) in REFERENCE_HINTS else 'invalid_reference'
+                        raise
             except (ValueError, ValidationError):
                 if attempt == 2:
                     if problem is None:
@@ -594,6 +634,11 @@ class Router:
                         result = replace(result, decision=_decision(control='clarify',
                             missing=('transfer_direction',), reason='transfer direction unstated'),
                             diagnostic='transfer_direction_unstated')
+                    if compiled and listing_without_term(result, context.conversation):
+                        result = replace(result, decision=_decision(control='clarify', missing=('term',),
+                            reason='missing term'), diagnostic='missing_term')
+                    if compiled:
+                        result = replace(result, compiled=True)
                     return replace(result, proposed=proposed, attempts=attempt,
                         style_attempts=style_attempt, style_evidence=style,
                         style_floor_applied=floored, offset_corrections=0,
