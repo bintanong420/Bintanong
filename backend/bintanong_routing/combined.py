@@ -9,6 +9,7 @@ from ..bintanong_contracts.runtime import NormalizedQuery
 from ..bintanong_contracts.schema_display import compact_for_prompt
 from .contracts import Interpretation, RequestContext, prepare_query
 from .prompt import SYSTEM_PROMPT, build_messages as routing_messages, ordered_json, digest
+from .prompt import DIALOGUE_INSTRUCTION
 from .prompt import output_schema as routing_schema
 from .router import Router, _json_proposal, _repair_messages
 from .style import STYLE_PROMPT, STYLE_PROMPT_SHA256, STYLE_PROMPT_VERSION, StyleEvidence, style_output_schema
@@ -16,6 +17,7 @@ from .transport import RuntimeFailure
 from .recovery_cue import recovery_request
 from .validation import RoutingResult, _decision, validate_interpretation
 from .wire import WireInterpretation, normalize_interpretation
+from .dialogue import bind_dialogue, DialogueReferenceError
 
 
 class CombinedProposal(Contract):
@@ -31,7 +33,7 @@ style as separate objects. Never answer the student or execute a tool here.
 The following routing instructions apply ONLY inside interpretation. Their
 schema_version refers to interpretation.schema_version, not the outer packet.
 BEGIN INTERPRETATION INSTRUCTIONS
-'''+SYSTEM_PROMPT+'''
+'''+SYSTEM_PROMPT+'\n'+DIALOGUE_INSTRUCTION+'''
 END INTERPRETATION INSTRUCTIONS
 The following response-style instructions apply ONLY to the outer style object.
 Use original_text from the same data payload, not English catalog/context labels.
@@ -82,7 +84,8 @@ class CombinedRouter(Router):
                 original_text=text,normalized_text=normalized,language_hints=(),intent=None,
                 entities=(),ambiguities=(),negations=(),time_qualifiers=(),
                 session_fact_refs=tuple(f.fact_id for f in context.facts))
-            return RoutingResult(query,_decision(control='evidence_unavailable',reason=code),
+            return RoutingResult(query,_decision(control='clarify' if code in
+                ('dialogue_reference_missing','dialogue_ambiguous') else 'evidence_unavailable',reason=code),
                 proposed,(),'unknown',code,attempts)
 
         for attempt in (1,2):
@@ -93,8 +96,12 @@ class CombinedRouter(Router):
             try:
                 data=_json_proposal(raw)
                 packet=CombinedProposal.parse(data)
-                proposed=normalize_interpretation(text,packet.interpretation)
+                bound, context = bind_dialogue(packet.interpretation.model_dump(mode='json'), text, context,
+                                              self.catalog, self.topics)
+                proposed=normalize_interpretation(text,WireInterpretation.parse(bound))
                 proposed=recovery_request(proposed,text) or proposed  # owner 4 Nov 2026: Ask mode
+            except DialogueReferenceError as error:
+                return failure(str(error), attempt)
             except (ValueError,ValidationError):
                 if attempt==2:
                     return failure('invalid_model_output',attempt)

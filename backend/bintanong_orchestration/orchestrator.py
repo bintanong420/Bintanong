@@ -30,6 +30,7 @@ _ROUTING_FAILURES = {
     'invalid_model_output':'invalid_output', 'invalid_style_output':'invalid_output',
     # Persistent reference errors: the question could not be interpreted; ask, not 'outage'.
     'invalid_reference':'clarify',
+    'dialogue_reference_missing':'clarify', 'dialogue_ambiguous':'clarify',
     # The model asked to clarify but named nothing (owner E3, 24 Oct 2026, gave it the source-gap referral). Audit A03
     # (4 Nov 2026): that is a turn the host could not follow, never "not in the reviewed sources"; the reply names
     # the previous turn's course or topic back, or says it lost track (reason 'dialogue_unresolved').

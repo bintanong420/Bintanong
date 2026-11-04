@@ -48,8 +48,28 @@ def follow_up_context(view: SessionView, *, request_id: str, program_id: str | N
     request's scope stay out."""
     conversation = view.conversation
     facts = tuple(f for f in view.facts if (f.program_id, f.curriculum_id) == (program_id, curriculum_id))
+    from .context_compiler import compile_context
     return RequestContext(session_id=view.session_id, request_id=request_id, program_id=program_id,
-                          curriculum_id=curriculum_id, facts=facts, conversation=conversation)
+                          curriculum_id=curriculum_id, facts=facts, conversation=conversation,
+                          dialogue=compile_context(view, program_id, curriculum_id))
+
+
+def capture_request(result):
+    """A clarification keeps its interpreted request without claiming it was answered."""
+    saved = capture(result)
+    if saved is not None or result.proposed is None:
+        return saved
+    if result.diagnostic not in ('missing_term', 'missing_scope', 'unresolved_entity',
+                                 'empty_clarification', 'model_control', 'bare_program_name'):
+        return None
+    operations = result.proposed.operations
+    courses = {e.value for e in result.query.entities if e.kind == 'course'}
+    subjects = {p.subject_id for p in result.proposed.parts if p.subject_id}
+    operation = operations[0].name if len(operations) == 1 else None
+    return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id,
+        operation=operation, course_id=next(iter(courses)) if len(courses) == 1 and operation not in
+        ('assess_term_prerequisites', 'list_term_courses', 'check_study_plan') else None,
+        subject_id=next(iter(subjects)) if len(subjects) == 1 else None)
 
 
 def previous_refs(conversation) -> tuple[str, ...]:

@@ -21,6 +21,7 @@ from .recovery_cue import recovery_request
 from .validation import RoutingResult, _decision, validate_interpretation
 from .wire import WireInterpretation, normalize_interpretation
 from .compile import compile_reply, stay_on_shifting
+from .dialogue import bind_dialogue, DialogueReferenceError
 
 
 def compile_enabled():
@@ -496,6 +497,7 @@ class Router:
     async def route(self, text: str, context: RequestContext) -> RoutingResult:
         normalized = prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
+        initial_context = context
         follow_up = bool((previous_turn(context, self.catalog) or {}).get('course_available'))
         names = tuple(alias for entry in self.catalog for alias in entry.aliases)  # never style evidence
         proposed = None
@@ -507,7 +509,8 @@ class Router:
                 original_text=text, normalized_text=normalized, language_hints=(), intent=None,
                 entities=(), ambiguities=(), negations=(), time_qualifiers=(),
                 session_fact_refs=tuple(f.fact_id for f in context.facts))
-            return RoutingResult(query, _decision(control='evidence_unavailable', reason=code),
+            control = 'clarify' if code in ('dialogue_reference_missing', 'dialogue_ambiguous') else 'evidence_unavailable'
+            return RoutingResult(query, _decision(control=control, reason=code),
                 proposed, (), 'unknown' if style is None else style.language, code, attempts,
                 style_attempts=style_attempts, style_evidence=style, style_floor_applied=floored,
                 selection_attempts=selection_attempts)
@@ -526,7 +529,7 @@ class Router:
             selection_attempts = 1
             try:
                 raw = await self.transport.infer(selection.build_messages(
-                    text, topics, previous_turn(context, self.catalog)), selection.output_schema(topics))
+                    text, topics, previous_turn(context, self.catalog), context.dialogue), selection.output_schema(topics))
                 topics = selection.add_companions(selection.selected_topics(_json_proposal(raw), topics), topics, text)
             except RuntimeFailure as error:
                 return failure(str(error), 0)
@@ -567,18 +570,25 @@ class Router:
             problem = None
             resolved = None
             compiled = False
+            try:
+                payload, context = bind_dialogue(_json_proposal(raw), text, initial_context, self.catalog, topics)
+                follow_up = bool((previous_turn(context, self.catalog) or {}).get('course_available'))
+            except DialogueReferenceError as error:
+                return failure(str(error), attempt, 1, *await clarification_style())
+            except ValueError:
+                payload = None
             if compile_enabled():
                 # Owner 4 Nov 2026: read the reply for meaning and rebuild its structure; the existing path stays
                 # the fallback when nothing coherent can be built.
                 try:
                     proposed, resolved, switch, unavailable = guarded(
-                        compile_reply(_json_proposal(raw), text, context, self.catalog, topics), compiled=True)
+                        compile_reply(payload, text, context, self.catalog, topics), compiled=True)
                     compiled = True
                 except (ValueError, ValidationError):
                     resolved = None
             try:
                 if not compiled:
-                    wire = WireInterpretation.parse(_json_proposal(raw))
+                    wire = WireInterpretation.parse(payload)
                     try:
                         if wire.previous_course_quote is not None and not follow_up:
                             raise ValueError('course_reference_unavailable')

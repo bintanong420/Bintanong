@@ -13,7 +13,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 from backend.bintanong_api.session import ApiError, Session
-from backend.bintanong_private_context.conversation import capture, follow_up_context
+from backend.bintanong_private_context.conversation import capture, capture_request, follow_up_context
 from backend.bintanong_private_context.memory import (accepted_facts, bind_reply, merge_facts, pending_from,
                                                      turn_ref)
 from backend.bintanong_private_context.sessions import SessionStore
@@ -123,7 +123,7 @@ class ChatTurns:
             context = follow_up_context(view, request_id=f'req-{secrets.token_hex(8)}',
                                         program_id=turn.program_id, curriculum_id=turn.curriculum_id)
             try:
-                result = await self._pipeline.run(bound.text if bound else turn.text, context,
+                result = await self._pipeline.run(turn.text, context,
                                                   routed_sink=routed.append, progress=progress)
             except Exception:
                 raise ApiError(503, 'answer_unavailable') from None
@@ -148,6 +148,7 @@ class ChatTurns:
                 program_id=route.program_id if route is not None else turn.program_id,
                 curriculum_id=route.curriculum_id if route is not None else turn.curriculum_id,
                 assistant_text=assistant_text, answer_status=status, entities=known,
+                context=capture_request(route) if route is not None else None,
                 source_refs=tuple(c.evidence_id for c in getattr(result, 'citations', ()))[:32],
                 text_truncated=user_cut or assistant_cut)
             try:

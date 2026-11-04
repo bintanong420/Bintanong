@@ -4,6 +4,7 @@ from typing import Annotated, Literal
 from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Record
+from ..bintanong_routing.contracts import ConversationContext
 
 MAX_EXCHANGES = 8
 MAX_TEXT_BYTES = 32768
@@ -30,6 +31,7 @@ class DialogueExchange(Record):
     user_text: Text
     assistant_text: Text
     answer_status: Reference
+    context: ConversationContext | None = None
     entities: tuple[DialogueEntity, ...] = Field(default=(), max_length=32)
     source_refs: tuple[Reference, ...] = Field(default=(), max_length=32)
     text_truncated: bool = False

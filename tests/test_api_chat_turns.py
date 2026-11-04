@@ -69,6 +69,17 @@ def test_chat_commits_only_server_seen_exchange_and_never_client_assistant_histo
     assert view.conversation == capture(validate())
 
 
+def test_a_short_pending_reply_reaches_router_as_the_actual_utterance():
+    store = SessionStore()
+    s = session(store)
+    turn(store, s, Answering(checked(s.view.session_id), waiting_on()),
+         'Natake ko na yung A1. Can I take B1?', 'msg-1')
+    reply = Answering()
+    turn(store, s, reply, 'Oo, pasado.', 'msg-2')
+    assert reply.calls[0][0] == 'Oo, pasado.'
+    assert reply.calls[0][1].dialogue.turns[0].user_text == 'Natake ko na yung A1. Can I take B1?'
+
+
 def test_context_preparation_failure_releases_turn_without_partial_history(monkeypatch):
     from backend.bintanong_api import chat
     store, pipeline = SessionStore(), Pipeline()
@@ -291,7 +302,7 @@ def test_a_bare_reply_reruns_the_waiting_check_and_the_result_is_remembered_for_
     reply = Answering()
     turn(store, s, reply, 'Oo, pasado.', 'msg-2')
     text, ctx = reply.calls[0]
-    assert text == 'Pwede ko na bang i-take ang B 1?'
+    assert text == 'Oo, pasado.'
     assert [(f.course_id, f.state) for f in ctx.facts] == [('course-a', 'passed')]
     view = store.resolve(s.credential)
     assert [(f.course_id, f.state) for f in view.facts] == [('course-a', 'passed')] and view.pending_check is None
@@ -413,7 +424,7 @@ def test_failures_are_kept_while_the_term_is_asked_and_a_bare_term_reply_runs_th
     reply = Answering()
     turn(store, s, reply, 'second year, second sem', 'msg-2')
     text, ctx = reply.calls[0]
-    assert text == 'What can I take in second year, second semester?'
+    assert text == 'second year, second sem'
     assert [(f.course_id, f.state) for f in ctx.facts] == [('course-a', 'failed')]
     taglish = Answering()
     store2 = SessionStore()
@@ -421,4 +432,4 @@ def test_failures_are_kept_while_the_term_is_asked_and_a_bare_term_reply_runs_th
     turn(store2, s2, Answering(missing_term(s2.view.session_id), SimpleNamespace(decision=None)),
          'I failed A1. What can I take next sem?', 'msg-1')
     turn(store2, s2, taglish, 'ikalawang taon, unang sem po', 'msg-2')
-    assert taglish.calls[0][0] == 'Ano ang pwede kong i-take sa second year, first semester?'
+    assert taglish.calls[0][0] == 'ikalawang taon, unang sem po'

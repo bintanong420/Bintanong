@@ -72,6 +72,38 @@ class ConversationContext(Record):
     semester: Literal['first_semester', 'second_semester', 'summer', 'any'] | None = None
 
 
+class DialogueTurn(Record):
+    turn_id: str = Field(pattern=r'^turn-[a-f0-9]{16}$')
+    user_text: str = Field(max_length=8192)
+    assistant_text: str = Field(max_length=8192)
+    context: ConversationContext | None = None
+    course_ids: tuple[Identifier, ...] = Field(default=(), max_length=32)
+    truncated: bool = False
+
+
+class DialogueContext(Record):
+    session_id: str = Field(pattern=r'^sess-[a-z0-9-]+$')
+    revision: int = Field(ge=0)
+    turns: tuple[DialogueTurn, ...] = Field(max_length=4)
+    pending_turn_id: str | None = Field(default=None, pattern=r'^turn-[a-f0-9]{16}$')
+    missing_slots: tuple[str, ...] = Field(default=(), max_length=32)
+
+    @model_validator(mode='after')
+    def _bounds(self):
+        ids = [t.turn_id for t in self.turns]
+        if len(set(ids)) != len(ids) or self.pending_turn_id is not None and self.pending_turn_id not in ids:
+            raise ValueError('invalid_dialogue_reference')
+        if sum(len((t.user_text+t.assistant_text).encode('utf-8')) for t in self.turns) > 16384:
+            raise ValueError('dialogue_context_budget')
+        return self
+
+
+class DialogueAct(Record):
+    act: Literal['new_topic', 'refine', 'answer_clarification', 'explain', 'repair', 'correct_fact', 'switch_topic']
+    turn_id: str | None = Field(default=None, pattern=r'^turn-[a-f0-9]{16}$')
+    course_id: Identifier | None = None
+
+
 class RequestContext(Record):
     """Must come from the owning application, not directly from model output."""
     session_id: str = Field(pattern=r'^sess-[a-z0-9-]+$')
@@ -80,9 +112,12 @@ class RequestContext(Record):
     curriculum_id: Identifier | None = None
     facts: tuple[ScopedFact, ...] = Field(default=(), max_length=256)
     conversation: ConversationContext | None = None
+    dialogue: DialogueContext | None = Field(default=None, exclude_if=lambda v: v is None)
 
     @model_validator(mode='after')
     def _ownership(self):
+        if self.dialogue is not None and self.dialogue.session_id != self.session_id:
+            raise ValueError('foreign_dialogue')
         if len({f.fact_id for f in self.facts}) != len(self.facts):
             raise ValueError('duplicate_fact_id')
         for f in self.facts:

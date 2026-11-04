@@ -5,7 +5,7 @@ from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Contract, Control, Record, Route
 from .terms import parse_term
-from .contracts import TERM_OPERATIONS, Interpretation, Language, MentionKind, State, Text, prepare_query
+from .contracts import TERM_OPERATIONS, DialogueAct, Interpretation, Language, MentionKind, State, Text, prepare_query
 
 
 class QuoteReference(Record):
@@ -48,6 +48,7 @@ class WireInterpretation(Contract):
     part_count: int = Field(ge=0, le=8)
     parts: tuple[WirePart, ...] = Field(max_length=8)
     intent: Text
+    dialogue: DialogueAct | None = None
     # Offered (and required) only when a scoped previous course is available (master 23); removed
     # from document-only/single-turn schemas. Decided before mentions for a course back-reference.
     previous_course_quote: QuoteReference | None = None
@@ -196,6 +197,7 @@ def normalize_interpretation(text: str, wire: WireInterpretation, *, course_name
 
     data = wire.model_dump(mode='json')
     data.pop('part_count')
+    data.pop('dialogue')
     data.pop('previous_course_quote')
     if wire.previous_course_quote is not None:
         data['context_reference'] = span(wire.previous_course_quote)

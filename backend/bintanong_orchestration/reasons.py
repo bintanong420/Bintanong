@@ -29,6 +29,7 @@ ROUTING_REASONS: dict[str, ReasonCode | None] = {
     'validated': None,
     # dialogue
     'empty_clarification': 'dialogue_unresolved',
+    'dialogue_reference_missing': 'dialogue_unresolved', 'dialogue_ambiguous': 'dialogue_unresolved',
     # a specific missing fact is asked for
     'scope_conflict': _PENDING, 'unresolved_entity': _PENDING, 'compound_request': _PENDING,
     'bare_program_name': _PENDING, 'facts_noted': _PENDING, 'missing_scope': _PENDING, 'missing_term': _PENDING,
