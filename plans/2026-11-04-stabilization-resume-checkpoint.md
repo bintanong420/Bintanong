@@ -42,6 +42,13 @@ No active numbered implementation phase; the audit's phases are bounded work sli
   API does not publish serving commit/flag identity, so do not claim the serving process equals main HEAD.
 - Baseline harness runs pinned current code, real cached reviewed BSIT ledger, model, chat path; OFF/ON C01–C03.
   Outputs under ignored workspace `audit-evidence/stabilization-20261104/`; no retrieval/HTTP/browser in this harness.
+  Completed six turns on starting code: both modes C01 -> `list_missing_prerequisites`, unknown, clarification;
+  C02 -> eligibility unknown/clarification; C03 -> eligibility eligible/answered. Confirms intent/contract defect
+  independent of compiler flag. First observed turn 64.013 s; later turns 17.954–21.755 s, backend turn only,
+  not student-visible browser latency and not a model/service cold-start measurement.
+  Reviewed cached BSIT ledger bytes SHA-256 `2823930c645d6dd51e79da179ae2338fd558a8b02f202c7fa4852dfabac06f5a`;
+  IT 14/L rule references IT 3/L, physical source page 1, source PDF hash
+  `70f7893959244addd897e77a57ac69736c55c1f6262292faf6e278fb0df26ac5`. No ledger edits.
   C04 graduation source diagnosis needs a separate full documentary trace; no predetermined positive/negative answer.
 - System Python 3.13 or existing 3.13 venv; pytest no cache/external basetemp, no installs/model/dependency changes.
 
