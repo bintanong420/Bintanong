@@ -748,3 +748,7 @@ Each program still gets its own dated review record listing which standing rule 
   you."; every clarification names what is missing (never the empty "Paki-clarify muna ang missing information");
   quoted procedure fields read as steps, not "Reviewed source fields (quoted)"; "temporarily unavailable" only for a
   real outage. Sources, unknown-versus-unmet and the advisory boundary are unchanged.
+- 4 Nov 2026 (printed units reading, owner choice "Lec/Lab units, a+b"): for load checks, a printed Units value
+  "a/b" in a reviewed prospectus (e.g. "2/1" for CC 4/L) is lecture units / laboratory units, total a+b ("2/1" -> 3);
+  a plain number is the total ("3" -> 3); any other form (e.g. "None", a malformed value) stays unknown. The printed
+  value is unchanged and answers keep it as printed; this is a reading for load checks, not a source correction.
