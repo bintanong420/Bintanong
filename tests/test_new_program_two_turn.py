@@ -50,14 +50,13 @@ def test_a_new_programs_ledger_answers_a_two_turn_check_through_the_regular_chat
 
     first = ask(QUESTION, 'msg-1')
     assert first.status == 'clarification_needed'
-    assert student_text(first).splitlines()[:2] == ['SYN201 requires SYN101. Have you passed SYN101?',
+    assert student_text(first).splitlines()[:2] == ["SYN201 needs SYN101. Have you passed SYN101? Tell me and I'll check for you.",
                                                      'SYN201 builds on SYN101.']
     assert store.resolve(issued.credential).pending_check.course_id == 'course-zx-alpha'
 
     second = ask('yes', 'msg-2')
     assert second.status == 'answered' and second.decision.outcome == 'eligible'
-    assert student_text(second).splitlines()[0] == ('Yes. You meet the prerequisite for SYN201, based on your report '
-                                                    'that you passed SYN101.')
+    assert student_text(second).splitlines()[0] == "Yes, you can take SYN201! You've passed its prerequisite, SYN101."
     ledger = real_ledger(NEW, 'course-zx-alpha', 'course-zx-beta')
     sources = {s['version_id'] for s in ledger['sources']}
     assert second.citations and all(c.version_id in sources for card in second.citations for c in card.citations)
