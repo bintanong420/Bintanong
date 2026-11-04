@@ -13,7 +13,7 @@ Identifier = Annotated[str, Field(min_length=1, max_length=128, pattern=r'^[a-z]
 Kind = Literal['program', 'curriculum', 'course']
 # A student's year/semester words ("first year, second sem"); read by the host, never a catalog entity.
 MentionKind = Literal['program', 'curriculum', 'course', 'term']
-TERM_OPERATIONS = ('list_term_courses', 'assess_term_prerequisites')  # operations whose target is a term mention
+TERM_OPERATIONS = ('list_term_courses', 'assess_term_prerequisites', 'check_study_plan')  # operations whose target is a term mention
 # A course result as the student stated it (memory/eligibility plan, Task 1): an explicit failure, "not yet passed",
 # "never taken" and "took it, result not said" stay distinct; enrollment is a separate dimension.
 State = Literal['passed', 'failed', 'not_passed', 'not_taken', 'taken_unknown', 'enrolled', 'not_enrolled']

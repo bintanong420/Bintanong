@@ -134,7 +134,7 @@ class Orchestrator:
         prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         events, resources, route, style = [], None, None, 'unknown'
-        understanding, assumed, recovery, routed = None, (), None, None
+        understanding, assumed, recovery, routed, plan_check = None, (), None, None, None
 
         def finish(status, evidence=None, missing=()):
             ready = status == 'ready'
@@ -143,11 +143,12 @@ class Orchestrator:
                 request_id=context.request_id, route=route, response_style=style,
                 status=status, evidence=evidence, understanding=understanding,
                 missing_facts=tuple(missing), events=tuple(events), assumed_facts=assumed,
-                recovery=drafts, unavailable_parts=routed.unavailable_parts if ready and routed is not None else (),
+                recovery=drafts, plan_check=plan_check if ready else None, unavailable_parts=routed.unavailable_parts if ready and routed is not None else (),
                 course_labels=referenced_labels(resources.course_labels if resources else (),
                     evidence.model_dump(mode='json') if evidence is not None else None,
                     understanding.model_dump(mode='json') if understanding is not None else None,
                     drafts.model_dump(mode='json') if drafts is not None else None,
+                    plan_check.model_dump(mode='json') if plan_check is not None else None,
                     tuple(missing)) | choice_labels(resources.course_details if resources else (), tuple(missing)))
 
         async def stage(name, call):
@@ -285,6 +286,24 @@ class Orchestrator:
         async def reason():
             request = routed.decision.predicate_request
             resources.registry.goal(request)
+            if request.predicate == 'check_study_plan':
+                from ..bintanong_planning.chat import parse_plan_terms
+                from ..bintanong_planning.contracts import PlanCheckResult
+                proposed = routed.proposed
+                words = proposed.mentions[proposed.operations[0].target].text
+                args = {i.name:i.value for i in request.inputs}
+                if args['plan_sha256'] != hashlib.sha256(words.encode('utf-8')).hexdigest():
+                    raise ValueError('plan_quote_binding_mismatch')
+                text_plan = parse_plan_terms(words, resources.catalog, scoped.curriculum_id,
+                    start_term=((context.conversation.year_level, context.conversation.semester or 'any')
+                        if context.conversation is not None and context.conversation.year_level is not None else None),
+                    facts=tuple((f.course_id, f.state) for f in scoped.facts))
+                value = await resources.symbolic.check_typed_plan(text_plan, scoped)
+                if type(value) is not PlanCheckResult or value.synthetic is not resources.pin.synthetic:
+                    raise ValueError('plan_result_kind_mismatch')
+                if value.checked_request != text_plan:
+                    raise ValueError('plan_result_request_mismatch')
+                return PlanCheckResult.parse(value.model_dump(mode='json'))
             value = await resources.symbolic.execute(request, scoped)
             if request.predicate == 'assess_term_prerequisites':  # each course of the term, same release and facts
                 if (type(value) is not TermAssessmentResult or value.inputs != request.inputs
@@ -324,7 +343,10 @@ class Orchestrator:
             result, failure = await stage('symbolic', reason)
         if failure:
             return finish(failure)
-        if isinstance(result, DependencyResult):
+        from ..bintanong_planning.contracts import PlanCheckResult
+        if isinstance(result, PlanCheckResult):
+            plan_check = result
+        elif isinstance(result, DependencyResult):
             dependencies = result
             recovery = await self._recovery(text, routed.decision.predicate_request, scoped, resources, result)
         elif isinstance(result, CourseFactsResult):
@@ -337,7 +359,7 @@ class Orchestrator:
         async def integrate():
             return assemble(resources.pin, route, documents=documents,
                             symbolic=symbolic, dependencies=dependencies, course_facts=course_facts,
-                            term_assessment=term_assessment)
+                            term_assessment=term_assessment, plan_check=plan_check)
 
         evidence, failure = await stage('integration', integrate)
         return finish(failure) if failure else finish(evidence.status, evidence, evidence.missing_facts)

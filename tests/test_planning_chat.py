@@ -113,7 +113,7 @@ def test_integration_rejects_plan_without_ready_pinned_evidence(curriculum):
     key, runtime, c = curriculum
     request = plan(key, [], regular(2, 'first_semester', (c('X'), 'prescribed')))
     checked = check_plan(request, runtime, POLICY)
-    with pytest.raises(ValueError, match='plan_check_requires_ready_pinned_evidence'):
+    with pytest.raises(ValueError, match='plan_check_evidence_mismatch'):
         IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION, request_id='req-plan',
             route=None, response_style='en', status='clarify', evidence=None, understanding=None, events=(),
             plan_check=checked)
@@ -158,25 +158,20 @@ def test_summer_warning_and_approval_conditions_keep_policy_sources(curriculum):
 
 
 def test_integration_plan_field_is_pinned_to_the_same_release(curriculum):
-    from test_generation_evidence import integrated
-    key, runtime, c = curriculum
-    request = plan(key, [], regular(2, 'first_semester', (c('X'), 'prescribed')))
-    result = check_plan(request, runtime, POLICY)
-    base = integrated('Symbolic')
-    predicate = base.understanding.predicate_request
-    predicate = type(predicate).parse({**predicate.model_dump(mode='json'), 'inputs': [
-        *predicate.model_dump(mode='json')['inputs'], {'name':'curriculum_id', 'value':'curriculum-a', 'fact_ref':None}]})
-    base = base.model_copy(update={'understanding':base.understanding.model_copy(update={'predicate_request':predicate})})
-    from backend.bintanong_planning.contracts import plan_request_digest
-    bound_request = result.checked_request.model_copy(update={'curriculum_id':'curriculum-a'})
-    checked = result.model_copy(update={'curriculum_id':'curriculum-a', 'checked_request':bound_request,
-        'request_sha256':plan_request_digest(bound_request, result.policy_id, result.policy_sha256),
-        'scope':base.evidence.symbolic.scope, 'rule_spans':base.evidence.symbolic.rule_spans})
-    assert base.model_copy(update={'plan_check':checked}).plan_check == checked
+    from test_plan_chat_pipeline import run_plan
+    from backend.bintanong_orchestration.integration import assemble
+    key, _, c = curriculum
+    base, _ = run_plan(curriculum, f"2nd year 2nd sem: {CURRICULA[key]['X']}",
+                       facts=((c('BASE'), 'passed'),))
+    checked = base.plan_check
+    assert checked is not None
     foreign = checked.model_copy(update={'scope':checked.scope.model_copy(update={
         'knowledge_release_id':'release-foreign'})})
-    with pytest.raises(ValueError, match='plan_check_release_mismatch'):
+    evidence = assemble(base.evidence.pin, 'Symbolic', plan_check=foreign)
+    assert evidence.status == 'release_mismatch'
+    with pytest.raises(ValueError, match='plan_check_evidence_mismatch|plan_check_release_mismatch'):
         base.model_copy(update={'plan_check':foreign})
+
 
 
 def test_passing_verdict_cannot_be_rendered_against_a_different_blocked_plan(curriculum):

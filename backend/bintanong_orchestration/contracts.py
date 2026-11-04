@@ -20,7 +20,7 @@ ReleaseID = Annotated[str, Field(pattern=r'^release-[a-z0-9-]+$', max_length=128
 Status = Literal['ready', 'unknown', 'unsupported', 'error', 'timeout', 'conflict',
     'release_mismatch', 'no_evidence', 'uncalibrated', 'clarify']
 Scope = Literal['none', 'document_explanation', 'scoped_prerequisite_check',
-    'dependency_listing', 'combined_explanation', 'course_facts_listing', 'term_prerequisite_listing']
+    'dependency_listing', 'combined_explanation', 'course_facts_listing', 'term_prerequisite_listing', 'study_plan_check']
 DocumentStatus = Literal['ok', 'insufficient_evidence', 'needs_scope', 'conflicting_sources',
     'uncalibrated', 'release_changed', 'configuration_mismatch', 'encoder_unavailable',
     'invalid_query', 'storage_error', 'policy_binding_error', 'needs_subject',
@@ -200,6 +200,7 @@ class CandidateEvidence(Contract):
     missing_facts: tuple[Text, ...] = ()
     conflicts: tuple[Text, ...] = ()
     course_facts: CourseFactsResult | None = None  # printed course facts (no rule executed)
+    plan_check: PlanCheckResult | None = Field(default=None, exclude_if=lambda value: value is None)
     term_assessment: TermAssessmentResult | None = None  # each course of one term checked (memory plan, Task 4)
 
     @model_serializer(mode='wrap')
@@ -215,7 +216,9 @@ class CandidateEvidence(Contract):
     @model_validator(mode='after')
     def _shape(self):
         has_symbolic = ((self.symbolic is not None) + (self.dependencies is not None)
-                        + (self.course_facts is not None) + (self.term_assessment is not None))
+                        + (self.course_facts is not None) + (self.term_assessment is not None) + (self.plan_check is not None))
+        if self.plan_check is not None and self.plan_check.synthetic is not self.pin.synthetic:
+            raise ValueError('plan_check_must_match_pin')
         if self.term_assessment is not None and self.term_assessment.synthetic is not self.pin.synthetic:
             raise ValueError('term_assessment_must_match_pin')
         if self.route == 'RAG' and (self.documents is None or has_symbolic):
@@ -334,12 +337,15 @@ class IntegrationResult(Contract):
             elif (len(plan.operations) != 1 or plan.predicate_request is None or indices != {0}
                   or any(p.evidence_need == 'structured' and not p.operation_indices for p in plan.parts)):
                 raise ValueError('structured_understanding_needs_one_operation')
+        if self.plan_check != (None if self.evidence is None else self.evidence.plan_check):
+            raise ValueError('plan_check_evidence_mismatch')
         if self.plan_check is not None:
             checked = self.plan_check
             pin = None if self.evidence is None else self.evidence.pin
             inputs = ({} if plan is None or plan.predicate_request is None else
                       {i.name:i.value for i in plan.predicate_request.inputs})
             if (self.status != 'ready' or pin is None or checked.synthetic is not pin.synthetic
+                    or plan.predicate_request.predicate != 'check_study_plan'
                     or inputs.get('curriculum_id') != checked.curriculum_id or checked.scope is None):
                 raise ValueError('plan_check_requires_ready_pinned_evidence')
             member = next((m for m in pin.curricula if m.curriculum_id == checked.curriculum_id), None)

@@ -14,7 +14,7 @@ def _identity_pinned(pin, result):
             and (getattr(result, 'rule_bundle_version', None) in (None, version)))
 
 
-def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, course_facts=None, term_assessment=None):
+def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, course_facts=None, term_assessment=None, plan_check=None):
     pin = ReleasePin.parse(pin.model_dump(mode='json'))
     if documents is not None:
         documents = DocumentResult.parse(documents.model_dump(mode='json'))
@@ -24,11 +24,14 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, co
         'combined_explanation' if route == 'Hybrid' else
         'dependency_listing' if dependencies is not None else
         'course_facts_listing' if course_facts is not None else
+        'study_plan_check' if plan_check is not None else
         'term_prerequisite_listing' if term_assessment is not None else 'scoped_prerequisite_check')
     if course_facts is not None:
         data['course_facts'] = course_facts
     if term_assessment is not None:
         data['term_assessment'] = term_assessment
+    if plan_check is not None:
+        data['plan_check'] = plan_check
     # Validate component shape and reject offline/real-rule subtypes BEFORE copying.
     checked = CandidateEvidence(**data)
     result = next((r for r in (symbolic, dependencies, course_facts, term_assessment) if r is not None), None)
@@ -44,6 +47,13 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, co
         if (not _identity_pinned(pin, result)
                 or any(sources.get(s.version_id) != s.byte_sha256 for s in getattr(result, 'rule_spans', ()))
                 or any(c.version_id not in sources for c in getattr(result, 'courses', ()))):
+            status = 'release_mismatch'
+    if plan_check is not None:
+        curriculum = plan_check.curriculum_id
+        member = next((m for m in pin.curricula if m.curriculum_id == curriculum), None)
+        expected = pin.release_id if not pin.curricula else None if member is None else member.release_id
+        if (plan_check.scope is None or plan_check.scope.knowledge_release_id != expected
+                or any(sources.get(s.version_id) != s.byte_sha256 for s in plan_check.rule_spans)):
             status = 'release_mismatch'
     missing, conflicts = (), ()
     if symbolic is not None:

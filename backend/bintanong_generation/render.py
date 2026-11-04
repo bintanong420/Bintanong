@@ -181,7 +181,7 @@ def selected_cards(pack,claims):
     ids={ref for claim in claims for ref in claim.evidence_ids}
     return tuple(c for c in pack.cards if c.evidence_id in ids or
                  (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None
-                                      or pack.term_assessment is not None)))
+                                      or pack.term_assessment is not None or pack.plan_check is not None)))
 
 
 _WITHHELD={
@@ -293,7 +293,22 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         if explanation:
             lines.insert(2,explanation)
         return '\n'.join(lines)
+    if pack.plan_check is not None and status == 'answered':
+        from .plan_check_reply import plan_check_lines
+        lines.extend(plan_check_lines(pack.plan_check.checked_request, pack.plan_check, pack.language, shown))
     missing=pack.missing_facts
+    plan_questions = {'plan_term': ('Which year and semester is each term of your plan for?',
+                                     'Anong year at sem ang bawat term ng plan mo?'),
+                      'plan_terms': ('Could you list your plan as year and semester: course codes, one term per line?',
+                                     'Pwede mong ilista ang plan bilang year at sem: course codes, isang term bawat line?'),
+                      'plan_courses': ('Which printed course codes should I use for your plan?',
+                                       'Anong printed course codes ang gagamitin sa plan mo?'),
+                      'plan_order': ('Could you list the terms of your plan in time order?',
+                                     'Pwede mong ilista ang terms ng plan mo sa tamang pagkakasunod?')}
+    for field, questions in plan_questions.items():
+        if status == 'clarification_needed' and field in missing:
+            lines[1] = questions[0 if pack.language == 'en' else 1]
+            missing = tuple(f for f in missing if f != field)
     if status=='clarification_needed' and 'language' in missing:
         lines[1]=_LANGUAGE_NOTICE
         missing=tuple(field for field in missing if field!='language')

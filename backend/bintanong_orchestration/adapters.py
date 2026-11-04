@@ -103,7 +103,8 @@ class RetrievalAdapter:
 
 
 # Fixed input names per operation (the routing validator binds exactly these).
-SIGNATURES = {'check_prerequisite_eligibility': ('curriculum_id', 'course_id'),
+SIGNATURES = {'check_study_plan': ('curriculum_id', 'plan_sha256'),
+              'check_prerequisite_eligibility': ('curriculum_id', 'course_id'),
               'list_missing_prerequisites': ('curriculum_id', 'course_id'),
               'list_affected_courses': ('curriculum_id', 'course_id'),
               'course_facts': ('curriculum_id', 'course_id'),
