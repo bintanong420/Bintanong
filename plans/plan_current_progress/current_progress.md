@@ -1,6 +1,9 @@
 # Current progress
 
-Updated 4 November 2026. Worktree p12 / `p12-evaluation-harness`.
+Updated 4 November 2026. Development worktree p12-dev / `work/post-gathering-fixes`.
+Owner moved continued development off the gathering checkout; base `8f15cfe0`, no remote upstream.
+See [isolation handoff](../2026-11-04-development-isolation-handoff.md). p12 services and files stay untouched;
+live model probes remain paused during collection. This branch's historical notes below describe the base.
 Last full committed snapshot before condensation: `8a470088` (recover with `git show`).
 The inherited uncommitted owner USG note remains preserved in this working file.
 
