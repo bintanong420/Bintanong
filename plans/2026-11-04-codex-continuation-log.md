@@ -126,3 +126,33 @@ New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 
   follow-ups plus existing companion selection; original question words retained, source guards unchanged.
   Port-level RED 1 failure -> GREEN 23 tests across multi-topic/document/topic-selection/referral suites.
   No live success claim until replay against the integrated API.
+- Rate-limit handoff continuation (Antigravity, offline only, no live/GPU/service calls; dirty `current_progress.md`
+  and `.playwright-mcp/` preserved untouched):
+  1. `p12-plan-chat` (`feat/plan-chat`): verified Codex's uncommitted earliest-term chat and `plan_sources.py`
+     pinned-chunk proof slice (`218 passed` across planning/earliest-term/recovery/routing suites) and committed
+     at `c6c3c09` (`feat(planning): wire earliest-term chat and verify pinned offering sources`). `p12-plan-chat`
+     working tree is now clean.
+  2. `fe52e46f` (`fix(generation): keep shifting office referrals when unstated details abstain`): in
+     `backend/bintanong_generation/render.py`, `shifting_referral(pack)` previously ran only when
+     `status == 'answered'`, so unstated shifting follow-ups (e.g. `"ilang units ang mate-transfer?"` returning
+     `insufficient_evidence` or `abstained`) omitted the printed shifting offices despite having the retrieved
+     Handbook shifting cards. RED 2 failed -> GREEN 38 passed.
+  3. `33f806eb` (`chore(recovery): integrate short offering follow-up handling`): merged `fix/recovery-term-followup`
+     (`4aa29a0b`) into `p12` (`108 passed` across `test_routing_compile.py`, `test_generation_recovery_reply.py`,
+     and `test_orchestration_pipeline.py`). Compiler-disabled negative baseline checks preserved.
+  4. `d530d944` (`test(conversations): align track-switch oracle with reviewed hotel ledger`): updated `track-switch`
+     turn 2 in `evaluation/conversations/cases.json` to expect `status: "clarification_needed"`,
+     `required: ["HMPE 5", "THC-LA"]`, and `forbidden: ["Yes, you can take HMPE 5"]` instead of the non-rendered
+     word `"Hotel"` and the false `THC-RM` note (`4 passed` in `test_conversation_cases.py`).
+  5. `b7c83a87` (`chore(planning): integrate study-plan and earliest-term chat wiring`): merged `feat/plan-chat`
+     (`b324ec01`, `a7d9a789`, `c6c3c09`) into `p12`, resolving the two `EarliestTermResult` / test-helper overlaps
+     in `backend/bintanong_planning/chat.py` and `tests/test_planning_chat.py` in favor of `feat/plan-chat`'s
+     digest-bound superset. Integrated offline verification: `252 passed in 125.17s` across
+     `test_plan_route_sources.py`, `test_earliest_chat_pipeline.py`, `test_plan_chat_pipeline.py`,
+     `test_planning_chat.py`, `test_routing_compile.py`, `test_generation_recovery_reply.py`,
+     `test_generation_shifting_referral.py`, `test_orchestration_pipeline.py`, and `test_conversation_cases.py`.
+  6. Next for Claude Code / Codex on resume: all sibling planning/recovery chat slices (`p12-plan-chat` and
+     `p12-recovery-followup`) are now cleanly committed and integrated into `p12`. Remaining work is live API
+     replay of the updated prompt/compiler and the 3 targeted conversations (`shift-referral`, `recovery-ask`,
+     `track-switch` + persisted-fact probe), plus Step 6 live planning evaluation and owner GUI review of the
+     241 prerequisite cells in `p11pq`.
