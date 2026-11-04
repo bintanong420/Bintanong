@@ -43,6 +43,7 @@ class RoutingResult:
     style_floor_applied: bool = False
     selection_attempts: int = 0
     unavailable_parts: tuple[str, ...] = ()  # document parts with no reviewed topic, taken out by the router
+    compiled: bool = False  # owner 4 Nov 2026: the host rebuilt the router reply's structure (compiled routing)
 
     @property
     def inference_calls(self):
