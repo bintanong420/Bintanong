@@ -112,3 +112,11 @@ New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 
 - Shifting follow-up memory regression: two companion Handbook shifting parts previously captured no subject.
   RED 1 fail / 1 unrelated-topic control pass; canonical shifting topic retained for that exact companion pair.
   Focused memory/compiler/program-switch GREEN 102 passed. This fixes a reproduced gap; live cause/replay still pending.
+- Old-prompt compiler comparison completed across two preserved ON segments: OFF 32/35 conversations, 63/67 turns;
+  ON 32/35 conversations, 64/67 turns. Both 30/30 implemented-labelled conversations pass. ON fixes first recovery
+  Ask turn (47.3 s) but summer follow-up still generic clarification; shifting follow-up now unavailable instead of
+  wrong transfer direction, still no named office; track fixture still misses Hotel. Full outputs preserved,
+  combined ON file `conversations-on-combined.json`. No claim that all three open behaviors are fixed.
+- Targeted Hotel scope probe passes: resolved conversation changes Culinary -> Hotel and eligibility becomes unknown.
+  First wording was conditional and stored no facts, so it proves scope selection but not persisted-fact isolation;
+  explicit self-reported-pass variant prepared for stronger verification.
