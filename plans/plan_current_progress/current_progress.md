@@ -59,6 +59,11 @@ USG source review is owned by the separate p11 researcher GUI workflow; no new s
 is inferred here. Preserved owner note:
 ## Next action
 
+Release-wide offline dependency verification: 39/39 cached curricula pass, 1,696 direction replays,
+78 Prolog queries, 156 rendering checks; exact BSIT IT 3/L -> IT 14/L also passes.
+[Per-curriculum results](../2026-11-04-all-curricula-dependency-results.md). No new program-specific fix needed.
+Live model language/history verification still pending; gathering checkout and shared model untouched.
+
 Development candidate: explicit reviewed course operations can proceed without an optional history marker;
 removed the redundant frontend clarification diagnostic. BSIT reverse-prerequisite intent now has a prompt
 definition and compiler direction check for direct course targets; 20 RED cases, final gate 168 passed.
@@ -70,9 +75,3 @@ Next: run its held-out acceptance cases on isolated development runtime when sha
 keep gathering checkout/services untouched. Owner's ngrok endpoint still forwards to gathering port 3216.
 Continue other checklist fixes here. Backup branch is on GitHub; live runtime acceptance is still pending.
 
-### Historical base next action
-
-Validate browser/frontend-to-backend thread parity with the delivered clarification/repair and
-shifting-office sequences. Durable history and wider held-out evaluation remain separate.
-Serving app restarted from the current worktree; use New Chat after the memory reset.
-HTTP readiness verified; browser interaction remains untested. No push.

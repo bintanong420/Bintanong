@@ -38,6 +38,15 @@ On a 4 GB laptop GPU a turn took 20–35 s. `curricula` and `recorded` each run 
 
 ## Reading the results
 
+`python -m evaluation.memory_eligibility.dependency_offline --out <ignored-dir>/dependencies.json`
+checks every curriculum in the existing ledger cache without model calls or database access. It selects
+a course referenced by other courses and a terminal course where available; replays four dependency
+phrasings with code/compact-code/unique-title aliases against two incorrect model operation types;
+then compares actual Prolog dependencies with the reviewed ledger graph and checks neutral English/Taglish prose.
+It writes per-curriculum counts and failures after each curriculum. This is compiler/rule verification,
+not an end-to-end model benchmark or an independent review of original prospectuses. Live language
+accuracy, history/thread behavior, browser rendering and unsupported curricula need separate evidence.
+
 Each row records `ok`, `status`, `outcome` and `seconds`. It also records `explanation_check` (accepted, rejected,
 unavailable or skipped), the validator's `explanation_errors` codes and what the chat `remembered`.
 
