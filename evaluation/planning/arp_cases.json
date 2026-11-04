@@ -1,0 +1,152 @@
+{
+ "schema": "bintanong-arp-cases-v1",
+ "note": "Expectations were derived from reading each reviewed ledger's printed prerequisite structure (see plans/2026-11-04-arp-plan-cases-results.md), not copied from checker output. Codes are the printed codes. Shapes: works, needs_confirmation (works but an offering or approval is requested, not confirmed), heads_up (works with a load warning), blocked (blocked_by lists the missing courses), unknown.",
+ "cases": [
+  {
+   "id": "ARP-01", "title": "Special CC 4/L, midyear follow-on, potential special CC 5/L (old BSCS)",
+   "curriculum": "bscs-2018-2019", "kind": "plan_check",
+   "facts": [["CC 1/L", "passed"], ["CC 2/L", "passed"], ["CC 3/L", "passed"], ["CS 1/L", "passed"]],
+   "plan": [
+    {"year": 2, "semester": "second_semester", "courses": [["CC 4/L", "special_class_request"]]},
+    {"summer": true, "courses": [["CS 4/L", "summer"]]},
+    {"year": 3, "semester": "first_semester", "courses": [["CC 5/L", "special_class_request"]]}],
+   "expect": {"terms": [
+    {"shape": "needs_confirmation", "unconfirmed": ["CC 4/L"]},
+    {"shape": "needs_confirmation", "unconfirmed": ["CS 4/L"]},
+    {"shape": "needs_confirmation", "unconfirmed": ["CC 5/L"]}]},
+   "premise_courses": ["CC 1/L", "CC 2/L", "CC 3/L", "CS 1/L", "CC 4/L", "CS 4/L", "CC 5/L"]
+  },
+  {
+   "id": "ARP-01R", "title": "Recovery drafts after failing CC 4/L in the second-year first semester (old BSCS)",
+   "curriculum": "bscs-2018-2019", "kind": "recovery",
+   "facts": [["CC 1/L", "passed"], ["CC 2/L", "passed"], ["CC 3/L", "passed"], ["CS 1/L", "passed"]],
+   "query": {"failed_course": "CC 4/L", "term": [2, "first_semester"]},
+   "expect": {"affected": ["CC 5/L", "CS 10/L", "CS 11/L", "CS 13/L", "CS 14/L", "CS 15/L", "CS 16/L", "CS 17/L", "CS 18/L", "CS 19", "CS 4/L", "CS 6", "CS 7/L"]},
+   "premise_courses": ["CC 4/L", "CS 4/L", "CC 5/L"],
+   "premise_note": "Only the dependency closure is asserted (derived from the ledger by hand); the draft contents are reported, not asserted."
+  },
+  {
+   "id": "ARP-02A", "title": "Proposed BSCS CS 13/L needs CS 6/L and CS 10/L; an old-curriculum pass of CC 5/L does not substitute",
+   "curriculum": "bscs-proposed-2025-2026", "kind": "plan_check",
+   "facts": [["CC 5/L", "passed"], ["CS 6/L", "not_passed"], ["CS 10/L", "not_passed"]],
+   "plan": [{"year": 3, "semester": "second_semester", "courses": [["CS 13/L", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "blocked", "blocked_by": ["CS 10/L", "CS 6/L"]}]},
+   "premise_courses": ["CC 5/L", "CS 6/L", "CS 10/L", "CS 13/L"]
+  },
+  {
+   "id": "ARP-02B", "title": "Same stated results on the old BSCS: CS 13/L needs only CC 5/L",
+   "curriculum": "bscs-2018-2019", "kind": "plan_check",
+   "facts": [["CC 5/L", "passed"]],
+   "plan": [{"year": 3, "semester": "second_semester", "courses": [["CS 13/L", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "works"}]},
+   "premise_courses": ["CC 5/L", "CS 13/L"]
+  },
+  {
+   "id": "ARP-03", "title": "Civil Engineering Phy 11/L with Math 11/L passed and Math 12/L in the same term",
+   "curriculum": "bsce-2018-2019", "kind": "plan_check",
+   "facts": [["Math 11/L", "passed"], ["Math 12/L", "not_passed"]],
+   "plan": [{"year": 1, "semester": "second_semester", "courses": [["Math 12/L", "prescribed"], ["Phy 11/L", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "blocked", "blocked_by": ["Math 12/L"]}]},
+   "premise_courses": ["Math 11/L", "Math 12/L", "Phy 11/L"]
+  },
+  {
+   "id": "ARP-04", "title": "Mechanical Engineering: the same facts and plan as ARP-03",
+   "curriculum": "bsme-2018-2019", "kind": "plan_check",
+   "facts": [["Math 11/L", "passed"], ["Math 12/L", "not_passed"]],
+   "plan": [{"year": 1, "semester": "second_semester", "courses": [["Math 12/L", "prescribed"], ["Phy 11/L", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "works"}]},
+   "premise_courses": ["Math 11/L", "Math 12/L", "Phy 11/L"]
+  },
+  {
+   "id": "ARP-05A", "title": "Architecture ACAD-1/L then ACAD-2/L in the checked sequence",
+   "curriculum": "bsa-2018-2019", "kind": "plan_check",
+   "facts": [["VT-3/L", "passed"]],
+   "plan": [
+    {"year": 3, "semester": "second_semester", "courses": [["ACAD-1/L", "prescribed"]]},
+    {"year": 4, "semester": "first_semester", "courses": [["ACAD-2/L", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "works"}, {"shape": "works"}]},
+   "premise_courses": ["VT-3/L", "ACAD-1/L", "ACAD-2/L"]
+  },
+  {
+   "id": "ARP-05B", "title": "ACAD-2/L planned with ACAD-1/L in one term; a passed AD-2/L (similar name) does not help",
+   "curriculum": "bsa-2018-2019", "kind": "plan_check",
+   "facts": [["VT-3/L", "passed"], ["AD-2/L", "passed"], ["ACAD-1/L", "not_passed"]],
+   "plan": [{"year": 4, "semester": "first_semester", "courses": [["ACAD-1/L", "off_semester_request"], ["ACAD-2/L", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "blocked", "blocked_by": ["ACAD-1/L"], "unconfirmed": ["ACAD-1/L"]}]},
+   "premise_courses": ["VT-3/L", "AD-2/L", "ACAD-1/L", "ACAD-2/L"]
+  },
+  {
+   "id": "ARP-06A", "title": "Nursing NCM 15-103 needs all four of NCM15-101A, 101B, 102A, 102B; one is not passed",
+   "curriculum": "bsn-2018-2019", "kind": "plan_check",
+   "facts": [["NCM15-101A", "passed"], ["NCM15-101B", "passed"], ["NCM15-102A", "passed"], ["NCM15-102B", "not_passed"]],
+   "plan": [{"year": 2, "semester": "first_semester", "courses": [["NCM 15-103", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "blocked", "blocked_by": ["NCM15-102B"]}]},
+   "premise_courses": ["NCM15-101A", "NCM15-101B", "NCM15-102A", "NCM15-102B", "NCM 15-103"]
+  },
+  {
+   "id": "ARP-06B", "title": "Nursing NCM 15-107A names NCM 15-105B, which is not a course in the reviewed curriculum",
+   "curriculum": "bsn-2018-2019", "kind": "plan_check",
+   "facts": [["NCM15-101A", "passed"], ["NCM15-101B", "passed"], ["NCM 15-104A", "passed"], ["NCM 15-104B", "passed"], ["NCM 15-105A", "passed"], ["NCM 15-106A", "passed"], ["NCM 15-106B", "passed"]],
+   "plan": [{"year": 2, "semester": "second_semester", "courses": [["NCM 15-107A", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "unknown", "unknown_for": ["NCM 15-107A"]}]},
+   "premise_courses": ["NCM15-101A", "NCM15-101B", "NCM 15-104A", "NCM 15-104B", "NCM 15-105A", "NCM 15-106A", "NCM 15-106B", "NCM 15-107A"],
+   "premise_note": "The case's clinical/RLE offering-restriction premise has no reviewed data: the ledger holds prerequisite rules and printed units only. The only offering statement the checker can make is 'requested, not confirmed'."
+  },
+  {
+   "id": "ARP-06C", "title": "Nursing summer NCM 15-116 B with its five printed prerequisites passed",
+   "curriculum": "bsn-2018-2019", "kind": "plan_check",
+   "facts": [["NCM15-115A", "passed"], ["NCM15-115B", "passed"], ["NCM 15-116A", "passed"], ["NCM 15-117A", "passed"], ["NCM 15-117B", "passed"]],
+   "plan": [{"summer": true, "courses": [["NCM 15-116 B", "summer"]]}],
+   "expect": {"terms": [{"shape": "needs_confirmation", "unconfirmed": ["NCM 15-116 B"]}]},
+   "premise_courses": ["NCM15-115A", "NCM15-115B", "NCM 15-116A", "NCM 15-117A", "NCM 15-117B", "NCM 15-116 B"]
+  },
+  {
+   "id": "ARP-07", "title": "Business Economics: BE 2001 depends on GE-PC; BAC 5 has a reviewed None",
+   "curriculum": "bsba-buseco-2018-2019", "kind": "plan_check",
+   "facts": [["GE-PC", "not_taken"]],
+   "plan": [
+    {"year": 2, "semester": "second_semester", "courses": [["BE 2001", "prescribed"]]},
+    {"year": 3, "semester": "first_semester", "courses": [["BAC 5", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "blocked", "blocked_by": ["GE-PC"]}, {"shape": "works"}]},
+   "premise_courses": ["GE-PC", "BE 2001", "BAC 5"]
+  },
+  {
+   "id": "ARP-08", "title": "BSEd Mathematics FS 2 and Ed 12 print a broad 'all ... Prof. Ed. and Specialization' condition",
+   "curriculum": "bsed-math-2018-2019", "kind": "plan_check",
+   "facts": [["Math 10", "passed"]],
+   "plan": [
+    {"year": 4, "semester": "first_semester", "courses": [["FS 2", "prescribed"]]},
+    {"year": 4, "semester": "second_semester", "courses": [["Ed 12", "prescribed"]]}],
+   "expect": {"terms": [{"shape": "unknown", "unknown_for": ["FS 2"]}, {"shape": "unknown", "unknown_for": ["Ed 12"]}]},
+   "premise_courses": ["Math 10", "FS 2", "Ed 12"]
+  },
+  {
+   "id": "ARP-09A", "title": "Midwifery: the second-year terms are not covered by the reviewed ledger",
+   "curriculum": "bsmid-2019-2020", "kind": "term_assessment",
+   "query": {"year": 2, "semester": "first_semester"},
+   "expect": {"status": "not_covered"},
+   "premise_courses": []
+  },
+  {
+   "id": "ARP-09B", "title": "Midwifery earliest term for Mid Res 1 (fourth year) must not invent a term across the gap",
+   "curriculum": "bsmid-2019-2020", "kind": "earliest_term",
+   "query": {"course": "Mid Res 1", "start": [3, "first_semester"]},
+   "expect": {"status": "unknown", "term": null},
+   "premise_courses": ["Mid Res 1"]
+  },
+  {
+   "id": "ARP-10", "title": "Unfamiliar synthetic curriculum (QZV codes): the checker and replies run unchanged",
+   "curriculum": "curriculum-unfamiliar-9", "kind": "plan_check", "synthetic": true,
+   "facts": [["QZV-A0/L", "passed"], ["QZV-B1/L", "not_passed"]],
+   "plan": [
+    {"year": 2, "semester": "first_semester", "courses": [["QZV-E4/L", "prescribed"], ["QZV-F5/L", "prescribed"]]},
+    {"year": 2, "semester": "second_semester", "courses": [["QZV-I8/L", "prescribed"], ["QZV-G6/L", "prescribed"]]},
+    {"year": 3, "semester": "first_semester", "courses": [["QZV-K10/L", "prescribed"]]}],
+   "expect": {"terms": [
+    {"shape": "works", "load": "within"},
+    {"shape": "blocked", "blocked_by": ["QZV-B1/L"]},
+    {"shape": "unknown", "unknown_for": ["QZV-K10/L"]}]},
+   "premise_courses": ["QZV-A0/L", "QZV-B1/L", "QZV-E4/L", "QZV-F5/L", "QZV-I8/L", "QZV-G6/L", "QZV-K10/L"]
+  }
+ ]
+}
