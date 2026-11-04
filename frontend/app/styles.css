@@ -450,7 +450,7 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 @media (max-width: 48rem) {
   /* Phones: the program picker is a bottom sheet within thumb reach. */
   .program-dialog[open] { display: flex; flex-direction: column; inline-size: 100vw; max-inline-size: 100vw; max-block-size: 88dvh; margin: auto 0 0; padding: 0.5rem 1rem calc(1rem + env(safe-area-inset-bottom)); border-inline: 0; border-block-end: 0; border-radius: 1.25rem 1.25rem 0 0; }
-  .program-dialog[open]::before { content: ""; align-self: center; flex: none; inline-size: 2.5rem; block-size: 0.25rem; margin-block-end: 0.25rem; border-radius: 9999px; background: var(--border); }
+
   .program-dialog > :not(:last-child) { margin-block-end: 0.75rem; }
   .program-dialog .program-groups { flex: 1 1 auto; min-block-size: 0; max-block-size: none; }
   .program-dialog .card-actions { flex-direction: column; align-items: stretch; }
