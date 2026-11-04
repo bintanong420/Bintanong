@@ -53,6 +53,19 @@ The sole `RecoveryResult` constructor in this branch is the planner. Searches
 found no other ABC-only variant type or three-draft consumer in backend/frontend.
 The coordinator must check its newer plan-view fixtures during integration.
 
-Next: complete the running relevant planner regressions, correcting stale test
-expectations for the now-restored C alternative. The coordinator owns shared
-progress/checkpoint integration. No real-curriculum/gold-ledger run is claimed.
+Coordinator integration: `9d260c8d` / `aeddd05c`. Expanded planner/search/reply/API
+view gate completed **51 passed / 4 failed in 636.78s**; all four were stale
+expectations (C was wrongly expected to disappear; API fixtures assumed A first
+or only three variants). Corrected failing selections: **4 passed in 27.31s**;
+complete API plan-view file: **10 passed in 9.75s**. Reply file in the integrated
+selection: **11 passed** (also in the 20-pass portion of the narrow view/reply run).
+The entire long gate was not repeated after those test-only corrections.
+
+Independent integration review also found plan-view fastest selection recomputed
+the last moved term instead of using `Draft.rejoin_term`. A new RED returned C
+when the checked regular rejoin made D fastest. Ranking now consumes the canonical
+regular rejoin; the API gate above verifies GREEN. Display `rejoinAfter` keeps its
+existing meaning (the last delayed term), avoiding an API wording change.
+
+No source-backed real-curriculum planner/gold-ledger acceptance run is claimed.
+The coordinator owns the remaining conversation/compiler and live topic-switch gate.
