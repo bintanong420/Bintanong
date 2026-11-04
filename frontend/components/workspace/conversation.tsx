@@ -7,6 +7,7 @@ import { clarificationQuestions } from "@/lib/student-clarification";
 import type { StudentCurriculum, StudentSourceSummary } from "@/lib/student-contracts";
 import { pickFaqQuestions, sampleQuestionSets } from "@/lib/sample-questions";
 import { BrandMark } from "./brand-mark";
+import { MarkdownText } from "./markdown-text";
 
 const rotateEveryMs = 4000;
 /**
@@ -70,7 +71,7 @@ export function Conversation({ state, progress, onSource, onClarify, onEdit, onR
       <div className="message-body"><Card className="message-card"><CardContent>
         {notice && <p className={`answer-notice status-${notice.tone}`}>{notice.label}</p>}
         {message.delivery === "interrupted" && <p className="supporting-copy">Response interrupted. Any text below may be incomplete.</p>}
-        {message.text && <p className="message-text">{message.text}</p>}
+        {message.text && (message.role === "assistant" ? <MarkdownText text={message.text} /> : <p className="message-text">{message.text}</p>)}
         {message.answer?.conditional && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
         {message.answer?.status === "clarification_needed" && !hasQuestions && <p className="supporting-copy clarification-explanation">No specific clarification question was provided.</p>}
         {message.answer?.notice && <p className="answer-disclaimer">{message.answer.notice}</p>}
