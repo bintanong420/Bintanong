@@ -442,7 +442,7 @@ def test_compiler_requires_the_current_wire_protocol(value):
         read_meaning(value, 'Hello')
 
 
-@pytest.mark.parametrize('field', ['requested_claims', 'ambiguities'])
+@pytest.mark.parametrize('field', ['requested_claims', 'ambiguities', 'operations', 'mentions', 'claims', 'parts'])
 def test_malformed_meaning_collections_fall_back_instead_of_crashing(field, monkeypatch):
     value = wire(parts=[part('r1', 'Hello', 'document')])
     if field == 'requested_claims':
@@ -491,3 +491,16 @@ def test_an_unknown_course_title_is_not_the_previous_course(key, monkeypatch):
     result = route(text, value, context(key, memory), monkeypatch)
     assert result.decision.predicate_request is None
     assert result.diagnostic == 'unresolved_entity'
+
+
+@CURRICULUM_KEYS
+def test_a_grounded_pronoun_still_checks_the_previous_course(key, monkeypatch):
+    c = CURRICULA[key]
+    text = 'Can I take it?'
+    memory = ConversationContext(program_id=c['program'], curriculum_id=c['curriculum'], course_id=c['main'][1],
+                                 operation='check_prerequisite_eligibility')
+    value = wire(parts=[part('r1', text, 'structured', [0])], language='en', previous='it',
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote('it'))])
+    result = route(text, value, context(key, memory), monkeypatch)
+    assert result.compiled and result.diagnostic == 'validated'
+    assert predicate(result) == ('check_prerequisite_eligibility', c['main'][1])

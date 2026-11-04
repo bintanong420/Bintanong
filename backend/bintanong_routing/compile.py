@@ -288,7 +288,7 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         pool = distinct if len(distinct) == 1 else unclaimed
         return pool[0] if len(pool) == 1 and len(pool[0].entries) == 1 else None
 
-    def back_reference(words):
+    def back_reference():
         if (meaning.previous_course is None or previous is None or previous.course_id is None
                 or not any(c.entity_id == previous.course_id for c in courses)):
             return None
@@ -333,7 +333,7 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
                     else check.name)
             built.append((name, 'course', single, None))
             continue
-        reference = back_reference(target) if word_target and not found else None
+        reference = back_reference() if word_target and not found else None
         if reference is not None:
             built.append((check.name, 'course', reference, reference))
             continue
