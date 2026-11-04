@@ -1,5 +1,5 @@
 """Ask mode drafts (plan of action, Step 5; owner 4 Nov 2026): the greedy prerequisite chain from one failed course,
-three variants run through check_plan with the load policy, unlock-weight ordering in a summer that cannot hold every
+four variants run through check_plan with the load policy, unlock-weight ordering in a summer that cannot hold every
 course, stated vs assumed start term, and dropped variants with their reasons. Synthetic curricula only; the same tests
 run on a curriculum with unfamiliar codes.
 
@@ -82,14 +82,14 @@ def moved(draft, c, names):
 NAMES = [n for n, *_ in SHAPE]
 
 
-def test_three_variants_follow_the_greedy_chain_in_the_stated_order(curriculum):
+def test_four_variants_follow_the_greedy_chain_in_the_stated_order(curriculum):
     _, _, c = curriculum
     result = recover(curriculum)
     assert type(result) is RecoveryResult and not result.dropped
     assert (result.start_term.year, result.start_term.semester, result.term_stated) == (2, 'second_semester', False)
     assert (result.next_offering.year, result.next_offering.semester) == (3, 'first_semester')
-    a, c_, b = result.drafts  # fewest requests first, then the earliest last delayed course
-    assert [d.variant for d in result.drafts] == ['A', 'C', 'B'] and [d.requests for d in result.drafts] == [0, 3, 3]
+    c_, a, fastest, b = result.drafts  # preferred first, then fewest requests, then earliest last course
+    assert [d.variant for d in result.drafts] == ['D', 'A', 'C', 'B'] and [d.requests for d in result.drafts] == [2, 0, 3, 3]
     assert moved(a, c, NAMES) == {(3, 'first_semester'): [('X', 'retake')],
                                   (3, 'second_semester'): [('Y', 'prescribed'), ('Z', 'prescribed')],
                                   (4, 'first_semester'): [('W', 'prescribed')]}
@@ -98,13 +98,14 @@ def test_three_variants_follow_the_greedy_chain_in_the_stated_order(curriculum):
                                   (3, 'first_semester'): [('Y', 'special_class_request')],
                                   (3, 'second_semester'): [('Z', 'prescribed'), ('W', 'special_class_request')]}
     assert moved(c_, c, NAMES) == {(2, 'second_semester'): [('X', 'special_class_request')],
-                                   (2, 'summer'): [('Y', 'summer'), ('Z', 'summer')],
-                                   (3, 'first_semester'): [('W', 'prescribed')]}
+                                   (2, 'summer'): [('Y', 'summer')],
+                                   (3, 'first_semester'): [('W', 'prescribed')],
+                                   (3, 'second_semester'): [('Z', 'prescribed')]}
 
 
 def test_the_other_prescribed_courses_stay_and_over_the_prescribed_total_is_a_warning_not_a_block(curriculum):
     _, _, c = curriculum
-    a = recover(curriculum).drafts[0]
+    a = next(d for d in recover(curriculum).drafts if d.variant == 'A')
     by_term = {(t.term.year, t.term.semester): t for t in a.terms}
     assert set(by_term[(3, 'second_semester')].kept) == {c('R1'), c('R2')}
     third = by_term[(3, 'second_semester')].verdict
@@ -114,27 +115,27 @@ def test_the_other_prescribed_courses_stay_and_over_the_prescribed_total_is_a_wa
 
 def test_summer_stays_within_the_summer_load_and_its_requests_are_unconfirmed(curriculum):
     result = recover(curriculum)
-    c_ = next(d for d in result.drafts if d.variant == 'C')
+    c_ = next(d for d in result.drafts if d.variant == 'D')
     summer = next(t for t in c_.terms if t.term.semester == 'summer')
     assert summer.verdict.outcome == 'works' and summer.verdict.load.units <= POLICY.summer_normal_units
-    assert [u.kind for u in summer.verdict.unconfirmed] == ['summer', 'summer']
+    assert [u.kind for u in summer.verdict.unconfirmed] == ['summer']
 
 
-def test_a_summer_that_cannot_hold_every_course_takes_the_one_that_unlocks_more_first(curriculum):
+def test_a_small_summer_still_takes_the_course_needed_by_the_next_term(curriculum):
     _, _, c = curriculum
     small = LoadPolicy.parse(dict(POLICY.model_dump(mode='json'), summer_normal_units=3))
-    c_ = next(d for d in recover(curriculum, policy=small).drafts if d.variant == 'C')
-    assert moved(c_, c, NAMES)[(2, 'summer')] == [('Y', 'summer')]  # Y unlocks W; Z unlocks nothing
-    assert ('Z', 'special_class_request') in moved(c_, c, NAMES)[(3, 'first_semester')]
+    c_ = next(d for d in recover(curriculum, policy=small).drafts if d.variant == 'D')
+    assert moved(c_, c, NAMES)[(2, 'summer')] == [('Y', 'summer')]  # Y is needed by W in 3:1; Z by nothing
+    assert moved(c_, c, NAMES)[(3, 'second_semester')] == [('Z', 'prescribed')]
 
 
 def test_a_stated_later_term_is_the_start_and_identical_variants_are_dropped(curriculum):
     result = recover(curriculum, term=(3, 'first_semester'))
     assert (result.start_term.year, result.start_term.semester, result.term_stated) == (3, 'first_semester', True)
     _, _, c = curriculum
-    assert [d.variant for d in result.drafts] == ['A', 'C']  # B needs no special class from there: same as A
-    assert [(d.variant, d.reason, d.same_as) for d in result.dropped] == [('B', 'same_as', 'A')]
-    assert moved(result.drafts[1], c, NAMES)[(3, 'summer')] == [('W', 'summer')]  # summer comes before 4:1
+    assert [d.variant for d in result.drafts] == ['D']  # nothing needs a summer or a special class from there
+    assert [(d.variant, d.reason, d.same_as) for d in result.dropped] == [('A', 'same_as', 'D'), ('B', 'same_as', 'D'), ('C', 'same_as', 'D')]
+    assert moved(result.drafts[0], c, NAMES)[(4, 'first_semester')] == [('W', 'prescribed')]
 
 
 def test_a_stated_term_equal_to_the_failed_course_term_starts_the_term_after(curriculum):
@@ -151,7 +152,7 @@ def test_a_variant_that_cannot_work_is_dropped_with_its_reason(curriculum):
 
 def test_without_a_load_policy_summer_is_not_drafted_and_loads_are_unknown(curriculum):
     result = recover(curriculum, policy=None)
-    assert [(d.variant, d.reason) for d in result.dropped] == [('C', 'no_summer_policy')]
+    assert [(d.variant, d.reason) for d in result.dropped] == [('D', 'no_summer_policy'), ('C', 'no_summer_policy')]
     assert all(t.verdict.load.status == 'unknown' for d in result.drafts for t in d.terms)
 
 

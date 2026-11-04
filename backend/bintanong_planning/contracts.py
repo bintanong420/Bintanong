@@ -207,7 +207,7 @@ class PlanCheckResult(Contract):
 # failed course, already run through check_plan; it is a draft for adviser review, never an approval or an offering.
 Quote = Annotated[str, Field(min_length=1, max_length=1200)]
 Semester = Literal['first_semester', 'second_semester', 'summer']
-Variant = Literal['A', 'B', 'C']  # A regular offerings only; B with special-class requests; C with summer too
+Variant = Literal['A', 'B', 'C', 'D']  # A regular; B special; C earliest summer; D just in time
 
 
 CORE_ROUTES = ('off_semester', 'regular_class', 'special_class', 'summer')
@@ -305,8 +305,8 @@ class RecoveryResult(Contract):
     regular_asked: bool = False  # the student said "regular": the reply explains it means the prescribed sequence
     fastest_asked: bool = Field(default=False, exclude_if=lambda value: not value)  # "fastest" / "pinakamabilis"
     clauses: tuple[RouteClause, ...] = Field(min_length=4, max_length=MAX_CLAUSES)
-    drafts: tuple[Draft, ...] = Field(max_length=3)
-    dropped: tuple[DroppedDraft, ...] = Field(max_length=3)
+    drafts: tuple[Draft, ...] = Field(max_length=4)
+    dropped: tuple[DroppedDraft, ...] = Field(max_length=4)
     policy_id: Text | None
     # The student's own statements (Track A); omitted from the dump when absent.
     status: StudentStatus | None = Field(default=None, exclude_if=lambda value: value is None)
@@ -318,7 +318,7 @@ class RecoveryResult(Contract):
     @model_validator(mode='after')
     def _variants(self):
         variants = [d.variant for d in self.drafts] + [d.variant for d in self.dropped]
-        if sorted(variants) != ['A', 'B', 'C']:
+        if sorted(variants) != ['A', 'B', 'C', 'D']:
             raise ValueError('each variant is drafted or dropped once')
         _check_clause_kinds(self.clauses)
         if self.removal_needed_by and self.failed_grade not in OPEN_GRADES:
