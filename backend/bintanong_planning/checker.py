@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_orchestration.adapters import student_facts
@@ -32,9 +33,31 @@ def _request(predicate, curriculum, **inputs):
         *({'name': name, 'value': value, 'fact_ref': None} for name, value in inputs.items())]})
 
 
+# Owner decision, 4 Nov 2026: a printed "a/b" is lecture units / lab units, so the total is a+b ("2/1" -> 3).
+LEC_LAB_SUM_READING = True
+_NUMBER = r'\d+(?:\.\d+)?'
+_PLAIN = re.compile(_NUMBER)
+_LEC_LAB = re.compile(f'({_NUMBER})/({_NUMBER})')
+
+
+def printed_total(printed, *, lec_lab_sum=None) -> float | None:
+    """The total units of a printed units cell: a plain number is the total; "a/b" is a+b under the lecture/lab
+    reading; anything else ("None", "2 /2", blank) is unknown. Only the load check uses this; answers keep the cell."""
+    if not isinstance(printed, str):
+        return None
+    text = printed.strip()
+    if _PLAIN.fullmatch(text):
+        return float(text)
+    pair = _LEC_LAB.fullmatch(text)
+    if pair and (LEC_LAB_SUM_READING if lec_lab_sum is None else lec_lab_sum):
+        return float(pair[1]) + float(pair[2])
+    return None
+
+
 def _units(printed_course):
-    value = dict(printed_course.units).get('units.total')
-    return None if value is None else float(value)
+    units = dict(printed_course.units)
+    value = units.get('units.total')
+    return float(value) if value is not None else printed_total(units.get('units.printed'))
 
 
 def _ids(conditions, prefixes):
