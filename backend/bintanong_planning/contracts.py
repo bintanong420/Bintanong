@@ -6,6 +6,9 @@ reviewed ledger's ids; nothing here names a program or a course.
 """
 from __future__ import annotations
 
+import hashlib
+import json
+
 from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
@@ -130,15 +133,36 @@ class TermVerdict(Record):
         return self
 
 
+def plan_request_digest(request: PlanCheckRequest, policy_id, policy_sha256) -> str:
+    request = PlanCheckRequest.parse(request.model_dump(mode='json'))
+    data = dict(request=request.model_dump(mode='json'), policy_id=policy_id, policy_sha256=policy_sha256)
+    return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(',', ':'),
+                                     ensure_ascii=False, allow_nan=False).encode('utf-8')).hexdigest()
+
+
 class PlanCheckResult(Contract):
-    SCHEMA_VERSION = 'bintanong-plan-check-result-v1'
+    SCHEMA_VERSION = 'bintanong-plan-check-result-v2'
     synthetic: bool
     curriculum_id: CourseId
     terms: tuple[TermVerdict, ...] = Field(min_length=1, max_length=MAX_TERMS)
+    checked_request: PlanCheckRequest
+    request_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
     policy_id: Text | None
+    policy_sha256: str | None = Field(pattern=r'^[0-9a-f]{64}$')
     scope: DecisionScope | None = None
     rule_ids: tuple[Text, ...] = ()
     rule_spans: tuple[SourceSpan, ...] = ()
+
+    @model_validator(mode='after')
+    def _request_bound(self):
+        if (self.curriculum_id != self.checked_request.curriculum_id
+                or len(self.terms) != len(self.checked_request.terms)
+                or tuple(t.index for t in self.terms) != tuple(range(len(self.terms)))
+                or (self.policy_id is None) != (self.policy_sha256 is None)
+                or self.request_sha256 != plan_request_digest(self.checked_request, self.policy_id,
+                                                              self.policy_sha256)):
+            raise ValueError('plan_result_request_binding_mismatch')
+        return self
 
 
 # Ask mode drafts (plan of action, Steps 3-5; owner 4 Nov 2026). Each draft is the greedy prerequisite chain from one

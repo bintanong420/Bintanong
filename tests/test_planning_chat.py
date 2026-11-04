@@ -167,10 +167,80 @@ def test_integration_plan_field_is_pinned_to_the_same_release(curriculum):
     predicate = type(predicate).parse({**predicate.model_dump(mode='json'), 'inputs': [
         *predicate.model_dump(mode='json')['inputs'], {'name':'curriculum_id', 'value':'curriculum-a', 'fact_ref':None}]})
     base = base.model_copy(update={'understanding':base.understanding.model_copy(update={'predicate_request':predicate})})
-    checked = result.model_copy(update={'curriculum_id':'curriculum-a',
+    from backend.bintanong_planning.contracts import plan_request_digest
+    bound_request = result.checked_request.model_copy(update={'curriculum_id':'curriculum-a'})
+    checked = result.model_copy(update={'curriculum_id':'curriculum-a', 'checked_request':bound_request,
+        'request_sha256':plan_request_digest(bound_request, result.policy_id, result.policy_sha256),
         'scope':base.evidence.symbolic.scope, 'rule_spans':base.evidence.symbolic.rule_spans})
     assert base.model_copy(update={'plan_check':checked}).plan_check == checked
     foreign = checked.model_copy(update={'scope':checked.scope.model_copy(update={
         'knowledge_release_id':'release-foreign'})})
     with pytest.raises(ValueError, match='plan_check_release_mismatch'):
         base.model_copy(update={'plan_check':foreign})
+
+
+def test_passing_verdict_cannot_be_rendered_against_a_different_blocked_plan(curriculum):
+    key, runtime, c = curriculum
+    good = plan(key, [], regular(1, 'first_semester', (c('BASE'), 'prescribed')))
+    bad = plan(key, [(c('X'), 'failed')], regular(2, 'second_semester', (c('D1'), 'prescribed')))
+    checked = check_plan(good, runtime, POLICY)
+    assert checked.terms[0].outcome == 'works'
+    assert check_plan(bad, runtime, POLICY).terms[0].outcome == 'blocked'
+    for language in ('en', 'taglish'):
+        with pytest.raises(ValueError, match='plan_result_mismatch'):
+            plan_check_lines(bad, checked, language, lambda x:x)
+
+
+@pytest.mark.parametrize('change', ['facts', 'mode', 'semester', 'order'])
+def test_plan_result_binding_covers_every_student_plan_input(curriculum, change):
+    key, runtime, c = curriculum
+    request = plan(key, [(c('BASE'), 'passed')], regular(2, 'first_semester', (c('X'), 'prescribed')),
+                   regular(2, 'second_semester', (c('D1'), 'prescribed')))
+    checked = check_plan(request, runtime, POLICY)
+    altered = request.model_dump(mode='json')
+    if change == 'facts':
+        altered['facts'][0]['state'] = 'failed'
+    elif change == 'mode':
+        altered['terms'][0]['courses'][0]['mode'] = 'special_class_request'
+    elif change == 'semester':
+        altered['terms'][0]['semester'] = 'second_semester'
+    else:
+        altered['terms'].reverse()
+    altered = type(request).parse(altered)
+    with pytest.raises(ValueError, match='plan_result_mismatch'):
+        plan_check_lines(altered, checked, 'en', lambda x:x)
+    with pytest.raises(ValueError, match='plan_result_request_binding_mismatch'):
+        checked.model_copy(update={'checked_request':altered})
+
+
+def test_policy_content_is_part_of_the_plan_binding(curriculum):
+    key, runtime, c = curriculum
+    request = plan(key, [], regular(1, 'first_semester', (c('BASE'), 'prescribed')))
+    original = check_plan(request, runtime, POLICY)
+    different_policy = POLICY.model_copy(update={'summer_normal_units':12.0})
+    changed = check_plan(request, runtime, different_policy)
+    assert original.policy_id == changed.policy_id
+    assert original.request_sha256 != changed.request_sha256
+    assert original.policy_sha256 != changed.policy_sha256
+    with pytest.raises(ValueError, match='plan_result_request_binding_mismatch'):
+        original.model_copy(update={'policy_sha256':changed.policy_sha256})
+    data = original.model_dump(mode='json')
+    assert type(original).parse(data) == original
+    data['schema_version'] = 'bintanong-plan-check-result-v1'
+    with pytest.raises(ValueError, match='unknown schema_version'):
+        type(original).parse(data)
+
+
+def test_adapter_effective_request_retains_the_owning_sessions_facts(curriculum):
+    key, runtime, c = curriculum
+    request = plan(key, [], regular(2, 'first_semester', (c('X'), 'prescribed')))
+    context = RequestContext.parse(dict(request_id='req-plan', session_id='sess-plan',
+        program_id='program-synthetic', curriculum_id=key, facts=[dict(fact_id='fact-base',
+            session_id='sess-plan', program_id='program-synthetic', curriculum_id=key,
+            course_id=c('BASE'), state='passed')]))
+    checked = asyncio.run(SymbolicAdapter(runtime, recovery=(POLICY, None)).check_typed_plan(request, context))
+    assert checked.terms[0].outcome == 'works'
+    assert checked.checked_request.facts[0].course_id == c('BASE')
+    assert 'Works' in '\n'.join(plan_check_lines(checked.checked_request, checked, 'en', lambda x:x))
+    with pytest.raises(ValueError, match='plan_result_mismatch'):
+        plan_check_lines(request, checked, 'en', lambda x:x)

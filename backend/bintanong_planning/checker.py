@@ -11,13 +11,14 @@ course that needs an offering or approval is listed as requested, not confirmed.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_orchestration.adapters import student_facts
 from ..bintanong_symbolic.runtime import StudentFacts
 from .contracts import (REQUESTED_MODES, AssumedPass, LoadCheck, PlanCheckRequest, PlanCheckResult, PlanReason,
-                        PlanWarning, TermVerdict, UnconfirmedCondition)
+                        PlanWarning, TermVerdict, UnconfirmedCondition, plan_request_digest)
 from .policies import NOT_REVIEWED, LoadPolicy
 
 MAX_SPANS = 24
@@ -112,9 +113,15 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
             elif outcome == 'eligible':
                 passed.append(course_id)
                 assumed.append(AssumedPass(course_id=course_id, from_term=index))
+    policy_id = None if policy is None else policy.policy_id
+    policy_sha256 = None if policy is None else hashlib.sha256(json.dumps(
+        policy.model_dump(mode='json'), sort_keys=True, separators=(',', ':'), ensure_ascii=False,
+        allow_nan=False).encode('utf-8')).hexdigest()
     return PlanCheckResult(schema_version=PlanCheckResult.SCHEMA_VERSION, synthetic=runtime.synthetic,
+                           checked_request=request, policy_sha256=policy_sha256,
+                           request_sha256=plan_request_digest(request, policy_id, policy_sha256),
                            curriculum_id=curriculum, terms=tuple(verdicts),
-                           policy_id=None if policy is None else policy.policy_id, scope=scope,
+                           policy_id=policy_id, scope=scope,
                            rule_ids=tuple(rule_ids), rule_spans=tuple(spans.values())[:MAX_SPANS])
 
 
