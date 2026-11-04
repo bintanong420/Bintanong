@@ -45,8 +45,8 @@ def test_student_text_keeps_the_claims_notice_and_decision(route):
     for claim in answer.claims:
         assert claim.text in shown
     if answer.decision is not None:
-        assert lines[lines.index(next(l for l in lines if l.startswith('Supported prerequisite') or
-                                      l.startswith('Sa supported') or l.startswith('Ayon sa')))] in shown
+        assert lines[lines.index(next(l for l in lines if l.startswith('You meet the reviewed') or
+                                      l.startswith('Pasok ka sa reviewed') or l.startswith('Ayon sa')))] in shown
 
 
 def test_canonical_text_is_left_unchanged():
@@ -123,9 +123,9 @@ def test_student_text_leaves_out_the_candidate_preview_line(language):
         assert claim.text in shown
 
 
-@pytest.mark.parametrize('language, line', [('en', 'Based on the supplied evidence:'),
+@pytest.mark.parametrize('language, line', [('en', "Here's what I found:"),
                                             ('fil', 'Batay sa ibinigay na ebidensya:'),
-                                            ('taglish', 'Based sa supplied evidence:')])
+                                            ('taglish', 'Ito yung nakita ko:')])
 def test_student_text_leaves_out_the_supplied_evidence_lead_in(language, line):
     # Owner, 2 Nov 2026: the reply goes straight to the answer; the canonical text keeps the line.
     answer = answer_for('RAG')

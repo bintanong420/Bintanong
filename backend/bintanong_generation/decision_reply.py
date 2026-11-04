@@ -100,11 +100,15 @@ def decision_lines(pack, label=str) -> list[str] | None:
         if lang == 'en':
             facts = ([f'you passed {_join(passed, lang)}'] if passed else []) + (
                 [f'you are taking {_join(enrolled, lang)} this term'] if enrolled else [])
-            first = f'Yes. You meet the prerequisite{plural} for {target}, based on your report that {", and ".join(facts)}.'
+            first = f'Yes, you can take {target}! You meet its prerequisite{plural}: {", and ".join(facts)}.'
+            if len(passed) == 1 and not enrolled and requirement is not None and requirement.kind == 'course':
+                first = f"Yes, you can take {target}! You've passed its prerequisite, {passed[0]}."
         else:
             facts = ([f'naipasa mo ang {_join(passed, lang)}'] if passed else []) + (
                 [f'naka-enroll ka sa {_join(enrolled, lang)} ngayong term'] if enrolled else [])
-            first = f'Oo. Pasok ka sa prerequisite ng {target}, base sa sinabi mong {", at ".join(facts)}.'
+            first = f'Oo, pwede mo nang i-take ang {target}! Pasok ka sa prerequisite nito: {", at ".join(facts)}.'
+            if len(passed) == 1 and not enrolled and requirement is not None and requirement.kind == 'course':
+                first = f'Oo, pwede mo nang i-take ang {target}! Pasado ka na sa prerequisite nito, ang {passed[0]}.'
         return [first] + ([rule_line] if rule_line else [])
     if decision.outcome == 'ineligible':
         same_term = list(dict.fromkeys(_conditions(decision, 'not_enrolled')))
@@ -115,10 +119,16 @@ def decision_lines(pack, label=str) -> list[str] | None:
             needs = ([f'pass {_join([label(c) for c in to_pass], lang)}'] if to_pass else []) + [
                 f'pass {label(c)} or take it in the same term' for c in same_term]
             first = f'Not yet. You need to {" and ".join(needs)} before you can take {target}.'
+            if requirement is not None and requirement.kind == 'course' and len(to_pass) == 1 and not same_term:
+                first = f"Not yet. {target} needs {label(to_pass[0])} first. Once you pass it, you're good to go."
+            elif requirement is not None and requirement.kind in ('all_of', 'any_of'):
+                first = f'Not yet. {target} needs {rule} first.'
         else:
             needs = ([f'maipasa ang {_join([label(c) for c in to_pass], lang)}'] if to_pass else []) + [
                 f'maipasa o kunin nang sabay ang {label(c)}' for c in same_term]
-            first = f'Hindi pa. Kailangan mo munang {" at ".join(needs)} bago mo makuha ang {target}.'
+            first = f'Hindi pa. Kailangan mo munang {" at ".join(needs)} bago mo ma-take ang {target}.'
+            if requirement is not None and requirement.kind in ('all_of', 'any_of'):
+                first = f'Hindi pa. Kailangan muna ng {target} ang {rule}.'
         return [first] + ([rule_line] if rule_line else [])
     if decision.outcome != 'unknown' or rule is None:
         return None
@@ -133,11 +143,11 @@ def decision_lines(pack, label=str) -> list[str] | None:
         asks = ([f'Have you passed {_join(only_pass, lang)}?'] if only_pass else []) + [
             f'Have you passed {label(c)}, or are you taking it this term?' for c in both] + (
             [f'Are you taking {_join(only_taking, lang)} this term?'] if only_taking else [])
-        return [f'{target} requires {rule}. ' + ' '.join(asks)]
+        return [f'{target} needs {rule}. ' + ' '.join(asks) + " Tell me and I'll check for you."]
     asks = ([f'Naipasa mo na ba ang {_join(only_pass, lang)}?'] if only_pass else []) + [
         f'Naipasa mo na ba ang {label(c)}, o kinukuha mo ito ngayong term?' for c in both] + (
         [f'Kinukuha mo ba ang {_join(only_taking, lang)} ngayong term?'] if only_taking else [])
-    return [f'{rule} ang prerequisite ng {target}. ' + ' '.join(asks)]
+    return [f'{target} needs {rule}. ' + ' '.join(asks) + ' Sabihin mo lang at iche-check ko.']
 
 
 def asked_fields(decision):

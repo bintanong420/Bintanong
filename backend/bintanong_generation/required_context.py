@@ -8,11 +8,11 @@ from .precedence_reply import precedence_sources
 _ISSUES = {'claim_not_stated', 'printed_total_discrepancy'}
 _OFFENSES = {'1st Offense', '2nd Offense', '3rd Offense', 'Subsequent Offenses'}
 _WORDS = {
-    'en': ('Reviewed source fields (quoted): ', 'Recorded source limitation: ',
+    'en': ('Here is what the source says: ', 'Recorded source limitation: ',
            'Please confirm with the relevant university office.', 'unspecified'),
-    'fil': ('Mga field sa reviewed source (original wording): ', 'Limitasyon sa source: ',
+    'fil': ('Ito yung nakalista sa source: ', 'Limitasyon sa source: ',
             'Pakitanong sa tamang opisina ng unibersidad.', 'hindi tinukoy'),
-    'taglish': ('Ang reviewed source fields (quoted): ', 'Limit sa source: ',
+    'taglish': ('Ito yung nakalista sa source: ', 'Limit sa source: ',
                 'Paki-confirm sa tamang university office.', 'unspecified')}
 
 
@@ -38,7 +38,12 @@ def _quote(record, words):
                 or not isinstance(value, str) or type(blank) is not bool or blank != (not value.strip())):
             return None
         names.add(name)
-        quoted.append(name.replace('_',' ')+': '+(words[3] if blank else '"'+value+'"'))
+        if name == 'body' and not blank:
+            # Keep every printed word and step marker; only put whitespace before steps on a new line.
+            value = re.sub(r'(?<=[.!?])\s+(?=(?:[A-Z]|\d+)\.\s+\S)', '\n', value)
+            quoted.append('"'+value+'"')
+        else:
+            quoted.append(name.replace('_',' ')+': '+(words[3] if blank else '"'+value+'"'))
     text = words[0]+'; '.join(quoted)
     for limit in limits:
         if limit.get('resolution') != 'unresolved':

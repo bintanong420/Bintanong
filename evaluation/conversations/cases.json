@@ -2,7 +2,14 @@
  "defaults": {
   "forbidden": [
    "temporarily unavailable",
-   "Paki-clarify muna ang missing information"
+   "Paki-clarify muna ang missing information",
+   "Supported prerequisite check",
+   "conditions satisfied",
+   "a documented condition is unmet",
+   "Please clarify the missing information before a conclusion can be given",
+   "Reviewed source fields (quoted)",
+   "Based on the supplied evidence",
+   "Based sa supplied evidence"
   ]
  },
  "conversations": [
