@@ -10,9 +10,9 @@ from test_planning_recovery import ROUTES
 from test_planning_check import SOURCE
 
 
-def inputs():
+def inputs(routes=ROUTES):
     passages = []
-    for clause in ROUTES.clauses:
+    for clause in routes.clauses:
         cid = hashlib.sha256(clause.text.encode()).hexdigest()
         passages.append(dict(chunk_id=cid, version_id=SOURCE.version_id,
             text=json.dumps(dict(fields=[dict(name='body',value=clause.text,source_blank=False,span_indexes=[0])],source_limits=[])),
@@ -21,7 +21,7 @@ def inputs():
     pin = ReleasePin.parse(dict(release_id='release-synthetic-route',synthetic=True,rule_bundle_version=None,
         sources=[dict(version_id=SOURCE.version_id,byte_sha256=SOURCE.byte_sha256)],documents=[
             dict(chunk_id=p['chunk_id'],version_id=SOURCE.version_id,byte_sha256=SOURCE.byte_sha256,passage_sha256=source_digest(DocumentPassage.parse(p))) for p in passages]))
-    routes = ROUTES.model_copy(update=dict(source_chunk_ids=tuple(p['chunk_id'] for p in passages)))
+    routes = routes.model_copy(update=dict(source_chunk_ids=tuple(p['chunk_id'] for p in passages)))
     pin = pin.model_copy(update=dict(plan_routes_sha256=source_digest(routes)))
     documents = DocumentResult.parse(dict(release_id=pin.release_id,status='ok',passages=passages,gaps=[]))
     return pin,routes,documents
@@ -29,6 +29,15 @@ def inputs():
 
 def test_exact_pinned_reviewed_field_is_accepted():
     check_route_sources(*inputs())
+
+
+def test_track_a_clauses_pass_the_same_proof_and_cannot_be_forged():
+    from test_planning_recovery_status import FULL
+    pin, routes, documents = inputs(FULL)
+    check_route_sources(pin, routes, documents)
+    forged = routes.clauses[-1].model_copy(update=dict(text='An invented office approves everything.', conditions=()))
+    with pytest.raises(ValueError):
+        check_route_sources(pin, routes.model_copy(update=dict(clauses=(*routes.clauses[:-1], forged))), documents)
 
 
 def test_runtime_uses_existing_source_chunks_without_retrieval():

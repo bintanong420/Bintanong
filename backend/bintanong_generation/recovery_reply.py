@@ -110,6 +110,135 @@ def _words(language):
     return _WORDS['en' if language in ('en', 'unknown') else 'taglish']
 
 
+# Track A (owner 4 Nov 2026): lines that depend on what the student said about themselves. A clause is quoted only
+# when the reviewed routes carry it; without it the line is a referral, never an unquoted Handbook rule.
+_STATUS = {
+    'en': dict(
+        removal={'4.0': 'You said you got 4.0 in {course}, so you can remove it instead of retaking it, within the '
+                        'succeeding term. Student Handbook p. {page}: "{text}"',
+                 'INC': 'You said you got INC in {course}, so you can complete it instead of retaking it, within the '
+                        'succeeding term. Student Handbook p. {page}: "{text}"'},
+        one_year='Note: the same section also states "within one year" (3.3, 3.7). Student Handbook p. {page}: '
+                 '"{text}" Please confirm your deadline with your Dean or the Registrar.',
+        before='{needed} next semester need {course}, so the removal must be done before enrollment. Student '
+               'Handbook p. {page}: "{text}"',
+        before_ask='{needed} next semester need {course}, so ask your Dean about finishing the removal before '
+                   'enrollment.',
+        forfeit='Heads-up: re-enrolling {course} gives up the removal. Student Handbook p. {page}: "{text}"',
+        forfeit_ask='Before you re-enroll {course}, ask your Dean how that affects removing the grade; the drafts '
+                    'below are for the case where you retake it.',
+        summer_graduating="Since you said you're graduating: the summer load can go up to twelve (12) units with the "
+                          "Dean's prior approval (Student Handbook p. {page}). The drafts below still keep to the "
+                          'normal summer load.',
+        overload="Since you said this is your last semester and you're graduating, an overload may be possible. "
+                 'Student Handbook p. {page}: "{text}" It\'s a request, not automatic: ask your Dean and the '
+                 'Registrar first.',
+        waiver="Since you said you're graduating, you can ask about a prerequisite waiver (an option to ask about, "
+               'not part of the drafts below). Student Handbook p. {page}: "{text}"',
+        cross='If {course} is not offered, you can ask about cross-enrollment. Student Handbook p. {page}: "{text}"',
+        substitution='You can also ask about substitution. Student Handbook p. {page}: "{text}"',
+        substitution_limit='Student Handbook p. {page}: "{text}"',
+        leave='If you plan to stop for a while, apply for a leave of absence. Student Handbook p. {page}: "{text}"',
+        standing="You mentioned {standing}. Student Handbook p. {page}: \"{text}\" I don't work out your academic "
+                 'standing or which subjects count as advance courses; please ask your Dean before you enroll. The '
+                 "drafts below don't apply this restriction.",
+        standings=dict(warning='a warning', probation='being on probation',
+                       scholastic_delinquency='a scholastic delinquency'),
+        reenroll='  Heads-up: you said you have {grade} in {course}, and this plan re-enrolls it.',
+        reenroll_ask='Before you enroll, ask your Dean how re-enrolling {course} affects removing the grade.'),
+    'taglish': dict(
+        removal={'4.0': 'Sabi mo 4.0 ang grade mo sa {course}, kaya puwede mo itong i-remove imbes na i-retake, sa '
+                        'loob ng succeeding term. Student Handbook p. {page}: "{text}"',
+                 'INC': 'Sabi mo INC ang grade mo sa {course}, kaya puwede mo itong i-complete imbes na i-retake, sa '
+                        'loob ng succeeding term. Student Handbook p. {page}: "{text}"'},
+        one_year='Note: sinasabi rin ng parehong section ang "within one year" (3.3, 3.7). Student Handbook p. {page}: '
+                 '"{text}" Paki-confirm ang deadline mo sa Dean o sa Registrar.',
+        before='Kailangan ng {needed} sa susunod na sem ang {course}, kaya dapat matapos ang removal bago mag-enroll. '
+               'Student Handbook p. {page}: "{text}"',
+        before_ask='Kailangan ng {needed} sa susunod na sem ang {course}, kaya itanong sa Dean kung paano matatapos '
+                   'ang removal bago mag-enroll.',
+        forfeit='Heads-up: kapag ni-re-enroll mo ang {course}, mawawala ang removal. Student Handbook p. {page}: '
+                '"{text}"',
+        forfeit_ask='Bago mo i-re-enroll ang {course}, itanong muna sa Dean kung ano ang epekto nito sa removal ng '
+                    'grade; ang mga draft sa baba ay para kung i-retake mo ito.',
+        summer_graduating='Dahil sabi mo graduating ka: puwedeng umabot sa twelve (12) units ang summer load kapag '
+                          'may prior approval ng Dean (Student Handbook p. {page}). Normal summer load pa rin ang '
+                          'sinusunod ng mga draft sa baba.',
+        overload='Dahil sabi mo last sem mo na at graduating ka, baka puwede ang overload. Student Handbook p. {page}: '
+                 '"{text}" Request ito, hindi automatic: itanong muna sa Dean at sa Registrar.',
+        waiver='Dahil sabi mo graduating ka, puwede mong itanong ang prerequisite waiver (option na puwedeng itanong, '
+               'hindi kasama sa mga draft sa baba). Student Handbook p. {page}: "{text}"',
+        cross='Kung hindi offered ang {course}, puwede mong itanong ang cross-enrollment. Student Handbook p. {page}: '
+              '"{text}"',
+        substitution='Puwede mo ring itanong ang substitution. Student Handbook p. {page}: "{text}"',
+        substitution_limit='Student Handbook p. {page}: "{text}"',
+        leave='Kung balak mong huminto muna, mag-apply ng leave of absence. Student Handbook p. {page}: "{text}"',
+        standing='Nabanggit mo ang {standing}. Student Handbook p. {page}: "{text}" Hindi ko kinukuwenta ang academic '
+                 'standing mo o kung aling subjects ang advance courses; paki-tanong sa Dean bago ka mag-enroll. Hindi '
+                 'ina-apply ng mga draft sa baba ang restriction na ito.',
+        standings=dict(warning='warning', probation='probation', scholastic_delinquency='scholastic delinquency'),
+        reenroll='  Heads-up: sabi mo {grade} ang grade mo sa {course}, at ni-re-enroll ito ng plan na ito.',
+        reenroll_ask='Bago ka mag-enroll, itanong sa Dean kung ano ang epekto ng pag-re-enroll ng {course} sa removal '
+                     'ng grade.'),
+}
+
+
+def _status_words(language):
+    return _STATUS['en' if language in ('en', 'unknown') else 'taglish']
+
+
+def _quote(words, key, clause, **values):
+    return words[key].format(page=clause.page, text=clause.text, **values)
+
+
+def removal_lines(recovery, language, shown) -> list[str]:
+    """A stated 4.0/INC in the failed course: removal within the succeeding term, always with the D6 discrepancy."""
+    grade, clause = recovery.failed_grade, {c.kind: c for c in recovery.clauses}
+    if grade not in ('4.0', 'INC') or 'removal_period' not in clause:
+        return []  # 5.0, no stated grade, or no reviewed removal clause: no removal route
+    words, course = _status_words(language), shown(recovery.failed_course_id)
+    lines = [words['removal'][grade].format(course=course, page=clause['removal_period'].page,
+                                            text=clause['removal_period'].text)]
+    if 'removal_one_year' in clause:
+        lines.append(_quote(words, 'one_year', clause['removal_one_year']))
+    if recovery.removal_needed_by:
+        needed = ', '.join(map(shown, recovery.removal_needed_by))
+        lines.append(_quote(words, 'before', clause['removal_before_enrollment'], needed=needed, course=course)
+                     if 'removal_before_enrollment' in clause
+                     else words['before_ask'].format(needed=needed, course=course))
+    lines.append(_quote(words, 'forfeit', clause['removal_forfeit'], course=course) if 'removal_forfeit' in clause
+                 else words['forfeit_ask'].format(course=course))
+    return lines
+
+
+def status_lines(recovery, language, shown) -> list[str]:
+    """Graduating, not-offered, stopping and standing lines; each only when the student said so."""
+    status, clause = recovery.status, {c.kind: c for c in recovery.clauses}
+    if status is None:
+        return []
+    words, course, lines = _status_words(language), shown(recovery.failed_course_id), []
+    if status.graduating:
+        if 'summer' in clause:
+            lines.append(words['summer_graduating'].format(page=clause['summer'].page))
+        if status.last_semester and status.standing is None and 'overload' in clause:
+            lines.append(_quote(words, 'overload', clause['overload']))
+        if 'prerequisite_waiver' in clause:
+            lines.append(_quote(words, 'waiver', clause['prerequisite_waiver']))
+    if status.not_offered:
+        if 'cross_enrollment' in clause:
+            lines.append(_quote(words, 'cross', clause['cross_enrollment'], course=course))
+        if 'substitution' in clause:
+            lines.append(_quote(words, 'substitution', clause['substitution']))
+            if 'substitution_limit' in clause:
+                lines.append(_quote(words, 'substitution_limit', clause['substitution_limit']))
+    if status.stopping and 'leave_of_absence' in clause:
+        lines.append(_quote(words, 'leave', clause['leave_of_absence']))
+    if status.standing is not None and 'advance_courses' in clause:
+        lines.append(_quote(words, 'standing', clause['advance_courses'],
+                            standing=words['standings'][status.standing]))
+    return lines
+
+
 def _number(value):
     return str(int(value)) if float(value).is_integer() else str(value)
 
@@ -126,11 +255,13 @@ def recovery_lines(recovery, language, shown) -> list[str]:
     clause = {c.kind: c for c in recovery.clauses}
     course = shown(recovery.failed_course_id)
     lines = [words['regular']] if recovery.regular_asked else []
+    lines.extend(removal_lines(recovery, language, shown))
     when = (f' ({term_label(recovery.next_offering, language)})' if recovery.next_offering is not None else '')
     lines.append(words['routes'].format(course=course))
     for kind, key in (('regular_class', 'retake'), ('special_class', 'special'), ('off_semester', 'off_semester'),
                       ('summer', 'summer')):
         lines.append('- ' + words[key].format(page=clause[kind].page, text=clause[kind].text, when=when))
+    lines.extend(status_lines(recovery, language, shown))
     start = term_label(recovery.start_term, language)
     lines.append(words['stated'].format(start=start) if recovery.term_stated else words['assumed'].format(
         course=course, failed=term_label(recovery.failed_term, language), start=start))
