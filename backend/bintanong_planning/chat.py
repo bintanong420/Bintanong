@@ -78,11 +78,19 @@ def earliest_term(runtime, curriculum_id, course_id, facts, start_term):
     listings = [runtime.look_up(_request('list_term_courses', curriculum_id, year_level=str(y), semester='any'))
                 for y in range(1, 6)]
     printed = {c.course_id:c for listing in listings for c in listing.courses}
-    def result(term=None, assumed=(), reason=None, checked=None):
+    rule_ids, rule_spans, scope = {}, {}, None
+    def cite(checked):
+        nonlocal scope
+        if scope is not None and checked.scope != scope:
+            raise ValueError('earliest_rule_release_mismatch')
+        scope = checked.scope
+        rule_ids.update(dict.fromkeys(checked.rule_ids))
+        for span in checked.rule_spans:
+            rule_spans.setdefault(span.model_dump_json(), span)
+
+    def result(term=None, assumed=(), reason=None):
         return EarliestTermResult(curriculum_id, course_id, start, term, 'found' if term else 'unknown',
-                                  tuple(assumed), reason, None if checked is None else checked.scope,
-                                  () if checked is None else checked.rule_ids,
-                                  () if checked is None else checked.rule_spans)
+                                  tuple(assumed), reason, scope, tuple(rule_ids), tuple(rule_spans.values()))
     if any(x.status != 'complete' for x in listings) or course_id not in printed:
         return result(reason='curriculum_or_course_not_reviewed')
     keys = {c:(p.year, SLOTS.index(p.term)) for c,p in printed.items()}
@@ -115,8 +123,10 @@ def earliest_term(runtime, curriculum_id, course_id, facts, start_term):
                     complete.append(c)
             if complete == enrolled:
                 break
+        for c in complete:
+            cite(checks[c])
         if course_id in complete:
-            return result(TermRef(year=key[0], semester=SLOTS[key[1]]), assumed, checked=checks[course_id])
+            return result(TermRef(year=key[0], semester=SLOTS[key[1]]), assumed)
         passed.update(complete)
         assumed.extend(c for c in complete if c not in assumed)
         key = _next(key)

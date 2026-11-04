@@ -22,7 +22,8 @@ No active numbered phase. Phase 13 remains cancelled.
   assumed passed only when no contrary state was stated; the answer discloses that assumption.
   A candidate co-requisite partner whose own rule is unknown/blocked is removed and all remaining
   candidates are rechecked. Unknown coverage/chains return unknown, never an invented date.
-  Successful results retain the target check's rule IDs, source spans and release scope.
+  Results retain rule IDs and source spans for the accepted simulated chain and its release scope;
+  see [provenance correction](2026-11-04-earliest-term-provenance-results.md).
 - `SymbolicAdapter.earliest_term(course_id, context, start_term)` (async) projects owning-session
   completion facts and invokes that helper; the multi-curriculum adapter delegates by context scope.
 - Optional `IntegrationResult.plan_check` carries `PlanCheckResult` only beside ready evidence with
