@@ -56,3 +56,12 @@ def test_an_answered_reply_ends_with_the_referral_before_the_citations():
     lines = text.splitlines()
     index = next(i for i, line in enumerate(lines) if line.startswith('To shift, take your request'))
     assert all(line.startswith('[') for line in lines[index + 1:])  # only citations follow
+
+
+@pytest.mark.parametrize('status', ('insufficient_evidence', 'abstained'))
+def test_an_unstated_shifting_detail_still_ends_with_the_printed_office_referral(status):
+    source = pack(CROSS, FAQ, 'taglish')
+    text = render_text(source, (), status, question_uncovered=(status == 'insufficient_evidence'))
+    assert 'Para mag-shift, dalhin ang request mo sa' in text
+    assert 'Office of the University Registrar' in text
+    assert 'Deans ng current college mo' in text
