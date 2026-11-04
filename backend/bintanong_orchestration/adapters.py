@@ -210,8 +210,9 @@ class SymbolicAdapter:
                                                            start_term))
 
     async def recover(self, request: PredicateRequest, context: RequestContext, affected, stated_term,
-                      *, regular_asked=False):
-        """Ask mode: recovery drafts for the failed course of a dependency listing, or None without sources."""
+                      *, regular_asked=False, student_status=None, fastest_asked=False):
+        """Ask mode: recovery drafts for the failed course of a dependency listing, or None without sources.
+        student_status: the typed StudentStatus the router read from the student's own words, or None."""
         if self.recovery is None or request.predicate != 'list_affected_courses':
             return None
         args = {i.name: i.value for i in request.inputs}
@@ -223,7 +224,7 @@ class SymbolicAdapter:
         facts = tuple((f.course_id, f.state) for f in context.facts if f.state not in ('enrolled', 'not_enrolled'))
         return await self._worker.run(lambda: plan_recovery(
             self.runtime, args['curriculum_id'], args['course_id'], tuple(affected), facts, stated_term, policy, routes,
-            regular_asked=regular_asked, student_status=student_status))
+            regular_asked=regular_asked, student_status=student_status, fastest_asked=fastest_asked))
 
 
 class MultiCurriculumSymbolicAdapter:
@@ -259,9 +260,11 @@ class MultiCurriculumSymbolicAdapter:
             raise ValueError('curriculum_not_in_release')
         return await self.adapters[context.curriculum_id].earliest_term(course_id, context, start_term)
 
-    async def recover(self, request, context, affected, stated_term, *, regular_asked=False, student_status=None):
+    async def recover(self, request, context, affected, stated_term, *, regular_asked=False, student_status=None,
+                      fastest_asked=False):
         curriculum = next((i.value for i in request.inputs if i.name == 'curriculum_id'), None)
         if curriculum not in self.adapters:
             raise ValueError('curriculum_not_in_release')
         return await self.adapters[curriculum].recover(request, context, affected, stated_term,
-                                                       regular_asked=regular_asked, student_status=student_status)
+                                                       regular_asked=regular_asked, student_status=student_status,
+                                                       fastest_asked=fastest_asked)

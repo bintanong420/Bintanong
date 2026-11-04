@@ -280,6 +280,8 @@ class Draft(Record):
     terms: tuple[DraftTerm, ...] = Field(min_length=1, max_length=MAX_TERMS)
     requests: int = Field(ge=0)  # courses that need an offering or approval the checker cannot confirm
     beyond_curriculum: bool  # the last delayed course falls after the curriculum's last prescribed term
+    # The first term from which every delayed course is back in its own prescribed term (None: after year five).
+    rejoin_term: TermRef | None = None
 
 
 class DroppedDraft(Record):
@@ -301,6 +303,7 @@ class RecoveryResult(Contract):
     term_stated: bool  # True when the student named the term; otherwise the start is assumed and the reply says so
     next_offering: TermRef | None  # the failed course's next regular offering from the start term
     regular_asked: bool = False  # the student said "regular": the reply explains it means the prescribed sequence
+    fastest_asked: bool = Field(default=False, exclude_if=lambda value: not value)  # "fastest" / "pinakamabilis"
     clauses: tuple[RouteClause, ...] = Field(min_length=4, max_length=MAX_CLAUSES)
     drafts: tuple[Draft, ...] = Field(max_length=3)
     dropped: tuple[DroppedDraft, ...] = Field(max_length=3)

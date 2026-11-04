@@ -2,15 +2,19 @@
 
 Terms run in calendar order (first semester, second semester, summer, next year ...) from the start term. The failed
 course and every course that needs it (the reviewed `list_affected_courses` list) are placed one term at a time in the
-earliest term whose start-of-term state meets the reviewed prerequisite rule; the student's other prescribed courses
-stay in their prescribed terms. When a summer cannot hold every unblocked course, the course that unlocks the most
-later courses goes first (unlock weight, after Aurora, Lugones et al. 2026). Regular terms are not hard-capped: a load
-above the prescribed total is a heads-up from `check_plan` (D5), never a block.
+earliest term whose start-of-term state meets the reviewed prerequisite rule, never before its own prescribed term;
+the student's other prescribed courses stay in their prescribed terms. When a summer cannot hold every unblocked
+course, the course whose dependent courses are prescribed soonest goes first, then the one that unlocks the most
+later courses (unlock weight, after Aurora, Lugones et al. 2026). Regular terms are not hard-capped: a load above the
+prescribed total is a heads-up from `check_plan` (D5), never a block.
 
 Variants: A regular offerings only (a course in its own prescribed semester of a later year); B also special-class
-requests (a course outside its prescribed semester); C also summer within the reviewed summer load. Each variant is
-run through `check_plan`; one that cannot work, or that comes out the same as an earlier one, is dropped with its
-reason. Courses before the start term are assumed passed unless the student stated otherwise; the reply says so.
+requests (a course outside its prescribed semester); C also summer within the reviewed summer load, used as soon as it
+comes. For B and C, each special-class request is dropped again when the student still rejoins the prescribed sequence
+as early without it (owner 4 Nov 2026: "greedy as much as it can be"). Each variant is run through `check_plan`; one
+that cannot work, or that comes out the same as an earlier one, is dropped with its reason. Drafts are ordered by
+fewest requests, or by the earliest rejoin when the student asks for the fastest way. Courses before the start term
+are assumed passed unless the student stated otherwise; the reply says so.
 Nothing here enrolls, approves or stores anything, and nothing names a program or a course.
 """
 from __future__ import annotations
@@ -26,6 +30,7 @@ from .policies import LoadPolicy, load_policy
 
 SLOTS = ('first_semester', 'second_semester', 'summer')
 LAST_YEAR = 5
+NONCOMPLETION = ('failed', 'not_passed', 'not_taken')  # stated states the rules read as "not completed" (adapters)
 RULES = Path(__file__).resolve().parents[2] / 'knowledge' / 'rules'
 
 
@@ -88,7 +93,8 @@ def _ref(key):
 
 
 def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, stated_term, policy, routes,
-                  *, regular_asked=False, student_status: StudentStatus | None = None) -> RecoveryResult:
+                  *, regular_asked=False, student_status: StudentStatus | None = None,
+                  fastest_asked=False) -> RecoveryResult:
     """affected: the reviewed list_affected_courses ids; facts: the student's stated results (course_id, state);
     stated_term: (year, semester) the student named, or None; policy: a reviewed LoadPolicy or None;
     student_status: what the student said about themselves (graduating, standing, a 4.0/INC ...), or None."""
@@ -118,13 +124,17 @@ def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, sta
     base_facts = [(c, 'passed') for c in assumed] + [(c, s) for c, s in facts if c in printed]
     if failed_course_id not in stated:
         base_facts.append((failed_course_id, 'failed'))  # "if I fail X": the drafts are for that case
-    weights = {}
+    dependents = {failed_course_id: tuple(affected)}
 
-    def weight(course):  # unlock weight: how many later courses need it (reviewed dependency listing)
-        if course not in weights:
-            weights[course] = len(runtime.list_affected_courses(_request('list_affected_courses', curriculum_id,
-                                                                         course_id=course)).course_ids)
-        return weights[course]
+    def priority(course):
+        """Who goes first into a term that cannot hold every course: the one whose dependent courses are prescribed
+        soonest (so they are not delayed), then the one that unlocks more later courses (unlock weight, after Aurora),
+        then the printed order. Both come from the reviewed dependency listing."""
+        if course not in dependents:
+            dependents[course] = runtime.list_affected_courses(_request('list_affected_courses', curriculum_id,
+                                                                        course_id=course)).course_ids
+        needs_it = [key_of[c] for c in dependents[course] if c in key_of]
+        return (min(needs_it, default=(LAST_YEAR + 1, 0)), -len(dependents[course]), order[course])
     calendar = []
     key = start
     while key[0] <= LAST_YEAR:
@@ -132,22 +142,52 @@ def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, sta
         key = _next(key)
     last_prescribed = max(key_of.values())
 
+    stated_failed = {c for c, s in base_facts if s in NONCOMPLETION}
+
     def eligible(course, passed, enrolled):
-        others = set(printed) - set(enrolled) - {course}
-        facts = StudentFacts(passed=tuple(sorted(passed)), failed=tuple(sorted(set(printed) - passed)),
-                             enrolled=tuple(sorted({*enrolled, course})), not_enrolled=tuple(sorted(others)))
+        # The same facts check_plan builds (a course not passed is failed only when stated so), so the plan check of
+        # each draft reuses these results. "Eligible" needs every required course passed or enrolled with it, so
+        # reading an unstated course as unknown rather than failed never changes this yes/no.
+        in_term = {*enrolled, course}
+        facts = StudentFacts(passed=tuple(sorted(passed)), failed=tuple(sorted(stated_failed - passed)),
+                             enrolled=tuple(sorted(in_term)), not_enrolled=tuple(sorted(set(printed) - in_term)))
         return runtime.check(_request('check_prerequisite_eligibility', curriculum_id, course_id=course),
                              facts).decision.outcome == 'eligible'
 
-    def mode(course, key, variant):
+    def mode(course, key, variant, banned=frozenset()):
+        if key < key_of[course]:
+            return None  # never ahead of its prescribed term (no advancing a course to catch up)
         own = key_of[course][1]
         if key[1] == 2:
             return 'summer' if own == 2 or variant == 'C' else None
         if key[1] == own:
             return 'retake' if course == failed_course_id else 'prescribed'
-        return 'special_class_request' if own != 2 and variant in ('B', 'C') else None
+        return ('special_class_request' if own != 2 and variant in ('B', 'C') and (course, key) not in banned
+                else None)
 
-    def draft(variant):
+    def rejoin(placed):
+        """The first term from which every delayed course sits in its own prescribed term again."""
+        off = [key for course, key in placed.items() if key != key_of[course]]
+        return _next(max(off)) if off else start
+
+    def specials(terms):
+        return [(p.course_id, key) for key, moved, _ in terms for p in moved if p.mode == 'special_class_request']
+
+    def best(variant):
+        """The greedy chain, then each special-class request dropped again (latest first) when the student still
+        rejoins the prescribed sequence as early without it: fewest special classes for the earliest rejoin."""
+        terms, placed = draft(variant)
+        banned = frozenset()
+        for request in sorted(specials(terms), key=lambda item: item[1], reverse=True):
+            try:
+                fewer, fewer_placed = draft(variant, banned | {request})
+            except _Drop:
+                continue
+            if rejoin(fewer_placed) <= rejoin(placed) and len(specials(fewer)) < len(specials(terms)):
+                banned, terms, placed = banned | {request}, fewer, fewer_placed
+        return terms, placed
+
+    def draft(variant, banned=frozenset()):
         if variant == 'C' and policy is None:
             raise _Drop('no_summer_policy')
         passed = set(assumed) | {c for c, s in facts if s == 'passed'}
@@ -160,9 +200,9 @@ def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, sta
             room = None
             if key[1] == 2 and variant == 'C':
                 room = policy.summer_normal_units - sum(units[c] or 0 for c in kept)
-            waiting = [c for c in blocked if c not in placed and mode(c, key, variant)]
+            waiting = [c for c in blocked if c not in placed and mode(c, key, variant, banned)]
             if room is not None and len(waiting) > 1:  # only a capped term needs the tie-break
-                waiting.sort(key=lambda c: (-weight(c), order[c]))
+                waiting.sort(key=priority)
             changed = True
             while changed:  # a co-requisite pair can both enter once one of them is in the term
                 changed = False
@@ -175,7 +215,7 @@ def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, sta
                     if eligible(course, passed, enrolled):
                         placed[course] = key
                         enrolled.append(course)
-                        moved.append(PlacedCourse(course_id=course, mode=mode(course, key, variant)))
+                        moved.append(PlacedCourse(course_id=course, mode=mode(course, key, variant, banned)))
                         room = None if room is None else room - size
                         changed = True
             if enrolled:
@@ -208,20 +248,25 @@ def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, sta
     drafts, dropped, shapes = [], [], {}
     for variant in ('A', 'B', 'C'):
         try:
-            terms, placed = draft(variant)
+            if variant == 'C' and policy is None:
+                raise _Drop('no_summer_policy')
+            terms, placed = best(variant)
             shape = tuple((key, tuple(moved)) for key, moved, _ in terms if moved)
             same = next((v for v, s in shapes.items() if s == shape), None)
             if same is not None:
                 raise _Drop('same_as', same_as=same)
             shapes[variant] = shape
-            drafts.append((sum(p.mode in REQUESTED_MODES for _, moved, _ in terms for p in moved),
-                           max(placed.values()), Draft(variant=variant, terms=tuple(checked(variant, terms)),
-                           requests=sum(p.mode in REQUESTED_MODES for _, moved, _ in terms for p in moved),
-                           beyond_curriculum=max(placed.values()) > last_prescribed)))
+            requests = sum(p.mode in REQUESTED_MODES for _, moved, _ in terms for p in moved)
+            back = rejoin(placed)
+            drafts.append(((back, requests) if fastest_asked else (requests, max(placed.values())),
+                           Draft(variant=variant, terms=tuple(checked(variant, terms)), requests=requests,
+                                 beyond_curriculum=max(placed.values()) > last_prescribed,
+                                 rejoin_term=_ref(back) if back[0] <= LAST_YEAR else None)))
         except _Drop as drop:
             dropped.append(DroppedDraft(variant=variant, reason=drop.reason, **drop.detail))
-    # Stated order (plan of action, Step 5): fewest unconfirmed requests, then the earliest last delayed course.
-    drafts.sort(key=lambda item: item[:2])
+    # Stated order (plan of action, Step 5): fewest unconfirmed requests, then the earliest last delayed course; when
+    # the student asks for the fastest way, the earliest return to the prescribed sequence, then fewest requests.
+    drafts.sort(key=lambda item: item[0])
     next_offering = next((k for k in calendar if k[1] == failed_key[1]), None)
     needed_by = ()
     if student_status is not None and student_status.grade(failed_course_id) in OPEN_GRADES:
@@ -232,5 +277,5 @@ def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, sta
         curriculum_id=curriculum_id, failed_course_id=failed_course_id, failed_term=_ref(failed_key),
         start_term=_ref(start), term_stated=term_stated,
         next_offering=None if next_offering is None else _ref(next_offering), regular_asked=regular_asked,
-        clauses=routes.clauses, drafts=tuple(d for *_, d in drafts), dropped=tuple(dropped),
+        clauses=routes.clauses, drafts=tuple(d for _, d in drafts), dropped=tuple(dropped), fastest_asked=fastest_asked,
         policy_id=None if policy is None else policy.policy_id, status=student_status, removal_needed_by=needed_by)
