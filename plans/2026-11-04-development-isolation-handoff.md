@@ -5,7 +5,7 @@ Owner requested a separate worktree so development can continue while p12 serves
 - Gathering checkout: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p12`, branch
   `p12-evaluation-harness`, frozen by this session at `8f15cfe0` (same remote tip when inspected).
 - Development checkout: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p12-dev`, branch
-  `work/post-gathering-fixes`, based on `8f15cfe0`, with no remote upstream.
+  `p12-post-gathering-fixes`, based on `8f15cfe0`, with no remote upstream.
 - Original checkout's dirty progress notes and `.playwright-mcp/` remain there, untouched.
 - Worktree creation did not restart, reconfigure or probe any application/model service.
 - Continue code changes only in p12-dev. Do not merge or push to the gathering branch during collection.

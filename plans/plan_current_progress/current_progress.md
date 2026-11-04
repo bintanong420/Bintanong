@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 4 November 2026. Development worktree p12-dev / `work/post-gathering-fixes`.
+Updated 4 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes`.
 Owner moved continued development off the gathering checkout; base `8f15cfe0`, no remote upstream.
 See [isolation handoff](../2026-11-04-development-isolation-handoff.md). p12 services and files stay untouched;
 live model probes remain paused during collection. This branch's historical notes below describe the base.
