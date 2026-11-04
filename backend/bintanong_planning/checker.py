@@ -81,10 +81,7 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
             if (term.kind == 'regular' and course.mode in ('prescribed', 'retake')
                     and found.courses[0].term != term.semester):
                 requests[course.course_id] = 'off_semester_request'
-            units.append(_units(found.courses[0]))
-            if units[-1] is None:
-                reasons.append(PlanReason(kind='units_missing', course_id=course.course_id,
-                                          detail='units not printed in the reviewed curriculum'))
+            units.append(_units(found.courses[0]))  # a missing total only makes the load unknown (ARP-04)
             checked = runtime.check(_request('check_prerequisite_eligibility', curriculum,
                                              course_id=course.course_id), facts)
             cite(checked)
@@ -136,7 +133,7 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
 def _outcome(reasons, load, warnings):
     if any(r.kind == 'unmet_prerequisite' for r in reasons):
         return 'blocked'
-    if reasons or load.status == 'unknown':
+    if reasons:  # the load has its own status and never changes the prerequisite verdict (ARP-04)
         return 'unknown'
     return 'works_with_warning' if warnings else 'works'
 
@@ -146,7 +143,7 @@ def _load(term, runtime, curriculum, units, policy):
     if policy is None:
         return LoadCheck(status='unknown', units=total, ceiling=None, reason=NOT_REVIEWED), []
     if total is None:
-        return LoadCheck(status='unknown', units=None, ceiling=None, reason='units not printed for every course'), []
+        return LoadCheck(status='unknown', units=None, ceiling=None, reason='units not printed as totals'), []
     if term.kind == 'summer':
         ceiling, kind, clause = policy.summer_normal_units, 'summer_above_normal', policy.clause('summer')
     else:

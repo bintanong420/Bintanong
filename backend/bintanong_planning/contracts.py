@@ -163,7 +163,7 @@ class TermVerdict(Record):
     @model_validator(mode='after')
     def _consistent(self):
         blocked = any(r.kind == 'unmet_prerequisite' for r in self.reasons)
-        unknown = bool(self.reasons) and not blocked or self.load.status == 'unknown'
+        unknown = bool(self.reasons) and not blocked  # a load of unknown status is its own line (ARP-04)
         expected = ('blocked' if blocked else 'unknown' if unknown
                     else 'works_with_warning' if self.warnings or self.open_removals else 'works')
         if self.outcome != expected:

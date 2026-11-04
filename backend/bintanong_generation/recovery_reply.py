@@ -38,7 +38,7 @@ _WORDS = {
            'your Dean or the Registrar before you enroll.',
         summer_load='  Heads-up: this summer comes to {units} units, above the normal summer load of {ceiling} '
                     '(Student Handbook p. {page}). Check with your Dean before you enroll.',
-        load_unknown="  I can't check the unit load for this term: {reason}.",
+        load_unknown="  I can't check this term's unit load: {reason}.",
         prereq_unknown="  I can't fully check the prerequisites of {course}; please confirm with your program adviser.",
         unchecked='  {course} could not be checked.',
         back='After {term}, the rest follows your prescribed sequence.',

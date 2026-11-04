@@ -20,8 +20,10 @@ def plan_check_lines(request, result, language, shown, *, routes=None):
                 needs = ', '.join(map(shown, reason.missing))
                 lines.append(f"{shown(reason.course_id)} has unmet course requirements: {needs}." if english else
                              f"May hindi met na course requirements ang {shown(reason.course_id)}: {needs}.")
-            else:
+            elif reason.kind == 'prerequisite_unknown':
                 lines.append(words['prereq_unknown'].format(course=shown(reason.course_id)))
+            else:  # course facts incomplete, not in the curriculum or a rule error: the course was not checked
+                lines.append(words['unchecked'].format(course=shown(reason.course_id)))
         clauses = {} if routes is None else {c.kind:c for c in routes.clauses}
         for condition in verdict.unconfirmed:
             source = clauses.get({'special_class_request':'special_class', 'off_semester_request':'off_semester',
