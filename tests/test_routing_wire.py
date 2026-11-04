@@ -291,3 +291,17 @@ def test_a_claim_whose_quote_holds_two_copies_of_the_course_is_not_guessed():
         operations=[dict(name='check_prerequisite_eligibility', target=quote('YY 2'))], route='Symbolic', ambiguities=[])
     with pytest.raises(ValueError):
         normalize(value, text)
+
+
+@pytest.mark.parametrize('gap', ['\n', '\r\n', '  ', '\t'])
+def test_normalized_whitespace_quotes_keep_the_original_spans_and_failed_claim(gap):
+    text = TEXT.replace('after failing', 'after' + gap + 'failing')
+    result = normalize(text=text)
+    assert result.parts[0].text == text[:text.index(' Where')]
+    assert text[result.parts[0].start:result.parts[0].end] == result.parts[0].text
+    assert result.claims[0].state == 'failed'
+
+
+def test_whitespace_grounding_never_removes_a_negation_or_invents_a_match():
+    with pytest.raises(ValueError, match='quote_occurrence_not_found'):
+        normalize(text=TEXT.replace('after failing', 'after not failing'))

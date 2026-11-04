@@ -1,6 +1,7 @@
 """Strict routing data. Model proposals never carry trusted IDs or executable goals."""
 from __future__ import annotations
 
+import re
 import unicodedata
 from typing import Annotated, Literal
 
@@ -38,6 +39,12 @@ def prepare_query(text: str) -> str:
     if not normalized:
         raise ValueError('empty_query')
     return normalized
+
+
+def quote_matches(text: str, quote: str) -> list[tuple[int, int]]:
+    """Original spans for quotes differing only in whitespace; words and case stay literal."""
+    pattern = r'\s+'.join(re.escape(word) for word in re.split(r'\s+', quote))
+    return [m.span(1) for m in re.finditer('(?=(' + pattern + '))', text)]
 
 
 class ScopedFact(Record):

@@ -5,7 +5,7 @@ from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Contract, Control, Record, Route
 from .terms import parse_term
-from .contracts import TERM_OPERATIONS, DialogueAct, Interpretation, Language, MentionKind, State, Text, prepare_query
+from .contracts import TERM_OPERATIONS, DialogueAct, Interpretation, Language, MentionKind, State, Text, prepare_query, quote_matches
 
 
 class QuoteReference(Record):
@@ -147,7 +147,18 @@ def normalize_interpretation(text: str, wire: WireInterpretation, *, course_name
                 # A miscounted occurrence is corrected only when the quote occurs exactly once,
                 # so nothing has to be chosen (same rule as offset correction).
                 first = text.find(quote.text)
-                if first < 0 or text.find(quote.text, first + 1) >= 0:
+                if first < 0:
+                    # Whitespace may change when text is pasted; all words and their order must still match.
+                    found = quote_matches(text, quote.text)
+                    if quote.occurrence < len(found):
+                        start, end = found[quote.occurrence]
+                    elif len(found) == 1:
+                        start, end = found[0]
+                    else:
+                        raise ValueError('quote_occurrence_not_found')
+                    spans[identity] = dict(text=text[start:end], start=start, end=end)
+                    return spans[identity]
+                if text.find(quote.text, first + 1) >= 0:
                     raise ValueError('quote_occurrence_not_found')
                 start = first
             spans[identity] = dict(text=quote.text, start=start, end=start + len(quote.text))

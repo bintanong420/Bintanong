@@ -95,14 +95,14 @@ def _repair_messages(messages, raw, problem=None):
     if problem is None:
         request = ('This is a formatting repair, not a new student question. '
             'Return valid JSON matching the original schema for the ORIGINAL student request '
-            'in the payload below. Correct formatting only; preserve its meaning and facts.\n')
+            'in the original user payload (original_text) above. Correct formatting only; preserve its meaning and facts.\n')
     else:  # A reference error is a meaning error: name it and allow reinterpretation.
         request = ('This is a repair, not a new student question. The previous interpretation was '
             f'rejected ({problem}): {REFERENCE_HINTS.get(problem, "fix that invalid reference")} '
             'Return valid JSON matching the original schema for the ORIGINAL student request '
-            'in the payload below. Do not invent courses, operations or facts.\n')
+            'in the original user payload (original_text) above. Do not invent courses, operations or facts.\n')
     return [*messages, dict(role='assistant', content=raw[:65536] if isinstance(raw, str) else ''),
-        dict(role='user', content=request + messages[1]['content'])]
+        dict(role='user', content=request)]
 
 
 

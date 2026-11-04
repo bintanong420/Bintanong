@@ -84,7 +84,9 @@ def test_repair_explicitly_reanchors_the_original_student_request():
     transport = FakeTransport('bad json', json.dumps(proposal()))
     run(transport)
     repair = transport.calls[1][0][-1]['content']
-    assert 'original_text' in repair and 'A1' in repair
+    assert 'original_text' in repair and 'original user payload' in repair
+    assert repair.count('A1') == 0
+    assert repair.count('{') == 0  # the complete original payload is already present earlier
     assert 'not a new student question' in repair
 
 
@@ -334,7 +336,9 @@ def test_style_format_repair_uses_the_one_shared_allowance():
     assert result.attempts == 1 and result.style_attempts == 2
     assert result.inference_calls == 3 and result.repair_attempts == 1
     repair = transport.calls[-1][0][-1]['content']
-    assert 'original_text' in repair and 'A1' in repair
+    assert 'original_text' in repair and 'original user payload' in repair
+    assert repair.count('A1') == 0
+    assert repair.count('{') == 0  # the complete original payload is already present earlier
 
 
 def test_routing_repair_leaves_no_second_repair_for_style():
