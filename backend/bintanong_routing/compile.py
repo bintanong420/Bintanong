@@ -289,6 +289,25 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         pool = distinct if len(distinct) == 1 else unclaimed
         return pool[0] if len(pool) == 1 and len(pool[0].entries) == 1 else None
 
+    def held_course(words):
+        """The one reviewed course inside a longer target phrase ("anything that uses X as pre-req", "X next sem"),
+        when the rest of the phrase is ordinary words. A second course or another code-like word (an unknown code
+        the student may want to take) leaves the phrase as it was."""
+        area = _locate(text, words) if words else None
+        if area is None:
+            return None
+        inside = [f for f in found if area[0] <= f.start and f.end <= area[1]]
+        if len({tuple(sorted(e.entity_id for e in f.entries)) for f in inside}) != 1 or len(inside[0].entries) != 1:
+            return None
+        rest, cursor = [], area[0]
+        for f in inside:
+            rest.append(text[cursor:f.start])
+            cursor = f.end
+        rest.append(text[cursor:area[1]])
+        if any(_looks_like_code(w) and not _trimmed_keys(w) & noncourse for w in ' '.join(rest).split()):
+            return None
+        return inside[0]
+
     def back_reference():
         if (meaning.previous_course is None or previous is None or previous.course_id is None
                 or not any(c.entity_id == previous.course_id for c in courses)):
@@ -330,6 +349,17 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
             if span is None:
                 raise ValueError('compile_target_unlocated')
             built.append((check.name, 'course', span, None))
+            continue
+        inner = held_course(target)
+        if inner is not None:
+            # "Can I take anything that uses X as pre-req?" with the whole phrase as the target: X is the reference
+            # point and the student asks about the courses that depend on it, not about a course named "Anything".
+            area = _locate(text, target)
+            own = area is not None and bool(_OWN_PREREQS_BEFORE.search(text[area[0]:inner.start])
+                                            or _OWN_PREREQS_AFTER.match(text[inner.end:area[1]]))
+            name = ('list_affected_courses' if check.name == 'check_prerequisite_eligibility'
+                    and _OTHER_COURSES.match(target) and not own else check.name)
+            built.append((name, 'course', inner, None))
             continue
         word_target = target is None or not _looks_like_code(target) or bool(_trimmed_keys(target) & noncourse)
         single = only_course() if word_target else None
@@ -494,6 +524,9 @@ _ELIGIBILITY = ('check_prerequisite_eligibility', 'list_missing_prerequisites')
 # Words that stand for "some other course" rather than a course or a back-reference ("it", "sya").
 _OTHER_COURSES = re.compile(r'^\s*(any|anything|something|what|which|ano|anong|alin|alinman|kahit\s+ano|'
                             r'(?:mga\s+)?(?:other\s+)?(?:subjects?|courses?))\b', re.I)
+# "prerequisites of X" / "X needs": the course's own prerequisites, the opposite direction of "what uses X".
+_OWN_PREREQS_BEFORE = re.compile(r'\b(?:pre-?req\w*|requirements?)\s+(?:of|for|ng|ni)\s*\Z', re.I)
+_OWN_PREREQS_AFTER = re.compile(r'\s*(?:needs?|requires?)\b', re.I)
 _LISTING = re.compile(r'\b(subjects?|courses?|kurso|prospectus|curriculum)\b', re.I)
 
 
