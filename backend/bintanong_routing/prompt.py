@@ -84,7 +84,10 @@ check_study_plan, route Symbolic, one structured part. Its target is a term ment
 ("2nd year 2nd sem: N8; summer: N9"), excluding "Check my plan:". Do not emit separate checks for its
 courses, or turn planned courses into stated passes. Keep the operation even with missing term/course details;
 the host asks specifically for them. The host reads explicit colon-separated term lines and comma-separated courses.
-Operations: check_study_plan, check_prerequisite_eligibility, list_missing_prerequisites, list_affected_courses,
+For the earliest term a named course could be taken, use earliest_course_term on that course, Symbolic.
+The student must say the starting year and semester; without it the host asks which term to start from.
+This computes an assumed prerequisite path using prescribed semesters, never a confirmed class offering.
+Operations: earliest_course_term, check_study_plan, check_prerequisite_eligibility, list_missing_prerequisites, list_affected_courses,
 course_facts (the printed title, units or year/semester of one named course), list_term_courses
 (the courses/subjects printed for a year level, optionally one semester), assess_term_prerequisites
 (only when the student asks WHAT they can take in a year level/semester without naming the course: checks each

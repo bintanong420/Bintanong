@@ -24,7 +24,7 @@ def compile_mode(request, monkeypatch):
     monkeypatch.setenv('BINTANONG_ROUTER_COMPILE', request.param)
 
 
-def run_plan(curriculum, plan_text, *, facts=(), audience='undergraduate', language='en', conversation=None, routes=None):
+def run_plan(curriculum, plan_text, *, facts=(), audience='undergraduate', language='en', conversation=None, routes=None, route_proof=True):
     key, runtime, c = curriculum
     prefix = 'Check my plan: ' if language == 'en' else 'Paki-check ang plan ko: '
     text = prefix + plan_text
@@ -36,10 +36,26 @@ def run_plan(curriculum, plan_text, *, facts=(), audience='undergraduate', langu
         ('curriculum_id', 'plan_sha256'))})
     pin = ReleasePin.parse(dict(release_id=runtime.release_id, synthetic=True, rule_bundle_version=runtime.rule_bundle_version,
         sources=[dict(version_id=SOURCE.version_id, byte_sha256=SOURCE.byte_sha256)]))
+    proof = None
+    if routes is not None and route_proof:
+        import hashlib
+        from backend.bintanong_orchestration.contracts import DocumentResult, DocumentPassage
+        from backend.bintanong_orchestration.plan_sources import source_digest
+        records = []
+        for clause in routes.clauses:
+            chunk_id = hashlib.sha256(clause.text.encode()).hexdigest()
+            records.append(dict(chunk_id=chunk_id, version_id=SOURCE.version_id,
+                text=json.dumps(dict(fields=[dict(name='body', value=clause.text, source_blank=False, span_indexes=[0])], source_limits=[])),
+                citations=[dict(version_id=SOURCE.version_id, byte_sha256=SOURCE.byte_sha256, page=clause.page,
+                    locator=dict(kind='docling_ref',ref='synthetic-clause',table_index=None,cell_ids=[],item_ids=[]))]))
+        routes = routes.model_copy(update=dict(source_chunk_ids=tuple(r['chunk_id'] for r in records)))
+        pin = pin.model_copy(update=dict(plan_routes_sha256=source_digest(routes),documents=tuple(dict(chunk_id=r['chunk_id'], version_id=SOURCE.version_id,
+            byte_sha256=SOURCE.byte_sha256,passage_sha256=source_digest(DocumentPassage.parse(r))) for r in records)))
+        proof = DocumentResult.parse(dict(release_id=pin.release_id, status='ok', passages=records, gaps=[]))
     entries = tuple(e.model_copy(update=dict(source_ref=SOURCE.version_id)) for e in catalog(key))
     labels = tuple((e.entity_id, e.aliases[0]) for e in entries)
     resources = ReleaseResources(pin, entries, registry, None, SymbolicAdapter(runtime, recovery=(POLICY, routes)),
-        course_labels=labels)
+        course_labels=labels, plan_route_sources=proof)
     context = RequestContext.parse(dict(session_id='sess-a', request_id='req-a', program_id='program-synthetic',
         curriculum_id=key, conversation=conversation, facts=tuple(dict(fact_id=f'fact-{i}', session_id='sess-a', program_id='program-synthetic',
             curriculum_id=key, course_id=course, state=state) for i,(course,state) in enumerate(facts))))
@@ -133,18 +149,28 @@ def test_plan_uses_the_same_prior_term_as_routing(curriculum):
     assert result.plan_check.checked_request.terms[0].year_level == 2
 
 
-def test_configured_printed_offering_conditions_reach_the_chat(curriculum):
+@pytest.mark.parametrize('mode', ['', ' special class'])
+def test_configured_printed_offering_conditions_reach_the_chat(curriculum, mode):
     from test_planning_recovery import ROUTES
     key, _, c = curriculum
     routes = ROUTES.model_copy(update=dict(clauses=tuple(
         clause.model_copy(update=dict(text=clause.text + ' Permission from the fictional office is required.',
             conditions=('Permission from the fictional office is required.',)))
         if clause.kind == 'special_class' else clause for clause in ROUTES.clauses)))
-    result, answer = run_plan(curriculum, f"2nd year 2nd sem: {CURRICULA[key]['X']} special class",
+    result, answer = run_plan(curriculum, f"2nd year 2nd sem: {CURRICULA[key]['X']}{mode}",
         facts=((c('BASE'), 'passed'),), routes=routes)
     assert answer.status == 'answered'
     text = student_text(answer)
-    clause = next(c for c in routes.clauses if c.kind == 'special_class')
+    clause = next(c for c in routes.clauses if c.kind == ('special_class' if mode else 'off_semester'))
     assert clause.text in text and all(condition in text for condition in clause.conditions)
     assert f'Student Handbook p. {clause.page}' in text
     assert 'offering conditions are unavailable' not in text
+
+
+def test_unpinned_configured_offering_clauses_are_refused(curriculum):
+    from test_planning_recovery import ROUTES
+    key, _, c = curriculum
+    result, answer = run_plan(curriculum, f"2nd year 2nd sem: {CURRICULA[key]['X']} special class",
+        facts=((c('BASE'), 'passed'),), routes=ROUTES, route_proof=False)
+    assert result.status != 'ready' and answer.status != 'answered'
+    assert all(clause.text not in answer.text for clause in ROUTES.clauses)

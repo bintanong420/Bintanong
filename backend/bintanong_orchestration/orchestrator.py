@@ -215,7 +215,7 @@ class Orchestrator:
             # Recheck metadata at this request boundary; the provider is trusted.
             return ReleaseResources(value.pin, value.catalog, value.registry,
                                     value.retrieval, value.symbolic, value.topics, value.document_scope,
-                                    value.course_labels, value.course_details)  # choice labels (live #12, 3 Nov)
+                                    value.course_labels, value.course_details, value.plan_route_sources)  # choice labels (live #12, 3 Nov)
 
         resources, failure = await stage('release', pin_release)
         if failure:
@@ -287,6 +287,28 @@ class Orchestrator:
             nonlocal plan_routes
             request = routed.decision.predicate_request
             resources.registry.goal(request)
+            if request.predicate == 'earliest_course_term':
+                from .earliest_term import EarliestTermAssessment
+                from ..bintanong_planning.chat import earliest_request_digest
+                args = {i.name:i.value for i in request.inputs}
+                value = await resources.symbolic.earliest_term(args['course_id'], scoped,
+                    (int(args['year_level']), args['semester']))
+                facts = tuple((f.course_id,f.state) for f in scoped.facts
+                              if f.state not in ('enrolled','not_enrolled'))
+                expected = earliest_request_digest(scoped.curriculum_id,args['course_id'],facts,
+                    (int(args['year_level']),args['semester']))
+                if value.request_sha256 != expected:
+                    raise ValueError('earliest_effective_request_mismatch')
+                payload = {name:getattr(value, name) for name in ('curriculum_id', 'course_id', 'status',
+                           'assumed_passes', 'reason', 'rule_ids', 'request_sha256')}
+                payload.update(schema_version=EarliestTermAssessment.SCHEMA_VERSION,
+                    checked_facts=[dict(course_id=c,state=s) for c,s in value.checked_facts],
+                    synthetic=resources.pin.synthetic, inputs=[i.model_dump(mode='json') for i in request.inputs],
+                    start_term=value.start_term.model_dump(mode='json'),
+                    term=None if value.term is None else value.term.model_dump(mode='json'),
+                    scope=None if value.scope is None else value.scope.model_dump(mode='json'),
+                    rule_spans=[s.model_dump(mode='json') for s in value.rule_spans])
+                return EarliestTermAssessment.parse(payload)
             if request.predicate == 'check_study_plan':
                 from ..bintanong_planning.chat import parse_plan_terms
                 from ..bintanong_planning.contracts import PlanCheckResult
@@ -334,7 +356,7 @@ class Orchestrator:
                 raise ValueError('dependency_operation_mismatch')
             return dependency_kind.parse(value.model_dump(mode='json'))
 
-        documents, symbolic, dependencies, course_facts, term_assessment = None, None, None, None, None
+        documents, symbolic, dependencies, course_facts, term_assessment, earliest_term = None, None, None, None, None, None
         research_pin = not resources.pin.synthetic
         if route == 'Hybrid':
             (documents, doc_failure), (result, sym_failure) = await asyncio.gather(
@@ -348,7 +370,10 @@ class Orchestrator:
         if failure:
             return finish(failure)
         from ..bintanong_planning.contracts import PlanCheckResult
-        if isinstance(result, PlanCheckResult):
+        from .earliest_term import EarliestTermAssessment
+        if isinstance(result, EarliestTermAssessment):
+            earliest_term = result
+        elif isinstance(result, PlanCheckResult):
             plan_check = result
         elif isinstance(result, DependencyResult):
             dependencies = result
@@ -363,7 +388,8 @@ class Orchestrator:
         async def integrate():
             return assemble(resources.pin, route, documents=documents,
                             symbolic=symbolic, dependencies=dependencies, course_facts=course_facts,
-                            term_assessment=term_assessment, plan_check=plan_check, plan_routes=plan_routes)
+                            term_assessment=term_assessment, plan_check=plan_check, plan_routes=plan_routes, earliest_term=earliest_term,
+                            plan_route_sources=resources.plan_route_sources if plan_routes is not None else None)
 
         evidence, failure = await stage('integration', integrate)
         return finish(failure) if failure else finish(evidence.status, evidence, evidence.missing_facts)

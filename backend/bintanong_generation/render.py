@@ -178,10 +178,12 @@ def selected_cards(pack,claims):
         actual=tuple(dict(text=c.text,evidence_ids=list(c.evidence_ids)) for c in claims)
         if not expected or actual!=expected:
             return ()
+    if pack.plan_routes is not None and pack.status == 'ready':
+        return tuple(pack.cards)
     ids={ref for claim in claims for ref in claim.evidence_ids}
     return tuple(c for c in pack.cards if c.evidence_id in ids or
                  (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None
-                                      or pack.term_assessment is not None or pack.plan_check is not None)))
+                                      or pack.term_assessment is not None or pack.plan_check is not None or pack.earliest_term is not None)))
 
 
 _WITHHELD={
@@ -293,11 +295,16 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         if explanation:
             lines.insert(2,explanation)
         return '\n'.join(lines)
+    if pack.earliest_term is not None and status == 'answered':
+        from .plan_check_reply import earliest_term_lines
+        lines.extend(earliest_term_lines(pack.earliest_term, pack.language, shown))
     if pack.plan_check is not None and status == 'answered':
         from .plan_check_reply import plan_check_lines
         lines.extend(plan_check_lines(pack.plan_check.checked_request, pack.plan_check, pack.language, shown, routes=pack.plan_routes))
     missing=pack.missing_facts
-    plan_questions = {'plan_term': ('Which year and semester is each term of your plan for?',
+    plan_questions = {'earliest_start_term': ('Which year and semester should I start counting from?',
+                                                 'Sa anong year at sem ako magsisimulang magbilang?'),
+                      'plan_term': ('Which year and semester is each term of your plan for?',
                                      'Anong year at sem ang bawat term ng plan mo?'),
                       'plan_terms': ('Could you list your plan as year and semester: course codes, one term per line?',
                                      'Pwede mong ilista ang plan bilang year at sem: course codes, isang term bawat line?'),

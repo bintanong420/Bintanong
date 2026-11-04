@@ -16,7 +16,7 @@ from .languages import unsupported_language
 from .terms import parse_term
 
 OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
-              'course_facts', 'list_term_courses', 'assess_term_prerequisites', 'check_study_plan')
+              'course_facts', 'list_term_courses', 'assess_term_prerequisites', 'check_study_plan', 'earliest_course_term')
 
 
 class GroundedClaim(ScopedFact):
@@ -464,6 +464,11 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             target = (('year_level', str(year)), ('semester', semester))
         else:
             target = (('course_id', resolved[op.target].entity_id),)
+            if op.name == 'earliest_course_term':
+                start = parse_term(text, prior_term)
+                if start is None or start[1] == 'any':
+                    return result('missing_earliest_start_term', missing=('earliest_start_term',))
+                target += (('year_level', str(start[0])), ('semester', start[1]))
         request = PredicateRequest(predicate=op.name, inputs=(
             BoundInput(name='curriculum_id', value=curriculum, fact_ref=None),
             *(BoundInput(name=name, value=value, fact_ref=None) for name, value in target)))
