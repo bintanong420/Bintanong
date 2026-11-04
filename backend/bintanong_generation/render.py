@@ -266,6 +266,16 @@ def shown_label(pack):
     return lambda course: labels.get(course,course)
 
 
+def shown_recovery(pack,status):
+    """The recovery result the reply text renders for its dependency listing, else None."""
+    context=pack.structured_context
+    if (pack.recovery is None or pack.dependencies is None or context is None or pack.status!='ready'
+            or status!='answered'):
+        return None
+    target=next((i.value for i in context.inputs if i.name=='course_id'),None)
+    return pack.recovery if pack.recovery.failed_course_id==target else None
+
+
 def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False,
                 explanation=None):
     words=_WORDS.get(pack.language,_WORDS['en'])
@@ -397,7 +407,7 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             if pack.structured_context is not None else None
         if canonical_allowed and target is not None:  # owner report, 4 Nov 2026: answer, never a list of unknowns
             from .dependency_reply import dependency_lines
-            recovery=pack.recovery if pack.recovery is not None and pack.recovery.failed_course_id==target else None
+            recovery=shown_recovery(pack,status)
             # Ask mode lists every delayed course with its prescribed term; the drafts follow (owner 4 Nov 2026).
             if recovery is not None:  # one Markdown reply: answer, delayed courses by term, options, drafts, sources
                 from .recovery_reply import recovery_lines

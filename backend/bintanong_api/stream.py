@@ -14,6 +14,7 @@ import secrets
 
 from backend.bintanong_api.chat import ChatTurns, PreparedTurn
 from backend.bintanong_api.presentation import clarification_view, guidance_notice, student_text
+from backend.bintanong_api.presentation import plan_view as build_plan_view
 from backend.bintanong_api.session import ApiError, Session
 
 STREAM_HEADERS = {'x-vercel-ai-ui-message-stream': 'v1', 'cache-control': 'no-cache', 'x-accel-buffering': 'no'}
@@ -30,7 +31,8 @@ def _title(card) -> str:
     return _SOURCE if cite is None else f'{cite.filename or _SOURCE}, p.{cite.page}'
 
 
-def answer_parts(answer, message_id: str, course_labels=None) -> list[dict]:
+def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False) -> list[dict]:
+    """`plan_view` stays off until the frontend's strict `data-answer` schema accepts `planView`."""
     text_id = f'{message_id}-text'
     parts = [{'type': 'text-start', 'id': text_id},
              {'type': 'text-delta', 'id': text_id, 'delta': student_text(answer)},
@@ -55,6 +57,9 @@ def answer_parts(answer, message_id: str, course_labels=None) -> list[dict]:
         'notice': guidance_notice(answer.language)}})
     if answer.status == 'clarification_needed':
         parts[-1]['data']['clarification'] = clarification_view(answer, course_labels or {})
+    view = build_plan_view(answer, course_labels or {}) if plan_view else None
+    if view is not None:
+        parts[-1]['data']['planView'] = view
     parts.append({'type': 'finish', 'finishReason': 'stop'})
     return parts
 

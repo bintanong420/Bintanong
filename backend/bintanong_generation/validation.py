@@ -33,12 +33,12 @@ def validate_support(report,draft):
 
 
 def validate_final(answer,pack,claims):
-    from .render import render_text,selected_cards
+    from .render import render_text,selected_cards,shown_recovery
     from .understanding import validate_ledger
     if (answer.request_id!=pack.request_id or answer.release_id!=pack.release_id
             or answer.language!=pack.language or answer.decision!=pack.decision
             or answer.dependencies!=pack.dependencies or answer.structured_context!=pack.structured_context
-            or answer.plan_check!=pack.plan_check or answer.earliest_term!=pack.earliest_term):
+            or answer.recovery!=shown_recovery(pack,answer.status) or answer.plan_check!=pack.plan_check or answer.earliest_term!=pack.earliest_term):
         raise ValueError('final_identity_or_decision_mismatch')
     if answer.research_ref!=pack.research_ref:
         raise ValueError('final_research_reference_mismatch')

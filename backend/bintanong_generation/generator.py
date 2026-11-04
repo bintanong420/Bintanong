@@ -13,7 +13,7 @@ from .deadline_conflict import unresolved_deadline_context
 from .evidence import prepare
 from .references import EvidenceReferences,ShortAnswerDraft
 from .prompt import draft_messages,draft_schema
-from .render import fallback_status,render_text,selected_cards
+from .render import fallback_status,render_text,selected_cards,shown_recovery
 from .validation import validate_draft,validate_support,validate_final
 from .scope import (DocumentExplanation,canonical_draft,document_messages,document_schema,
                     )
@@ -62,7 +62,7 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
             question_uncovered=reason in ('question_uncovered','parts_unresolved'),ledger=ledger,
             thanked=reason=='thanks',explanation=explanation),
         decision=pack.decision,dependencies=pack.dependencies,plan_check=pack.plan_check,earliest_term=pack.earliest_term,
-        structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
+        recovery=shown_recovery(pack,status),structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage,
         part_ledger=ledger,research_ref=pack.research_ref,host_quote_override=tuple(overrides),
