@@ -183,6 +183,50 @@ def test_missing_act_with_history_is_explicit_context_failure():
     assert result.diagnostic == 'dialogue_reference_missing'
 
 
+@pytest.mark.parametrize('operation', ['list_course_prerequisites', 'check_prerequisite_eligibility'])
+def test_explicit_named_question_needs_no_history_reference(operation):
+    from backend.bintanong_routing.dialogue import bind_dialogue
+    text = 'What are the prerequisites of B1?'
+    target = dict(text='B1', occurrence=0)
+    value = packet()
+    value.pop('dialogue')
+    value.update(control=None, route='Symbolic', part_count=1,
+        mentions=[dict(kind='course', quote=target)],
+        operations=[dict(name=operation, target=target)],
+        parts=[dict(part_id='r1', quote=dict(text=text, occurrence=0),
+                    evidence_need='structured', operation_indices=[0])])
+    prior = scoped().model_copy(update={'conversation': scoped().dialogue.turns[0].context})
+    bound, ctx = bind_dialogue(value, text, prior, catalog())
+    assert bound == value and ctx.conversation is None
+    assert ctx.dialogue == scoped().dialogue
+
+
+@pytest.mark.parametrize('flag', ['0', '1'])
+def test_explicit_course_after_eligibility_routes_without_a_dialogue_marker(flag, monkeypatch):
+    monkeypatch.setenv('BINTANONG_ROUTER_COMPILE', flag)
+    text = 'Can I take B1?'
+    target = dict(text='B1', occurrence=0)
+    value = packet()
+    value.pop('dialogue')
+    value.update(control=None, route='Symbolic', part_count=1,
+        mentions=[dict(kind='course', quote=target)],
+        operations=[dict(name='check_prerequisite_eligibility', target=target)],
+        parts=[dict(part_id='r1', quote=dict(text=text, occurrence=0),
+                    evidence_need='structured', operation_indices=[0])])
+    result = run(value, text)
+    assert result.diagnostic == 'validated'
+    assert next(i.value for i in result.decision.predicate_request.inputs if i.name == 'course_id') == 'course-b'
+
+
+def test_unlocated_operation_cannot_bypass_missing_dialogue_reference():
+    from backend.bintanong_routing.dialogue import bind_dialogue, DialogueReferenceError
+    value = packet()
+    value.pop('dialogue')
+    value.update(operations=[dict(name='list_course_prerequisites', target=dict(text='B1', occurrence=0))])
+    with pytest.raises(DialogueReferenceError):
+        bind_dialogue(value, 'What about it?', scoped(), catalog())
+
+
 def test_non_object_model_packet_is_repaired_and_refused_without_crashing():
     model = FakeTransport('[]', '[]')
     result = asyncio.run(Router(model, catalog=catalog(), registry=registry(), documents_available=True,

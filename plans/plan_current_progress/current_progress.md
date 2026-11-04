@@ -59,6 +59,15 @@ USG source review is owned by the separate p11 researcher GUI workflow; no new s
 is inferred here. Preserved owner note:
 ## Next action
 
+Development candidate: explicit reviewed course operations can proceed without an optional history marker;
+140 dialogue/compiler/session tests passed after RED. Removed the redundant frontend clarification diagnostic.
+New BSCS/Civil screenshots and revised 24-query PDF tracked in
+[regression handoff](../2026-11-04-post-gathering-regressions.md). Exact live causes remain unverified.
+Next: run its held-out acceptance cases on isolated development runtime when shared model is available;
+keep gathering checkout/services untouched. Continue other checklist fixes here. Backup branch is on GitHub.
+
+### Historical base next action
+
 Validate browser/frontend-to-backend thread parity with the delivered clarification/repair and
 shifting-office sequences. Durable history and wider held-out evaluation remain separate.
 Serving app restarted from the current worktree; use New Chat after the memory reset.
