@@ -71,8 +71,10 @@ def _words(value):
 
 
 def _items(data, name):
-    value = data.get(name)
-    return [v for v in value if isinstance(v, dict)] if isinstance(value, list) else []
+    value = data.get(name, [])
+    if not isinstance(value, list) or any(not isinstance(v, dict) for v in value):
+        raise ValueError('compile_malformed_collection')
+    return value
 
 
 def read_meaning(wire, text: str) -> Meaning:
@@ -99,7 +101,10 @@ def read_meaning(wire, text: str) -> Meaning:
                 structured.append(quote)
         need = part.get('evidence_need')
         subject = part.get('subject_id') if isinstance(part.get('subject_id'), str) else None
-        claims = tuple(c for c in part.get('requested_claims') or () if isinstance(c, str) and c)
+        requested = part.get('requested_claims', [])
+        if not isinstance(requested, list) or any(not isinstance(c, str) for c in requested):
+            raise ValueError('compile_malformed_collection')
+        claims = tuple(c for c in requested if c)
         detail = part.get('detail') if part.get('detail') in _DETAILS else 'whole'
         if subject is not None and claims:
             topics.append(Topic(subject, claims, detail, quote, need == 'structured'))
@@ -115,7 +120,10 @@ def read_meaning(wire, text: str) -> Meaning:
                      and (_words(m.get('quote')) or _words(m.get('text'))))
     control = data.get('control') if isinstance(data.get('control'), str) else None
     intent = data.get('intent') if isinstance(data.get('intent'), str) and data.get('intent').strip() else 'request'
-    ambiguities = tuple(a for a in data.get('ambiguities') or () if isinstance(a, str) and a.strip())
+    raw_ambiguities = data.get('ambiguities', [])
+    if not isinstance(raw_ambiguities, list) or any(not isinstance(a, str) for a in raw_ambiguities):
+        raise ValueError('compile_malformed_collection')
+    ambiguities = tuple(a for a in raw_ambiguities if a.strip())
     return Meaning(language=data.get('language') if data.get('language') in _LANGUAGES else 'unknown',
                    audience=data.get('audience') if data.get('audience') in _AUDIENCES else 'unknown',
                    control=control, intent=intent[:240], checks=tuple(checks), topics=tuple(topics),
@@ -281,13 +289,10 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         return pool[0] if len(pool) == 1 and len(pool[0].entries) == 1 else None
 
     def back_reference(words):
-        if previous is None or previous.course_id is None or not any(c.entity_id == previous.course_id for c in courses):
+        if (meaning.previous_course is None or previous is None or previous.course_id is None
+                or not any(c.entity_id == previous.course_id for c in courses)):
             return None
-        for candidate in (meaning.previous_course, words):
-            span = _locate(text, candidate)
-            if span:
-                return span
-        return _strip(text, (0, len(text)))
+        return _locate(text, meaning.previous_course)
 
     for check in meaning.checks:
         target = check.target
@@ -403,12 +408,10 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         area = _locate(text, words)
         if area is None:
             continue
-        inside = lambda s, e: area[0] <= s and e <= area[1]
-        if (any(inside(*t) for t in targets)
-                or any(inside(c['start'], c['end']) or (c['start'] <= area[0] and area[1] <= c['end'])
-                       for c in claim_values)):
+        if (any(area[0] <= s and e <= area[1] for s, e in targets)
+                or any(c['start'] <= area[0] and area[1] <= c['end'] for c in claim_values)):
             continue
-        if any(inside(f.start, f.end) for f in found):
+        if any(area[0] <= f.start and f.end <= area[1] for f in found):
             raise ValueError('compile_unbound_structured_part')
 
     # Mentions in message order, as the existing path lists them.
@@ -442,15 +445,6 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         if area is not None:
             area = _strip(text, area)
         asks.append(['document', area, None, topic, None])
-    if any(a[3] is not None and a[3].subject_id is not None for a in asks):
-        seen = set()  # one part per topic
-        unique = []
-        for a in asks:
-            key = a[3].subject_id if a[3] is not None and a[3].subject_id else id(a)
-            if key not in seen:
-                seen.add(key)
-                unique.append(a)
-        asks = unique
     whole = _strip(text, (0, len(text)))
     if len(asks) == 1:
         asks[0][1] = whole

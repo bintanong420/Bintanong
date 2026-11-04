@@ -440,3 +440,54 @@ def test_mentions_follow_message_order_and_keep_claim_and_target_bindings(key):
 def test_compiler_requires_the_current_wire_protocol(value):
     with pytest.raises(ValueError, match='compile_unsupported_schema'):
         read_meaning(value, 'Hello')
+
+
+@pytest.mark.parametrize('field', ['requested_claims', 'ambiguities'])
+def test_malformed_meaning_collections_fall_back_instead_of_crashing(field, monkeypatch):
+    value = wire(parts=[part('r1', 'Hello', 'document')])
+    if field == 'requested_claims':
+        value['parts'][0][field] = 1
+    else:
+        value[field] = 1
+    with pytest.raises(ValueError):
+        read_meaning(value, 'Hello')
+    result = route('Hello', value, context('x'), monkeypatch)
+    assert not result.compiled and result.diagnostic == 'invalid_model_output'
+
+
+def test_two_questions_about_one_topic_keep_both_requested_claims():
+    menu = (DocumentTopic(subject_id='fictional_service', claims=('required documents', 'printed fee')),)
+    first, second = 'What documents do I need?', 'How much is the fee?'
+    text = first + ' ' + second
+    value = wire(parts=[part('r1', first, 'document', (), menu[0].subject_id, ('required documents',)),
+                        part('r2', second, 'document', (), menu[0].subject_id, ('printed fee',))], route='RAG')
+    result = compile_reply(value, text, context('x'), catalog(), menu)
+    assert [p.text for p in result.parts] == [first, second]
+    assert [p.requested_claims for p in result.parts] == [('required documents',), ('printed fee',)]
+
+
+@CURRICULUM_KEYS
+def test_a_result_beside_a_second_question_does_not_hide_the_missing_check(key):
+    c = CURRICULA[key]
+    first = f"Can I take {c['main'][0]}?"
+    statement = f"I passed {c['second'][0]}."
+    second = statement + f" Can I take {c['second'][0]}?"
+    text = first + ' ' + second
+    value = wire(parts=[part('r1', first, 'structured', [0]), part('r2', second, 'structured')],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(c['main'][0]))],
+                 claims=[dict(quote=quote(statement), entity=quote(c['second'][0]), state='passed', mode='asserted')])
+    with pytest.raises(ValueError, match='compile_unbound_structured_part'):
+        compile_reply(value, text, context(key), catalog(), TOPICS)
+
+
+@CURRICULUM_KEYS
+def test_an_unknown_course_title_is_not_the_previous_course(key, monkeypatch):
+    c = CURRICULA[key]
+    text = 'Can I take Watercolor Studio?'
+    memory = ConversationContext(program_id=c['program'], curriculum_id=c['curriculum'], course_id=c['main'][1],
+                                 operation='check_prerequisite_eligibility')
+    value = wire(parts=[part('r1', text, 'structured', [0])], language='en',
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote('Watercolor Studio'))])
+    result = route(text, value, context(key, memory), monkeypatch)
+    assert result.decision.predicate_request is None
+    assert result.diagnostic == 'unresolved_entity'
