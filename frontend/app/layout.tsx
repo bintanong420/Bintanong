@@ -15,8 +15,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head><script dangerouslySetInnerHTML={{ __html: appearanceBootstrap }} /></head>
-      <body className={`${geist.variable} ${inter.variable}`}>{children}<PrivacyNotice /></body>
+      <body className={`${geist.variable} ${inter.variable}`}>
+        <script dangerouslySetInnerHTML={{ __html: appearanceBootstrap }} />
+        {children}<PrivacyNotice />
+      </body>
     </html>
   );
 }
