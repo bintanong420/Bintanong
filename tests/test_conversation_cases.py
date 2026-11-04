@@ -60,3 +60,11 @@ def test_checker_and_program_ids():
     assert len(run.check(expect, {}, "Paki-clarify muna", {"status": "clarification_needed"})) == 3
     assert run.check({"status": None}, {"forbidden": ["temporarily unavailable"]}, "x", {}) == []
     assert run.check({"status": None}, {"forbidden": ["temporarily unavailable"]}, "Temporarily   unavailable", {})
+
+
+def test_track_switch_fixture_matches_reviewed_bshm_hotel_ledger():
+    case = next(c for c in CASES["conversations"] if c["id"] == "track-switch")
+    expect = case["turns"][1]["expect"]
+    assert expect["status"] == "clarification_needed"
+    assert "HMPE 5" in expect["required"] and "THC-LA" in expect["required"]
+    assert "Hotel" not in expect.get("required", [])

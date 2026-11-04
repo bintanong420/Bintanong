@@ -739,7 +739,7 @@
    "category": "track_switch",
    "curriculum_id": "bshm-culinary-2018-2019",
    "language": "en",
-   "note": "switch track mid-conversation; hotel track has THC-RM",
+   "note": "switch track mid-conversation; both BSHM tracks require THC-LA for HMPE 5, and the hotel track re-checks without culinary assumptions",
    "turns": [
     {
      "text": "Can I take HMPE 5 if I already passed THC-LA?",
@@ -753,9 +753,13 @@
     {
      "text": "how about the hotel track?",
      "expect": {
-      "status": null,
+      "status": "clarification_needed",
       "required": [
-       "Hotel"
+       "HMPE 5",
+       "THC-LA"
+      ],
+      "forbidden": [
+       "Yes, you can take HMPE 5"
       ]
      }
     }
