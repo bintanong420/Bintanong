@@ -50,6 +50,13 @@ test('chat navigation shows real conversation state and opens as a keyboard-safe
     assert.equal(await page.getByRole('dialog').count(), 0);
     assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), 'Open navigation');
     await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
+    const navigation = page.getByRole('dialog', { name: 'Navigation', exact: true });
+    await navigation.locator('.sidebar-history').click();
+    await navigation.waitFor({ state: 'visible' });
+    await page.mouse.click(350, 500);
+    await navigation.waitFor({ state: 'detached' });
+    assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), 'Open navigation');
+    await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Synthetic sidebar history question', exact: true }).click();
     assert.equal(await page.getByRole('dialog').count(), 0);
     assert.equal(await page.getByRole('textbox', { name: 'Your question' }).inputValue(), 'Keep this next question');
