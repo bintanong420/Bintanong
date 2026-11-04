@@ -28,7 +28,7 @@ def test_no_stated_fact_asks_about_the_single_prerequisite_directly():
     # with "tell me which of these you passed" (step 2b, see the multi-course rendering tests below).
     answer = asyncio.run(Generator(NoModel()).generate('A1', research_integration()))  # fixture style: Taglish
     assert answer.status == 'clarification_needed'
-    assert 'course-1 ang prerequisite ng course-2. Naipasa mo na ba ang course-1?' in answer.text
+    assert 'course-2 needs course-1. Naipasa mo na ba ang course-1? Sabihin mo lang at iche-check ko.' in answer.text
     assert 'Hindi pa ma-establish ang eligibility' not in answer.text
 
 
@@ -62,7 +62,8 @@ def test_a_fact_about_one_alternative_keeps_the_eligibility_check():
     # "I failed course-1": the any-of result is still unknown, with no violated condition left to show it.
     text = render_text(any_of_pack(('completion_unknown:course-3',), ('enrollment_unknown:course-3',)),
                        (), 'clarification_needed')
-    assert 'Prerequisites ng' not in text
+    assert 'Naipasa mo na ba ang course-3, o kinukuha mo ito ngayong term?' in text
+    assert 'Naipasa mo na ba ang course-1?' not in text
 
 
 BLANK = 'Printed prerequisite cell is blank; no explicit no-prerequisite statement; coverage unknown'
@@ -113,7 +114,7 @@ def test_every_alternative_still_unknown_is_listed():
     from backend.bintanong_generation.render import render_text
     text = render_text(any_of_pack(('completion_unknown:course-1', 'completion_unknown:course-3'),
                                    ('enrollment_unknown:course-3',)), (), 'clarification_needed')
-    assert 'Prerequisites ng course-2: one of: course-1, course-3 (or i-take nang sabay).' in text
+    assert 'course-2 needs alinman sa course-1 o course-3 (naipasa na o kinukuha nang sabay).' in text
 
 
 def test_several_prerequisites_with_no_stated_fact_are_still_listed():
@@ -126,5 +127,5 @@ def test_several_prerequisites_with_no_stated_fact_are_still_listed():
     pack = replace(pack, requirement=node('all_of', None, node('course', 'course-1'), node('course', 'course-3')),
                    decision=decision, missing_facts=missing)
     text = render_text(pack, (), 'clarification_needed')
-    assert 'Prerequisites ng course-2: course-1 and course-3.' in text
-    assert 'Sabihin mo kung alin dito ang na-pass mo na' in text
+    assert 'course-2 needs parehong course-1 at course-3.' in text
+    assert 'Sabihin mo lang at iche-check ko' in text

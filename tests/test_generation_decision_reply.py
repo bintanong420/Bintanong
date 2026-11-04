@@ -38,10 +38,10 @@ def first_line(answer):
 
 @pytest.mark.parametrize('facts,status,first', [
     ((('course-1', 'passed'),), 'answered',
-     'Oo. Pasok ka sa prerequisite ng course-2, base sa sinabi mong naipasa mo ang course-1.'),
+     'Oo, pwede mo nang i-take ang course-2! Pasado ka na sa prerequisite nito, ang course-1.'),
     ((('course-1', 'failed'),), 'answered',
-     'Hindi pa. Kailangan mo munang maipasa ang course-1 bago mo makuha ang course-2.'),
-    ((), 'clarification_needed', 'course-1 ang prerequisite ng course-2. Naipasa mo na ba ang course-1?'),
+     'Hindi pa. Kailangan mo munang maipasa ang course-1 bago mo ma-take ang course-2.'),
+    ((), 'clarification_needed', 'course-2 needs course-1. Naipasa mo na ba ang course-1? Sabihin mo lang at iche-check ko.'),
 ])
 def test_the_scoped_conclusion_comes_first_even_without_the_model(facts, status, first):
     answer = asyncio.run(Generator(NoModel()).generate('A1', research_integration(facts=facts)))
@@ -51,16 +51,16 @@ def test_the_scoped_conclusion_comes_first_even_without_the_model(facts, status,
 
 
 @pytest.mark.parametrize('facts,expected', [
-    ((('course-1', 'passed'),), ['Yes. You meet the prerequisite for course-2, based on your report that you passed course-1.',
+    ((('course-1', 'passed'),), ["Yes, you can take course-2! You've passed its prerequisite, course-1.",
                                  'Rule: course-2 requires course-1.']),
-    ((('course-1', 'failed'),), ['Not yet. You need to pass course-1 before you can take course-2.',
+    ((('course-1', 'failed'),), ["Not yet. course-2 needs course-1 first. Once you pass it, you're good to go.",
                                  'Rule: course-2 requires course-1.']),
-    ((), ['course-2 requires course-1. Have you passed course-1?']),
+    ((), ["course-2 needs course-1. Have you passed course-1? Tell me and I'll check for you."]),
 ])
 def test_english_conclusions_keep_the_rule_and_ask_only_for_the_missing_result(facts, expected):
     pack = replace(prepare(research_integration(facts=facts)), language='en')
     status = 'answered' if facts else 'clarification_needed'
-    shown = [line for line in render_text(pack, (), status).splitlines()[1:] if line != 'Based on the supplied evidence:' and not line.startswith('Check scope')]
+    shown = [line for line in render_text(pack, (), status).splitlines()[1:] if line != "Here's what I found:" and not line.startswith('Check scope')]
     assert shown[:len(expected)] == expected
 
 
@@ -70,7 +70,7 @@ def test_bintu_explains_from_the_checked_evidence_after_prolog():
     assert answer.status == 'answered'
     assert answer.decision_explanation == 'course-1 ang nag-iisang prerequisite ng course-2, at sinabi mong naipasa mo na ito.'
     lines = student_text(answer).splitlines()
-    assert lines[0].startswith('Oo. Pasok ka') and lines[1] == answer.decision_explanation
+    assert lines[0].startswith('Oo, pwede mo nang i-take') and lines[1] == answer.decision_explanation
     messages, schema = model.calls[0]
     evidence = json.loads(messages[1]['content'])['evidence']
     assert evidence['outcome'] == 'eligible' and evidence['target'] == 'course-2'
@@ -83,7 +83,7 @@ def test_a_checked_unknown_also_gets_the_explanation_and_still_asks_first():
     model = Model(explained('Kailangan muna ang course-1 bago ang course-2.'))
     answer = asyncio.run(Generator(model).generate('A1', research_integration()))
     assert answer.status == 'clarification_needed'
-    assert first_line(answer) == 'course-1 ang prerequisite ng course-2. Naipasa mo na ba ang course-1?'
+    assert first_line(answer) == 'course-2 needs course-1. Naipasa mo na ba ang course-1? Sabihin mo lang at iche-check ko.'
     assert answer.decision_explanation == 'Kailangan muna ang course-1 bago ang course-2.'
 
 
@@ -97,7 +97,7 @@ def test_a_checked_unknown_also_gets_the_explanation_and_still_asks_first():
 def test_a_draft_that_reverses_invents_or_promises_never_reaches_the_student(facts, draft):
     answer = asyncio.run(Generator(Model(explained(draft))).generate('A1', research_integration(facts=facts)))
     assert answer.decision_explanation is None and draft not in answer.text
-    assert first_line(answer).startswith(('Oo.', 'Hindi pa.', 'course-1 ang prerequisite'))
+    assert first_line(answer).startswith(('Oo,', 'Hindi pa.', 'course-2 needs'))
 
 
 @pytest.mark.parametrize('failure', [RuntimeFailure('model_timeout'), RuntimeFailure('model_connection_error'),
@@ -105,7 +105,7 @@ def test_a_draft_that_reverses_invents_or_promises_never_reaches_the_student(fac
 def test_a_failed_or_invalid_explanation_falls_back_to_the_host_conclusion(failure):
     answer = asyncio.run(Generator(Model(failure)).generate('A1', research_integration(facts=(('course-1', 'passed'),))))
     assert answer.status == 'answered' and answer.decision_explanation is None
-    assert first_line(answer).startswith('Oo. Pasok ka')
+    assert first_line(answer).startswith('Oo, pwede mo nang i-take')
 
 
 WHAT_IF = 'If I failed P1, can I take A1?'
@@ -126,7 +126,7 @@ def test_a_what_if_answer_says_it_is_conditional_and_unsaved():
     assert integration.assumed_facts == ('failed:course-1',)
     answer = asyncio.run(Generator(NoModel()).generate(WHAT_IF, integration))
     lines = student_text(answer).splitlines()
-    assert lines[0] == 'Hindi pa. Kailangan mo munang maipasa ang course-1 bago mo makuha ang course-2.'
+    assert lines[0] == 'Hindi pa. Kailangan mo munang maipasa ang course-1 bago mo ma-take ang course-2.'
     assert lines[1] == ('Assumption lang ito base sa tanong mo: failed ka sa course-1. '
                         'Hindi ito sine-save bilang record mo.')
 

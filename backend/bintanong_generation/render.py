@@ -6,12 +6,12 @@ from .course_facts_reply import course_fact_lines
 
 _WORDS={
  'en':dict(preview='Candidate preview only. Not official university guidance.',
-  answered='Based on the supplied evidence:',eligible='Supported prerequisite check: conditions satisfied.',
-  ineligible='Supported prerequisite check: a documented condition is unmet.',
+  answered="Here's what I found:",eligible='You meet the reviewed prerequisite conditions.',
+  ineligible='Not yet. A prerequisite condition is still unmet.',
   unknown='Eligibility cannot be established from the available facts and rule coverage.',
   unsupported='This structured operation is not supported.',error='The structured check could not complete.',
   conditions='Conditions',missing='Missing information',dependency='Potential affected courses within the supplied bundle',
-  clarification_needed='Please clarify the missing information before a conclusion can be given.',
+  clarification_needed='Could you tell me which subject or topic you mean?',
   source_conflict='The supplied evidence conflicts; no conclusion is available.',
   insufficient_evidence="This information is not in Bintanong's reviewed sources yet. Please ask the relevant university office.",
   out_of_scope='Bintanong covers undergraduate academic affairs; this request is outside that scope.',
@@ -25,7 +25,7 @@ _WORDS={
   unknown='Hindi pa masabi kung pwede ka, dahil kulang ang impormasyon o hindi ito sakop ng rules.',
   unsupported='Hindi supported ang check na ito.',error='Hindi natapos ang check.',
   conditions='Mga kondisyon',missing='Kulang na impormasyon',dependency='Posibleng maapektuhang kurso sa ibinigay na bundle',
-  clarification_needed='Pakilinaw ang kulang na impormasyon bago makapagbigay ng pasya.',
+  clarification_needed='Anong subject o topic ang tinutukoy mo?',
   source_conflict='Magkasalungat ang ibinigay na ebidensya; walang maibibigay na pasya.',
   insufficient_evidence='Wala pa ito sa mga na-review na source ng Bintanong. Pakitanong sa tamang opisina ng unibersidad.',
   out_of_scope='Saklaw ng Bintanong ang undergraduate academic affairs; nasa labas nito ang tanong.',
@@ -34,12 +34,12 @@ _WORDS={
   thanks='Walang anuman! Magtanong ka lang tungkol sa undergraduate academic affairs.',
   abstained='Hindi makumpirma ang sagot mula sa ibinigay na ebidensya.'),
  'taglish':dict(preview='Candidate preview lang. Hindi official university guidance.',
-  answered='Based sa supplied evidence:',eligible='Sa supported prerequisite check, satisfied ang conditions.',
-  ineligible='Sa supported prerequisite check, may documented condition na hindi met.',
+  answered='Ito yung nakita ko:',eligible='Pasok ka sa reviewed prerequisite conditions.',
+  ineligible='Hindi pa. May prerequisite condition pang hindi met.',
   unknown='Hindi pa ma-establish ang eligibility gamit ang available facts at rule coverage.',
   unsupported='Hindi supported ang structured operation na ito.',error='Hindi nakumpleto ang structured check.',
   conditions='Conditions',missing='Missing information',dependency='Potential affected courses sa supplied bundle',
-  clarification_needed='Paki-clarify muna ang missing information bago magbigay ng conclusion.',
+  clarification_needed='Anong subject o topic ang tinutukoy mo?',
   source_conflict='May conflict sa supplied evidence; wala pang supported conclusion.',
   insufficient_evidence='Wala pa ito sa reviewed sources ng Bintanong. Paki-ask sa tamang university office.',
   out_of_scope='Undergraduate academic affairs ang scope ng Bintanong; outside scope ang request.',
@@ -167,7 +167,8 @@ def fallback_status(status):
     if status=='unsupported_scope': return 'out_of_scope'
     if status=='greeting': return 'greeting'
     if status=='unsupported': return 'abstained'
-    return 'temporarily_unavailable'
+    if status in ('error','timeout','busy','tool_error'): return 'temporarily_unavailable'
+    return 'insufficient_evidence'
 
 
 def selected_cards(pack,claims):
@@ -284,8 +285,8 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         listing=_REQUIREMENT.get(pack.language,_REQUIREMENT['en'])
         course=next(i.value for i in pack.structured_context.inputs if i.name=='course_id')
         reply=decision_lines(pack,shown)
-        if reply is not None and len(_referenced(pack.requirement,('course','co_requisite')))==1:
-            lines[1]=reply[0]  # memory/eligibility plan: one prerequisite is asked about directly
+        if reply is not None:
+            lines[1]=reply[0]
         else:
             lines[1]=shown(f"{listing['heading']} {course}: {requirement_text(pack.requirement,pack.language)}.")
             lines.append(shown(listing['ask'].format(course=course)))
