@@ -75,28 +75,32 @@ def test_the_plain_recovery_question_is_answered_with_delays_routes_and_drafts_i
     integration, answer, lines = answered
     assert answer.status == 'answered' and integration.recovery is not None
     text = '\n'.join(lines)
-    delayed = next(i for i, l in enumerate(lines) if l.startswith(f'Kung ma-fail mo ang {X}'))
-    routes = next(i for i, l in enumerate(lines) if l.startswith(f'Mga paraan para kunin ulit ang {X}'))
-    first_draft = next(i for i, l in enumerate(lines) if l.startswith('Draft lang, hindi pa approved.'))
-    assert delayed < routes < first_draft
-    assert f'{CODES["Y"]} (second year, second semester)' in lines[delayed]  # each with its prescribed term
-    assert 'Student Handbook p. 1: "Fictional special_class clause."' in text  # quoted from the route record
+    assert lines[0].startswith('**Draft A** ang may pinakakaunting request; ang Draft C ang pinakamabilis')
+    delayed = lines.index('### Ano ang maaatras')
+    routes = lines.index(f'### Mga option mo para sa {X}')
+    first_draft = lines.index('### Mga draft')
+    sources = lines.index('### Sources / rules')
+    assert 0 < delayed < routes < first_draft < sources
+    assert f'- Second year, second semester: {CODES["Y"]}, {CODES["Z"]}' in lines
+    assert text.count('"Fictional special_class clause."') == 1  # quoted once under Sources / rules
+    assert '- **Special class** (Student Handbook p. 1): "Fictional special_class clause."' in lines[sources:]
     assert 'Hindi ito ang "regular student" classification ng Student Handbook.' in text
 
 
 def test_every_draft_is_headed_and_says_what_needs_confirmation(answered):
     _, _, lines = answered
-    headers = [l for l in lines if l.startswith('Draft lang, hindi pa approved. Ipakita mo ito sa program adviser mo.')]
-    assert [h.split('Draft ')[2][0] for h in headers] == ['A', 'C', 'B']
-    assert any(l.endswith('Works, may kailangan pang i-confirm.') for l in lines)  # 2b wording
-    assert any(f'{X}: special class na ni-request, hindi pa approved' in l for l in lines)
+    headers = [l for l in lines if l.startswith('#### Draft ')]
+    assert [h.split('Draft ')[1][0] for h in headers] == ['A', 'C', 'B']
+    assert any('Works, may kailangan pang i-confirm.' in l for l in lines)  # 2b wording
+    assert any(f'{X}: special class na ni-request, hindi pa approved (tingnan ang Special class)' in l for l in lines)
+    assert lines[-1].startswith('Mga draft lang ito, hindi pa approved: ipakita mo sa program adviser mo.')
 
 
 def test_a_term_over_its_prescribed_total_carries_the_d5_heads_up(answered):
     _, _, lines = answered
-    assert ("  Heads-up: 12 units ang sem na 'to, pero 6 lang ang nakalista sa curriculum mo. Ayon sa Student Handbook, "
-            'puwedeng hindi ma-credit ang sobrang units (p. 1). Mas okay kung i-check mo muna sa Dean o sa Registrar '
-            'bago ka mag-enroll.') in lines
+    assert any('Heads-up: 12 units, 6 lang ang nakalista sa curriculum mo; puwedeng hindi ma-credit ang sobra '
+               '(tingnan ang Maximum load). I-check muna sa Dean o sa Registrar.' in l for l in lines)
+    assert any(l.startswith('- **Maximum load** (Student Handbook p. 1):') for l in lines)
 
 
 def test_the_assumed_start_term_is_said(answered):
@@ -107,18 +111,21 @@ def test_the_assumed_start_term_is_said(answered):
 
 
 def test_the_english_wording_of_the_same_result(answered):
-    integration, _, _ = answered
+    integration, answer, _ = answered
     shown = lambda course: integration.course_labels.get(course, course)
-    lines = recovery_lines(integration.recovery, 'en', shown)
-    assert lines[0].startswith('By "regular load" I take it you mean getting back on your curriculum')
-    assert lines[1] == f'Ways to take {X} again (not ranked; each needs confirmation):'
-    assert lines[2].startswith('- Retake it at its next regular offering (third year, first semester).')
-    assert ('Draft, not approved. Show this to your program adviser. Draft A: retake at the next regular offering '
-            'only.') in lines
-    assert any(l.endswith('Works, needs confirmation.') for l in lines)
-    assert any(l.startswith('  Heads-up: this semester comes to 12 units, but your curriculum lists 6 for it.')
-               for l in lines)
-    assert lines[-1] == 'None of this confirms a class offering, an approval, a grade or your academic standing.'
+    lines = recovery_lines(integration.recovery, 'en', shown, dependencies=answer.dependencies)
+    assert lines[0] == ('**Draft A** needs the fewest requests; Draft C gets you back on your prescribed sequence '
+                        'soonest (third year, first semester). Each step still needs approval.')
+    assert lines[1].startswith('By "regular load" I take it you mean getting back on your curriculum')
+    assert f'### Your options for {X}' in lines
+    assert ('- Retake it at its next regular offering (third year, first semester) (see Regular class, p. 1). '
+            'The class schedule for that term is not confirmed here.') in lines
+    assert '#### Draft A: retake at the next regular offering only.' in lines
+    assert any('Works, needs confirmation.' in l for l in lines)
+    assert any('Heads-up: 12 units, your curriculum lists 6; extra units may not be credited (see Maximum load). '
+               'Check with your Dean or the Registrar.' in l for l in lines)
+    assert lines[-1] == ('These are drafts, not approved: show them to your program adviser. None of this confirms a '
+                         'class offering, an approval, a grade or your academic standing.')
 
 
 def test_without_a_recovery_cue_the_dependency_reply_is_unchanged():
@@ -133,7 +140,7 @@ def test_without_a_recovery_cue_the_dependency_reply_is_unchanged():
     assert student_text(answer).splitlines()[0] == (
         f'If you fail {X}, these courses are affected because their prerequisites include it (directly or through '
         f'another course): {CODES["Y"]}, {CODES["Z"]}, {CODES["W"]}.')
-    assert not any(l.startswith('Draft') for l in student_text(answer).splitlines())
+    assert not any(l.startswith('#### Draft') for l in student_text(answer).splitlines())
 
 
 def test_a_part_with_no_reviewed_topic_is_named_unavailable_beside_the_answered_dependency_part():

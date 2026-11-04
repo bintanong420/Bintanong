@@ -26,11 +26,12 @@ def text_of(curriculum, language='en', **kw):
 def test_an_open_grade_offers_removal_with_the_discrepancy_before_enrollment_and_forfeiture(curriculum, grade, verb):
     text = text_of(curriculum, grade=grade)
     assert (f'You said you got {grade} in X, so you can {verb} it instead of retaking it, within the succeeding term. '
-            'Student Handbook p. 2: "Fictional removal_period clause') in text
-    assert 'Note: the same section also states "within one year" (3.3, 3.7).' in text
-    assert 'need X, so the removal must be done before enrollment. Student Handbook p. 2' in text
-    assert 'Heads-up: re-enrolling X gives up the removal. Student Handbook p. 2' in text
-    assert text.index('within the succeeding term') < text.index('Ways to take X again')
+            'see Removal period, p. 2') in text
+    assert '- **Removal period** (Student Handbook p. 2): "Fictional removal_period clause' in text
+    assert 'Note: the same section also states "within one year" (3.3, 3.7). see Removal within one year, p. 2' in text
+    assert 'need X, so the removal must be done before enrollment. see Removal before enrollment, p. 2' in text
+    assert 'Heads-up: re-enrolling X gives up the removal. see Forfeiture of removal, p. 2' in text
+    assert text.index('within the succeeding term') < text.index('Retake it at its next regular offering')
 
 
 def test_taglish_removal_keeps_the_english_source_terms(curriculum):
@@ -81,14 +82,16 @@ def test_waiver_and_twelve_unit_summer_only_for_a_graduating_student(curriculum,
 
 def test_not_offered_cites_cross_enrollment_and_substitution_with_its_limit(curriculum):
     text = text_of(curriculum, not_offered=True)
-    assert 'If X is not offered, you can ask about cross-enrollment. Student Handbook p. 2' in text
+    assert 'If X is not offered, you can ask about cross-enrollment. see Cross-enrollment, p. 2' in text
+    assert '- **Cross-enrollment** (Student Handbook p. 2): "Fictional cross_enrollment clause' in text
     assert 'Fictional substitution clause' in text and 'Fictional substitution_limit clause' in text
     assert 'Fictional leave_of_absence clause' not in text
 
 
 def test_stopping_cites_leave_of_absence(curriculum):
-    assert 'apply for a leave of absence. Student Handbook p. 2: "Fictional leave_of_absence clause' in text_of(
-        curriculum, stopping=True)
+    text = text_of(curriculum, stopping=True)
+    assert 'apply for a leave of absence. see Leave of absence, p. 2' in text
+    assert '- **Leave of absence** (Student Handbook p. 2): "Fictional leave_of_absence clause' in text
     assert 'mag-apply ng leave of absence' in text_of(curriculum, 'taglish', stopping=True)
 
 

@@ -183,35 +183,48 @@ _STATUS = {
 }
 
 
+# Each line names its clause through {ref}: inline in the plan-check reply, by short name in the Markdown recovery
+# reply, whose "Sources / rules" section quotes every clause once (owner 4 Nov 2026 layout).
+_INLINE = 'Student Handbook p. {page}: "{text}"'
+for _lang in _STATUS.values():
+    for _key, _value in list(_lang.items()):
+        if isinstance(_value, str):
+            _lang[_key] = _value.replace(_INLINE, '{ref}')
+    _lang['removal'] = {g: v.replace(_INLINE, '{ref}') for g, v in _lang['removal'].items()}
+
+
 def _status_words(language):
     return _STATUS['en' if language in ('en', 'unknown') else 'taglish']
 
 
-def _quote(words, key, clause, **values):
-    return words[key].format(page=clause.page, text=clause.text, **values)
+def inline_ref(clause):
+    return _INLINE.format(page=clause.page, text=clause.text)
 
 
-def removal_lines(recovery, language, shown) -> list[str]:
+def _quote(words, key, clause, cite=inline_ref, **values):
+    return words[key].format(ref=cite(clause), page=clause.page, **values)
+
+
+def removal_lines(recovery, language, shown, cite=inline_ref) -> list[str]:
     """A stated 4.0/INC in the failed course: removal within the succeeding term, always with the D6 discrepancy."""
     grade, clause = recovery.failed_grade, {c.kind: c for c in recovery.clauses}
     if grade not in ('4.0', 'INC') or 'removal_period' not in clause:
         return []  # 5.0, no stated grade, or no reviewed removal clause: no removal route
     words, course = _status_words(language), shown(recovery.failed_course_id)
-    lines = [words['removal'][grade].format(course=course, page=clause['removal_period'].page,
-                                            text=clause['removal_period'].text)]
+    lines = [words['removal'][grade].format(course=course, ref=cite(clause['removal_period']))]
     if 'removal_one_year' in clause:
-        lines.append(_quote(words, 'one_year', clause['removal_one_year']))
+        lines.append(_quote(words, 'one_year', clause['removal_one_year'], cite))
     if recovery.removal_needed_by:
         needed = ', '.join(map(shown, recovery.removal_needed_by))
-        lines.append(_quote(words, 'before', clause['removal_before_enrollment'], needed=needed, course=course)
+        lines.append(_quote(words, 'before', clause['removal_before_enrollment'], cite, needed=needed, course=course)
                      if 'removal_before_enrollment' in clause
                      else words['before_ask'].format(needed=needed, course=course))
-    lines.append(_quote(words, 'forfeit', clause['removal_forfeit'], course=course) if 'removal_forfeit' in clause
-                 else words['forfeit_ask'].format(course=course))
+    lines.append(_quote(words, 'forfeit', clause['removal_forfeit'], cite, course=course)
+                 if 'removal_forfeit' in clause else words['forfeit_ask'].format(course=course))
     return lines
 
 
-def status_lines(recovery, language, shown) -> list[str]:
+def status_lines(recovery, language, shown, cite=inline_ref) -> list[str]:
     """Graduating, not-offered, stopping and standing lines; each only when the student said so."""
     status, clause = recovery.status, {c.kind: c for c in recovery.clauses}
     if status is None:
@@ -219,22 +232,22 @@ def status_lines(recovery, language, shown) -> list[str]:
     words, course, lines = _status_words(language), shown(recovery.failed_course_id), []
     if status.graduating:
         if 'summer' in clause:
-            lines.append(words['summer_graduating'].format(page=clause['summer'].page))
+            lines.append(_quote(words, 'summer_graduating', clause['summer'], cite))
         if status.last_semester and status.standing is None and 'overload' in clause:
-            lines.append(_quote(words, 'overload', clause['overload']))
+            lines.append(_quote(words, 'overload', clause['overload'], cite))
         if 'prerequisite_waiver' in clause:
-            lines.append(_quote(words, 'waiver', clause['prerequisite_waiver']))
+            lines.append(_quote(words, 'waiver', clause['prerequisite_waiver'], cite))
     if status.not_offered:
         if 'cross_enrollment' in clause:
-            lines.append(_quote(words, 'cross', clause['cross_enrollment'], course=course))
+            lines.append(_quote(words, 'cross', clause['cross_enrollment'], cite, course=course))
         if 'substitution' in clause:
-            lines.append(_quote(words, 'substitution', clause['substitution']))
+            lines.append(_quote(words, 'substitution', clause['substitution'], cite))
             if 'substitution_limit' in clause:
-                lines.append(_quote(words, 'substitution_limit', clause['substitution_limit']))
+                lines.append(_quote(words, 'substitution_limit', clause['substitution_limit'], cite))
     if status.stopping and 'leave_of_absence' in clause:
-        lines.append(_quote(words, 'leave', clause['leave_of_absence']))
+        lines.append(_quote(words, 'leave', clause['leave_of_absence'], cite))
     if status.standing is not None and 'advance_courses' in clause:
-        lines.append(_quote(words, 'standing', clause['advance_courses'],
+        lines.append(_quote(words, 'standing', clause['advance_courses'], cite,
                             standing=words['standings'][status.standing]))
     return lines
 
@@ -250,67 +263,201 @@ def term_label(term, language) -> str:
     return term_name(term.year, term.semester)
 
 
-def recovery_lines(recovery, language, shown) -> list[str]:
-    words = _words(language)
+# Markdown layout (owner 4 Nov 2026, "adapt how ChatGPT handles text layouting"): a direct answer first, one heading
+# per section, one table per draft, every Handbook clause quoted once under "Sources / rules" and named by its short
+# name elsewhere, and the approval line once at the end. It stays readable as plain text.
+NAMES = dict(regular_class='Regular class', special_class='Special class', off_semester='Off-semester class',
+             summer='Summer load', removal_period='Removal period', removal_one_year='Removal within one year',
+             removal_before_enrollment='Removal before enrollment', removal_forfeit='Forfeiture of removal',
+             overload='Overload', prerequisite_waiver='Prerequisite waiver', cross_enrollment='Cross-enrollment',
+             substitution='Substitution', substitution_limit='Limits on substitution',
+             leave_of_absence='Leave of absence', advance_courses='Advance courses', maximum_load='Maximum load')
+
+_MD = {
+    'en': dict(
+        fastest='**Fastest: Draft {variant}**, back on your prescribed sequence by {term}. Each step still needs '
+                'approval.',
+        fewest='**Draft {variant}** needs the fewest requests; Draft {fast} gets you back on your prescribed sequence '
+               'soonest ({term}). Each step still needs approval.',
+        only='**Draft {variant}** gets you back on your prescribed sequence by {term}. Each step still needs approval.',
+        late='**Draft {variant}** needs the fewest requests, but every draft goes past your curriculum\'s last term. '
+             'Each step still needs approval.',
+        delayed='What gets delayed', delayed_intro='If you fail {course}, these courses need it (directly or through '
+                                                     'another course):',
+        options='Your options for {course}', drafts='Drafts', sources='Sources / rules',
+        retake='Retake it at its next regular offering{when} ({ref}). The class schedule for that term is not '
+               'confirmed here.',
+        special='Request a special class ({ref}). It is a request, not an approval; the source names the University '
+                'Cashier only for the payment, not who approves the request.',
+        off_semester='Ask whether it can open as an off-semester regular class ({ref}). It opens only under those '
+                     'conditions, and the source names no office for it.',
+        summer='Take it in summer, within the summer load ({ref}). A summer offering is not confirmed here.',
+        ref='see {name}, p. {page}', table='| Term | Courses | Notes |', rule='| --- | --- | --- |',
+        draft='#### Draft {variant}: {title}', back='Back on your prescribed sequence from {term}.',
+        request='{course}: {kind} requested, not yet approved (see {name})',
+        d5='Heads-up: {units} units, your curriculum lists {ceiling}; extra units may not be credited (see Maximum '
+           'load). Check with your Dean or the Registrar.',
+        summer_load='Heads-up: {units} units, above the normal summer load of {ceiling} (see Summer load). Check with '
+                    'your Dean.',
+        load_unknown="Can't check this term's unit load: {reason}.",
+        prereq_unknown="Can't fully check {course}'s prerequisites; confirm with your program adviser.",
+        unchecked="{course} couldn't be checked.", kept='{n} other prescribed course{s}', plus='plus',
+        closing='These are drafts, not approved: show them to your program adviser. None of this confirms a class '
+                'offering, an approval, a grade or your academic standing.'),
+    'taglish': dict(
+        fastest='**Pinakamabilis: Draft {variant}**, balik ka sa prescribed sequence mo pagdating ng {term}. Kailangan '
+                'pa rin ng approval ang bawat step.',
+        fewest='**Draft {variant}** ang may pinakakaunting request; ang Draft {fast} ang pinakamabilis makabalik sa '
+               'prescribed sequence mo ({term}). Kailangan pa rin ng approval ang bawat step.',
+        only='**Draft {variant}**: balik ka sa prescribed sequence mo pagdating ng {term}. Kailangan pa rin ng '
+             'approval ang bawat step.',
+        late='**Draft {variant}** ang may pinakakaunting request, pero lalampas ang lahat ng draft sa huling term ng '
+             'curriculum mo. Kailangan pa rin ng approval ang bawat step.',
+        delayed='Ano ang maaatras', delayed_intro='Kung ma-fail mo ang {course}, kailangan ito ng mga course na ito '
+                                                   '(direkta o sa ibang course):',
+        options='Mga option mo para sa {course}', drafts='Mga draft', sources='Sources / rules',
+        retake='I-retake ito sa next regular offering{when} ({ref}). Hindi pa confirmed dito ang class schedule sa '
+               'term na iyon.',
+        special='Mag-request ng special class ({ref}). Request ito, hindi approval; University Cashier lang ang '
+                'binanggit ng source para sa bayad, hindi kung sino ang mag-a-approve.',
+        off_semester='Itanong kung puwede itong buksan bilang off-semester regular class ({ref}). Bubuksan lang ito '
+                     'kung pasok sa conditions, at walang office na binanggit ang source para dito.',
+        summer='Kunin ito sa summer, pasok sa summer load ({ref}). Hindi pa confirmed dito kung may summer offering.',
+        ref='tingnan ang {name}, p. {page}', table='| Term | Courses | Notes |', rule='| --- | --- | --- |',
+        draft='#### Draft {variant}: {title}', back='Balik sa prescribed sequence mo simula {term}.',
+        request='{course}: {kind} na ni-request, hindi pa approved (tingnan ang {name})',
+        d5="Heads-up: {units} units, {ceiling} lang ang nakalista sa curriculum mo; puwedeng hindi ma-credit ang sobra "
+           '(tingnan ang Maximum load). I-check muna sa Dean o sa Registrar.',
+        summer_load='Heads-up: {units} units, lampas sa normal summer load na {ceiling} (tingnan ang Summer load). '
+                    'I-check muna sa Dean.',
+        load_unknown='Hindi ma-check ang unit load ng term na ito: {reason}.',
+        prereq_unknown='Hindi ma-check nang buo ang prerequisites ng {course}; paki-confirm sa program adviser.',
+        unchecked='Hindi ma-check ang {course}.', kept='{n} pang prescribed course{s}', plus='kasama ang',
+        closing='Mga draft lang ito, hindi pa approved: ipakita mo sa program adviser mo. Wala rito ang nagko-confirm '
+                'ng class offering, approval, grade o academic standing mo.'),
+}
+
+
+def _key(term):
+    return term.year, ('first_semester', 'second_semester', 'summer').index(term.semester)
+
+
+def _cell(text):
+    return text.replace('|', '/')
+
+
+def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
+    """The whole Ask-mode reply as Markdown. dependencies: the reviewed affected-courses result, listed by term."""
+    words, md = _words(language), _MD['en' if language in ('en', 'unknown') else 'taglish']
     clause = {c.kind: c for c in recovery.clauses}
     course = shown(recovery.failed_course_id)
-    lines = [words['regular']] if recovery.regular_asked else []
-    lines.extend(removal_lines(recovery, language, shown))
-    when = (f' ({term_label(recovery.next_offering, language)})' if recovery.next_offering is not None else '')
-    lines.append(words['routes'].format(course=course))
+    used = {}  # short name -> (page, text): each clause quoted once under Sources / rules
+
+    def cite(source, name=None):
+        name = name or NAMES[source.kind]
+        used.setdefault(name, (source.page, source.text))
+        return md['ref'].format(name=name, page=source.page)
+
+    lines = _answer(recovery, md, language)
+    if recovery.regular_asked:
+        lines.append(words['regular'])
+    if dependencies is not None:
+        lines.extend(['', '### ' + md['delayed'], *_delayed(dependencies, recovery, md, shown, language)])
+    lines.extend(['', '### ' + md['options'].format(course=course)])
+    lines.extend('- ' + line for line in removal_lines(recovery, language, shown, cite))
+    when = f' ({term_label(recovery.next_offering, language)})' if recovery.next_offering is not None else ''
     for kind, key in (('regular_class', 'retake'), ('special_class', 'special'), ('off_semester', 'off_semester'),
                       ('summer', 'summer')):
-        lines.append('- ' + words[key].format(page=clause[kind].page, text=clause[kind].text, when=when))
-    lines.extend(status_lines(recovery, language, shown))
+        lines.append('- ' + md[key].format(ref=cite(clause[kind]), when=when))
+    lines.extend('- ' + line for line in status_lines(recovery, language, shown, cite))
+    lines.extend(['', '### ' + md['drafts']])
     start = term_label(recovery.start_term, language)
     lines.append(words['stated'].format(start=start) if recovery.term_stated else words['assumed'].format(
         course=course, failed=term_label(recovery.failed_term, language), start=start))
     if not recovery.drafts:
         lines.append(words['none'])
     for draft in recovery.drafts:
-        lines.append(words['header'].format(variant=draft.variant, title=words['titles'][draft.variant]))
-        lines.extend(_term_lines(draft, words, clause, shown, language))
-        last = next(t for t in reversed(draft.terms) if t.moved)
-        lines.append(words['beyond'] if draft.beyond_curriculum else
-                     words['back'].format(term=term_label(last.term, language)))
+        lines.extend(['', md['draft'].format(variant=draft.variant, title=words['titles'][draft.variant]),
+                      md['table'], md['rule']])
+        lines.extend(_rows(draft, md, words, clause, shown, language, cite))
+        lines.append(words['beyond'] if draft.beyond_curriculum or draft.rejoin_term is None
+                     else md['back'].format(term=term_label(draft.rejoin_term, language)))
     for dropped in recovery.dropped:
         lines.append(words['dropped'][dropped.reason].format(
             variant=dropped.variant, same=dropped.same_as, course=shown(dropped.course_id) if dropped.course_id else '',
             term=term_label(dropped.term, language) if dropped.term else '',
             missing=words['join'].join(map(shown, dropped.missing))))
-    if len(recovery.drafts) > 1:
+    if len(recovery.drafts) > 1 and not recovery.fastest_asked:
         lines.append(words['order'])
-    lines.append(words['closing'])
+    lines.extend(['', '### ' + md['sources']])
+    lines.extend(f'- **{name}** (Student Handbook p. {page}): "{text}"' for name, (page, text) in used.items())
+    lines.extend(['', md['closing']])
     return lines
 
 
-def _term_lines(draft, words, clause, shown, language):
+def _answer(recovery, md, language):
+    if not recovery.drafts:
+        return [_words(language)['none']]
+    first = recovery.drafts[0]
+    timely = [d for d in recovery.drafts if d.rejoin_term is not None and not d.beyond_curriculum]
+    if not timely:
+        return [md['late'].format(variant=first.variant)]
+    fastest = min(timely, key=lambda d: (_key(d.rejoin_term), d.requests))
+    when = term_label(fastest.rejoin_term, language)
+    if recovery.fastest_asked or fastest is first:
+        return [md['fastest' if recovery.fastest_asked else 'only'].format(variant=fastest.variant, term=when)]
+    return [md['fewest'].format(variant=first.variant, fast=fastest.variant, term=when)]
+
+
+def _delayed(dependencies, recovery, md, shown, language):
+    from .term_reply import term_name
+    from ..bintanong_symbolic.course_facts import TERM_ORDER
+    placed = {c: (y, s) for c, y, s in dependencies.placements}
+    groups = {}
+    for course in dependencies.course_ids:
+        groups.setdefault(placed.get(course), []).append(course)
+
+    def order(term):
+        return (9, 9) if term is None else (term[0], TERM_ORDER.index(term[1]) if term[1] in TERM_ORDER else 9)
+    lines = [md['delayed_intro'].format(course=shown(recovery.failed_course_id))]
+    for term in sorted(groups, key=order):
+        label = term_name(*term) if term is not None else '?'
+        lines.append(f'- {label[:1].upper() + label[1:]}: ' + ', '.join(sorted(map(shown, groups[term]))))
+    from .dependency_reply import dependency_lines
+    lines.extend(dependency_lines(dependencies, recovery.failed_course_id, language, shown)[1:])  # condition notes
+    return lines
+
+
+def _rows(draft, md, words, clause, shown, language, cite):
     request_clause = {'special_class_request': 'special_class', 'summer': 'summer', 'off_semester_request': 'off_semester'}
-    lines = []
+    rows = []
     for term in draft.terms:
         verdict = term.verdict
         if not term.moved and verdict.outcome == 'works':
             continue  # an unchanged prescribed term
-        status = (words['unknown'] if verdict.outcome == 'unknown'
-                  else words['confirm'] if verdict.unconfirmed else words['works'])
-        moved = words['join'].join(f'{shown(p.course_id)} ({words["modes"][p.mode]})' for p in term.moved)
-        kept = (words['kept'].format(n=len(term.kept), s='' if len(term.kept) == 1 else 's') if term.kept and moved
-                else words['join'].join(map(shown, term.kept)))
-        lines.append(words['term'].format(term=term_label(term.term, language), moved=moved, kept=kept, status=status,
-            units='' if verdict.load.units is None else words['units'].format(units=_number(verdict.load.units))))
+        units = '' if verdict.load.units is None else f' ({_number(verdict.load.units)} units)'
+        courses = [f'{shown(p.course_id)} ({words["modes"][p.mode]})' for p in term.moved]
+        if term.kept:
+            kept = md['kept'].format(n=len(term.kept), s='' if len(term.kept) == 1 else 's')
+            courses.append(f'{md["plus"]} {kept}' if courses else ', '.join(map(shown, term.kept)))
+        notes = [words['unknown'] if verdict.outcome == 'unknown'
+                 else words['confirm'] if verdict.unconfirmed else words['works']]
         for request in verdict.unconfirmed:
             source = clause[request_clause[request.kind]]
-            conditions = ''.join(f'"{c}"; ' for c in source.conditions)
-            lines.append(words['request'].format(course=shown(request.course_id), kind=words['modes'][request.kind],
-                                                 conditions=conditions, page=source.page))
+            cite(source)
+            notes.append(md['request'].format(course=shown(request.course_id), kind=words['modes'][request.kind],
+                                              name=NAMES[source.kind]))
         for warning in verdict.warnings:
-            lines.append(words['d5' if warning.kind == 'load_above_prescribed' else 'summer_load'].format(
-                units=_number(warning.units), ceiling=_number(warning.ceiling), page=warning.clause.page))
+            cite(warning.clause, 'Maximum load' if warning.kind == 'load_above_prescribed' else 'Summer load')
+            notes.append(md['d5' if warning.kind == 'load_above_prescribed' else 'summer_load'].format(
+                units=_number(warning.units), ceiling=_number(warning.ceiling)))
         for reason in verdict.reasons:
             if reason.kind == 'prerequisite_unknown':
-                lines.append(words['prereq_unknown'].format(course=shown(reason.course_id)))
-            elif reason.kind in ('not_in_curriculum', 'rule_error'):
-                lines.append(words['unchecked'].format(course=shown(reason.course_id)))
+                notes.append(md['prereq_unknown'].format(course=shown(reason.course_id)))
+            elif reason.kind in ('not_in_curriculum', 'rule_error', 'units_missing'):
+                notes.append(md['unchecked'].format(course=shown(reason.course_id)))
         if verdict.load.status == 'unknown':
-            lines.append(words['load_unknown'].format(reason=verdict.load.reason))
-    return lines
+            notes.append(md['load_unknown'].format(reason=verdict.load.reason))
+        rows.append(f'| {_cell(term_label(term.term, language))}{units} | {_cell(", ".join(courses))} | '
+                    f'{_cell("; ".join(notes))} |')
+    return rows

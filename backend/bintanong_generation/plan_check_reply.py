@@ -1,5 +1,5 @@
 """Host replies for explicit plans; offerings, approvals and planned passes remain assumptions."""
-from .recovery_reply import _status_words, _words, _number, term_label
+from .recovery_reply import _status_words, _words, _number, inline_ref, term_label
 from ..bintanong_planning.contracts import TermRef, plan_request_digest
 
 
@@ -45,7 +45,7 @@ def plan_check_lines(request, result, language, shown, *, routes=None):
             course = shown(course_id)
             lines.append(status_words['reenroll'].format(grade=request.status.grade(course_id), course=course))
             forfeit = clauses.get('removal_forfeit')
-            lines.append('  ' + (status_words['forfeit'].format(course=course, page=forfeit.page, text=forfeit.text)
+            lines.append('  ' + (status_words['forfeit'].format(course=course, ref=inline_ref(forfeit))
                                  if forfeit is not None else status_words['reenroll_ask'].format(course=course)))
         if verdict.load.status == 'unknown':
             lines.append(words['load_unknown'].format(reason=verdict.load.reason))
