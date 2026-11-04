@@ -80,6 +80,10 @@ No active numbered implementation phase; the audit's phases are bounded work sli
 
 ## Next action
 
-Validate browser/frontend-to-backend thread parity using the delivered recovery and shifting
-sequences. Durable history and wider held-out evaluation remain separate. No push, deployment
-or new numbered phase; current serving API identity is unverified against the commits.
+Trace the compiler-ON multiline CC 4/L grade-extraction miss through model output and dialogue
+binding, then verify browser/frontend-to-backend clarification and shifting sequences. Benchmark
+whitespace guard `fd95f985`, Messenger script `1456aaa4`, eligible reply/course-name prompts
+`4e21cd3a` and mobile navigation backdrop `c65dd1ab` are committed. Related routing gate
+1,149 passed / 2 xfailed; reply gate 95 passed; frontend TypeScript passed, browser interaction
+unrun. Current backend predates code changes. See incident handoff for exact limits. No push,
+deployment or new numbered phase; durable history and held-out evaluation remain separate.
