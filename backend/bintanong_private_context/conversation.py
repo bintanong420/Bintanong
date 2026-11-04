@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from ..bintanong_routing.contracts import ConversationContext, RequestContext
+from ..bintanong_routing.topic_selection import SHIFT_TOPICS
 from ..bintanong_routing.validation import RoutingResult
 from .sessions import SessionView
 
@@ -25,6 +26,8 @@ def capture(result: RoutingResult) -> ConversationContext | None:
     courses = ({i.value for i in request.inputs if i.name == 'course_id'} if request is not None
                else {e.value for e in result.query.entities if e.kind == 'course'})
     subjects = {p.subject_id for p in result.proposed.parts if p.subject_id} if result.proposed else set()
+    if subjects == set(SHIFT_TOPICS):
+        subjects = {'handbook_shifting'}  # the Handbook rule and its companion FAQ describe the same process
     details = {p.detail for p in result.proposed.parts if p.subject_id} if result.proposed else set()
     # Owner GUI 3 Nov 2026: the question's structure (operation, year, semester, detail), so a follow-up can re-ask it.
     given = {i.name: i.value for i in request.inputs} if request is not None else {}

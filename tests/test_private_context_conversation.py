@@ -54,6 +54,17 @@ def test_document_answer_keeps_its_subject():
     assert capture(validate('policy', value)).subject_id == 'subject_a'
 
 
+@pytest.mark.parametrize('second,expected', [('handbook_drop_shift_faq', 'handbook_shifting'),
+                                           ('subject_unrelated', None)])
+def test_companion_shifting_parts_keep_one_follow_up_topic(second, expected):
+    value = proposal(text='shift form', mentions=[], operations=[], route='RAG', parts=[
+        dict(part_id='r1', text='shift', start=0, end=5, evidence_need='document', operation_indices=[],
+             subject_id='handbook_shifting', requested_claims=['printed shifting fields']),
+        dict(part_id='r2', text='form', start=6, end=10, evidence_need='document', operation_indices=[],
+             subject_id=second, requested_claims=['printed steps'])])
+    assert capture(validate('shift form', value)).subject_id == expected
+
+
 def test_its_resolves_to_the_stored_course_through_the_host():
     result = follow_up(previous())
     assert result.diagnostic == 'validated'

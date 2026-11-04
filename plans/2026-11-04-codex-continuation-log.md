@@ -106,3 +106,9 @@ New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 
 - Further independent review: unsuffixed off-semester placements must get request/unconfirmed treatment even if
   student omits a mode; shared checker correction underway in `p12pc`. Plan routes also need actual pinned-chunk
   text/page proof rather than matching only the synthetic flag; that boundary correction is underway in plan-chat.
+- `ae38fb16`: integrated shared checker off-semester inference from `05395473`, excluding the worker's separate
+  progress stanza to preserve owner changes. Worker regression: 105 passed; unsuffixed/retake semester mismatches
+  now carry the existing request/unconfirmed condition; year-only moves unchanged.
+- Shifting follow-up memory regression: two companion Handbook shifting parts previously captured no subject.
+  RED 1 fail / 1 unrelated-topic control pass; canonical shifting topic retained for that exact companion pair.
+  Focused memory/compiler/program-switch GREEN 102 passed. This fixes a reproduced gap; live cause/replay still pending.
