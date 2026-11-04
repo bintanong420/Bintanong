@@ -38,7 +38,10 @@ Verification details and raw ignored evidence paths are in the dated reports/che
 Fresh integrated listing/status gate: 82 Python tests, 10 frontend transport tests, TypeScript.
 Worker/research/listing gate after allowlist correction: 45 passed. Source-backed backend turn
 observations 8.191-12.164s exclude HTTP/browser/retrieval; no SLA or speedup claim.
-No service restart, dependency/model change, source edit, push or deployment in this resume.
+App restarted at owner request 19:18-19:21 Manila, 4 Nov, from HEAD `403657eb`.
+API 92124/94216, frontend 79552; compiler ON preserved. API live/ready, web /chat and
+web /api/health all HTTP 200. Model left healthy. Temporary chat memory reset.
+No dependency/model change, source edit, push or deployment.
 
 ## Related work and retained boundaries
 
@@ -55,4 +58,5 @@ is inferred here. Preserved owner note:
 
 Validate browser/frontend-to-backend thread parity with the delivered clarification/repair and
 shifting-office sequences. Durable history and wider held-out evaluation remain separate.
-No serving API restart or push; serving commit identity remains unverified.
+Serving app restarted from the current worktree; use New Chat after the memory reset.
+HTTP readiness verified; browser interaction remains untested. No push.

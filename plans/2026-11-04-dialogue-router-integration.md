@@ -131,3 +131,17 @@ change. Serving API identity was not verified against these commits. The system
 Python encoder incompatibility remains; the existing compatible audit venv was used.
 Next: validate frontend-to-backend dialogue parity with these exact sequences,
 then expand held-out conversations without reopening reviewed source decisions.
+
+
+## Owner-requested app restart — 19:21 Manila
+
+After the implementation handoff, owner explicitly requested restart. Stopped only
+verified old API 76524/45316 and Next 49952/19584; left healthy model and tunnel running.
+Existing launcher started current worktree at HEAD `403657eb`, same reviewed config,
+compatible audit venv and portable Node, compiler ON preserved. API 92124/94216;
+frontend 79552. Backend constructed in 156.5s. Fresh checks: backend live/ready,
+frontend `/chat`, frontend `/api/health` and model `/health` all HTTP 200;
+student_runtime probe true. Logs: ignored `audit-evidence/launcher-logs/`.
+Temporary backend dialogue/session memory reset; start New Chat. No full inference
+or interactive browser acceptance run in this restart task; prior source-backed
+harness evidence remains separate. This supersedes the no-restart statement above.
