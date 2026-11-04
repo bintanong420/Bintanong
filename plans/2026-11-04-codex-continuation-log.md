@@ -25,7 +25,19 @@ with unfinished guard changes in `compile.py`. Those changes were preserved.
 - [Compiler log](2026-11-04-compiled-routing-continuation.md) records 11 flag-on expectation differences.
 - Independent review found four more defects, each reproduced RED: malformed collections escape fallback;
   unknown titles inherit the previous course; repeated topics lose later requested claims; a result statement
-  inside a second question part hides a missing operation. Fixed; compiler suite 65 passed.
+  inside a second question part hides a missing operation. Fixed at `a96ea7db`; reviewer rechecked all four.
+- `f723e21f`: malformed collection matrix and positive grounded-pronoun coverage; compiler suite 71 passed.
+- `22ef3320` integrates approved conversational replies (`4b0277e7`); [wording report](2026-11-04-conversational-wording-results.md)
+  records 1187 passed on that branch, including retained either/both/co-requisite semantics.
+- `affc3aad` integrates backend typed-plan/earliest-term helpers (`77207f8d`);
+  [helper report](2026-11-04-plan-check-replies-results.md) records exact entrypoints and tests. This completes the
+  assigned backend half only: routing/generation hookup is still required before advertising either as chat behavior.
+- Compiler-branch default broad after the initial 15 cases: 2165 passed / 2 xfailed (363.6 s).
+- Live model memory scenarios on compiler branch `e2b243d6`, flag ON: 12/12 checks passed, 9 explanation drafts
+  accepted, one rejected with the checked host answer retained. Runtime 7.9–45.2 s per turn; excludes HTTP/browser
+  and retrieval. Final integrated branch still needs its live off/on comparison; this is not that final gate.
+- Local API restarted on integrated code with compiler OFF; model, frontend and other services left running.
+  New API parent PID `79920`; startup log `api-off.log` in the evidence root. Existing launcher PID file may be stale.
 
 Raw outputs: `C:/Coding-projects/bintanong_workspace/audit-evidence/codex-claude-20261104/`.
 Python 3.13 (`py -3.13 -B` or existing 3.13 venv), `pytest -p no:cacheprovider`, external basetemp.
@@ -40,5 +52,6 @@ advice, scoped self-reported facts, Prolog decision authority, source gaps, F04 
 
 ## Current next action
 
-Finish live flag-on/off comparison and review fixes; complete and integrate approved reply/helper work;
-record final counts and exact remaining work here before returning. Do not re-ask settled wording approval.
+Finish integrated regression run and live flag-off/on conversations/per-college cases. Keep the compiler off until
+the comparative evidence supports it. Plan-check/earliest-term chat wiring remains a separate coordinator task;
+do not mistake helper delivery for a live feature. Do not re-ask settled wording approval.
