@@ -25,7 +25,8 @@ _WORDS = {
                'counted as passed unless you told me otherwise.',
         header='Draft, not approved. Show this to your program adviser. Draft {variant}: {title}',
         titles=dict(A='retake at the next regular offering only.', B='with special-class requests.',
-                    C='with special-class requests and summer, within the summer load.'),
+                    C='with special-class requests and summer, within the summer load.',
+                    D='preferred: just in time, with special-class requests and summer as needed.'),
         term='- {term}{units}: {moved}{kept}. {status}',
         units=' ({units} units)', kept=', plus {n} other prescribed course{s}',
         modes=dict(retake='retake', prescribed='regular offering', special_class_request='special class',
@@ -50,8 +51,9 @@ _WORDS = {
                      no_summer_policy='Draft {variant} is not shown: the summer load rule is not available.',
                      too_long='Draft {variant} is not shown: it needs more terms than I can check.'),
         none="I couldn't make a draft that works.",
-        order='Drafts are listed by fewest requests that need approval, then the earliest finish; this is not a '
-              'ranking of the best plan.',
+        order='Draft D comes first: courses wait until needed, using summer only when needed by the next term. '
+              'Other drafts follow by fewest requests, then earliest finish. Offerings and approvals need confirmation.',
+        other_order='Drafts follow by fewest requests, then earliest finish; offerings and approvals need confirmation.',
         closing='None of this confirms a class offering, an approval, a grade or your academic standing.',
         summer_term='summer after {year} year', join=', '),
     'taglish': dict(
@@ -73,7 +75,8 @@ _WORDS = {
                'binibilang na naipasa maliban kung iba ang sinabi mo.',
         header='Draft lang, hindi pa approved. Ipakita mo ito sa program adviser mo. Draft {variant}: {title}',
         titles=dict(A='retake sa next regular offering lang.', B='may special-class requests.',
-                    C='may special-class requests at summer, pasok sa summer load.'),
+                    C='may special-class requests at summer, pasok sa summer load.',
+                    D='preferred: just in time, may special-class requests at summer kung kailangan.'),
         term='- {term}{units}: {moved}{kept}. {status}',
         units=' ({units} units)', kept=', kasama ang {n} pang prescribed course{s}',
         modes=dict(retake='retake', prescribed='regular offering', special_class_request='special class',
@@ -99,8 +102,11 @@ _WORDS = {
                      no_summer_policy='Hindi ipinapakita ang Draft {variant}: wala ang summer load rule.',
                      too_long='Hindi ipinapakita ang Draft {variant}: masyadong maraming term para ma-check ko.'),
         none='Wala akong nagawang draft na gumagana.',
-        order='Nakaayos ang mga draft ayon sa pinakakaunting request na kailangan ng approval, tapos sa pinakamaagang '
-              'tapos; hindi ito ranking ng pinakamagandang plan.',
+        order='Nauuna ang Draft D: hinihintay ang term na kailangan ang courses, at summer lang kung kailangan sa '
+              'next term. Ang ibang draft ay ayon sa pinakakaunting request, tapos sa pinakamaagang tapos. '
+              'Kailangan pa ring i-confirm ang offerings at approvals.',
+        other_order='Ayon sa pinakakaunting request ang mga draft, tapos sa pinakamaagang tapos. Kailangan pa ring '
+                    'i-confirm ang offerings at approvals.',
         closing='Wala rito ang nagko-confirm ng class offering, approval, grade o academic standing mo.',
         summer_term='summer pagkatapos ng {year} year', join=', '),
 }
@@ -280,7 +286,7 @@ _MD = {
         fewest='**Draft {variant}** needs the fewest requests; Draft {fast} gets you back on your prescribed sequence '
                'soonest ({term}). Each step still needs approval.',
         only='**Draft {variant}** gets you back on your prescribed sequence by {term}. Each step still needs approval.',
-        late='**Draft {variant}** needs the fewest requests, but every draft goes past your curriculum\'s last term. '
+        late='**Draft {variant}** is shown first; every draft goes past your curriculum\'s last term. '
              'Each step still needs approval.',
         delayed='What gets delayed', delayed_intro='If you fail {course}, these courses need it (directly or through '
                                                      'another course):',
@@ -311,7 +317,7 @@ _MD = {
                'prescribed sequence mo ({term}). Kailangan pa rin ng approval ang bawat step.',
         only='**Draft {variant}**: balik ka sa prescribed sequence mo pagdating ng {term}. Kailangan pa rin ng '
              'approval ang bawat step.',
-        late='**Draft {variant}** ang may pinakakaunting request, pero lalampas ang lahat ng draft sa huling term ng '
+        late='**Draft {variant}** ang unang ipinapakita; lalampas ang lahat ng draft sa huling term ng '
              'curriculum mo. Kailangan pa rin ng approval ang bawat step.',
         delayed='Ano ang maaatras', delayed_intro='Kung ma-fail mo ang {course}, kailangan ito ng mga course na ito '
                                                    '(direkta o sa ibang course):',
@@ -380,6 +386,10 @@ def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
         lines.extend(['', md['draft'].format(variant=draft.variant, title=words['titles'][draft.variant]),
                       md['table'], md['rule']])
         lines.extend(_rows(draft, md, words, clause, shown, language, cite))
+        unknown = dict.fromkeys(reason.course_id for term in draft.terms for reason in term.verdict.reasons
+                                if reason.kind == 'prerequisite_unknown')
+        if unknown:
+            lines.append(md['prereq_unknown'].format(course=', '.join(map(shown, unknown))))
         lines.append(words['beyond'] if draft.beyond_curriculum or draft.rejoin_term is None
                      else md['back'].format(term=term_label(draft.rejoin_term, language)))
     for dropped in recovery.dropped:
@@ -388,7 +398,7 @@ def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
             term=term_label(dropped.term, language) if dropped.term else '',
             missing=words['join'].join(map(shown, dropped.missing))))
     if len(recovery.drafts) > 1 and not recovery.fastest_asked:
-        lines.append(words['order'])
+        lines.append(words['order' if recovery.drafts[0].variant == 'D' else 'other_order'])
     lines.extend(['', '### ' + md['sources']])
     lines.extend(f'- **{name}** (Student Handbook p. {page}): "{text}"' for name, (page, text) in used.items())
     lines.extend(['', md['closing']])
@@ -402,6 +412,8 @@ def _answer(recovery, md, language):
     timely = [d for d in recovery.drafts if d.rejoin_term is not None and not d.beyond_curriculum]
     if not timely:
         return [md['late'].format(variant=first.variant)]
+    if not recovery.fastest_asked and first.variant == 'D' and first in timely:
+        return [md['only'].format(variant=first.variant, term=term_label(first.rejoin_term, language))]
     fastest = min(timely, key=lambda d: (_key(d.rejoin_term), d.requests))
     when = term_label(fastest.rejoin_term, language)
     if recovery.fastest_asked or fastest is first:
@@ -452,12 +464,10 @@ def _rows(draft, md, words, clause, shown, language, cite):
             notes.append(md['d5' if warning.kind == 'load_above_prescribed' else 'summer_load'].format(
                 units=_number(warning.units), ceiling=_number(warning.ceiling)))
         for reason in verdict.reasons:
-            if reason.kind == 'prerequisite_unknown':
-                notes.append(md['prereq_unknown'].format(course=shown(reason.course_id)))
-            elif reason.kind in ('not_in_curriculum', 'rule_error', 'units_missing'):
+            if reason.kind in ('not_in_curriculum', 'rule_error', 'units_missing'):
                 notes.append(md['unchecked'].format(course=shown(reason.course_id)))
         if verdict.load.status == 'unknown':
             notes.append(md['load_unknown'].format(reason=verdict.load.reason))
         rows.append(f'| {_cell(term_label(term.term, language))}{units} | {_cell(", ".join(courses))} | '
-                    f'{_cell("; ".join(notes))} |')
+                    f'{_cell(". ".join(note.rstrip(".") for note in notes))}. |')
     return rows

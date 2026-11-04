@@ -13,6 +13,7 @@ from backend.bintanong_contracts.symbolic import Capability, CapabilityRegistry
 from backend.bintanong_generation.generator import Generator
 from backend.bintanong_generation.recovery_reply import recovery_lines
 from backend.bintanong_orchestration.adapters import SymbolicAdapter
+from backend.bintanong_planning.contracts import PlanReason
 from backend.bintanong_orchestration.contracts import ReleasePin
 from backend.bintanong_orchestration.orchestrator import Orchestrator
 from backend.bintanong_orchestration.ports import ReleaseResources, SyntheticReleaseProvider
@@ -75,7 +76,8 @@ def test_the_plain_recovery_question_is_answered_with_delays_routes_and_drafts_i
     integration, answer, lines = answered
     assert answer.status == 'answered' and integration.recovery is not None
     text = '\n'.join(lines)
-    assert lines[0].startswith('**Draft A** ang may pinakakaunting request; ang Draft C ang pinakamabilis')
+    assert lines[0] == ('**Draft D**: balik ka sa prescribed sequence mo pagdating ng fourth year, first semester. '
+                        'Kailangan pa rin ng approval ang bawat step.')
     delayed = lines.index('### Ano ang maaatras')
     routes = lines.index(f'### Mga option mo para sa {X}')
     first_draft = lines.index('### Mga draft')
@@ -90,9 +92,12 @@ def test_the_plain_recovery_question_is_answered_with_delays_routes_and_drafts_i
 def test_every_draft_is_headed_and_says_what_needs_confirmation(answered):
     _, _, lines = answered
     headers = [l for l in lines if l.startswith('#### Draft ')]
-    assert [h.split('Draft ')[1][0] for h in headers] == ['A', 'C', 'B']
-    assert any('Works, may kailangan pang i-confirm.' in l for l in lines)  # 2b wording
-    assert any(f'{X}: special class na ni-request, hindi pa approved (tingnan ang Special class)' in l for l in lines)
+    assert [h.split('Draft ')[1][0] for h in headers] == ['D', 'A', 'C', 'B']
+    # 2b wording; each note is its own sentence (no "i-confirm.; ").
+    assert any(f'Works, may kailangan pang i-confirm. {X}: special class na ni-request, hindi pa approved (tingnan ang '
+               'Special class).' in l for l in lines)
+    assert not any('.;' in l for l in lines)
+    assert any(l.startswith('Nauuna ang Draft D: ') for l in lines)
     assert lines[-1].startswith('Mga draft lang ito, hindi pa approved: ipakita mo sa program adviser mo.')
 
 
@@ -114,8 +119,8 @@ def test_the_english_wording_of_the_same_result(answered):
     integration, answer, _ = answered
     shown = lambda course: integration.course_labels.get(course, course)
     lines = recovery_lines(integration.recovery, 'en', shown, dependencies=answer.dependencies)
-    assert lines[0] == ('**Draft A** needs the fewest requests; Draft C gets you back on your prescribed sequence '
-                        'soonest (third year, first semester). Each step still needs approval.')
+    assert lines[0] == ('**Draft D** gets you back on your prescribed sequence by fourth year, first semester. Each '
+                        'step still needs approval.')
     assert lines[1].startswith('By "regular load" I take it you mean getting back on your curriculum')
     assert f'### Your options for {X}' in lines
     assert ('- Retake it at its next regular offering (third year, first semester) (see Regular class, p. 1). '
@@ -126,6 +131,35 @@ def test_the_english_wording_of_the_same_result(answered):
                'Check with your Dean or the Registrar.' in l for l in lines)
     assert lines[-1] == ('These are drafts, not approved: show them to your program adviser. None of this confirms a '
                          'class offering, an approval, a grade or your academic standing.')
+
+
+def test_the_rejoin_line_names_a_regular_term(answered):
+    _, _, lines = answered
+    assert not any('simula summer' in l or 'pagdating ng summer' in l for l in lines)
+    assert 'Balik sa prescribed sequence mo simula fourth year, first semester.' in lines
+
+
+def test_unchecked_prerequisites_are_one_line_under_the_draft_table(answered):
+    integration, answer, _ = answered
+    shown = lambda course: integration.course_labels.get(course, course)
+    draft = integration.recovery.drafts[0]
+    terms = list(draft.terms)
+    electives = [cid(CODES['Q2']), cid(CODES['R1'])]
+    for i, course in enumerate(electives):
+        verdict = terms[i].verdict.model_copy(update=dict(outcome='unknown', reasons=(
+            PlanReason(kind='prerequisite_unknown', course_id=course),)))
+        terms[i] = terms[i].model_copy(update=dict(verdict=verdict))
+    recovery = integration.recovery.model_copy(update=dict(drafts=(
+        draft.model_copy(update=dict(terms=tuple(terms))), *integration.recovery.drafts[1:])))
+    lines = recovery_lines(recovery, 'taglish', shown)
+    next_header = next(i for i, line in enumerate(lines) if line.startswith('#### Draft A:'))
+    lines = lines[:next_header]
+    assert not any(l.startswith('|') and 'prerequisites' in l for l in lines)
+    note = (f'Hindi ma-check nang buo ang prerequisites ng {CODES["Q2"]}, {CODES["R1"]}; paki-confirm sa program '
+            'adviser.')
+    assert lines.count(note) == 1
+    rows = [i for i, l in enumerate(lines) if l.startswith('| ') and not l.startswith('| Term')]
+    assert lines.index(note) == rows[-1] + 1  # right under the draft table
 
 
 def test_without_a_recovery_cue_the_dependency_reply_is_unchanged():

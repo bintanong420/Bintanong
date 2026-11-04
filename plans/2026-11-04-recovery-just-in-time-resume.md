@@ -39,6 +39,20 @@ external basetemp under `audit-evidence/p12jit-resume`):
   stopped by terminating only its own Python processes. It is not a passing gate.
 - `git diff --check` passed. Broader planner/reply regressions remain to run.
 
-Next: finish inherited reply regressions (sentence joins, regular-term summary,
-one prerequisite-gap note per draft), then run relevant planner/reply checks.
-The coordinator owns shared progress/checkpoint integration.
+Reply continuation: D is explicitly titled preferred / just in time in English
+and Taglish. The leading answer uses D's actual regular rejoin term rather than
+calling it the fewest-request draft or borrowing C's faster date. Sentence notes
+use periods without `.;`; prerequisite-gap details are deduplicated below each
+draft table while unknown term outcomes stay visible.
+
+The inherited gap-note fixture discarded all other variants, violating the
+existing exact-once validator. It now preserves them and inspects D's table.
+After correcting test-only expectations, the three intended reply regressions
+failed RED (10.13s). Full reply file GREEN: 11 passed, 23.37s.
+The sole `RecoveryResult` constructor in this branch is the planner. Searches
+found no other ABC-only variant type or three-draft consumer in backend/frontend.
+The coordinator must check its newer plan-view fixtures during integration.
+
+Next: complete the running relevant planner regressions, correcting stale test
+expectations for the now-restored C alternative. The coordinator owns shared
+progress/checkpoint integration. No real-curriculum/gold-ledger run is claimed.
