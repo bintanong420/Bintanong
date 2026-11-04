@@ -247,6 +247,11 @@ def _invoke_worker(payload, timeout):
     return result_type.parse(reply['result'])
 
 
+def _contains_unresolved(node):
+    return (not node.get('course_free')) if node.get('kind')=='unresolved' else any(
+        _contains_unresolved(child) for child in node.get('items', ()))
+
+
 @dataclass(frozen=True, init=False)
 class CurriculumRuntime:
     _ledger_json: str
@@ -475,9 +480,13 @@ class CurriculumRuntime:
         ids = () if evaluation is None else evaluation.course_ids
         if ids and (not known_input or not set(ids) <= self._exported_rules):
             raise ValueError('unbound dependency output')
+        bundle_courses = json.loads(self._bundle_json)['courses']
         if evaluation is not None and evaluation.status=='complete' and (
-                not known_input or len(self._reviewed_rules)!=len(ledger['courses'])):
+                not known_input or any(not c['reviewed'] or _contains_unresolved(c['rule'])
+                                       for c in bundle_courses)):
             raise ValueError('unbound dependency completeness')
+
+
         courses = [c for c in ledger['courses'] if c['course_id'] in ids]
         result_type = DependencyResult if self._research_json is None else ResearchDependencyResult
         data = {'schema_version':result_type.SCHEMA_VERSION,'synthetic':ledger['synthetic'],

@@ -25,8 +25,8 @@ import test_term_prerequisite_advising as term
 from test_symbolic_course_facts import SCOPE, SOURCE, fact
 
 
-def ledger():
-    rows = term.ROWS + [('SYN 299', 'SECOND YEAR', 'SECOND SEMESTER', 'standing')]
+def ledger(include_group=True):
+    rows = [r for r in term.ROWS if include_group or r[0] != 'SYN 280'] + [('SYN 299', 'SECOND YEAR', 'SECOND SEMESTER', 'standing')]
     courses = []
     for top, (code, year, semester, prerequisite) in enumerate(rows):
         rule = ({'kind': 'unresolved', 'reason': 'Printed condition "4th Year Standing" is a year-level standing, not a '
@@ -48,6 +48,8 @@ def test_a_year_standing_condition_names_no_course_so_it_cannot_make_a_list_part
     result = CurriculumRuntime(ledger()).list_affected_courses(course_request('list_affected_courses', 'SYN 260'))
     assert result.course_ids == ()
     assert result.unknown_conditions == (f'rule_unresolved:{term.cid("SYN 280")}',)  # the printed group condition
+    complete = CurriculumRuntime(ledger(include_group=False)).list_affected_courses(course_request('list_affected_courses', 'SYN 131'))
+    assert complete.status == 'complete' and complete.course_ids == (term.cid('SYN 251'),)
 
 
 def ask(text, target, language='en', claims=(), part=None):
