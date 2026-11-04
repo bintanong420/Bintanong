@@ -6,7 +6,7 @@ const colleges = {
   CAH: { code: "CAH", name: "College of Arts and Humanities" },
   CBA: { code: "CBA", name: "College of Business and Accountancy" },
   CCJE: { code: "CCJE", name: "College of Criminal Justice Education" },
-  CHTM: { code: "CHTM", name: "College of Hospitality Management and Tourism" },
+  CHTM: { code: "CHTM", name: "College of Hospitality and Tourism Management" },
   CNHS: { code: "CNHS", name: "College of Nursing and Health Sciences" },
   CoE: { code: "CoE", name: "College of Engineering" },
   CS: { code: "CS", name: "College of Sciences" },
