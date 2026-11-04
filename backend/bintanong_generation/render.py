@@ -295,7 +295,7 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         return '\n'.join(lines)
     if pack.plan_check is not None and status == 'answered':
         from .plan_check_reply import plan_check_lines
-        lines.extend(plan_check_lines(pack.plan_check.checked_request, pack.plan_check, pack.language, shown))
+        lines.extend(plan_check_lines(pack.plan_check.checked_request, pack.plan_check, pack.language, shown, routes=pack.plan_routes))
     missing=pack.missing_facts
     plan_questions = {'plan_term': ('Which year and semester is each term of your plan for?',
                                      'Anong year at sem ang bawat term ng plan mo?'),

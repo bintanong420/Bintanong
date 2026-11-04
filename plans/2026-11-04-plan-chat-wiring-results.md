@@ -56,3 +56,15 @@ consulted during this continuation. No new numbered phase; the coordinator maint
 Next: coordinator reviews/integrates this vertical slice after the old-prompt compiler comparison, then performs
 live typed-plan smoke tests. Earliest-term chat selection remains separate follow-up work. No GPU/model/backend/
 GUI calls, service changes, push, release activation or merge were performed in this task.
+
+## Coordinator review corrections
+
+The prior-term parser now uses exactly the same previous-operation restriction as routing. An end-to-end
+`2nd sem: X` follow-up after a second-year term lookup verifies the year reaches the checker unchanged.
+The coordinator also caught configured offering clauses being discarded at rendering: four synthetic chat
+cases failed before correction. Trusted adapter `RecoveryRoutes` now travel as optional plan evidence,
+require a checked plan with matching synthetic/research mode, bind the ledger identity, and reach the existing
+`plan_check_lines(..., routes=...)` renderer. Exact printed permission text, condition and page reference survive;
+requests remain unapproved. Routes absent from configuration still produce the honest unavailable-conditions line.
+Verification: **165 passed**, typed-plan end-to-end + planning chat + compiler suites, exit 0
+(`p12-plan-chat-conditions-green.log`).

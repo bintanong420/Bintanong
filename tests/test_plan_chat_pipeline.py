@@ -24,7 +24,7 @@ def compile_mode(request, monkeypatch):
     monkeypatch.setenv('BINTANONG_ROUTER_COMPILE', request.param)
 
 
-def run_plan(curriculum, plan_text, *, facts=(), audience='undergraduate', language='en'):
+def run_plan(curriculum, plan_text, *, facts=(), audience='undergraduate', language='en', conversation=None, routes=None):
     key, runtime, c = curriculum
     prefix = 'Check my plan: ' if language == 'en' else 'Paki-check ang plan ko: '
     text = prefix + plan_text
@@ -38,10 +38,10 @@ def run_plan(curriculum, plan_text, *, facts=(), audience='undergraduate', langu
         sources=[dict(version_id=SOURCE.version_id, byte_sha256=SOURCE.byte_sha256)]))
     entries = tuple(e.model_copy(update=dict(source_ref=SOURCE.version_id)) for e in catalog(key))
     labels = tuple((e.entity_id, e.aliases[0]) for e in entries)
-    resources = ReleaseResources(pin, entries, registry, None, SymbolicAdapter(runtime, recovery=(POLICY, None)),
+    resources = ReleaseResources(pin, entries, registry, None, SymbolicAdapter(runtime, recovery=(POLICY, routes)),
         course_labels=labels)
     context = RequestContext.parse(dict(session_id='sess-a', request_id='req-a', program_id='program-synthetic',
-        curriculum_id=key, facts=tuple(dict(fact_id=f'fact-{i}', session_id='sess-a', program_id='program-synthetic',
+        curriculum_id=key, conversation=conversation, facts=tuple(dict(fact_id=f'fact-{i}', session_id='sess-a', program_id='program-synthetic',
             curriculum_id=key, course_id=course, state=state) for i,(course,state) in enumerate(facts))))
     async def run():
         result = await Orchestrator(FakeTransport(json.dumps(value), json.dumps(value),
@@ -122,3 +122,29 @@ def test_a_valid_result_for_another_plan_never_answers_the_question(curriculum, 
                              facts=((c('BASE'), 'passed'),))
     assert result.status == 'invalid_output' and result.plan_check is None
     assert answer.status != 'answered' and 'Works' not in student_text(answer)
+
+
+def test_plan_uses_the_same_prior_term_as_routing(curriculum):
+    key, _, c = curriculum
+    result, answer = run_plan(curriculum, f"2nd sem: {CURRICULA[key]['X']}",
+        facts=((c('BASE'), 'passed'),), conversation=dict(program_id='program-synthetic', curriculum_id=key,
+            operation='list_term_courses', year_level=2, semester='first_semester'))
+    assert result.status == 'ready' and answer.status == 'answered'
+    assert result.plan_check.checked_request.terms[0].year_level == 2
+
+
+def test_configured_printed_offering_conditions_reach_the_chat(curriculum):
+    from test_planning_recovery import ROUTES
+    key, _, c = curriculum
+    routes = ROUTES.model_copy(update=dict(clauses=tuple(
+        clause.model_copy(update=dict(text=clause.text + ' Permission from the fictional office is required.',
+            conditions=('Permission from the fictional office is required.',)))
+        if clause.kind == 'special_class' else clause for clause in ROUTES.clauses)))
+    result, answer = run_plan(curriculum, f"2nd year 2nd sem: {CURRICULA[key]['X']} special class",
+        facts=((c('BASE'), 'passed'),), routes=routes)
+    assert answer.status == 'answered'
+    text = student_text(answer)
+    clause = next(c for c in routes.clauses if c.kind == 'special_class')
+    assert clause.text in text and all(condition in text for condition in clause.conditions)
+    assert f'Student Handbook p. {clause.page}' in text
+    assert 'offering conditions are unavailable' not in text

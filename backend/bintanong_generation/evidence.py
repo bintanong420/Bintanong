@@ -40,6 +40,7 @@ class PreparedEvidence:
     asked_term: tuple|None=None  # (year, semester) the whole question names, read by the host (display only)
     recovery: object=None  # RecoveryResult: Ask mode routes and drafts, rendered by the host (owner 4 Nov 2026)
     plan_check: object=None
+    plan_routes: object=None
     unavailable_parts: tuple[str,...]=()  # words of parts with no reviewed topic, named as unavailable
 
     def model_payload(self):
@@ -64,6 +65,8 @@ class PreparedEvidence:
             payload['record_order'] = self.record_order  # bind sequence in the existing review identity
         if self.plan_check is not None:
             payload['plan_check'] = self.plan_check.model_dump(mode='json')
+        if self.plan_routes is not None:
+            payload['plan_routes'] = self.plan_routes.model_dump(mode='json')
         return payload
 
 
@@ -109,7 +112,7 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     if evidence is not None:
         checked=assemble(evidence.pin,evidence.route,documents=evidence.documents,
             symbolic=evidence.symbolic,dependencies=evidence.dependencies,course_facts=evidence.course_facts,
-            term_assessment=evidence.term_assessment, plan_check=evidence.plan_check)
+            term_assessment=evidence.term_assessment, plan_check=evidence.plan_check, plan_routes=evidence.plan_routes)
         if checked!=evidence:
             raise ValueError('integration_policy_mismatch')
     cards=[]
@@ -159,4 +162,4 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
         symbolic.requirement if symbolic else None,facts,coverage,order,quotes,result.assumed_facts,term,
-        recovery=result.recovery,plan_check=checked_plan,unavailable_parts=result.unavailable_parts)
+        recovery=result.recovery,plan_check=checked_plan,plan_routes=evidence.plan_routes if evidence else None,unavailable_parts=result.unavailable_parts)

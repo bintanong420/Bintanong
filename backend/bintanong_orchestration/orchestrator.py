@@ -134,7 +134,7 @@ class Orchestrator:
         prepare_query(text)
         context = RequestContext.parse(context.model_dump(mode='json'))
         events, resources, route, style = [], None, None, 'unknown'
-        understanding, assumed, recovery, routed, plan_check = None, (), None, None, None
+        understanding, assumed, recovery, routed, plan_check, plan_routes = None, (), None, None, None, None
 
         def finish(status, evidence=None, missing=()):
             ready = status == 'ready'
@@ -284,6 +284,7 @@ class Orchestrator:
             return merge_documents(results)
 
         async def reason():
+            nonlocal plan_routes
             request = routed.decision.predicate_request
             resources.registry.goal(request)
             if request.predicate == 'check_study_plan':
@@ -296,11 +297,14 @@ class Orchestrator:
                     raise ValueError('plan_quote_binding_mismatch')
                 text_plan = parse_plan_terms(words, resources.catalog, scoped.curriculum_id,
                     start_term=((context.conversation.year_level, context.conversation.semester or 'any')
-                        if context.conversation is not None and context.conversation.year_level is not None else None),
+                        if context.conversation is not None and context.conversation.year_level is not None
+                        and context.conversation.operation in ('list_term_courses', 'assess_term_prerequisites',
+                                                              'check_study_plan') else None),
                     facts=tuple((f.course_id, f.state) for f in scoped.facts))
                 value = await resources.symbolic.check_typed_plan(text_plan, scoped)
                 if type(value) is not PlanCheckResult or value.synthetic is not resources.pin.synthetic:
                     raise ValueError('plan_result_kind_mismatch')
+                plan_routes = resources.symbolic.recovery_routes(scoped.curriculum_id)
                 if value.checked_request != text_plan:
                     raise ValueError('plan_result_request_mismatch')
                 return PlanCheckResult.parse(value.model_dump(mode='json'))
@@ -359,7 +363,7 @@ class Orchestrator:
         async def integrate():
             return assemble(resources.pin, route, documents=documents,
                             symbolic=symbolic, dependencies=dependencies, course_facts=course_facts,
-                            term_assessment=term_assessment, plan_check=plan_check)
+                            term_assessment=term_assessment, plan_check=plan_check, plan_routes=plan_routes)
 
         evidence, failure = await stage('integration', integrate)
         return finish(failure) if failure else finish(evidence.status, evidence, evidence.missing_facts)

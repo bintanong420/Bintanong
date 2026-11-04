@@ -13,7 +13,7 @@ from .term_assessment import TermAssessmentResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_routing.contracts import RequestPart, Operation
-from ..bintanong_planning.contracts import RecoveryResult, PlanCheckResult
+from ..bintanong_planning.contracts import RecoveryResult, PlanCheckResult, RecoveryRoutes
 
 Text = Annotated[str, Field(min_length=1)]
 ReleaseID = Annotated[str, Field(pattern=r'^release-[a-z0-9-]+$', max_length=128)]
@@ -201,6 +201,7 @@ class CandidateEvidence(Contract):
     conflicts: tuple[Text, ...] = ()
     course_facts: CourseFactsResult | None = None  # printed course facts (no rule executed)
     plan_check: PlanCheckResult | None = Field(default=None, exclude_if=lambda value: value is None)
+    plan_routes: RecoveryRoutes | None = Field(default=None, exclude_if=lambda value: value is None)
     term_assessment: TermAssessmentResult | None = None  # each course of one term checked (memory plan, Task 4)
 
     @model_serializer(mode='wrap')
@@ -217,6 +218,8 @@ class CandidateEvidence(Contract):
     def _shape(self):
         has_symbolic = ((self.symbolic is not None) + (self.dependencies is not None)
                         + (self.course_facts is not None) + (self.term_assessment is not None) + (self.plan_check is not None))
+        if self.plan_routes is not None and (self.plan_check is None or self.plan_routes.synthetic is not self.pin.synthetic):
+            raise ValueError('plan_routes_require_their_checked_plan')
         if self.plan_check is not None and self.plan_check.synthetic is not self.pin.synthetic:
             raise ValueError('plan_check_must_match_pin')
         if self.term_assessment is not None and self.term_assessment.synthetic is not self.pin.synthetic:

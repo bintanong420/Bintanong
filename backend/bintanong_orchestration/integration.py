@@ -14,7 +14,7 @@ def _identity_pinned(pin, result):
             and (getattr(result, 'rule_bundle_version', None) in (None, version)))
 
 
-def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, course_facts=None, term_assessment=None, plan_check=None):
+def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, course_facts=None, term_assessment=None, plan_check=None, plan_routes=None):
     pin = ReleasePin.parse(pin.model_dump(mode='json'))
     if documents is not None:
         documents = DocumentResult.parse(documents.model_dump(mode='json'))
@@ -32,6 +32,8 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, co
         data['term_assessment'] = term_assessment
     if plan_check is not None:
         data['plan_check'] = plan_check
+    if plan_routes is not None:
+        data['plan_routes'] = plan_routes
     # Validate component shape and reject offline/real-rule subtypes BEFORE copying.
     checked = CandidateEvidence(**data)
     result = next((r for r in (symbolic, dependencies, course_facts, term_assessment) if r is not None), None)
