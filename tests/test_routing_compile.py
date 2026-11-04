@@ -255,6 +255,68 @@ def test_an_eligibility_check_aimed_at_an_ordinary_word_uses_the_named_course(ke
 
 
 @CURRICULUM_KEYS
+def test_an_eligibility_check_on_a_phrase_holding_the_named_course_lists_its_dependants(key, monkeypatch):
+    """run-b57db6a4-final-understanding und-uses-as-prereq: the check targeted the whole phrase "Anything that uses
+    <code> as pre-req under my selected curriculum" (it holds a digit, so it was read as an unknown code and the
+    student was asked for the printed code); the structured part carried no topic."""
+    c = CURRICULA[key]
+    code = c['second'][0]
+    first = f'What do the reviewed institutional sources say about retaking {code}?'
+    second = f'Can I take Anything that uses {code} as pre-req under my selected curriculum? Please check the reviewed prerequisite rules.'
+    text = first + ' ' + second
+    value = wire(parts=[part('r1', first, 'document', (), POLICY.subject_id, POLICY.claims),
+                        part('r2', second, 'structured', [0], occurrence=1)],
+                 mentions=[('course', code, 0)], route='Hybrid', language='en',
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(
+                     f'Anything that uses {code} as pre-req under my selected curriculum', 1))])
+    result = route(text, value, context(key), monkeypatch)
+    assert result.compiled and result.diagnostic == 'validated' and result.decision.route == 'Hybrid'
+    assert predicate(result) == ('list_affected_courses', c['second'][1])
+    assert [(p.evidence_need, p.subject_id) for p in result.proposed.parts] == [
+        ('document', POLICY.subject_id), ('structured', None)]
+
+
+@CURRICULUM_KEYS
+@pytest.mark.parametrize('phrase', ['which subjects need {code} as a prerequisite',
+                                    'any subject that has {code} as prereq',
+                                    'Ano pwede kong i-take na may {code} na pre-req',
+                                    'alinman sa mga subject na kailangan ang {code}',
+                                    'kahit ano na may prereq na {code}'])
+def test_other_course_phrasings_holding_the_named_course_list_its_dependants(key, phrase, monkeypatch):
+    c = CURRICULA[key]
+    words = phrase.format(code=c['main'][0])
+    text = f'Can I take {words}?'
+    value = wire(parts=[part('r1', text, 'structured', [0])], language='en', mentions=[('course', c['main'][0], 0)],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(words))])
+    result = route(text, value, context(key), monkeypatch)
+    assert result.compiled and result.diagnostic == 'validated'
+    assert predicate(result) == ('list_affected_courses', c['main'][1])
+
+
+@CURRICULUM_KEYS
+def test_an_eligibility_phrase_naming_the_course_and_a_term_checks_that_course(key, monkeypatch):
+    c = CURRICULA[key]
+    words = f"{c['main'][0]} next semester"
+    text = f'Can I take {words}?'
+    value = wire(parts=[part('r1', text, 'structured', [0])], language='en', mentions=[('course', c['main'][0], 0)],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(words))])
+    result = route(text, value, context(key), monkeypatch)
+    assert result.compiled and predicate(result) == ('check_prerequisite_eligibility', c['main'][1])
+
+
+@CURRICULUM_KEYS
+def test_a_phrase_holding_an_unknown_code_beside_a_known_course_still_asks_for_the_code(key, monkeypatch):
+    """The unknown code is what the student wants to take; it is never swapped for the known course beside it."""
+    c = CURRICULA[key]
+    words = f"QQ 999 after {c['main'][0]}"
+    text = f'Can I take {words}?'
+    value = wire(parts=[part('r1', text, 'structured', [0])], language='en', mentions=[('course', c['main'][0], 0)],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(words))])
+    result = route(text, value, context(key), monkeypatch)
+    assert result.decision.predicate_request is None and result.diagnostic == 'unresolved_entity'
+
+
+@CURRICULUM_KEYS
 @pytest.mark.parametrize('aimed_at_course', [False, True])
 def test_a_term_check_for_a_named_course_checks_that_course(key, aimed_at_course, monkeypatch):
     """run-3b5acdd8 nottaken: assess_term_prerequisites on "next semester" (s006) or on the course itself (s018)."""
