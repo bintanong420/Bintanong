@@ -297,6 +297,12 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
 
     for check in meaning.checks:
         target = check.target
+        if check.name == 'check_study_plan':
+            span = _locate(text, target)
+            if span is None:
+                raise ValueError('compile_plan_unlocated')
+            built.append((check.name, 'term', span, None))
+            continue
         if check.name in TERM_OPERATIONS:
             spans = resolving(target) if target else []
             if spans and check.name == 'assess_term_prerequisites':  # a term check aimed at a named course

@@ -1,6 +1,8 @@
 """Pure chat-entry helpers; the router supplies reviewed scope and the current term."""
 from dataclasses import dataclass
 from typing import Literal
+import hashlib
+import json
 from ..bintanong_contracts.source import SourceSpan
 from ..bintanong_contracts.symbolic import DecisionScope
 import re
@@ -69,11 +71,22 @@ class EarliestTermResult:
     scope: DecisionScope | None = None
     rule_ids: tuple[str, ...] = ()
     rule_spans: tuple[SourceSpan, ...] = ()
+    checked_facts: tuple[tuple[str, str], ...] = ()
+    request_sha256: str = ''
+
+
+def earliest_request_digest(curriculum, course, facts, start):
+    value = dict(curriculum_id=curriculum, course_id=course, facts=sorted(tuple(f) for f in facts),
+                 year_level=start[0], semester=start[1])
+    return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',', ':'),ensure_ascii=False,
+                                    allow_nan=False).encode('utf-8')).hexdigest()
 
 
 def earliest_term(runtime, curriculum_id, course_id, facts, start_term):
     """Earliest regular prescribed offering under explicit request-local assumed passes; never availability."""
     start = TermRef(year=start_term[0], semester=start_term[1])
+    facts = tuple(tuple(f) for f in facts)
+    request_sha256 = earliest_request_digest(curriculum_id, course_id, facts, start_term)
     runtime = _Memo(runtime)
     listings = [runtime.look_up(_request('list_term_courses', curriculum_id, year_level=str(y), semester='any'))
                 for y in range(1, 6)]
@@ -90,7 +103,8 @@ def earliest_term(runtime, curriculum_id, course_id, facts, start_term):
 
     def result(term=None, assumed=(), reason=None):
         return EarliestTermResult(curriculum_id, course_id, start, term, 'found' if term else 'unknown',
-                                  tuple(assumed), reason, scope, tuple(rule_ids), tuple(rule_spans.values()))
+                                  tuple(assumed), reason, scope, tuple(rule_ids), tuple(rule_spans.values()),
+                                  facts, request_sha256)
     if any(x.status != 'complete' for x in listings) or course_id not in printed:
         return result(reason='curriculum_or_course_not_reviewed')
     keys = {c:(p.year, SLOTS.index(p.term)) for c,p in printed.items()}

@@ -16,7 +16,7 @@ from .languages import unsupported_language
 from .terms import parse_term
 
 OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
-              'course_facts', 'list_term_courses', 'assess_term_prerequisites')
+              'course_facts', 'list_term_courses', 'assess_term_prerequisites', 'check_study_plan', 'earliest_course_term')
 
 
 class GroundedClaim(ScopedFact):
@@ -265,7 +265,8 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             # (live 4 Nov 2026: "second semester" alone blocked a dependency question); only the target of a term
             # operation must name its own year, which a follow-up may take from the previous question (prior_term).
             term_target = any(o.name in TERM_OPERATIONS and o.target == idx for o in p.operations)
-            if term_of(mention.text) is not None or not term_target:
+            if (term_of(mention.text) is not None or not term_target
+                    or any(o.name == 'check_study_plan' and o.target == idx for o in p.operations)):
                 ignored.add(idx)
             continue
         names_course = program is not None and curriculum is not None and bool(
@@ -447,11 +448,27 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
             return result('unsupported_operation', 'evidence_unavailable')
         if not synthetic:
             return result('institutional_execution_held', 'evidence_unavailable')
-        if op.name in TERM_OPERATIONS:
+        if op.name == 'check_study_plan':
+            from ..bintanong_planning.chat import parse_plan_terms
+            words = p.mentions[op.target].text
+            try:
+                parse_plan_terms(words, catalog, curriculum, start_term=prior_term)
+            except ValueError as error:
+                field = {'term_required': 'plan_term', 'plan_line_requires_colon': 'plan_terms',
+                         'course_unresolved': 'plan_courses', 'course_ambiguous': 'plan_courses',
+                         'terms_not_in_order': 'plan_order'}.get(str(error), 'plan_terms')
+                return result('missing_plan_information', missing=(field,))
+            target = (('plan_sha256', hashlib.sha256(words.encode('utf-8')).hexdigest()),)
+        elif op.name in TERM_OPERATIONS:
             year, semester = term_of(p.mentions[op.target].text)
             target = (('year_level', str(year)), ('semester', semester))
         else:
             target = (('course_id', resolved[op.target].entity_id),)
+            if op.name == 'earliest_course_term':
+                start = parse_term(text, prior_term)
+                if start is None or start[1] == 'any':
+                    return result('missing_earliest_start_term', missing=('earliest_start_term',))
+                target += (('year_level', str(start[0])), ('semester', start[1]))
         request = PredicateRequest(predicate=op.name, inputs=(
             BoundInput(name='curriculum_id', value=curriculum, fact_ref=None),
             *(BoundInput(name=name, value=value, fact_ref=None) for name, value in target)))

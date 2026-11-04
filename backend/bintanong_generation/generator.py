@@ -61,7 +61,7 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
         text=render_text(pack,claims,status,decision_withheld=reason=='decision_withheld',
             question_uncovered=reason in ('question_uncovered','parts_unresolved'),ledger=ledger,
             thanked=reason=='thanks',explanation=explanation),
-        decision=pack.decision,dependencies=pack.dependencies,
+        decision=pack.decision,dependencies=pack.dependencies,plan_check=pack.plan_check,earliest_term=pack.earliest_term,
         structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage,
@@ -124,6 +124,10 @@ class Generator:
         from ..bintanong_routing.terms import parse_term
         pack=_replace(pack,asked_term=parse_term(text))  # live 4 Nov 2026: the year can stand outside the asked part
         check_question(text,pack)
+        if (pack.plan_check is not None or pack.earliest_term is not None) and pack.route == 'Symbolic' and pack.status == 'ready':
+            draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
+                release_id=pack.release_id,decision_outcome=None,claims=())
+            return _answer(pack,'answered',reason='validated',ledger=assess(pack,draft))
         try:
             quotes=quoted_field_parts(pack)
         except ValueError:

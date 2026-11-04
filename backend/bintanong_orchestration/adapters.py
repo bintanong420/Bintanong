@@ -103,7 +103,9 @@ class RetrievalAdapter:
 
 
 # Fixed input names per operation (the routing validator binds exactly these).
-SIGNATURES = {'check_prerequisite_eligibility': ('curriculum_id', 'course_id'),
+SIGNATURES = {'earliest_course_term': ('curriculum_id', 'course_id', 'year_level', 'semester'),
+              'check_study_plan': ('curriculum_id', 'plan_sha256'),
+              'check_prerequisite_eligibility': ('curriculum_id', 'course_id'),
               'list_missing_prerequisites': ('curriculum_id', 'course_id'),
               'list_affected_courses': ('curriculum_id', 'course_id'),
               'course_facts': ('curriculum_id', 'course_id'),
@@ -180,6 +182,9 @@ class SymbolicAdapter:
             raise ValueError('symbolic_result_kind_mismatch')
         return kind.parse(result.model_dump(mode='json'))
 
+    def recovery_routes(self, curriculum_id):
+        return None if self.recovery is None else self.recovery[1]
+
     async def check_typed_plan(self, text_plan, context: RequestContext):
         """Check an already-structured PlanCheckRequest using owning-session facts, never model-supplied grades."""
         from ..bintanong_planning.contracts import PlanCheckRequest
@@ -238,6 +243,11 @@ class MultiCurriculumSymbolicAdapter:
         if curriculum not in self.adapters:
             raise ValueError('curriculum_not_in_release')
         return await self.adapters[curriculum].execute(request, context)
+
+    def recovery_routes(self, curriculum_id):
+        if curriculum_id not in self.adapters:
+            raise ValueError('curriculum_not_in_release')
+        return self.adapters[curriculum_id].recovery_routes(curriculum_id)
 
     async def check_typed_plan(self, text_plan, context):
         if text_plan.curriculum_id not in self.adapters:

@@ -10,7 +10,8 @@ import re
 
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry
 from ..bintanong_orchestration.adapters import SIGNATURES, MultiCurriculumSymbolicAdapter, RetrievalAdapter, SymbolicAdapter
-from ..bintanong_orchestration.contracts import ReleasePin
+from ..bintanong_orchestration.contracts import ReleasePin, DocumentResult, DocumentPassage
+from ..bintanong_orchestration.plan_sources import source_digest
 from ..bintanong_orchestration.ports import ReleaseResources
 from ..bintanong_retrieval.engine import RetrievalEngine
 from ..bintanong_retrieval.evidence_policy import SourceAwareEvidencePolicy
@@ -28,6 +29,8 @@ CAPABILITIES = dict(zip(OPERATIONS, ('offline_research_prerequisite_check',
     'offline_research_course_facts', 'offline_research_term_courses')))
 # Composed by the adapter from the term lookup and the prerequisite check (memory/eligibility plan, Task 4).
 CAPABILITIES['assess_term_prerequisites'] = 'offline_research_term_prerequisites'
+CAPABILITIES['check_study_plan'] = 'offline_research_study_plan'
+CAPABILITIES['earliest_course_term'] = 'offline_research_earliest_term'
 # Phase 05 selected document-development profile (uncalibrated; research status rule applies).
 SETTINGS = RetrievalSettings(top_k=3, min_similarity=.25, context_budget=2048,
                              policy_id='uncalibrated-document-development-v1')
@@ -386,10 +389,11 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         chunks=chunks, catalogue=package['catalogue'], claim_reviews=package['register'])
     sources.update({c['version_id']: c['byte_sha256'] for c in chunks})
     pin = ReleasePin.parse(dict(release_id=release_id, synthetic=False, research_ref=authorization_ref,
-        rule_bundle_version=version, curricula=members,
+        rule_bundle_version=version, curricula=members,plan_routes_sha256=source_digest(recovery[1]),
         sources=[dict(version_id=v, byte_sha256=h) for v, h in sorted(sources.items())],
-        documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'])
-                   for c in chunks]))
+        documents=[dict(chunk_id=c['chunk_id'], version_id=c['version_id'], byte_sha256=c['byte_sha256'],
+            **({'passage_sha256':source_digest(route_passage(c))}
+               if c['chunk_id'] in recovery[1].source_chunk_ids else {})) for c in chunks]))
     registry = research_registry()
     budgets = {'pre_enrollment':4096} if any(
         r['subject_id'] == 'pre_enrollment' for r in package['register']['reviews']) else {}
@@ -399,7 +403,8 @@ def build_multi_research_resources(ledgers, package, *, encoder, authorization_r
         MultiCurriculumSymbolicAdapter(adapters, release_id=release_id, rule_bundle_version=version),
         topics=topic_menu(package['register'], catalogue=package['catalogue'], chunks=chunks,
                           routing_context=routing_context),  # opt-in reviewed source labels
-        document_scope=('audience:undergraduate',), course_labels=tuple(labels), course_details=tuple(details))
+        document_scope=('audience:undergraduate',), course_labels=tuple(labels), course_details=tuple(details),
+        plan_route_sources=plan_route_sources(pin, recovery[1], chunks))
 
 
 def name_catalog(ledgers, program_names, curriculum_names):
@@ -418,3 +423,17 @@ def name_catalog(ledgers, program_names, curriculum_names):
                 aliases=tuple(dict.fromkeys(program_names[program])),
                 source_ref=ledger['sources'][0]['version_id'], review_ref=ledger['reviews'][0]['review_id'], reviewed=True))
     return entries
+
+
+def route_passage(chunk):
+    citations = [dict(version_id=span['version_id'], byte_sha256=span['byte_sha256'], page=span['page'],
+        locator=span['locator'], printed_page_label=span.get('printed_page_label')) for span in chunk['spans']]
+    return DocumentPassage.parse(dict(chunk_id=chunk['chunk_id'], version_id=chunk['version_id'], text=chunk['text'],
+                                     citations=citations))
+
+
+def plan_route_sources(pin, routes, chunks):
+    """Reuse loaded reviewed chunks; no retrieval or model call for fixed offering clauses."""
+    passages = [route_passage(chunk).model_dump(mode='json') for chunk in chunks
+                if chunk['chunk_id'] in routes.source_chunk_ids]
+    return DocumentResult.parse(dict(release_id=pin.release_id, status='ok', passages=passages, gaps=[]))

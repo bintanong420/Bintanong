@@ -35,6 +35,8 @@ class ReleaseResources:
     course_labels: tuple[tuple[str, str], ...] = ()  # (course_id, printed code), display only
     course_details: tuple[tuple[str, str], ...] = ()  # (course_id, printed code/title/term/units), choices only
 
+    plan_route_sources: DocumentResult | None = None
+
     def __post_init__(self):
         object.__setattr__(self, 'pin', ReleasePin.parse(self.pin.model_dump(mode='json')))
         object.__setattr__(self, 'catalog', tuple(CatalogEntry.parse(c.model_dump(mode='json'))

@@ -9,6 +9,8 @@ from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,ReleaseID
 from ..bintanong_symbolic.runtime import DependencyResult,ResearchDependencyResult
 from .ledger_contracts import ANSWERED_LEDGERS, ClaimID, BoundRequirementLedger
+from ..bintanong_planning.contracts import PlanCheckResult
+from ..bintanong_orchestration.earliest_term import EarliestTermAssessment
 
 Language=Literal['en','fil','taglish','unknown']
 Outcome=Literal['eligible','ineligible','unknown','unsupported','error']
@@ -87,6 +89,8 @@ class CoverageObservation(Record):
 
 class CandidateAnswer(Contract):
     SCHEMA_VERSION='bintanong-candidate-answer-v2'
+    plan_check: PlanCheckResult|None=Field(default=None,exclude_if=lambda value: value is None)
+    earliest_term: EarliestTermAssessment|None=Field(default=None,exclude_if=lambda value: value is None)
     candidate_only: Literal[True]=True
     institutional_use_allowed: Literal[False]=False
     activation_allowed: Literal[False]=False
