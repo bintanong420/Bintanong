@@ -180,6 +180,30 @@ class SymbolicAdapter:
             raise ValueError('symbolic_result_kind_mismatch')
         return kind.parse(result.model_dump(mode='json'))
 
+    async def check_typed_plan(self, text_plan, context: RequestContext):
+        """Check an already-structured PlanCheckRequest using owning-session facts, never model-supplied grades."""
+        from ..bintanong_planning.contracts import PlanCheckRequest
+        from ..bintanong_planning.checker import check_plan
+        request = PlanCheckRequest.parse(text_plan.model_dump(mode='json'))
+        context = RequestContext.parse(context.model_dump(mode='json'))
+        if request.curriculum_id != context.curriculum_id or context.program_id is None:
+            raise ValueError('request_scope_mismatch')
+        facts = tuple(dict(course_id=f.course_id, state=f.state) for f in context.facts)
+        if request.facts and tuple(f.model_dump(mode='json') for f in request.facts) != facts:
+            raise ValueError('plan_facts_must_match_context')
+        request = PlanCheckRequest.parse({**request.model_dump(mode='json'), 'facts': facts})
+        policy = None if self.recovery is None else self.recovery[0]
+        return await self._worker.run(lambda: check_plan(request, self.runtime, policy))
+
+    async def earliest_term(self, course_id, context: RequestContext, start_term):
+        from ..bintanong_planning.chat import earliest_term
+        context = RequestContext.parse(context.model_dump(mode='json'))
+        if context.curriculum_id is None or context.program_id is None:
+            raise ValueError('request_scope_mismatch')
+        facts = tuple((f.course_id, f.state) for f in context.facts if f.state not in ('enrolled', 'not_enrolled'))
+        return await self._worker.run(lambda: earliest_term(self.runtime, context.curriculum_id, course_id, facts,
+                                                           start_term))
+
     async def recover(self, request: PredicateRequest, context: RequestContext, affected, stated_term,
                       *, regular_asked=False):
         """Ask mode: recovery drafts for the failed course of a dependency listing, or None without sources."""
@@ -214,6 +238,16 @@ class MultiCurriculumSymbolicAdapter:
         if curriculum not in self.adapters:
             raise ValueError('curriculum_not_in_release')
         return await self.adapters[curriculum].execute(request, context)
+
+    async def check_typed_plan(self, text_plan, context):
+        if text_plan.curriculum_id not in self.adapters:
+            raise ValueError('curriculum_not_in_release')
+        return await self.adapters[text_plan.curriculum_id].check_typed_plan(text_plan, context)
+
+    async def earliest_term(self, course_id, context, start_term):
+        if context.curriculum_id not in self.adapters:
+            raise ValueError('curriculum_not_in_release')
+        return await self.adapters[context.curriculum_id].earliest_term(course_id, context, start_term)
 
     async def recover(self, request, context, affected, stated_term, *, regular_asked=False):
         curriculum = next((i.value for i in request.inputs if i.name == 'curriculum_id'), None)
