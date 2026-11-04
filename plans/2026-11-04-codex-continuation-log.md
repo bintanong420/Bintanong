@@ -55,3 +55,20 @@ advice, scoped self-reported facts, Prolog decision authority, source gaps, F04 
 Finish integrated regression run and live flag-off/on conversations/per-college cases. Keep the compiler off until
 the comparative evidence supports it. Plan-check/earliest-term chat wiring remains a separate coordinator task;
 do not mistake helper delivery for a live feature. Do not re-ask settled wording approval.
+
+## Account-switch resume (4 Nov, 08:47 onward)
+
+Re-read handoff skills, index/progress, relevant master architecture, thesis physical pp. 17–18 and 39–44,
+and routing PNG; phase inspector remains valid with no active numbered phase. Existing owner changes preserved.
+Previous API/tests did not survive the account switch; prior partial `integrated-off.log` is incomplete evidence.
+New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 200. Logs `resume-api-off.*`.
+
+- Reproduced integrated suite failure: obsolete exact wording in `test_new_program_two_turn.py`, not a changed
+  decision/memory/source result. `2a4e8247` updates both replies to the approved wording; focused GREEN 1 passed.
+- Generation family fresh: 825 passed. Restarted broader suite as `integrated-fixed.log`.
+- Full GUI-route conversation baseline OFF running (`conversations-off/`, log beside it).
+- Confirmed pending helper defect: a passing plan result can be rendered against a different blocked plan with
+  matching curriculum/term count. Original helper agent resumes a request/result digest binding fix in `p12pc`,
+  following `69f43e35` checkpoint; not fixed in p12 yet. Earliest-term chain provenance also needs aggregation.
+- Chat wiring proceeds separately in `p12-plan-chat` / `feat/plan-chat`, based on `2fa8ffad`, using LLM operations
+  and existing adapters. No chat capability claimed until integrated and tested.
