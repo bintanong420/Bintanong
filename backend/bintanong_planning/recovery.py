@@ -20,8 +20,8 @@ from pathlib import Path
 
 from ..bintanong_symbolic.runtime import StudentFacts
 from .checker import _request, _units, check_plan
-from .contracts import (REQUESTED_MODES, Draft, DraftTerm, DroppedDraft, PlacedCourse, PlanCheckRequest,
-                        RecoveryResult, RecoveryRoutes, TermRef)
+from .contracts import (OPEN_GRADES, REQUESTED_MODES, Draft, DraftTerm, DroppedDraft, PlacedCourse, PlanCheckRequest,
+                        RecoveryResult, RecoveryRoutes, StudentStatus, TermRef)
 from .policies import LoadPolicy, load_policy
 
 SLOTS = ('first_semester', 'second_semester', 'summer')
@@ -88,9 +88,10 @@ def _ref(key):
 
 
 def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, stated_term, policy, routes,
-                  *, regular_asked=False) -> RecoveryResult:
+                  *, regular_asked=False, student_status: StudentStatus | None = None) -> RecoveryResult:
     """affected: the reviewed list_affected_courses ids; facts: the student's stated results (course_id, state);
-    stated_term: (year, semester) the student named, or None; policy: a reviewed LoadPolicy or None."""
+    stated_term: (year, semester) the student named, or None; policy: a reviewed LoadPolicy or None;
+    student_status: what the student said about themselves (graduating, standing, a 4.0/INC ...), or None."""
     runtime = _Memo(runtime)
     listings = [runtime.look_up(_request('list_term_courses', curriculum_id, year_level=str(y), semester='any'))
                 for y in range(1, LAST_YEAR + 1)]
@@ -222,9 +223,14 @@ def plan_recovery(runtime, curriculum_id, failed_course_id, affected, facts, sta
     # Stated order (plan of action, Step 5): fewest unconfirmed requests, then the earliest last delayed course.
     drafts.sort(key=lambda item: item[:2])
     next_offering = next((k for k in calendar if k[1] == failed_key[1]), None)
+    needed_by = ()
+    if student_status is not None and student_status.grade(failed_course_id) in OPEN_GRADES:
+        # Handbook 3.5: removal before enrollment when the course is a prerequisite of next semester's subjects.
+        first_regular = next((k for k in calendar if k[1] != 2), None)
+        needed_by = tuple(c for c in blocked if c != failed_course_id and key_of[c] == first_regular)
     return RecoveryResult(schema_version=RecoveryResult.SCHEMA_VERSION, synthetic=runtime.synthetic,
         curriculum_id=curriculum_id, failed_course_id=failed_course_id, failed_term=_ref(failed_key),
         start_term=_ref(start), term_stated=term_stated,
         next_offering=None if next_offering is None else _ref(next_offering), regular_asked=regular_asked,
         clauses=routes.clauses, drafts=tuple(d for *_, d in drafts), dropped=tuple(dropped),
-        policy_id=None if policy is None else policy.policy_id)
+        policy_id=None if policy is None else policy.policy_id, status=student_status, removal_needed_by=needed_by)

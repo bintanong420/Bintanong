@@ -17,7 +17,7 @@ import json
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_orchestration.adapters import student_facts
 from ..bintanong_symbolic.runtime import StudentFacts
-from .contracts import (REQUESTED_MODES, AssumedPass, LoadCheck, PlanCheckRequest, PlanCheckResult, PlanReason,
+from .contracts import (OPEN_GRADES, REQUESTED_MODES, AssumedPass, LoadCheck, PlanCheckRequest, PlanCheckResult, PlanReason,
                         PlanWarning, TermVerdict, UnconfirmedCondition, plan_request_digest)
 from .policies import NOT_REVIEWED, LoadPolicy
 
@@ -103,12 +103,15 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
                 reasons.append(PlanReason(kind='rule_error', course_id=course.course_id,
                                           detail=decision.error_code or decision.outcome))
         load, warnings = _load(term, runtime, curriculum, units, policy)
+        # Track A 4: re-enrolling a course with a stated open 4.0/INC is a heads-up, never a block.
+        open_removals = tuple(c.course_id for c in term.courses
+                              if request.status is not None and request.status.grade(c.course_id) in OPEN_GRADES)
         verdicts.append(TermVerdict(
             index=index, reasons=tuple(reasons), warnings=tuple(warnings), load=load, assumed=tuple(assumed),
             unconfirmed=tuple(UnconfirmedCondition(course_id=c.course_id, kind=requests[c.course_id],
                                                    text='requested, not confirmed')
                               for c in term.courses if c.course_id in requests),
-            outcome=_outcome(reasons, load, warnings)))
+            open_removals=open_removals, outcome=_outcome(reasons, load, warnings or open_removals)))
         for course_id, outcome in outcomes.items():  # request-local: only later terms see these
             failed = [c for c in failed if c != course_id]
             passed = [c for c in passed if c != course_id]

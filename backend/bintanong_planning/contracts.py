@@ -58,11 +58,47 @@ class PlanTerm(Record):
         return self
 
 
+Grade = Literal['4.0', 'INC', '5.0']
+OPEN_GRADES = ('4.0', 'INC')  # grades the Handbook lets a student remove or complete (pp. 46-47); 5.0 is not one
+Standing = Literal['warning', 'probation', 'scholastic_delinquency']
+
+
+class StatedGrade(Record):
+    """A grade the student said they got; never a verified university record."""
+    course_id: CourseId
+    grade: Grade
+
+
+class StudentStatus(Record):
+    """What the student said about themselves, as the router read it this turn (Track A, owner 4 Nov 2026).
+
+    Every field is the student's own statement: Bintanong never computes academic standing, graduation status or a
+    grade. The router fills it; without it every flag is off and no status-dependent route is mentioned.
+    """
+    graduating: bool = False  # "graduating ako" / "I'm graduating"
+    last_semester: bool = False  # "last sem ko na" / "this is my last semester"
+    standing: Standing | None = None  # a stated warning, probation or scholastic delinquency
+    stopping: bool = False  # the student says they will stop or take a break from studies
+    not_offered: bool = False  # the student says the course is not offered
+    grades: tuple[StatedGrade, ...] = Field(default=(), max_length=64)
+
+    @model_validator(mode='after')
+    def _one_grade_per_course(self):
+        if len({g.course_id for g in self.grades}) != len(self.grades):
+            raise ValueError('one stated grade per course')
+        return self
+
+    def grade(self, course_id: str) -> str | None:
+        return next((g.grade for g in self.grades if g.course_id == course_id), None)
+
+
 class PlanCheckRequest(Contract):
     SCHEMA_VERSION = 'bintanong-plan-check-request-v1'
     curriculum_id: CourseId
     facts: tuple[StatedFact, ...] = Field(default=(), max_length=256)
     terms: tuple[PlanTerm, ...] = Field(min_length=1, max_length=MAX_TERMS)
+    # Omitted from the dump when absent, so the digest of a request without a stated status is unchanged.
+    status: StudentStatus | None = Field(default=None, exclude_if=lambda value: value is None)
 
 
 class PlanReason(Record):
@@ -121,13 +157,15 @@ class TermVerdict(Record):
     unconfirmed: tuple[UnconfirmedCondition, ...] = ()
     load: LoadCheck
     assumed: tuple[AssumedPass, ...] = ()  # earlier-term assumed passes in effect when this term was checked
+    # Courses this term re-enrolls while the student stated an open 4.0/INC in them (Track A 4): a heads-up.
+    open_removals: tuple[CourseId, ...] = Field(default=(), max_length=MAX_COURSES, exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _consistent(self):
         blocked = any(r.kind == 'unmet_prerequisite' for r in self.reasons)
         unknown = bool(self.reasons) and not blocked or self.load.status == 'unknown'
         expected = ('blocked' if blocked else 'unknown' if unknown
-                    else 'works_with_warning' if self.warnings else 'works')
+                    else 'works_with_warning' if self.warnings or self.open_removals else 'works')
         if self.outcome != expected:
             raise ValueError('term outcome must follow its reasons, load and warnings')
         return self
@@ -172,9 +210,19 @@ Semester = Literal['first_semester', 'second_semester', 'summer']
 Variant = Literal['A', 'B', 'C']  # A regular offerings only; B with special-class requests; C with summer too
 
 
+CORE_ROUTES = ('off_semester', 'regular_class', 'special_class', 'summer')
+# Optional clauses (Track A, owner 4 Nov 2026), each quoted only when the student's stated status makes it relevant.
+CITED_ROUTES = ('removal_period', 'removal_one_year', 'removal_before_enrollment', 'removal_forfeit', 'overload',
+                'prerequisite_waiver', 'cross_enrollment', 'substitution', 'substitution_limit', 'leave_of_absence',
+                'advance_courses')
+MAX_CLAUSES = len(CORE_ROUTES) + len(CITED_ROUTES)
+
+
 class RouteClause(Record):
     """A printed Handbook clause quoted verbatim from the reviewed release chunks."""
-    kind: Literal['regular_class', 'special_class', 'off_semester', 'summer']
+    kind: Literal['regular_class', 'special_class', 'off_semester', 'summer', 'removal_period', 'removal_one_year',
+                  'removal_before_enrollment', 'removal_forfeit', 'overload', 'prerequisite_waiver',
+                  'cross_enrollment', 'substitution', 'substitution_limit', 'leave_of_absence', 'advance_courses']
     topic: Text
     page: int = Field(ge=1)
     text: Quote
@@ -191,18 +239,23 @@ class RecoveryRoutes(Contract):
     SCHEMA_VERSION = 'bintanong-recovery-routes-v1'
     routes_id: Text
     synthetic: bool
-    clauses: tuple[RouteClause, ...] = Field(min_length=4, max_length=4)
+    clauses: tuple[RouteClause, ...] = Field(min_length=4, max_length=MAX_CLAUSES)
     source_chunk_ids: tuple[Text, ...] = Field(min_length=1)
     review_refs: tuple[Text, ...] = Field(min_length=1)
 
     @model_validator(mode='after')
     def _each_route_once(self):
-        if sorted(c.kind for c in self.clauses) != ['off_semester', 'regular_class', 'special_class', 'summer']:
-            raise ValueError('one clause per recovery route')
+        _check_clause_kinds(self.clauses)
         return self
 
     def clause(self, kind: str) -> RouteClause:
         return next(c for c in self.clauses if c.kind == kind)
+
+
+def _check_clause_kinds(clauses):
+    kinds = [c.kind for c in clauses]
+    if len(set(kinds)) != len(kinds) or not set(CORE_ROUTES) <= set(kinds):
+        raise ValueError('one clause per recovery route')
 
 
 class TermRef(Record):
@@ -248,14 +301,27 @@ class RecoveryResult(Contract):
     term_stated: bool  # True when the student named the term; otherwise the start is assumed and the reply says so
     next_offering: TermRef | None  # the failed course's next regular offering from the start term
     regular_asked: bool = False  # the student said "regular": the reply explains it means the prescribed sequence
-    clauses: tuple[RouteClause, ...] = Field(min_length=4, max_length=4)
+    clauses: tuple[RouteClause, ...] = Field(min_length=4, max_length=MAX_CLAUSES)
     drafts: tuple[Draft, ...] = Field(max_length=3)
     dropped: tuple[DroppedDraft, ...] = Field(max_length=3)
     policy_id: Text | None
+    # The student's own statements (Track A); omitted from the dump when absent.
+    status: StudentStatus | None = Field(default=None, exclude_if=lambda value: value is None)
+    # Courses prescribed in the first regular semester of the drafts that need the failed course; filled only for a
+    # stated 4.0/INC (removal before enrollment, Handbook 3.5).
+    removal_needed_by: tuple[CourseId, ...] = Field(default=(), max_length=MAX_COURSES * 2,
+                                                    exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _variants(self):
         variants = [d.variant for d in self.drafts] + [d.variant for d in self.dropped]
         if sorted(variants) != ['A', 'B', 'C']:
             raise ValueError('each variant is drafted or dropped once')
+        _check_clause_kinds(self.clauses)
+        if self.removal_needed_by and self.failed_grade not in OPEN_GRADES:
+            raise ValueError('removal applies only to a stated 4.0 or INC')
         return self
+
+    @property
+    def failed_grade(self) -> str | None:
+        return None if self.status is None else self.status.grade(self.failed_course_id)
