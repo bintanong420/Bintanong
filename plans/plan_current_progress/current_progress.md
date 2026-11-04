@@ -2,6 +2,12 @@
 
 ## Codex continuation (4 Nov; Claude usage limit)
 
+Latest resume (16:40): owner supplied the independent audit/plan and Claude session id. Exact Downloads hashes
+match their repository copies. [Stabilization checkpoint](../2026-11-04-stabilization-resume-checkpoint.md) now governs
+the current task: finish `p12ds` prerequisite-listing/status fixes and `p12jit` preferred recovery draft, then review
+before ledger work. Prior recovery/plan-view branches are already merged. No new persistence or push authorized.
+Next: complete and independently review the two preserved branches, then integrate and verify.
+
 Recovered Claude's three exact tasks and resumed compiler, approved wording and plan-check helpers in their
 existing worktrees. [Continuation log](../2026-11-04-codex-continuation-log.md) holds changes, commits and recovery evidence.
 Compiler, approved wording and backend plan helpers merged locally. Compiler 71 focused pass; source-backed
