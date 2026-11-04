@@ -4,10 +4,11 @@
 
 Recovered Claude's three exact tasks and resumed compiler, approved wording and plan-check helpers in their
 existing worktrees. [Continuation log](../2026-11-04-codex-continuation-log.md) holds changes, commits and recovery evidence.
-Compiler, approved wording and backend plan helpers merged locally. Compiler 71 focused pass; branch broad
-2165 pass / 2 xfail; source-backed offline memory 15/15; live compiler memory scenarios 12/12. Integrated checks
-underway; API restarted with compile OFF. Plan helpers still need chat wiring; see dated helper report.
-Next: finish integrated live off/on conversations/per-college cases; no push or phase advancement.
+Compiler, approved wording and backend plan helpers merged locally. Compiler 71 focused pass; source-backed
+offline memory 15/15; live compiler memory scenarios 12/12. Broader integrated run 2238 pass / 2 xfail;
+new-program wording regression corrected. Request/policy binding and chain provenance fixes also integrated;
+independent focused recheck running. API restarted after account switch, compile OFF; baseline conversations running.
+Next: finish chat wiring in `p12-plan-chat`, then integrated live off/on conversations/per-college cases; no push.
 
 Updated 31 October 2026 (machine local date). Worktree p12 / `p12-evaluation-harness`.
 Phase 12 research/software write-up complete with disclosures; no active numbered implementation phase.
