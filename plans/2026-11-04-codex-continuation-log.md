@@ -72,3 +72,10 @@ New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 
   following `69f43e35` checkpoint; not fixed in p12 yet. Earliest-term chain provenance also needs aggregation.
 - Chat wiring proceeds separately in `p12-plan-chat` / `feat/plan-chat`, based on `2fa8ffad`, using LLM operations
   and existing adapters. No chat capability claimed until integrated and tested.
+- `7b8e2047` integrates the request/policy binding correction (`1909112b`); added incoming historical checkpoint
+  to resolve a documentation-only modify/delete cherry-pick conflict. No source-code conflict.
+- `dae713c6` integrates earliest-term chain provenance (`c3ff35fb`), including rejection of mixed release scopes.
+  The renderer must receive `result.checked_request` after the adapter injects owning-session facts.
+- `d73fdbcf` repairs stale index wording: D1–D7 are settled in the owner plan; no new phase authorized.
+- Duplicate coordinator planning focus runs (`binding-integrated`, `planning-fixed`) stopped before results
+  to reduce concurrent load; not counted as verification. Reviewer owns the current focused recheck.
