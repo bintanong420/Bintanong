@@ -1,10 +1,10 @@
 """Host replies for explicit plans; offerings, approvals and planned passes remain assumptions."""
 from .recovery_reply import _words, _number, term_label
-from ..bintanong_planning.contracts import TermRef
+from ..bintanong_planning.contracts import TermRef, plan_request_digest
 
 
 def plan_check_lines(request, result, language, shown, *, routes=None):
-    if request.curriculum_id != result.curriculum_id or len(request.terms) != len(result.terms):
+    if plan_request_digest(request, result.policy_id, result.policy_sha256) != result.request_sha256:
         raise ValueError('plan_result_mismatch')
     words, english = _words(language), language in ('en', 'unknown')
     lines = []
