@@ -35,6 +35,20 @@ Keep these queries as evaluation cases, not prompt examples or course-specific r
 
 ## Pending acceptance
 
+BSIT follow-up report: five natural phrasings ask which courses require IT 3/L, but the server
+either asks for a course/topic or lists IT 3/L's own GE-MMW prerequisite. No source rule changed.
+Confirmed compiler gap: direct code targets immediately accepted the model's operation, while the
+existing reverse-direction correction applied only to longer/unnamed targets. Added a bounded relation
+check for a single named course followed by an explicit prerequisite role in a subject/course question.
+It preserves opposite-direction questions and leaves multiple-course ambiguity to existing handling.
+Router prompt now defines list_affected_courses as the reverse relation. No benchmark-specific course IDs.
+RED: 20 failures across two synthetic curricula, five phrasings and two incorrect model operations.
+GREEN: 168 dialogue/compiler/session tests, including eight opposite-direction safeguards.
+The fixes do not establish that the live model will choose a usable operation on every paraphrase.
+Owner supplied ngrok -> localhost:3216; this is the existing gathering app, not a p12-dev server.
+No restart, merge into p12, or shared-model probe was performed. Old diagnostic text in the report is
+consistent with a runtime that has not loaded the branch, but exact process revision is not exposed.
+
 Run the 24-query benchmark and the two reported sequences against a separately configured development
 runtime when shared-model probing will not compete with data gathering. Include fresh/history variants,
 English/Taglish paraphrases, course-title inputs and other programs. Raw live model output is needed

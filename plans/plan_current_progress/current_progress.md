@@ -60,11 +60,13 @@ is inferred here. Preserved owner note:
 ## Next action
 
 Development candidate: explicit reviewed course operations can proceed without an optional history marker;
-140 dialogue/compiler/session tests passed after RED. Removed the redundant frontend clarification diagnostic.
-New BSCS/Civil screenshots and revised 24-query PDF tracked in
+removed the redundant frontend clarification diagnostic. BSIT reverse-prerequisite intent now has a prompt
+definition and compiler direction check for direct course targets; 20 RED cases, final gate 168 passed.
+New BSCS/Civil/BSIT reports and revised 24-query PDF tracked in
 [regression handoff](../2026-11-04-post-gathering-regressions.md). Exact live causes remain unverified.
 Next: run its held-out acceptance cases on isolated development runtime when shared model is available;
-keep gathering checkout/services untouched. Continue other checklist fixes here. Backup branch is on GitHub.
+keep gathering checkout/services untouched. Owner's ngrok endpoint still forwards to gathering port 3216.
+Continue other checklist fixes here. Backup branch is on GitHub; live runtime acceptance is still pending.
 
 ### Historical base next action
 

@@ -90,6 +90,10 @@ This computes an assumed prerequisite path using prescribed semesters, never a c
 list_course_prerequisites is a named course's prerequisites or co-requisites when the student only asks what
 they are ("What are the prerequisites of CS 5?", "Ano ang prereq ng CS 5?"); check_prerequisite_eligibility is
 whether the student can take it ("Can I take CS 5?").
+list_affected_courses asks the reverse relationship: which courses require the named course as a prerequisite,
+or would be affected if it is not completed. Target the named prerequisite, not an unnamed dependent course.
+Distinguish what a course REQUIRES from what REQUIRES that course. A reverse prerequisite question does not
+ask for the named course's own prerequisites, a grade check or a year/semester list.
 Operations: earliest_course_term, check_study_plan, check_prerequisite_eligibility, list_course_prerequisites,
 list_missing_prerequisites, list_affected_courses,
 course_facts (the printed title, units or year/semester of one named course), list_term_courses
