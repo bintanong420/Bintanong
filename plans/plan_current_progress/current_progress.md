@@ -17,9 +17,12 @@ No active numbered implementation phase; Phase 13 remains cancelled.
   Listing describes requirements without grades/eligibility; eligibility keeps missing results unknown.
 - What-if printed labels fixed `3b34a67e`; unsafe optional term dependency prose withheld
   `66c6422c`. Host checks/citations remain. Term tests 25 pass; session/pipeline label tests 29 pass.
-- Ephemeral dialogue store and atomic chat commit `f5dff2ad`: eight exchanges / 32 KiB text,
-  ownership, revisions, cancellation, replay and expiry; 84 focused session/API tests pass.
-  [Report](../2026-11-04-ephemeral-dialogue-ledger.md). Routing does not yet consume the ledger.
+- Ephemeral store `f5dff2ad`, bounded router integration `ae26589d`, live corrections `4c10094c` / `86f869d8`.
+  Router now consumes owned same-scope dialogue, validates semantic references and rechecks evidence.
+  Raw replies stay raw; grade entities and request targets remain distinct. Unresolved origins stay pinned.
+  [Integration report](../2026-11-04-dialogue-router-integration.md). BSIT OFF/ON clarification/why/repair 8/8.
+  Final broader gate 1,139 pass / 2 xfail. Shifting-office fresh/after-course cases succeed in BSCS/BSIT
+  OFF/ON across reruns; final BSCS OFF failure corrected and targeted rerun passes, not a final full matrix.
 - JIT recovery draft plus earliest-summer alternative integrated `9d260c8d` / `aeddd05c`.
   Four variants; generic reviewed dependencies, no course/program constants. Expanded gate 51 pass /
   4 stale fixtures; corrected selections 4 pass, full plan-view file 10 pass. Long gate not repeated.
@@ -50,6 +53,6 @@ USG source review is owned by the separate p11 researcher GUI workflow; no new s
 is inferred here. Preserved owner note:
 ## Next action
 
-Build the bounded context compiler and semantic reference/repair handling over the committed
-ledger. Verify actual follow-ups,
-new-topic switching and cross-program cases before restarting the backend. No durable storage.
+Validate browser/frontend-to-backend thread parity with the delivered clarification/repair and
+shifting-office sequences. Durable history and wider held-out evaluation remain separate.
+No serving API restart or push; serving commit identity remains unverified.

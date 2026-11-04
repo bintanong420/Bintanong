@@ -33,8 +33,11 @@ No active numbered implementation phase; the audit's phases are bounded work sli
 - Dialogue-reference failures need a dialogue reason; never assert source absence merely because interpretation failed.
 - No extra feature-specific pending states or exact-phrase repair patches. Generic in-memory ledger/context compiler
   is split at its commit boundary: bounded exchange store + atomic chat commit delivered `f5dff2ad`,
-  [report](2026-11-04-ephemeral-dialogue-ledger.md). Context compiler/semantic acts remain pending.
-  Durable history still needs privacy signoff. No whole-memory or conversation-repair completion claim.
+  [report](2026-11-04-ephemeral-dialogue-ledger.md). Context compiler/semantic acts delivered below.
+  Durable history still needs privacy signoff; no whole-memory completion claim.
+- Router integration now delivered `ae26589d` / `4c10094c` / `86f869d8`:
+  [current report](2026-11-04-dialogue-router-integration.md). Semantic act/owned-reference binding,
+  same-scope bounded context, raw utterances, unresolved-origin retention and current-evidence rechecks.
 - JIT preferred and faster alternative must both remain available; no course/program constants, no assumed offerings.
 - Teammate complaints are tracked in [the checklist](2026-11-04-teammate-regression-checklist.md).
   What-if labels fixed `3b34a67e`; unsafe optional term dependency prose withheld `66c6422c`.
@@ -67,10 +70,16 @@ No active numbered implementation phase; the audit's phases are bounded work sli
   page-64 application procedure is present but original endpoint clipped. Live documentary cause still unverified.
 - Recovery expanded gate: 51 pass / 4 stale-expectation failures, corrected selections 4 pass;
   full plan-view file 10 pass after correcting canonical regular-rejoin ranking. Long gate not repeated.
+- Current dialogue delivery: BSIT live OFF/ON four-turn recovery passes 8/8. Source-backed
+  shifting fresh/after-course cases succeed for BSCS/BSIT OFF/ON across successive corrections;
+  final BSCS OFF after-course failure corrected and targeted rerun passes. Not one final full matrix.
+  Replies use reviewed Handbook physical 45/58 office roles. See integration report for exact evidence.
+  Final routing/private-context/orchestration/API gate: 1,139 passed / 2 xfailed in 47.28s.
+  Latest bounded topic-repair focused gate: 155 passed; source coverage remains downstream.
 - System Python 3.13 or existing 3.13 venv; pytest no cache/external basetemp, no installs/model/dependency changes.
 
 ## Next action
 
-Implement the bounded server-side context compiler and semantic reference/repair handling against
-the committed ledger. Test raw utterances, topic switches and cross-program conversations before any
-backend restart. No push, deployment, durable transcript storage or new formal phase is authorized here.
+Validate browser/frontend-to-backend thread parity using the delivered recovery and shifting
+sequences. Durable history and wider held-out evaluation remain separate. No push, deployment
+or new numbered phase; current serving API identity is unverified against the commits.
