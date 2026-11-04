@@ -1,12 +1,11 @@
 # Handoff: recovery routes, greedy drafts and plan_view (4 November 2026)
 
-Branch `p12-evaluation-harness`, pushed to origin at `3e196151` (local = origin when written). Owner's uncommitted
+Branch `p12-evaluation-harness`, merged (`75e00076`, `173dd27d`) and pushed to origin with `fe8ac24a`. Owner's uncommitted
 USG paragraph in `plans/plan_current_progress/current_progress.md` and `.playwright-mcp/` stay untouched.
 Git and fresh test runs outrank this note.
 
 ## Next action
-Finish and verify the two open worktrees below, merge `feat/recovery-routes-more` first, then `feat/plan-view`,
-then one backend restart (tell the owner first) and the owner's GUI test of the CC 4/L recovery question.
+Both `feat/recovery-routes-more` (`2696bb69` via `75e00076`) and `feat/plan-view` (`b62d021e` via `173dd27d`), plus the dependency completeness fix (`fe8ac24a`), are merged, verified, and pushed to `origin/p12-evaluation-harness`. Next: one backend restart (tell the owner first) and the owner's GUI test of the CC 4/L recovery question.
 
 ## Open worktrees (under `C:\Coding-projects\bintanong_workspace\worktrees\Bintanong\`)
 | Worktree | Branch | State when written | Scope |
