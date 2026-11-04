@@ -56,6 +56,30 @@ def test_canonical_text_is_left_unchanged():
     assert answer.text == before and 'ev-' in before
 
 
+def test_eligible_prerequisite_reply_does_not_repeat_explanation_and_rule():
+    from dataclasses import replace
+    from backend.bintanong_generation.evidence import prepare
+    from backend.bintanong_generation.render import render_text
+    from test_orchestration_research_evidence import research_integration
+
+    pack = replace(prepare(research_integration(facts=(('course-1', 'passed'),))), language='en')
+    canonical = render_text(pack, (), 'answered', explanation='You told me you passed course-1.')
+    answer = type('Answer', (), dict(text=canonical, language='en', claims=(), citations=(),
+        structured_context=pack.structured_context, decision=pack.decision,
+        decision_explanation='You told me you passed course-1.'))()
+    shown = student_text(answer)
+    assert shown.splitlines()[0] == "Yes, you can take course-2! You've passed its prerequisite, course-1."
+    assert 'Rule:' not in shown and 'You told me' not in shown
+    assert 'Rule:' in canonical and 'You told me' in canonical
+
+
+def test_course_clarification_invites_a_name_as_well_as_a_code():
+    from backend.bintanong_generation.render import _COURSE_NOT_FOUND
+    for language in ('en', 'taglish'):
+        text = _COURSE_NOT_FOUND[language].lower()
+        assert 'name' in text and 'code' in text
+
+
 @pytest.mark.parametrize('language, expected', [
     ('en', 'Conditions: CC 4/L: passed, CC 3/L: not known yet whether you completed it'),
     ('fil', 'Conditions: CC 4/L: pasado, CC 3/L: hindi pa alam kung natapos mo na'),

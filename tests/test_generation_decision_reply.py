@@ -64,19 +64,13 @@ def test_english_conclusions_keep_the_rule_and_ask_only_for_the_missing_result(f
     assert shown[:len(expected)] == expected
 
 
-def test_bintu_explains_from_the_checked_evidence_after_prolog():
+def test_eligible_decision_uses_checked_conclusion_without_repeating_it():
     model = Model(explained('course-1 ang nag-iisang prerequisite ng course-2, at sinabi mong naipasa mo na ito.'))
     answer = asyncio.run(Generator(model).generate('A1', research_integration(facts=(('course-1', 'passed'),))))
     assert answer.status == 'answered'
-    assert answer.decision_explanation == 'course-1 ang nag-iisang prerequisite ng course-2, at sinabi mong naipasa mo na ito.'
+    assert answer.decision_explanation is None and model.calls == []
     lines = student_text(answer).splitlines()
-    assert lines[0].startswith('Oo, pwede mo nang i-take') and lines[1] == answer.decision_explanation
-    messages, schema = model.calls[0]
-    evidence = json.loads(messages[1]['content'])['evidence']
-    assert evidence['outcome'] == 'eligible' and evidence['target'] == 'course-2'
-    assert evidence['rule'] == {'kind': 'course', 'course': 'course-1'}
-    assert evidence['satisfied'] == ['passed:course-1'] and evidence['reply_language'] == 'taglish'
-    assert schema['properties']['schema_version']['const'] == 'bintanong-decision-explanation-v1'
+    assert len(lines) == 1 and lines[0].startswith('Oo, pwede mo nang i-take')
 
 
 def test_a_checked_unknown_also_gets_the_explanation_and_still_asks_first():
@@ -197,12 +191,12 @@ def test_a_what_if_explanation_cannot_call_the_premise_the_students_record():
 
 
 @pytest.mark.parametrize('output,check', [
-    (explained('course-1 is the one prerequisite of course-2, and you passed it.'), ('accepted', ())),
-    (explained('Hindi ka pa pwede kumuha ng course-2.'), ('rejected', ('reversed_verdict',))),
+    (explained('Kailangan mo munang maipasa ang course-1 bago mo ma-take ang course-2.'), ('accepted', ())),
+    (explained('Pwede mo nang i-take ang course-2.'), ('rejected', ('reversed_verdict',))),
     (RuntimeFailure('model_timeout'), ('unavailable', ())),
 ])
 def test_each_answer_records_what_happened_to_the_explanation_without_its_text(output, check):
-    answer = asyncio.run(Generator(Model(output)).generate('A1', research_integration(facts=(('course-1', 'passed'),))))
+    answer = asyncio.run(Generator(Model(output)).generate('A1', research_integration(facts=(('course-1', 'failed'),))))
     assert (answer.explanation_check, answer.explanation_errors) == check
 
 

@@ -123,11 +123,11 @@ _PROGRAM_TOPIC={
  'taglish':'Sige: {program}. Ano ang gusto mong malaman tungkol dito, halimbawa subjects sa isang sem o prerequisite?'}
 _COURSE_NOT_FOUND={
  'en':'I could not find that course among the reviewed courses of your curriculum. '
-      'Please give the course code as printed in your prospectus.',
+      'What is its course name or code in your prospectus?',
  'fil':'Hindi ko nakita ang kursong iyan sa mga na-review na kurso ng curriculum mo. '
-       'Pakibigay ang course code na nakasulat sa prospectus mo.',
+       'Ano ang course name o code nito sa prospectus mo?',
  'taglish':'Hindi ko nakita yung course na iyan sa reviewed courses ng curriculum mo. '
-       'Pakibigay ang course code na naka-print sa prospectus mo.'}
+       'Ano ang course name o code nito sa prospectus mo?'}
 
 
 def requirement_text(requirement,language,nested=False):
@@ -317,10 +317,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
                                                  'Sa anong year at sem ako magsisimulang magbilang?'),
                       'plan_term': ('Which year and semester is each term of your plan for?',
                                      'Anong year at sem ang bawat term ng plan mo?'),
-                      'plan_terms': ('Could you list your plan as year and semester: course codes, one term per line?',
-                                     'Pwede mong ilista ang plan bilang year at sem: course codes, isang term bawat line?'),
-                      'plan_courses': ('Which printed course codes should I use for your plan?',
-                                       'Anong printed course codes ang gagamitin sa plan mo?'),
+                      'plan_terms': ('Could you list your plan by year and semester, with course names or codes, one term per line?',
+                                     'Pwede mong ilista ang plan by year at sem, with course names or codes, one term per line?'),
+                      'plan_courses': ('Which course names or codes should I use for your plan?',
+                                       'Anong course names or codes ang gagamitin sa plan mo?'),
                       'plan_order': ('Could you list the terms of your plan in time order?',
                                      'Pwede mong ilista ang terms ng plan mo sa tamang pagkakasunod?')}
     for field, questions in plan_questions.items():

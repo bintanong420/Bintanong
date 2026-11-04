@@ -324,6 +324,7 @@ def explainable(pack):
     """A checked prerequisite result the host can word: ready, or a checked unknown that asks for a result."""
     from .render import shown_label
     return (pack.route=='Symbolic' and pack.status in ('ready','unknown') and pack.language!='unknown'
+            and pack.decision is not None and pack.decision.outcome!='eligible'
             and prerequisite_check(pack) and not (pack.requirement is not None and pack.requirement.kind=='unresolved')
             and decision_lines(pack,shown_label(pack)) is not None)
 

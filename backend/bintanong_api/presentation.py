@@ -70,10 +70,16 @@ def student_text(answer) -> str:
         text = text.replace(rendered, plain)
     claim_lines = {line for plain in claims.values() for line in plain.splitlines()}
     cited = tuple(f'[{card.evidence_id}] ' for card in answer.citations)
+    # The checked eligible conclusion already states the reported results; the explanation and rule echo it.
+    concise_eligibility = (answer.decision is not None and answer.decision.outcome == 'eligible'
+                           and answer.structured_context is not None
+                           and answer.structured_context.operation in ('check_prerequisite_eligibility',
+                                                                        'list_missing_prerequisites'))
     shown = []
     for line in text.splitlines():
         if line in _PREVIEWS or line == words['answered'] or (scope and line.startswith(scope)) or (
-                cited and line.startswith(cited)):
+                cited and line.startswith(cited)) or (concise_eligibility and
+                (line == answer.decision_explanation or line.startswith('Rule: '))):
             continue
         if line in claim_lines:
             pass
