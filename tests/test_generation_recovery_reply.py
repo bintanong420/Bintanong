@@ -32,20 +32,24 @@ RECOVERY_TEXT = (f'Hala, bagsak ako sa {X}, paano na yung major subs ko? Ano pwe
                  'ako agad? Ano pwede options ko?')
 
 
-def run(text, value, language='taglish', topics=(), recovery=(POLICY, ROUTES)):
-    runtime = build(CURRICULUM)
+def run(text, value, language='taglish', topics=(), recovery=(POLICY, ROUTES), *,
+        conversation=None, routed_sink=None, curriculum=CURRICULUM):
+    runtime = build(curriculum)
+    codes = CURRICULA[curriculum]
     pin = ReleasePin.parse(dict(release_id=runtime.release_id, synthetic=True, rule_bundle_version=runtime.rule_bundle_version,
                                 sources=[dict(version_id=SOURCE.version_id, byte_sha256=SOURCE.byte_sha256)], documents=[]))
     registry = CapabilityRegistry({'list_affected_courses': Capability('synthetic_dependency_inspection',
                                                                        ('curriculum_id', 'course_id'))})
-    catalog = tuple(entry(entity=cid(code), alias=code, curriculum=CURRICULUM).model_copy(
-        update=dict(source_ref=SOURCE.version_id)) for code in CODES.values())
+    catalog = tuple(entry(entity=cid(code), alias=code, curriculum=curriculum).model_copy(
+        update=dict(source_ref=SOURCE.version_id)) for code in codes.values())
     resources = ReleaseResources(pin, catalog, registry, None, SymbolicAdapter(runtime, recovery=recovery),
-                                 topics=topics, course_labels=tuple((cid(code), code) for code in CODES.values()))
-    style = style_proposal(language, english=[X], filipino=[] if language == 'en' else [text.split()[0]])
+                                 topics=topics, course_labels=tuple((cid(code), code) for code in codes.values()))
+    style = style_proposal(language, english=[text.split()[0]] if language == 'en' else [],
+                                        filipino=[] if language == 'en' else [text.split()[0]])
     integration = asyncio.run(Orchestrator(FakeTransport(json.dumps(value), style_outputs=[json.dumps(style)]),
         releases=SyntheticReleaseProvider(resources)).run(text, RequestContext.parse(dict(
-            session_id='sess-a', request_id='req-a', program_id='program-a', curriculum_id=CURRICULUM, facts=[]))))
+            session_id='sess-a', request_id='req-a', program_id='program-a', curriculum_id=curriculum, facts=[],
+            conversation=conversation.model_dump(mode='json') if conversation else None)), routed_sink=routed_sink))
     return integration, asyncio.run(Generator(NoModel()).generate(text, integration))
 
 
@@ -151,3 +155,31 @@ def test_a_part_with_no_reviewed_topic_is_named_unavailable_beside_the_answered_
     assert lines[-1] == ('Yung part tungkol sa "tapos saan ang office ng dean?" ay wala pa sa reviewed sources ng '
                          'Bintanong. Paki-ask sa tamang university office.')
     assert lines[0].startswith(f'Kung ma-fail mo ang {X}')
+
+
+@pytest.mark.parametrize('curriculum', sorted(CURRICULA))
+def test_dependency_then_summer_followup_attaches_recovery_without_new_results(curriculum, monkeypatch):
+    from backend.bintanong_private_context.conversation import capture
+    from test_routing_compile import wire
+    code = CURRICULA[curriculum]['X']
+    text = f'What courses are blocked if I fail {code}?'
+    start = text.index(code)
+    first = proposal(text=text, language='en', mentions=[dict(kind='course', text=code,
+        start=start, end=start+len(code))], operations=[dict(name='list_affected_courses', target=0)],
+        parts=[dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured', operation_indices=[0])])
+    routed = []
+    initial, _ = run(text, first, language='en', routed_sink=routed.append, curriculum=curriculum)
+    assert initial.recovery is None
+    assert initial.status == 'ready', initial
+    memory = capture(routed[0])
+    assert memory.course_id == cid(code)
+    monkeypatch.setenv('BINTANONG_ROUTER_COMPILE', '1')
+    follow = 'paano kung summer?'
+    reply = wire(parts=[], control='clarify', route=None)
+    result, answer = run(follow, reply, conversation=memory, curriculum=curriculum)
+    assert result.status == 'ready' and result.recovery is not None
+    assert result.recovery.failed_course_id == cid(code)
+    assert result.recovery.term_stated is False
+    assert result.assumed_facts == ()
+    assert 'summer' in student_text(answer).lower()
+    assert 'Assuming' in student_text(answer)

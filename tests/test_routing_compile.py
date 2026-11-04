@@ -504,3 +504,39 @@ def test_a_grounded_pronoun_still_checks_the_previous_course(key, monkeypatch):
     result = route(text, value, context(key, memory), monkeypatch)
     assert result.compiled and result.diagnostic == 'validated'
     assert predicate(result) == ('check_prerequisite_eligibility', c['main'][1])
+
+
+@CURRICULUM_KEYS
+@pytest.mark.parametrize('text', ['paano kung summer?', 'what about summer?'])
+def test_short_offering_followup_reuses_only_the_prior_dependency_course(key, text, monkeypatch):
+    c = CURRICULA[key]
+    memory = ConversationContext(program_id=c['program'], curriculum_id=c['curriculum'],
+        course_id=c['main'][1], operation='list_affected_courses')
+    value = wire(parts=[], control='clarify', route=None)
+    result = route(text, value, context(key, memory), monkeypatch)
+    assert result.compiled and result.diagnostic == 'validated'
+    assert predicate(result) == ('list_affected_courses', c['main'][1])
+    assert result.claims == ()
+
+
+@CURRICULUM_KEYS
+def test_offering_followup_does_not_bind_without_grounded_prior_course_or_over_a_topic(key, monkeypatch):
+    c = CURRICULA[key]
+    text = 'paano kung summer?'
+    value = wire(parts=[], control='clarify', route=None)
+    for memory in (None, ConversationContext(program_id=c['program'], curriculum_id=c['curriculum'],
+        operation='list_affected_courses'), ConversationContext(program_id=c['program'], curriculum_id=c['curriculum'],
+        course_id='course-unknown', operation='list_affected_courses')):
+        assert predicate(route(text, value, context(key, memory), monkeypatch)) is None
+    memory = ConversationContext(program_id=c['program'], curriculum_id=c['curriculum'],
+        course_id=c['main'][1], operation='list_affected_courses')
+    topic = wire(parts=[part('r1', text, 'document', (), POLICY.subject_id, POLICY.claims)], route='RAG')
+    result = route(text, topic, context(key, memory), monkeypatch)
+    assert result.decision.route == 'RAG' and predicate(result) is None
+    assert predicate(route(text, value, context(key, memory), monkeypatch, compiled=False)) is None
+    other = 'y' if key == 'x' else 'x'
+    assert predicate(route(text, value, context(other, memory), monkeypatch)) is None
+    eligibility = memory.model_copy(update={'operation':'check_prerequisite_eligibility'})
+    assert predicate(route(text, value, context(key, eligibility), monkeypatch)) is None
+    for unrelated in ('What are the summer tuition fees?', 'paano kung summer ang enrollment deadline?'):
+        assert predicate(route(unrelated, value, context(key, memory), monkeypatch)) is None
