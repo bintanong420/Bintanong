@@ -58,6 +58,7 @@ class Meaning:
     claims: tuple[Stated, ...]
     mentions: tuple[tuple[str, str], ...]  # (kind, words)
     part_quotes: tuple[str, ...]
+    structured_quotes: tuple[str, ...]
     previous_course: str | None
     ambiguities: tuple[str, ...]
 
@@ -80,6 +81,8 @@ def read_meaning(wire, text: str) -> Meaning:
     data = wire.model_dump(mode='json') if hasattr(wire, 'model_dump') else wire
     if not isinstance(data, dict):
         raise ValueError('compile_unreadable_reply')
+    if data.get('schema_version') != 'bintanong-interpretation-wire-v4':
+        raise ValueError('compile_unsupported_schema')
     checks = []
     for op in _items(data, 'operations'):
         name = op.get('name')
@@ -87,11 +90,13 @@ def read_meaning(wire, text: str) -> Meaning:
             check = Check(name, _words(op.get('target')))
             if check not in checks:
                 checks.append(check)
-    topics, quotes = [], []
+    topics, quotes, structured = [], [], []
     for part in _items(data, 'parts'):
         quote = _words(part.get('quote')) or _words(part.get('text'))
         if quote:
             quotes.append(quote)
+            if part.get('evidence_need') == 'structured':
+                structured.append(quote)
         need = part.get('evidence_need')
         subject = part.get('subject_id') if isinstance(part.get('subject_id'), str) else None
         claims = tuple(c for c in part.get('requested_claims') or () if isinstance(c, str) and c)
@@ -114,7 +119,7 @@ def read_meaning(wire, text: str) -> Meaning:
     return Meaning(language=data.get('language') if data.get('language') in _LANGUAGES else 'unknown',
                    audience=data.get('audience') if data.get('audience') in _AUDIENCES else 'unknown',
                    control=control, intent=intent[:240], checks=tuple(checks), topics=tuple(topics),
-                   claims=tuple(claims), mentions=mentions, part_quotes=tuple(quotes),
+                   claims=tuple(claims), mentions=mentions, part_quotes=tuple(quotes), structured_quotes=tuple(structured),
                    previous_course=_words(data.get('previous_course_quote')), ambiguities=ambiguities[:16])
 
 
@@ -210,10 +215,17 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
     if len(text) > MAX_PART_TEXT:
         raise ValueError('compile_message_too_long')
     if meaning.control in ('greeting', 'unsupported_scope') or meaning.audience in ('excluded', 'unrelated'):
-        control = meaning.control if meaning.control in ('greeting', 'unsupported_scope') else 'unsupported_scope'
-        return _build(meaning, [], [], [], [], None, control)
-    program, curriculum = _scope(meaning, context, catalog)
+        raise ValueError('compile_terminal_left_to_existing_path')  # nothing to rebuild; existing guards apply
     previous = context.conversation
+    if meaning.previous_course and (previous is None or previous.course_id is None):
+        raise ValueError('course_reference_unavailable')  # a back-reference with no previous course stays refused
+    menu = {t.subject_id: t for t in topics}
+    for topic in meaning.topics:
+        offered = menu.get(topic.subject_id)
+        if topic.subject_id is not None and (offered is None or not set(topic.claims) <= {*offered.claims,
+                                                                                         *offered.not_stated}):
+            raise ValueError('topic_outside_menu')  # never answered from a topic the selection did not offer
+    program, curriculum = _scope(meaning, context, catalog)
     prior_term = ((previous.year_level, previous.semester or 'any') if previous is not None
                   and previous.operation in TERM_OPERATIONS and previous.year_level is not None else None)
     courses = tuple(c for c in catalog if c.kind == 'course' and (c.program_id, c.curriculum_id) == (program, curriculum)
@@ -384,6 +396,30 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
                 if not any(m['start'] < spans[0].end and spans[0].start < m['end'] for m in mentions):
                     mention('course', spans[0])
 
+    # A structured question part naming a course no check is about, and stating no result, is a second question the
+    # model gave no operation ("Can I take A1 and can I take B1?"); it is never dropped silently.
+    targets = [(mentions[o['target']]['start'], mentions[o['target']]['end']) for o in operations]
+    for words in meaning.structured_quotes:
+        area = _locate(text, words)
+        if area is None:
+            continue
+        inside = lambda s, e: area[0] <= s and e <= area[1]
+        if (any(inside(*t) for t in targets)
+                or any(inside(c['start'], c['end']) or (c['start'] <= area[0] and area[1] <= c['end'])
+                       for c in claim_values)):
+            continue
+        if any(inside(f.start, f.end) for f in found):
+            raise ValueError('compile_unbound_structured_part')
+
+    # Mentions in message order, as the existing path lists them.
+    order = sorted(range(len(mentions)), key=lambda i: (mentions[i]['start'], mentions[i]['end']))
+    moved = {old: new for new, old in enumerate(order)}
+    mentions = [mentions[i] for i in order]
+    for operation in operations:
+        operation['target'] = moved[operation['target']]
+    for claim in claim_values:
+        claim['entity'] = moved[claim['entity']]
+
     # Parts: one per ask, each with its own span.
     menu = {t.subject_id: t for t in topics}
     asks = []  # (need, span, operation index or None, topic or None)
@@ -443,7 +479,6 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         control = meaning.control if meaning.control not in (None, 'greeting', 'unsupported_scope') else 'clarify'
     elif meaning.control is not None and not operations:
         control = meaning.control  # a clarification over document words stays the model's choice
-        parts = []
     reference = None
     if reference_span is not None:
         reference = dict(text=text[reference_span[0]:reference_span[1]], start=reference_span[0], end=reference_span[1])

@@ -381,3 +381,62 @@ def test_meaning_ignores_structure_fields():
     b = wire(parts=[part('r1', text, 'structured', [0])], route='Symbolic',
              operations=[dict(name='check_prerequisite_eligibility', target=quote('ZQ4/L'))])
     assert read_meaning(a, text) == read_meaning(b, text)
+
+
+@CURRICULUM_KEYS
+def test_a_second_structured_question_without_a_check_is_not_discarded(key):
+    c = CURRICULA[key]
+    first = f"Can I take {c['main'][0]}?"
+    second = f"Can I take {c['second'][0]}?"
+    text = first + ' ' + second
+    value = wire(parts=[part('r1', first, 'structured', [0]), part('r2', second, 'structured')],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(c['main'][0]))])
+    with pytest.raises(ValueError, match='compile_unbound_structured_part'):
+        compile_reply(value, text, context(key), catalog(), TOPICS)
+
+
+@CURRICULUM_KEYS
+@pytest.mark.parametrize('terminal', ['greeting', 'unsupported_scope'])
+def test_terminal_controls_keep_the_existing_parser_guards(key, terminal):
+    value = wire(parts=[], control=terminal)
+    with pytest.raises(ValueError, match='compile_terminal_left_to_existing_path'):
+        compile_reply(value, 'Hello', context(key), catalog(), TOPICS)
+
+
+@CURRICULUM_KEYS
+def test_a_previous_course_quote_without_memory_is_not_a_new_target(key):
+    c = CURRICULA[key]
+    text = f"Can I take {c['main'][0]}?"
+    value = wire(parts=[part('r1', text, 'structured', [0])], previous=c['main'][0],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(c['main'][0]))])
+    with pytest.raises(ValueError, match='course_reference_unavailable'):
+        compile_reply(value, text, context(key), catalog(), TOPICS)
+
+
+@pytest.mark.parametrize('subject,claims', [('unoffered', POLICY.claims),
+                                           (POLICY.subject_id, ('invented condition',))])
+def test_a_document_topic_or_claim_outside_the_menu_is_not_dropped(subject, claims):
+    text = 'What does that policy require?'
+    value = wire(parts=[part('r1', text, 'document', (), subject, claims)], route='RAG')
+    with pytest.raises(ValueError, match='topic_outside_menu'):
+        compile_reply(value, text, context('x'), catalog(), TOPICS)
+
+
+@CURRICULUM_KEYS
+def test_mentions_follow_message_order_and_keep_claim_and_target_bindings(key):
+    c = CURRICULA[key]
+    statement = f"I passed {c['second'][0]}."
+    text = statement + f" Can I take {c['main'][0]}?"
+    value = wire(parts=[part('r1', text, 'structured', [0])],
+                 claims=[dict(quote=quote(statement), entity=quote(c['second'][0]), state='passed', mode='asserted')],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(c['main'][0]))])
+    result = compile_reply(value, text, context(key), catalog(), TOPICS)
+    assert [m.start for m in result.mentions] == sorted(m.start for m in result.mentions)
+    assert result.mentions[result.operations[0].target].text == c['main'][0]
+    assert result.mentions[result.claims[0].entity].text == c['second'][0]
+
+
+@pytest.mark.parametrize('value', [{}, {'language': 'en'}, {'schema_version': 'retired-wire', 'control': 'clarify'}])
+def test_compiler_requires_the_current_wire_protocol(value):
+    with pytest.raises(ValueError, match='compile_unsupported_schema'):
+        read_meaning(value, 'Hello')
