@@ -52,3 +52,15 @@ def recovery_request(proposed: Interpretation, text: str) -> Interpretation | No
                  parts=[dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured',
                              operation_indices=[0])])
     return Interpretation.parse(value)
+
+
+_OFFERING_FOLLOWUP = re.compile(r'(?:paano\s+kung|what\s+(?:about|if)|how\s+about)\s+'
+    r'(?:sa\s+|in\s+|a\s+)?(?:summer|special[- ]class|off[- ]semester)(?:\s+class)?\s*[?.!]*', re.I)
+
+
+def recovery_follow_up(text: str, context) -> bool:
+    """A short offering alternative to one scoped dependency question; never a result or a new policy question."""
+    previous = context.conversation
+    return bool(previous is not None and previous.operation == 'list_affected_courses' and previous.course_id
+        and previous.program_id == context.program_id and previous.curriculum_id == context.curriculum_id
+        and previous.subject_id is None and _OFFERING_FOLLOWUP.fullmatch(text.strip()))

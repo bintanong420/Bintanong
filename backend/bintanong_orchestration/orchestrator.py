@@ -329,7 +329,8 @@ class Orchestrator:
             return finish(failure)
         if isinstance(result, DependencyResult):
             dependencies = result
-            recovery = await self._recovery(text, routed.decision.predicate_request, scoped, resources, result)
+            recovery = await self._recovery(text, routed.decision.predicate_request, scoped, resources, result,
+                                            follow_up=context if routed.compiled else None)
         elif isinstance(result, CourseFactsResult):
             course_facts = result
         elif isinstance(result, TermAssessmentResult):
@@ -345,13 +346,14 @@ class Orchestrator:
         evidence, failure = await stage('integration', integrate)
         return finish(failure) if failure else finish(evidence.status, evidence, evidence.missing_facts)
 
-    async def _recovery(self, text, request, scoped, resources, dependencies):
+    async def _recovery(self, text, request, scoped, resources, dependencies, *, follow_up=None):
         """Ask mode (owner 4 Nov 2026): recovery routes and greedy drafts when the dependency question also asks
         what to take or how to recover. A draft failure keeps the plain dependency answer; it never fails the turn."""
-        from ..bintanong_routing.recovery_cue import asks_recovery
+        from ..bintanong_routing.recovery_cue import asks_recovery, recovery_follow_up
         from ..bintanong_routing.terms import parse_term
         recover = getattr(resources.symbolic, 'recover', None)
-        if recover is None or not asks_recovery(text) or dependencies.status not in ('complete', 'partial'):
+        if (recover is None or not (asks_recovery(text) or (follow_up is not None and recovery_follow_up(text, follow_up)))
+                or dependencies.status not in ('complete', 'partial')):
             return None
         try:
             async with asyncio.timeout(self.stage_timeout):

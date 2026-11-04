@@ -13,6 +13,7 @@ from dataclasses import dataclass
 
 from .contracts import TERM_OPERATIONS, Interpretation, RequestContext, prepare_query
 from .terms import parse_term
+from .recovery_cue import recovery_follow_up
 
 COURSE_OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
                      'course_facts')
@@ -357,6 +358,10 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         single = only_course()
         if previous.operation in COURSE_OPERATIONS and single is not None:
             built.append((previous.operation, 'course', single, None))  # "how about CC 5?" / "If I fail X?"
+        elif (not found and recovery_follow_up(text, context)
+              and any(c.entity_id == previous.course_id for c in courses)):
+            span = _strip(text, (0, len(text)))
+            built.append(('list_affected_courses', 'course', span, span))
         elif (previous.operation is None and previous.subject_id is None and previous.course_id is None
               and previous.program_id is not None and not found and _LISTING.search(text)):
             # Bare program name, then "yung subjects": list that program's term courses.
