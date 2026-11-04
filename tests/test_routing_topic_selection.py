@@ -147,8 +147,9 @@ def test_empty_selection_does_not_authorize_a_document_answer():
     assert result.diagnostic == 'topic_selection_unavailable'
 
 
+@pytest.mark.parametrize('initial_need', ['document', 'unknown'])
 @pytest.mark.parametrize('covered', [True, False])
-def test_one_unassigned_document_part_gets_one_semantic_retry_without_copying_a_topic(covered):
+def test_one_unassigned_document_part_gets_one_semantic_retry_without_copying_a_topic(covered, initial_need):
     from copy import deepcopy
     text = 'Where do I file slip S and which office should I contact?'
     first, second = 'Where do I file slip S', 'which office should I contact?'
@@ -159,6 +160,7 @@ def test_one_unassigned_document_part_gets_one_semantic_retry_without_copying_a_
             evidence_need='document', operation_indices=[], subject_id='fictional_office' if i == 0 else None,
             requested_claims=['filing office'] if i == 0 else []))
     repaired = deepcopy(value)
+    value['parts'][1]['evidence_need'] = initial_need
     if covered:
         repaired['parts'][1].update(subject_id='fictional_office', requested_claims=['filing office'])
     result, _ = run(Transport(selected(), json.dumps(value), json.dumps(repaired), text=text), text=text)
@@ -167,7 +169,43 @@ def test_one_unassigned_document_part_gets_one_semantic_retry_without_copying_a_
         assert result.diagnostic == 'validated' and result.decision.route == 'RAG'
         assert len(result.proposed.parts) == 2
     else:
-        assert result.diagnostic == 'topic_selection_unavailable' and not result.decision.dispatchable
+        assert result.diagnostic in ('topic_selection_unavailable', 'unknown_requirement') and not result.decision.dispatchable
+
+
+def test_topic_repair_keeps_the_already_validated_new_topic_act():
+    from copy import deepcopy
+    from test_routing_dialogue import scoped
+    text = 'Where do I file slip S and which office should I contact?'
+    value = proposal(text=text, route='RAG', language='en', mentions=[], operations=[], parts=[],
+        dialogue=dict(act='new_topic', turn_id=None, course_id=None))
+    for i, words in enumerate(('Where do I file slip S', 'which office should I contact?')):
+        start = text.index(words)
+        value['parts'].append(dict(part_id=f'r{i+1}', text=words, start=start, end=start+len(words),
+            evidence_need='document', operation_indices=[], subject_id='fictional_office' if i == 0 else None,
+            requested_claims=['filing office'] if i == 0 else []))
+    repaired = deepcopy(value)
+    repaired['parts'][1].update(subject_id='fictional_office', requested_claims=['filing office'])
+    repaired['dialogue'] = dict(act='refine', turn_id='turn-ffffffffffffffff', course_id='course-foreign')
+    result, _ = run(Transport(selected(), json.dumps(value), json.dumps(repaired), text=text),
+                    text=text, ctx=scoped().model_dump(mode='json'))
+    assert result.diagnostic == 'validated' and result.decision.route == 'RAG'
+    assert result.dialogue_act.act == 'new_topic' and result.conversation_context is None
+
+
+def test_document_topic_repair_cannot_change_its_validated_evidence_path():
+    from copy import deepcopy
+    text = 'Where do I file slip S and which office should I contact?'
+    value = proposal(text=text, route='RAG', language='en', mentions=[], operations=[], parts=[])
+    for i, words in enumerate(('Where do I file slip S', 'which office should I contact?')):
+        start = text.index(words)
+        value['parts'].append(dict(part_id=f'r{i+1}', text=words, start=start, end=start+len(words),
+            evidence_need='document', operation_indices=[], subject_id='fictional_office' if i == 0 else None,
+            requested_claims=['filing office'] if i == 0 else []))
+    repaired = deepcopy(value)
+    repaired['parts'][1].update(evidence_need='unknown', subject_id='fictional_office', requested_claims=['filing office'])
+    result, _ = run(Transport(selected(), json.dumps(value), json.dumps(repaired), text=text), text=text)
+    assert result.diagnostic == 'validated' and result.decision.route == 'RAG'
+    assert len(result.proposed.parts) == 2 and all(p.evidence_need == 'document' for p in result.proposed.parts)
 
 
 def test_detailed_router_cannot_escape_to_an_unselected_existing_topic():

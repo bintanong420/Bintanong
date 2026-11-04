@@ -75,6 +75,7 @@ def _json_proposal(raw):
 REFERENCE_HINTS = {
     'unassigned_document_part': 'one document part has a reviewed topic but another has none. Re-evaluate EACH '
         'part against the supplied topic menu. Multiple parts may use the same topic when it covers both. '
+        'Keep the original parts, document evidence paths and dialogue act; repair only topic/claim assignments. '
         'Keep a part unavailable if the menu cannot support it; never copy a topic merely to fill the slot.',
     'invalid_course_quote_reference': 'every operation target and claim entity must quote a course '
         'code that is also listed in mentions with kind course; if the student names no specific '
@@ -506,6 +507,8 @@ class Router:
         proposed = None
         topics = self.topics
         selection_attempts = 0
+        locked_dialogue = None
+        locked_documents = None
 
         def failure(code, attempts, style_attempts=0, style=None, floored=False):
             query = NormalizedQuery(schema_version=NormalizedQuery.SCHEMA_VERSION,
@@ -575,7 +578,22 @@ class Router:
             resolved = None
             compiled = False
             try:
-                payload, context = bind_dialogue(_json_proposal(raw), text, initial_context, self.catalog, topics)
+                decoded = _json_proposal(raw)
+                if locked_dialogue is not None and isinstance(decoded, dict):
+                    decoded = dict(decoded, dialogue=locked_dialogue)
+                if locked_documents is not None and isinstance(decoded, dict):
+                    WireInterpretation.parse(decoded)
+                    by_quote = {(p['quote']['text'], p['quote'].get('occurrence', 0)): p for p in decoded['parts']}
+                    parts = []
+                    for part in locked_documents:
+                        offered = by_quote.get((part['quote']['text'], part['quote'].get('occurrence', 0)), {})
+                        need = 'document' if part['evidence_need'] == 'document' else offered.get('evidence_need', 'unknown')
+                        parts.append(dict(part, evidence_need=need,
+                            operation_indices=[] if need == 'document' else offered.get('operation_indices', []),
+                            subject_id=offered.get('subject_id'), requested_claims=offered.get('requested_claims', []),
+                            detail=offered.get('detail', 'whole')))
+                    decoded = dict(decoded, parts=parts, part_count=len(parts), control=None)
+                payload, context = bind_dialogue(decoded, text, initial_context, self.catalog, topics)
                 follow_up = bool((previous_turn(context, self.catalog) or {}).get('course_available'))
             except DialogueReferenceError as error:
                 return failure(str(error), attempt, 1, *await clarification_style())
@@ -611,8 +629,10 @@ class Router:
                     return failure('invalid_reference', attempt, 1, *await clarification_style())
                 messages = _repair_messages(messages, raw, problem)
                 continue
-            if (attempt == 1 and proposed.parts and all(p.evidence_need == 'document' for p in proposed.parts)
+            if (attempt == 1 and proposed.parts and all(p.evidence_need in ('document', 'unknown') for p in proposed.parts)
                     and any(p.subject_id for p in proposed.parts) and any(p.subject_id is None for p in proposed.parts)):
+                locked_dialogue = payload.get('dialogue')
+                locked_documents = payload['parts']
                 messages = _repair_messages(messages, raw, 'unassigned_document_part')
                 continue
             style_messages = build_style_messages(text)
