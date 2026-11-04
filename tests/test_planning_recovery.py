@@ -89,13 +89,14 @@ def test_three_variants_follow_the_greedy_chain_in_the_stated_order(curriculum):
     assert (result.start_term.year, result.start_term.semester, result.term_stated) == (2, 'second_semester', False)
     assert (result.next_offering.year, result.next_offering.semester) == (3, 'first_semester')
     a, c_, b = result.drafts  # fewest requests first, then the earliest last delayed course
-    assert [d.variant for d in result.drafts] == ['A', 'C', 'B'] and [d.requests for d in result.drafts] == [0, 3, 4]
+    assert [d.variant for d in result.drafts] == ['A', 'C', 'B'] and [d.requests for d in result.drafts] == [0, 3, 3]
     assert moved(a, c, NAMES) == {(3, 'first_semester'): [('X', 'retake')],
                                   (3, 'second_semester'): [('Y', 'prescribed'), ('Z', 'prescribed')],
                                   (4, 'first_semester'): [('W', 'prescribed')]}
+    # Z unlocks nothing: a special class for it would not bring the student back any sooner, so it is not requested.
     assert moved(b, c, NAMES) == {(2, 'second_semester'): [('X', 'special_class_request')],
-                                  (3, 'first_semester'): [('Y', 'special_class_request'), ('Z', 'special_class_request')],
-                                  (3, 'second_semester'): [('W', 'special_class_request')]}
+                                  (3, 'first_semester'): [('Y', 'special_class_request')],
+                                  (3, 'second_semester'): [('Z', 'prescribed'), ('W', 'special_class_request')]}
     assert moved(c_, c, NAMES) == {(2, 'second_semester'): [('X', 'special_class_request')],
                                    (2, 'summer'): [('Y', 'summer'), ('Z', 'summer')],
                                    (3, 'first_semester'): [('W', 'prescribed')]}

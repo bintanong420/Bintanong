@@ -176,7 +176,8 @@ def test_without_a_reviewed_policy_only_the_load_part_is_unknown(curriculum):
     result = check_plan(plan(curriculum_id, [(c('BASE'), 'passed')], regular(2, 'first_semester', (c('X'), 'prescribed'))),
                         runtime, None)
     term = result.terms[0]
-    assert term.outcome == 'unknown' and not term.reasons
+    # ARP-04 (4 Nov 2026): the load is its own line; it never changes the prerequisite verdict.
+    assert term.outcome == 'works' and not term.reasons
     assert (term.load.status, term.load.reason) == ('unknown', 'load policy not reviewed')
     assert term.load.units == 3  # units are still the printed ones; only the ceiling is unavailable
 
@@ -186,8 +187,23 @@ def test_missing_printed_units_leave_the_load_unknown(curriculum):
     result = check_plan(plan(curriculum_id, [(c('D1'), 'passed')], regular(3, 'second_semester', (c('Z'), 'prescribed'),
                                                                            (c('GAP'), 'prescribed'))), runtime, POLICY)
     term = result.terms[0]
-    assert term.outcome == 'unknown' and term.load.status == 'unknown'
-    assert term.reasons[0].kind == 'units_missing' and term.reasons[0].course_id == c('GAP')
+    # Every prerequisite is decided, so the term is not "unknown"; only its load is (ARP-04, 4 Nov 2026).
+    assert term.outcome == 'works' and not term.reasons
+    assert (term.load.status, term.load.reason) == ('unknown', 'units not printed as totals')
+
+
+def test_a_missing_unit_total_is_a_load_line_not_a_prerequisite_line(curriculum):
+    from backend.bintanong_generation.plan_check_reply import plan_check_lines
+    curriculum_id, runtime, c = curriculum
+    request = plan(curriculum_id, [(c('D1'), 'passed')], regular(3, 'second_semester', (c('Z'), 'prescribed'),
+                                                                 (c('GAP'), 'prescribed')))
+    result = check_plan(request, runtime, POLICY)
+    for language, load_line, prereq in (
+            ('en', "  I can't check this term's unit load: units not printed as totals.", "can't fully check"),
+            ('taglish', '  Hindi ko ma-check ang unit load ng term na ito: units not printed as totals.', 'prerequisites')):
+        lines = plan_check_lines(request, result, language, str)
+        assert 'Unknown' not in lines[0] and load_line in lines
+        assert not any(prereq in line for line in lines)
 
 
 def test_special_class_off_semester_and_summer_courses_are_requested_not_confirmed(curriculum):

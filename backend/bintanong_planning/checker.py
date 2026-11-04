@@ -13,11 +13,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_orchestration.adapters import student_facts
 from ..bintanong_symbolic.runtime import StudentFacts
-from .contracts import (REQUESTED_MODES, AssumedPass, LoadCheck, PlanCheckRequest, PlanCheckResult, PlanReason,
+from .contracts import (OPEN_GRADES, REQUESTED_MODES, AssumedPass, LoadCheck, PlanCheckRequest, PlanCheckResult, PlanReason,
                         PlanWarning, TermVerdict, UnconfirmedCondition, plan_request_digest)
 from .policies import NOT_REVIEWED, LoadPolicy
 
@@ -32,9 +33,31 @@ def _request(predicate, curriculum, **inputs):
         *({'name': name, 'value': value, 'fact_ref': None} for name, value in inputs.items())]})
 
 
+# Owner decision, 4 Nov 2026: a printed "a/b" is lecture units / lab units, so the total is a+b ("2/1" -> 3).
+LEC_LAB_SUM_READING = True
+_NUMBER = r'\d+(?:\.\d+)?'
+_PLAIN = re.compile(_NUMBER)
+_LEC_LAB = re.compile(f'({_NUMBER})/({_NUMBER})')
+
+
+def printed_total(printed, *, lec_lab_sum=None) -> float | None:
+    """The total units of a printed units cell: a plain number is the total; "a/b" is a+b under the lecture/lab
+    reading; anything else ("None", "2 /2", blank) is unknown. Only the load check uses this; answers keep the cell."""
+    if not isinstance(printed, str):
+        return None
+    text = printed.strip()
+    if _PLAIN.fullmatch(text):
+        return float(text)
+    pair = _LEC_LAB.fullmatch(text)
+    if pair and (LEC_LAB_SUM_READING if lec_lab_sum is None else lec_lab_sum):
+        return float(pair[1]) + float(pair[2])
+    return None
+
+
 def _units(printed_course):
-    value = dict(printed_course.units).get('units.total')
-    return None if value is None else float(value)
+    units = dict(printed_course.units)
+    value = units.get('units.total')
+    return float(value) if value is not None else printed_total(units.get('units.printed'))
 
 
 def _ids(conditions, prefixes):
@@ -81,10 +104,7 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
             if (term.kind == 'regular' and course.mode in ('prescribed', 'retake')
                     and found.courses[0].term != term.semester):
                 requests[course.course_id] = 'off_semester_request'
-            units.append(_units(found.courses[0]))
-            if units[-1] is None:
-                reasons.append(PlanReason(kind='units_missing', course_id=course.course_id,
-                                          detail='units not printed in the reviewed curriculum'))
+            units.append(_units(found.courses[0]))  # a missing total only makes the load unknown (ARP-04)
             checked = runtime.check(_request('check_prerequisite_eligibility', curriculum,
                                              course_id=course.course_id), facts)
             cite(checked)
@@ -103,12 +123,15 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
                 reasons.append(PlanReason(kind='rule_error', course_id=course.course_id,
                                           detail=decision.error_code or decision.outcome))
         load, warnings = _load(term, runtime, curriculum, units, policy)
+        # Track A 4: re-enrolling a course with a stated open 4.0/INC is a heads-up, never a block.
+        open_removals = tuple(c.course_id for c in term.courses
+                              if request.status is not None and request.status.grade(c.course_id) in OPEN_GRADES)
         verdicts.append(TermVerdict(
             index=index, reasons=tuple(reasons), warnings=tuple(warnings), load=load, assumed=tuple(assumed),
             unconfirmed=tuple(UnconfirmedCondition(course_id=c.course_id, kind=requests[c.course_id],
                                                    text='requested, not confirmed')
                               for c in term.courses if c.course_id in requests),
-            outcome=_outcome(reasons, load, warnings)))
+            open_removals=open_removals, outcome=_outcome(reasons, load, warnings or open_removals)))
         for course_id, outcome in outcomes.items():  # request-local: only later terms see these
             failed = [c for c in failed if c != course_id]
             passed = [c for c in passed if c != course_id]
@@ -133,7 +156,7 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
 def _outcome(reasons, load, warnings):
     if any(r.kind == 'unmet_prerequisite' for r in reasons):
         return 'blocked'
-    if reasons or load.status == 'unknown':
+    if reasons:  # the load has its own status and never changes the prerequisite verdict (ARP-04)
         return 'unknown'
     return 'works_with_warning' if warnings else 'works'
 
@@ -143,7 +166,7 @@ def _load(term, runtime, curriculum, units, policy):
     if policy is None:
         return LoadCheck(status='unknown', units=total, ceiling=None, reason=NOT_REVIEWED), []
     if total is None:
-        return LoadCheck(status='unknown', units=None, ceiling=None, reason='units not printed for every course'), []
+        return LoadCheck(status='unknown', units=None, ceiling=None, reason='units not printed as totals'), []
     if term.kind == 'summer':
         ceiling, kind, clause = policy.summer_normal_units, 'summer_above_normal', policy.clause('summer')
     else:

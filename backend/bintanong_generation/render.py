@@ -399,12 +399,12 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             from .dependency_reply import dependency_lines
             recovery=pack.recovery if pack.recovery is not None and pack.recovery.failed_course_id==target else None
             # Ask mode lists every delayed course with its prescribed term; the drafts follow (owner 4 Nov 2026).
-            reply=dependency_lines(pack.dependencies,target,pack.language,shown,
-                                   term=None if recovery else pack.asked_term,with_terms=recovery is not None)
-            lines.extend(reply)
-            if recovery is not None:
+            if recovery is not None:  # one Markdown reply: answer, delayed courses by term, options, drafts, sources
                 from .recovery_reply import recovery_lines
-                lines.extend(recovery_lines(recovery,pack.language,shown))
+                reply=recovery_lines(recovery,pack.language,shown,dependencies=pack.dependencies)
+            else:
+                reply=dependency_lines(pack.dependencies,target,pack.language,shown,term=pack.asked_term)
+            lines.extend(reply)
             if pack.assumptions:
                 from .student_facts_reply import assumption_text
                 lines.insert(lines.index(reply[0])+1,assumption_text(pack.assumptions,pack.language,shown))
