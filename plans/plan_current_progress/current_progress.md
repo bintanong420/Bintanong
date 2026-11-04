@@ -1,5 +1,14 @@
 # Current progress
 
+## Codex continuation (4 Nov; Claude usage limit)
+
+Recovered Claude's three exact tasks and resumed compiler, approved wording and plan-check helpers in their
+existing worktrees. [Continuation log](../2026-11-04-codex-continuation-log.md) holds changes, commits and recovery evidence.
+Compiler, approved wording and backend plan helpers merged locally. Compiler 71 focused pass; branch broad
+2165 pass / 2 xfail; source-backed offline memory 15/15; live compiler memory scenarios 12/12. Integrated checks
+underway; API restarted with compile OFF. Plan helpers still need chat wiring; see dated helper report.
+Next: finish integrated live off/on conversations/per-college cases; no push or phase advancement.
+
 Updated 31 October 2026 (machine local date). Worktree p12 / `p12-evaluation-harness`.
 Phase 12 research/software write-up complete with disclosures; no active numbered implementation phase.
 Post-phase test-suite audit tasks 1–7 complete; Claude review passed (nits only). Phase 13 remains cancelled.
