@@ -50,3 +50,14 @@ def follow_up_context(view: SessionView, *, request_id: str, program_id: str | N
     facts = tuple(f for f in view.facts if (f.program_id, f.curriculum_id) == (program_id, curriculum_id))
     return RequestContext(session_id=view.session_id, request_id=request_id, program_id=program_id,
                           curriculum_id=curriculum_id, facts=facts, conversation=conversation)
+
+
+def previous_refs(conversation) -> tuple[str, ...]:
+    """The previous turn's course, else its document topic, as missing-fact markers for the reply."""
+    if conversation is None:
+        return ()
+    if conversation.course_id is not None:
+        return ('previous_course:' + conversation.course_id,)
+    if conversation.subject_id is not None:
+        return ('previous_topic:' + conversation.subject_id,)
+    return ()

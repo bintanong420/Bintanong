@@ -20,6 +20,8 @@ from .adapters import AdapterFailure
 from .term_assessment import TermAssessmentResult
 from .contracts import DocumentResult, IntegrationResult, StageEvent, RequestUnderstanding
 from .integration import assemble
+from .reasons import evidence_reason, routing_reason
+from ..bintanong_private_context.conversation import previous_refs
 from .ports import HeldReleaseProvider, ReleaseResources, ReleaseUnavailable
 
 _ROUTING_FAILURES = {
@@ -28,8 +30,10 @@ _ROUTING_FAILURES = {
     'invalid_model_output':'invalid_output', 'invalid_style_output':'invalid_output',
     # Persistent reference errors: the question could not be interpreted; ask, not 'outage'.
     'invalid_reference':'clarify',
-    # The model asked to clarify but named nothing: unavailable information (owner E3, 24 Oct 2026).
-    'empty_clarification':'no_evidence',
+    # The model asked to clarify but named nothing (owner E3, 24 Oct 2026, gave it the source-gap referral). Audit A03
+    # (4 Nov 2026): that is a turn the host could not follow, never "not in the reviewed sources"; the reply names
+    # the previous turn's course or topic back, or says it lost track (reason 'dialogue_unresolved').
+    'empty_clarification':'clarify',
     # A structured fact with no operation to run ("How many units is CC 5?"): unavailable information, not an
     # outage (owner step 2d, 24 Oct 2026).
     'unsupported_requirement':'no_evidence',
@@ -139,11 +143,12 @@ class Orchestrator:
         events, resources, route, style = [], None, None, 'unknown'
         understanding, assumed, recovery, routed, plan_check, plan_routes = None, (), None, None, None, None
 
-        def finish(status, evidence=None, missing=()):
+        def finish(status, evidence=None, missing=(), reason=None):
             ready = status == 'ready'
             drafts = recovery if ready else None
+            reason = None if status in ('ready', 'greeting') else reason or evidence_reason(status, evidence)
             return IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
-                request_id=context.request_id, route=route, response_style=style,
+                request_id=context.request_id, route=route, response_style=style, reason=reason,
                 status=status, evidence=evidence, understanding=understanding,
                 missing_facts=tuple(missing), events=tuple(events), assumed_facts=assumed,
                 recovery=drafts, plan_check=plan_check if ready else None, unavailable_parts=routed.unavailable_parts if ready and routed is not None else (),
@@ -261,12 +266,17 @@ class Orchestrator:
 
         routed, failure = await stage('routing', route_request)
         if failure:
-            return finish(failure)
+            if routed is None:  # the routing stage itself failed
+                return finish(failure)
+            reason = routing_reason(routed.diagnostic, routed.decision.control)
+            return finish(failure, reason=reason, missing=previous_refs(context.conversation)
+                          if reason == 'dialogue_unresolved' else ())
         if routed_sink is not None:
             routed_sink(routed)
         route, style = routed.decision.route, routed.response_style
         if routed.decision.control is not None:
-            return finish(routed.decision.control, missing=routed.decision.missing_facts)
+            return finish(routed.decision.control, missing=routed.decision.missing_facts,
+                          reason=routing_reason(routed.diagnostic, routed.decision.control))
         if ((route in ('RAG','Hybrid') and resources.retrieval is None) or
                 (route in ('Symbolic','Hybrid') and resources.symbolic is None)):
             return finish('held')
@@ -339,7 +349,7 @@ class Orchestrator:
                         or value.synthetic is research_pin):
                     raise ValueError('operation_result_mismatch')
                 return TermAssessmentResult.parse(value.model_dump(mode='json'))
-            if request.predicate in ('course_facts', 'list_term_courses'):  # printed facts; no rule executed
+            if request.predicate in ('course_facts', 'list_term_courses', 'list_course_prerequisites'):  # printed facts; no rule executed
                 if (type(value) is not CourseFactsResult or value.inputs != request.inputs
                         or value.predicate != request.predicate or value.synthetic is research_pin):
                     raise ValueError('operation_result_mismatch')

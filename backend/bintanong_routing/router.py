@@ -197,7 +197,7 @@ def answer_detail_follow_up(proposed, menu, text, conversation):
 # Owner GUI 3 Nov 2026 ("memory system"): "pano yung CS 10/L?" after a prerequisite question keeps that check;
 # the router read it as a course-facts lookup. Only a short how-about message naming one course is changed.
 _HOW_ABOUT = re.compile(r'^\s*(pano|paano|e|eh|ee|how|what)\s+(yung|about|naman|kung)\b', re.I)
-_COURSE_CHECKS = ('check_prerequisite_eligibility', 'list_missing_prerequisites')
+_COURSE_CHECKS = ('check_prerequisite_eligibility', 'list_course_prerequisites', 'list_missing_prerequisites')
 
 
 def repeat_previous_check(proposed, text, conversation):

@@ -183,6 +183,7 @@ def selected_cards(pack,claims):
     ids={ref for claim in claims for ref in claim.evidence_ids}
     return tuple(c for c in pack.cards if c.evidence_id in ids or
                  (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None
+                                      or (pack.course_facts is not None and pack.course_facts.requirement is not None)
                                       or pack.term_assessment is not None or pack.plan_check is not None or pack.earliest_term is not None)))
 
 
@@ -366,6 +367,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         question,joiner,labels=_SCOPE_QUESTION.get(pack.language,_SCOPE_QUESTION['en'])
         lines[1]=question.format(fields=joiner.join(labels[field] for field in scope))
         missing=()
+    if status=='clarification_needed' and pack.reason=='dialogue_unresolved':  # audit A03: never a source gap
+        from .dialogue_reply import PREVIOUS,dialogue_text
+        lines[1]=dialogue_text(missing,pack.language,shown)
+        missing=tuple(field for field in missing if not field.startswith(PREVIOUS))
     held_rule=(status=='clarification_needed' and pack.requirement is not None and pack.requirement.kind=='unresolved'
                and pack.decision is not None and pack.decision.outcome=='unknown' and pack.structured_context is not None)
     if held_rule:
@@ -395,7 +400,7 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
             missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
     if pack.course_facts is not None and canonical_allowed:
-        lines.extend(course_fact_lines(pack.course_facts,pack.language))
+        lines.extend(course_fact_lines(pack.course_facts,pack.language,shown))
     if pack.term_assessment is not None and canonical_allowed:  # memory/eligibility plan, Task 4
         from .term_reply import term_lines
         listed=term_lines(pack.term_assessment,pack.language,shown)

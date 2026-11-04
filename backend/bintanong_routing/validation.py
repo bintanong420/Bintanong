@@ -15,9 +15,10 @@ from .style import StyleEvidence
 from .languages import unsupported_language
 from .terms import parse_term
 
-OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
-              'course_facts', 'list_term_courses', 'assess_term_prerequisites', 'check_study_plan', 'earliest_course_term')
-
+OPERATIONS = ('check_prerequisite_eligibility', 'list_course_prerequisites', 'list_missing_prerequisites',
+              'list_affected_courses', 'course_facts', 'list_term_courses', 'assess_term_prerequisites',
+              'check_study_plan', 'earliest_course_term')
+LISTING = 'list_course_prerequisites'
 
 class GroundedClaim(ScopedFact):
     mode: str
@@ -244,7 +245,7 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     switched_course = None
     switch_matches = ()
     if p.reason == 'program_switch_follow_up' and last is not None and last.operation in (
-            'check_prerequisite_eligibility', 'list_missing_prerequisites'):
+            'check_prerequisite_eligibility', LISTING, 'list_missing_prerequisites'):
         switched_course = next((c for c in catalog if c.kind == 'course' and c.entity_id == carried
                                and c.program_id == last.program_id and c.curriculum_id == last.curriculum_id), None)
         if switched_course is not None and switched_course.course_code is not None:

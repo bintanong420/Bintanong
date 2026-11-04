@@ -43,6 +43,7 @@ class PreparedEvidence:
     plan_routes: object=None
     earliest_term: object=None
     unavailable_parts: tuple[str,...]=()  # words of parts with no reviewed topic, named as unavailable
+    reason: str|None=None  # why the turn was not answered (orchestration/reasons.py), None when ready
 
     def model_payload(self):
         payload = dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -129,7 +130,8 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     term=evidence.term_assessment if evidence else None
     checked_plan=evidence.plan_check if evidence else None
     earliest=evidence.earliest_term if evidence else None
-    reasoning=earliest if earliest is not None else checked_plan if checked_plan is not None else symbolic if symbolic is not None else dependencies if dependencies is not None else term
+    facts=evidence.course_facts if evidence else None
+    reasoning=earliest if earliest is not None else checked_plan if checked_plan is not None else symbolic if symbolic is not None else dependencies if dependencies is not None else term if term is not None else facts
     if reasoning is not None:
         pages={}
         for span in reasoning.rule_spans:
@@ -145,14 +147,13 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     cards=tuple({c.evidence_id:c for c in cards}.values())
     if len(cards)>32 or sum(len(c.text) for c in cards)>65536:
         raise ValueError('generation_evidence_limit')
-    facts=evidence.course_facts if evidence else None
     context=StructuredContext(operation=earliest.predicate, inputs=earliest.inputs, scope=earliest.scope,
         rule_bundle_version=None) if earliest is not None else StructuredContext(operation='check_study_plan', inputs=result.understanding.predicate_request.inputs,
         scope=checked_plan.scope,rule_bundle_version=None) if checked_plan is not None else StructuredContext(operation=term.predicate,
         inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in term.inputs),
         scope=term.scope,rule_bundle_version=None) if term is not None else StructuredContext(operation=facts.predicate,
         inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in facts.inputs),
-        scope=facts.scope,rule_bundle_version=None) if facts is not None else None if reasoning is None else StructuredContext(
+        scope=facts.scope,rule_bundle_version=facts.rule_bundle_version) if facts is not None else None if reasoning is None else StructuredContext(
         operation=symbolic.decision.predicate if symbolic else 'list_affected_courses',
         inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in reasoning.inputs),
         scope=reasoning.scope,rule_bundle_version=reasoning.rule_bundle_version)
@@ -163,6 +164,7 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
                 tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in request.inputs)
                 !=context.inputs or plan.operations[0].name!=request.predicate):
             raise ValueError('understanding_operation_mismatch')
+    status=result.status
     by_chunk = {p.chunk_id:_card('document',_settled(p.text),p.citations).evidence_id
                 for p in evidence.documents.passages} if evidence and evidence.documents else {}
     coverage = tuple((c.subject_id,c.claim,tuple(by_chunk[i] for i in c.chunk_ids))
@@ -172,9 +174,10 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
     quotes = tuple((c.subject_id,c.claim,by_chunk[c.quoted_field.chunk_id],c.quoted_field.text)
                    for c in evidence.documents.record_coverage if c.quoted_field is not None) if evidence and evidence.documents else ()
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
-        result.status,reply_language(result.response_style),result.route,cards,
+        status,reply_language(result.response_style),result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
         evidence.permitted_scope if evidence else 'none',context,result.missing_facts,plan,
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
-        symbolic.requirement if symbolic else None,facts,coverage,order,quotes,result.assumed_facts,term,
-        recovery=result.recovery,plan_check=checked_plan,plan_routes=evidence.plan_routes if evidence else None,earliest_term=earliest,unavailable_parts=result.unavailable_parts)
+        symbolic.requirement if symbolic else facts.requirement if facts else None,facts,coverage,order,quotes,result.assumed_facts,term,
+        recovery=result.recovery,plan_check=checked_plan,plan_routes=evidence.plan_routes if evidence else None,earliest_term=earliest,unavailable_parts=result.unavailable_parts,
+        reason=None if status=='ready' else result.reason)

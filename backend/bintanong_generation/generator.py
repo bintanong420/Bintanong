@@ -5,6 +5,7 @@ import json
 import math
 
 from ..bintanong_orchestration.contracts import IntegrationResult
+from ..bintanong_orchestration.reasons import answer_reason
 from ..bintanong_routing.contracts import RequestContext,prepare_query
 from ..bintanong_routing.transport import RuntimeFailure
 from ..bintanong_routing.shorthand import expand_shorthand
@@ -65,7 +66,8 @@ def _answer(pack,status,*,claims=(),reason='control_fallback',attempts=0,checks=
         recovery=shown_recovery(pack,status),structured_context=pack.structured_context,missing_facts=pack.missing_facts,claims=tuple(claims),
         citations=selected_cards(pack,claims),validation=reason,draft_attempts=attempts,
         check_attempts=checks,answer_repairs=max(attempts-1,0),decision_guard=guard,question_coverage=coverage,
-        part_ledger=ledger,research_ref=pack.research_ref,host_quote_override=tuple(overrides),
+        part_ledger=ledger,reason=answer_reason(pack,status,reason,ledger),
+        research_ref=pack.research_ref,host_quote_override=tuple(overrides),
         decision_explanation=explanation,explanation_check=explained[0],explanation_errors=tuple(explained[1]))
     validate_final(answer,pack,claims)
     return answer

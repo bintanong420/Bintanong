@@ -55,6 +55,8 @@ def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False
     parts.append({'type': 'data-answer', 'data': {'status': answer.status,
         'conditional': answer.decision is not None, 'language': answer.language, 'missingFields': missing,
         'notice': guidance_notice(answer.language)}})
+    if answer.reason is not None:
+        parts[-1]['data']['reason'] = answer.reason
     if answer.status == 'clarification_needed':
         parts[-1]['data']['clarification'] = clarification_view(answer, course_labels or {})
     view = build_plan_view(answer, course_labels or {}) if plan_view else None

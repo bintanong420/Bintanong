@@ -15,6 +15,7 @@ from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyRes
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_routing.contracts import RequestPart, Operation
 from ..bintanong_planning.contracts import RecoveryResult, PlanCheckResult, RecoveryRoutes
+from .reasons import ReasonCode
 
 Text = Annotated[str, Field(min_length=1)]
 ReleaseID = Annotated[str, Field(pattern=r'^release-[a-z0-9-]+$', max_length=128)]
@@ -320,6 +321,8 @@ class IntegrationResult(Contract):
     plan_check: PlanCheckResult | None = Field(default=None, exclude_if=lambda value: value is None)
     # Owner GUI 4 Nov 2026: the words of document parts with no reviewed topic, named as unavailable in the reply.
     unavailable_parts: tuple[Text, ...] = Field(default=(), max_length=8, exclude_if=lambda value: not value)
+    # Audit A03 (4 Nov 2026): which boundary stopped an unanswered turn (reasons.py); None when ready.
+    reason: ReasonCode | None = Field(default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode='after')
     def _result(self):

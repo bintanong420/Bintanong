@@ -109,6 +109,7 @@ SIGNATURES = {'earliest_course_term': ('curriculum_id', 'course_id', 'year_level
               'list_missing_prerequisites': ('curriculum_id', 'course_id'),
               'list_affected_courses': ('curriculum_id', 'course_id'),
               'course_facts': ('curriculum_id', 'course_id'),
+              'list_course_prerequisites': ('curriculum_id', 'course_id'),
               'list_term_courses': ('curriculum_id', 'year_level', 'semester'),
               'assess_term_prerequisites': ('curriculum_id', 'year_level', 'semester')}
 
@@ -157,7 +158,7 @@ class SymbolicAdapter:
             raise ValueError('invalid_signature')
         if args['curriculum_id'] != context.curriculum_id or context.program_id is None:
             raise ValueError('request_scope_mismatch')
-        if operation in ('course_facts', 'list_term_courses'):  # reviewed printed facts; no rule executed
+        if operation in ('course_facts', 'list_term_courses', 'list_course_prerequisites'):  # reviewed printed facts; no rule executed
             result = await self._worker.run(lambda: self.runtime.look_up(request))
             if type(result) is not CourseFactsResult or result.synthetic is self.research:
                 raise ValueError('course_facts_result_kind_mismatch')

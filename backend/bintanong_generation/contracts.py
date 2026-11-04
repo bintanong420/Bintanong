@@ -7,6 +7,7 @@ from ..bintanong_contracts.base import Contract,Record
 from ..bintanong_contracts.symbolic import DecisionOutcome,DecisionScope
 from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,ReleaseID
+from ..bintanong_orchestration.reasons import ReasonCode
 from ..bintanong_symbolic.runtime import DependencyResult,ResearchDependencyResult
 from .ledger_contracts import ANSWERED_LEDGERS, ClaimID, BoundRequirementLedger
 from ..bintanong_planning.contracts import PlanCheckResult,RecoveryResult
@@ -112,6 +113,8 @@ class CandidateAnswer(Contract):
     validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error',
         'decision_withheld','question_uncovered','parts_unresolved','thanks','unsupported_answer_scope']
     part_ledger: BoundRequirementLedger|None
+    # Audit A03 (4 Nov 2026): why an unanswered turn stopped (orchestration/reasons.py), also supplied as optional stream metadata.
+    reason: ReasonCode|None=Field(default=None,exclude_if=lambda value: value is None)
     decision_guard: GuardObservation|None=None
     question_coverage: CoverageObservation|None=None
     draft_attempts: int=Field(ge=0,le=2)

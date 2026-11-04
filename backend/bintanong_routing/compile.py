@@ -15,8 +15,8 @@ from .contracts import TERM_OPERATIONS, Interpretation, RequestContext, prepare_
 from .terms import parse_term
 from .recovery_cue import recovery_follow_up
 
-COURSE_OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
-                     'course_facts')
+COURSE_OPERATIONS = ('check_prerequisite_eligibility', 'list_course_prerequisites', 'list_missing_prerequisites',
+                     'list_affected_courses', 'course_facts')
 _STATES = ('passed', 'failed', 'not_passed', 'not_taken', 'taken_unknown', 'enrolled', 'not_enrolled')
 _MODES = ('asserted', 'hypothetical', 'reported')
 _DETAILS = ('whole', 'requirements', 'fees', 'processing_time', 'specific')

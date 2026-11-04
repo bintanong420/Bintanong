@@ -23,10 +23,10 @@ from .hosted_storage import HostedReleaseStorage
 from .package_storage import PackageStorage
 
 OPERATIONS = ('check_prerequisite_eligibility', 'list_missing_prerequisites', 'list_affected_courses',
-              'course_facts', 'list_term_courses')
+              'course_facts', 'list_term_courses', 'list_course_prerequisites')
 CAPABILITIES = dict(zip(OPERATIONS, ('offline_research_prerequisite_check',
     'offline_research_missing_prerequisites', 'offline_research_dependency_inspection',
-    'offline_research_course_facts', 'offline_research_term_courses')))
+    'offline_research_course_facts', 'offline_research_term_courses', 'offline_research_prerequisite_description')))
 # Composed by the adapter from the term lookup and the prerequisite check (memory/eligibility plan, Task 4).
 CAPABILITIES['assess_term_prerequisites'] = 'offline_research_term_prerequisites'
 CAPABILITIES['check_study_plan'] = 'offline_research_study_plan'

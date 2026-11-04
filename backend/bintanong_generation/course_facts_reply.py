@@ -43,7 +43,7 @@ def _course(course, text):
     return f"{course.code}{' ' + course.title if course.title else ''}: {_units(course.units, text)}"
 
 
-def course_fact_lines(result, language) -> list[str]:
+def course_fact_lines(result, language, shown=str) -> list[str]:
     """Lines for a complete CourseFactsResult; the caller handles every other status."""
     language = language if language in _TEXT else 'en'
     text = _TEXT[language]
@@ -52,6 +52,27 @@ def course_fact_lines(result, language) -> list[str]:
         course = result.courses[0]
         return [text['course'].format(course=_course(course, text), when=_when(language, course.year, course.term),
                                       pages=prospectus([course]))]
+    if result.predicate == 'list_course_prerequisites':
+        from .decision_reply import rule_phrase
+        from .render import unresolved_rule_text
+        target = shown(next(i.value for i in result.inputs if i.name == 'course_id'))
+        rule = result.requirement
+        if rule.kind == 'unresolved':
+            return [unresolved_rule_text(rule.reason, target, language)]
+        if rule.kind == 'verified_none':
+            return [(f'The prospectus lists no prerequisite for {target}.' if language == 'en' else
+                     f'Walang prerequisite na nakalista para sa {target} sa prospectus.')]
+        phrase = rule_phrase(rule, language, shown)
+        lines = [(f'{target} requires {phrase}.' if language == 'en' else
+                 f'Kailangan ng {target} ang {phrase}.'),
+                ("If you'd like an eligibility check, tell me which requirements you've completed." if language == 'en' else
+                 'Kung gusto mong ipa-check ang eligibility mo, sabihin kung alin ang na-complete mo na.')]
+        def unresolved(node):
+            if node.kind == 'unresolved':
+                yield unresolved_rule_text(node.reason, target, language)
+            for item in node.items:
+                yield from unresolved(item)
+        return lines + list(dict.fromkeys(unresolved(rule)))
     inputs = {i.name: i.value for i in result.inputs}
     if not result.courses:
         when = (_YEARS[language][int(inputs['year_level']) - 1] if inputs['semester'] == 'any'

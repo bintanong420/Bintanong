@@ -108,3 +108,11 @@ test('a rate limit keeps the server wait time, accepting only a sane whole numbe
   assert.equal(limited.retryAfter, 120);
   for (const bad of [-5, 0, 1.5, 99999, '60']) assert.equal((await attempt({ error: 'rate_limited', retryAfter: bad })).retryAfter, null);
 });
+
+
+test('stream carries a typed unanswered reason and rejects unknown codes', async () => {
+  const stream = reason => sse(normal.map(p => p.type === 'data-answer' ? { ...p, data: { ...p.data, status: 'clarification_needed', reason } } : p));
+  const send = reason => sendStudentMessage(request, { signal: new AbortController().signal, onText() {}, fetch: async () => response(stream(reason)) });
+  assert.equal((await send('dialogue_unresolved')).reason, 'dialogue_unresolved');
+  await assert.rejects(send('unknown_reason'));
+});

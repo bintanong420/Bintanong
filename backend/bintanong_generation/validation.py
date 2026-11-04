@@ -44,6 +44,9 @@ def validate_final(answer,pack,claims):
         raise ValueError('final_research_reference_mismatch')
     if answer.missing_facts!=pack.missing_facts:
         raise ValueError('final_missing_facts_mismatch')
+    from ..bintanong_orchestration.reasons import answer_reason
+    if answer.reason!=answer_reason(pack,answer.status,answer.validation,answer.part_ledger):
+        raise ValueError('final_reason_mismatch')
     if answer.decision_guard is not None and (pack.route!='RAG' or pack.status!='ready'):
         raise ValueError('guard_requires_ready_rag')
     if answer.question_coverage is not None and (pack.route!='RAG' or pack.status!='ready'):

@@ -87,7 +87,11 @@ the host asks specifically for them. The host reads explicit colon-separated ter
 For the earliest term a named course could be taken, use earliest_course_term on that course, Symbolic.
 The student must say the starting year and semester; without it the host asks which term to start from.
 This computes an assumed prerequisite path using prescribed semesters, never a confirmed class offering.
-Operations: earliest_course_term, check_study_plan, check_prerequisite_eligibility, list_missing_prerequisites, list_affected_courses,
+list_course_prerequisites is a named course's prerequisites or co-requisites when the student only asks what
+they are ("What are the prerequisites of CS 5?", "Ano ang prereq ng CS 5?"); check_prerequisite_eligibility is
+whether the student can take it ("Can I take CS 5?").
+Operations: earliest_course_term, check_study_plan, check_prerequisite_eligibility, list_course_prerequisites,
+list_missing_prerequisites, list_affected_courses,
 course_facts (the printed title, units or year/semester of one named course), list_term_courses
 (the courses/subjects printed for a year level, optionally one semester), assess_term_prerequisites
 (only when the student asks WHAT they can take in a year level/semester without naming the course: checks each

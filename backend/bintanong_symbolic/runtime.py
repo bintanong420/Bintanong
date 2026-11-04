@@ -26,7 +26,8 @@ _ADMISSION = threading.Lock()
 _WORKER = Path(__file__).with_name('_janus_worker.py')
 _MAX_BYTES = 1_048_576
 # Reviewed printed course facts (no rule executed): operation -> (capability, fixed signature).
-_LOOKUPS = {'course_facts':('synthetic_course_facts',('curriculum_id','course_id')),
+_LOOKUPS = {'list_course_prerequisites':('synthetic_prerequisite_description',('curriculum_id','course_id')),
+            'course_facts':('synthetic_course_facts',('curriculum_id','course_id')),
             'list_term_courses':('synthetic_term_courses',('curriculum_id','year_level','semester'))}
 _PREDICATE = 'check_prerequisite_eligibility'
 _DECISIONS = {_PREDICATE:'synthetic_prerequisite_check',
@@ -125,8 +126,8 @@ class ResearchAuthorization(Record):
     authorization_ref: str = Field(pattern=r'^research-[A-Za-z0-9_-]+$', max_length=128)
     bundle_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
     operations: tuple[Literal['check_prerequisite_eligibility','list_missing_prerequisites',
-                              'list_affected_courses','course_facts','list_term_courses'], ...] = Field(
-                              min_length=1, max_length=5)
+                              'list_affected_courses','course_facts','list_term_courses','list_course_prerequisites'], ...] = Field(
+                              min_length=1, max_length=6)
 
     @model_validator(mode='after')
     def _unique(self):
@@ -365,12 +366,16 @@ class CurriculumRuntime:
             raise ValueError('unsupported_operation')
         ledger = json.loads(self._ledger_json)
 
-        def result(status, found=()):
+        def result(status, found=(), target=None):
             return CourseFactsResult.parse({'schema_version':CourseFactsResult.SCHEMA_VERSION,
                 'synthetic':ledger['synthetic'], 'predicate':request.predicate,
                 'inputs':[i.model_dump(mode='json') for i in request.inputs], 'status':status,
                 'courses':[printed_course(ledger, f) for f in found],
-                'scope':_scope(ledger,self._release_id) if status=='complete' else None})
+                'scope':_scope(ledger,self._release_id) if status=='complete' else None,
+                'requirement':_requirement_view(target['prerequisites']) if target else None,
+                'rule_spans':_spans([target]) if target else [],
+                'rule_ids':['rule-'+target['course_id']] if target else [],
+                'rule_bundle_version':self.rule_bundle_version if target else None})
         registry = CapabilityRegistry({name:Capability(self._capability(cap), signature)
             for name,(cap,signature) in _LOOKUPS.items() if name in self._allowed_operations})
         if not registry.supports(request.predicate):
@@ -378,6 +383,13 @@ class CurriculumRuntime:
         args = dict(registry.goal(request).args)
         if args['curriculum_id'] != ledger['scope']['curriculum_id']:
             return result('not_found')
+        if request.predicate == 'list_course_prerequisites':
+            target = next((c for c in ledger['courses'] if c['course_id']==args['course_id']), None)
+            if target is None:
+                return result('not_found')
+            if target['review_state'] != 'reviewed' or not target['review_refs']:
+                return result('not_reviewed')
+            return result('complete', target=target)
         if request.predicate == 'course_facts':
             if not any(c['course_id']==args['course_id'] for c in ledger['courses']):
                 return result('not_found')
