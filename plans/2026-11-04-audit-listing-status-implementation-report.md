@@ -35,3 +35,13 @@ All commands used system Python 3.13, `-B`, `-p no:cacheprovider` and external b
 No live model, browser, GPU, database or hosted service validation was performed. No dependencies, source authoring records, private inputs or release activation were changed. The two-curriculum/three-language fixtures are synthetic and do not prove live semantic routing accuracy. The parent owns source-backed BSIT/live validation and independent review.
 
 Next: integrate and independently review this increment; verify frontend metadata in the parent checkout. Phase 2 conversation-state ledger remains unimplemented. A statement such as "I have passed CC5/L" after a listing must not be treated as an automatically approved eligibility request; semantic follow-up/acknowledgment behavior and shifting/topic-switch regressions remain separate follow-up work. This report does not close the broader unreviewed-data, curriculum-planning or conversationality checklist.
+
+Coordinator integration: 82 integrated Python tests, 10 frontend transport tests and
+TypeScript checking passed. Live C01 listing passed both compiler modes, but C02/C03
+exposed `runtime_worker_failed`: `_janus_worker.py` rejected the authorization set
+containing the new read-only listing operation. The worker's metadata allowlist now
+matches the runtime; its fixed execution predicates still exclude listing. New
+research-path regression reproduced ERROR instead of UNKNOWN before the correction.
+Worker/research and listing tests: **45 passed in 10.92s**. Source-backed rerun pending.
+The ephemeral ledger storage/atomic slice is separately recorded in
+[its report](2026-11-04-ephemeral-dialogue-ledger.md); context compiler remains pending.
