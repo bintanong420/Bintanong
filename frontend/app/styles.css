@@ -544,7 +544,6 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .about-note h2 { margin-block-start: 0; }
 .about-capabilities p, .about-note p { margin: 0; font-size: 0.875rem; }
 .about-note .about-limits { display: flex; gap: 0.625rem; margin-block-start: 0.75rem; padding-block-start: 0.75rem; border-block-start: 1px solid var(--border); font-size: 0.8125rem; }
-.about-limits a { text-decoration: underline; }
 .about-limits svg { flex: none; margin-block-start: 0.1875rem; }
 .about-action { display: flex; justify-content: center; }
 .about-action [data-slot="button"] { flex-shrink: 1; min-inline-size: 0; block-size: auto; min-block-size: 2.75rem; border-radius: 9999px; padding-inline: 1.5rem; white-space: normal; }

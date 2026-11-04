@@ -29,7 +29,7 @@ export default function About() {
       <section className="about-note" aria-labelledby="about-why">
         <h2 id="about-why">Why Bintanong?</h2>
         <p>Named after the Palawan binturong (bearcat), Bintanong was created to guide PalSU college students through curricula, prerequisites and academic procedures with clarity.</p>
-        <p className="about-limits"><ShieldCheck size={16} aria-hidden="true" /><span><strong>Research preview.</strong> University validation is pending. Bintanong only gives advice: it cannot enroll you, change grades or issue a COR, and information it does not have stays unknown. Confirm important academic decisions with the relevant university office or academic adviser. <a href="/#scope">Scope and privacy</a></span></p>
+        <p className="about-limits"><ShieldCheck size={16} aria-hidden="true" /><span><strong>Research preview.</strong> University validation is pending. Bintanong only gives advice: it cannot enroll you, change grades or issue a COR, and information it does not have stays unknown. Confirm important academic decisions with the relevant university office or academic adviser.</span></p>
       </section>
       <div className="about-action"><Button asChild><a href="/chat">Start chatting with Bintanong</a></Button></div>
     </div>
