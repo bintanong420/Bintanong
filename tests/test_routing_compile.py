@@ -145,6 +145,22 @@ def test_a_grade_statement_part_repeating_the_check_qualifies_it(key, split, mon
 
 
 @CURRICULUM_KEYS
+def test_multiline_grade_quote_keeps_the_result_word_with_its_course(key, monkeypatch):
+    c = CURRICULA[key]
+    text = f"Can I take {c['main'][0]} if I failed\n{c['second'][0]}?"
+    collapsed = f"failed {c['second'][0]}"
+    value = wire(parts=[part('r1', text, 'structured', [0])],
+                 mentions=[('course', c['main'][0], 0), ('course', c['second'][0], 0)],
+                 claims=[dict(quote=quote(collapsed), entity=quote(c['second'][0]),
+                              state='failed', mode='asserted')],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(c['main'][0]))])
+    result = route(text, value, context(key), monkeypatch)
+    assert result.compiled and result.diagnostic == 'validated'
+    assert [(claim.course_id, claim.state) for claim in result.claims] == [(c['second'][1], 'failed')]
+    assert 'failed\n' in result.proposed.claims[0].text
+
+
+@CURRICULUM_KEYS
 @pytest.mark.parametrize('long', [False, True])
 def test_a_bare_program_name_with_a_placeholder_part_asks_what_to_know(key, long, monkeypatch):
     """run-63c6e3a4 cx-bare-bscs / cx-bare-cs: part_count 0 with one unknown placeholder part."""

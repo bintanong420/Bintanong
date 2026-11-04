@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .contracts import TERM_OPERATIONS, Interpretation, RequestContext, prepare_query
+from .contracts import TERM_OPERATIONS, Interpretation, RequestContext, prepare_query, quote_matches
 from .terms import parse_term
 from .recovery_cue import recovery_follow_up
 
@@ -193,6 +193,10 @@ def _locate(text, words):
     if not words:
         return None
     at = text.find(words)
+    if at < 0:
+        matches = quote_matches(text, words)
+        if matches:
+            return matches[0]
     if at < 0:
         at = text.casefold().find(words.casefold()) if len(words.casefold()) == len(words) else -1
     return (at, at + len(words)) if at >= 0 else None
