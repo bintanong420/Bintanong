@@ -354,8 +354,11 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         if inner is not None:
             # "Can I take anything that uses X as pre-req?" with the whole phrase as the target: X is the reference
             # point and the student asks about the courses that depend on it, not about a course named "Anything".
+            area = _locate(text, target)
+            own = area is not None and bool(_OWN_PREREQS_BEFORE.search(text[area[0]:inner.start])
+                                            or _OWN_PREREQS_AFTER.match(text[inner.end:area[1]]))
             name = ('list_affected_courses' if check.name == 'check_prerequisite_eligibility'
-                    and _OTHER_COURSES.match(target) else check.name)
+                    and _OTHER_COURSES.match(target) and not own else check.name)
             built.append((name, 'course', inner, None))
             continue
         word_target = target is None or not _looks_like_code(target) or bool(_trimmed_keys(target) & noncourse)
@@ -521,6 +524,9 @@ _ELIGIBILITY = ('check_prerequisite_eligibility', 'list_missing_prerequisites')
 # Words that stand for "some other course" rather than a course or a back-reference ("it", "sya").
 _OTHER_COURSES = re.compile(r'^\s*(any|anything|something|what|which|ano|anong|alin|alinman|kahit\s+ano|'
                             r'(?:mga\s+)?(?:other\s+)?(?:subjects?|courses?))\b', re.I)
+# "prerequisites of X" / "X needs": the course's own prerequisites, the opposite direction of "what uses X".
+_OWN_PREREQS_BEFORE = re.compile(r'\b(?:pre-?req\w*|requirements?)\s+(?:of|for|ng|ni)\s*\Z', re.I)
+_OWN_PREREQS_AFTER = re.compile(r'\s*(?:needs?|requires?)\b', re.I)
 _LISTING = re.compile(r'\b(subjects?|courses?|kurso|prospectus|curriculum)\b', re.I)
 
 

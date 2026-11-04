@@ -294,6 +294,20 @@ def test_other_course_phrasings_holding_the_named_course_list_its_dependants(key
 
 
 @CURRICULUM_KEYS
+@pytest.mark.parametrize('phrase', ['What are the prerequisites of {code}',
+                                    'what {code} needs', 'Ano ang prerequisite ng {code}'])
+def test_a_phrase_asking_what_the_course_itself_needs_is_never_turned_into_its_dependants(key, phrase, monkeypatch):
+    """Lead words like "what"/"ano" also start questions about the course's own prerequisites: the opposite direction."""
+    c = CURRICULA[key]
+    words = phrase.format(code=c['main'][0])
+    text = f'{words}?'
+    value = wire(parts=[part('r1', text, 'structured', [0])], language='en', mentions=[('course', c['main'][0], 0)],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(words))])
+    result = route(text, value, context(key), monkeypatch)
+    assert result.compiled and predicate(result) == ('check_prerequisite_eligibility', c['main'][1])
+
+
+@CURRICULUM_KEYS
 def test_an_eligibility_phrase_naming_the_course_and_a_term_checks_that_course(key, monkeypatch):
     c = CURRICULA[key]
     words = f"{c['main'][0]} next semester"
