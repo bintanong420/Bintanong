@@ -133,9 +133,10 @@ def test_a_stated_later_term_is_the_start_and_identical_variants_are_dropped(cur
     result = recover(curriculum, term=(3, 'first_semester'))
     assert (result.start_term.year, result.start_term.semester, result.term_stated) == (3, 'first_semester', True)
     _, _, c = curriculum
-    assert [d.variant for d in result.drafts] == ['D']  # nothing needs a summer or a special class from there
-    assert [(d.variant, d.reason, d.same_as) for d in result.dropped] == [('A', 'same_as', 'D'), ('B', 'same_as', 'D'), ('C', 'same_as', 'D')]
+    assert [d.variant for d in result.drafts] == ['D', 'C']
+    assert [(d.variant, d.reason, d.same_as) for d in result.dropped] == [('A', 'same_as', 'D'), ('B', 'same_as', 'D')]
     assert moved(result.drafts[0], c, NAMES)[(4, 'first_semester')] == [('W', 'prescribed')]
+    assert moved(result.drafts[1], c, NAMES)[(3, 'summer')] == [('W', 'summer')]
 
 
 def test_a_stated_term_equal_to_the_failed_course_term_starts_the_term_after(curriculum):

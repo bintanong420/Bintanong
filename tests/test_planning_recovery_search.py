@@ -4,7 +4,7 @@ route when the first-semester course F is failed:
   2:1 F needs BASE (failed)          2:2 G, H, J each need F
   3:1 K needs H; M needs J; P1       3:2 L needs G; P2           every course 3 units, summer load 9
 
-The combined draft (C) places each delayed course in the latest term that still delays none of the courses that need
+The preferred draft (D) places each delayed course in the latest term that still delays none of the courses that need
 it (its deadline: the term before its earliest dependant's prescribed term). F is already late, so it goes at once as a
 special class; H and J are needed by 3:1, so they take the summer; G is needed only by 3:2, so it waits for a special
 class in 3:1 (load heads-up) although the summer has room. Back on sequence by 3:2. Draft D is named first.
@@ -121,9 +121,10 @@ def test_a_later_deadline_lets_a_course_wait_even_when_the_summer_has_room(gold,
 def test_when_summer_is_not_needed_the_combined_draft_uses_regular_offerings_only(other):
     # From 3:1, X is retaken at once and Y, Z, W reach their regular offerings without delaying anything further.
     result = base.recover(other, term=(3, 'first_semester'))
-    assert [d.variant for d in result.drafts] == ['D'] and result.drafts[0].requests == 0
-    assert {(d.variant, d.reason, d.same_as) for d in result.dropped} == {('A', 'same_as', 'D'), ('B', 'same_as', 'D'), ('C', 'same_as', 'D')}
+    assert [d.variant for d in result.drafts] == ['D', 'C'] and result.drafts[0].requests == 0
+    assert {(d.variant, d.reason, d.same_as) for d in result.dropped} == {('A', 'same_as', 'D'), ('B', 'same_as', 'D')}
     assert not any(t.term.semester == 'summer' for t in result.drafts[0].terms)
+    assert any(t.term.semester == 'summer' for t in result.drafts[1].terms)  # earliest alternative retained
 
 
 def test_a_course_with_no_dependant_takes_a_special_class_only_to_finish_within_the_curriculum(other):

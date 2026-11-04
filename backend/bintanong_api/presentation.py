@@ -140,7 +140,8 @@ def plan_view(answer, course_labels) -> dict | None:
                                         ceiling=verdict.load.ceiling), notes=notes))
         moved = [p for t in draft.terms for p in t.moved]
         rejoin = _term(next((t for t in reversed(draft.terms) if t.moved), draft.terms[-1]).term)
-        keys[draft.variant] = (rejoin[0], draft.requests)
+        regular_rejoin = _term(draft.rejoin_term)[0] if draft.rejoin_term is not None else (float('inf'), 0)
+        keys[draft.variant] = (regular_rejoin, draft.requests)
         drafts.append(dict(variant=draft.variant, label=f'Draft {draft.variant}', terms=terms, summary=dict(
             rejoinAfter=rejoin[1], specialClassRequests=sum(p.mode == 'special_class_request' for p in moved),
             summerCourses=sum(p.mode == 'summer' for p in moved), requests=draft.requests,

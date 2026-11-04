@@ -34,7 +34,8 @@ def test_each_draft_maps_its_checked_terms_with_printed_codes(answered):
     assert a['terms'][1]['load'] == {'status': 'above', 'units': 12.0, 'ceiling': 6.0}
     assert a['terms'][1]['notes'] == ['12 units, lampas sa 6 na nakalista sa term na ito']  # a Taglish question
     english = plan_view(answer.model_copy(update=dict(language='en')), integration.course_labels)
-    assert english['drafts'][0]['terms'][1]['notes'] == ['12 units, above the 6 listed for this term']
+    english_a = next(d for d in english['drafts'] if d['variant'] == 'A')
+    assert english_a['terms'][1]['notes'] == ['12 units, above the 6 listed for this term']
     assert a['summary'] == {'rejoinAfter': '4th yr · 1st sem', 'specialClassRequests': 0, 'summerCourses': 0,
                             'requests': 0, 'majorWarnings': 2, 'beyondCurriculum': False}
     assert 'course-' not in str(view)  # internal identities never reach the student
@@ -58,8 +59,19 @@ def test_fastest_rejoins_earliest_then_fewest_requests(answered):
     recovery = answer.recovery
     c = next(d for d in recovery.drafts if d.variant == 'C')
     tied = c.model_copy(update=dict(variant='B', requests=c.requests + 1))  # same rejoin term, more requests
-    other = recovery.model_copy(update=dict(drafts=(tied, c, *(d for d in recovery.drafts if d.variant == 'A'))))
+    other = recovery.model_copy(update=dict(drafts=(tied, c, *(d for d in recovery.drafts if d.variant in ('A', 'D')))))
     assert plan_view(answer.model_copy(update=dict(recovery=other)), {})['fastest'] == 'C'
+
+
+def test_fastest_uses_the_checked_regular_rejoin_term(answered):
+    from backend.bintanong_planning.contracts import TermRef
+    integration, answer = answered
+    recovery = answer.recovery.model_copy(update=dict(drafts=tuple(
+        d.model_copy(update=dict(rejoin_term=TermRef(year=4 if d.variant == 'D' else 5,
+                                                   semester='first_semester')))
+        for d in answer.recovery.drafts)))
+    view = plan_view(answer.model_copy(update=dict(recovery=recovery)), integration.course_labels)
+    assert view['fastest'] == 'D'
 
 
 @pytest.mark.parametrize('language,fastest,notice', [
@@ -75,7 +87,7 @@ def test_absent_without_a_recovery_or_a_draft(answered):
     integration, answer = answered
     assert plan_view(answer.model_copy(update=dict(recovery=None)), {}) is None
     empty = answer.recovery.model_copy(update=dict(drafts=(), dropped=tuple(
-        DroppedDraft(variant=v, reason='too_long') for v in 'ABC')))
+        DroppedDraft(variant=v, reason='too_long') for v in 'ABCD')))
     assert plan_view(answer.model_copy(update=dict(recovery=empty)), {}) is None
 
 
