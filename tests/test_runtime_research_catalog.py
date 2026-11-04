@@ -121,8 +121,8 @@ def test_repeated_printed_code_is_cataloged_twice_so_a_code_only_question_must_c
     # Owner, 23 Oct 2026: keep both printed rows; a code-only mention matches two entries (clarify).
     # Each row's unique printed title still names it.
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 5', 'Fictional Geo'), titled('course-b', 'ZZ 5', 'Fictional Fiscal')))
-    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5', 'Fictional Geo', 'FG'},
-                                'course-b': {'ZZ 5', 'ZZ5', 'Fictional Fiscal', 'FF'}}
+    assert aliases(catalog) == {'course-a': {'ZZ 5', 'ZZ5', 'Fictional Geo', 'FG', 'FicGeo'},
+                                'course-b': {'ZZ 5', 'ZZ5', 'Fictional Fiscal', 'FF', 'FicFis'}}
 
 
 def test_repeated_printed_code_is_labelled_with_its_title():
@@ -159,8 +159,8 @@ def test_individual_assessment_gets_the_owner_approved_per_person_cues():
 def test_a_printed_title_unique_in_the_curriculum_names_its_course():
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 7', 'Fictional Data Structures'),
                                       titled('course-b', 'ZZ 8', 'Fictional Writing')))
-    assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7', 'Fictional Data Structures', 'FDS'},
-                                'course-b': {'ZZ 8', 'ZZ8', 'Fictional Writing', 'FW'}}
+    assert aliases(catalog) == {'course-a': {'ZZ 7', 'ZZ7', 'Fictional Data Structures', 'FDS', 'FicDatStr'},
+                                'course-b': {'ZZ 8', 'ZZ8', 'Fictional Writing', 'FW', 'FicWri'}}
 
 
 def test_a_title_printed_on_two_courses_is_not_an_alias():
@@ -199,16 +199,74 @@ def test_printed_defects_are_not_offered_as_not_stated_claims(issue):
     assert topic.claims == ('visible printed field',) and topic.not_stated == ()
 
 
-# Owner, 29 Oct 2026: approved title-initial abbreviations; same initials on two courses -> ask which.
+# Owner 29 Oct 2026: title initials name their course, shared ones stay on both so the router asks which. Owner 4 Nov 2026:
+# the new word-start (NetCom) and spaced-number (DS 1) forms are added only when they name one course.
 def test_printed_title_initials_name_their_course():
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 4/L', 'Fictional Data Structures and Algorithms'),
                                       titled('course-b', 'ZZ 9', 'Fictional Programming 2')))
     assert 'FDSA' in aliases(catalog)['course-a'] and 'FP2' in aliases(catalog)['course-b']
 
 
-def test_initials_shared_by_two_courses_are_kept_on_both_so_the_router_asks():
+def test_initials_shared_by_two_courses_stay_on_both_so_the_router_asks():
     catalog = research_catalog(ledger(titled('course-a', 'ZZ 1', 'Media Ethics'), titled('course-b', 'ZZ 2', 'Movement Enhancement')))
     assert 'ME' in aliases(catalog)['course-a'] and 'ME' in aliases(catalog)['course-b']
+    assert 'MedEth' in aliases(catalog)['course-a'] and 'MovEnh' in aliases(catalog)['course-b']
+
+
+@pytest.mark.parametrize('title, expected', [
+    ('Data Structures and Algorithms', {'DSA', 'DatStrAlg'}),
+    ('Networks and Communications', {'NC', 'NetCom'}),
+    ('Discrete Structures 1', {'DS1', 'DS 1', 'DisStr1'}),
+    ('Discrete Structures 2', {'DS2', 'DS 2', 'DisStr2'}),
+    ('Discrete Structures II', {'DSII', 'DS II', 'DisStrII'}),
+])
+def test_title_abbreviations_keep_numbers_skip_stopwords_and_validate(title, expected):
+    from backend.bintanong_routing.contracts import CatalogEntry
+    entry, = research_catalog(ledger(titled('course-a', 'ZZ 1/L', title)))
+    assert expected <= set(entry.aliases)
+    assert entry.course_code == 'ZZ 1/L' and entry.course_code in entry.aliases
+    assert title in entry.aliases
+    assert CatalogEntry.model_validate(entry.model_dump()) == entry
+
+
+def test_word_starts_shared_by_distinct_titles_are_not_added():
+    found = aliases(research_catalog(ledger(
+        titled('course-a', 'ZZ 1', 'Networking Composition'),
+        titled('course-b', 'ZZ 2', 'Networks Communications'))))
+    assert all('NetCom' not in forms and 'NC' in forms for forms in found.values())
+
+
+@pytest.mark.parametrize('other', [course('course-b', 'NET COM'),
+                                    course('course-b', 'NetCom/L'),
+                                    titled('course-b', 'ZZ 2', 'netcom')])
+def test_abbreviations_cannot_shadow_another_printed_code_or_existing_alias(other):
+    found = aliases(research_catalog(ledger(titled('course-a', 'ZZ 1', 'Networks Communications'), other)))
+    assert 'NetCom' not in found['course-a']
+    assert other['facts']['course_code']['value'] in found['course-b']
+
+
+def test_word_starts_cannot_shadow_another_courses_initials():
+    found = aliases(research_catalog(ledger(titled('course-a', 'ZZ 1', 'Networks Communications'),
+        titled('course-b', 'ZZ 2', 'New Energy Theory Computing Operations Mathematics'))))
+    assert 'NetCom' not in found['course-a'] and 'NETCOM' in found['course-b']  # 29 Oct initials stay
+
+
+def test_abbreviation_collisions_are_scoped_to_the_curriculum():
+    a = titled('course-a', 'ZZ 1', 'Networking Composition')
+    b = titled('course-b', 'ZZ 2', 'Networks Communications')
+    b['curriculum_id'] = 'curriculum-other'
+    found = aliases(research_catalog(ledger(a, b)))
+    assert all({'NC', 'NetCom'} <= forms for forms in found.values())
+
+
+@pytest.mark.parametrize('mention', ['NetCom', 'netcom', 'NETCOM'])
+def test_generated_word_starts_use_existing_case_insensitive_matching(mention):
+    from types import SimpleNamespace
+    from backend.bintanong_routing.validation import _matches
+    catalog = research_catalog(ledger(titled('course-a', 'ZZ 1', 'Networks Communications')))
+    entry, = _matches(SimpleNamespace(kind='course', text=mention), catalog,
+                     'program-fictional', 'curriculum-fictional')
+    assert entry.entity_id == 'course-a' and entry.course_code == 'ZZ 1'
 
 
 @pytest.mark.parametrize('second', [titled('course-b', 'FL 1', 'Fictional Writing'), course('course-b', 'FL 1')])
