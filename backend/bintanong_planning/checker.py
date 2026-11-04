@@ -69,6 +69,7 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
         facts = StudentFacts(passed=tuple(passed), failed=tuple(failed), enrolled=tuple(in_term),
                              not_enrolled=tuple(sorted(all_ids - set(in_term))))
         reasons, units, outcomes = [], [], {}
+        requests = {c.course_id:c.mode for c in term.courses if c.mode in REQUESTED_MODES}
         for course in term.courses:
             found = runtime.look_up(_request('course_facts', curriculum, course_id=course.course_id))
             if found.status != 'complete':
@@ -77,6 +78,9 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
                 outcomes[course.course_id], units = 'unknown', units + [None]
                 continue
             scope = scope or found.scope
+            if (term.kind == 'regular' and course.mode in ('prescribed', 'retake')
+                    and found.courses[0].term != term.semester):
+                requests[course.course_id] = 'off_semester_request'
             units.append(_units(found.courses[0]))
             if units[-1] is None:
                 reasons.append(PlanReason(kind='units_missing', course_id=course.course_id,
@@ -101,8 +105,9 @@ def check_plan(request: PlanCheckRequest, runtime, policy: LoadPolicy | None) ->
         load, warnings = _load(term, runtime, curriculum, units, policy)
         verdicts.append(TermVerdict(
             index=index, reasons=tuple(reasons), warnings=tuple(warnings), load=load, assumed=tuple(assumed),
-            unconfirmed=tuple(UnconfirmedCondition(course_id=c.course_id, kind=c.mode, text='requested, not confirmed')
-                              for c in term.courses if c.mode in REQUESTED_MODES),
+            unconfirmed=tuple(UnconfirmedCondition(course_id=c.course_id, kind=requests[c.course_id],
+                                                   text='requested, not confirmed')
+                              for c in term.courses if c.course_id in requests),
             outcome=_outcome(reasons, load, warnings)))
         for course_id, outcome in outcomes.items():  # request-local: only later terms see these
             failed = [c for c in failed if c != course_id]
