@@ -40,7 +40,7 @@ _ROUTING_FAILURES = {
     'unsupported_requirement':'no_evidence',
     'invalid_grounding':'invalid_output', 'invalid_server_response':'invalid_output',
     'truncated_output':'invalid_output', 'server_response_too_large':'invalid_output',
-    'context_overflow':'invalid_output',
+    'context_overflow':'tool_error',
 }
 
 
@@ -237,8 +237,10 @@ class Orchestrator:
         scoped = None
 
         async def route_request():
-            nonlocal scoped, route, style, understanding, assumed
+            nonlocal scoped, route, style, understanding, assumed, context
             value = await router.route(text, context)
+            if value.dialogue_act is not None:
+                context = context.model_copy(update={'conversation': value.conversation_context})
             route, style = value.decision.route, value.response_style
             # A failed result can carry style (for its clarification) but never its rejected parts.
             if (value.style_evidence is not None and value.proposed is not None

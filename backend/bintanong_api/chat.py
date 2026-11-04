@@ -19,7 +19,7 @@ from backend.bintanong_private_context.memory import (accepted_facts, bind_reply
 from backend.bintanong_private_context.sessions import SessionStore
 from backend.bintanong_private_context.dialogue import (DialogueEntity, DialogueExchange, UnresolvedDialogue,
                                                        bounded_text)
-from backend.bintanong_routing.contracts import prepare_query
+from backend.bintanong_routing.contracts import DialogueDocument, prepare_query
 
 MAX_MESSAGES = 500
 
@@ -144,11 +144,17 @@ class ChatTurns:
             unresolved = UnresolvedDialogue(originating_message_id=turn.message_id,
                 requested_operation=request.predicate if request is not None else None,
                 missing_slots=missing[:32], candidates=known) if status == 'clarification_needed' else None
+            if (unresolved is not None and view.dialogue.unresolved is not None and route is not None
+                    and route.dialogue_act is not None and route.dialogue_act.act not in ('new_topic', 'switch_topic')):
+                unresolved = unresolved.model_copy(update={
+                    'originating_message_id': view.dialogue.unresolved.originating_message_id})
             exchange = DialogueExchange(message_id=turn.message_id, user_text=user_text,
                 program_id=route.program_id if route is not None else turn.program_id,
                 curriculum_id=route.curriculum_id if route is not None else turn.curriculum_id,
                 assistant_text=assistant_text, answer_status=status, entities=known,
                 context=capture_request(route) if route is not None else None,
+                documents=tuple(DialogueDocument(subject_id=p.subject_id, claims=p.requested_claims, detail=p.detail)
+                    for p in route.proposed.parts if p.subject_id) if route and route.proposed else (),
                 source_refs=tuple(c.evidence_id for c in getattr(result, 'citations', ()))[:32],
                 text_truncated=user_cut or assistant_cut)
             try:

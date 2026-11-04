@@ -7,7 +7,7 @@ from pydantic import ValidationError
 from ..bintanong_contracts.base import Contract
 from ..bintanong_contracts.runtime import NormalizedQuery
 from ..bintanong_contracts.schema_display import compact_for_prompt
-from .contracts import Interpretation, RequestContext, prepare_query
+from .contracts import DialogueAct, Interpretation, RequestContext, prepare_query
 from .prompt import SYSTEM_PROMPT, build_messages as routing_messages, ordered_json, digest
 from .prompt import DIALOGUE_INSTRUCTION
 from .prompt import output_schema as routing_schema
@@ -26,14 +26,14 @@ class CombinedProposal(Contract):
     style: StyleEvidence
 
 
-PROMPT_VERSION = 'bintanong-routing-style-p11-v6'
+PROMPT_VERSION = 'bintanong-routing-style-p11-v7'
 SYSTEM = '''Perform two separately validated tasks in ONE JSON packet.
 The outer schema_version is bintanong-routing-style-v4. Fill interpretation and
 style as separate objects. Never answer the student or execute a tool here.
 The following routing instructions apply ONLY inside interpretation. Their
 schema_version refers to interpretation.schema_version, not the outer packet.
 BEGIN INTERPRETATION INSTRUCTIONS
-'''+SYSTEM_PROMPT+'\n'+DIALOGUE_INSTRUCTION+'''
+'''+SYSTEM_PROMPT+'''
 END INTERPRETATION INSTRUCTIONS
 The following response-style instructions apply ONLY to the outer style object.
 Use original_text from the same data payload, not English catalog/context labels.
@@ -44,13 +44,13 @@ BEGIN STYLE INSTRUCTIONS
 '''+STYLE_PROMPT+'''
 END STYLE INSTRUCTIONS
 Return only the combined packet matching the final schema below.'''
-PROMPT_SHA256 = hashlib.sha256(SYSTEM.encode()).hexdigest()
+PROMPT_SHA256 = hashlib.sha256((SYSTEM+'\n'+DIALOGUE_INSTRUCTION).encode()).hexdigest()
 
 
-def output_schema():
+def output_schema(dialogue=False):
     schema=CombinedProposal.model_json_schema()
     schema['properties']['schema_version']['const']=CombinedProposal.SCHEMA_VERSION
-    interpretation=routing_schema()
+    interpretation=routing_schema(dialogue=dialogue)
     # Existing local refs resolve at this packet's root, not a nested $defs root.
     schema['$defs'].update(interpretation.pop('$defs',{}))
     schema['$defs']['WireInterpretation']=interpretation
@@ -60,8 +60,8 @@ def output_schema():
 
 def build_messages(text,context,catalog,registry):
     data=routing_messages(text,context,catalog,registry)[1]
-    return [dict(role='system',content=SYSTEM+'\nJSON schema:\n'+ordered_json(
-        compact_for_prompt(output_schema()))),data]
+    return [dict(role='system',content=SYSTEM+('\n'+DIALOGUE_INSTRUCTION if context.dialogue else '')+'\nJSON schema:\n'+ordered_json(
+        compact_for_prompt(output_schema(dialogue=context.dialogue is not None)))),data]
 
 
 class CombinedRouter(Router):
@@ -90,7 +90,7 @@ class CombinedRouter(Router):
 
         for attempt in (1,2):
             try:
-                raw=await self.transport.infer(messages,output_schema())
+                raw=await self.transport.infer(messages,output_schema(dialogue=context.dialogue is not None))
             except RuntimeFailure as error:
                 return failure(str(error),attempt)
             try:
@@ -115,6 +115,8 @@ class CombinedRouter(Router):
                     registry=self.registry,documents_available=self.documents_available,
                     synthetic=self.synthetic)
                 return replace(result,proposed=proposed,attempts=attempt,style_attempts=0,
+                    conversation_context=context.conversation,
+                    dialogue_act=DialogueAct.parse(bound['dialogue']) if bound.get('dialogue') else None,
                     style_evidence=packet.style,offset_corrections=0)
             except ValueError:
                 return failure('invalid_grounding',attempt)

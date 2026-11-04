@@ -11,7 +11,7 @@ from pydantic import ValidationError
 from .filipino_terms import printed_terms
 from ..bintanong_contracts.runtime import NormalizedQuery
 from ..bintanong_contracts.symbolic import EMPTY_REGISTRY
-from .contracts import TERM_OPERATIONS, Interpretation, RequestContext, prepare_query
+from .contracts import TERM_OPERATIONS, DialogueAct, Interpretation, RequestContext, prepare_query
 from .terms import parse_term
 from .prompt import build_messages, output_schema, previous_turn
 from .style import StyleProposal, build_style_messages, floor_style, style_output_schema
@@ -73,6 +73,9 @@ def _json_proposal(raw):
 
 
 REFERENCE_HINTS = {
+    'unassigned_document_part': 'one document part has a reviewed topic but another has none. Re-evaluate EACH '
+        'part against the supplied topic menu. Multiple parts may use the same topic when it covers both. '
+        'Keep a part unavailable if the menu cannot support it; never copy a topic merely to fill the slot.',
     'invalid_course_quote_reference': 'every operation target and claim entity must quote a course '
         'code that is also listed in mentions with kind course; if the student names no specific '
         'course code, return no operation (route RAG, or control clarify).',
@@ -564,7 +567,8 @@ class Router:
 
         for attempt in (1, 2):
             try:
-                raw = await self.transport.infer(messages, output_schema(topics, follow_up=follow_up))
+                raw = await self.transport.infer(messages, output_schema(topics, follow_up=follow_up,
+                    dialogue=initial_context.dialogue is not None))
             except RuntimeFailure as error:
                 return failure(str(error), attempt)
             problem = None
@@ -577,7 +581,9 @@ class Router:
                 return failure(str(error), attempt, 1, *await clarification_style())
             except ValueError:
                 payload = None
-            if compile_enabled():
+            owned_reference = bool(payload and payload.get('dialogue') and payload['dialogue'].get('turn_id'))
+            if compile_enabled() and not owned_reference:
+                # A validated dialogue target is already bound; rebuilding from the grade words can swap it.
                 # Owner 4 Nov 2026: read the reply for meaning and rebuild its structure; the existing path stays
                 # the fallback when nothing coherent can be built.
                 try:
@@ -604,6 +610,10 @@ class Router:
                         return failure('invalid_model_output', attempt)
                     return failure('invalid_reference', attempt, 1, *await clarification_style())
                 messages = _repair_messages(messages, raw, problem)
+                continue
+            if (attempt == 1 and proposed.parts and all(p.evidence_need == 'document' for p in proposed.parts)
+                    and any(p.subject_id for p in proposed.parts) and any(p.subject_id is None for p in proposed.parts)):
+                messages = _repair_messages(messages, raw, 'unassigned_document_part')
                 continue
             style_messages = build_style_messages(text)
             style_limit = 2 if attempt == 1 else 1  # one shared repair, maximum three calls
@@ -650,6 +660,8 @@ class Router:
                     if compiled:
                         result = replace(result, compiled=True)
                     return replace(result, proposed=proposed, attempts=attempt,
+                        conversation_context=context.conversation,
+                        dialogue_act=DialogueAct.parse(payload['dialogue']) if payload.get('dialogue') else None,
                         style_attempts=style_attempt, style_evidence=style,
                         style_floor_applied=floored, offset_corrections=0,
                         selection_attempts=selection_attempts,

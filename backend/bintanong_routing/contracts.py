@@ -72,12 +72,19 @@ class ConversationContext(Record):
     semester: Literal['first_semester', 'second_semester', 'summer', 'any'] | None = None
 
 
+class DialogueDocument(Record):
+    subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    claims: tuple[Annotated[str, Field(min_length=1, max_length=256)], ...] = Field(max_length=8)
+    detail: Literal['whole', 'requirements', 'fees', 'processing_time', 'specific'] = 'whole'
+
+
 class DialogueTurn(Record):
     turn_id: str = Field(pattern=r'^turn-[a-f0-9]{16}$')
     user_text: str = Field(max_length=8192)
     assistant_text: str = Field(max_length=8192)
     context: ConversationContext | None = None
     course_ids: tuple[Identifier, ...] = Field(default=(), max_length=32)
+    documents: tuple[DialogueDocument, ...] = Field(default=(), max_length=8)
     truncated: bool = False
 
 

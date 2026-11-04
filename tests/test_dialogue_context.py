@@ -46,3 +46,33 @@ def test_router_prompt_contains_owned_history_with_explicit_trust_boundary():
     data = json.loads(messages[1]['content'])
     assert data['dialogue_context']['turns'][0]['assistant_text'] == 'Have you passed B1?'
     assert 'never institutional evidence' in messages[0]['content']
+
+
+def test_topic_selector_gets_questions_without_duplicating_responses_and_grade_metadata():
+    import json
+    from backend.bintanong_routing.topic_selection import build_messages
+    ctx = follow_up_context(stored(), request_id='req-2', program_id='program-a', curriculum_id='curriculum-a')
+    turn = ctx.dialogue.turns[0].model_copy(update={'user_text': 'How do I shift programs?',
+        'context': ConversationContext(program_id='program-a', curriculum_id='curriculum-a', subject_id='handbook_shifting')})
+    ctx = ctx.model_copy(update={'dialogue': ctx.dialogue.model_copy(update={'turns': (turn,)})})
+    data = json.loads(build_messages('Why?', (), dialogue=ctx.dialogue)[1]['content'])
+    assert data['prior_questions'][0]['question'] == 'How do I shift programs?'
+    assert 'Have you passed B1?' not in json.dumps(data)
+
+
+def test_history_schema_requires_a_semantic_act_before_request_shape():
+    from backend.bintanong_routing.prompt import output_schema
+    schema = output_schema(dialogue=True)
+    assert 'dialogue' in schema['required']
+    assert schema['properties']['dialogue'] == {'$ref': '#/$defs/DialogueAct'}
+    assert list(schema['properties']).index('dialogue') < list(schema['properties']).index('control')
+
+
+def test_course_only_history_does_not_change_document_topic_selection_input():
+    from backend.bintanong_routing.topic_selection import build_messages
+    ctx = follow_up_context(stored(), request_id='req-2', program_id='program-a', curriculum_id='curriculum-a')
+    text = 'How do I shift programs?'
+    fresh = build_messages(text, ())
+    after = build_messages(text, (), previous={'course_available': True, 'operation': 'check_prerequisite_eligibility'},
+                           dialogue=ctx.dialogue)
+    assert after == fresh

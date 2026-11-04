@@ -44,11 +44,11 @@ class WireInterpretation(Contract):
     SCHEMA_VERSION = 'bintanong-interpretation-wire-v4'
     language: Language
     audience: Literal['undergraduate', 'excluded', 'unrelated', 'unknown']
+    dialogue: DialogueAct | None = None
     control: Control() | None
     part_count: int = Field(ge=0, le=8)
     parts: tuple[WirePart, ...] = Field(max_length=8)
     intent: Text
-    dialogue: DialogueAct | None = None
     # Offered (and required) only when a scoped previous course is available (master 23); removed
     # from document-only/single-turn schemas. Decided before mentions for a course back-reference.
     previous_course_quote: QuoteReference | None = None

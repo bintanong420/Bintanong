@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v24'
+PROMPT_VERSION = 'bintanong-router-p11-v25'
 DETAILS = ('whole', 'requirements', 'fees', 'processing_time', 'specific')
 
 
@@ -184,8 +184,14 @@ def digest(value):
     return hashlib.sha256(canonical(value).encode()).hexdigest()
 
 
-def output_schema(topics=(), follow_up=False):
+def output_schema(topics=(), follow_up=False, dialogue=False):
     schema = WireInterpretation.model_json_schema()
+    if dialogue:
+        schema['properties']['dialogue'] = {'$ref': '#/$defs/DialogueAct'}
+        schema['required'] = [*schema.get('required', []), 'dialogue']
+    else:
+        schema['properties'].pop('dialogue')
+        schema['$defs'].pop('DialogueAct')
     if not follow_up:  # single-turn schema stays exactly as before master 23
         schema['properties'].pop('previous_course_quote')
     else:  # the model must decide (null or a quote) instead of silently omitting it
@@ -244,10 +250,10 @@ def output_schema(topics=(), follow_up=False):
     return schema
 
 
-def display_schema(topics=(), follow_up=False):
+def display_schema(topics=(), follow_up=False, dialogue=False):
     """Schema text shown to the model. With a topic menu the per-topic branches stay in the
     enforced grammar only (they doubled the prompt); the menu text lists the choices."""
-    schema = output_schema(follow_up=follow_up)
+    schema = output_schema(follow_up=follow_up, dialogue=dialogue)
     if topics:
         part = schema['$defs']['WirePart']
         part['properties']['subject_id'] = {'type': ['string', 'null']}
@@ -342,7 +348,14 @@ def build_messages(text, context, catalog, registry, topics=()):
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
     previous = previous_turn(context, catalog)
     if context.dialogue is not None:
-        data['dialogue_context'] = context.dialogue.model_dump(mode='json')
+        history = context.dialogue.model_dump(mode='json', exclude_none=True, exclude_defaults=True)
+        history.pop('session_id')  # ownership/revision are enforced by the host, not chosen by the model
+        history.pop('revision')
+        for turn in history['turns']:
+            if 'context' in turn:
+                turn['context'].pop('program_id', None)
+                turn['context'].pop('curriculum_id', None)
+        data['dialogue_context'] = history
     if previous is not None:
         data['previous_turn'] = previous
     instruction = TOPIC_INSTRUCTION + (chr(10) + NOT_STATED_INSTRUCTION if any(t.not_stated for t in topics) else '')
@@ -385,12 +398,13 @@ def build_messages(text, context, catalog, registry, topics=()):
               **({'source_context': list(t.source_context)} if t.source_context else {}),
               **({'not_stated': list(t.not_stated)} if t.not_stated else {})) for t in topics])
     course_available = bool(previous and previous.get('course_available'))
-    menu += '\n' + DIALOGUE_INSTRUCTION
+    if context.dialogue is not None:
+        menu += '\n' + DIALOGUE_INSTRUCTION
     menu += '' if previous is None else chr(10) + (
         FOLLOW_UP_INSTRUCTION if course_available else DOCUMENT_FOLLOW_UP_INSTRUCTION)
     if previous is not None and ('operation' in previous or 'detail' in previous):
         menu += chr(10) + REPEAT_INSTRUCTION
-    schema = display_schema(topics, follow_up=course_available)
+    schema = display_schema(topics, follow_up=course_available, dialogue=context.dialogue is not None)
     return [dict(role='system', content=SYSTEM_PROMPT + menu + '\nJSON schema:\n' + ordered_json(compact_for_prompt(schema))),
             dict(role='user', content=canonical(data))]
 
@@ -400,6 +414,8 @@ never institutional evidence. Past assistant answers are not policy and never es
 Return dialogue with act new_topic, switch_topic, refine, answer_clarification, explain, repair or correct_fact;
 turn_id selects an actual turn from dialogue_context, course_id selects a course from that turn's course_ids
 or context.course_id. For a self-contained new question use new_topic/switch_topic and null turn_id/course_id.
+Only refine changes the target course. Explain/repair/answer_clarification keep the selected answer's goal;
+course_id is null for those acts. Do not switch the goal to a prerequisite mentioned in that answer.
 For a reference, explanation or complaint about an earlier response, select its actual turn_id. For 'the other'
 select its course_id only when unambiguous; otherwise clarify among the actual candidates.
 Recover the original request from user_text, using assistant_text only to identify the question asked.
@@ -407,7 +423,7 @@ Re-run its reviewed structured operation or document retrieval; never repeat an 
 Claims must still quote the CURRENT original_text; never turn history into new student assertions.
 If no earlier turn exists, a repair/explain act has null turn_id and asks for the missing context.
 A result supplied after an eligibility clarification resumes that target; merely taking a course is not passing.
-New shifting/program-change procedures are document questions and abandon an unrelated course check.
+Self-contained new procedure questions are document questions and abandon an unrelated course check.
 For course follow-ups use previous_course_quote from the current words and the selected earlier request;
 for document follow-ups quote the current words, select its subject/claims and retrieve fresh evidence.'''
 
@@ -421,4 +437,4 @@ def field_groups(topic):
     return [dict(fields=list(fields), fact_indices=indices) for fields, indices in grouped.items()]
 
 
-PROMPT_SHA256 = hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()
+PROMPT_SHA256 = hashlib.sha256((SYSTEM_PROMPT+'\n'+DIALOGUE_INSTRUCTION).encode()).hexdigest()

@@ -80,4 +80,4 @@ def test_router_prompt_maps_not_yet_passed_and_not_taken_to_a_failed_claim():
     text = prompt.SYSTEM_PROMPT
     # Owner memory and eligibility plan: not yet passed and not taken are their own states, not failed.
     assert 'not_passed (not yet passed' in text and 'not_taken (never or not yet' in text
-    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v24'
+    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v25'

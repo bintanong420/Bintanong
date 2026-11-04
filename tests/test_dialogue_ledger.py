@@ -105,3 +105,19 @@ def test_regeneration_replaces_history_and_advances_revision():
     state = store.resolve(a.credential).dialogue
     assert state.revision == 2 and len(state.exchanges) == 1
     assert state.exchanges[0].assistant_text == 'Revised answer'
+
+
+def test_unresolved_original_exchange_survives_bounded_repair_turns():
+    from backend.bintanong_private_context.dialogue import UnresolvedDialogue
+    store = SessionStore()
+    a = store.issue()
+    unresolved = UnresolvedDialogue(originating_message_id='msg-0', missing_slots=('completion_unknown:course-a',))
+    for revision in range(12):
+        mid = f'msg-{revision}'
+        store.begin_turn(a.credential, mid)
+        store.commit_turn_result(a.credential, mid, expected_revision=revision,
+                                exchange=exchange(mid), unresolved=unresolved)
+    state = store.resolve(a.credential).dialogue
+    assert len(state.exchanges) == 8
+    assert state.exchanges[0].message_id == 'msg-0'
+    assert state.exchanges[-1].message_id == 'msg-11'

@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from ..bintanong_contracts.runtime import BoundInput, NormalizedQuery, PredicateRequest, ResolvedEntity, RoutingDecision, negation_tokens, time_phrases
 from ..bintanong_contracts.symbolic import CapabilityRegistry, EMPTY_REGISTRY, UnsupportedRequest
 from .claim_evidence import enrollment_period, inside_if_clause, stated_result
-from .contracts import (TERM_OPERATIONS, CatalogEntry, Interpretation, RequestContext, ScopedFact, fact_dimension,
+from .contracts import (TERM_OPERATIONS, CatalogEntry, ConversationContext, DialogueAct, Interpretation, RequestContext, ScopedFact, fact_dimension,
                         prepare_query)
 from .style import StyleEvidence
 from .languages import unsupported_language
@@ -45,6 +45,8 @@ class RoutingResult:
     selection_attempts: int = 0
     unavailable_parts: tuple[str, ...] = ()  # document parts with no reviewed topic, taken out by the router
     compiled: bool = False  # owner 4 Nov 2026: the host rebuilt the router reply's structure (compiled routing)
+    conversation_context: ConversationContext | None = None
+    dialogue_act: DialogueAct | None = None
 
     @property
     def inference_calls(self):

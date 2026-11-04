@@ -22,7 +22,7 @@ def compile_context(view, program_id, curriculum_id):
     return DialogueContext(session_id=view.session_id, revision=view.dialogue.revision,
         turns=tuple(DialogueTurn(turn_id=turn_ref(e.message_id), user_text=e.user_text,
             assistant_text=e.assistant_text, context=e.context,
-            course_ids=tuple(c.entity_id for c in e.entities if c.kind == 'course'),
+            course_ids=tuple(c.entity_id for c in e.entities if c.kind == 'course'), documents=e.documents,
             truncated=e.text_truncated) for e in selected),
         pending_turn_id=turn_ref(origin.message_id) if origin else None,
         missing_slots=pending.missing_slots if origin else ())

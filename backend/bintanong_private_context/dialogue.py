@@ -4,7 +4,7 @@ from typing import Annotated, Literal
 from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Record
-from ..bintanong_routing.contracts import ConversationContext
+from ..bintanong_routing.contracts import ConversationContext, DialogueDocument
 
 MAX_EXCHANGES = 8
 MAX_TEXT_BYTES = 32768
@@ -32,6 +32,7 @@ class DialogueExchange(Record):
     assistant_text: Text
     answer_status: Reference
     context: ConversationContext | None = None
+    documents: tuple[DialogueDocument, ...] = Field(default=(), max_length=8)
     entities: tuple[DialogueEntity, ...] = Field(default=(), max_length=32)
     source_refs: tuple[Reference, ...] = Field(default=(), max_length=32)
     text_truncated: bool = False
@@ -65,7 +66,9 @@ def append_exchange(state, exchange, unresolved=None):
     # Regeneration replaces its prior exchange rather than introducing two answers as evidence.
     exchanges = tuple(e for e in state.exchanges if e.message_id != exchange.message_id) + (exchange,)
     while len(exchanges) > MAX_EXCHANGES or sum(map(text_bytes, exchanges)) > MAX_TEXT_BYTES:
-        exchanges = exchanges[1:]
+        discard = next(i for i, e in enumerate(exchanges) if unresolved is None or
+                       e.message_id != unresolved.originating_message_id)
+        exchanges = exchanges[:discard] + exchanges[discard+1:]
     return DialogueState(revision=state.revision + 1, exchanges=exchanges, unresolved=unresolved)
 
 
