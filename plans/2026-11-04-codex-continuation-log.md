@@ -79,3 +79,9 @@ New API parent `69468`, compiler OFF, startup 178.7 s; `/health/ready` returned 
 - `d73fdbcf` repairs stale index wording: D1–D7 are settled in the owner plan; no new phase authorized.
 - Duplicate coordinator planning focus runs (`binding-integrated`, `planning-fixed`) stopped before results
   to reduce concurrent load; not counted as verification. Reviewer owns the current focused recheck.
+- Broad pre-chat-wiring regression (`integrated-fixed.log`): 2238 passed / 2 xfailed / 2 inherited dependency
+  deprecation warnings, exit 0, 426.45 s. Planning fixes were integrated while this process was running;
+  use their independent focused run for current-code evidence rather than treating this as a final frozen gate.
+- Independent planning recheck: 70 passed / exit 0 in 221.44 s, covering `test_planning_chat.py`,
+  `test_planning_earliest_provenance.py`, `test_planning_recovery.py`, `test_generation_recovery_reply.py`.
+  Reviewer confirmed both fixes and existing recovery compatibility; v1 serialized plan results intentionally refused.
