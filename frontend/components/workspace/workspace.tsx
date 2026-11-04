@@ -283,7 +283,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
         </>} draft={state.draft} attachments={[]} warning={fileWarning} pending={!!busy || signInNeeded}
         onDraft={text => dispatch({ type: "draft", text })} onSend={prepareSend} onStop={busy === "chat" ? stop : undefined} onSelect={selectFiles} onRemove={() => {}}
         contextNote={selectedDetails.length ? `${selectedDetails.length} earlier details selected. Review before sending.` : undefined}
-        tools={<><Button type="button" variant={scope ? "ghost" : "default"} size="sm" className="program-chip" disabled={busy === "file" || busy === "clear" || busy === "signout"} aria-label={scope ? `Program: ${scope.programName}. Change program or curriculum` : "Choose your program"} title={scope ? "Change program or curriculum" : "Choose your program"} onClick={() => openPicker()}>
+        tools={<><Button type="button" variant="ghost" size="sm" className="program-chip" disabled={busy === "file" || busy === "clear" || busy === "signout"} aria-label={scope ? `Program: ${scope.programName}. Change program or curriculum` : "Choose your program"} title={scope ? "Change program or curriculum" : "Choose your program"} onClick={() => openPicker()}>
             <GraduationCap size={16} aria-hidden="true" />{scope ? <span className="program-chip-label">{programShortName(scope.programId, scope.programName)}</span> : <span>Choose program</span>}<ChevronDown size={14} aria-hidden="true" />
           </Button>
           <Button type="button" variant="ghost" size="sm" disabled={!!busy || !scope} aria-label="Files in this chat" onClick={() => setFilesOpen(true)}><FolderOpen size={16} aria-hidden="true" />Files{files.length ? ` (${files.length})` : ""}</Button>

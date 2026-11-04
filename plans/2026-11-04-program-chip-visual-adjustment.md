@@ -4,3 +4,5 @@ Removed the curriculum year from the chat scope chip, changed the selected chip 
 
 Changed: `frontend/components/workspace/workspace.tsx`, `frontend/app/styles.css`.
 Verification: `cd frontend; npm run typecheck` passed. No browser visual check performed.
+
+Screenshot follow-up: applied the same borderless ghost appearance and 44px hit target to the unselected “Choose program” state, which otherwise rendered as a dark filled pill. Reduced inline padding and icon gap in both states. The screenshot's composer border remains unchanged. Fresh typecheck passed; browser/Playwright rendering was unavailable in this environment (no browser surface or installed Playwright package).
