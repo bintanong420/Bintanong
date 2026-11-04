@@ -1,5 +1,6 @@
 import asyncio
 import json
+from dataclasses import replace
 
 import pytest
 
@@ -7,6 +8,29 @@ from backend.bintanong_routing.contracts import RequestContext
 from test_orchestration_pipeline import api, ports, resources, ctx, transport
 from test_routing_contracts import proposal
 from test_routing_router import FakeTransport
+
+
+@pytest.mark.parametrize('printed', ['MATH OPT', 'ENG ELECTIVE'])
+def test_unrelated_what_if_course_keeps_its_printed_label_in_student_reply(printed):
+    from backend.bintanong_generation.student_facts_reply import assumption_text
+
+    async def scenario():
+        text = 'If B1 failed, can I take A1?'
+        value = proposal(text=text, mentions=[
+            dict(kind='course', text='B1', start=3, end=5),
+            dict(kind='course', text='A1', start=24, end=26)],
+            claims=[dict(entity=0, state='failed', mode='hypothetical',
+                         text='If B1 failed', start=0, end=12)],
+            operations=[dict(name='check_prerequisite_eligibility', target=1)])
+        release = replace(resources(), course_labels=(('course-a', 'A1'), ('course-b', printed)))
+        result = await api().Orchestrator(FakeTransport(json.dumps(value)), releases=
+            ports().SyntheticReleaseProvider(release)).run(text, ctx('a', None))
+        assert result.assumed_facts == ('failed:course-b',)
+        shown = lambda cid: result.course_labels.get(cid, cid)
+        reply = assumption_text(result.assumed_facts, 'taglish', shown)
+        assert printed in reply
+        assert 'course-b' not in reply
+    asyncio.run(scenario())
 
 
 def test_concurrent_sessions_keep_facts_in_their_own_evidence_branch():

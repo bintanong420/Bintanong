@@ -152,7 +152,7 @@ class Orchestrator:
                     understanding.model_dump(mode='json') if understanding is not None else None,
                     drafts.model_dump(mode='json') if drafts is not None else None,
                     plan_check.model_dump(mode='json') if plan_check is not None else None,
-                    tuple(missing)) | choice_labels(resources.course_details if resources else (), tuple(missing)))
+                    tuple(missing), assumed) | choice_labels(resources.course_details if resources else (), tuple(missing)))
 
         async def stage(name, call):
             start, value, outcome = perf_counter(), None, 'ok'
