@@ -267,3 +267,22 @@ def test_the_reviewed_palsu_load_policy_record_loads():
     assert not policy.synthetic and policy.summer_normal_units == 9
     assert policy.regular_ceiling == 'prescribed_semester_total'
     assert 'nine (9) units' in policy.clause('summer').text and 'prescribed for the semester' in policy.clause('regular').text
+
+
+@pytest.mark.parametrize('mode', ['prescribed', 'retake'])
+def test_a_different_printed_semester_needs_offering_confirmation(curriculum, mode):
+    key, runtime, c = curriculum
+    request = plan(key, [(c('BASE'), 'passed')], regular(2, 'second_semester', (c('X'), mode)))
+    result = check_plan(request, runtime, POLICY)
+    assert result.terms[0].outcome == 'works'
+    assert [(u.course_id, u.kind) for u in result.terms[0].unconfirmed] == [(c('X'), 'off_semester_request')]
+    assert request.terms[0].courses[0].mode == mode
+
+
+@pytest.mark.parametrize('mode', ['prescribed', 'retake'])
+def test_the_same_printed_semester_in_a_later_year_needs_no_new_request(curriculum, mode):
+    key, runtime, c = curriculum
+    request = plan(key, [(c('BASE'), 'passed')], regular(3, 'first_semester', (c('X'), mode)))
+    result = check_plan(request, runtime, POLICY)
+    assert result.terms[0].outcome == 'works'
+    assert result.terms[0].unconfirmed == ()
