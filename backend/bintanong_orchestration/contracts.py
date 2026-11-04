@@ -13,7 +13,7 @@ from .term_assessment import TermAssessmentResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_routing.contracts import RequestPart, Operation
-from ..bintanong_planning.contracts import RecoveryResult
+from ..bintanong_planning.contracts import RecoveryResult, PlanCheckResult
 
 Text = Annotated[str, Field(min_length=1)]
 ReleaseID = Annotated[str, Field(pattern=r'^release-[a-z0-9-]+$', max_length=128)]
@@ -302,6 +302,7 @@ class IntegrationResult(Contract):
     assumed_facts: tuple[Text, ...] = Field(default=(), max_length=32, exclude_if=lambda value: not value)
     # Ask mode (owner 4 Nov 2026): recovery routes and drafts for the failed course of a dependency listing.
     recovery: RecoveryResult | None = Field(default=None, exclude_if=lambda value: value is None)
+    plan_check: PlanCheckResult | None = Field(default=None, exclude_if=lambda value: value is None)
     # Owner GUI 4 Nov 2026: the words of document parts with no reviewed topic, named as unavailable in the reply.
     unavailable_parts: tuple[Text, ...] = Field(default=(), max_length=8, exclude_if=lambda value: not value)
 
@@ -333,6 +334,20 @@ class IntegrationResult(Contract):
             elif (len(plan.operations) != 1 or plan.predicate_request is None or indices != {0}
                   or any(p.evidence_need == 'structured' and not p.operation_indices for p in plan.parts)):
                 raise ValueError('structured_understanding_needs_one_operation')
+        if self.plan_check is not None:
+            checked = self.plan_check
+            pin = None if self.evidence is None else self.evidence.pin
+            inputs = ({} if plan is None or plan.predicate_request is None else
+                      {i.name:i.value for i in plan.predicate_request.inputs})
+            if (self.status != 'ready' or pin is None or checked.synthetic is not pin.synthetic
+                    or inputs.get('curriculum_id') != checked.curriculum_id or checked.scope is None):
+                raise ValueError('plan_check_requires_ready_pinned_evidence')
+            member = next((m for m in pin.curricula if m.curriculum_id == checked.curriculum_id), None)
+            release = pin.release_id if not pin.curricula else None if member is None else member.release_id
+            sources = {s.version_id:s.byte_sha256 for s in pin.sources}
+            if (checked.scope.knowledge_release_id != release
+                    or any(sources.get(s.version_id) != s.byte_sha256 for s in checked.rule_spans)):
+                raise ValueError('plan_check_release_mismatch')
         if self.recovery is not None:
             dependencies = None if self.evidence is None else self.evidence.dependencies
             inputs = {} if dependencies is None else {i.name: i.value for i in dependencies.inputs}
