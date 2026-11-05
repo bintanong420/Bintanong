@@ -44,3 +44,11 @@ def test_unmatched_topic_notice_does_not_claim_source_absence(language):
         assert 'not in Bintanong' not in notice
     else:
         assert 'na-check' in notice
+
+
+def test_adapter_runtime_and_router_agree_on_supported_symbolic_operations():
+    from backend.bintanong_orchestration.adapters import SIGNATURES
+    from backend.bintanong_symbolic.runtime import _LOOKUPS
+    assert set(SIGNATURES) == set(OPERATIONS)
+    assert set(_LOOKUPS) == set(CURRICULUM_CATALOG_OPERATIONS)
+
