@@ -2,8 +2,8 @@
 
 Updated 5 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes` (published to origin).
 Owner moved continued development off the gathering checkout; base `8f15cfe0`.
-See [isolation handoff](../2026-11-04-development-isolation-handoff.md). p12 services and files stay untouched;
-Owner authorized the completed 5 Nov model window. This branch's historical notes below describe the base.
+See [isolation handoff](../2026-11-04-development-isolation-handoff.md). Code separation is preserved;
+owner then authorized restarting both stacks and model on 5 Nov. Historical notes below describe the base.
 Last full committed snapshot before this condensation: `34184fa3` (recover with `git show`).
 The inherited owner USG notes remain preserved in the gathering checkout.
 
@@ -64,8 +64,10 @@ Seven eligibility references: Taglish/English 6/7 each, Tagalog 4/7; overall pre
 No page errors or horizontal overflow; six controlled desktop/mobile fixtures also passed. Gallery/raw evidence stay ignored.
 IT 3/L -> IT 14/L now passes live in all three inputs; [39-curriculum offline gate](../2026-11-04-all-curricula-dependency-results.md)
 remains distinct from full live acceptance. Nursing/Forensic, lost supplied results, transfer direction and service-topic
-contamination remain. No product change during frozen run; gathering app untouched. Temporary 3217/8022 stopped;
-gathering web/API and original model health returned 200. Shutdown/token-count warnings are recorded in the report.
+contamination remain. No product change during frozen benchmark; its shutdown/token warnings remain recorded.
+Owner's subsequent [full-stack restart](../2026-11-05-full-stack-restart.md) is complete: main 3216/8021,
+dev 3217/8022 and model 18088 healthy; all eight final endpoint checks 200. Ngrok still targets main 3216.
+Development launcher readiness now checks its actual model/Prolog/loaded encoder. Temporary chats reset.
 Next: trace those failures, add focused shared regressions and rerun affected cases against the retained baseline.
 Keep changes on this published branch; coordinate any further model window with data gathering. Real iPhone/Messenger
 and independent documentary grading remain unverified. Earlier delivery details: [regression handoff](../2026-11-04-post-gathering-regressions.md).
