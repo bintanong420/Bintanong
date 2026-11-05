@@ -6,6 +6,7 @@ from ..bintanong_contracts.runtime import PredicateRequest
 from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext
+from ..bintanong_routing.domains import operation_domain
 from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import (DependencyResult, ResearchDependencyResult,
                                          ResearchSymbolicResult, StudentFacts)
@@ -45,6 +46,46 @@ class _BoundedWorker:
             raise
 
 
+def _research_review_covers_request(raw, intent, assessment, passages, gaps):
+    """A reviewed-field report is not an answer-sufficiency verdict.
+
+    It can lift *only* the development calibration hold, and only when every
+    explicitly requested claim has source fields in emitted evidence. Unknown
+    claims, missing passages, other retrieval gaps, or unbound topics stay held.
+    The answer generator must still independently verify answer sufficiency.
+    """
+    pending = 'development_calibration_pending'
+    if (set(gaps) != {pending} or not passages
+            or assessment.get('status') != 'reviewed_fields_available'):
+        return False
+    subject = intent.get('subject_id')
+    requested = intent.get('requested_claims')
+    if (not isinstance(subject, str) or not subject
+            or not isinstance(requested, (list, tuple)) or not requested
+            or len(requested) != len(set(requested))
+            or assessment.get('subject_id') != subject):
+        return False
+    claims = assessment.get('claims')
+    if not isinstance(claims, list) or len(claims) != len(requested):
+        return False
+    by_claim = {claim.get('claim'): claim for claim in claims if isinstance(claim, dict)}
+    if len(by_claim) != len(requested) or set(by_claim) != set(requested):
+        return False
+    emitted = {p['chunk_id'] for p in passages}
+    for claim in by_claim.values():
+        review = claim.get('source_review') or {}
+        fields = claim.get('source_fields')
+        if (claim.get('status') != 'reviewed_fields_available'
+                or review.get('finding') != 'visible_fields'
+                or not isinstance(fields, list) or not fields
+                or any(not isinstance(field, dict)
+                       or field.get('chunk_id') not in emitted
+                       or (field.get('field') or {}).get('source_blank') is not False
+                       for field in fields)):
+            return False
+    return True
+
+
 class RetrievalAdapter:
     def __init__(self, engine, *, research=False):
         # research: owner-authorized real-data development mode (AGENTS.md, 21 Oct 2026).
@@ -65,9 +106,10 @@ class RetrievalAdapter:
                 text=p['text'], citations=citations))
         status, gaps = raw['status'], list(raw['gaps'])
         assessment = (raw.get('evidence_policy') or {}).get('assessment') or {}
-        if self.research and status == 'uncalibrated' and assessment.get('status') == 'reviewed_fields_available':
-            # Reviewed fields found; only the calibration marker is lifted, real gaps stay.
-            status, gaps = 'ok', [g for g in gaps if g != 'development_calibration_pending']
+        if (self.research and status == 'uncalibrated'
+                and _research_review_covers_request(raw, intent, assessment, passages, gaps)):
+            # Never promote incomplete/mismatched claims or unrelated retrieval gaps.
+            status, gaps = 'ok', []
         coverage = []
         if self.research and status == 'ok' and assessment.get('status') == 'reviewed_fields_available':
             for claim in assessment.get('claims', []):
@@ -151,14 +193,14 @@ class SymbolicAdapter:
         request = PredicateRequest.parse(request.model_dump(mode='json'))
         context = RequestContext.parse(context.model_dump(mode='json'))
         operation = request.predicate
-        if operation not in SIGNATURES:
+        if operation not in SIGNATURES or operation_domain(operation) is None:
             raise ValueError('unsupported_operation')
         args = {i.name:i.value for i in request.inputs}
         if set(args) != set(SIGNATURES[operation]):
             raise ValueError('invalid_signature')
         if args['curriculum_id'] != context.curriculum_id or context.program_id is None:
             raise ValueError('request_scope_mismatch')
-        if operation in ('course_facts', 'list_term_courses', 'list_course_prerequisites'):  # reviewed printed facts; no rule executed
+        if operation_domain(operation) == 'curriculum_catalog':  # reviewed printed facts; no rule executed
             result = await self._worker.run(lambda: self.runtime.look_up(request))
             if type(result) is not CourseFactsResult or result.synthetic is self.research:
                 raise ValueError('course_facts_result_kind_mismatch')
