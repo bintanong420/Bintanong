@@ -57,3 +57,24 @@ and separately requested prerequisite plus form-processing procedure (Hybrid).
 Capture the actual compiled profile, branch SHA, curriculum release and model
 config. Use separate manually reviewed PDF-derived expected answers. Do not
 deploy from this candidate branch until those tests are green.
+
+## Follow-up risk controls (Aurora comparison / FM-07)
+
+The candidate now constrains research-mode `uncalibrated -> ok` retrieval
+promotion: only the calibration marker may be present, and every explicitly
+requested claim must map to nonblank reviewed fields inside actually emitted
+passages for the same topic. This is **not** an independent semantic-sufficiency
+verdict. Generation still needs claim support, and live regression tests remain
+necessary. The operation-domain allowlist also gates the symbolic adapter's
+execution, not only router validation; the reviewed catalog operations do not
+execute constraint rules. The original P12 protections for unknown student grades,
+curriculum identity and Hybrid fail-closed errors are preserved.
+
+Run:
+```powershell
+python -m pytest tests/test_retrieval_calibration_gate.py tests/test_routing_domains.py tests/test_orchestration_adapters.py tests/test_orchestration_pipeline.py tests/test_orchestration_research_evidence.py -q
+```
+
+The remaining independently adjudicated target/intent selection, multi-operation
+fan-out and PDF-to-rule consistency checks should not be represented as fixed by
+this PR.

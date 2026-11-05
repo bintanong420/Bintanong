@@ -11,6 +11,7 @@ from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
+from ..bintanong_routing.domains import operation_domain
 from ..bintanong_routing.validation import effective_facts, facts_for_term
 from ..bintanong_routing.combined import CombinedRouter
 from ..bintanong_routing.topic_selection import ABSENCE, ABSENCE_TOPICS, SHIFT, SHIFT_TOPICS
@@ -357,7 +358,7 @@ class Orchestrator:
                         or value.synthetic is research_pin):
                     raise ValueError('operation_result_mismatch')
                 return TermAssessmentResult.parse(value.model_dump(mode='json'))
-            if request.predicate in ('course_facts', 'list_term_courses', 'list_course_prerequisites'):  # printed facts; no rule executed
+            if operation_domain(request.predicate) == 'curriculum_catalog':  # printed facts; no rule executed
                 if (type(value) is not CourseFactsResult or value.inputs != request.inputs
                         or value.predicate != request.predicate or value.synthetic is research_pin):
                     raise ValueError('operation_result_mismatch')
