@@ -217,6 +217,14 @@ _NOTICE_ISSUES={'conflicting_deadlines':'conflict','source_cutoff':'defect',
                 'malformed_source_condition':'defect','printed_total_discrepancy':'defect'}
 
 
+# A failed topic-menu match is not proof that the corpus lacks this information.
+# Distinguish this pre-retrieval uncertainty from a confirmed documentary source gap.
+_PART_TOPIC_UNRESOLVED={
+ 'en':'I could not match the part about "{words}" to a reviewed document topic. That part was not checked; please clarify or ask the relevant university office.',
+ 'fil':'Hindi ko ma-match ang bahagi tungkol sa "{words}" sa reviewed document topic. Hindi pa ito na-check; pakilinaw o magtanong sa tamang opisina.',
+ 'taglish':'Hindi ko ma-match yung part tungkol sa "{words}" sa reviewed document topic. Hindi pa na-check yung part na ito; paki-clarify o ask sa tamang office.'
+}
+
 # Owner, 24 Oct 2026 ("Answer what's covered"): each part declared unavailable is named in the student's words.
 _PART_UNAVAILABLE={
  'en':'The part about "{words}" is not in Bintanong\'s reviewed sources yet. Please ask the relevant university office.',
@@ -459,8 +467,8 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             lines[1:2]=notices
     if status=='answered':
         lines.extend(unavailable_part_lines(pack,ledger))
-        lines.extend(_PART_UNAVAILABLE.get(pack.language,_PART_UNAVAILABLE['en']).format(words=words_)
-                     for words_ in pack.unavailable_parts)  # owner GUI 4 Nov 2026: a part with no reviewed topic
+        lines.extend(_PART_TOPIC_UNRESOLVED.get(pack.language,_PART_TOPIC_UNRESOLVED['en']).format(words=words_)
+                     for words_ in pack.unavailable_parts)  # no topic match does not establish corpus absence
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
         # A held record quoted with its own heads-up is not noted again (final run 2 Nov 2026, #9).
         held={ref for claim in claims if 'Heads-up:' in claim.text for ref in claim.evidence_ids}

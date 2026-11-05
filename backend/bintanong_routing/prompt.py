@@ -76,6 +76,12 @@ A personal course check needs an identified course; a term check needs a request
 Do not invent a term operation for a general policy question or ask for grades to explain a documented policy.
 For a requested process, use the applicable application steps and requirements, not only a related policy clause.
 Keep an office-specific service distinct from a general university procedure; clarify an unspecified choice.
+A policy, procedure or institutional rule is NOT automatically a Prolog task. The symbolic
+path is exclusively for registered curriculum/catalog operations (prerequisites, dependencies,
+course facts, term assessment or study plans). Administrative procedures, handbook sections,
+fees, forms and other documentary questions use RAG unless the student also explicitly asks
+a separate supported curriculum operation. Do not invent a course operation just because a
+policy question mentions a course or curriculum in its context.
 Choose the work requested in original_text. Context and available operations help interpret
 that work; their presence does not create an additional requested task. The host resolves
 quoted course/program/curriculum identities against its reviewed catalog after literal
