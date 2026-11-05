@@ -1,9 +1,9 @@
 # Current progress
 
-Updated 4 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes`.
-Owner moved continued development off the gathering checkout; base `8f15cfe0`, no remote upstream.
+Updated 5 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes` (published to origin).
+Owner moved continued development off the gathering checkout; base `8f15cfe0`.
 See [isolation handoff](../2026-11-04-development-isolation-handoff.md). p12 services and files stay untouched;
-live model probes remain paused during collection. This branch's historical notes below describe the base.
+Owner confirmed the model is free for this live test window. This branch's historical notes below describe the base.
 Last full committed snapshot before condensation: `8a470088` (recover with `git show`).
 The inherited uncommitted owner USG note remains preserved in this working file.
 
@@ -58,6 +58,10 @@ unknown-versus-unmet, English/Taglish replies and F04 hold remain mandatory.
 USG source review is owned by the separate p11 researcher GUI workflow; no new source approval
 is inferred here. Preserved owner note:
 ## Next action
+
+Live 72-variant language/browser run in progress under the [frozen protocol](../2026-11-05-language-benchmark-and-browser-protocol.md).
+Separate candidate 3217/8022, cached reviewed sources/CPU encoder, serial shared Gemma calls; gathering app untouched.
+Six controlled Playwright desktop/mobile fixtures passed. Next: finish live run and review results, without assuming language ranking.
 
 Release-wide offline dependency verification: 39/39 cached curricula pass, 1,696 direction replays,
 78 Prolog queries, 156 rendering checks; exact BSIT IT 3/L -> IT 14/L also passes.
