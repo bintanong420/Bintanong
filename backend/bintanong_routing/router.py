@@ -44,9 +44,10 @@ def listing_without_term(result, conversation):
 
 
 def drop_untopical_parts(proposed, topics):
-    """Owner GUI 4 Nov 2026: a document part with no reviewed topic cannot sink an answerable structured part. With a
-    topic menu, such parts are taken out and their words returned, so the reply names them as not in the reviewed
-    sources; a message with no structured part is left as it was."""
+    """A document part without a selected reviewed topic cannot sink a valid structured result.
+    Keep its original words for a *topic-unresolved* notice. This is NOT evidence that the
+    source corpus lacks an answer; no retrieval was attempted for this omitted part.
+    Document-only messages remain unchanged so the router can clarify or repair."""
     loose = [p for p in proposed.parts if p.evidence_need == 'document' and p.subject_id is None]
     if not topics or not loose or not any(p.evidence_need == 'structured' and p.operation_indices
                                           for p in proposed.parts):

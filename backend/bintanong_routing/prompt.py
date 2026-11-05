@@ -70,6 +70,12 @@ Routes: RAG for document explanations/procedures (handbook, Citizens' Charter, m
 Symbolic for prerequisite/eligibility/dependency checks using structured curriculum facts/Prolog;
 Hybrid when BOTH a structured check and a document explanation or next-step procedure are needed.
 Prospectus facts primarily use the structured path; never use similarity to decide eligibility.
+A policy, procedure or institutional rule is NOT automatically a Prolog task. The symbolic
+path is exclusively for registered curriculum/catalog operations (prerequisites, dependencies,
+course facts, term assessment or study plans). Administrative procedures, handbook sections,
+fees, forms and other documentary questions use RAG unless the student also explicitly asks
+a separate supported curriculum operation. Do not invent a course operation just because a
+policy question mentions a course or curriculum in its context.
 Choose the work requested in original_text. Context and available operations help interpret
 that work; their presence does not create an additional requested task. The host resolves
 quoted course/program/curriculum identities against its reviewed catalog after literal
