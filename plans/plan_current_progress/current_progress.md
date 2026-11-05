@@ -3,9 +3,9 @@
 Updated 5 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes` (published to origin).
 Owner moved continued development off the gathering checkout; base `8f15cfe0`.
 See [isolation handoff](../2026-11-04-development-isolation-handoff.md). p12 services and files stay untouched;
-Owner confirmed the model is free for this live test window. This branch's historical notes below describe the base.
-Last full committed snapshot before condensation: `8a470088` (recover with `git show`).
-The inherited uncommitted owner USG note remains preserved in this working file.
+Owner authorized the completed 5 Nov model window. This branch's historical notes below describe the base.
+Last full committed snapshot before this condensation: `34184fa3` (recover with `git show`).
+The inherited owner USG notes remain preserved in the gathering checkout.
 
 ## Active continuation
 
@@ -55,27 +55,17 @@ Phase 12 research/software write-up complete with disclosures; see [INDEX](../IN
 Undergraduate advisory scope, private-upload isolation, source gaps, printed rule semantics,
 unknown-versus-unmet, English/Taglish replies and F04 hold remain mandatory.
 
-USG source review is owned by the separate p11 researcher GUI workflow; no new source approval
-is inferred here. Preserved owner note:
+USG source review is owned by the separate p11 researcher GUI workflow; no new source approval is inferred here.
 ## Next action
 
-Live 72-variant language/browser run in progress under the [frozen protocol](../2026-11-05-language-benchmark-and-browser-protocol.md).
-Separate candidate 3217/8022, cached reviewed sources/CPU encoder, serial shared Gemma calls; gathering app untouched.
-Six controlled Playwright desktop/mobile fixtures passed. Next: finish live run and review results, without assuming language ranking.
-
-Release-wide offline dependency verification: 39/39 cached curricula pass, 1,696 direction replays,
-78 Prolog queries, 156 rendering checks; exact BSIT IT 3/L -> IT 14/L also passes.
-[Per-curriculum results](../2026-11-04-all-curricula-dependency-results.md). No new program-specific fix needed.
-Live model language/history verification still pending; gathering checkout and shared model untouched.
-
-Development candidate: explicit reviewed course operations can proceed without an optional history marker;
-removed the redundant frontend clarification diagnostic. BSIT reverse-prerequisite intent now has a prompt
-definition and compiler direction check for direct course targets; 20 RED cases, final gate 168 passed.
-Further variants cover full "pre-requisite" and "as their pre-req"; dependency prose no longer invents
-a failure premise. Related gate 186 passed / one stale wording assertion, corrected file 11 passed.
-New BSCS/Civil/BSIT reports and revised 24-query PDF tracked in
-[regression handoff](../2026-11-04-post-gathering-regressions.md). Exact live causes remain unverified.
-Next: run its held-out acceptance cases on isolated development runtime when shared model is available;
-keep gathering checkout/services untouched. Owner's ngrok endpoint still forwards to gathering port 3216.
-Continue other checklist fixes here. Backup branch is on GitHub; live runtime acceptance is still pending.
-
+Completed 72 PDF language variants + 3 separate IT 3/L regression turns via Playwright and real model/retrieval/Prolog.
+[Live results](../2026-11-05-live-language-browser-results.md), [protocol](../2026-11-05-language-benchmark-and-browser-protocol.md).
+Seven eligibility references: Taglish/English 6/7 each, Tagalog 4/7; overall preferred language ranking is not established.
+No page errors or horizontal overflow; six controlled desktop/mobile fixtures also passed. Gallery/raw evidence stay ignored.
+IT 3/L -> IT 14/L now passes live in all three inputs; [39-curriculum offline gate](../2026-11-04-all-curricula-dependency-results.md)
+remains distinct from full live acceptance. Nursing/Forensic, lost supplied results, transfer direction and service-topic
+contamination remain. No product change during frozen run; gathering app untouched. Temporary 3217/8022 stopped;
+gathering web/API and original model health returned 200. Shutdown/token-count warnings are recorded in the report.
+Next: trace those failures, add focused shared regressions and rerun affected cases against the retained baseline.
+Keep changes on this published branch; coordinate any further model window with data gathering. Real iPhone/Messenger
+and independent documentary grading remain unverified. Earlier delivery details: [regression handoff](../2026-11-04-post-gathering-regressions.md).
