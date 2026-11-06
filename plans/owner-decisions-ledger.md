@@ -758,3 +758,8 @@ Each program still gets its own dated review record listing which standing rule 
   proposed by the coordinator to reproduce it (revisable by the owner): "just in time": each delayed course is placed in
   the latest term that still delays none of the courses that need it; summer holds only courses needed by the next
   term. Other drafts remain shown as alternatives; every step still needs approval.
+- 6 Nov 2026 (general facilities, owner: "I think pretty much ang naiisip ko is quote something from both?"):
+  quote the Handbook physical p.57 general application guidance beside the Citizens' Charter physical pp.80–81
+  library-facilities procedure. Label the latter as library-specific (IMC/Zoom/Studio); do not present it as the
+  general university room workflow or imply supersession. Originals, printed total discrepancy and other source
+  limits remain. This selects existing reviewed content for research replies, not institutional approval.

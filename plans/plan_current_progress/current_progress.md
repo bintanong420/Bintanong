@@ -1,6 +1,6 @@
 # Current progress
 
-Updated 5 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes` (published to origin).
+Updated 6 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes` (published to origin).
 Owner moved continued development off the gathering checkout; base `8f15cfe0`.
 See [isolation handoff](../2026-11-04-development-isolation-handoff.md). Code separation is preserved;
 owner then authorized restarting both stacks and model on 5 Nov. Historical notes below describe the base.
@@ -58,20 +58,18 @@ unknown-versus-unmet, English/Taglish replies and F04 hold remain mandatory.
 USG source review is owned by the separate p11 researcher GUI workflow; no new source approval is inferred here.
 ## Next action
 
-Owner CSV (3217): 47 Y / 8 P / 14 N / 3 untested; [repair checkpoint](../2026-11-06-owner-benchmark-repairs.md).
-Program alias spacing caused Forensic lookup rejection; generic fix passes 217 related tests.
-Next: real-router affected variants and shared document selection/evidence failures. Temporary dev rate override works.
-
-Completed 72 PDF language variants + 3 separate IT 3/L regression turns via Playwright and real model/retrieval/Prolog.
-[Live results](../2026-11-05-live-language-browser-results.md), [protocol](../2026-11-05-language-benchmark-and-browser-protocol.md).
-Seven eligibility references: Taglish/English 6/7 each, Tagalog 4/7; overall preferred language ranking is not established.
-No page errors or horizontal overflow; six controlled desktop/mobile fixtures also passed. Gallery/raw evidence stay ignored.
-IT 3/L -> IT 14/L now passes live in all three inputs; [39-curriculum offline gate](../2026-11-04-all-curricula-dependency-results.md)
-remains distinct from full live acceptance. Nursing/Forensic, lost supplied results, transfer direction and service-topic
-contamination remain. No product change during frozen benchmark; its shutdown/token warnings remain recorded.
-Owner's subsequent [full-stack restart](../2026-11-05-full-stack-restart.md) is complete: main 3216/8021,
-dev 3217/8022 and model 18088 healthy; all eight final endpoint checks 200. Ngrok still targets main 3216.
-Development launcher readiness now checks its actual model/Prolog/loaded encoder. Temporary chats reset.
-Next: trace those failures, add focused shared regressions and rerun affected cases against the retained baseline.
-Keep changes on this published branch; coordinate any further model window with data gathering. Real iPhone/Messenger
-and independent documentary grading remain unverified. Earlier delivery details: [regression handoff](../2026-11-04-post-gathering-regressions.md).
+Owner 72-variant log (3217): 47 Y / 8 P / 14 N / 3 untested. Second file is a fix-handoff export,
+not another run; its row 15 TG #REF! is a spreadsheet defect. [Repair checkpoint](../2026-11-06-owner-benchmark-repairs.md).
+Compact program-name fix `5c5f1093`: 217 tests; Forensic router 3/3 and HTTP English prerequisite listing pass.
+Prerequisite-list invitation removed `53e4fd81`: 50 tests. Compiler correction `29c7c1a3` preserves Hybrid.
+Working-tree routing/context fixes: 296 checks; procedure preference 290; facilities 55; coverage retry 108.
+General-policy routing passes three languages, but full answers remain incomplete. Live TG cheating and
+facilities improve; other variants and newest generation/registration/procedure code need live verification.
+Integrated gate: 697 passed before an old one-attempt assertion failed; corrected cutoff group 32 passed;
+remaining gate 723 passed before unknown-course wording assertion failed; no full pass. Hold model calls/restarts.
+Round two received: 33 retested, 20 Y / 13 N; 12 improvements, 3 regressions (B-14-TG, B-15-TL/TG).
+39 not retested; no new full-72 score. Facilities passes with clutter noted; source coverage limits remain.
+Grade-4 claim/body binding added (RED 1 failure, GREEN 200 related tests); no new source claims.
+Owner audit-remediation proposal preserved in plans and deferred until these failures are addressed.
+Next: verify unloaded grade-4 and add/change fixes during an available inference window; other failures stay open.
+Details/remaining INC, probation and vehicle evidence limits are in the checkpoint. No full success or push.
