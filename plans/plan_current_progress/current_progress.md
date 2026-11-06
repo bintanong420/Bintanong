@@ -55,7 +55,7 @@ Owner: capabilities and research scope must be callable in chat.
 ## Evaluation testing mode (6 Nov)
 Owner asked to plan, not implement, a website testing mode for Accuracy/Precision/Recall/F1.
 [Feasibility and plan](../2026-11-06-evaluation-testing-mode-plan.md). Owner: keep the 72 queries typed singly; both lists; keys with human judging; row10 Handbook.
-[Tasks](../2026-11-06-evaluation-testing-mode-implementation.md) await review. No code changed.
+[Tasks](../2026-11-06-evaluation-testing-mode-implementation.md) built: page `/dev/evaluation` on 3217/API 8022, off unless launcher sets passcode. Pilot 5/5 ran at `a73b6128`; final `1e499828`, focused 137 pass. Keys: rows1-10 draft, 11-24 human-judged unless owner confirms. Full suite not run; not a results claim.
 
 ## Next action
 
