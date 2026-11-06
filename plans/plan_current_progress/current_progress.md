@@ -76,7 +76,9 @@ Reviewed client-step object phrases expand candidates only, preserving semantic 
 All3gate-pass router variants pass; compound grade4/form correctly splits Handbook/Charter.
 `f048a75c` final combined gate501 pass. Live3217 good moral/gate pass/compound grade4+form
 all answered with correct sources; form Registrar location now present, source limits retained.
-Gate-pass selected-fragment notice added after live answer showed its initial-process limit
-needed explicit disclosure: RED3fail then generation131pass. Next: load final host notice,
-verify one gate-pass request, leave queue free for owner. Full72 pending; no source/Supabase changes.
-Docker/model/API recovered; allfive200, keepalivemonitor36880. Main untouched.
+Gate-pass partial-coverage notice is now outside cited claims; condition/support guards unchanged.
+Final `b8a59e02` gate-pass HTTP200/answered includes memo guidance and incomplete-process notice.
+Notice gate152 / malformed-field26 pass; earlier combined501 pass (overlapping, no full72 claim).
+All automated queries stopped. API12524/server56864 ready200, allfive200, keepalive36880 active.
+Next: owner exploratory/frozen benchmark testing; A07 remains untested. New commits local,
+not pushed; no source/Supabase changes, main untouched. Full72/browser acceptance pending.

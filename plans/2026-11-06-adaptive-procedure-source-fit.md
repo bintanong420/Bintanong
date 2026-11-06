@@ -140,3 +140,19 @@ Final rendering still validates exact text; no support, coverage or condition gu
 relaxed. Added rendering and uncited-context regressions; gate152 passed17.72s. Final
 dev-only reload and gate-pass retest pending. Earlier failed runs retained in ignored
 `gate-pass-r4-notice-disjunction-failed.*` and current `gate-pass-r4-chat.*`.
+
+## Final acceptance
+
+On code `b8a59e02`, final exact gate-pass request through3217 returned HTTP200/answered,
+memo payment and exact office-context quotes, existing replacement-workflow limit,
+and the separate host notice that initial application/full requirements are incomplete.
+HTTP15.84s is a backend/proxy observation, not browser latency. Failed coverage attempt
+is retained as `gate-pass-r4-notice-coverage-failed.*`; final successful evidence is
+`gate-pass-r4-chat.*`. No further inference pending.
+
+Latest notice gate152 passed; malformed-field guard gate26 passed. Earlier combined
+routing/generation gate501 passed; these overlap and do not establish full72 accuracy.
+Final API launcher12524/server56864 ready200; all five endpoints HTTP200, hidden
+keepalive36880 active. Dev-only grade5120/ratewindow0 preserved; main untouched.
+New repairs are local commits, not yet pushed. Next: owner exploratory/frozen benchmark
+testing; A07 curriculum-lock variants remain untested per owner export.
