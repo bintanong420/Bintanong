@@ -176,3 +176,20 @@ async def execute_two_eligibility_checks(plan: CompoundPlan, resources: ReleaseR
     return CompoundResearchResult(schema_version=CompoundResearchResult.SCHEMA_VERSION,
         release_id=plan.release_id, program_id=plan.program_id, curriculum_id=plan.curriculum_id,
         status='complete' if count == 2 else 'partial' if count else 'withheld', parts=tuple(results))
+
+
+async def run_bounded_compound(text: str, context: RequestContext, transport, releases,
+                               *, timeout_seconds: float = 30) -> CompoundResearchResult:
+    """Developer-only routed entrypoint; no student-facing generator activation."""
+    from ..bintanong_routing.router import Router
+    resources = await releases.pin()
+    if not isinstance(resources, ReleaseResources) or resources.pin.synthetic is not True:
+        raise CompoundNotSupported('synthetic_release_required')
+    router = Router(transport, catalog=resources.catalog, registry=resources.registry,
+                    documents_available=resources.retrieval is not None, synthetic=True,
+                    **(dict(topics=resources.topics) if resources.topics else {}))
+    context = RequestContext.parse(context.model_dump(mode='json'))
+    routed = await router.route(text, context)
+    checked = plan_two_eligibility_checks(text, context, routed, resources)
+    return await execute_two_eligibility_checks(checked, resources,
+                                                timeout_seconds=timeout_seconds)
