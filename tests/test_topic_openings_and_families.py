@@ -106,10 +106,11 @@ def test_default_menu_and_serialization_carry_no_opening_or_family():
     assert 'source_opening' not in dumped and 'family' not in dumped
 
 
-def test_opening_reaches_both_the_selector_menu_and_the_router_menu():
+def test_selector_uses_printed_items_while_router_keeps_the_source_opening():
     topic, = candidate(*body_inputs())
     selector = topic_selection.build_messages('How do I file a slip?', (topic,))[0]['content']
-    assert topic.source_opening in selector
+    assert all(item in selector for item in topic.source_items)
+    assert topic.source_opening not in selector
     context = RequestContext(session_id='sess-a', request_id='req-a')
     router = build_messages('How do I file a slip?', context, (), registry(), (topic,))[0]['content']
     assert topic.source_opening in router

@@ -9,6 +9,22 @@ from backend.bintanong_routing.contracts import DocumentTopic
 from backend.bintanong_routing.topic_selection import add_companions
 
 
+@pytest.mark.parametrize('text', ['May 4 ako sa subject; how do I clear it?',
+                                'I got INC in a subject; how can I complete it?'])
+def test_a_stated_deficient_mark_keeps_grade_completion_available_to_the_interpreter(text):
+    grade = DocumentTopic(subject_id='grade_completion', claims=('reviewed completion fields',))
+    drop = DocumentTopic(subject_id='handbook_dac_policy', claims=('reviewed change fields',))
+    assert add_companions((drop,), (drop, grade), text) == (drop, grade)
+
+
+@pytest.mark.parametrize('text', ['I have 4 units to drop.', 'Enrollment starts May 4.',
+                                'May 4 classes ako next semester.'])
+def test_numbers_for_units_dates_or_classes_do_not_add_grade_completion(text):
+    grade = DocumentTopic(subject_id='grade_completion', claims=('reviewed completion fields',))
+    drop = DocumentTopic(subject_id='handbook_dac_policy', claims=('reviewed change fields',))
+    assert add_companions((drop,), (drop, grade), text) == (drop,)
+
+
 @pytest.mark.parametrize('picked', ['handbook_student_faq', 'charter_library_facilities'])
 def test_general_room_request_retrieves_general_and_library_guidance_together(picked):
     from backend.bintanong_orchestration.orchestrator import _topic_intents

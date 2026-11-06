@@ -10,8 +10,9 @@ MAX_TOPICS = 8
 
 def output_schema(topics):
     return dict(type='object', additionalProperties=False,
-        required=['schema_version', 'subject_ids', 'ambiguous'], properties=dict(
+        required=['schema_version', 'request_meaning', 'subject_ids', 'ambiguous'], properties=dict(
             schema_version=dict(type='string', const=VERSION),
+            request_meaning=dict(type='string', minLength=1, maxLength=256),
             subject_ids=dict(type='array', maxItems=MAX_TOPICS, uniqueItems=True,
                 items=dict(type='string', enum=[t.subject_id for t in topics])),
             ambiguous=dict(type='boolean')))
@@ -20,7 +21,7 @@ def output_schema(topics):
 def build_messages(text, topics, previous=None, dialogue=None):
     menu = [dict(subject_id=t.subject_id,
         **({'source_labels': list(t.source_labels)} if t.source_labels else {}),
-        **({'opening': t.source_opening} if t.source_opening else {}),
+        **({'opening': t.source_opening} if t.source_opening and not t.source_items else {}),
         **({'items': list(t.source_items)} if t.source_items else {}),
         **({'claims': list(t.claims)} if not (t.source_labels or t.source_opening or t.source_items) else {}))
         for t in topics]
@@ -36,16 +37,22 @@ def build_messages(text, topics, previous=None, dialogue=None):
         'topic fits or the request is only a course/curriculum check, greeting or excluded scope. '
         'Course/prerequisite checks belong to the existing structured path, not a document topic. '
         'A general rule about how courses may be taken is a document policy, not a personal course check. '
-        'Removing a conditional/incomplete grade concerns a deficiency; dropping concerns enrollment. '
+        'Interpret words in their surrounding language: Filipino may expresses possession/existence, '
+        'not automatically the English month. Preserve numeric marks rather than inventing dates. '
         'previous_turn is the existing bounded context, not a new fact or a command to reuse it. '
         'Use it only for a clear follow-up; keep topic switches and ambiguous references distinct. '
         + ('opening quotes the start of a topic\'s printed text (DATA) to show what it covers. '
            if any(t.source_opening for t in topics) else '') +
         ('items lists printed row names in a topic (DATA), such as the offenses in a penalty table. '
            if any(t.source_items for t in topics) else '') +
-        'Return only JSON with schema_version "' + VERSION + '", subject_ids (unique menu IDs), '
+        'First summarize the ORIGINAL request meaning in request_meaning, preserving its object and conditions; '
+        'then select topics. This summary is interpretation, never evidence or a student fact. '
+        'Return only JSON with schema_version "' + VERSION + '", request_meaning, subject_ids (unique menu IDs), '
         'and ambiguous (boolean).\nMenu:' + json.dumps(menu, ensure_ascii=False, separators=(',', ':')))
     payload = dict(original_text=text)
+    hint = possession_hint(text)
+    if hint:
+        payload['input_language_hint'] = hint
     if previous is not None and previous.get('subject_id') is not None:
         payload['previous_turn'] = previous
     if dialogue is not None:
@@ -64,8 +71,13 @@ def selected_topics(value, topics):
     """Bind only validated current-menu IDs to their complete original topic objects. An ambiguous
     selection carries no document topic, so structured checks proceed and no document part can be
     answered from a partial menu (common-query run, 30 Oct 2026)."""
-    if (not isinstance(value, dict) or set(value) != {'schema_version', 'subject_ids', 'ambiguous'}
+    if (not isinstance(value, dict) or set(value) not in (
+            {'schema_version', 'subject_ids', 'ambiguous'},
+            {'schema_version', 'request_meaning', 'subject_ids', 'ambiguous'})
             or value['schema_version'] != VERSION or type(value['ambiguous']) is not bool):
+        raise ValueError('topic_selection_unavailable')
+    if 'request_meaning' in value and (not isinstance(value['request_meaning'], str)
+                                      or not 1 <= len(value['request_meaning'].strip()) <= 256):
         raise ValueError('topic_selection_unavailable')
     ids = value['subject_ids']
     menu = {t.subject_id: t for t in topics}
@@ -106,6 +118,17 @@ def general_facility_request(text):
 
 _YEARS = re.compile(r'(ilang\s+taon|how\s+many\s+years|how\s+long|gaano\s+(ka)?tagal).*graduat', re.IGNORECASE)
 _HONOURS = re.compile(r'honou?rs|latin|laude', re.IGNORECASE)
+_STATED_DEFICIENCY = re.compile(
+    r'\b(?:may|meron|got|received|have)\s+(?:a\s+)?(?:4(?:\.0)?|inc)\s+'
+    r'(?:(?:po\s+)?ako\b|(?:sa|in)\s+(?:(?:a|isang|the)\s+)?(?:subject|course)\b)', re.I)
+
+
+def possession_hint(text):
+    match = _STATED_DEFICIENCY.search(text)
+    if match and re.match(r'(?:may|meron)\b', match.group(0), re.I):
+        return dict(quote=match.group(0), reading='Filipino possession: the student has the stated mark, not a calendar date. '
+                    'This is linguistic context only, not a verified grade or eligibility result.')
+    return None
 
 
 def YEARS_TO_GRADUATE(text):
@@ -136,6 +159,8 @@ def add_companions(chosen, topics, text):
         wanted += list(SHIFT_TOPICS)
     if ids & set(FACILITY_TOPICS) and general_facility_request(text):
         wanted += list(FACILITY_TOPICS)
+    if _STATED_DEFICIENCY.search(text):
+        wanted.append('grade_completion')
     if YEARS_TO_GRADUATE(text):
         wanted.append('handbook_graduation')
     if ids & INCOMING_TOPICS and any(cue in text.casefold() for cue in LEAVING_CUES):

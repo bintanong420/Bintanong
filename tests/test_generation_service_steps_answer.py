@@ -2,6 +2,8 @@
 import asyncio
 import json
 
+import pytest
+
 from backend.bintanong_generation.evidence import prepare
 from backend.bintanong_generation.generator import Generator
 from backend.bintanong_generation.service_steps import parse_service, render_service
@@ -9,6 +11,7 @@ from backend.bintanong_orchestration.contracts import IntegrationResult
 from test_generation_part_slots import OFFICE, PartModel
 from test_generation_service_steps import FIRST, SECOND, record
 from test_request_understanding_pipeline import TEXT, source
+from test_generation_research import NoModel
 
 SUBJECT = 'fictional_service'
 
@@ -82,3 +85,34 @@ def test_different_details_of_one_service_are_both_shown():
     answer = asyncio.run(Generator(PartModel()).generate(TEXT, integration(details=('requirements', 'fees'))))
     assert 'Student ID (1 copy)' in answer.text and "Here's the fee for this service:" in answer.text
     assert 'Office actions' not in answer.text
+
+
+@pytest.mark.parametrize('language', ['en', 'taglish'])
+def test_legacy_registration_headers_reach_the_full_answer_with_every_reviewed_record(language):
+    texts = (
+        record(('service_title_and_note', '1. FICTIONAL RETURNING-TRAINEE REGISTRATION'),
+               ('office_division', 'Fictional Records Office'),
+               ('registration_description', 'This fictional process accepts returning trainees.')),
+        record(('requirement1_checklist', 'Fictional trainee card'),
+               ('requirement1_where_to_secure', 'Trainee')),
+        record(('step1_client_step', '1. Submit fictional form Q'),
+               ('step1_subaction1_action', 'Review fictional form Q')),
+        record(('step1_shared_time', '2 minutes'), ('step1_shared_fee', 'None'),
+               ('step1_subaction1_person', 'Fictional Reviewer'),
+               ('step1_subaction1_office', 'Fictional Records Office')),
+        record(('step2_client_step', '2. Receive fictional certificate R'),
+               ('step2_subaction1_action', 'Issue fictional certificate R'),
+               ('step2_shared_time', '1 minute'), ('step2_shared_fee', 'None'),
+               ('step2_subaction1_person', 'Fictional Clerk'),
+               ('step2_subaction1_office', 'Fictional Records Office')),
+        record(('total_fees', 'None'), ('total_processing_time', '3 minutes')),
+    )
+    original = integration(texts=texts)
+    value = original.model_dump(mode='json')
+    value['response_style'] = language
+    answer = asyncio.run(Generator(NoModel()).generate(TEXT, IntegrationResult.parse(value)))
+    assert answer.status == 'answered' and answer.draft_attempts == 0
+    assert len(answer.citations) == len(texts)
+    assert 'returning trainees' in answer.text and 'Fictional trainee card' in answer.text
+    assert 'Submit fictional form Q' in answer.text and 'Receive fictional certificate R' in answer.text
+    assert 'Fictional Reviewer' in answer.text and 'Fictional Clerk' in answer.text

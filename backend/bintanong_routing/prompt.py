@@ -356,10 +356,14 @@ def previous_turn(context, catalog):
 
 
 def build_messages(text, context, catalog, registry, topics=()):
+    from .topic_selection import possession_hint
     data = dict(original_text=text, normalized_text=prepare_query(text),
         context=dict(program_id=context.program_id, curriculum_id=context.curriculum_id,
                      facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
+    hint = possession_hint(text)
+    if hint:
+        data['input_language_hint'] = hint
     previous = previous_turn(context, catalog)
     if context.dialogue is not None:
         history = context.dialogue.model_dump(mode='json', exclude_none=True, exclude_defaults=True)
@@ -380,7 +384,8 @@ def build_messages(text, context, catalog, registry, topics=()):
             'limitation about another detail does not replace the printed process. A clear numbered-step '
             'follow-up may use the previous document subject; retrieval supplies the actual step. '
             'Clarify genuinely ambiguous references. fact_values binds printed column values to zero-based '
-            'fact_indices. Choose the rating/detail actually requested, not the first rows in the menu. '
+            'fact_indices. Values may include a complete policy body. For how-to requests select method and '
+            'approval facts; timing alone answers when, not how. Choose the requested detail, not the first rows. '
             'The eight-claim bound is a maximum, not a target. Values do not create new facts or rules.')
     if any(t.source_opening for t in topics):
         instruction += ('\nsource_opening quotes the start of a topic\'s printed text to show what it covers. '
