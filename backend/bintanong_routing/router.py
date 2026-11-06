@@ -14,7 +14,7 @@ from ..bintanong_contracts.symbolic import EMPTY_REGISTRY
 from .contracts import TERM_OPERATIONS, DialogueAct, Interpretation, RequestContext, prepare_query
 from .terms import parse_term
 from .prompt import build_messages, output_schema, previous_turn
-from .style import StyleProposal, build_style_messages, floor_style, style_output_schema
+from .style import StyleProposal, build_style_messages, floor_style, literal_style, style_output_schema
 from .transport import RuntimeFailure
 from . import topic_selection as selection
 from .recovery_cue import recovery_request
@@ -557,6 +557,7 @@ class Router:
             try:
                 style = StyleProposal.parse(_json_proposal(await self.transport.infer(
                     build_style_messages(text), style_output_schema()))).style
+                style = literal_style(style, text)
                 style.ground(text)
             except (RuntimeFailure, ValueError, ValidationError):
                 return None, False
@@ -689,6 +690,7 @@ class Router:
                     style_messages = _repair_messages(style_messages, style_raw)
                     continue
                 try:
+                    style = literal_style(style, text)
                     style.ground(text)
                     style, floored = floor_style(style, text, names)
                     effective = Interpretation.parse(dict(proposed.model_dump(mode='json'), language=style.language))
