@@ -64,6 +64,22 @@ def test_style_repair_distinguishes_english_quotations_from_english_paraphrases(
     assert 'English paraphrase' in instruction and 'pronouns' in instruction
 
 
+def test_multiple_requested_policy_purposes_keep_their_own_reviewed_record_mapping():
+    pack = policy_pack()
+    first = pack.cards[0].evidence_id
+    other = pack_with('Approval of fictional Form Q is required before attendance.').cards[0]
+    part = pack.understanding.parts[0].model_copy(update=dict(
+        requested_claims=('reviewed policy fields', 'reviewed approval fields')))
+    pack = replace(pack, cards=(*pack.cards, other),
+        understanding=pack.understanding.model_copy(update=dict(parts=(part,))), record_coverage=(
+            ('fictional_policy', 'reviewed policy fields', (first,)),
+            ('fictional_policy', 'reviewed approval fields', (other.evidence_id,))))
+    value = payload(pack, errors=())
+    assert value['claim_record_coverage']['r1'] == {
+        'reviewed policy fields': [first], 'reviewed approval fields': [other.evidence_id]}
+    assert 'distinct requested purpose' in value['claim_coverage_instruction']
+
+
 @pytest.mark.parametrize('accept_quote', [True, False])
 def test_complete_quote_repair_still_requires_the_ordinary_question_coverage_review(accept_quote):
     question = 'Can the fictional activities be taken together?'

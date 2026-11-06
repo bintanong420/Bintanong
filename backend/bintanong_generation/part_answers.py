@@ -486,6 +486,19 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
                 'The ordinary question-coverage and support review still applies.')
     if coverage:
         payload['record_coverage'] = {part: sorted(aliases[i] for i in ids) for part, ids in coverage.items()}
+        purposes = {part.part_id: {claim: [aliases[ref] for ref in refs]
+                    for subject, claim, refs in pack.record_coverage
+                    if subject == part.subject_id and claim in part.requested_claims}
+                    for part in (pack.understanding.parts if pack.understanding else ())
+                    if part.evidence_need == 'document' and part.part_id in coverage}
+        payload['claim_record_coverage'] = {part: claims for part, claims in purposes.items() if len(claims) > 1}
+        if payload['claim_record_coverage']:
+            payload['claim_coverage_instruction'] = (
+                'Cover each distinct requested purpose, not only the first claim group. For a how-to answer, '
+                'include its method, approvals, fees and conditions where the mapped records establish them. '
+                'Combine repeated timing statements concisely without choosing unresolved precedence; '
+                'do not spend the whole claim budget repeating deadlines and omit the action or approval. '
+                'All cited source limitations and the ordinary completeness review still apply.')
         payload['record_coverage_instruction'] = (
             'Each answered part must explain and cite every reviewed source record listed for it, '
             'including the visible client steps in order. A checklist alone does not cover the steps. '
