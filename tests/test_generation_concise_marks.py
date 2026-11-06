@@ -73,3 +73,34 @@ def test_a_source_limit_message_with_additional_applicability_is_preserved():
     draft, _ = to_draft(explanation, pack)
     text = '\n'.join(c.text for c in draft.claims)
     assert text.count(message) == 1
+
+
+def test_compact_source_warning_omits_only_redundant_machine_wrapper():
+    pack, explanation = fixture()
+    cards = []
+    for card in pack.cards:
+        record = json.loads(card.text)
+        record['source_limits'][0]['message'] = ('Unavailable information: fictional deadline precedence. '
+            'Source limitation remains unresolved (conflicting_deadlines).')
+        cards.append(card.model_copy(update=dict(text=json.dumps(record))))
+    pack = replace(pack, cards=tuple(cards))
+    draft, _ = to_draft(explanation, pack)
+    text = '\n'.join(c.text for c in draft.claims)
+    assert text.count('fictional deadline precedence') == 1
+    assert 'conflicting_deadlines' not in text and 'Completion deadlines conflict' in text
+
+
+def test_grade_four_method_does_not_quote_a_separate_unasked_improvement_section():
+    pack, _ = fixture()
+    body = ('3.3 REMOVAL OF ‘4’. Complete fictional removal examination or repeat the activity. '
+            'Only one removal examination is allowed. 3.7 NO IMPROVEMENT OF GRADE. Separate fictional timing rule.')
+    record = json.loads(pack.cards[0].text)
+    record['fields'][0]['value'] = body
+    part = pack.understanding.parts[0].model_copy(update=dict(text='How to remove grade 4?', end=22))
+    pack = replace(pack, cards=(pack.cards[0].model_copy(update=dict(text=json.dumps(record))), pack.cards[1]),
+        understanding=pack.understanding.model_copy(update=dict(parts=(part,))))
+    from backend.bintanong_generation.grade_completion_reply import concise_mark_reply
+    reply = concise_mark_reply(pack, part, {c.evidence_id for c in pack.cards})
+    text = '\n'.join(c['text'] for c in reply)
+    assert 'Only one removal examination' in text and 'Separate fictional timing' not in text
+    assert 'conflict' in text.lower() and 'Fictional Dean approval' in text

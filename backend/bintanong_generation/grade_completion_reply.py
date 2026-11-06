@@ -30,6 +30,8 @@ def concise_mark_reply(pack, part, required):
                     if found is None:
                         return None
                     body = found.group(0)
+                else:
+                    body = re.split(r'\s+\d+(?:\.\d+)*\s+NO IMPROVEMENT OF GRADE\.', body, maxsplit=1)[0]
                 method.append((body, card.evidence_id))
             elif re.search(r'\bEXAMINATION FOR REMOVAL OR COMPLETION\b', body, re.I):
                 approval.append((body, card.evidence_id))
@@ -46,7 +48,10 @@ def concise_mark_reply(pack, part, required):
                 message = note.get('message')
                 if message is not None and (not isinstance(message, str) or not message.strip()):
                     return None
-                limits.extend([message.strip()] if message else affected)
+                if message:
+                    message = re.sub(r'^Unavailable information:\s*', '', message.strip())
+                    message = re.sub(r'\s*Source limitation remains unresolved \([a-z_]+\)\.$', '', message).rstrip('. ')
+                limits.extend([message] if message else affected)
                 limit_refs.append(card.evidence_id)
                 conflict |= note['issue'] == 'conflicting_deadlines'
         except (ValueError, TypeError, KeyError, AttributeError):

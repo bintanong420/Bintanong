@@ -457,6 +457,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
         # A held record quoted with its own heads-up is not noted again (final run 2 Nov 2026, #9).
         held={ref for claim in claims if 'Heads-up:' in claim.text for ref in claim.evidence_ids}
+        from .grade_completion_reply import concise_mark_claims
+        canonical = concise_mark_claims(pack)
+        if canonical and canonical <= {(c.text, tuple(c.evidence_ids)) for c in claims}:
+            held.update(ref for _, refs in canonical for ref in refs)
         lines.extend(notices[kind] for kind in limit_notices([c for c in selected_cards(pack,claims) if c.evidence_id not in held]))
     if status in ('answered','insufficient_evidence','abstained'):
         from .shifting_reply import shifting_referral  # thesis leader 4 Nov 2026: end with the printed offices
