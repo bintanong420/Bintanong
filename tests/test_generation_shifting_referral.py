@@ -39,6 +39,7 @@ def test_a_same_college_rule_names_the_department_head_and_dean():
 def test_taglish_referral_keeps_the_printed_role_names():
     line = shifting_referral(pack(CROSS, FAQ, 'taglish'))
     assert line.startswith('Para mag-shift') and 'College Guidance Practitioner' in line and 'Hindi kayang' in line
+    assert 'sa ang ' not in line
 
 
 def test_no_printed_office_means_no_referral_and_other_topics_get_none():

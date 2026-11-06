@@ -57,5 +57,7 @@ Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_inform
 [Shifting repair](../2026-11-06-program-shifting-repair.md): exact “Pano po lumipat ng kurso?”
 retrieved the right policy but generation quoted only cross-college4.1. Both college branches
 and Registrar guidance now use clean exact source quotes for generic whole-program questions;
-FAQ companion cue and conditional office closing repaired. Worker309 / parent57 tests pass.
-Next: dev API reload, then exact-question check through3217; preserve simultaneous owner testing.
+FAQ companion cue and conditional office closing repaired at `9830a030`. Worker309 / parent57 pass.
+Exact3217 proxy question returned answered/Taglish with both branches, FAQ and Registrar guidance.
+Small closing grammar correction passed57 tests after its RED; final dev-only reload loads it.
+Next: owner exploratory testing or requested frozen72 rerun; no automated model calls pending.

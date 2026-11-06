@@ -80,7 +80,7 @@ def shifting_referral(pack):
                    and re.search(r'\bREQUEST TO SHIFT WITHIN THE SAME COLLEGE\b', text, re.I))
     names = []
     for key, en, tl in found:
-        name = tl if taglish else en
+        name = tl.removeprefix('ang ') if taglish else en
         if conditional and key == 'deans':
             name += ' (kung ibang college ang lilipatan)' if taglish else ' (if moving to another college)'
         elif conditional and key == 'head':

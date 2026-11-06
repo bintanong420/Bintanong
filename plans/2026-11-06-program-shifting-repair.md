@@ -29,5 +29,12 @@ Extend the existing companion cue for Filipino course/program changes and Englis
   --basetemp=C:/Coding-projects/bintanong_workspace/audit-evidence/benchmark-fixes-20261106/shifting-parent-final`
   using existing Python3.13 venv: 57 passed, 2.24s.
 - No new dependencies, original-source edits, school approval or institutional activation.
-- Dev-only API reload and exact-question HTTP check are the remaining runtime verification.
-  Keep all source qualifications; full 72-query benchmark remains pending.
+- Dev API reloaded at `9830a030`; exact question through `3217/api/chat` returned HTTP200,
+  status `answered`, language `taglish`, with 4.1/4.2/4.3, FAQ form/advising/approval/Registrar
+  steps and conditional office closing. Observed HTTP duration19.93s, not browser end-to-end.
+  Evidence: ignored `program-shifting-chat-live.json`.
+- That observation exposed existing Taglish “sa ang” in the closing. Focused RED reproduced
+  it; remove the redundant article at the office-name join, retaining all role names/conditions.
+  Final parent gate57 passed,1.99s. Only this host-wording change follows the live observation.
+- Final dev-only reload loads the wording fix. Full72 and rendered-browser acceptance
+  remain pending; no whole-benchmark or institutional-readiness claim.
