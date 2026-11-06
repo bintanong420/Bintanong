@@ -145,7 +145,7 @@ class EvaluationService:
                                     text=result if isinstance(result, str) else student_text(result),
                                     reason=getattr(result, 'reason', None),
                                     sources=[_title(card) for card in getattr(result, 'citations', ())])
-            if record['answer']['status'] == 'temporarily_unavailable':
+            if record['answer']['status'] == 'temporarily_unavailable' or record['answer']['reason'] == 'system_error':
                 failure = record['answer']['reason'] or 'temporarily_unavailable'
         routed = capture.routed
         record['route_label'] = route_label(routed)
@@ -176,7 +176,8 @@ class EvaluationService:
             everything = await asyncio.to_thread(engine.search_all_chunks, request)
             searches.append(dict(query=entry['query'], subject_id=entry['subject_id'],
                                  requested_claims=entry['requested_claims'],
-                                 topic_bound=_rows(entry['candidates'], set(entry['emitted_chunk_ids'])),
+                                 # A search with no topic is unfiltered, so it must not earn topic-bound credit.
+                                 topic_bound=_rows(entry['candidates'], set(entry['emitted_chunk_ids'])) if entry['subject_id'] else [],
                                  all_chunks=_rows(everything, turn_emitted)))
         return searches, resources.pin.release_id
 

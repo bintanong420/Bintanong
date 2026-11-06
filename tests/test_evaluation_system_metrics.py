@@ -179,6 +179,30 @@ def test_report_lists_what_was_left_out_and_carries_disclosures():
     assert any('refusal' in line for line in report['disclosures'])
 
 
+def test_an_empty_search_still_counts_toward_k():
+    two = run('r1', 'B11-EN', route_label='RAG', answer=dict(status='answered'), searches=[
+        dict(query='q', topic_bound=rows('a', 'x', 'y'), all_chunks=rows('a')), dict(query='r', topic_bound=[], all_chunks=rows('a'))])
+    report = build_report([two, judgment('r1')], dict(keys=[key('k', ['B11-EN'], relevant=['a'])]))
+    assert report['retrieval']['topic_bound']['overall']['precision_at_3'] == 1/6
+
+
+def test_a_clarification_marked_fine_is_not_a_correct_answer():
+    row = dict(expected='answer', given=False, mark='correct')
+    assert answer_metrics([row], partial_counts=False)['accuracy'] == 0
+
+
+def test_an_answer_where_a_clarification_was_expected_is_not_correct():
+    row = dict(expected='clarification', given=True, mark='correct')
+    assert answer_metrics([row], partial_counts=False)['accuracy'] == 0
+
+
+def test_unmarked_human_judged_row_is_listed_not_scored_as_zero():
+    records = [scored_run('r1', 'B11-EN', ['a'], ['a']), judgment('r1')]
+    report = build_report(records, dict(keys=[key('k', ['B11-EN'], status='human_judged')]))
+    assert report['retrieval']['topic_bound']['overall']['n'] == 0
+    assert report['unmarked_chunk_cases'] == ['B11-EN']
+
+
 def test_cli_writes_json_and_markdown(tmp_path):
     runs = tmp_path / 'runs.jsonl'
     runs.write_text('\n'.join(json.dumps(r) for r in [scored_run('r1', 'B11-EN', ['a'], ['a']), judgment('r1')]) + '\n',

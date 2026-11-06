@@ -79,9 +79,10 @@ def answer_metrics(rows, partial_counts):
     def correct(row):
         return row['mark'] == 'correct' or (partial_counts and row['mark'] == 'partial')
     right_answers = sum(1 for row in rows if row['expected'] == 'answer' and row['given'] and correct(row))
+    right_others = sum(1 for row in rows if row['expected'] != 'answer' and not row['given'] and correct(row))
     precision = _ratio(right_answers, sum(1 for row in rows if row['given']))
     recall = _ratio(right_answers, sum(1 for row in rows if row['expected'] == 'answer'))
-    return dict(accuracy=_ratio(sum(1 for row in rows if correct(row)), len(rows)), precision=precision, recall=recall,
+    return dict(accuracy=_ratio(right_answers + right_others, len(rows)), precision=precision, recall=recall,
                 f1=_f1(precision, recall), n=len(rows))
 
 
@@ -112,8 +113,7 @@ def select_runs(records):
 
 
 def _returned(run, list_name):
-    searches = [search[list_name] for search in run['searches'] if search[list_name]]
-    return [row['chunk_id'] for rows in searches for row in rows], len(searches)
+    return [row['chunk_id'] for search in run['searches'] for row in search[list_name]], len(run['searches'])
 
 
 def _mean(rows, field):
@@ -142,7 +142,7 @@ def build_report(records, keys_document, roster=None):
             marks = judgments.get(run['run_id'], {}).get('chunk_marks', {})
             pools.setdefault(key['key_id'], set()).update(chunk for chunk, marked in marks.items() if marked)
     measured = {name: [] for name, _ in LISTS}
-    pairs, answers, unjudged, disagreements, pooled = [], [], [], [], []
+    pairs, answers, unjudged, disagreements, pooled, unmarked = [], [], [], [], [], []
     for case_id, run in sorted(selected.scored.items()):
         key = keys.get(case_id)
         if key is None:
@@ -162,6 +162,9 @@ def build_report(records, keys_document, roster=None):
                     disagreements.append(dict(case_id=case_id, chunk_id=chunk, key=chunk in relevant, owner=marked))
         if key['expected_route'] not in RETRIEVAL_ROUTES:
             continue
+        if not keyed and not (judgment or {}).get('chunk_marks'):
+            unmarked.append(case_id)  # nobody judged these chunks: not evidence of a miss
+            continue
         if not keyed:
             pooled.append(case_id)
         case = roster[case_id]
@@ -179,6 +182,7 @@ def build_report(records, keys_document, roster=None):
                 answer=dict(strict=answer_metrics(answers, partial_counts=False),
                             lenient=answer_metrics(answers, partial_counts=True)),
                 unjudged_answers=unjudged, key_disagreements=disagreements, pooled_recall_cases=pooled,
+                unmarked_chunk_cases=unmarked,
                 reruns=[run['run_id'] for run in selected.reruns], failed_runs=[run['run_id'] for run in selected.failed],
                 unmatched_runs=[run['run_id'] for run in selected.unmatched],
                 cases_without_key=sorted(set(selected.scored) - set(keys)),
@@ -217,7 +221,8 @@ def render_markdown(report):
     for field, label in (('missing_cases', 'Cases with no completed run'), ('unjudged_answers', 'Answers not judged'),
                          ('cases_without_key', 'Cases with no key'), ('reruns', 'Later runs not counted'),
                          ('failed_runs', 'Infrastructure failures'), ('unmatched_runs', 'Typed text outside the 72'),
-                         ('pooled_recall_cases', 'Cases using pooled recall')):
+                         ('pooled_recall_cases', 'Cases using pooled recall'),
+                         ('unmarked_chunk_cases', 'No-key cases with unmarked chunks')):
         lines.append(f"- {label}: {', '.join(report[field]) or 'none'}")
     lines.append(f"- Key disagreements: {len(report['key_disagreements'])}")
     lines += ['', '## Disclosures', ''] + [f'- {line}' for line in report['disclosures']]
