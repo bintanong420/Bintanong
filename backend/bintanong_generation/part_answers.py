@@ -428,6 +428,8 @@ REWRITE = dict(
     taglish="Rewrite every claim in Taglish: keep the printed wording in the source's English as is "
             '(rules, limits, numbers, conditions, terms and quotations) and use only the connecting words in '
             'Filipino: Tagalog sentence structure and grammar words (ang, sa, yung, mo, lang, po). '
+            'An English paraphrase still needs Filipino connecting words in that claim. For an English quotation, '
+            'copy the source wording exactly, including its pronouns; do not turn students into you. '
             'Preserve the complete source meaning and conditions.')
 
 
@@ -471,6 +473,17 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
     for card in payload['evidence']['sources']:
         card['evidence_id'] = aliases[card['evidence_id']]
     coverage = required_record_sources(pack)
+    repair_parts = {error.split(':', 1)[1] for error in errors if error.startswith('part_question_not_answered:')}
+    if repair_parts:
+        options = complete_policy_quotes(pack, coverage, repair_parts)
+        if options:
+            payload['complete_policy_quote_options'] = {
+                part: dict(text=words, evidence_id=aliases[ref]) for part, (words, ref) in options.items()}
+            payload['policy_quote_instruction'] = (
+                'These are complete short source bodies, not additional evidence or proof of relevance. '
+                'When one answers the part, you may quote it in full with a short requested-language lead-in, '
+                'preserving its rule, exception and consequence together. Otherwise keep the part unavailable. '
+                'The ordinary question-coverage and support review still applies.')
     if coverage:
         payload['record_coverage'] = {part: sorted(aliases[i] for i in ids) for part, ids in coverage.items()}
         payload['record_coverage_instruction'] = (
@@ -514,6 +527,34 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
     return _messages(PART_PROMPT, payload, part_schema(pack, references))
+
+
+def complete_policy_quotes(pack, coverage, repair_parts):
+    """One complete clean body bound to the part's reviewed claim; never trim or choose between records."""
+    cards = {card.evidence_id: card for card in pack.cards if card.kind == 'document'}
+    options = {}
+    for part in (pack.understanding.parts if pack.understanding else ()):
+        refs = coverage.get(part.part_id, ())
+        if part.part_id not in repair_parts or part.detail != 'whole' or len(refs) != 1:
+            continue
+        ref = next(iter(refs))
+        if ref not in cards:
+            continue
+        try:
+            record = json.loads(cards[ref].text)
+            fields, limits = record['fields'], record['source_limits']
+            if (not isinstance(fields, list) or len(fields) != 1 or not isinstance(fields[0], dict)
+                    or not isinstance(limits, list) or any(not isinstance(limit, dict)
+                        or limit.get('resolution') != 'resolved' for limit in limits)):
+                continue
+            field = fields[0]
+            value = field.get('value')
+            if (field.get('name') == 'body' and field.get('source_blank') is False
+                    and isinstance(value, str) and 0 < len(value.strip()) <= 1024):
+                options[part.part_id] = value.strip(), ref
+        except (ValueError, TypeError, KeyError):
+            continue
+    return options
 
 
 # Owner 3 Nov 2026 (H8): when both are fetched (the orchestrator's shifting companion), a shifting answer covers the
