@@ -103,3 +103,24 @@ same memo initial-payment claim; compound grade4+form question selects Handbook 
 removal and Charter for form location; standalone form question selects Charter.
 Saved ignored `gate-pass-router-menu.json`, `removal-form-router-final.json`.
 Final combined gate501 passed9.98s; API reload/HTTP answer checks follow. Full72 pending.
+
+## Live chat acceptance and fragment notice
+
+On `f048a75c`, serial requests through `3217/api/chat` all returned HTTP200/answered:
+- Exact good-moral English: Charter checklist, all seven steps and printed total, pp52–53.
+  Backend/proxy HTTP observation8.78s; not rendered-browser latency or an SLA.
+- Exact gate-pass English: memo initial payment and selected Security Services Unit
+  form/submission context, not Handbook-only. HTTP19.76s.
+- Round4 compound Taglish grade4/form: Handbook removal/approval/forfeiture with limits,
+  plus Charterp112 form from Registrar/Cashier and other source-qualified service fields.
+  HTTP28.19s. Form availability is no longer falsely reported absent from reviewed evidence.
+
+The gate-pass answer exposed a remaining disclosure gap: its stored source limitation
+names replacement workflow, but the initial application fragments also do not constitute
+a complete application procedure/full requirements (settled selected review,25Oct).
+The required-context renderer now adds a bounded bilingual selected-fragment notice
+when both reviewed application/submission office-context fields are present. Exact
+quotes and existing source-limit messages stay intact. No source bytes/metadata changed.
+RED3fail/1pass; affected generation gate131 passed16.97s. Final dev-only reload and one
+gate-pass HTTP check load/verify this notice. Raw evidence remains ignored:
+`good-moral-r4-chat.json`, `gate-pass-r4-chat.json`, `removal-form-r4-chat.json`.

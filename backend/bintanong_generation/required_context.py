@@ -45,6 +45,10 @@ def _quote(record, words):
         else:
             quoted.append(name.replace('_',' ')+': '+(words[3] if blank else '"'+value+'"'))
     text = words[0]+'; '.join(quoted)
+    if {'application_form_office_context', 'submission_office_context'} <= names:
+        text += (' These are selected office steps, not a complete application procedure or full requirements list.'
+                 if words == _WORDS['en'] else
+                 ' Selected office steps lang ito. Hindi pa kumpleto ang application procedure at requirements list.')
     for limit in limits:
         if limit.get('resolution') != 'unresolved':
             continue

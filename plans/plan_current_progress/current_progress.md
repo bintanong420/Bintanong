@@ -74,6 +74,9 @@ client-step hints expose it. Context/aggregate binding regressions fixed; pinned
 `622b68b0` committed; optional selector hints reduced to fit existing8192modelcontext.
 Reviewed client-step object phrases expand candidates only, preserving semantic source selection.
 All3gate-pass router variants pass; compound grade4/form correctly splits Handbook/Charter.
-Final combined gate501 pass. Docker/model/API recovered; allfive200, keepalivemonitor36880.
-Next: final dev-only reload then serial good-moral/gate-pass/form HTTP checks through3217.
-Full72 pending; no original-source or Supabase changes; main untouched.
+`f048a75c` final combined gate501 pass. Live3217 good moral/gate pass/compound grade4+form
+all answered with correct sources; form Registrar location now present, source limits retained.
+Gate-pass selected-fragment notice added after live answer showed its initial-process limit
+needed explicit disclosure: RED3fail then generation131pass. Next: load final host notice,
+verify one gate-pass request, leave queue free for owner. Full72 pending; no source/Supabase changes.
+Docker/model/API recovered; allfive200, keepalivemonitor36880. Main untouched.
