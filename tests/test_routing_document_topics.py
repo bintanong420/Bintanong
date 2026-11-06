@@ -17,6 +17,21 @@ MENU = (DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',
 TEXT = 'Where do I file slip S?'
 
 
+@pytest.mark.parametrize('detail', ['whole', 'processing_time'])
+def test_whole_grade_completion_retrieves_method_and_approval_not_only_timing(detail):
+    text = ('How do I complete a fictional deficiency?' if detail == 'whole'
+            else 'When is the fictional deadline?')
+    topic = DocumentTopic(subject_id='grade_completion',
+                          claims=('printed timing', 'printed completion method', 'printed approval'),
+                          not_stated=('unresolved precedence',))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], language='en')
+    value['parts'][0].update(subject_id=topic.subject_id, requested_claims=['printed timing'], detail=detail)
+    style = json.dumps(style_proposal('en', english=[text]))
+    result = run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=(topic,))
+    expected = topic.claims if detail == 'whole' else ('printed timing',)
+    assert result.proposed.parts[0].requested_claims == expected
+
+
 def model(*outputs):
     style = json.dumps(style_proposal('en', english=['Where do I file']))
     return FakeTransport(*outputs, style_outputs=[style] * 3)

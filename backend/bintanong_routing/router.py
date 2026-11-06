@@ -321,8 +321,11 @@ def prefer_printed_procedure(proposed, topics):
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
-        if (topic is not None and part.requested_claims and set(part.requested_claims) <= set(topic.not_stated)
-                and (part.detail == 'whole' or _other_field(topic, part))):
+        # Grade completion is one procedure split into timing, method and approval claims.
+        whole_completion = topic is not None and topic.subject_id == 'grade_completion' and part.detail == 'whole'
+        if (topic is not None and part.requested_claims and (whole_completion or
+                set(part.requested_claims) <= set(topic.not_stated)
+                and (part.detail == 'whole' or _other_field(topic, part)))):
             printed = _printed_claims(topic, part.text)
             if printed:
                 part = part.model_copy(update=dict(requested_claims=printed))
