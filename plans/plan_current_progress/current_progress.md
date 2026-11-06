@@ -77,5 +77,12 @@ Development candidate code `e7e6b2a0`, reviewed-source release `1d4eeb3b6bb7b8e0
   Runtime evidence/scripts are ignored; public/main limits unchanged, dev temporary rate window zero.
 - Wider audit remediation proposal is saved and deferred. No source activation, dependency change or push.
 
-Next: fix B-13-TL offline, then shorten grade/INC output without hiding source conflicts; coordinate a
-reload/inference window before touching the live candidate. Preserve original result marks and transcripts.
+Remainingpatchescommitted:f5c7a264registrationaudience(341tests),3b522271naturalTaglish(78),
+8c3b3b60/a52c73c1compactmarkquotes+fullsourcelimitnotes(133integrationtests).
+Ownergavejudgmentontiming;announceddev-onlyreload,API62928warming,pause-dev-apiheld.
+Livea52c73c1B13TLfixed,IDTGnatural,INCEN/TGmethodfirst. bdf6d50afinalgradebrevitycleanup174tests pass.
+Finalbdf6d50alivegrade15EN/16ENanswered;grade4output25.4%shorter,INC52.5%shortervs9581.
+Allmethod/approval/forfeiture/sourcequalificationnotesremain;174focusedtests pass.
+PID63020devAPIloaded,keepalivepauseflagremoved;main/dev/chatand8022ready200. Modelcallsnowstopped.
+R3remainingengineeringdelivered. Next: ownerexploratoryverification/frozen72runwhenrequested;
+no full72accuracyclaim, sourceconflictsremainvisible, widerauditplanstilldeferred.

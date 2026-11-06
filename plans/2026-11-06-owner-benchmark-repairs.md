@@ -66,6 +66,30 @@ while a checked course/term request plus documentary explanation remains Hybrid.
 
 ## Current repair snapshot
 
+R3remainingwork: `f5c7a264` rejectsunstatedfreshmanaudiencewithboundedsemanticrepair/generalservice
+companion (RED3;341tests). `3b522271` resolvesTaglishinstructionconflict: exactquotes/termskept,
+paraphrasedstudentactionusesnaturalgrammar (78tests). `8c3b3b60`,`a52c73c1` compactmarkquotes:
+INCmethodsentencefirst,fullapproval/forfeiture,originalsource-limitmessagesdeduplicatedonce.
+Independentreviewcaughtfullnoteomission;fixedwithREDregression. Integrated133pass; canonicaltext+refs
+andordinaryreviewremainrequired. Ownerallowedjudgmentontimingafteraskingbothhold/reload; announced
+development-onlyreloadthenlaunchPID62928, warming. Keepalivepause-dev-apiexistsuntilready.
+Nextlive: exactB13TL+INCEN/Taglish+grade4EN+IDTG, briefserialcalls; nofull72claim.
+Livea52c73c1: exactB13TLnowCharterregistrationnotfreshman; IDTGnatural'mag-reportkasaOSAS'; INCEN/TG
+methodfirst, grade4stilloverlong. `bdf6d50a` removesunaskedno-improvementsectionfromgrade4method,
+redundantmachinewarningwrappersandsecondreferralonlywhenallcanonicalsource-limitclaimsarepresent.
+Fullsourcequalificationmessagesremain, ordinaryreviewunchanged. Finalintegrated174tests pass.
+Announcedlastdev-onlyreloadfrombdf6d50aPID63020;pause-dev-apiheldwhilewarming. NexttwoEnglishgrade
+checksmeasureactualbrevityandretainedconditions,thenrestorekeepaliveandhandofffree3217forowner.
+Finalfocusedliveproof: candidatea52c73c1 exactB13TLansweredChartercontinuingregistration;IDTG
+usesnatural'mag-reportkasaOSAS';INCEN/TGanswered. Candidatebdf6d50a grade16ENanswered1399chars
+(prior9581output2948,52.5%shorter);grade15ENanswered1625chars(prior2179,25.4%shorter).
+Bothretainmethod,approval/fee/prerequisite-enrollment/forfeitureclauses,allsourcequalificationnotesand
+explicitdeadlineconflict. Nooveralllatencyspeedclaim. Final174focusedtests pass;registration341.
+CurrentAPI PID63020wrapper,bdf6d50a+gradebudget5120. pause-dev-apiremoved,monitorrecoveryenabled.
+Freshmain3216/chat,dev3217/chatand8022/health/ready200. Three-secondhealthproxyprobestimedout,
+but15swebchecksreturned200; do notcalltheseanoutage. Noautomatedmodelbatchcontinues.
+RemainingR3engineeringworkdelivered;fulllanguages/curricula/72-casefrozenevaluationremainsunperformed.
+
 Roundthree export received `E:/Hawksprey/Downloads/Bintanong_AI_Export_2026-11-06_1227.csv`, SHA256
 `e7f9bb65ed9a3b339bb550221e786c6725bd3dddb328ddd35da580715fd70402`. 72rosterrows,21retested:
 20Y/1N,51untested;13fixed/7unchangedpass/1regressed. OnlyN B-13-TL returnsfreshmanadmissioncredentials
