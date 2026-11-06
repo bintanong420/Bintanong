@@ -66,6 +66,40 @@ while a checked course/term request plus documentary explanation remains Hybrid.
 
 ## Current offline repairs and live limits
 
+Resume current state: `3991688e` requests full reviewed grade-completion procedure for whole requests and
+replaces false source-absence fallback with inability-to-verify-complete-answer wording (200 checks).
+`9bef074e` quotation spelling repair190 tests; independent read-only review81 checks, no new finding.
+Measured candidate-only grade budget5120 (4367SEA-LION context tokens) emits9/9records versus5/9at3072/4096.
+Ignored launcher derives a package copy, preserving sealed corpus; new release1d4eeb3b6bb7b8e0.
+Live15EN/Fil after model readiness still insufficient_evidence despite all9records available and noGemma
+overflow. Drafts repeat timing and omit procedure conditions; ordinary completeness review rejects them.
+New grade_generation worker owns this final generation repair; no bypass or fixed institutional answer.
+Integrated `9ef5b0e8`: draft prompt preserves claim-to-record purposes so method/approval is not lost to
+repeated timing (worker103 checks; root71). `f110e9b6`: style-only initial capitalization binds to unique
+original Filipino span (worker172; root92); strict grounding remains. Dev API reloaded from these files,
+warming, frontend remains up. Latest live results before these two patches: INC EN/TG answered with method,
+approval and source conflicts; probationTG answered; registrationEN answered. Grade4 EN/Fil still withheld;
+IDTG route failed due style quote capitalization. No semantic acceptance inferred from offline tests.
+Resume budget/runtime regression108passed; browser/model had stopped across runtime change, both restarted.
+Exact startup failure was model_http_error while model loading, separate from subsequent coverage failures.
+
+Parallel repair integrated: routing `1bebd24e` (198 checks); policy/probation repair `07528080`
+(worker106 checks, root integration77); claim-diverse runtime context `e5cfce72` (worker86 checks).
+Combined focused gate172 passed. Registration/ID worker completed service/ID verification and synthetic
+legacy-header regression (66 pass). Root now reloads only8022 frome5cfce72, frontend remains up.
+Fresh3217 frontend/API/model readiness all200 after owner reported temporary-unavailable for grade4.
+That symptom is request-specific; context overflow remains a hypothesis for the owner's exact browser
+turn until a failing request trace establishes the cause. No service-outage claim from that message.
+Owner reiterated continuing fixes with subagents; one serial model acceptance batch follows readiness.
+Read-only worker reviews combined code during startup. No full correctness claim from offline counts.
+
+New trace evidence: selector reads 'May4' as calendar date, not Filipino possession. Bounded untrusted
+language annotation preserves original quote and creates no grade fact or eligibility result; adds only
+reviewed grade topic as candidate. Live router now chooses grade_completion for Filipino, but initially
+still chooses timing-only claim. New selector request_meaning is bounded/discarded, never evidence.
+Printed headings/items replace redundant first-section openings in selector, preserving full router
+metadata. Saved router probes now select Charter registration and both ID FAQ parts correctly.
+
 Owner now targets benchmark-ready research candidate plus exploratory testing, without starting the
 deferred audit programme. Acceptance: controlled live verification of the 13 round-two failures and
 previously passing controls on one loaded revision, then freeze that revision/config/source pin for the
@@ -100,7 +134,7 @@ select Handbook policy. Existing procedure preference addresses the latter. Adde
 body context so the interpreter can distinguish a method from a deadline/meaning label: only one complete
 body up to 1024 characters; held, oversized or multiple distinct bodies supply no hint. No new source claim.
 RED 1 failed / 26 passed; GREEN 200 across topic/source-binding, document selection and coverage/cutoff tests.
-This metadata correction is not yet live verified. New evidence remains separate from final success.
+This metadata correction is not yet end-to-end verified. New evidence remains separate from final success.
 Routing/context fixes committed as `1ba98d82`. Final focused answer/facility/coverage gate: 66 passed.
 Owner confirmed not currently using 3217; local loading and targeted inference window now available.
 Answer fixes committed `e1abe4d3`; deferred proposal/intake `541524d5`.
@@ -130,8 +164,7 @@ without depending on which guard runs first (12 passed). No runtime guard was we
 
 Ignored candidate launcher temporarily captures model calls and retrieval IDs. Restore its
 `start-candidate.py.before-repair-trace` backup after investigation, retaining the zero-window benchmark override.
-Current dev API includes compiler/context and initial facility/cheating repairs, but predates the latest
-generation coverage retry, registration labels and procedure preference. Main remains untouched.
+Prior dev API was `54fa32ea`; replacemente5cfce72 is warming. Main remains untouched.
 
 Second round received: `E:/Hawksprey/Downloads/Bintanong_AI_Export_2026-11-06_1002.csv`, SHA-256
 `ac426d1b43ec172b7beff9854ed225e44cf42ca051549b1e88c14b2a1d7d7268`.
@@ -148,7 +181,6 @@ Recovered restarted remainder: 723 passed before an unrelated unknown-course wor
 (`test_routing_unknown_course.py`, expects 'as printed in your prospectus'). Do not claim a full integrated
 pass or alter unrelated wording merely to clear the gate. Relevant focused gate above passes.
 
-Hold automated model requests and server restarts pending a clear testing window; receiving the export
-does not itself authorize interrupting the server. Next: prioritize grade-4 and add/change regressions,
-finish the offline gate, then verify the untested generation/registration/procedure fixes live.
+Next: finish parallel fixes and integrated offline gate, reload only dev during the owner-authorized
+window, then verify grade4/general-policy/INC/probation/registration/ID plus passing controls live.
 Reuse existing evidence; no full rerun until targeted checks pass. No full benchmark success claimed.

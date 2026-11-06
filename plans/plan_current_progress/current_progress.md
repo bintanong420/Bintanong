@@ -80,5 +80,13 @@ the candidate for the 72-query run. Browser acceptance remains pending; no bench
 Runtime recovered: dev /chat, /api/health and8022/health/ready200. Frontend62684, API62736.
 Live add/change all3 now answers procedure; grade-4 EN/TG answers with gaps, Filipino still wrong-dropping.
 Context dedup/shorter selector: RED1, GREEN123; overflow probe resolved, semantic failure remains.
-Next: fix Filipino grade-removal topic selection, then remaining acceptance cases. No full benchmark pass.
+Root `1bebd24e`: Filipino May/date misread corrected at linguistic candidate layer;198 routing checks.
+Parallel fixes integrated: generation07528080, runtimee5cfce72; combined focused172pass. Registration/ID
+worker confirmed service/source coverage (66 tests). Reloading onlydevAPI frome5cfce72; frontend stays up.
+Grade fullprocedure3991688e; originalquote9bef074e190pass; budget/runtime108pass. Candidategradebudget5120
+now9/9records live; release1d4eeb3b6bb7b8e0. English/Filgradeanswers still failcompleteness, nooverflow.
+Generation9ef5b0e8 preserves purposes; stylef110e9b6 fixesID capitalizationgrounding; loadingAPIonce.
+Livebeforethese: INCEN/TG, probationTG, registrationENanswered. Grade4/ID stillneedliveproof.
+Next: afterAPIready verifyexactgrade4andID; sourceholdsandordinaryreviewremain mandatory.
+No full benchmark pass; source-absence fallback corrected but underlying grade answer remains open.
 Details/remaining INC, probation and vehicle evidence limits are in the checkpoint. No full success or push.
