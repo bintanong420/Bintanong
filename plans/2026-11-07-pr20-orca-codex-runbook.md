@@ -16,7 +16,12 @@ git status --short
 git rev-parse origin/p12-dev
 git rev-parse origin/feature/p12-unified-answer-pipeline
 $wt = "C:\Coding-projects\bintanong_workspace\worktrees\Bintanong\p12-pr20"
-git worktree add $wt feature/p12-unified-answer-pipeline
+# A new web-created branch may have no local ref yet.
+if (git show-ref --verify --quiet refs/heads/feature/p12-unified-answer-pipeline) {
+    git worktree add $wt feature/p12-unified-answer-pipeline
+} else {
+    git worktree add -b feature/p12-unified-answer-pipeline $wt origin/feature/p12-unified-answer-pipeline
+}
 cd $wt
 git status --short
 git merge-base --is-ancestor origin/p12-dev HEAD
