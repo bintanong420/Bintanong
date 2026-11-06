@@ -206,6 +206,17 @@ def test_cases_name_the_curriculum_they_run_with(tmp_path):
     assert by_id['A02-EN']['curriculum_label'] == 'PALSU-BSIT 2018-2019' and by_id['A07-EN']['curriculum_label'] is None
 
 
+def test_a_search_with_no_topic_is_not_called_topic_bound(tmp_path):
+    body = post_run(client_for(service_for(tmp_path, Pipeline([('words', None, [item('a')], [])])))).json()
+    assert body['searches'][0]['topic_bound'] == [] and len(body['searches'][0]['all_chunks']) == 3
+
+
+def test_a_system_error_answer_is_not_scored(tmp_path):
+    faulty = answer_for('RAG').model_copy(update=dict(status='insufficient_evidence', reason='system_error'))
+    body = post_run(client_for(service_for(tmp_path, Pipeline(result=faulty)))).json()
+    assert body['outcome'] == 'infrastructure_error' and body['error'] == 'system_error'
+
+
 def test_pipeline_failure_is_saved_as_infrastructure_error(tmp_path):
     response = post_run(client_for(service_for(tmp_path, Pipeline(error=RuntimeError('model down')))))
     assert response.status_code == 200
