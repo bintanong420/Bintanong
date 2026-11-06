@@ -52,6 +52,11 @@ Owner: capabilities and research scope must be callable in chat.
   Undergraduate advisory scope, unknown-versus-unmet, source conflicts, F04 hold,
   English/Taglish replies and private-upload isolation remain mandatory.
 
+## Evaluation testing mode (6 Nov)
+Owner asked to plan, not implement, a website testing mode for Accuracy/Precision/Recall/F1.
+[Feasibility and plan](../2026-11-06-evaluation-testing-mode-plan.md). Owner: keep the 72 queries typed singly; both lists; keys with human judging; row10 Handbook.
+[Tasks](../2026-11-06-evaluation-testing-mode-implementation.md) await review. No code changed.
+
 ## Next action
 
 Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
