@@ -71,5 +71,10 @@ Round two received: 33 retested, 20 Y / 13 N; 12 improvements, 3 regressions (B-
 39 not retested; no new full-72 score. Facilities passes with clutter noted; source coverage limits remain.
 Grade-4 claim/body binding added (RED 1 failure, GREEN 200 related tests); no new source claims.
 Owner audit-remediation proposal preserved in plans and deferred until these failures are addressed.
-Next: verify unloaded grade-4 and add/change fixes during an available inference window; other failures stay open.
+Owner freed inference window. Routing `1ba98d82`, answers `e1abe4d3`; final answer gate 66 passed.
+Owner now requests benchmark-ready candidate plus exploratory testing; deferred audit work stays later.
+Docker/model and dev API started using separately scoped commands; encoder weights loaded, model still
+503 during cold startup. Frontend launch with its environment was policy-rejected. Integrated tail 598 pass.
+Next: establish model/API readiness, verify 13 failures plus passing controls on one revision, then freeze
+the candidate for the 72-query run. Browser acceptance remains pending; no benchmark-ready claim yet.
 Details/remaining INC, probation and vehicle evidence limits are in the checkpoint. No full success or push.

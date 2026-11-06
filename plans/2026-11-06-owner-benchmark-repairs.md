@@ -66,6 +66,16 @@ while a checked course/term request plus documentary explanation remains Hybrid.
 
 ## Current offline repairs and live limits
 
+Owner now targets benchmark-ready research candidate plus exploratory testing, without starting the
+deferred audit programme. Acceptance: controlled live verification of the 13 round-two failures and
+previously passing controls on one loaded revision, then freeze that revision/config/source pin for the
+72-query run. Report missing gold/source coverage separately; no school deployment or perfect-score claim.
+Offline integrated tail after the unknown-course file: 598 passed in 64.89s. Combined segmented evidence
+is not a single full-suite pass; the unknown-course wording failure remains recorded.
+Docker Desktop and dev API subsequently started successfully as separate narrowly scoped commands;
+model container started. The frontend start with per-process environment remained policy-rejected.
+Model/API are warming; direct API acceptance can proceed when ready, browser acceptance still pending.
+
 Owner 6 Nov: fix round-two failures first; the supplied audit-driven remediation plan is deferred.
 Preserved unchanged as [deferred proposal](2026-11-06-deferred-audit-remediation-proposal.md), SHA-256
 `93a06cce464e5d69a1647d81a2bf46b61e5a9fa02a3554412309a9f148a20a95`.
@@ -79,7 +89,12 @@ body up to 1024 characters; held, oversized or multiple distinct bodies supply n
 RED 1 failed / 26 passed; GREEN 200 across topic/source-binding, document selection and coverage/cutoff tests.
 This metadata correction is not yet live verified. New evidence remains separate from final success.
 Routing/context fixes committed as `1ba98d82`. Final focused answer/facility/coverage gate: 66 passed.
-Owner asked for a free inference window before loading/retesting; reply pending. Do not restart yet.
+Owner confirmed not currently using 3217; local loading and targeted inference window now available.
+Answer fixes committed `e1abe4d3`; deferred proposal/intake `541524d5`.
+Fresh HTTP checks: 8021/live 200; 3216,3217,8022 and18088 unavailable; Docker Linux pipe absent.
+Attempt to restore Docker Desktop/dev API/frontend was rejected by automatic approval review as
+'blocked by policy', with no specific rationale. No service start occurred through that command.
+Live acceptance remains unverified; restore services through an allowed mechanism before retesting.
 
 Working-tree repairs: clean semantic retry and bounded complete source context (296 routing checks);
 legacy registration service labels (80 checks); unique approved-family procedure preference (290 checks);
