@@ -66,6 +66,15 @@ while a checked course/term request plus documentary explanation remains Hybrid.
 
 ## Current repair snapshot
 
+Roundthree export received `E:/Hawksprey/Downloads/Bintanong_AI_Export_2026-11-06_1227.csv`, SHA256
+`e7f9bb65ed9a3b339bb550221e786c6725bd3dddb328ddd35da580715fd70402`. 72rosterrows,21retested:
+20Y/1N,51untested;13fixed/7unchangedpass/1regressed. OnlyN B-13-TL returnsfreshmanadmissioncredentials
+fornext-semesterenrollment. Sixgrade4/INCYmarksareconditionalpassespernotes: reduceverbositywithout
+hidinginconsistency. IDTaglishwordingneedspolish. Policy10notecorrectsinitialprod/mainmixuptodevY.
+Preserveallmarks,donottransformsharedrownoteintoanotherlanguagefailure. Sourceaudiencefreshmanundergrad
+isnotSHSmerelybecausehighschoolcredentialsarelisted;wrongcontinuing-studentcontextistheregression.
+Ownerstilltests: noautomatedmodelqueries/restarts. OfflineworkertracesB13TL. Notanoverall72accuracy.
+
 Last full snapshot: `29e0945b` (`git show` recovers the earlier diagnosis). No new phase or push.
 
 - Round two: 33 retested, 20 Y / 13 N, 39 untested. Export SHA-256
@@ -108,6 +117,13 @@ Last full snapshot: `29e0945b` (`git show` recovers the earlier diagnosis). No n
   focused79checks pass. LoadingonlydevAPI PID46352; liveconfirmationpending.
   OwnerrequestedLunasubagentCodexstatusandbothstackkeepalive;Lunamonitorshealth/restoresmodel/frontends,
   rootownsdevAPIreload. CodexCLIhasno`status`subcommand; supportedauth/doctorchecksnotusageUIclaims.
+  Liveaf770128: EnglishINC andgrade4answered withcorrectexactsections; TaglishINCreviewer rejected
+  completequotedmethodwhileaskingneighboringcontext. `e7e6b2a0` clarifiesmark-specificreview scope,
+  preservingallclaimsupport/source-limit checks;95relatedtests pass. Reloadwarming.
+  Luna: Codex0.166.0ChatGPTlogin; doctor0failedchecks (notusageallowance). Four-hour monitorPID9452
+  atignoredp12dev-language-20261105/keepalive-monitor.ps1, logkeepalive-health.log. Two misses,
+  absentlistener/ownerprocess and180scooldownbeforerecovery; no503warmingrestart. Main3216/8021,
+  model18088 anddevfrontend3217fresh200;8022warming. pause-dev-apisentinelmustberemovedafterreload.
 
 ### Runtime and live evidence
 

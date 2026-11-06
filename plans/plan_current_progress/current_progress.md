@@ -58,45 +58,24 @@ unknown-versus-unmet, English/Taglish replies and F04 hold remain mandatory.
 USG source review is owned by the separate p11 researcher GUI workflow; no new source approval is inferred here.
 ## Next action
 
-Owner 72-variant log (3217): 47 Y / 8 P / 14 N / 3 untested. Second file is a fix-handoff export,
-not another run; its row 15 TG #REF! is a spreadsheet defect. [Repair checkpoint](../2026-11-06-owner-benchmark-repairs.md).
-Compact program-name fix `5c5f1093`: 217 tests; Forensic router 3/3 and HTTP English prerequisite listing pass.
-Prerequisite-list invitation removed `53e4fd81`: 50 tests. Compiler correction `29c7c1a3` preserves Hybrid.
-Working-tree routing/context fixes: 296 checks; procedure preference 290; facilities 55; coverage retry 108.
-General-policy routing passes three languages, but full answers remain incomplete. Live TG cheating and
-facilities improve; other variants and newest generation/registration/procedure code need live verification.
-Integrated gate: 697 passed before an old one-attempt assertion failed; corrected cutoff group 32 passed;
-remaining gate 723 passed before unknown-course wording assertion failed; no full pass. Hold model calls/restarts.
-Round two received: 33 retested, 20 Y / 13 N; 12 improvements, 3 regressions (B-14-TG, B-15-TL/TG).
-39 not retested; no new full-72 score. Facilities passes with clutter noted; source coverage limits remain.
-Grade-4 claim/body binding added (RED 1 failure, GREEN 200 related tests); no new source claims.
-Owner audit-remediation proposal preserved in plans and deferred until these failures are addressed.
-Owner freed inference window. Routing `1ba98d82`, answers `e1abe4d3`; final answer gate 66 passed.
-Owner now requests benchmark-ready candidate plus exploratory testing; deferred audit work stays later.
-Docker/model and dev API started using separately scoped commands; encoder weights loaded, model still
-503 during cold startup. Frontend launch with its environment was policy-rejected. Integrated tail 598 pass.
-Next: establish model/API readiness, verify 13 failures plus passing controls on one revision, then freeze
-the candidate for the 72-query run. Browser acceptance remains pending; no benchmark-ready claim yet.
-Runtime recovered: dev /chat, /api/health and8022/health/ready200. Frontend62684, API62736.
-Live add/change all3 now answers procedure; grade-4 EN/TG answers with gaps, Filipino still wrong-dropping.
-Context dedup/shorter selector: RED1, GREEN123; overflow probe resolved, semantic failure remains.
-Root `1bebd24e`: Filipino May/date misread corrected at linguistic candidate layer;198 routing checks.
-Parallel fixes integrated: generation07528080, runtimee5cfce72; combined focused172pass. Registration/ID
-worker confirmed service/source coverage (66 tests). Reloading onlydevAPI frome5cfce72; frontend stays up.
-Grade fullprocedure3991688e; originalquote9bef074e190pass; budget/runtime108pass. Candidategradebudget5120
-now9/9records live; release1d4eeb3b6bb7b8e0. English/Filgradeanswers still failcompleteness, nooverflow.
-Generation9ef5b0e8 preserves purposes; stylef110e9b6 fixesID capitalizationgrounding; loadingAPIonce.
-Livebeforethese: INCEN/TG, probationTG, registrationENanswered. Grade4/ID stillneedliveproof.
-IDTG and grade4Fil answered live; Englishgrade4 still failed mixed-citation rewrite coverage.
-Recovery6f830de2 preserves separate requested records (worker128/root123checks); loading8022now.
-Exactgrade4EN/Fil/TGandIDTGnowanswered; all13oldfailuresreturnedanswered on6f830de2+5120.
-That statusisnotindependentaccuracy:10policyparaphrasesomittedconditions. Fullsourcebodyfix5b162803
-committed(worker102/root44checks), loadingdevAPI. Next: verify10alllanguagesandgradecontrol.
-Longquotationsremain; full72benchmarknotrerun. Sourceholdsandordinaryreviewremainmandatory.
-OwnerpointedtoINC3.4;9581df1fnarrowsINCvs4method+approvalrecords, excludesunaskedduplicatetiming.
-159integrationtests pass;9581df1flivescopeisright,butINCdraftmisusedgrade4neighborasINCrule.
-Exactmark-boundaf770128committed,79focusedchecks pass;loadingonlydevAPI PID46352.
-LunasubagentchecksCodexstatusandmain/devkeepalive;rootownsdevreload. Next: liveINC/grade4proof.
-Policy10fullbodyall3languagesverified; grade4longreplyreducedbutfull72benchmarkstillpending.
-No full benchmark pass; source-absence fallback corrected but underlying grade answer remains open.
-Details/remaining INC, probation and vehicle evidence limits are in the checkpoint. No full success or push.
+Development candidate code `e7e6b2a0`, reviewed-source release `1d4eeb3b6bb7b8e0` with candidate-only
+5120 grade context budget. All original sources and main/gathering code remain unchanged.
+[Repair checkpoint](../2026-11-06-owner-benchmark-repairs.md) records commits and verification.
+
+- Round three received: 21 retested, 20 Y / 1 N, 51 untested. Owner outcomes: 13 fixed,
+  7 unchanged passes, 1 regression B-13-TL (freshman requirements for next-semester enrollment).
+  Six grade-4/INC Y marks remain conditional on reducing verbosity while disclosing inconsistencies.
+- General-policy all languages, add/change, probation and ID pass owner retests. ID Taglish still needs polish.
+  R3 note corrects an initial main/prod vs dev mix-up for policy10; retain final dev Y marks.
+- Mark-specific INC/grade-4 quotations prevent neighboring grade rules from being substituted.
+  Latest reviewer-scope change has 95 related tests; owner R3 is not a full frozen 72-query run.
+- Owner actively verifies behavior: HOLD automated model queries and further restarts; offline work only.
+  Registration worker investigates B-13-TL from saved traces. Do not mistake freshman undergraduate
+  admission content for a senior-high-school procedure merely because it asks for high-school credentials.
+- Luna checked Codex ChatGPT login/doctor (0 failed, not usage limits). Four-hour keepalive monitor PID9452
+  recovers only absent services after two checks/cooldown; dev pause sentinel removed after readiness.
+  Runtime evidence/scripts are ignored; public/main limits unchanged, dev temporary rate window zero.
+- Wider audit remediation proposal is saved and deferred. No source activation, dependency change or push.
+
+Next: fix B-13-TL offline, then shorten grade/INC output without hiding source conflicts; coordinate a
+reload/inference window before touching the live candidate. Preserve original result marks and transcripts.
