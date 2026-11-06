@@ -48,6 +48,7 @@ class ApiServices:
     close: object = None
     ready: object = None
     supabase_probe: object = None  # hosted storage readiness (co-worker composition)
+    evaluation: object = None  # gated benchmark runs; only a trusted launcher sets this
 
 
 def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
@@ -67,6 +68,8 @@ def create_app(services: ApiServices, settings: ApiSettings) -> FastAPI:
     app.state.question_limit = question_limit = QuestionRateLimit(limit=settings.max_questions_per_window,
                                                                   window_seconds=settings.question_window_seconds)
     app.include_router(upload_router(services, turns, settings.max_upload_bytes, settings.max_parallel_uploads))
+    if services.evaluation is not None:
+        app.include_router(services.evaluation.router(admission))
     app.add_api_route('/health/live', health_live, methods=['GET'])
     if services.supabase_probe is not None:
         @app.get('/health/ready')

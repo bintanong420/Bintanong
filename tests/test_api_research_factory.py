@@ -86,6 +86,22 @@ def test_research_config_selects_guest_access_without_disabling_token_verificati
         assert client.get('/curricula', headers={'Authorization': 'Bearer invalid'}).status_code == 401
 
 
+def test_factory_mounts_evaluation_only_when_the_launcher_configures_it(configured, tmp_path, monkeypatch):
+    factory, path, _ = configured
+    header = {'x-bintanong-evaluator': 'synthetic-evaluator-passcode'}
+    monkeypatch.delenv('BINTANONG_EVALUATION_TOKEN', raising=False)
+    with TestClient(factory.load_research_app(path)) as client:
+        assert client.get('/evaluation/cases', headers=header).status_code == 404
+    keys = tmp_path / 'keys.json'
+    keys.write_text('{"keys": []}', encoding='utf-8')
+    monkeypatch.setenv('BINTANONG_EVALUATION_TOKEN', header['x-bintanong-evaluator'])
+    monkeypatch.setenv('BINTANONG_EVALUATION_LOG', str(tmp_path / 'log.jsonl'))
+    monkeypatch.setenv('BINTANONG_EVALUATION_KEYS', str(keys))
+    monkeypatch.setenv('BINTANONG_EVALUATION_COMMIT', 'abc1234')
+    with TestClient(factory.load_research_app(path)) as client:
+        assert len(client.get('/evaluation/cases', headers=header).json()['cases']) == 72
+
+
 def test_factory_reuses_sealed_package_cpu_encoder_and_requires_server_auth(configured):
     factory, path, seen = configured
     app = factory.load_research_app(path)
