@@ -30,6 +30,7 @@ from .residence_reply import residence_reply
 from .honours_reply import honours_reply
 from .leave_reply import leave_reply
 from .absence_reply import sickness_branch
+from .facilities_reply import facilities_claims
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -309,7 +310,7 @@ def host_claims(pack):
     parts get no model wording. Each claim is (text, evidence_id) or (text, (evidence_id, ...)).
     A part whose reply would cite a record held for a malformed condition is left out, so the ordinary
     per-part path quotes that record with its limitation or reports a source gap (owner 30 Oct 2026)."""
-    fixed = {**fee_claims(pack), **grade_claims(pack)}
+    fixed = {**fee_claims(pack), **grade_claims(pack), **facilities_claims(pack)}
     held = set(malformed_records(pack))
     service = service_claims(pack, fixed)
     printed = held_service_parts(pack, service) - set(fixed)
@@ -342,7 +343,7 @@ def held_service_parts(pack, service):
 
 def printed_held_claims(pack):
     """The exact host claims of held_service_parts; the final malformed-source check accepts only these."""
-    fixed = {**fee_claims(pack), **grade_claims(pack)}
+    fixed = {**fee_claims(pack), **grade_claims(pack), **facilities_claims(pack)}
     service = service_claims(pack, fixed)
     return {(text, _ids(evidence)) for part in held_service_parts(pack, service) - set(fixed)
             for text, evidence in service[part]}
@@ -460,6 +461,12 @@ def continued_records(pack):
 def part_messages(text, pack, *, errors=(), previous='', references=None):
     payload = dict(untrusted_question=text, evidence=document_payload(pack, compact=True),
         validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
+    if any(error.startswith('part_question_not_answered:') for error in errors):
+        payload['question_coverage_repair'] = (
+            'The previous draft was source-supported but did not answer the named question part. '
+            'Answer the actual question using the SAME evidence, including the relevant rule, conditions '
+            'and exceptions rather than only an introduction. Do not invent missing information; '
+            'use an unavailable slot if the evidence cannot answer it. All source and support checks still apply.')
     aliases = _part_aliases(pack, references)
     for card in payload['evidence']['sources']:
         card['evidence_id'] = aliases[card['evidence_id']]

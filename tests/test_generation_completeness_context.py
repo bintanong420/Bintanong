@@ -78,4 +78,37 @@ def test_partial_checklist_is_not_released_when_review_detects_the_omitted_step(
     answer=asyncio.run(Generator(MissingStepModel()).generate(TEXT,integration()))
     assert answer.status=='insufficient_evidence' and not answer.claims
     assert answer.part_ledger.entries[0].status=='uncertain'
-    assert answer.draft_attempts==answer.check_attempts==1
+    assert answer.draft_attempts==answer.check_attempts==2
+
+
+def test_source_supported_but_incomplete_draft_can_use_the_existing_repair_budget():
+    source = integration()
+    value = source.model_dump(mode='json')
+    second = 'Submit fictional Form Q to Fictional Office Z.'
+    value['evidence']['documents']['passages'][1]['text'] = second
+    source = type(source).parse(value)
+
+    class Repair:
+        def __init__(self):
+            self.drafts = []
+
+        async def infer(self, messages, schema):
+            payload = json.loads(messages[1]['content'])
+            if schema['properties'].get('schema_version', {}).get('const') == PartExplanation.SCHEMA_VERSION:
+                self.drafts.append(payload)
+                cards = {c['text']: c['evidence_id'] for c in payload['evidence']['sources']}
+                texts = [CHECKLIST] if len(self.drafts) == 1 else [CHECKLIST, second]
+                return json.dumps(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+                    release_id=payload['evidence']['release_id'], language='en', answers=dict(r1=dict(
+                        status='answered', claims=[dict(text=t, evidence_ids=[cards[t]]) for t in texts]))))
+            claims = payload['parts'][0]['claims']
+            support = report(verdicts=[dict(claim_id=c['claim']['claim_id'], verdict='supported') for c in claims])
+            return json.dumps(dict(parts=dict(r1='answers' if len(claims) == 2 else 'does_not_answer'),
+                                   support=support.model_dump(mode='json')))
+
+    model = Repair()
+    answer = asyncio.run(Generator(model).generate(TEXT, source))
+    assert answer.status == 'answered' and CHECKLIST in answer.text and second in answer.text
+    assert answer.draft_attempts == answer.check_attempts == 2
+    assert 'part_question_not_answered:r1' in model.drafts[1]['validation_errors']
+    assert not model.drafts[1]['untrusted_previous_draft']

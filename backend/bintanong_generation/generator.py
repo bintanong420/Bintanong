@@ -281,6 +281,14 @@ class Generator:
                                 settled=('mapped','unavailable') if per_part else ('mapped',)
                                 if ('incomplete_support_verdicts' not in errors and
                                         any(e.status not in settled for e in ledger.entries)):
+                                    if (per_part and attempt == 1
+                                            and any(v == 'does_not_answer' for v in review.parts.values())
+                                            and all(v.verdict == 'supported' for v in review.support.verdicts)):
+                                        errors = tuple('part_question_not_answered:' + p for p, verdict in review.parts.items()
+                                                       if verdict == 'does_not_answer')
+                                        previous = ''
+                                        ledger = None
+                                        continue
                                     return _answer(pack,'insufficient_evidence',reason='parts_unresolved',
                                         attempts=attempts,checks=checks,ledger=ledger,guard=guard,coverage=coverage)
                             elif coverage_required and review.release_id!=pack.release_id:
