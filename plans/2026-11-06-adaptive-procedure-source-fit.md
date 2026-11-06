@@ -81,3 +81,25 @@ no field binding and must not acquire unbound context. Strict contracts remain u
 RED reproduced missing form-location hint and large-aggregate startup failure. Gates234
 and115 pass after correction; actual pinned145-topic menu loads. No new source review
 or Supabase change. Model/Docker outage delayed live checks; keepalive recovery underway.
+
+## Final selector fit and compound coverage
+
+Projecting all step hints into the145-topic selector exceeded the existing8192-token
+model context (measured8493 system-content tokens, before message/schema overhead).
+Selected-topic interpretation retains its step values; the full selector now exposes
+one short non-numbered procedure example, and a <=160-character client-step example
+only when the question shares a word with the reviewed service labels. These examples
+do not establish complete coverage or authority. Synthetic guard tests retain exact
+untruncated values and bounded projection.
+
+The selector still omitted the form service for the compound Taglish question. The
+existing candidate-companion layer now retains topics whose reviewed client step
+contains a two-word requested-object phrase (both words at least four characters).
+This only expands candidates within the eight-topic bound; it never assigns a part
+or supplies an answer. The semantic router chooses fresh evidence for each part.
+
+Final isolated live router checks: gate-pass English/Filipino/Taglish all select the
+same memo initial-payment claim; compound grade4+form question selects Handbook for
+removal and Charter for form location; standalone form question selects Charter.
+Saved ignored `gate-pass-router-menu.json`, `removal-form-router-final.json`.
+Final combined gate501 passed9.98s; API reload/HTTP answer checks follow. Full72 pending.

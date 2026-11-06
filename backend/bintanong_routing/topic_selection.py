@@ -14,14 +14,16 @@ def workflow_fact_indices(topic):
         re.fullmatch(r'step\d+_client_step', field) for field in topic.claim_fields.get(claim, ()))]
 
 
-def procedure_context(topic):
-    context = []
+def procedure_context(topic, text=''):
+    words = set(re.findall(r'\w{4,}', text.casefold()))
+    named_service = words & set(re.findall(r'\w{4,}', ' '.join(topic.source_labels).casefold()))
     for claim, fields in topic.claim_context.items():
-        selected = {name: value for name, value in fields.items() if name.endswith('_procedure')
-                    or re.fullmatch(r'step\d+_client_step', name)}
-        if claim not in topic.not_stated and selected:
-            context.append(dict(claim=claim, fields=selected))
-    return context[:4]
+        for name, value in fields.items():
+            if (claim not in topic.not_stated and len(value) <= 256 and
+                    (name.endswith('_procedure') or named_service and len(value) <= 160
+                     and re.fullmatch(r'step\d+_client_step', name))):
+                return [dict(claim=claim, fields={name: value})]
+    return []
 
 
 def output_schema(topics):
@@ -37,7 +39,7 @@ def output_schema(topics):
 def build_messages(text, topics, previous=None, dialogue=None):
     menu = [dict(subject_id=t.subject_id,
         **({'workflow_fact_count': len(workflow_fact_indices(t))} if workflow_fact_indices(t) else {}),
-        **({'procedure_context': procedure_context(t)} if procedure_context(t) else {}),
+        **({'procedure_context': procedure_context(t, text)} if procedure_context(t, text) else {}),
         **({'source_labels': list(t.source_labels)} if t.source_labels else {}),
         **({'opening': t.source_opening} if t.source_opening and not t.source_items else {}),
         **({'items': list(t.source_items)} if t.source_items else {}),
@@ -56,6 +58,11 @@ def build_messages(text, topics, previous=None, dialogue=None):
         'use it for the requested action/location; it does not establish '
         'a complete workflow, replacement price, full requirements or source supersession. '
         'Keep policy/checklist questions distinct; honor an explicitly requested source. '
+        'When a question asks for policy and where to get its form, include both the policy topic '
+        'and the service workflow that issues the form. Do not assume the policy summary gives its location. '
+        'Account for EACH question before selecting topics, including a second question in Filipino/Taglish '
+        '(Saan kukuha = where to obtain). Match form locations to the quoted client step that names the form '
+        'and issuing office, even if the first question has a closer matching policy/grade heading. '
         'claims names reviewed coverage without a printed description. '
         'If more than eight are needed, or the choice is unclear, set ambiguous true; '
         'never discard a requested part to fit. Empty subject_ids is allowed when no document '
@@ -186,6 +193,12 @@ def add_companions(chosen, topics, text):
     exceed the selection limit."""
     ids = {t.subject_id for t in chosen}
     wanted = []
+    pairs = set(re.findall(r'\b\w{4,}\s+\w{4,}\b', text.casefold()))
+    for topic in topics:
+        if any(claim not in topic.not_stated and re.fullmatch(r'step\d+_client_step', name)
+               and any(re.search(r'\b' + re.escape(pair) + r'\b', value.casefold()) for pair in pairs)
+               for claim, fields in topic.claim_context.items() for name, value in fields.items()):
+            wanted.append(topic.subject_id)  # Candidate inclusion only; the semantic router still chooses each part.
     if 'handbook_student_faq' in ids and GOOD_MORAL.search(text):
         wanted.append('charter_good_moral')
     if ids & set(ABSENCE_TOPICS) and ABSENCE.search(text):

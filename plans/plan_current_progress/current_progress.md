@@ -71,5 +71,9 @@ good moral/gate pass all partial, shifting FinalY but verbose, B15 form-location
 Shifting short-referral cleanup `e8a848a1`:141 tests pass, source quotations retained.
 Removal form is reviewed Charterphysical112 step1 (Registrar's office); new bounded
 client-step hints expose it. Context/aggregate binding regressions fixed; pinned145topicsload;
-latest gate115 pass. Next: restoreDocker/model/devAPI, then serial good-moral/gate-pass/form
-checks through3217; no full72 claim. Main untouched; keepalivemonitor36880, APIpauseheldduringrecovery.
+`622b68b0` committed; optional selector hints reduced to fit existing8192modelcontext.
+Reviewed client-step object phrases expand candidates only, preserving semantic source selection.
+All3gate-pass router variants pass; compound grade4/form correctly splits Handbook/Charter.
+Final combined gate501 pass. Docker/model/API recovered; allfive200, keepalivemonitor36880.
+Next: final dev-only reload then serial good-moral/gate-pass/form HTTP checks through3217.
+Full72 pending; no original-source or Supabase changes; main untouched.

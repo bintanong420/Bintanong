@@ -38,6 +38,37 @@ def test_non_numbered_procedure_fragments_are_visible_without_inventing_workflow
     assert 'workflow_fact_count' not in menu[0]
 
 
+def test_full_selector_uses_one_short_procedure_example_and_keeps_client_steps_for_selected_topics():
+    from backend.bintanong_routing.topic_selection import procedure_context
+    topic = DocumentTopic(subject_id='fictional_service', claims=('service',),
+        claim_fields={'service': ('step1_client_step', 'long_procedure', 'application_procedure')},
+        claim_context={'service': {'step1_client_step': 'Obtain form at Office Z.',
+            'long_procedure': 'x'*257, 'application_procedure': 'Submit form.'}})
+    assert procedure_context(topic) == [dict(claim='service', fields={'application_procedure': 'Submit form.'})]
+
+
+def test_named_service_can_expose_one_short_client_step_without_selecting_a_source():
+    from backend.bintanong_routing.topic_selection import procedure_context
+    topic = DocumentTopic(subject_id='fictional_service', claims=('service',),
+        source_labels=('ISSUANCE OF FICTIONAL SLIP',),
+        claim_fields={'service': ('step1_client_step',)},
+        claim_context={'service': {'step1_client_step': 'Obtain fictional slip at Office Z.'}})
+    assert procedure_context(topic, 'Where do I obtain fictional slip?') == [dict(claim='service',
+        fields={'step1_client_step': 'Obtain fictional slip at Office Z.'})]
+    assert procedure_context(topic, 'Explain grading policy.') == []
+
+
+def test_a_reviewed_client_step_naming_the_requested_object_remains_a_candidate():
+    from backend.bintanong_routing.topic_selection import add_companions
+    policy = DocumentTopic(subject_id='fictional_policy', claims=('policy',))
+    service = DocumentTopic(subject_id='fictional_service', claims=('step',),
+        claim_fields={'step': ('step1_client_step',)},
+        claim_context={'step': {'step1_client_step': 'Obtain fictional permit at Office Z.'}})
+    chosen = (policy,)
+    assert add_companions(chosen, (policy, service), 'Explain the policy. Where is the fictional permit?') == (policy, service)
+    assert add_companions(chosen, (policy, service), 'Explain grading policy.') == chosen
+
+
 @pytest.mark.parametrize('detail,expected', [('whole', ('checklist', 'first step', 'second step')),
                                          ('requirements', ('checklist',)), ('specific', ('checklist',))])
 def test_whole_selected_procedure_keeps_its_steps_without_broadening_narrow_details(detail, expected):

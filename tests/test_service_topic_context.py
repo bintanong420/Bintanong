@@ -239,7 +239,8 @@ def test_review_bound_client_step_location_reaches_both_routing_menus():
     assert topics[0].claim_context['visible service fields']['step1_client_step'] == 'Obtain fictional form Q at Office Z.'
     selector = selection_messages('Where do I get form Q?', topics)[0]['content']
     assert 'Obtain fictional form Q at Office Z.' in system
-    assert 'Obtain fictional form Q at Office Z.' in selector
+    assert '"workflow_fact_count":1' in selector
+    assert 'Obtain fictional form Q at Office Z.' not in selector  # No service-label match in this fixture.
 
 
 def test_large_aggregate_cannot_publish_unbound_client_step_hints():
