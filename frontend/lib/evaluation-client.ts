@@ -6,7 +6,7 @@ export type AnswerKey = { key_id: string | null; key_status: "keyed" | "human_ju
   expected_facts: string[]; expected_route: string | null; expected_outcome: string | null; source_note: string | null };
 export type Judgment = { chunk_marks: Record<string, boolean>; answer_mark: "correct" | "partial" | "wrong" | null; note: string };
 export type EvaluationCase = { case_id: string; row: number; subset: string; category: string; language: string;
-  question: string; key: AnswerKey | null };
+  question: string; key: AnswerKey | null; curriculum_label: string | null };
 export type EvaluationRun = { run_id: string; case_id: string | null; question: string; outcome: string; error: string | null;
   route_label: string | null; topics: { subject_id: string; claims: string[] }[];
   answer: { status: string; language: string | null; text: string; reason: string | null; sources: string[] } | null;

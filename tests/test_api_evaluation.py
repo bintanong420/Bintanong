@@ -18,7 +18,8 @@ ORIGIN = 'https://bintanong.example'
 TOKEN = 'synthetic-evaluator-passcode'
 GOOD = {'origin': ORIGIN, 'x-bintanong-evaluator': TOKEN}
 QUESTION = 'How to drop subjects?'
-CURRICULA = (CurriculumOption('program-a', 'curriculum-a', 'Program A', 'Curriculum A'),)
+CURRICULA = tuple(CurriculumOption(program, curriculum, program.upper(), '2018-2019') for program, curriculum in sorted(
+    {(row['program_id'], row['curriculum_id']) for row in load_roster() if row['program_id']}))
 KEYS = dict(keys=[dict(key_id='row-11', case_ids=['B11-EN'], expected_route='RAG', expected_outcome='answer',
                        key_status='keyed', relevant_chunk_ids=['a'], expected_facts=['Registrar'],
                        source_note='synthetic')])
@@ -161,7 +162,48 @@ def test_each_run_has_a_fresh_session(tmp_path):
     post_run(client)
     first, second = pipeline.contexts
     assert first.session_id != second.session_id
-    assert second.conversation is None and second.facts == () and second.program_id is None
+    assert second.conversation is None and second.facts == ()
+
+
+def scope_of(context):
+    return context.program_id, context.curriculum_id
+
+
+def test_a_query_runs_with_its_rosters_curriculum(tmp_path):
+    pipeline = Pipeline()
+    body = post_run(client_for(service_for(tmp_path, pipeline))).json()
+    assert scope_of(pipeline.contexts[0]) == ('palsu-bscs', 'bscs-2018-2019')
+    assert (body['program_id'], body['curriculum_id']) == ('palsu-bscs', 'bscs-2018-2019')
+
+
+def test_a_named_program_runs_with_that_programs_curriculum(tmp_path):
+    pipeline = Pipeline()
+    post_run(client_for(service_for(tmp_path, pipeline)), "I'm a BSIT student. Can I take CC 5/L if I haven't passed CC 3/L?")
+    assert scope_of(pipeline.contexts[0]) == ('palsu-bsit', 'bsit-2018-2019')
+
+
+def test_row_7_and_typed_text_run_with_no_curriculum(tmp_path):
+    pipeline = Pipeline()
+    client = client_for(service_for(tmp_path, pipeline))
+    post_run(client, 'Can I take CC 5 if I failed CC 4?')
+    post_run(client, 'Something outside the roster?')
+    assert [scope_of(context) for context in pipeline.contexts] == [(None, None), (None, None)]
+
+
+def test_a_curriculum_missing_from_the_release_is_refused_not_run_without_it(tmp_path):
+    pipeline = Pipeline()
+    service = EvaluationService(pipeline=pipeline, releases=releases(Engine()), curricula=(), course_labels={},
+                                roster=load_roster(), normalize_question=normalize_question, keys_document=KEYS,
+                                log_path=tmp_path / 'runs.jsonl', code_commit='abc1234', token=TOKEN)
+    response = post_run(client_for(service))
+    assert response.status_code == 409 and response.json()['error'] == 'case_curriculum_unavailable'
+    assert pipeline.contexts == [] and not (tmp_path / 'runs.jsonl').exists()
+
+
+def test_cases_name_the_curriculum_they_run_with(tmp_path):
+    cases = client_for(service_for(tmp_path, Pipeline())).get('/evaluation/cases', headers=GOOD).json()['cases']
+    by_id = {case['case_id']: case for case in cases}
+    assert by_id['A02-EN']['curriculum_label'] == 'PALSU-BSIT 2018-2019' and by_id['A07-EN']['curriculum_label'] is None
 
 
 def test_pipeline_failure_is_saved_as_infrastructure_error(tmp_path):

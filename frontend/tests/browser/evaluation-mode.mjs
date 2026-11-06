@@ -10,7 +10,7 @@ const noKey = { key_id: null, key_status: 'human_judged', relevant_chunk_ids: []
   expected_outcome: null, source_note: null };
 const cases = Array.from({ length: 24 }, (_, index) => languages.map(language => ({
   case_id: `${index < 10 ? 'A' : 'B'}${String(index + 1).padStart(2, '0')}-${language}`, row: index + 1,
-  subset: index < 10 ? 'A' : 'B', category: 'Synthetic', language, question: `Synthetic question ${index + 1} ${language}?`,
+  subset: index < 10 ? 'A' : 'B', category: 'Synthetic', language, curriculum_label: index === 6 ? null : 'Synthetic Program 2018-2019', question: `Synthetic question ${index + 1} ${language}?`,
   key: index === 0 ? key : noKey }))).flat();
 const chunk = (id, rank, sent = false) => ({ rank, chunk_id: id, similarity: .9 - rank / 10, text: `Synthetic clause ${id}.`,
   source_label: 'Synthetic.pdf', pages: [3], section_path: [], sent_to_writer: sent, attached_count: 0 });
@@ -73,6 +73,9 @@ test('all 72 queries are listed, and clicking one fills the box and shows its ke
     await list.getByRole('button', { name: /Synthetic question 1 EN\?/ }).click();
     assert.equal(await page.getByLabel('Query').inputValue(), 'Synthetic question 1 EN?');
     await page.getByText('Synthetic fact').waitFor();
+    await page.getByText('Runs with: Synthetic Program 2018-2019').waitFor();
+    await list.getByRole('button', { name: /Synthetic question 7 EN\?/ }).click();
+    await page.getByText('Runs with: no curriculum selected').waitFor();
     assert.match(await page.locator('header').innerText(), /Ran 0\/72 · Marked 0\/72/);
   } finally { await browser.close(); }
 });

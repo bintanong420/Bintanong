@@ -81,7 +81,8 @@ class EvaluationService:
         self._pipeline, self._releases, self._curricula = pipeline, releases, curricula
         self._labels, self._roster, self._normalize = course_labels, roster, normalize_question
         self._log_path, self._commit, self._token = Path(log_path), code_commit, token
-        self._by_question = {normalize_question(row['question']): row['case_id'] for row in roster}
+        self._by_question = {normalize_question(row['question']): row for row in roster}
+        self._curriculum_labels = {(c.program_id, c.curriculum_id): f'{c.program_name} {c.curriculum_name}' for c in curricula}
         self._keys = {case_id: key for key in keys_document['keys'] for case_id in key['case_ids']}
         self._lock = threading.Lock()
         self._records = []
@@ -98,7 +99,9 @@ class EvaluationService:
         return None if case_id is None else self._keys.get(case_id, _NO_KEY)
 
     def cases(self):
-        return dict(code_commit=self._commit, cases=[dict(row, key=self._key(row['case_id'])) for row in self._roster])
+        return dict(code_commit=self._commit, cases=[dict(row, key=self._key(row['case_id']),
+            curriculum_label=self._curriculum_labels.get((row['program_id'], row['curriculum_id'])))
+            for row in self._roster])
 
     def runs(self):
         judgments = {r['run_id']: r for r in self._records if r['record_type'] == 'judgment'}
@@ -118,9 +121,14 @@ class EvaluationService:
             text = prepare_query(question)
         except ValueError:
             raise ApiError(422, 'invalid_message') from None
+        case = self._by_question.get(self._normalize(question))
+        program_id, curriculum_id = (case['program_id'], case['curriculum_id']) if case is not None else (None, None)
+        if program_id is not None and (program_id, curriculum_id) not in self._curriculum_labels:
+            raise ApiError(409, 'case_curriculum_unavailable')
         record = dict(record_type='run', schema_version=RUN_SCHEMA, run_id='run-' + secrets.token_hex(8),
                       code_commit=self._commit, release_id=None, question=question,
-                      case_id=self._by_question.get(self._normalize(question)), outcome='completed', error=None,
+                      case_id=case['case_id'] if case is not None else None, program_id=program_id,
+                      curriculum_id=curriculum_id, outcome='completed', error=None,
                       route_label=None, topics=[], answer=None, searches=[])
         capture, seen, failure = _RouteCapture(self._pipeline), [], None
         store = SessionStore()  # one question, one session: nothing carries to the next run
@@ -129,7 +137,7 @@ class EvaluationService:
         turns = ChatTurns(store, capture, self._curricula, course_labels=self._labels)
         try:
             with observe_retrievals() as seen:
-                result = await turns.run(session, PreparedTurn(question, 'msg-evaluation', None, None, False))
+                result = await turns.run(session, PreparedTurn(question, 'msg-evaluation', program_id, curriculum_id, False))
         except ApiError as error:
             failure = error.code
         else:

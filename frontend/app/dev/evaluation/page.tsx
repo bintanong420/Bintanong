@@ -221,6 +221,7 @@ export default function EvaluationPage() {
             <label htmlFor="evaluation-question">Query</label>
             <textarea id="evaluation-question" value={question} rows={3} maxLength={16000} onChange={event => setQuestion(event.target.value)} placeholder="Pick a query from the list or type it here" />
             {question.trim() && !matched && <p className={styles.alert}>Not in the 72, will not be scored.</p>}
+            {matched && <p className={styles.muted}>Runs with: {matched.curriculum_label ?? "no curriculum selected"}</p>}
             {matched && countedRunId(matched.case_id, runs) && <p className={styles.muted}>This query already has a counted run. Running it again is saved, but only the first completed run is scored.</p>}
             <button type="submit" className={styles.primary} disabled={busy || !question.trim()}>{busy ? "Waiting for the answer..." : "Run query"}</button>
             {error && <p className={styles.alert} role="alert">{error}</p>}
