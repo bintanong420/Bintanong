@@ -59,4 +59,3 @@ not prove real-model intent recognition. Wider audit proposal remains deferred.
   not a claim that their full corpus is active. No original-source or release changes.
 - Ignored evidence: `system-info-live.json`, `system-info-live-final.json`,
   `system-info-chat-live.json`; HTTP observations are not browser end-to-end metrics.
-

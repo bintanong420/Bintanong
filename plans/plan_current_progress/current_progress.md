@@ -53,6 +53,9 @@ Owner: capabilities and research scope must be callable in chat.
 
 ## Next action
 
-Target exact “Pano po lumipat ng kurso?”: owner reports program-shifting question quotes
-college-shifting guidance in Phase 4. Worker investigates the responsible selector/generator
-with regression coverage; no new source decision or phase advancement inferred.
+Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
+[Shifting repair](../2026-11-06-program-shifting-repair.md): exact “Pano po lumipat ng kurso?”
+retrieved the right policy but generation quoted only cross-college4.1. Both college branches
+and Registrar guidance now use clean exact source quotes for generic whole-program questions;
+FAQ companion cue and conditional office closing repaired. Worker309 / parent57 tests pass.
+Next: dev API reload, then exact-question check through3217; preserve simultaneous owner testing.

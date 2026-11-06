@@ -106,7 +106,9 @@ ABSENCE = re.compile(r'\b(absent|absence|umabsent|nag-?absent|lumiban|liban|(hin
 ABSENCE_TOPICS = {'handbook_attendance': 'printed attendance fields',
                   'handbook_sickness_access': 'printed sickness access fields'}
 # Owner 3 Nov 2026 (H8): a shifting question gets the Handbook 4.1 rule and the FAQ 8 printed steps together.
-SHIFT = re.compile(r'\b(shift|shifting|mag-?shift|change\s+(of\s+)?(curricular\s+)?(course|program))\b', re.IGNORECASE)
+SHIFT = re.compile(r'\b(shift|shifting|mag-?shift|change\s+(of\s+)?(curricular\s+)?(courses?|programs?)|'
+                   r'(?:lumipat|lipat|magpalit|palit)\s+(?:po\s+)?(?:ng|sa)\s+(?:ibang\s+)?'
+                   r'(?:kurso|programa?|course|college|kolehiyo))\b', re.IGNORECASE)
 SHIFT_TOPICS = {'handbook_shifting': 'printed shifting fields', 'handbook_drop_shift_faq': 'printed FAQ 8 shifting steps'}
 FACILITY_TOPICS = {'handbook_student_faq': 'printed student faq fields',
                    'charter_library_facilities': 'printed library facilities fields'}

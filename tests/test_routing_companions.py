@@ -63,6 +63,8 @@ def chosen(*ids):
     # Owner 3 Nov 2026 (H8): a shifting question that picked Handbook 4.1 also sees FAQ 8's printed steps.
     ('How to shift/change curricular program?', ('handbook_shifting',), ['handbook_shifting', 'handbook_drop_shift_faq']),
     ('paano mag-shift ng program?', ('handbook_shifting',), ['handbook_shifting', 'handbook_drop_shift_faq']),
+    ('Pano po lumipat ng kurso?', ('handbook_shifting',), ['handbook_shifting', 'handbook_drop_shift_faq']),
+    ('Paano po lumipat ng kurso?', ('handbook_shifting',), ['handbook_shifting', 'handbook_drop_shift_faq']),
     ('what does residence mean?', ('handbook_shifting',), ['handbook_shifting']),
 ])
 def test_companions_are_added_only_for_their_own_questions(text, picked, expected):
