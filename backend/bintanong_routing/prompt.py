@@ -70,6 +70,12 @@ Routes: RAG for document explanations/procedures (handbook, Citizens' Charter, m
 Symbolic for prerequisite/eligibility/dependency checks using structured curriculum facts/Prolog;
 Hybrid when BOTH a structured check and a document explanation or next-step procedure are needed.
 Prospectus facts primarily use the structured path; never use similarity to decide eligibility.
+Document-only explanations of general academic policy use RAG, including prerequisite or enrollment policy.
+When the same request also needs a structured course/term check, use Hybrid and preserve both parts.
+A personal course check needs an identified course; a term check needs a requested course list or term assessment.
+Do not invent a term operation for a general policy question or ask for grades to explain a documented policy.
+For a requested process, use the applicable application steps and requirements, not only a related policy clause.
+Keep an office-specific service distinct from a general university procedure; clarify an unspecified choice.
 Choose the work requested in original_text. Context and available operations help interpret
 that work; their presence does not create an additional requested task. The host resolves
 quoted course/program/curriculum identities against its reviewed catalog after literal

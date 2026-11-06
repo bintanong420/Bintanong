@@ -66,6 +66,28 @@ def test_router_keeps_a_valid_topic_choice():
     assert part.subject_id == 'fictional_office' and part.requested_claims == ('filing office',)
 
 
+@pytest.mark.parametrize('detail,expected', [('whole', 'fictional_process'), ('specific', 'fictional_policy')])
+def test_a_whole_workflow_uses_the_reviewed_process_in_its_own_family(detail, expected):
+    topics = (
+        DocumentTopic(subject_id='fictional_policy', claims=('printed policy',), family='fictional_filing',
+                      claim_fields={'printed policy': ('body',)}),
+        DocumentTopic(subject_id='fictional_process', claims=('printed process',), family='fictional_filing',
+                      claim_fields={'printed process': ('service_title', 'step1_client_step')}))
+    value = json.loads(answer('fictional_policy', ('printed policy',)))
+    value['parts'][0]['detail'] = detail
+    result = run(model(json.dumps(value)), text=TEXT, topics=topics)
+    assert result.diagnostic == 'validated' and result.proposed.parts[0].subject_id == expected
+
+
+def test_two_reviewed_processes_do_not_silently_choose_one():
+    topics = (DocumentTopic(subject_id='fictional_policy', claims=('printed policy',), family='fictional_filing'),
+        *(DocumentTopic(subject_id=name, claims=('printed process',), family='fictional_filing',
+                        claim_fields={'printed process': ('step1_client_step',)})
+          for name in ('fictional_process_a', 'fictional_process_b')))
+    result = run(model(answer('fictional_policy', ('printed policy',))), text=TEXT, topics=topics)
+    assert result.proposed.parts[0].subject_id == 'fictional_policy'
+
+
 def test_router_rejects_claims_outside_the_chosen_topic():
     result = run(FakeTransport(answer(claims=('printed fee amount',)), answer(claims=('printed fee amount',))),
                  text=TEXT, topics=MENU)

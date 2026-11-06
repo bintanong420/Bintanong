@@ -8,7 +8,7 @@ from __future__ import annotations
 
 _REVIEWED = {
     'cheating': ('kopya', 'kumopya', 'kumukopya', 'kinopya', 'nangopya', 'nangongopya', 'mangopya',
-                 'pangongopya', 'pagkopya', 'nagkopya'),
+                 'pangongopya', 'pagkopya', 'nagkopya', 'nagcheat', 'magcheat', 'pagcheat'),
     'examination': ('pagsusulit',),
     'smoking': ('yosi', 'nagyosi', 'magyosi', 'nagyoyosi', 'pagyoyosi', 'sigarilyo', 'paninigarilyo',
                 'naninigarilyo', 'nagsisigarilyo'),

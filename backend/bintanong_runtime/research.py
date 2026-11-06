@@ -191,10 +191,10 @@ TOPIC_FAMILIES = {
 }
 
 
-def _reviewed_topic_context(register, catalogue, chunks):
+def _reviewed_topic_context(register, catalogue, chunks, *, include_body=False):
     """Copy assigned reviewed labels/numbered clauses; retain any deadline conflict."""
     def context_field(name):
-        return isinstance(name,str) and (name in ('service_title','description')
+        return isinstance(name,str) and (name in ('service_title','description') or include_body and name == 'body'
             or re.fullmatch(r'\d+(?:\.\d+)+',name) is not None)
     readings = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
     approved = {}
@@ -247,8 +247,11 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
         raise ValueError('invalid_routing_context')
     labels, columns, openings, items, headings = {}, {}, {}, {}, {}
     if routing_context:
-        from .routing_context import reviewed_claim_headings, reviewed_context, reviewed_items, reviewed_openings
+        from .routing_context import reviewed_claim_bodies, reviewed_claim_headings, reviewed_context, reviewed_items, reviewed_openings
         labels, columns = reviewed_context(register, catalogue, chunks)
+        for subject, claims in reviewed_claim_bodies(register, catalogue, chunks).items():
+            for claim, fields in claims.items():
+                columns.setdefault(subject, {}).setdefault(claim, {}).update(fields)
         openings = reviewed_openings(register, catalogue, chunks)
         items = reviewed_items(register, catalogue, chunks)
         headings = reviewed_claim_headings(register, catalogue, chunks)
@@ -277,7 +280,7 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
                 for claim in limit.get('affected_claims', []):
                     names = missing_fields.setdefault(subject, {}).setdefault(claim, [])
                     names.extend(n for n in limit.get('field_names') or () if isinstance(n, str) and n not in names)
-    contexts = _reviewed_topic_context(register, catalogue, chunks)
+    contexts = _reviewed_topic_context(register, catalogue, chunks, include_body=routing_context)
     fields = _reviewed_claim_fields(register, readings, chunks,
         max_fields=MAX_TOPIC_FIELDS if routing_context else 32)
     topics = []

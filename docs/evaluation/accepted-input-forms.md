@@ -76,7 +76,7 @@ left out; words that point to several offenses (e.g. "away", "suntok") are left 
 
 | Printed English term | Accepted Filipino words |
 | --- | --- |
-| cheating | kopya, kumopya, kumukopya, kinopya, nangopya, nangongopya, mangopya, pangongopya, pagkopya, nagkopya |
+| cheating | kopya, kumopya, kumukopya, kinopya, nangopya, nangongopya, mangopya, pangongopya, pagkopya, nagkopya, nagcheat, magcheat, pagcheat |
 | examination | pagsusulit |
 | smoking | yosi, nagyosi, magyosi, nagyoyosi, pagyoyosi, sigarilyo, paninigarilyo, naninigarilyo, nagsisigarilyo |
 | bullying | bully, nambully, nambubully, binully, binubully, mambully |

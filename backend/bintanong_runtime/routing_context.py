@@ -4,7 +4,9 @@ from __future__ import annotations
 import json
 import re
 
-LABEL_FIELDS = frozenset(('service_title', 'service_title_and_description', 'service_context'))
+LABEL_FIELDS = frozenset(('service_title', 'service_title_and_description', 'service_context',
+                          'service_description', 'office', 'service_title_and_note',
+                          'registration_description', 'office_division'))
 COLUMN_FIELDS = frozenset(('grade', 'descriptive_rating', 'percentage_equivalent'))
 OPENING_FIELD = 'body'
 MAX_OPENING = 100
@@ -76,6 +78,22 @@ def reviewed_openings(register, catalogue, chunks):
     for subject, value in _reviewed_values(register, catalogue, chunks, OPENING_FIELD):
         openings.setdefault(subject, _opening(value))
     return openings
+
+
+def reviewed_claim_bodies(register, catalogue, chunks):
+    """One complete, bounded reviewed body per claim; ambiguous or defective bodies supply no hint."""
+    bodies, blocked = {}, set()
+    for subject, claims, value, defective in _reviewed_fields(register, catalogue, chunks, OPENING_FIELD):
+        for claim in claims:
+            key = subject, claim
+            if defective or len(value) > 1024:
+                blocked.add(key)
+            bodies.setdefault(key, set()).add(value)
+    result = {}
+    for (subject, claim), values in bodies.items():
+        if (subject, claim) not in blocked and len(values) == 1:
+            result.setdefault(subject, {})[claim] = {'body': next(iter(values))}
+    return result
 
 
 def reviewed_items(register, catalogue, chunks):

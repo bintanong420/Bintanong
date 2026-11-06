@@ -73,6 +73,11 @@ def _json_proposal(raw):
 
 
 REFERENCE_HINTS = {
+    'unassigned_request_parts': 'none of the request fragments was assigned an evidence path despite the '
+        'offered document topics. Reinterpret the ORIGINAL request as a whole. A condition or conjunction '
+        'inside one question is not automatically a separate question. Preserve genuinely independent parts. '
+        'A general documented policy needs no personal course or term; an individual check still needs its '
+        'actual target. Use only relevant offered topics, and keep genuinely unsupported or ambiguous requests unresolved.',
     'unassigned_document_part': 'one document part has a reviewed topic but another has none. Re-evaluate EACH '
         'part against the supplied topic menu. Multiple parts may use the same topic when it covers both. '
         'Keep the original parts, document evidence paths and dialogue act; repair only topic/claim assignments. '
@@ -101,7 +106,9 @@ def _repair_messages(messages, raw, problem=None):
             f'rejected ({problem}): {REFERENCE_HINTS.get(problem, "fix that invalid reference")} '
             'Return valid JSON matching the original schema for the ORIGINAL student request '
             'in the original user payload (original_text) above. Do not invent courses, operations or facts.\n')
-    return [*messages, dict(role='assistant', content=raw[:65536] if isinstance(raw, str) else ''),
+    prior = [] if problem == 'unassigned_request_parts' else [
+        dict(role='assistant', content=raw[:65536] if isinstance(raw, str) else '')]
+    return [*messages, *prior,
         dict(role='user', content=request)]
 
 
@@ -321,6 +328,27 @@ def prefer_printed_procedure(proposed, topics):
                 part = part.model_copy(update=dict(requested_claims=printed))
         parts.append(part)
     if all(a.requested_claims == b.requested_claims for a, b in zip(parts, proposed.parts)):
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
+def prefer_procedure_topic(proposed, topics):
+    """A whole-workflow request uses the unique reviewed step table in its already approved topic family."""
+    menu = {t.subject_id: t for t in topics}
+    parts = []
+    for part in proposed.parts:
+        topic = menu.get(part.subject_id)
+        if (topic is not None and topic.family and part.evidence_need == 'document' and part.detail == 'whole'
+                and not set(part.requested_claims) & set(topic.not_stated)
+                and not (topic.family == 'drop_add_change_subjects' and selection.SHIFT.search(part.text))):
+            processes = [t for t in topics if t.family == topic.family and any(
+                re.fullmatch(r'step\d+_client_step', name) for fields in t.claim_fields.values() for name in fields)]
+            if len(processes) == 1 and processes[0].subject_id != part.subject_id:
+                printed = _printed_claims(processes[0], part.text)
+                if printed:
+                    part = part.model_copy(update=dict(subject_id=processes[0].subject_id, requested_claims=printed))
+        parts.append(part)
+    if tuple(parts) == proposed.parts:
         return proposed
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
@@ -549,8 +577,8 @@ class Router:
             check_topics(proposed, topics)
             if selection_attempts:
                 proposed = answer_settled_topic(proposed, topics, text)
-            proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
-                prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
+            proposed = apply_not_stated_cues(prefer_procedure_topic(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
+                prefer_printed_procedure(proposed, topics), topics), topics), topics), topics), topics)
             proposed = answer_years_to_graduate(lead_absence_with_attendance(
                 prefer_good_moral_checklist(proposed, topics), topics), topics, text)
             resolved = (answer_transfer_direction(proposed, self.topics, text, context.conversation)
@@ -634,6 +662,14 @@ class Router:
                 locked_dialogue = payload.get('dialogue')
                 locked_documents = payload['parts']
                 messages = _repair_messages(messages, raw, 'unassigned_document_part')
+                continue
+            if (attempt == 1 and selection_attempts and topics and not proposed.operations
+                    and not proposed.ambiguities and proposed.control in (None, 'clarify')
+                    and not any(m.kind in ('course', 'term') for m in proposed.mentions)
+                    and payload.get('parts') and all(
+                        p.get('evidence_need') == 'unknown' and p.get('subject_id') is None
+                        for p in payload['parts'])):
+                messages = _repair_messages(messages, raw, 'unassigned_request_parts')
                 continue
             style_messages = build_style_messages(text)
             style_limit = 2 if attempt == 1 else 1  # one shared repair, maximum three calls
