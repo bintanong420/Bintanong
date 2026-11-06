@@ -198,6 +198,7 @@ def _reviewed_topic_context(register, catalogue, chunks, *, include_body=False):
             or re.fullmatch(r'\d+(?:\.\d+)+',name) is not None)
     readings = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
     approved = {}
+    purposes = {}
     for review in register['reviews']:
         if review.get('finding') != 'visible_fields':
             continue
@@ -206,6 +207,7 @@ def _reviewed_topic_context(register, catalogue, chunks, *, include_body=False):
                     and readings.get(ref.get('reading_id')) == review['subject_id']):
                 key = (review['subject_id'], ref['reading_id'], ref['field_name'])
                 approved.setdefault(key, set()).update(review.get('reviewed_chunk_ids', []))
+                purposes.setdefault(key, set()).add(review['claim'])
     context = {}
     for chunk in chunks:
         reading = chunk.get('type_fields', {}).get('reading_id')
@@ -218,7 +220,7 @@ def _reviewed_topic_context(register, catalogue, chunks, *, include_body=False):
             by_name = {f['name']: f for f in fields}
             if len(by_name) != len(fields):
                 continue
-            values = [by_name[name]['value'] for name in by_name if context_field(name)
+            names = [name for name in by_name if context_field(name)
                 and (not unresolved or name not in ('service_title','description')
                      and all(limit.get('issue') == 'conflicting_deadlines' for limit in unresolved))
                 and by_name[name].get('source_blank') is False
@@ -226,15 +228,24 @@ def _reviewed_topic_context(register, catalogue, chunks, *, include_body=False):
                 and chunk.get('chunk_id') in approved.get((subject, reading, name), ())]
         except (ValueError, TypeError, KeyError, AttributeError):
             continue
-        text = '; '.join(values)
+        text = '; '.join(by_name[name]['value'] for name in names)
         if text and unresolved:
             text += '\nUnresolved source limitations: '+json.dumps([
                 dict(issue=limit['issue'],affected_claims=limit.get('affected_claims',[]))
                 for limit in unresolved],ensure_ascii=False,separators=(',',':'))
         if text and len(text) <= 1024:
-            context.setdefault(subject, []).append(text)
-    return {s: tuple(dict.fromkeys(values)) for s, values in context.items()
-            if len(set(values)) <= 4}
+            claims = set().union(*(purposes[(subject, reading, name)] for name in names))
+            context.setdefault(subject, {}).setdefault(text, set()).update(claims)
+    if not include_body:
+        return {subject: tuple(values) for subject, values in context.items() if len(values) <= 4}
+    result = {}
+    for subject, values in context.items():
+        distinct, repeated, covered = [], [], set()
+        for text, claims in values.items():
+            (distinct if claims - covered else repeated).append(text)
+            covered.update(claims)
+        result[subject] = tuple((distinct + repeated)[:4])
+    return result
 
 
 PRINTED_DEFECTS = ('malformed_source_condition', 'printed_total_discrepancy')
