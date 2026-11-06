@@ -16,6 +16,7 @@ test('answer notices match the backend reply language and request clarification 
 test('answered and greeting responses do not add an unsupported success claim', () => {
   assert.equal(answerNotice({ status: 'answered', language: 'en' }), null);
   assert.equal(answerNotice({ status: 'greeting', language: 'en' }), null);
+  assert.equal(answerNotice({ status: 'system_information', language: 'en' }), null);
 });
 
 test('empty and pending submissions do not create duplicate messages', () => {

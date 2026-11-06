@@ -10,7 +10,7 @@ const answerLabels = {
   abstained: ["Unable to confirm an answer", "Hindi makapag-confirm ng sagot", "Hindi makapag-confirm ng answer"],
 };
 export function answerNotice(answer: Pick<StudentAnswer, "status" | "language">) {
-  if (answer.status === "answered" || answer.status === "greeting") return null;
+  if (answer.status === "answered" || answer.status === "greeting" || answer.status === "system_information") return null;
   const language = answer.language === "fil" ? 1 : answer.language === "taglish" ? 2 : 0;
   return { label: answerLabels[answer.status][language],
     tone: answer.status === "clarification_needed" || answer.status === "out_of_scope" ? "info" : "warning" };

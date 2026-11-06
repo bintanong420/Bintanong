@@ -284,9 +284,9 @@ class Interpretation(Contract):
     def _structure(self):
         if (self.route is None) == (self.control is None):
             raise ValueError('exactly_one_route_or_control')
-        if self.control in ('greeting', 'unsupported_scope') and (self.operations or self.claims):
+        if self.control in ('greeting', 'system_information', 'unsupported_scope') and (self.operations or self.claims):
             raise ValueError('terminal_control_has_actions')
-        if self.control in ('greeting', 'unsupported_scope') and self.parts:
+        if self.control in ('greeting', 'system_information', 'unsupported_scope') and self.parts:
             raise ValueError('terminal_control_has_parts')
         if self.route is not None and not self.parts:
             raise ValueError('route_requires_parts')

@@ -1,92 +1,94 @@
 # Current progress
 
-Updated 6 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes` (published to origin).
-Owner moved continued development off the gathering checkout; base `8f15cfe0`.
-See [isolation handoff](../2026-11-04-development-isolation-handoff.md). Code separation is preserved;
-owner then authorized restarting both stacks and model on 5 Nov. Historical notes below describe the base.
-Last full committed snapshot before this condensation: `34184fa3` (recover with `git show`).
-The inherited owner USG notes remain preserved in the gathering checkout.
+Updated 6 November 2026. Development: `p12-dev` / `p12-post-gathering-fixes`.
+Last full snapshot before condensation: `d2ad9fef` (recover with `git show`).
+Gathering checkout and owner USG notes remain separate. No numbered phase is active;
+Phase 12 research/software write-up is complete with disclosures; Phase 13 is cancelled.
 
-## Active continuation
+## Delivered repairs
 
-Owner asked to resume Claude session `b73f3662-df93-4755-8a11-22c52689e6e8` against the
-independent audit and implementation plan. Exact Downloads hashes match repository copies.
-[Checkpoint](../2026-11-04-stabilization-resume-checkpoint.md),
-[teammate checklist](../2026-11-04-teammate-regression-checklist.md).
-No active numbered implementation phase; Phase 13 remains cancelled.
+- [Benchmark repair checkpoint](../2026-11-06-owner-benchmark-repairs.md) records source/routing,
+  registration, Taglish, grade-4 and INC fixes. Final code `bdf6d50a`, handoff `d2ad9fef`.
+- R3 owner export: 21 tested, 20 Y / 1 N, 51 untested; grade answers needed brevity work.
+  Subsequent live B13-TL registration and ID Taglish checks pass. Final English grade-4/INC
+  outputs retain method, approval and source limitations; 25.4%/52.5% shorter than earlier candidate.
+  Final focused grade gate: 174 pass. No frozen full-72 accuracy claim.
+- Published integrated repairs to `origin/p12-evaluation-harness` at `c8cd43c8`, preserving
+  remote architecture image commit `abd007b4`. Integrated gate: 585 pass. No force push.
+  Publication worktree: `p12-eval-publish`; dev checkout remains isolated.
+- [Earlier continuation](../2026-11-04-codex-continuation-log.md) and
+  [isolation handoff](../2026-11-04-development-isolation-handoff.md) retain memory,
+  prerequisite-listing, term checks and recovery-planner evidence. Do not repeat setup.
 
-- True prerequisite listing/status taxonomy integrated `63681288`; real worker authorization
-  correction `8a470088`. Source-backed compiler OFF/ON C01-C03 passes all six checks.
-  Listing describes requirements without grades/eligibility; eligibility keeps missing results unknown.
-- What-if printed labels fixed `3b34a67e`; unsafe optional term dependency prose withheld
-  `66c6422c`. Host checks/citations remain. Term tests 25 pass; session/pipeline label tests 29 pass.
-- Ephemeral store `f5dff2ad`, bounded router integration `ae26589d`, live corrections `4c10094c` / `86f869d8`.
-  Router now consumes owned same-scope dialogue, validates semantic references and rechecks evidence.
-  Raw replies stay raw; grade entities and request targets remain distinct. Unresolved origins stay pinned.
-  [Integration report](../2026-11-04-dialogue-router-integration.md). BSIT OFF/ON clarification/why/repair 8/8.
-  Final broader gate 1,139 pass / 2 xfail. Shifting-office fresh/after-course cases succeed in BSCS/BSIT
-  OFF/ON across reruns; final BSCS OFF failure corrected and targeted rerun passes, not a final full matrix.
-- JIT recovery draft plus earliest-summer alternative integrated `9d260c8d` / `aeddd05c`.
-  Four variants; generic reviewed dependencies, no course/program constants. Expanded gate 51 pass /
-  4 stale fixtures; corrected selections 4 pass, full plan-view file 10 pass. Long gate not repeated.
-  Canonical rejoin ranking corrected `2c74c2f2`; real-curriculum planner acceptance remains pending.
-- Graduation procedure is present on physical page 64; original endpoint clipped.
-  [Source diagnosis](../2026-11-04-graduation-source-diagnosis.md), `7ca35188`.
-  Live documentary retrieval/after-prerequisite topic-switch cause remains unverified.
-- Luna frontend `dd376036` / `79b13f51`: borderless, tighter program control in both states,
-  visible curriculum year removed, focus/44px hit area retained. `3e05c6b1` removes the About
-  scope/privacy link. TypeScript passes; rendered browser check unavailable.
+## Chat self-information index
 
-Verification details and raw ignored evidence paths are in the dated reports/checkpoint.
-Fresh integrated listing/status gate: 82 Python tests, 10 frontend transport tests, TypeScript.
-Worker/research/listing gate after allowlist correction: 45 passed. Source-backed backend turn
-observations 8.191-12.164s exclude HTTP/browser/retrieval; no SLA or speedup claim.
-App restarted at owner request 19:18-19:21 Manila, 4 Nov, from HEAD `403657eb`.
-API 92124/94216, frontend 79552; compiler ON preserved. API live/ready, web /chat and
-web /api/health all HTTP 200. Model left healthy. Temporary chat memory reset.
-No dependency/model change, source edit, push or deployment.
+Owner: capabilities and research scope must be callable in chat.
+[Design and checks](../2026-11-06-system-information-index.md).
+- Dedicated semantic `system_information` control and fixed English/Taglish index cover
+  implemented features, undergraduate 2026–2027 research scope, excluded audiences,
+  advisory limits, source gaps, private-PDF isolation and pending university validation.
+- This is project metadata, not university-policy corpus content. No fake institutional citations,
+  embedding changes, new dependencies or model weights. Academic answer ledgers stay mandatory.
+- Coverage questions naming programs do not select student curriculum. Mixed self/academic
+  clarification is preserved before policy-topic repair; it asks for separate questions.
+- Initial RED: 6 failures; program-resolution RED: 2; mixed-request RED: 1.
+  Focused gates: 337 pass; later 266 pass; final guard/compile/routing integration: 319 pass.
+  Frontend workspace/transport: 22 pass; TypeScript passes. Gates overlap; not a full-suite total.
+- Live router: four standalone EN/Filipino/Taglish/graduate-coverage questions select self-info;
+  mixed capability+INC query finally selects `clarify` / `compound_request`. Earlier model outage
+  and wrong mixed fallback were diagnosed, not counted as successful checks.
+- Context rechecked: thesis physical17–18 and runtime routing PNG, master architecture and
+  undergraduate scope policy. This adds a non-academic terminal control; academic routes unchanged.
 
-## Related work and retained boundaries
+## Runtime and boundaries
 
-Earlier compiler, wording, memory/eligibility and plan-chat deliveries are recorded in the
-[continuation log](../2026-11-04-codex-continuation-log.md) and full snapshot above; do not repeat setup.
-Phase 12 research/software write-up complete with disclosures; see [INDEX](../INDEX.md) and
-[handoff](../phase-12-handoff.md). Research activation is not school approval/public deployment.
-Undergraduate advisory scope, private-upload isolation, source gaps, printed rule semantics,
-unknown-versus-unmet, English/Taglish replies and F04 hold remain mandatory.
+- Main web/API 3216/8021, dev web/API 3217/8022, shared model18088.
+  Luna confirmed all five HTTP200; model container healthy; hidden keepalive PID72532.
+- Dev API reloaded for index and shifting repair. Frontends/main/model untouched.
+  Final wording reload ready200: root52864 / server46896; all five services HTTP200.
+  Dev-only zero rate window and measured grade budget5120 remain ignored launcher overrides.
+  Main controls unchanged. Keep `pause-dev-api` sentinel during intentional dev reloads.
+- Wider [audit proposal](../2026-11-06-deferred-audit-remediation-proposal.md) remains deferred.
+  Undergraduate advisory scope, unknown-versus-unmet, source conflicts, F04 hold,
+  English/Taglish replies and private-upload isolation remain mandatory.
 
-USG source review is owned by the separate p11 researcher GUI workflow; no new source approval is inferred here.
 ## Next action
 
-Ownerrequestedorigin/p12-evaluation-harnesspublication. Isolatedp12-eval-publishintegratesdevd2ad9fef
-withremoteabd007b4withoutalteringrunningcheckouts;architectureimagepreserved. Mergedgate585pass.
-Machine-localignoredruntimeconfigurationisnotpublished;full72acceptanceisstillpending.
-
-Development candidate code `e7e6b2a0`, reviewed-source release `1d4eeb3b6bb7b8e0` with candidate-only
-5120 grade context budget. All original sources and main/gathering code remain unchanged.
-[Repair checkpoint](../2026-11-06-owner-benchmark-repairs.md) records commits and verification.
-
-- Round three received: 21 retested, 20 Y / 1 N, 51 untested. Owner outcomes: 13 fixed,
-  7 unchanged passes, 1 regression B-13-TL (freshman requirements for next-semester enrollment).
-  Six grade-4/INC Y marks remain conditional on reducing verbosity while disclosing inconsistencies.
-- General-policy all languages, add/change, probation and ID pass owner retests. ID Taglish still needs polish.
-  R3 note corrects an initial main/prod vs dev mix-up for policy10; retain final dev Y marks.
-- Mark-specific INC/grade-4 quotations prevent neighboring grade rules from being substituted.
-  Latest reviewer-scope change has 95 related tests; owner R3 is not a full frozen 72-query run.
-- Owner actively verifies behavior: HOLD automated model queries and further restarts; offline work only.
-  Registration worker investigates B-13-TL from saved traces. Do not mistake freshman undergraduate
-  admission content for a senior-high-school procedure merely because it asks for high-school credentials.
-- Luna checked Codex ChatGPT login/doctor (0 failed, not usage limits). Four-hour keepalive monitor PID9452
-  recovers only absent services after two checks/cooldown; dev pause sentinel removed after readiness.
-  Runtime evidence/scripts are ignored; public/main limits unchanged, dev temporary rate window zero.
-- Wider audit remediation proposal is saved and deferred. No source activation, dependency change or push.
-
-Remainingpatchescommitted:f5c7a264registrationaudience(341tests),3b522271naturalTaglish(78),
-8c3b3b60/a52c73c1compactmarkquotes+fullsourcelimitnotes(133integrationtests).
-Ownergavejudgmentontiming;announceddev-onlyreload,API62928warming,pause-dev-apiheld.
-Livea52c73c1B13TLfixed,IDTGnatural,INCEN/TGmethodfirst. bdf6d50afinalgradebrevitycleanup174tests pass.
-Finalbdf6d50alivegrade15EN/16ENanswered;grade4output25.4%shorter,INC52.5%shortervs9581.
-Allmethod/approval/forfeiture/sourcequalificationnotesremain;174focusedtests pass.
-PID63020devAPIloaded,keepalivepauseflagremoved;main/dev/chatand8022ready200. Modelcallsnowstopped.
-R3remainingengineeringdelivered. Next: ownerexploratoryverification/frozen72runwhenrequested;
-no full72accuracyclaim, sourceconflictsremainvisible, widerauditplanstilldeferred.
+Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
+[Shifting repair](../2026-11-06-program-shifting-repair.md): exact “Pano po lumipat ng kurso?”
+retrieved the right policy but generation quoted only cross-college section 4.1. Both college branches
+and Registrar guidance now use clean exact source quotes for generic whole-program questions;
+FAQ companion cue and conditional office closing repaired at `9830a030`: worker 309 / parent 57 pass.
+Exact 3217 proxy question returned answered/Taglish with both branches, FAQ and Registrar guidance.
+Closing grammar correction `a5e5a6a0` passed 57 tests after its RED; final dev-only reload is ready.
+Adaptive [procedure source fit](../2026-11-06-adaptive-procedure-source-fit.md) now addresses
+the good-moral report without a blanket source switch: menus expose reviewed workflow
+bindings; whole selected procedures retain step facts within the existing eight-claim bound.
+Policy, explicit source and requirements-only scope remain. `b5312a47` committed;
+reviewed five-case good-moral router checks pass; later gate362 pass.
+Round4 [intake](../2026-11-06-round4-benchmark-intake.md): latest63Y/6P/3untested;
+good moral/gate pass all partial, shifting FinalY but verbose, B15 form-location note remains.
+Shifting short-referral cleanup `e8a848a1`:141 tests pass, source quotations retained.
+Removal form is reviewed Charterphysical112 step1 (Registrar's office); new bounded
+client-step hints expose it. Context/aggregate binding regressions fixed; pinned145topicsload;
+`622b68b0` committed; optional selector hints reduced to fit existing8192modelcontext.
+Reviewed client-step object phrases expand candidates only, preserving semantic source selection.
+All3gate-pass router variants pass; compound grade4/form correctly splits Handbook/Charter.
+`f048a75c` final combined gate501 pass. Live3217 good moral/gate pass/compound grade4+form
+all answered with correct sources; form Registrar location now present, source limits retained.
+Gate-pass partial-coverage notice is now outside cited claims; condition/support guards unchanged.
+Final `b8a59e02` gate-pass HTTP200/answered includes memo guidance and incomplete-process notice.
+Notice gate152 / malformed-field26 pass; earlier combined501 pass (overlapping, no full72 claim).
+All automated queries stopped. API12524/server56864 ready200, allfive200, keepalive36880 active.
+New [request/location overflow](../2026-11-06-good-moral-request-location-overflow.md): exact
+“Paano mag-request ng Good Moral? Saan po ito kinukuha?” added too many optional examples.
+Distinctive-label hints/global3-example bound: selector7749->7240tokens;338tests pass,
+isolated router exactquestion passes. `c20c1d1a` live3217 exactquestion answered/Taglish,
+Charter procedure/OSAS, HTTP9.92s (not browser time). API61132/server18844 ready200;
+allfive200, keepalive36880. Automated queries stopped. Owner18:33 validation sign-off:
+Final72Y; A07 inferred/waived, gate-pass selected-fragment condition retained.
+[Publication](../2026-11-06-owner-signoff-publication.md): push origin P12 first, then working
+branch, preserving remote image/history. Integrated542Python/22frontend/TypeScript pass;
+[alignment audit](../2026-11-06-human-automation-alignment.md) checks reported behaviors,
+four saved live outputs and gaps. Next: normal pushes in requested order, verify remote SHAs.
+No new source/Supabase or runtime changes; no independent full72 execution claim.

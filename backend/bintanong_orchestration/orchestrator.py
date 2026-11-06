@@ -152,7 +152,7 @@ class Orchestrator:
         def finish(status, evidence=None, missing=(), reason=None):
             ready = status == 'ready'
             drafts = recovery if ready else None
-            reason = None if status in ('ready', 'greeting') else reason or evidence_reason(status, evidence)
+            reason = None if status in ('ready', 'greeting', 'system_information') else reason or evidence_reason(status, evidence)
             return IntegrationResult(schema_version=IntegrationResult.SCHEMA_VERSION,
                 request_id=context.request_id, route=route, response_style=style, reason=reason,
                 status=status, evidence=evidence, understanding=understanding,

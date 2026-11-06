@@ -191,6 +191,10 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     if reference is not None and text[reference.start:reference.end] != reference.text:
         raise ValueError('ungrounded_context_reference')
 
+    if p.control == 'system_information':
+        # Coverage questions name programs without selecting a student's curriculum.
+        p = p.model_copy(update={'mentions': (), 'context_reference': None})
+
     program, curriculum = context.program_id, context.curriculum_id
     resolved, ignored = {}, set()
     scope_error, program_choices = None, ()
@@ -365,6 +369,9 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
     if p.control is not None:
         if p.control != 'clarify' and (p.operations or p.claims):
             return result('inconsistent_proposal', 'evidence_unavailable')
+        if p.control == 'clarify' and (p.intent == 'system_information_mixed' or
+                (not p.operations and {part.evidence_need for part in p.parts} == {'unknown', 'document'})):
+            return result('compound_request', missing=('separate_system_question',))
         if p.control == 'clarify' and not (p.operations or p.claims or reference):
             # Nothing named to clarify (live: "Pwede ba mag-shift ng course?"): missing information with an
             # office referral, not a bare "please clarify" (owner E3, 24 Oct 2026).

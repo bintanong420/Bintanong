@@ -70,7 +70,7 @@ class WireInterpretation(Contract):
                        and self.parts[0].evidence_need == 'unknown' and not self.parts[0].operation_indices
                        and self.parts[0].subject_id is None and not self.parts[0].requested_claims)
         if (self.part_count != len(self.parts) and not placeholder
-                and self.control not in ('greeting', 'unsupported_scope')):
+                and self.control not in ('greeting', 'system_information', 'unsupported_scope')):
             raise ValueError('part_count_mismatch')
         return self
 

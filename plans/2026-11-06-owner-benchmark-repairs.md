@@ -180,8 +180,14 @@ Last full snapshot: `29e0945b` (`git show` recovers the earlier diagnosis). No n
 
 ### Next action
 
-Verify 9581df1f INC and grade-4 scope live, then freeze a reviewable candidate for exploratory testing and
-fresh benchmark evaluation. Do not call the whole benchmark correct or the source institutionally approved.
-Keep deadline/applicability gaps, undergraduate scope, advisory-only behavior and English/Taglish replies.
-After diagnosis, remove ignored model-message instrumentation using the launcher backup while preserving
-its benchmark-only rate override and measured grade context budget.
+INC/grade-4 scope and brevity were subsequently verified through `bdf6d50a` (174 focused tests;
+English grade4/INC outputs 25.4%/52.5% shorter). Registration B13-TL and natural ID Taglish also
+passed targeted live checks. Final repair handoff `d2ad9fef`; integrated publication to
+`origin/p12-evaluation-harness` at `c8cd43c8` passed 585 tests and preserves the remote image.
+The frozen full72 run remains pending; no whole-benchmark accuracy or institutional-approval claim.
+
+Continue the [chat self-information index](2026-11-06-system-information-index.md) and
+[generic program-shifting repair](2026-11-06-program-shifting-repair.md) from current progress.
+Keep source qualifications, undergraduate advisory scope and English/Taglish replies.
+Ignored runtime message instrumentation remains diagnostic; remove it after live diagnosis while
+preserving benchmark-only rate override and measured grade budget5120.

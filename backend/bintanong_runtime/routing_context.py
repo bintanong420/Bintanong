@@ -189,8 +189,11 @@ def reviewed_context(register, catalogue, chunks):
                     values.append(value)
                 if len(values) > 4:
                     raise ValueError('routing_context_capacity')
-            if name in COLUMN_FIELDS:
+            client_step = re.fullmatch(r'step\d+_client_step', name) is not None
+            if name in COLUMN_FIELDS or name.endswith('_procedure') or client_step:
                 values = columns.setdefault(subject, {}).setdefault(claim, {})
+                if client_step and (len(value) > 1024 or len(values) >= 8 and name not in values):
+                    continue  # Routing hints are bounded excerpts; full evidence remains in retrieval.
                 if len(value) > 1024 or len(values) >= 8 and name not in values:
                     raise ValueError('routing_context_capacity')
                 if name in values and values[name] != value:

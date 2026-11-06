@@ -121,6 +121,9 @@ def read_meaning(wire, text: str) -> Meaning:
                      and (_words(m.get('quote')) or _words(m.get('text'))))
     control = data.get('control') if isinstance(data.get('control'), str) else None
     intent = data.get('intent') if isinstance(data.get('intent'), str) and data.get('intent').strip() else 'request'
+    if (control == 'clarify' and not checks and
+            {p.get('evidence_need') for p in _items(data, 'parts')} == {'unknown', 'document'}):
+        intent = 'system_information_mixed'
     raw_ambiguities = data.get('ambiguities', [])
     if not isinstance(raw_ambiguities, list) or any(not isinstance(a, str) for a in raw_ambiguities):
         raise ValueError('compile_malformed_collection')
@@ -227,7 +230,9 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
     caller can use the existing path instead."""
     if len(text) > MAX_PART_TEXT:
         raise ValueError('compile_message_too_long')
-    if meaning.control in ('greeting', 'unsupported_scope') or meaning.audience in ('excluded', 'unrelated'):
+    if meaning.control == 'clarify' and meaning.intent == 'system_information_mixed':
+        return _build(meaning, (), (), (), (), None, 'clarify')
+    if meaning.control in ('greeting', 'system_information', 'unsupported_scope') or meaning.audience in ('excluded', 'unrelated'):
         raise ValueError('compile_terminal_left_to_existing_path')  # nothing to rebuild; existing guards apply
     previous = context.conversation
     if meaning.previous_course and (previous is None or previous.course_id is None):
@@ -523,7 +528,7 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
 
     control = None
     if not parts:
-        control = meaning.control if meaning.control not in (None, 'greeting', 'unsupported_scope') else 'clarify'
+        control = meaning.control if meaning.control not in (None, 'greeting', 'system_information', 'unsupported_scope') else 'clarify'
     elif meaning.control is not None and not operations:
         control = meaning.control  # a clarification over document words stays the model's choice
     reference = None
@@ -548,7 +553,7 @@ def _build(meaning, mentions, claims, operations, parts, reference, control):
     needs = frozenset(p['evidence_need'] for p in parts)
     route = None if control is not None else (
         {frozenset({'document'}): 'RAG', frozenset({'structured'}): 'Symbolic'}.get(needs, 'Hybrid'))
-    terminal = control in ('greeting', 'unsupported_scope')
+    terminal = control in ('greeting', 'system_information', 'unsupported_scope')
     value = dict(schema_version=Interpretation.SCHEMA_VERSION, language=meaning.language, audience=meaning.audience,
                  intent=meaning.intent, mentions=[] if terminal else mentions, claims=[] if terminal else claims,
                  operations=[] if terminal else operations, parts=[] if terminal else parts, route=route,

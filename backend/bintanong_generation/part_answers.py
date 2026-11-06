@@ -32,6 +32,7 @@ from .honours_reply import honours_reply
 from .leave_reply import leave_reply
 from .absence_reply import sickness_branch
 from .facilities_reply import facilities_claims
+from .shifting_reply import complete_program_shifting_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -799,6 +800,9 @@ def to_draft(explanation, pack, *, coverage_retry_parts=()):
         if status == 'fee_precedence':  # the host reply skips the other rewrites, then is reviewed like any claim
             status = 'answered'
         if status == 'answered':
+            shifting = complete_program_shifting_reply(pack, asked, requirements.get(part_id, set()))
+            if shifting is not None:
+                proposed = tuple(PartClaim.parse(c) for c in shifting)
             concise = concise_mark_reply(pack, asked, requirements.get(part_id, set()))
             if concise is not None:
                 proposed = tuple(PartClaim.parse(c) for c in concise)

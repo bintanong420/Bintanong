@@ -55,12 +55,12 @@ ROUTING_REASONS: dict[str, ReasonCode | None] = {
 
 # The model's own control (diagnostic 'model_control') -> reason.
 CONTROL_REASONS: dict[str, ReasonCode | None] = {
-    'clarify': _PENDING, 'greeting': None, 'unsupported_scope': 'unsupported_scope',
+    'clarify': _PENDING, 'greeting': None, 'system_information': None, 'unsupported_scope': 'unsupported_scope',
     'evidence_unavailable': 'retrieval_coverage'}
 
 # Stage failures and integration statuses -> reason.
 STATUS_REASONS: dict[str, ReasonCode | None] = {
-    'ready': None, 'greeting': None,
+    'ready': None, 'greeting': None, 'system_information': None,
     'held': _CAPABILITY, 'unsupported': _CAPABILITY,
     'timeout': _SYSTEM, 'busy': _SYSTEM, 'tool_error': _SYSTEM, 'error': _SYSTEM,
     'invalid_output': 'validation_failure', 'release_mismatch': 'validation_failure',
@@ -79,7 +79,7 @@ GENERATION_REASONS: dict[str, ReasonCode] = {
 
 def answer_reason(pack, status: str, validation: str, ledger=None) -> ReasonCode | None:
     """The final reason of a candidate answer; an answered turn or a greeting has none."""
-    if status in ('answered', 'greeting'):
+    if status in ('answered', 'greeting', 'system_information'):
         return None
     if validation == 'parts_unresolved' and ledger is not None and any(
             e.status == 'unavailable' and e.reason == 'source_gap' for e in ledger.entries):

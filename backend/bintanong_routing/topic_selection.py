@@ -3,9 +3,28 @@ from __future__ import annotations
 
 import json
 import re
+from collections import Counter
 
 VERSION = 'bintanong-topic-selection-v1'
 MAX_TOPICS = 8
+
+
+def workflow_fact_indices(topic):
+    """Expose existing client-step bindings; never infer steps from a service title."""
+    return [i for i, claim in enumerate(topic.claims) if claim not in topic.not_stated and any(
+        re.fullmatch(r'step\d+_client_step', field) for field in topic.claim_fields.get(claim, ()))]
+
+
+def procedure_context(topic, text=''):
+    words = set(re.findall(r'\w{4,}', text.casefold()))
+    named_service = words & set(re.findall(r'\w{4,}', ' '.join(topic.source_labels).casefold()))
+    for claim, fields in topic.claim_context.items():
+        for name, value in fields.items():
+            if (claim not in topic.not_stated and len(value) <= 256 and
+                    (name.endswith('_procedure') or named_service and len(value) <= 160
+                     and re.fullmatch(r'step\d+_client_step', name))):
+                return [dict(claim=claim, fields={name: value})]
+    return []
 
 
 def output_schema(topics):
@@ -19,7 +38,22 @@ def output_schema(topics):
 
 
 def build_messages(text, topics, previous=None, dialogue=None):
+    label_words = Counter(word for topic in topics for word in
+        set(re.findall(r'\w{4,}', ' '.join(topic.source_labels).casefold())))
+    distinctive = ' '.join(word for word in re.findall(r'\w{4,}', text.casefold()) if label_words[word] <= 3)
+    examples = {}
+    client_examples = 0
+    for topic in topics:
+        example = procedure_context(topic, distinctive)
+        if example:
+            client_step = any(re.fullmatch(r'step\d+_client_step', name) for name in example[0]['fields'])
+            if client_step and client_examples >= 3:
+                continue
+            examples[topic.subject_id] = example
+            client_examples += bool(client_step)
     menu = [dict(subject_id=t.subject_id,
+        **({'workflow_fact_count': len(workflow_fact_indices(t))} if workflow_fact_indices(t) else {}),
+        **({'procedure_context': examples[t.subject_id]} if t.subject_id in examples else {}),
         **({'source_labels': list(t.source_labels)} if t.source_labels else {}),
         **({'opening': t.source_opening} if t.source_opening and not t.source_items else {}),
         **({'items': list(t.source_items)} if t.source_items else {}),
@@ -32,10 +66,22 @@ def build_messages(text, topics, previous=None, dialogue=None):
         'Select every relevant topic needed for ALL requested document parts, up to eight. '
         'For processes select steps, requirements and policy; preserve the requested service scope. '
         'Generic enrollment requirements do not establish freshman status; include the general registration service. '
+        'For a whole how-to request compare actual reviewed workflow coverage, not just a matching FAQ title. '
+        'workflow_fact_count counts available client-step facts, not authority or currentness. '
+        'procedure_context quotes bounded reviewed procedural fragments/client steps, not every available step; '
+        'use it for the requested action/location; it does not establish '
+        'a complete workflow, replacement price, full requirements or source supersession. '
+        'Keep policy/checklist questions distinct; honor an explicitly requested source. '
+        'When a question asks for policy and where to get its form, include both the policy topic '
+        'and the service workflow that issues the form. Do not assume the policy summary gives its location. '
+        'Account for EACH question before selecting topics, including a second question in Filipino/Taglish '
+        '(Saan kukuha = where to obtain). Match form locations to the quoted client step that names the form '
+        'and issuing office, even if the first question has a closer matching policy/grade heading. '
         'claims names reviewed coverage without a printed description. '
         'If more than eight are needed, or the choice is unclear, set ambiguous true; '
         'never discard a requested part to fit. Empty subject_ids is allowed when no document '
-        'topic fits or the request is only a course/curriculum check, greeting or excluded scope. '
+        'topic fits or the request is only a course/curriculum check, greeting, system-information '
+        'question about Bintanong itself or excluded scope. '
         'Course/prerequisite checks belong to the existing structured path, not a document topic. '
         'A general rule about how courses may be taken is a document policy, not a personal course check. '
         'Interpret words in their surrounding language: Filipino may expresses possession/existence, '
@@ -105,7 +151,9 @@ ABSENCE = re.compile(r'\b(absent|absence|umabsent|nag-?absent|lumiban|liban|(hin
 ABSENCE_TOPICS = {'handbook_attendance': 'printed attendance fields',
                   'handbook_sickness_access': 'printed sickness access fields'}
 # Owner 3 Nov 2026 (H8): a shifting question gets the Handbook 4.1 rule and the FAQ 8 printed steps together.
-SHIFT = re.compile(r'\b(shift|shifting|mag-?shift|change\s+(of\s+)?(curricular\s+)?(course|program))\b', re.IGNORECASE)
+SHIFT = re.compile(r'\b(shift|shifting|mag-?shift|change\s+(of\s+)?(curricular\s+)?(courses?|programs?)|'
+                   r'(?:lumipat|lipat|magpalit|palit)\s+(?:po\s+)?(?:ng|sa)\s+(?:ibang\s+)?'
+                   r'(?:kurso|programa?|course|college|kolehiyo))\b', re.IGNORECASE)
 SHIFT_TOPICS = {'handbook_shifting': 'printed shifting fields', 'handbook_drop_shift_faq': 'printed FAQ 8 shifting steps'}
 FACILITY_TOPICS = {'handbook_student_faq': 'printed student faq fields',
                    'charter_library_facilities': 'printed library facilities fields'}
@@ -159,6 +207,12 @@ def add_companions(chosen, topics, text):
     exceed the selection limit."""
     ids = {t.subject_id for t in chosen}
     wanted = []
+    pairs = set(re.findall(r'\b\w{4,}\s+\w{4,}\b', text.casefold()))
+    for topic in topics:
+        if any(claim not in topic.not_stated and re.fullmatch(r'step\d+_client_step', name)
+               and any(re.search(r'\b' + re.escape(pair) + r'\b', value.casefold()) for pair in pairs)
+               for claim, fields in topic.claim_context.items() for name, value in fields.items()):
+            wanted.append(topic.subject_id)  # Candidate inclusion only; the semantic router still chooses each part.
     if 'handbook_student_faq' in ids and GOOD_MORAL.search(text):
         wanted.append('charter_good_moral')
     if ids & set(ABSENCE_TOPICS) and ABSENCE.search(text):

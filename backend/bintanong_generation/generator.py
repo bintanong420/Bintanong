@@ -141,6 +141,8 @@ class Generator:
             return _answer(pack,'abstained',reason='unsupported_answer_scope')
         references=EvidenceReferences(pack) if self.reference_profile=='short' else None
         review_references=EvidenceReferences(pack) if self.review_reference_profile=='short' else None
+        if pack.status=='system_information' and pack.language!='unknown':
+            return _answer(pack,'system_information')
         if pack.status=='greeting' and THANKS.search(text):
             return _answer(pack,'greeting',reason='thanks')
         if explainable(pack):

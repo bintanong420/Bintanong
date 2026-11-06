@@ -279,6 +279,9 @@ def shown_recovery(pack,status):
 
 def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False,
                 explanation=None):
+    if status=='system_information' and pack.status=='system_information':
+        from .system_information import system_information
+        return system_information(pack.language)
     words=_WORDS.get(pack.language,_WORDS['en'])
     message=(words['thanks'] if thanked else _UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
         _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
@@ -327,6 +330,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         if status == 'clarification_needed' and field in missing:
             lines[1] = questions[0 if pack.language == 'en' else 1]
             missing = tuple(f for f in missing if f != field)
+    if status=='clarification_needed' and 'separate_system_question' in missing:
+        lines[1] = ('Please send these as separate questions so I can address each one.' if pack.language=='en' else
+                    'Paki-send nang hiwalay ang mga tanong para masagot natin ang bawat isa.')
+        missing = tuple(f for f in missing if f != 'separate_system_question')
     if status=='clarification_needed' and 'language' in missing:
         lines[1]=_LANGUAGE_NOTICE
         missing=tuple(field for field in missing if field!='language')
@@ -462,9 +469,13 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         if canonical and canonical <= {(c.text, tuple(c.evidence_ids)) for c in claims}:
             held.update(ref for _, refs in canonical for ref in refs)
         lines.extend(notices[kind] for kind in limit_notices([c for c in selected_cards(pack,claims) if c.evidence_id not in held]))
+        from .required_context import application_fragment_notice
+        fragment_notice = application_fragment_notice(selected_cards(pack, claims), pack.language)
+        if fragment_notice:
+            lines.append(fragment_notice)
     if status in ('answered','insufficient_evidence','abstained'):
         from .shifting_reply import shifting_referral  # thesis leader 4 Nov 2026: end with the printed offices
-        referral=shifting_referral(pack)
+        referral=shifting_referral(pack,claims if status=='answered' else ())
         if referral: lines.append(referral)
     for card in selected_cards(pack,claims):
         for cite in card.citations:
