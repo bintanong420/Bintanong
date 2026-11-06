@@ -25,6 +25,7 @@ from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
 from .malformed_condition import clean_quote, malformed_records, malformed_reply
+from .grade_completion_reply import concise_mark_reply
 from .fee_precedence import fee_precedence_reply
 from .residence_reply import residence_reply
 from .honours_reply import honours_reply
@@ -797,6 +798,10 @@ def to_draft(explanation, pack, *, coverage_retry_parts=()):
                     status = 'answered' if proposed else 'source_gap'
         if status == 'fee_precedence':  # the host reply skips the other rewrites, then is reviewed like any claim
             status = 'answered'
+        if status == 'answered':
+            concise = concise_mark_reply(pack, asked, requirements.get(part_id, set()))
+            if concise is not None:
+                proposed = tuple(PartClaim.parse(c) for c in concise)
         if status == 'answered' and len(claims) + len(proposed) < 8:
             branch = sickness_branch(pack, asked, proposed)  # owner 2 Nov 2026 (#3): the "if you were sick" branch
             if branch is not None:
