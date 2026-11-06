@@ -85,5 +85,8 @@ New [request/location overflow](../2026-11-06-good-moral-request-location-overfl
 Distinctive-label hints/global3-example bound: selector7749->7240tokens;338tests pass,
 isolated router exactquestion passes. `c20c1d1a` live3217 exactquestion answered/Taglish,
 Charter procedure/OSAS, HTTP9.92s (not browser time). API61132/server18844 ready200;
-allfive200, keepalive36880. Next: owner testing; automated queries stopped.
-A07/full72/browser acceptance remain pending. New commits local, no source/Supabase changes.
+allfive200, keepalive36880. Automated queries stopped. Owner18:33 validation sign-off:
+Final72Y; A07 inferred/waived, gate-pass selected-fragment condition retained.
+[Publication](../2026-11-06-owner-signoff-publication.md): push origin P12 first, then working
+branch, preserving remote image/history. Next: verify integrated gates and both remote SHAs.
+No new source/Supabase or runtime changes; no independent full72 execution claim.
