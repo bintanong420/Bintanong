@@ -124,3 +124,9 @@ quotes and existing source-limit messages stay intact. No source bytes/metadata 
 RED3fail/1pass; affected generation gate131 passed16.97s. Final dev-only reload and one
 gate-pass HTTP check load/verify this notice. Raw evidence remains ignored:
 `good-moral-r4-chat.json`, `gate-pass-r4-chat.json`, `removal-form-r4-chat.json`.
+
+The first notice live check abstained: English “procedure or full requirements”
+triggered the existing `introduced_disjunction` source-condition guard before semantic
+review. Reproduced RED through that actual guard; rewrite as separate statements,
+leaving the guard unchanged. Affected generation132 passed15.76s. Retain the failed
+live observation; final gate-pass retest must succeed before claiming the notice loaded.
