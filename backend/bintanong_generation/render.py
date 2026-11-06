@@ -469,6 +469,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         if canonical and canonical <= {(c.text, tuple(c.evidence_ids)) for c in claims}:
             held.update(ref for _, refs in canonical for ref in refs)
         lines.extend(notices[kind] for kind in limit_notices([c for c in selected_cards(pack,claims) if c.evidence_id not in held]))
+        from .required_context import application_fragment_notice
+        fragment_notice = application_fragment_notice(selected_cards(pack, claims), pack.language)
+        if fragment_notice:
+            lines.append(fragment_notice)
     if status in ('answered','insufficient_evidence','abstained'):
         from .shifting_reply import shifting_referral  # thesis leader 4 Nov 2026: end with the printed offices
         referral=shifting_referral(pack,claims if status=='answered' else ())

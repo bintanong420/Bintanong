@@ -130,3 +130,13 @@ triggered the existing `introduced_disjunction` source-condition guard before se
 review. Reproduced RED through that actual guard; rewrite as separate statements,
 leaving the guard unchanged. Affected generation132 passed15.76s. Retain the failed
 live observation; final gate-pass retest must succeed before claiming the notice loaded.
+
+The next live attempt passed that guard but the semantic completeness reviewer withheld
+the entire fragment answer. Correct the notice's ownership: restore the original exact
+source quotations in cited claims; show the known selected-fragment limitation as a
+host source-coverage notice after validated claims, bound only to actually cited cards
+with the two reviewed office-context fields. Uncited/unrelated records cannot trigger it.
+Final rendering still validates exact text; no support, coverage or condition guard is
+relaxed. Added rendering and uncited-context regressions; gate152 passed17.72s. Final
+dev-only reload and gate-pass retest pending. Earlier failed runs retained in ignored
+`gate-pass-r4-notice-disjunction-failed.*` and current `gate-pass-r4-chat.*`.

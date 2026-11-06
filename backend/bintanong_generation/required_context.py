@@ -45,10 +45,6 @@ def _quote(record, words):
         else:
             quoted.append(name.replace('_',' ')+': '+(words[3] if blank else '"'+value+'"'))
     text = words[0]+'; '.join(quoted)
-    if {'application_form_office_context', 'submission_office_context'} <= names:
-        text += (' These are selected office steps, not a complete application procedure. The full requirements list is unavailable here.'
-                 if words == _WORDS['en'] else
-                 ' Selected office steps lang ito. Hindi pa kumpleto ang application procedure at requirements list.')
     for limit in limits:
         if limit.get('resolution') != 'unresolved':
             continue
@@ -59,6 +55,20 @@ def _quote(record, words):
         message = re.sub(r' Source limitation remains unresolved \([a-z_]+\)\.$', '', message)
         text += ' '+words[1]+'"'+message+'" '+words[2]
     return text if len(text) <= 1200 else None
+
+
+def application_fragment_notice(cards, language):
+    for card in cards:
+        record = _record(card)
+        if record is None:
+            continue
+        fields = record.get('fields', [])
+        if isinstance(fields, list) and {'application_form_office_context', 'submission_office_context'} <= {
+                field.get('name') for field in fields if isinstance(field, dict) and field.get('source_blank') is False}:
+            return ('These are selected office steps, not a complete application procedure. The full requirements list is unavailable here.'
+                    if language == 'en' else
+                    'Selected office steps lang ito. Hindi pa kumpleto ang application procedure at requirements list.')
+    return None
 
 
 def context_quotes(pack, required):
