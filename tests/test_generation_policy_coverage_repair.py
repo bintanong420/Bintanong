@@ -7,6 +7,7 @@ import pytest
 
 from backend.bintanong_generation.part_answers import part_messages
 from backend.bintanong_generation.part_answers import PartExplanation
+from backend.bintanong_generation.part_answers import to_draft
 from backend.bintanong_generation.generator import Generator
 from test_generation_condition_connectives import pack_with
 from test_generation_evidence import integrated
@@ -15,6 +16,25 @@ from test_generation_validation import report
 
 POLICY = ('Activities require completion of fictional Module Z. However, the Fictional Coordinator may '
           'approve concurrent attendance for students repeating Module Z. Without approval no credit is earned.')
+
+
+def test_inc_answer_cannot_paraphrase_a_neighboring_grade_four_rule_as_inc():
+    bodies = ['3.4 REMOVAL OF “INC”. Complete fictional requirements to receive a final result.',
+              '3.5 EXAMINATION FOR REMOVAL OR COMPLETION. Ask the Fictional Coordinator.',
+              '3.3 REMOVAL OF ‘4’. Repeat the fictional activity; only one retry is allowed.']
+    pack = pack_with(*(json.dumps(dict(fields=[dict(name='body', value=b, source_blank=False)],
+                                      source_limits=[])) for b in bodies), language='en')
+    part = pack.understanding.parts[0].model_copy(update=dict(text='How to complete INC?', start=0, end=20,
+        subject_id='grade_completion', requested_claims=('INC method', 'approval'), detail='whole'))
+    pack = replace(pack, understanding=pack.understanding.model_copy(update=dict(parts=(part,))),
+        record_coverage=(('grade_completion', 'INC method', tuple(c.evidence_id for c in pack.cards)),))
+    explanation = PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION, release_id=pack.release_id,
+        language='en', answers={'r1': dict(status='answered', claims=[dict(
+            text='INC allows only one retry.', evidence_ids=[pack.cards[2].evidence_id])])}))
+    draft, _ = to_draft(explanation, pack)
+    combined = ' '.join(c.text for c in draft.claims)
+    assert bodies[0] in combined and bodies[1] in combined
+    assert 'only one retry' not in combined
 
 
 def policy_pack(*, detail='whole', limits=(), body=POLICY):

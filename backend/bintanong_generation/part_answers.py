@@ -689,6 +689,38 @@ def required_record_order(pack):
     return required
 
 
+def mark_quotations(pack, part, required):
+    if part is None or part.subject_id != 'grade_completion' or part.detail != 'whole':
+        return None
+    inc = bool(re.search(r'\b(?:inc|incomplete)\b', part.text, re.I))
+    four = bool(re.search(r'(?<![\w.])4(?:\.0)?(?![\w.])', part.text))
+    if inc == four:
+        return None
+    method, approval = [], []
+    mark = 'INC' if inc else '4(?:\\.0)?'
+    for card in pack.cards:
+        if card.kind != 'document' or card.evidence_id not in required:
+            continue
+        try:
+            fields = json.loads(card.text)['fields']
+            bodies = [f['value'] for f in fields if f.get('name') == 'body' and f.get('source_blank') is False]
+            if len(bodies) != 1:
+                continue
+            body = bodies[0]
+            if re.search(r'\bREMOVAL\s+OF\s+[“‘"\']?' + mark + r'(?![\w.])', body, re.I):
+                method.append(card)
+            if re.search(r'\bEXAMINATION\s+FOR\s+REMOVAL\s+OR\s+COMPLETION\b', body, re.I):
+                approval.append(card)
+        except (ValueError, TypeError, KeyError, AttributeError):
+            continue
+    if len(method) != 1 or len(approval) != 1:
+        return None
+    cards = list(dict.fromkeys(c.evidence_id for c in method + approval))
+    by_id = {c.evidence_id: c for c in method + approval}
+    quotes = [(ref, clean_quote(by_id[ref], pack.language)) for ref in cards]
+    return tuple(PartClaim(text=words, evidence_ids=(ref,)) for ref, words in quotes) if all(w for _, w in quotes) else None
+
+
 def to_draft(explanation, pack, *, coverage_retry_parts=()):
     """Host-numbered claims plus each document part's slot status and claim IDs."""
     ids = document_parts(pack)
@@ -723,6 +755,10 @@ def to_draft(explanation, pack, *, coverage_retry_parts=()):
                 proposed = tuple(PartClaim(text=words, evidence_ids=(card.evidence_id,))
                                  for card, words in quotations)
                 status = 'answered'
+        if status == 'answered':
+            exact_mark = mark_quotations(pack, asked, requirements.get(part_id, set()))
+            if exact_mark is not None:
+                proposed = exact_mark
         fee = (fee_precedence_reply(pack, asked) or residence_reply(pack, asked) or honours_reply(pack, asked)
                or leave_reply(pack, asked))
         if fee is not None:  # owner 2 Nov 2026 (#10): Charter fee first, Handbook figure disclosed
