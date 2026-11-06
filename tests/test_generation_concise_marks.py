@@ -59,3 +59,17 @@ def test_omitting_shared_conflict_notice_cannot_use_the_compact_fidelity_form():
     value = draft.model_dump(mode='json')
     value['claims'] = value['claims'][:-1]
     assert 'malformed_source_fidelity' in validate_draft(type(draft).parse(value), pack)
+
+
+def test_a_source_limit_message_with_additional_applicability_is_preserved():
+    pack, explanation = fixture()
+    cards = []
+    message = 'This deadline belongs only to fictional Cohort Q; applicability is not stated.'
+    for card in pack.cards:
+        record = json.loads(card.text)
+        record['source_limits'][0]['message'] = message
+        cards.append(card.model_copy(update=dict(text=json.dumps(record))))
+    pack = replace(pack, cards=tuple(cards))
+    draft, _ = to_draft(explanation, pack)
+    text = '\n'.join(c.text for c in draft.claims)
+    assert text.count(message) == 1

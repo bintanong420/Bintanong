@@ -43,7 +43,10 @@ def concise_mark_reply(pack, part, required):
                 affected = note.get('affected_claims')
                 if not isinstance(affected, list) or not affected or any(not isinstance(v, str) for v in affected):
                     return None
-                limits.extend(affected)
+                message = note.get('message')
+                if message is not None and (not isinstance(message, str) or not message.strip()):
+                    return None
+                limits.extend([message.strip()] if message else affected)
                 limit_refs.append(card.evidence_id)
                 conflict |= note['issue'] == 'conflicting_deadlines'
         except (ValueError, TypeError, KeyError, AttributeError):
