@@ -614,6 +614,9 @@ class Router:
         def guarded(proposed, compiled=False):
             """The host guards every interpretation passes through, whichever path built it."""
             check_topics(proposed, topics)
+            if (proposed.control == 'system_information' or
+                    (proposed.control == 'clarify' and proposed.intent == 'system_information_mixed')):
+                return proposed, None, None, ()
             if (not selection.freshman_context(text) and any(
                     part.evidence_need == 'document' and part.subject_id == 'handbook_registration'
                     for part in proposed.parts)):

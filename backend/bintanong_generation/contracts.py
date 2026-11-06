@@ -101,7 +101,7 @@ class CandidateAnswer(Contract):
     release_id: ReleaseID|None
     language: Language
     status: Literal['answered','clarification_needed','source_conflict','insufficient_evidence',
-        'out_of_scope','temporarily_unavailable','greeting','abstained']
+        'out_of_scope','temporarily_unavailable','greeting','system_information','abstained']
     text: str=Field(min_length=1,max_length=65536)
     decision: DecisionOutcome|None
     dependencies: ResearchDependencyResult|DependencyResult|None
@@ -135,6 +135,11 @@ class CandidateAnswer(Contract):
 
     @model_validator(mode='after')
     def _limits(self):
+        if self.status=='system_information' and (self.claims or self.citations or self.decision is not None
+                or self.structured_context is not None or self.dependencies is not None
+                or self.part_ledger is not None or self.missing_facts or self.draft_attempts
+                or self.check_attempts or self.validation!='control_fallback'):
+            raise ValueError('system_information_has_academic_work')
         if self.answer_repairs!=max(self.draft_attempts-1,0):
             raise ValueError('repair_counter_mismatch')
         if self.check_attempts>self.draft_attempts:

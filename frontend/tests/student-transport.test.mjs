@@ -16,6 +16,16 @@ const normal = [
 ];
 function response(raw) { return new Response(raw, { headers: { 'Content-Type': 'text/event-stream', 'x-vercel-ai-ui-message-stream': 'v1' } }); }
 
+test('system-information replies are accepted through the chat stream', async () => {
+  const stream = sse(normal.map(p => p.type === 'data-answer' ? {
+    ...p, data: { status: 'system_information', conditional: false, language: 'en', missingFields: [] },
+  } : p));
+  const answer = await sendStudentMessage(request, { signal: new AbortController().signal,
+    onText() {}, fetch: async () => response(stream) });
+  assert.equal(answer.status, 'system_information');
+  assert.equal(answer.text, 'Synthetic response.');
+});
+
 test('live stream preserves canonical clarification choices and rejects malformed choices', async () => {
   const metadata = { status: 'clarification_needed', language: 'en', conditional: true, missingFields: ['course_status'],
     clarification: { courses: [{ code: 'B2/L', kind: 'completion' }], scope: { programId: 'program-a', curriculumId: 'curriculum-a' } } };

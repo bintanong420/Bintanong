@@ -306,7 +306,7 @@ class IntegrationResult(Contract):
     route: Route() | None
     response_style: Literal['en', 'fil', 'taglish', 'unknown']
     status: Literal['ready', 'unknown', 'unsupported', 'error', 'conflict', 'release_mismatch',
-        'no_evidence', 'uncalibrated', 'clarify', 'greeting', 'unsupported_scope',
+        'no_evidence', 'uncalibrated', 'clarify', 'greeting', 'system_information', 'unsupported_scope',
         'evidence_unavailable', 'held', 'timeout', 'busy', 'invalid_output', 'tool_error']
     evidence: CandidateEvidence | None
     understanding: RequestUnderstanding | None
@@ -326,6 +326,10 @@ class IntegrationResult(Contract):
 
     @model_validator(mode='after')
     def _result(self):
+        if self.status == 'system_information' and (self.route is not None or self.evidence is not None
+                or self.missing_facts or (self.understanding is not None and
+                    (self.understanding.parts or self.understanding.operations))):
+            raise ValueError('system_information_has_academic_work')
         if self.evidence is not None and (self.route != self.evidence.route
                 or self.status != self.evidence.status):
             raise ValueError('integration_evidence_mismatch')

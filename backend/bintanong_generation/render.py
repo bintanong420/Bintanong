@@ -279,6 +279,9 @@ def shown_recovery(pack,status):
 
 def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False,
                 explanation=None):
+    if status=='system_information' and pack.status=='system_information':
+        from .system_information import system_information
+        return system_information(pack.language)
     words=_WORDS.get(pack.language,_WORDS['en'])
     message=(words['thanks'] if thanked else _UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
         _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
@@ -327,6 +330,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         if status == 'clarification_needed' and field in missing:
             lines[1] = questions[0 if pack.language == 'en' else 1]
             missing = tuple(f for f in missing if f != field)
+    if status=='clarification_needed' and 'separate_system_question' in missing:
+        lines[1] = ('Please send these as separate questions so I can address each one.' if pack.language=='en' else
+                    'Paki-send nang hiwalay ang mga tanong para masagot natin ang bawat isa.')
+        missing = tuple(f for f in missing if f != 'separate_system_question')
     if status=='clarification_needed' and 'language' in missing:
         lines[1]=_LANGUAGE_NOTICE
         missing=tuple(field for field in missing if field!='language')
