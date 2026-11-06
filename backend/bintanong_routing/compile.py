@@ -560,6 +560,15 @@ def _build(meaning, mentions, claims, operations, parts, reference, control):
 
 
 def compile_reply(wire, text: str, context: RequestContext, catalog=(), topics=()) -> Interpretation:
+    from .wire import WireInterpretation, _topic_parts_as_documents
+    try:
+        parsed = WireInterpretation.parse(wire.model_dump(mode='json') if hasattr(wire, 'model_dump') else wire)
+    except ValueError:
+        pass  # Structural slips still use the compiler's existing reconstruction.
+    else:
+        if not any(m.kind in ('course', 'term') for m in parsed.mentions):
+            wire = _topic_parts_as_documents(parsed, frozenset(
+                prepare_query(a).casefold() for entry in catalog if entry.kind == 'course' for a in entry.aliases))
     return compile_meaning(read_meaning(wire, text), text, context, catalog, topics)
 
 
