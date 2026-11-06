@@ -471,7 +471,7 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         lines.extend(notices[kind] for kind in limit_notices([c for c in selected_cards(pack,claims) if c.evidence_id not in held]))
     if status in ('answered','insufficient_evidence','abstained'):
         from .shifting_reply import shifting_referral  # thesis leader 4 Nov 2026: end with the printed offices
-        referral=shifting_referral(pack)
+        referral=shifting_referral(pack,claims if status=='answered' else ())
         if referral: lines.append(referral)
     for card in selected_cards(pack,claims):
         for cite in card.citations:

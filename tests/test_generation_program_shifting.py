@@ -66,3 +66,24 @@ def test_generic_referral_keeps_college_branches_conditional():
 def test_cross_college_referral_does_not_add_same_college_instructions():
     pack, _ = fixture('How can I shift to another college?')
     assert 'kung same college' not in shifting_referral(pack)
+
+
+def test_complete_program_quotes_use_short_referral_without_repeating_offices():
+    from backend.bintanong_generation.render import render_text
+    pack, explanation = fixture()
+    draft, _ = to_draft(explanation, pack)
+    text = render_text(pack, draft.claims, 'answered')
+    assert RULE in text and FAQ in text
+    assert 'mga office na nabanggit' in text
+    assert 'Hindi kayang i-evaluate ng Bintanong ang credits mo o aprubahan ang shift' in text
+    assert 'Deans ng current college mo' not in text
+    short = shifting_referral(pack, draft.claims)
+    assert len(short) + 200 < len(shifting_referral(pack))
+
+
+def test_partial_program_quote_keeps_full_conditional_office_referral():
+    pack, explanation = fixture()
+    draft, _ = to_draft(explanation, pack)
+    line = shifting_referral(pack, draft.claims[:1])
+    assert 'Deans ng current college mo' in line
+    assert 'kung ibang college' in line and 'kung same college' in line

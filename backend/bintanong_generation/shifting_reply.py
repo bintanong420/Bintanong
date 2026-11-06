@@ -57,11 +57,22 @@ def asks_shifting(pack):
     return pack.understanding is not None and any(p.subject_id in SHIFT_TOPICS for p in pack.understanding.parts)
 
 
-def shifting_referral(pack):
+def shifting_referral(pack, claims=()):
     """One closing line naming the printed offices, or None when the question is not about shifting or no printed
     office is in the retrieved text."""
     if not asks_shifting(pack):
         return None
+    stated = {(claim.text, tuple(claim.evidence_ids)) for claim in claims}
+    for part in pack.understanding.parts:
+        required = {ref for subject, claim, refs in pack.record_coverage
+                    if SHIFT_TOPICS.get(subject) == claim for ref in refs}
+        complete = complete_program_shifting_reply(pack, part, required)
+        if complete and {(item['text'], tuple(item['evidence_ids'])) for item in complete} <= stated:
+            return ('Dalhin ang request mo sa mga office na nabanggit sa applicable process. Hindi kayang '
+                    'i-evaluate ng Bintanong ang credits mo o aprubahan ang shift.'
+                    if pack.language in ('fil', 'taglish') else
+                    'Take your request to the offices named above for the applicable process. '
+                    'Bintanong cannot evaluate your credits or approve a shift.')
     text = ''
     for card in pack.cards:
         if card.kind != 'document':

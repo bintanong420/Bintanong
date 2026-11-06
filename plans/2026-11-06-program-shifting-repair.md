@@ -40,3 +40,14 @@ Extend the existing companion cue for Filipino course/program changes and Englis
   monitor72532 active, all five service endpoints HTTP200. No additional inference pending.
   Full72 and rendered-browser acceptance
   remain pending; no whole-benchmark or institutional-readiness claim.
+
+## Round4 presentation refinement
+
+Owner marks all three shifting variants Y in Final but requests less verbosity.
+When the final claims contain every canonical complete shifting quotation with its
+exact evidence mapping, shorten only the closing office referral: the quoted roles
+are already visible above. Partial/unanswered/narrow replies retain the full conditional
+office referral. No clause, step, condition or source quotation is removed.
+Synthetic regression confirms at least200 fewer closing characters, complete source
+bodies retained, and partial quotes do not qualify. Gate141 passed4.32s with existing
+Python3.13/cache-off/external basetemp `shifting-short-referral-final`.
