@@ -105,7 +105,8 @@ def _matches(mention, catalog, program=None, curriculum=None):
     for c in scoped:
         for a in c.aliases:
             short = len(a) <= 4 and a.isupper()  # abbreviations such as "IT" match only as written
-            pattern = r'(?<![\w-])' + re.escape(a) + r'(?![\w-])'
+            alias = r'\s*'.join(map(re.escape, a.split())) if mention.kind == 'program' else re.escape(a)
+            pattern = r'(?<![\w-])' + alias + r'(?![\w-])'
             for m in re.finditer(pattern, mention.text, 0 if short else re.IGNORECASE):
                 found.setdefault(c.entity_id, []).append((m.start(), m.end(), c))
     spans = [s for hits in found.values() for s in hits]

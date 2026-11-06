@@ -6,6 +6,8 @@ import pytest
 import httpx
 
 from backend.bintanong_routing.contracts import DocumentTopic, NotStatedCue, RequestContext
+from backend.bintanong_routing import topic_selection
+from backend.bintanong_routing.prompt import build_messages
 from backend.bintanong_routing.router import Router
 from backend.bintanong_routing.transport import RuntimeFailure
 from backend.bintanong_routing.transport import LlamaTransport
@@ -26,6 +28,74 @@ MENU = (
       for i in range(8)),
 )
 TEXT = 'Where do I file slip S?'
+
+
+def test_selector_meaning_is_bounded_untrusted_context_and_never_a_fact():
+    value = dict(schema_version=topic_selection.VERSION, request_meaning='The student asks where to file a slip.',
+                 subject_ids=['fictional_office'], ambiguous=False)
+    assert topic_selection.selected_topics(value, MENU) == MENU[:1]
+    for meaning in ('', 'x' * 257, {}, None):
+        with pytest.raises(ValueError, match='topic_selection_unavailable'):
+            topic_selection.selected_topics(dict(value, request_meaning=meaning), MENU)
+
+
+def test_selector_printed_items_replace_the_redundant_first_section_opening():
+    topic = DocumentTopic(subject_id='fictional_policy', claims=('printed fields',),
+                          source_opening='An unrelated introductory clause.',
+                          source_items=('1. APPLICATION', '2. COMPLETION'))
+    menu = json.loads(topic_selection.build_messages(TEXT, (topic,))[0]['content'].split('Menu:', 1)[1])
+    assert menu == [dict(subject_id='fictional_policy', items=['1. APPLICATION', '2. COMPLETION'])]
+
+
+def test_filipino_possession_hint_preserves_original_input_and_does_not_create_facts():
+    text = 'May INC ako sa course; what comes next?'
+    selector = json.loads(topic_selection.build_messages(text, MENU)[1]['content'])
+    messages = build_messages(
+        text, RequestContext.parse(context()), catalog(), registry(), MENU[:1])
+    interpreter = json.loads(messages[1]['content'])
+    assert selector['original_text'] == interpreter['original_text'] == text
+    assert selector['input_language_hint'] == interpreter['input_language_hint']
+    assert selector['input_language_hint']['quote'] == 'May INC ako sa course'
+    assert interpreter['context']['facts'] == []
+    assert topic_selection.possession_hint('The deadline is May 4.') is None
+
+
+def test_selector_sees_reviewed_claims_when_a_topic_has_no_printed_description():
+    topic = DocumentTopic(subject_id='fictional_process', claims=('application documents', 'filing steps'),
+                          not_stated=('approval deadline',))
+    messages = topic_selection.build_messages(TEXT, (topic,))
+    menu = json.loads(messages[0]['content'].split('Menu:', 1)[1])
+    assert menu[0]['claims'] == ['application documents', 'filing steps']
+    assert 'approval deadline' not in menu[0]['claims']
+
+
+@pytest.mark.parametrize('compiled', [False, True])
+def test_selected_topics_allow_one_reinterpretation_of_unassigned_fragments(monkeypatch, compiled):
+    monkeypatch.setenv('BINTANONG_ROUTER_COMPILE', '1' if compiled else '0')
+    text = 'Can the requirement and the activity be completed together?'
+    first, second = 'Can the requirement', 'and the activity be completed together?'
+    value = proposal(text=text, mentions=[], operations=[], route='RAG')
+    value['parts'] = [dict(part_id=key, text=words, start=text.index(words), end=text.index(words)+len(words),
+                          evidence_need='unknown', operation_indices=[])
+                      for key, words in [('r1', first), ('r2', second)]]
+    wrong = wire_fixture(value, text)
+    model = Transport(selected(('fictional_office', 'fictional_fees')), json.dumps(wrong), answer(text=text), text=text)
+    result, _ = run(model, text=text)
+    assert result.decision.route == 'RAG' and result.diagnostic == 'validated'
+    assert result.attempts == 2 and len(result.proposed.parts) == 1
+    assert 'unassigned_request_parts' in model.calls[2][0][-1]['content']
+    assert all(message['role'] != 'assistant' for message in model.calls[2][0])
+
+
+def test_clean_fragment_retry_can_still_leave_a_genuine_ambiguity_unresolved(monkeypatch):
+    monkeypatch.setenv('BINTANONG_ROUTER_COMPILE', '1')
+    text = 'Could I do that too?'
+    value = wire_fixture(proposal(text=text, mentions=[], operations=[], route='RAG'), text)
+    value['parts'][0].update(evidence_need='unknown', subject_id=None, requested_claims=[])
+    unresolved = dict(value, control='clarify', route=None, ambiguities=['Which activity is meant?'])
+    result, _ = run(Transport(selected(), json.dumps(value), json.dumps(unresolved), text=text), text=text)
+    assert result.decision.control == 'clarify' and result.decision.route is None
+    assert result.attempts == 2 and result.repair_attempts == 1
 
 
 class Transport(FakeTransport):
@@ -457,6 +527,18 @@ def test_a_large_topic_naming_no_printed_fact_keeps_the_model_choice():
     result = sanction_question('What is the penalty for this?')
     assert result.decision.route == 'RAG'
     assert result.proposed.parts[0].requested_claims == ('missing item 10',)
+
+
+@pytest.mark.parametrize('verb', ['nagcheat', 'magcheat', 'pagcheat'])
+def test_taglish_loan_verb_selects_the_named_offense_without_other_exam_rows(verb):
+    topic = SANCTIONS.model_copy(update=dict(claims=(
+        *SANCTIONS.claims[:7], 'printed rule 7 fields: 7. Cheating in examinations',
+        'printed rule 8 fields: 8. Selling examination answers', 'missing item 10')))
+    text = f'Ano ang parusa sa {verb} sa examinations?'
+    value = json.loads(answer('fictional_sanctions', ('missing item 10',), text))
+    result, _ = run(Transport(selected(('fictional_sanctions',)), json.dumps(value), text=text),
+                    text=text, topics=(*MENU, topic))
+    assert result.proposed.parts[0].requested_claims == ('printed rule 7 fields: 7. Cheating in examinations',)
 
 
 # Owner 30 Oct 2026 benchmark: "Kailan ako considered second year?" selected one topic, then the router

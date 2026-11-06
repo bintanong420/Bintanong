@@ -7,11 +7,9 @@ condition could still include it; blank cells (no prerequisite) and year standin
 from __future__ import annotations
 
 _WORDS = {
-    'en': dict(none='No course in your prospectus lists {target} as a prerequisite, so failing it does not block another '
-                    'course.',
-               some='If you fail {target}, these courses are affected because their prerequisites include it (directly '
-                    'or through another course): {courses}.',
-               term_some='In {term}, failing {target} blocks: {courses}.',
+    'en': dict(none='No course in your prospectus lists {target} as a prerequisite.',
+               some='Courses that use {target} as a prerequisite, directly or through another course: {courses}.',
+               term_some='In {term}, these courses use {target} as a prerequisite, directly or through another course: {courses}.',
                term_none='In {term}, no course needs {target}.',
                later='Courses in other terms that need it: {courses}.',
                also='It also affects courses in other terms: {courses}.',
@@ -19,11 +17,9 @@ _WORDS = {
                     'so please confirm it with your program adviser.',
                note_unprinted="Note: {course} has a prerequisite condition I can't check from individual course results, "
                               'so please confirm it with your program adviser.'),
-    'taglish': dict(none='Walang course sa prospectus mo na may {target} bilang prerequisite, kaya hindi nito mabo-block '
-                         'ang ibang course.',
-                    some='Kung ma-fail mo ang {target}, apektado ang mga course na ito dahil kasama ito sa prerequisites '
-                         'nila (direkta o sa ibang course): {courses}.',
-                    term_some='Sa {term}, mabo-block ng pag-fail sa {target} ang: {courses}.',
+    'taglish': dict(none='Walang course sa prospectus mo na may {target} bilang prerequisite.',
+                    some='Mga course na may {target} bilang prerequisite, direkta o through another course: {courses}.',
+                    term_some='Sa {term}, may {target} bilang prerequisite ang mga course na ito, direkta o through another course: {courses}.',
                     term_none='Sa {term}, walang course na nangangailangan ng {target}.',
                     later='Mga course sa ibang term na nangangailangan nito: {courses}.',
                     also='Apektado rin ang mga course sa ibang term: {courses}.',

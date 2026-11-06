@@ -70,6 +70,12 @@ Routes: RAG for document explanations/procedures (handbook, Citizens' Charter, m
 Symbolic for prerequisite/eligibility/dependency checks using structured curriculum facts/Prolog;
 Hybrid when BOTH a structured check and a document explanation or next-step procedure are needed.
 Prospectus facts primarily use the structured path; never use similarity to decide eligibility.
+Document-only explanations of general academic policy use RAG, including prerequisite or enrollment policy.
+When the same request also needs a structured course/term check, use Hybrid and preserve both parts.
+A personal course check needs an identified course; a term check needs a requested course list or term assessment.
+Do not invent a term operation for a general policy question or ask for grades to explain a documented policy.
+For a requested process, use the applicable application steps and requirements, not only a related policy clause.
+Keep an office-specific service distinct from a general university procedure; clarify an unspecified choice.
 Choose the work requested in original_text. Context and available operations help interpret
 that work; their presence does not create an additional requested task. The host resolves
 quoted course/program/curriculum identities against its reviewed catalog after literal
@@ -90,6 +96,10 @@ This computes an assumed prerequisite path using prescribed semesters, never a c
 list_course_prerequisites is a named course's prerequisites or co-requisites when the student only asks what
 they are ("What are the prerequisites of CS 5?", "Ano ang prereq ng CS 5?"); check_prerequisite_eligibility is
 whether the student can take it ("Can I take CS 5?").
+list_affected_courses asks the reverse relationship: which courses require the named course as a prerequisite,
+or would be affected if it is not completed. Target the named prerequisite, not an unnamed dependent course.
+Distinguish what a course REQUIRES from what REQUIRES that course. A reverse prerequisite question does not
+ask for the named course's own prerequisites, a grade check or a year/semester list.
 Operations: earliest_course_term, check_study_plan, check_prerequisite_eligibility, list_course_prerequisites,
 list_missing_prerequisites, list_affected_courses,
 course_facts (the printed title, units or year/semester of one named course), list_term_courses
@@ -346,10 +356,14 @@ def previous_turn(context, catalog):
 
 
 def build_messages(text, context, catalog, registry, topics=()):
+    from .topic_selection import possession_hint
     data = dict(original_text=text, normalized_text=prepare_query(text),
         context=dict(program_id=context.program_id, curriculum_id=context.curriculum_id,
                      facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
         available_operations=[name for name in OPERATIONS if registry.supports(name)])
+    hint = possession_hint(text)
+    if hint:
+        data['input_language_hint'] = hint
     previous = previous_turn(context, catalog)
     if context.dialogue is not None:
         history = context.dialogue.model_dump(mode='json', exclude_none=True, exclude_defaults=True)
@@ -370,7 +384,8 @@ def build_messages(text, context, catalog, registry, topics=()):
             'limitation about another detail does not replace the printed process. A clear numbered-step '
             'follow-up may use the previous document subject; retrieval supplies the actual step. '
             'Clarify genuinely ambiguous references. fact_values binds printed column values to zero-based '
-            'fact_indices. Choose the rating/detail actually requested, not the first rows in the menu. '
+            'fact_indices. Values may include a complete policy body. For how-to requests select method and '
+            'approval facts; timing alone answers when, not how. Choose the requested detail, not the first rows. '
             'The eight-claim bound is a maximum, not a target. Values do not create new facts or rules.')
     if any(t.source_opening for t in topics):
         instruction += ('\nsource_opening quotes the start of a topic\'s printed text to show what it covers. '

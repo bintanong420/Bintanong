@@ -141,7 +141,7 @@ def test_duplicate_citations_do_not_duplicate_the_protected_record():
 def test_quoted_record_still_requires_the_ordinary_relevance_review():
     model = PositiveModel(verdict='does_not_answer')
     answer = asyncio.run(Generator(model).generate(TEXT, integration()))
-    assert answer.status == 'insufficient_evidence' and not answer.claims and answer.check_attempts == 1
+    assert answer.status == 'insufficient_evidence' and not answer.claims and answer.check_attempts == 2
 
 
 @pytest.mark.parametrize('edit', [

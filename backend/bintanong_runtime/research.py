@@ -191,13 +191,14 @@ TOPIC_FAMILIES = {
 }
 
 
-def _reviewed_topic_context(register, catalogue, chunks):
+def _reviewed_topic_context(register, catalogue, chunks, *, include_body=False):
     """Copy assigned reviewed labels/numbered clauses; retain any deadline conflict."""
     def context_field(name):
-        return isinstance(name,str) and (name in ('service_title','description')
+        return isinstance(name,str) and (name in ('service_title','description') or include_body and name == 'body'
             or re.fullmatch(r'\d+(?:\.\d+)+',name) is not None)
     readings = {a['reading_id']: a['subject_id'] for a in (catalogue or {}).get('assignments', [])}
     approved = {}
+    purposes = {}
     for review in register['reviews']:
         if review.get('finding') != 'visible_fields':
             continue
@@ -206,6 +207,7 @@ def _reviewed_topic_context(register, catalogue, chunks):
                     and readings.get(ref.get('reading_id')) == review['subject_id']):
                 key = (review['subject_id'], ref['reading_id'], ref['field_name'])
                 approved.setdefault(key, set()).update(review.get('reviewed_chunk_ids', []))
+                purposes.setdefault(key, set()).add(review['claim'])
     context = {}
     for chunk in chunks:
         reading = chunk.get('type_fields', {}).get('reading_id')
@@ -218,7 +220,7 @@ def _reviewed_topic_context(register, catalogue, chunks):
             by_name = {f['name']: f for f in fields}
             if len(by_name) != len(fields):
                 continue
-            values = [by_name[name]['value'] for name in by_name if context_field(name)
+            names = [name for name in by_name if context_field(name)
                 and (not unresolved or name not in ('service_title','description')
                      and all(limit.get('issue') == 'conflicting_deadlines' for limit in unresolved))
                 and by_name[name].get('source_blank') is False
@@ -226,15 +228,24 @@ def _reviewed_topic_context(register, catalogue, chunks):
                 and chunk.get('chunk_id') in approved.get((subject, reading, name), ())]
         except (ValueError, TypeError, KeyError, AttributeError):
             continue
-        text = '; '.join(values)
+        text = '; '.join(by_name[name]['value'] for name in names)
         if text and unresolved:
             text += '\nUnresolved source limitations: '+json.dumps([
                 dict(issue=limit['issue'],affected_claims=limit.get('affected_claims',[]))
                 for limit in unresolved],ensure_ascii=False,separators=(',',':'))
         if text and len(text) <= 1024:
-            context.setdefault(subject, []).append(text)
-    return {s: tuple(dict.fromkeys(values)) for s, values in context.items()
-            if len(set(values)) <= 4}
+            claims = set().union(*(purposes[(subject, reading, name)] for name in names))
+            context.setdefault(subject, {}).setdefault(text, set()).update(claims)
+    if not include_body:
+        return {subject: tuple(values) for subject, values in context.items() if len(values) <= 4}
+    result = {}
+    for subject, values in context.items():
+        distinct, repeated, covered = [], [], set()
+        for text, claims in values.items():
+            (distinct if claims - covered else repeated).append(text)
+            covered.update(claims)
+        result[subject] = tuple((distinct + repeated)[:4])
+    return result
 
 
 PRINTED_DEFECTS = ('malformed_source_condition', 'printed_total_discrepancy')
@@ -247,8 +258,11 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
         raise ValueError('invalid_routing_context')
     labels, columns, openings, items, headings = {}, {}, {}, {}, {}
     if routing_context:
-        from .routing_context import reviewed_claim_headings, reviewed_context, reviewed_items, reviewed_openings
+        from .routing_context import reviewed_claim_bodies, reviewed_claim_headings, reviewed_context, reviewed_items, reviewed_openings
         labels, columns = reviewed_context(register, catalogue, chunks)
+        for subject, claims in reviewed_claim_bodies(register, catalogue, chunks).items():
+            for claim, fields in claims.items():
+                columns.setdefault(subject, {}).setdefault(claim, {}).update(fields)
         openings = reviewed_openings(register, catalogue, chunks)
         items = reviewed_items(register, catalogue, chunks)
         headings = reviewed_claim_headings(register, catalogue, chunks)
@@ -277,13 +291,15 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
                 for claim in limit.get('affected_claims', []):
                     names = missing_fields.setdefault(subject, {}).setdefault(claim, [])
                     names.extend(n for n in limit.get('field_names') or () if isinstance(n, str) and n not in names)
-    contexts = _reviewed_topic_context(register, catalogue, chunks)
+    contexts = _reviewed_topic_context(register, catalogue, chunks, include_body=routing_context)
     fields = _reviewed_claim_fields(register, readings, chunks,
         max_fields=MAX_TOPIC_FIELDS if routing_context else 32)
     topics = []
     for s, c in subjects.items():
         not_stated = tuple(dict.fromkeys(missing.get(s, ())))
-        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), source_context=contexts.get(s, ()),
+        claim_bodies = {v['body'] for v in columns.get(s, {}).values() if 'body' in v}
+        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)),
+            source_context=tuple(v for v in contexts.get(s, ()) if v not in claim_bodies),
             claim_fields=fields.get(s, {}),
             not_stated=not_stated,
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES),

@@ -41,9 +41,15 @@ def prepare_query(text: str) -> str:
     return normalized
 
 
+_QUESTION_QUOTE = re.compile(r'(?<![\w-])([Pp]aa?no)(?![\w-])')
+
+
 def quote_matches(text: str, quote: str) -> list[tuple[int, int]]:
-    """Original spans for quotes differing only in whitespace; words and case stay literal."""
-    pattern = r'\s+'.join(re.escape(word) for word in re.split(r'\s+', quote))
+    """Original spans for whitespace or whole-word pano/paano spelling; other words and case stay literal."""
+    def word_pattern(word):
+        return ''.join(r'(?<![\w-])' + part[0] + r'aa?no(?![\w-])' if _QUESTION_QUOTE.fullmatch(part)
+                       else re.escape(part) for part in _QUESTION_QUOTE.split(word))
+    pattern = r'\s+'.join(word_pattern(word) for word in re.split(r'\s+', quote))
     return [m.span(1) for m in re.finditer('(?=(' + pattern + '))', text)]
 
 

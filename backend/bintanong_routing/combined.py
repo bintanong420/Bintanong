@@ -12,7 +12,7 @@ from .prompt import SYSTEM_PROMPT, build_messages as routing_messages, ordered_j
 from .prompt import DIALOGUE_INSTRUCTION
 from .prompt import output_schema as routing_schema
 from .router import Router, _json_proposal, _repair_messages
-from .style import STYLE_PROMPT, STYLE_PROMPT_SHA256, STYLE_PROMPT_VERSION, StyleEvidence, style_output_schema
+from .style import STYLE_PROMPT, STYLE_PROMPT_SHA256, STYLE_PROMPT_VERSION, StyleEvidence, literal_style, style_output_schema
 from .transport import RuntimeFailure
 from .recovery_cue import recovery_request
 from .validation import RoutingResult, _decision, validate_interpretation
@@ -108,16 +108,17 @@ class CombinedRouter(Router):
                 messages=_repair_messages(messages,raw)
                 continue
             try:
-                packet.style.ground(text)
+                style = literal_style(packet.style, text)
+                style.ground(text)
                 effective=Interpretation.parse(dict(proposed.model_dump(mode='json'),
-                    language=packet.style.language))
+                    language=style.language))
                 result=validate_interpretation(text,context,effective,catalog=self.catalog,
                     registry=self.registry,documents_available=self.documents_available,
                     synthetic=self.synthetic)
                 return replace(result,proposed=proposed,attempts=attempt,style_attempts=0,
                     conversation_context=context.conversation,
                     dialogue_act=DialogueAct.parse(bound['dialogue']) if bound.get('dialogue') else None,
-                    style_evidence=packet.style,offset_corrections=0)
+                    style_evidence=style,offset_corrections=0)
             except ValueError:
                 return failure('invalid_grounding',attempt)
         raise AssertionError('unreachable')

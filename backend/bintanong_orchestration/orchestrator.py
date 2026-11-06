@@ -14,6 +14,7 @@ from ..bintanong_routing.router import Router
 from ..bintanong_routing.validation import effective_facts, facts_for_term
 from ..bintanong_routing.combined import CombinedRouter
 from ..bintanong_routing.topic_selection import ABSENCE, ABSENCE_TOPICS, SHIFT, SHIFT_TOPICS
+from ..bintanong_routing.topic_selection import FACILITY_TOPICS, general_facility_request
 from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from .adapters import AdapterFailure
@@ -73,6 +74,10 @@ def _topic_intents(proposed, conversation=None):
             if p.subject_id not in topics or not (cue.search(p.text) or topics is SHIFT_TOPICS and shifting_follow_up):
                 continue
             for subject, wanted in topics.items():
+                claims.setdefault(subject, {})[wanted] = None
+                texts.setdefault(subject, {})[query] = None
+        if p.subject_id in FACILITY_TOPICS and general_facility_request(p.text):
+            for subject, wanted in FACILITY_TOPICS.items():
                 claims.setdefault(subject, {})[wanted] = None
                 texts.setdefault(subject, {})[query] = None
     return [(' '.join(texts[s]) if len(claims) > 1 else None, dict(subject_id=s, requested_claims=tuple(claims[s])))

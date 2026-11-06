@@ -168,6 +168,10 @@ def malformed_errors(pack, claims):
         return ()
     from .part_answers import printed_held_claims  # owner 3 Nov 2026: host-printed steps with the record's limitation
     printed = printed_held_claims(pack)
+    from .grade_completion_reply import concise_mark_claims
+    concise = concise_mark_claims(pack)
+    if concise <= {(c.text, tuple(c.evidence_ids)) for c in claims}:
+        printed |= concise
     for claim in claims:
         if (claim.text, tuple(claim.evidence_ids)) in printed:
             continue

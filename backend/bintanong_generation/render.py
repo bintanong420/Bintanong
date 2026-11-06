@@ -13,7 +13,7 @@ _WORDS={
   conditions='Conditions',missing='Missing information',dependency='Potential affected courses within the supplied bundle',
   clarification_needed='Could you tell me which subject or topic you mean?',
   source_conflict='The supplied evidence conflicts; no conclusion is available.',
-  insufficient_evidence="This information is not in Bintanong's reviewed sources yet. Please ask the relevant university office.",
+  insufficient_evidence="I couldn't verify a complete answer from the retrieved sources. Please confirm with the relevant university office.",
   out_of_scope='Bintanong covers undergraduate academic affairs; this request is outside that scope.',
   temporarily_unavailable='The check is temporarily unavailable. Please try again later.',
   greeting='Hello. I can help with supported undergraduate academic-affairs questions.',
@@ -27,7 +27,7 @@ _WORDS={
   conditions='Mga kondisyon',missing='Kulang na impormasyon',dependency='Posibleng maapektuhang kurso sa ibinigay na bundle',
   clarification_needed='Anong subject o topic ang tinutukoy mo?',
   source_conflict='Magkasalungat ang ibinigay na ebidensya; walang maibibigay na pasya.',
-  insufficient_evidence='Wala pa ito sa mga na-review na source ng Bintanong. Pakitanong sa tamang opisina ng unibersidad.',
+  insufficient_evidence='Hindi ko pa ma-verify ang kumpletong sagot gamit ang nakuhang sources. Paki-confirm sa tamang university office.',
   out_of_scope='Saklaw ng Bintanong ang undergraduate academic affairs; nasa labas nito ang tanong.',
   temporarily_unavailable='Hindi muna magawa ang check ngayon. Subukan ulit mamaya.',
   greeting='Kumusta. Makakatulong ako sa mga suportadong tanong tungkol sa undergraduate academic affairs.',
@@ -41,7 +41,7 @@ _WORDS={
   conditions='Conditions',missing='Missing information',dependency='Potential affected courses sa supplied bundle',
   clarification_needed='Anong subject o topic ang tinutukoy mo?',
   source_conflict='May conflict sa supplied evidence; wala pang supported conclusion.',
-  insufficient_evidence='Wala pa ito sa reviewed sources ng Bintanong. Paki-ask sa tamang university office.',
+  insufficient_evidence='Hindi ko pa ma-verify ang kumpletong sagot gamit ang retrieved sources. Paki-confirm sa tamang university office.',
   out_of_scope='Undergraduate academic affairs ang scope ng Bintanong; outside scope ang request.',
   temporarily_unavailable='Temporarily unavailable ang check. Paki-try ulit later.',
   greeting='Hello. Pwede akong tumulong sa supported undergraduate academic-affairs questions.',
@@ -457,6 +457,10 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
         # A held record quoted with its own heads-up is not noted again (final run 2 Nov 2026, #9).
         held={ref for claim in claims if 'Heads-up:' in claim.text for ref in claim.evidence_ids}
+        from .grade_completion_reply import concise_mark_claims
+        canonical = concise_mark_claims(pack)
+        if canonical and canonical <= {(c.text, tuple(c.evidence_ids)) for c in claims}:
+            held.update(ref for _, refs in canonical for ref in refs)
         lines.extend(notices[kind] for kind in limit_notices([c for c in selected_cards(pack,claims) if c.evidence_id not in held]))
     if status in ('answered','insufficient_evidence','abstained'):
         from .shifting_reply import shifting_referral  # thesis leader 4 Nov 2026: end with the printed offices

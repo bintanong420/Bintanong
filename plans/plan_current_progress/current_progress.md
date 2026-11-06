@@ -1,8 +1,11 @@
 # Current progress
 
-Updated 4 November 2026. Worktree p12 / `p12-evaluation-harness`.
-Last full committed snapshot before condensation: `8a470088` (recover with `git show`).
-The inherited uncommitted owner USG note remains preserved in this working file.
+Updated 6 November 2026. Development worktree p12-dev / `p12-post-gathering-fixes` (published to origin).
+Owner moved continued development off the gathering checkout; base `8f15cfe0`.
+See [isolation handoff](../2026-11-04-development-isolation-handoff.md). Code separation is preserved;
+owner then authorized restarting both stacks and model on 5 Nov. Historical notes below describe the base.
+Last full committed snapshot before this condensation: `34184fa3` (recover with `git show`).
+The inherited owner USG notes remain preserved in the gathering checkout.
 
 ## Active continuation
 
@@ -52,11 +55,38 @@ Phase 12 research/software write-up complete with disclosures; see [INDEX](../IN
 Undergraduate advisory scope, private-upload isolation, source gaps, printed rule semantics,
 unknown-versus-unmet, English/Taglish replies and F04 hold remain mandatory.
 
-USG source review is owned by the separate p11 researcher GUI workflow; no new source approval
-is inferred here. Preserved owner note:
+USG source review is owned by the separate p11 researcher GUI workflow; no new source approval is inferred here.
 ## Next action
 
-Validate browser/frontend-to-backend thread parity with the delivered clarification/repair and
-shifting-office sequences. Durable history and wider held-out evaluation remain separate.
-Serving app restarted from the current worktree; use New Chat after the memory reset.
-HTTP readiness verified; browser interaction remains untested. No push.
+Ownerrequestedorigin/p12-evaluation-harnesspublication. Isolatedp12-eval-publishintegratesdevd2ad9fef
+withremoteabd007b4withoutalteringrunningcheckouts;architectureimagepreserved. Mergedgate585pass.
+Machine-localignoredruntimeconfigurationisnotpublished;full72acceptanceisstillpending.
+
+Development candidate code `e7e6b2a0`, reviewed-source release `1d4eeb3b6bb7b8e0` with candidate-only
+5120 grade context budget. All original sources and main/gathering code remain unchanged.
+[Repair checkpoint](../2026-11-06-owner-benchmark-repairs.md) records commits and verification.
+
+- Round three received: 21 retested, 20 Y / 1 N, 51 untested. Owner outcomes: 13 fixed,
+  7 unchanged passes, 1 regression B-13-TL (freshman requirements for next-semester enrollment).
+  Six grade-4/INC Y marks remain conditional on reducing verbosity while disclosing inconsistencies.
+- General-policy all languages, add/change, probation and ID pass owner retests. ID Taglish still needs polish.
+  R3 note corrects an initial main/prod vs dev mix-up for policy10; retain final dev Y marks.
+- Mark-specific INC/grade-4 quotations prevent neighboring grade rules from being substituted.
+  Latest reviewer-scope change has 95 related tests; owner R3 is not a full frozen 72-query run.
+- Owner actively verifies behavior: HOLD automated model queries and further restarts; offline work only.
+  Registration worker investigates B-13-TL from saved traces. Do not mistake freshman undergraduate
+  admission content for a senior-high-school procedure merely because it asks for high-school credentials.
+- Luna checked Codex ChatGPT login/doctor (0 failed, not usage limits). Four-hour keepalive monitor PID9452
+  recovers only absent services after two checks/cooldown; dev pause sentinel removed after readiness.
+  Runtime evidence/scripts are ignored; public/main limits unchanged, dev temporary rate window zero.
+- Wider audit remediation proposal is saved and deferred. No source activation, dependency change or push.
+
+Remainingpatchescommitted:f5c7a264registrationaudience(341tests),3b522271naturalTaglish(78),
+8c3b3b60/a52c73c1compactmarkquotes+fullsourcelimitnotes(133integrationtests).
+Ownergavejudgmentontiming;announceddev-onlyreload,API62928warming,pause-dev-apiheld.
+Livea52c73c1B13TLfixed,IDTGnatural,INCEN/TGmethodfirst. bdf6d50afinalgradebrevitycleanup174tests pass.
+Finalbdf6d50alivegrade15EN/16ENanswered;grade4output25.4%shorter,INC52.5%shortervs9581.
+Allmethod/approval/forfeiture/sourcequalificationnotesremain;174focusedtests pass.
+PID63020devAPIloaded,keepalivepauseflagremoved;main/dev/chatand8022ready200. Modelcallsnowstopped.
+R3remainingengineeringdelivered. Next: ownerexploratoryverification/frozen72runwhenrequested;
+no full72accuracyclaim, sourceconflictsremainvisible, widerauditplanstilldeferred.

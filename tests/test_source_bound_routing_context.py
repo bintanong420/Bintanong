@@ -24,7 +24,9 @@ def fixture(name='service_title_and_description', value='BORROWING FICTIONAL ITE
     return register, catalogue, chunks
 
 
-@pytest.mark.parametrize('name', ['service_title', 'service_title_and_description', 'service_context'])
+@pytest.mark.parametrize('name', ['service_title', 'service_title_and_description', 'service_context',
+                                  'service_description', 'office', 'service_title_and_note',
+                                  'registration_description', 'office_division'])
 def test_complete_review_bound_legacy_service_labels_reach_candidate_topics(name):
     args = fixture(name)
     before = deepcopy(args)

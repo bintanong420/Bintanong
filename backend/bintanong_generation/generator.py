@@ -235,7 +235,9 @@ class Generator:
                         if per_part:
                             explanation=(_parse(raw,PartExplanation) if references is None else
                                 decode_part_explanation(_parse(raw,ShortPartExplanation),references))
-                            proposal,slots=to_draft(explanation,pack)
+                            proposal,slots=to_draft(explanation,pack, coverage_retry_parts=tuple(
+                                error.split(':',1)[1] for error in errors
+                                if error.startswith('part_question_not_answered:')))
                         else:
                             proposal=(canonical_draft(_parse(raw,DocumentExplanation),pack) if scoped else
                                       _parse(raw,AnswerDraft) if references is None else
@@ -281,6 +283,14 @@ class Generator:
                                 settled=('mapped','unavailable') if per_part else ('mapped',)
                                 if ('incomplete_support_verdicts' not in errors and
                                         any(e.status not in settled for e in ledger.entries)):
+                                    if (per_part and attempt == 1
+                                            and any(v == 'does_not_answer' for v in review.parts.values())
+                                            and all(v.verdict == 'supported' for v in review.support.verdicts)):
+                                        errors = tuple('part_question_not_answered:' + p for p, verdict in review.parts.items()
+                                                       if verdict == 'does_not_answer')
+                                        previous = ''
+                                        ledger = None
+                                        continue
                                     return _answer(pack,'insufficient_evidence',reason='parts_unresolved',
                                         attempts=attempts,checks=checks,ledger=ledger,guard=guard,coverage=coverage)
                             elif coverage_required and review.release_id!=pack.release_id:

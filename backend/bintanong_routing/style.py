@@ -58,6 +58,16 @@ class StyleEvidence(Record):
             raise ValueError('ungrounded_response_style')
 
 
+def literal_style(style, text):
+    """Bind an unambiguous model-capitalized Filipino fragment to its original spelling and case."""
+    def literal(fragment):
+        if fragment in text or not fragment[0].isupper():
+            return fragment
+        matches = quote_matches(text, fragment[0].lower() + fragment[1:])
+        return text[slice(*matches[0])] if len(matches) == 1 else fragment
+    return style.model_copy(update=dict(filipino_fragments=tuple(literal(f) for f in style.filipino_fragments)))
+
+
 # Everyday Filipino function words; English lookalikes (at, may, i, pa) are excluded.
 _FILIPINO = frozenset('''ang ng nang mga sa ay na ko mo ka siya niya namin natin nila kami tayo
 sila yung iyong ung lang po si ni kay para kung kapag pag hindi wala meron pwede puwede dapat

@@ -257,7 +257,7 @@ def test_taglish_guidance_prefers_everyday_english_terms_without_evaluation_fixt
 
 def test_prompt_uses_two_reply_targets_and_preserves_source_terms():
     from backend.bintanong_generation.part_answers import PART_PROMPT
-    assert 'Tagalog structure' in PART_PROMPT and 'mostly Filipino' not in PART_PROMPT
+    assert 'natural Filipino' in PART_PROMPT and 'mostly Filipino' not in PART_PROMPT
     assert 'source quotations' in PART_PROMPT and 'do not copy unrelated English sentences' in PART_PROMPT
 
 
@@ -356,8 +356,11 @@ def test_taglish_keeps_printed_wording_in_english_with_filipino_connectors():
     # Owner 30 Oct 2026: "we keep the answers that came from the data as english as is ... the connecting as
     # filipino". Observed: "shall not exceed one (1) academic year" became "hindi dapat lumagpas sa isang (1) ...".
     from backend.bintanong_generation.part_answers import PART_PROMPT, REWRITE
-    for text in (PART_PROMPT, REWRITE['taglish']):
-        assert "printed wording in the source's English" in text and 'only the connecting words' in text
+    assert 'English office names, English policy terms' in PART_PROMPT
+    assert 'Keep an English quotation exact' in PART_PROMPT
+    assert 'preserve every rule, condition and actor' in PART_PROMPT
+    assert 'Mag-report ka' in PART_PROMPT
+    assert "printed wording in the source's English" in REWRITE['taglish']
 
 
 def test_draft_prompt_asks_for_student_facing_claims_without_loosening_printed_wording():

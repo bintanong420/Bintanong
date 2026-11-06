@@ -14,7 +14,7 @@ from ..bintanong_contracts.symbolic import EMPTY_REGISTRY
 from .contracts import TERM_OPERATIONS, DialogueAct, Interpretation, RequestContext, prepare_query
 from .terms import parse_term
 from .prompt import build_messages, output_schema, previous_turn
-from .style import StyleProposal, build_style_messages, floor_style, style_output_schema
+from .style import StyleProposal, build_style_messages, floor_style, literal_style, style_output_schema
 from .transport import RuntimeFailure
 from . import topic_selection as selection
 from .recovery_cue import recovery_request
@@ -73,6 +73,15 @@ def _json_proposal(raw):
 
 
 REFERENCE_HINTS = {
+    'registration_audience_unstated': 'the selected source is limited to undergraduate freshmen, but the original '
+        'question does not establish that audience. Reconsider the offered registration service and its actual scope. '
+        'Do not infer freshman or continuing-student status from a generic requirements question; clarify the cohort '
+        'when it materially changes the required documents.',
+    'unassigned_request_parts': 'none of the request fragments was assigned an evidence path despite the '
+        'offered document topics. Reinterpret the ORIGINAL request as a whole. A condition or conjunction '
+        'inside one question is not automatically a separate question. Preserve genuinely independent parts. '
+        'A general documented policy needs no personal course or term; an individual check still needs its '
+        'actual target. Use only relevant offered topics, and keep genuinely unsupported or ambiguous requests unresolved.',
     'unassigned_document_part': 'one document part has a reviewed topic but another has none. Re-evaluate EACH '
         'part against the supplied topic menu. Multiple parts may use the same topic when it covers both. '
         'Keep the original parts, document evidence paths and dialogue act; repair only topic/claim assignments. '
@@ -101,7 +110,9 @@ def _repair_messages(messages, raw, problem=None):
             f'rejected ({problem}): {REFERENCE_HINTS.get(problem, "fix that invalid reference")} '
             'Return valid JSON matching the original schema for the ORIGINAL student request '
             'in the original user payload (original_text) above. Do not invent courses, operations or facts.\n')
-    return [*messages, dict(role='assistant', content=raw[:65536] if isinstance(raw, str) else ''),
+    prior = [] if problem == 'unassigned_request_parts' else [
+        dict(role='assistant', content=raw[:65536] if isinstance(raw, str) else '')]
+    return [*messages, *prior,
         dict(role='user', content=request)]
 
 
@@ -314,14 +325,66 @@ def prefer_printed_procedure(proposed, topics):
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
-        if (topic is not None and part.requested_claims and set(part.requested_claims) <= set(topic.not_stated)
-                and (part.detail == 'whole' or _other_field(topic, part))):
+        # Grade completion is one procedure split into timing, method and approval claims.
+        whole_completion = (topic is not None and topic.subject_id == 'grade_completion'
+                            and part.detail == 'whole' and not topic.claim_headings)
+        if (topic is not None and part.requested_claims and (whole_completion or
+                set(part.requested_claims) <= set(topic.not_stated)
+                and (part.detail == 'whole' or _other_field(topic, part)))):
             printed = _printed_claims(topic, part.text)
             if printed:
                 part = part.model_copy(update=dict(requested_claims=printed))
         parts.append(part)
     if all(a.requested_claims == b.requested_claims for a, b in zip(parts, proposed.parts)):
         return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
+def prefer_procedure_topic(proposed, topics):
+    """A whole-workflow request uses the unique reviewed step table in its already approved topic family."""
+    menu = {t.subject_id: t for t in topics}
+    parts = []
+    for part in proposed.parts:
+        topic = menu.get(part.subject_id)
+        if (topic is not None and topic.family and part.evidence_need == 'document' and part.detail == 'whole'
+                and not set(part.requested_claims) & set(topic.not_stated)
+                and not (topic.family == 'drop_add_change_subjects' and selection.SHIFT.search(part.text))):
+            processes = [t for t in topics if t.family == topic.family and any(
+                re.fullmatch(r'step\d+_client_step', name) for fields in t.claim_fields.values() for name in fields)]
+            if len(processes) == 1 and processes[0].subject_id != part.subject_id:
+                printed = _printed_claims(processes[0], part.text)
+                if printed:
+                    part = part.model_copy(update=dict(subject_id=processes[0].subject_id, requested_claims=printed))
+        parts.append(part)
+    if tuple(parts) == proposed.parts:
+        return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
+def prefer_mark_completion(proposed, topics):
+    """A named deficiency uses its printed removal heading and shared examination conditions."""
+    menu = {topic.subject_id: topic for topic in topics}
+    parts = []
+    for part in proposed.parts:
+        topic = menu.get(part.subject_id)
+        if (topic is not None and topic.subject_id == 'grade_completion' and part.detail == 'whole'
+                and part.evidence_need == 'document' and not set(part.requested_claims) & set(topic.not_stated)):
+            inc = bool(re.search(r'\b(?:inc|incomplete)\b', part.text, re.I))
+            four = bool(re.search(r'(?<![\w.])4(?:\.0)?(?![\w.]|\s+units?\b)', part.text, re.I))
+            if inc != four:
+                mark = r'INC' if inc else r'4(?:\.0)?'
+                method = [claim for claim, headings in topic.claim_headings.items()
+                          if claim in topic.claims and claim not in topic.not_stated and any(re.search(
+                              r'\bREMOVAL\s+OF\s+[“‘"\']?' + mark + r'(?![\w.])', heading, re.I)
+                              for heading in headings)]
+                approval = [claim for claim, headings in topic.claim_headings.items()
+                            if claim in topic.claims and claim not in topic.not_stated and any(re.search(
+                                r'\bEXAMINATION\s+FOR\s+REMOVAL\s+OR\s+COMPLETION\b', heading, re.I)
+                                for heading in headings)]
+                if len(method) == len(approval) == 1:
+                    wanted = set(method + approval)
+                    part = part.model_copy(update=dict(requested_claims=tuple(c for c in topic.claims if c in wanted)))
+        parts.append(part)
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
@@ -357,7 +420,8 @@ def prefer_heading_claims(proposed, topics):
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
-        if topic is not None and part.evidence_need == 'document':
+        if (topic is not None and part.evidence_need == 'document'
+                and not (topic.subject_id == 'grade_completion' and part.detail == 'processing_time')):
             asked = set(_heading_words(part.text))
             if not any(_heading_score(topic, claim, asked) for claim in part.requested_claims):
                 scores = {claim: _heading_score(topic, claim, asked) for claim in topic.claim_headings
@@ -381,7 +445,8 @@ def prefer_heading_topic(proposed, topics):
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
-        if topic is not None and part.evidence_need == 'document':
+        if (topic is not None and part.evidence_need == 'document'
+                and not (topic.subject_id == 'grade_completion' and part.detail == 'processing_time')):
             asked = set(_heading_words(part.text))
             chosen = max((_heading_score(topic, claim, asked) for claim in part.requested_claims), default=0)
             scores = {(t.subject_id, claim): _heading_score(t, claim, asked) for t in topics
@@ -406,6 +471,7 @@ def prefer_named_claim(proposed, topics):
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
         if (topic is not None and part.evidence_need == 'document' and part.requested_claims
+                and not (topic.subject_id == 'grade_completion' and part.detail == 'processing_time')
                 and not set(part.requested_claims) & set(topic.not_stated)):
             asked = set(_heading_words(part.text))
             names = lambda claim: any(_same_word(w, a) for w in _heading_words(claim) for a in asked)
@@ -526,6 +592,7 @@ class Router:
             try:
                 style = StyleProposal.parse(_json_proposal(await self.transport.infer(
                     build_style_messages(text), style_output_schema()))).style
+                style = literal_style(style, text)
                 style.ground(text)
             except (RuntimeFailure, ValueError, ValidationError):
                 return None, False
@@ -547,10 +614,15 @@ class Router:
         def guarded(proposed, compiled=False):
             """The host guards every interpretation passes through, whichever path built it."""
             check_topics(proposed, topics)
+            if (not selection.freshman_context(text) and any(
+                    part.evidence_need == 'document' and part.subject_id == 'handbook_registration'
+                    for part in proposed.parts)):
+                raise ValueError('registration_audience_unstated')
             if selection_attempts:
                 proposed = answer_settled_topic(proposed, topics, text)
-            proposed = apply_not_stated_cues(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
-                prefer_printed_procedure(proposed, topics), topics), topics), topics), topics)
+            proposed = apply_not_stated_cues(prefer_procedure_topic(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
+                prefer_printed_procedure(proposed, topics), topics), topics), topics), topics), topics)
+            proposed = prefer_mark_completion(proposed, topics)
             proposed = answer_years_to_graduate(lead_absence_with_attendance(
                 prefer_good_moral_checklist(proposed, topics), topics), topics, text)
             resolved = (answer_transfer_direction(proposed, self.topics, text, context.conversation)
@@ -635,6 +707,14 @@ class Router:
                 locked_documents = payload['parts']
                 messages = _repair_messages(messages, raw, 'unassigned_document_part')
                 continue
+            if (attempt == 1 and selection_attempts and topics and not proposed.operations
+                    and not proposed.ambiguities and proposed.control in (None, 'clarify')
+                    and not any(m.kind in ('course', 'term') for m in proposed.mentions)
+                    and payload.get('parts') and all(
+                        p.get('evidence_need') == 'unknown' and p.get('subject_id') is None
+                        for p in payload['parts'])):
+                messages = _repair_messages(messages, raw, 'unassigned_request_parts')
+                continue
             style_messages = build_style_messages(text)
             style_limit = 2 if attempt == 1 else 1  # one shared repair, maximum three calls
             for style_attempt in range(1, style_limit + 1):
@@ -650,6 +730,7 @@ class Router:
                     style_messages = _repair_messages(style_messages, style_raw)
                     continue
                 try:
+                    style = literal_style(style, text)
                     style.ground(text)
                     style, floored = floor_style(style, text, names)
                     effective = Interpretation.parse(dict(proposed.model_dump(mode='json'), language=style.language))

@@ -324,6 +324,43 @@ def test_a_phrase_asking_what_the_course_itself_needs_is_never_turned_into_its_d
 
 
 @CURRICULUM_KEYS
+@pytest.mark.parametrize('operation', ['list_course_prerequisites', 'check_prerequisite_eligibility'])
+@pytest.mark.parametrize('phrase', [
+    'Like is what subject does {code} pre requisite',
+    'kung may subject ba na {code} yung pre requisite',
+    'Ano yung courses na {code} ang pre-req',
+    'Ano yung courses na need {code} as pre-req?',
+    'Ano yung courses na need {code} as pre-requisite?',
+    'Do succeeding courses need {code} as their pre-req?',
+    'Which subjects require {code} as a prerequisite?',
+])
+def test_named_course_target_keeps_reverse_prerequisite_direction(key, operation, phrase, monkeypatch):
+    c = CURRICULA[key]
+    text = phrase.format(code=c['main'][0])
+    value = wire(parts=[part('r1', text, 'structured', [0])],
+                 mentions=[('course', c['main'][0], 0)],
+                 operations=[dict(name=operation, target=quote(c['main'][0]))])
+    result = route(text, value, context(key), monkeypatch)
+    assert result.diagnostic == 'validated'
+    assert predicate(result) == ('list_affected_courses', c['main'][1])
+
+
+@CURRICULUM_KEYS
+@pytest.mark.parametrize('phrase', ['What are the prerequisites of {code}?',
+    'For my subjects, ano yung prerequisite ng {code}?',
+    'Which subjects are prerequisites for {code}?',
+    "Which courses need {code}'s prerequisite?"])
+def test_named_target_own_prerequisites_are_not_reversed(key, phrase, monkeypatch):
+    c = CURRICULA[key]
+    text = phrase.format(code=c['main'][0])
+    value = wire(parts=[part('r1', text, 'structured', [0])],
+                 mentions=[('course', c['main'][0], 0)],
+                 operations=[dict(name='check_prerequisite_eligibility', target=quote(c['main'][0]))])
+    result = route(text, value, context(key), monkeypatch)
+    assert predicate(result) == ('check_prerequisite_eligibility', c['main'][1])
+
+
+@CURRICULUM_KEYS
 def test_an_eligibility_phrase_naming_the_course_and_a_term_checks_that_course(key, monkeypatch):
     c = CURRICULA[key]
     words = f"{c['main'][0]} next semester"

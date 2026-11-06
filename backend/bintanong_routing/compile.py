@@ -346,7 +346,15 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
             continue
         spans = resolving(target) if target else []
         if spans:
-            built.append((check.name, 'course', within(spans, area_of(target)), None))
+            area = area_of(target)
+            course = within(spans, area)
+            area = area or next((s for s in _sentences(text) if s[0] <= course.start < course.end <= s[1]),
+                                (0, len(text)))
+            reverse = (check.name in (*_ELIGIBILITY, 'list_course_prerequisites')
+                       and sum(area[0] <= f.start < f.end <= area[1] for f in found) == 1
+                       and _DEPENDANTS_BEFORE.search(text[area[0]:course.start])
+                       and _AS_PREREQUISITE.match(text[course.end:area[1]]))
+            built.append(('list_affected_courses' if reverse else check.name, 'course', course, None))
             continue
         if not courses:  # no curriculum yet: keep the words so validation asks for the missing scope
             span = _locate(text, target) or (_locate(text, meaning.previous_course) if meaning.previous_course else None)
@@ -531,6 +539,8 @@ _OTHER_COURSES = re.compile(r'^\s*(any|anything|something|what|which|ano|anong|a
 # "prerequisites of X" / "X needs": the course's own prerequisites, the opposite direction of "what uses X".
 _OWN_PREREQS_BEFORE = re.compile(r'\b(?:pre-?req\w*|requirements?)\s+(?:of|for|ng|ni)\s*\Z', re.I)
 _OWN_PREREQS_AFTER = re.compile(r'\s*(?:needs?|requires?)\b', re.I)
+_DEPENDANTS_BEFORE = re.compile(r'\b(?:subjects?|courses?)\b[^.?!;\n]*\Z', re.I)
+_AS_PREREQUISITE = re.compile(r'\s*(?:(?:as|ang|yung|is|a|the|their)\s+)*pre[-\s]?req(?:uisite)?s?\b', re.I)
 _LISTING = re.compile(r'\b(subjects?|courses?|kurso|prospectus|curriculum)\b', re.I)
 
 
@@ -550,6 +560,15 @@ def _build(meaning, mentions, claims, operations, parts, reference, control):
 
 
 def compile_reply(wire, text: str, context: RequestContext, catalog=(), topics=()) -> Interpretation:
+    from .wire import WireInterpretation, _topic_parts_as_documents
+    try:
+        parsed = WireInterpretation.parse(wire.model_dump(mode='json') if hasattr(wire, 'model_dump') else wire)
+    except ValueError:
+        pass  # Structural slips still use the compiler's existing reconstruction.
+    else:
+        if not any(m.kind in ('course', 'term') for m in parsed.mentions):
+            wire = _topic_parts_as_documents(parsed, frozenset(
+                prepare_query(a).casefold() for entry in catalog if entry.kind == 'course' for a in entry.aliases))
     return compile_meaning(read_meaning(wire, text), text, context, catalog, topics)
 
 

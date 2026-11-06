@@ -64,9 +64,7 @@ def course_fact_lines(result, language, shown=str) -> list[str]:
                      f'Walang prerequisite na nakalista para sa {target} sa prospectus.')]
         phrase = rule_phrase(rule, language, shown)
         lines = [(f'{target} requires {phrase}.' if language == 'en' else
-                 f'Kailangan ng {target} ang {phrase}.'),
-                ("If you'd like an eligibility check, tell me which requirements you've completed." if language == 'en' else
-                 'Kung gusto mong ipa-check ang eligibility mo, sabihin kung alin ang na-complete mo na.')]
+                 f'Kailangan ng {target} ang {phrase}.')]
         def unresolved(node):
             if node.kind == 'unresolved':
                 yield unresolved_rule_text(node.reason, target, language)

@@ -17,6 +17,21 @@ MENU = (DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',
 TEXT = 'Where do I file slip S?'
 
 
+@pytest.mark.parametrize('detail', ['whole', 'processing_time'])
+def test_whole_grade_completion_retrieves_method_and_approval_not_only_timing(detail):
+    text = ('How do I complete a fictional deficiency?' if detail == 'whole'
+            else 'When is the fictional deadline?')
+    topic = DocumentTopic(subject_id='grade_completion',
+                          claims=('printed timing', 'printed completion method', 'printed approval'),
+                          not_stated=('unresolved precedence',))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], language='en')
+    value['parts'][0].update(subject_id=topic.subject_id, requested_claims=['printed timing'], detail=detail)
+    style = json.dumps(style_proposal('en', english=[text]))
+    result = run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=(topic,))
+    expected = topic.claims if detail == 'whole' else ('printed timing',)
+    assert result.proposed.parts[0].requested_claims == expected
+
+
 def model(*outputs):
     style = json.dumps(style_proposal('en', english=['Where do I file']))
     return FakeTransport(*outputs, style_outputs=[style] * 3)
@@ -64,6 +79,28 @@ def test_router_keeps_a_valid_topic_choice():
     assert result.diagnostic == 'validated' and result.decision.route == 'RAG'
     part = result.proposed.parts[0]
     assert part.subject_id == 'fictional_office' and part.requested_claims == ('filing office',)
+
+
+@pytest.mark.parametrize('detail,expected', [('whole', 'fictional_process'), ('specific', 'fictional_policy')])
+def test_a_whole_workflow_uses_the_reviewed_process_in_its_own_family(detail, expected):
+    topics = (
+        DocumentTopic(subject_id='fictional_policy', claims=('printed policy',), family='fictional_filing',
+                      claim_fields={'printed policy': ('body',)}),
+        DocumentTopic(subject_id='fictional_process', claims=('printed process',), family='fictional_filing',
+                      claim_fields={'printed process': ('service_title', 'step1_client_step')}))
+    value = json.loads(answer('fictional_policy', ('printed policy',)))
+    value['parts'][0]['detail'] = detail
+    result = run(model(json.dumps(value)), text=TEXT, topics=topics)
+    assert result.diagnostic == 'validated' and result.proposed.parts[0].subject_id == expected
+
+
+def test_two_reviewed_processes_do_not_silently_choose_one():
+    topics = (DocumentTopic(subject_id='fictional_policy', claims=('printed policy',), family='fictional_filing'),
+        *(DocumentTopic(subject_id=name, claims=('printed process',), family='fictional_filing',
+                        claim_fields={'printed process': ('step1_client_step',)})
+          for name in ('fictional_process_a', 'fictional_process_b')))
+    result = run(model(answer('fictional_policy', ('printed policy',))), text=TEXT, topics=topics)
+    assert result.proposed.parts[0].subject_id == 'fictional_policy'
 
 
 def test_router_rejects_claims_outside_the_chosen_topic():

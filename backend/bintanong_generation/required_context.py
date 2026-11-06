@@ -104,6 +104,11 @@ def context_reply(pack, proposed, required, *, max_claims=8, existing_claims=())
 
 
 def context_errors(pack, claims, required):
+    from .grade_completion_reply import concise_mark_claims
+    canonical = concise_mark_claims(pack)
+    actual = {(c.text, tuple(c.evidence_ids)) for c in claims}
+    if canonical and canonical <= actual and required <= {r for _, refs in actual for r in refs}:
+        return ()
     quotes = context_quotes(pack, required)
     if quotes is None:
         return ()

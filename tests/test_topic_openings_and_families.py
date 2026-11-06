@@ -48,6 +48,47 @@ def test_short_reviewed_body_is_its_own_complete_opening():
     assert topic.source_opening == 'FICTIONAL RESIDENCE. Residence means years enrolled.'
 
 
+def test_complete_short_body_is_bound_to_its_own_claim_for_selection():
+    topic, = candidate(*body_inputs())
+    assert topic.claim_context['printed fictional fields']['body'] == LONG_BODY
+
+
+@pytest.mark.parametrize('damage', ['held', 'long', 'multiple'])
+def test_claim_body_hint_never_uses_defective_truncated_or_arbitrary_body(damage):
+    register, catalogue, chunks = body_inputs()
+    record = json.loads(chunks[0]['text'])
+    if damage == 'held':
+        record['source_limits'] = [dict(issue='source_cutoff', resolution='unresolved')]
+    elif damage == 'long':
+        record['fields'][0]['value'] = 'x' * 1025
+    else:
+        from copy import deepcopy
+        extra = deepcopy(chunks[0])
+        extra.update(chunk_id='chunk-b', type_fields=dict(reading_id='body-b'))
+        extra_record = json.loads(extra['text'])
+        extra_record['fields'][0]['value'] = 'A different complete body.'
+        extra['text'] = json.dumps(extra_record)
+        chunks.append(extra)
+        catalogue['assignments'].append(dict(reading_id='body-b', subject_id='fictional_policy'))
+        register['reviews'][0]['reviewed_chunk_ids'].append('chunk-b')
+        register['reviews'][0]['field_refs'].append(dict(reading_id='body-b', field_name='body'))
+    chunks[0]['text'] = json.dumps(record)
+    topic, = candidate(register, catalogue, chunks)
+    assert not topic.claim_context
+
+
+def test_selected_topic_carries_its_complete_short_reviewed_body_for_interpretation():
+    body = 'FICTIONAL SEQUENCING. An activity requires the preceding module. Exceptions require review.'
+    topic, = candidate(*body_inputs(body))
+    assert topic.claim_context['printed fictional fields']['body'] == body
+    assert body not in topic.source_context
+
+
+def test_a_long_body_is_not_cut_to_create_routing_context():
+    topic, = candidate(*body_inputs('A' * 1025))
+    assert not topic.source_context
+
+
 def test_a_not_stated_limit_keeps_the_opening_but_a_source_defect_withholds_it():
     not_stated = dict(resolution='unresolved', issue='claim_not_stated', affected_claims=['fee'])
     topic, = candidate(*body_inputs(limits=[not_stated]))
@@ -65,10 +106,11 @@ def test_default_menu_and_serialization_carry_no_opening_or_family():
     assert 'source_opening' not in dumped and 'family' not in dumped
 
 
-def test_opening_reaches_both_the_selector_menu_and_the_router_menu():
+def test_selector_uses_printed_items_while_router_keeps_the_source_opening():
     topic, = candidate(*body_inputs())
     selector = topic_selection.build_messages('How do I file a slip?', (topic,))[0]['content']
-    assert topic.source_opening in selector
+    assert all(item in selector for item in topic.source_items)
+    assert topic.source_opening not in selector
     context = RequestContext(session_id='sess-a', request_id='req-a')
     router = build_messages('How do I file a slip?', context, (), registry(), (topic,))[0]['content']
     assert topic.source_opening in router

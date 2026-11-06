@@ -73,7 +73,6 @@ export function Conversation({ state, progress, onSource, onClarify, onEdit, onR
         {message.delivery === "interrupted" && <p className="supporting-copy">Response interrupted. Any text below may be incomplete.</p>}
         {message.text && (message.role === "assistant" ? <MarkdownText text={message.text} /> : <p className="message-text">{message.text}</p>)}
         {message.answer?.conditional && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
-        {message.answer?.status === "clarification_needed" && !hasQuestions && <p className="supporting-copy clarification-explanation">No specific clarification question was provided.</p>}
         {message.answer?.notice && <p className="answer-disclaimer">{message.answer.notice}</p>}
       </CardContent></Card>
       <div className="message-actions">

@@ -1,5 +1,5 @@
 """Bind model-selected dialogue acts to owned turns; every academic request is checked again."""
-from .contracts import ConversationContext, DialogueAct
+from .contracts import ConversationContext, DialogueAct, prepare_query, quote_matches
 
 COURSE_REQUESTS = ('check_prerequisite_eligibility', 'list_course_prerequisites',
                    'list_missing_prerequisites', 'list_affected_courses', 'course_facts')
@@ -9,12 +9,27 @@ class DialogueReferenceError(ValueError):
     pass
 
 
+def _standalone_course_request(data, text, context, catalog):
+    from .wire import WireInterpretation
+    wire = WireInterpretation.parse(data)
+    if not wire.operations or wire.previous_course_quote is not None or wire.control is not None:
+        return False
+    names = {prepare_query(a).casefold() for c in catalog if c.kind == 'course' and c.reviewed
+             and (c.program_id, c.curriculum_id) == (context.program_id, context.curriculum_id)
+             for a in c.aliases}
+    return all(op.name in COURSE_REQUESTS and prepare_query(op.target.text).casefold() in names
+               and op.target.occurrence < len(quote_matches(text, op.target.text))
+               for op in wire.operations)
+
+
 def bind_dialogue(data, text, context, catalog, topics=()):
     if not isinstance(data, dict):
         raise ValueError('invalid_dialogue_packet')
     raw = data.get('dialogue')
     if raw is None:
         if context.dialogue is not None:
+            if _standalone_course_request(data, text, context, catalog):
+                return data, context.model_copy(update={'conversation': None})
             raise DialogueReferenceError('dialogue_reference_missing')
         return data, context
     act = DialogueAct.parse(raw)
