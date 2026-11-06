@@ -120,3 +120,69 @@ def test_complete_quote_repair_still_requires_the_ordinary_question_coverage_rev
     assert bool(answer.claims) is accept_quote
     if accept_quote:
         assert POLICY in answer.text
+
+
+@pytest.mark.parametrize('accept_quote', [True, False])
+def test_multi_claim_retry_quotes_each_reviewed_record_and_still_needs_relevance_review(accept_quote):
+    question = 'How do I complete the fictional procedure?'
+    value = integrated('RAG', text=question, response_style='en').model_dump(mode='json')
+    first = value['evidence']['documents']['passages'][0]
+    second = dict(first, chunk_id='e'*64)
+    texts = ('Complete fictional activity Z.', 'Secure approval from Fictional Coordinator before attendance.')
+    for passage, text in zip((first, second), texts):
+        passage['text'] = json.dumps(dict(fields=[dict(name='body', value=text, source_blank=False)], source_limits=[]))
+    value['evidence']['documents']['passages'] = [first, second]
+    member = value['evidence']['pin']['documents'][0]
+    value['evidence']['pin']['documents'] = [dict(member, chunk_id=p['chunk_id']) for p in (first, second)]
+    value['understanding']['parts'][0].update(subject_id='fictional_policy',
+        requested_claims=['method fields', 'approval fields'], detail='whole')
+    value['evidence']['documents']['record_coverage'] = [dict(subject_id='fictional_policy', claim=claim,
+        chunk_ids=[passage['chunk_id']]) for claim, passage in zip(('method fields', 'approval fields'), (first, second))]
+    source = type(integrated('RAG')).parse(value)
+
+    class OmittedApproval:
+        def __init__(self):
+            self.checks = 0
+
+        async def infer(self, messages, schema):
+            payload = json.loads(messages[1]['content'])
+            if schema['properties'].get('schema_version', {}).get('const') == PartExplanation.SCHEMA_VERSION:
+                refs = [c['evidence_id'] for c in payload['evidence']['sources']]
+                return json.dumps(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+                    release_id=payload['evidence']['release_id'], language='en', answers=dict(r1=dict(
+                        status='answered', claims=[dict(text=texts[0], evidence_ids=refs)]))))
+            self.checks += 1
+            claims = payload['parts'][0]['claims']
+            complete = all(any(text in item['claim']['text'] for item in claims) for text in texts)
+            verdicts = [dict(claim_id=item['claim']['claim_id'], verdict='supported') for item in claims]
+            return json.dumps(dict(parts=dict(r1='answers' if accept_quote and complete else 'does_not_answer'),
+                support=report(verdicts=verdicts).model_dump(mode='json')))
+
+    model = OmittedApproval()
+    answer = asyncio.run(Generator(model).generate(question, source))
+    assert model.checks == 2
+    assert answer.status == ('answered' if accept_quote else 'insufficient_evidence')
+    if accept_quote:
+        assert all(text in answer.text for text in texts)
+        assert len(answer.citations) == 2
+
+
+def test_coverage_retry_keeps_independent_approval_beside_a_conflicting_timing_group():
+    from backend.bintanong_generation.evidence import prepare
+    from backend.bintanong_generation.part_answers import to_draft
+    from test_generation_deadline_conflict import integration, VALUES
+    pack = prepare(integration())
+    timing = tuple(c.evidence_id for c in pack.cards if any(text in c.text for text in VALUES))
+    approval = next(c.evidence_id for c in pack.cards if c.evidence_id not in timing and c.kind == 'document')
+    part = pack.understanding.parts[0].model_copy(update=dict(subject_id='fictional_policy',
+        requested_claims=('timing', 'approval'), detail='whole'))
+    pack = replace(pack, understanding=pack.understanding.model_copy(update=dict(parts=(part,))),
+        record_coverage=(('fictional_policy', 'timing', timing), ('fictional_policy', 'approval', (approval,))))
+    explanation = PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id, language=pack.language, answers=dict(r1=dict(status='answered',
+            claims=[dict(text='An incomplete mixed claim.', evidence_ids=[timing[0], approval])]))))
+    draft, slots = to_draft(explanation, pack, coverage_retry_parts=('r1',))
+    assert slots['r1'][0] == 'answered'
+    assert all(any(text in claim.text for claim in draft.claims) for text in VALUES)
+    assert any(claim.evidence_ids == (approval,) for claim in draft.claims)
+    assert 'does not establish which deadline applies' in ' '.join(claim.text for claim in draft.claims)

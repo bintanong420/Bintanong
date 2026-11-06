@@ -235,7 +235,9 @@ class Generator:
                         if per_part:
                             explanation=(_parse(raw,PartExplanation) if references is None else
                                 decode_part_explanation(_parse(raw,ShortPartExplanation),references))
-                            proposal,slots=to_draft(explanation,pack)
+                            proposal,slots=to_draft(explanation,pack, coverage_retry_parts=tuple(
+                                error.split(':',1)[1] for error in errors
+                                if error.startswith('part_question_not_answered:')))
                         else:
                             proposal=(canonical_draft(_parse(raw,DocumentExplanation),pack) if scoped else
                                       _parse(raw,AnswerDraft) if references is None else

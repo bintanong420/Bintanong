@@ -24,7 +24,7 @@ from .service_steps import parse_service, render_service
 from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
-from .malformed_condition import malformed_records, malformed_reply
+from .malformed_condition import clean_quote, malformed_records, malformed_reply
 from .fee_precedence import fee_precedence_reply
 from .residence_reply import residence_reply
 from .honours_reply import honours_reply
@@ -689,7 +689,7 @@ def required_record_order(pack):
     return required
 
 
-def to_draft(explanation, pack):
+def to_draft(explanation, pack, *, coverage_retry_parts=()):
     """Host-numbered claims plus each document part's slot status and claim IDs."""
     ids = document_parts(pack)
     if tuple(sorted(explanation.answers)) != tuple(sorted(ids)):
@@ -707,6 +707,16 @@ def to_draft(explanation, pack):
             raise ValueError('non_document_evidence')
         status = slot.status
         asked = parts_by_id.get(part_id)
+        if (part_id in coverage_retry_parts and asked is not None and asked.detail == 'whole'
+                and len(asked.requested_claims) > 1):
+            required = requirements.get(part_id, set())
+            records = [card for card in pack.cards if card.kind == 'document' and card.evidence_id in required]
+            quotations = [(card, clean_quote(card, pack.language)) for card in records]
+            if required and len(records) == len(required) and all(words for _, words in quotations):
+                # Separate citations prevent a timing-group rewrite discarding an unrelated approval clause.
+                proposed = tuple(PartClaim(text=words, evidence_ids=(card.evidence_id,))
+                                 for card, words in quotations)
+                status = 'answered'
         fee = (fee_precedence_reply(pack, asked) or residence_reply(pack, asked) or honours_reply(pack, asked)
                or leave_reply(pack, asked))
         if fee is not None:  # owner 2 Nov 2026 (#10): Charter fee first, Handbook figure disclosed
