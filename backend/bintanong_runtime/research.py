@@ -298,13 +298,17 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
     for s, c in subjects.items():
         not_stated = tuple(dict.fromkeys(missing.get(s, ())))
         claim_bodies = {v['body'] for v in columns.get(s, {}).values() if 'body' in v}
+        bound_context = {claim: {name: value for name, value in values.items()
+                                if name in fields.get(s, {}).get(claim, ())}
+                         for claim, values in columns.get(s, {}).items()}
+        bound_context = {claim: values for claim, values in bound_context.items() if values}
         topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)),
             source_context=tuple(v for v in contexts.get(s, ()) if v not in claim_bodies),
             claim_fields=fields.get(s, {}),
             not_stated=not_stated,
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES),
             not_stated_fields={n: tuple(f) for n, f in missing_fields.get(s, {}).items() if n in not_stated and f},
-            source_labels=labels.get(s, ()), claim_context=columns.get(s, {}),
+            source_labels=labels.get(s, ()), claim_context=bound_context,
             # A printed service label already names the topic; an opening is for unlabelled bodies.
             source_opening=None if labels.get(s) else openings.get(s), source_items=items.get(s, ()),
             claim_headings={k: v for k, v in headings.get(s, {}).items() if k in c},

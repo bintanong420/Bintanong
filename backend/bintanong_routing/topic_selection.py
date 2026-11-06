@@ -17,7 +17,8 @@ def workflow_fact_indices(topic):
 def procedure_context(topic):
     context = []
     for claim, fields in topic.claim_context.items():
-        selected = {name: value for name, value in fields.items() if name.endswith('_procedure')}
+        selected = {name: value for name, value in fields.items() if name.endswith('_procedure')
+                    or re.fullmatch(r'step\d+_client_step', name)}
         if claim not in topic.not_stated and selected:
             context.append(dict(claim=claim, fields=selected))
     return context[:4]
@@ -51,7 +52,8 @@ def build_messages(text, topics, previous=None, dialogue=None):
         'Generic enrollment requirements do not establish freshman status; include the general registration service. '
         'For a whole how-to request compare actual reviewed workflow coverage, not just a matching FAQ title. '
         'workflow_fact_count counts available client-step facts, not authority or currentness. '
-        'procedure_context quotes only the named reviewed procedural fragments; it does not establish '
+        'procedure_context quotes bounded reviewed procedural fragments/client steps, not every available step; '
+        'use it for the requested action/location; it does not establish '
         'a complete workflow, replacement price, full requirements or source supersession. '
         'Keep policy/checklist questions distinct; honor an explicitly requested source. '
         'claims names reviewed coverage without a printed description. '

@@ -64,5 +64,12 @@ Closing grammar correction `a5e5a6a0` passed 57 tests after its RED; final dev-o
 Adaptive [procedure source fit](../2026-11-06-adaptive-procedure-source-fit.md) now addresses
 the good-moral report without a blanket source switch: menus expose reviewed workflow
 bindings; whole selected procedures retain step facts within the existing eight-claim bound.
-Policy, explicit source and requirements-only scope remain. Gates258/184 pass; four live
-router checks pass. Next: dev API reload and exact3217 chat check, then owner exploratory testing.
+Policy, explicit source and requirements-only scope remain. `b5312a47` committed;
+reviewed five-case good-moral router checks pass; later gate362 pass.
+Round4 [intake](../2026-11-06-round4-benchmark-intake.md): latest63Y/6P/3untested;
+good moral/gate pass all partial, shifting FinalY but verbose, B15 form-location note remains.
+Shifting short-referral cleanup `e8a848a1`:141 tests pass, source quotations retained.
+Removal form is reviewed Charterphysical112 step1 (Registrar's office); new bounded
+client-step hints expose it. Context/aggregate binding regressions fixed; pinned145topicsload;
+latest gate115 pass. Next: restoreDocker/model/devAPI, then serial good-moral/gate-pass/form
+checks through3217; no full72 claim. Main untouched; keepalivemonitor36880, APIpauseheldduringrecovery.

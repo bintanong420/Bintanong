@@ -226,3 +226,41 @@ def test_oversized_partial_procedure_context_is_not_silently_truncated():
     chunks[0]['text'] = json.dumps(value)
     with pytest.raises(ValueError, match='routing_context_capacity'):
         topic_menu(register, catalogue=catalogue, chunks=chunks, routing_context=True)
+
+
+def test_review_bound_client_step_location_reaches_both_routing_menus():
+    from backend.bintanong_routing.topic_selection import build_messages as selection_messages
+    register, catalogue, chunks = procedure_inputs()
+    value = json.loads(chunks[0]['text'])
+    value['fields'][0].update(name='step1_client_step', value='Obtain fictional form Q at Office Z.')
+    register['reviews'][0]['field_refs'][0]['field_name'] = 'step1_client_step'
+    chunks[0]['text'] = json.dumps(value)
+    topics, system = procedure_menu(register, catalogue, chunks)
+    assert topics[0].claim_context['visible service fields']['step1_client_step'] == 'Obtain fictional form Q at Office Z.'
+    selector = selection_messages('Where do I get form Q?', topics)[0]['content']
+    assert 'Obtain fictional form Q at Office Z.' in system
+    assert 'Obtain fictional form Q at Office Z.' in selector
+
+
+def test_large_aggregate_cannot_publish_unbound_client_step_hints():
+    register, catalogue, chunks = procedure_inputs()
+    names = ['step1_client_step', *(f'extra_field_{n}' for n in range(64))]
+    chunks[0]['text'] = json.dumps(dict(fields=[dict(name=name, value='Fictional value.', source_blank=False)
+        for name in names], source_limits=[]))
+    register['reviews'][0]['field_refs'] = [dict(reading_id='header-a', field_name=name) for name in names]
+    topics = topic_menu(register, catalogue=catalogue, chunks=chunks, routing_context=True)
+    assert not topics[0].claim_fields and not topics[0].claim_context
+
+
+@pytest.mark.parametrize('damage', ['held', 'oversized', 'many'])
+def test_optional_client_step_hints_remain_bounded_and_do_not_launder_limits(damage):
+    register, catalogue, chunks = procedure_inputs()
+    count = 10 if damage == 'many' else 1
+    fields = [dict(name=f'step{n}_client_step', value='x' * 1025 if damage=='oversized' else f'Fictional step {n}.',
+                   source_blank=False) for n in range(1, count+1)]
+    limits = [dict(issue='source_cutoff', resolution='unresolved')] if damage=='held' else []
+    chunks[0]['text'] = json.dumps(dict(fields=fields, source_limits=limits))
+    register['reviews'][0]['field_refs'] = [dict(reading_id='header-a', field_name=f['name']) for f in fields]
+    topics = topic_menu(register, catalogue=catalogue, chunks=chunks, routing_context=True)
+    context = topics[0].claim_context.get('visible service fields', {})
+    assert len(context) == (8 if damage=='many' else 0)

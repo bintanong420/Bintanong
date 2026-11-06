@@ -59,3 +59,25 @@ claims, source limitations, field assignments and the selected-fragment boundary
   whole and requirements questions stay Handbook (`good-moral-router-reviewed.json`).
 - Latest combined routing/menu/generation gate362 passed6.56s; independent resume gate64
   passed2.08s. Gate-pass live probes encountered model_connection_error; not verified yet.
+
+## Removal-form location and bounded client-step hints
+
+Round4 B15TG asks both grade4 removal and where to obtain its form. Saved interpretation
+assigned both parts to Handbook grade completion, so generation's missing-location reply
+was accurate only for the retrieved subset, not the reviewed corpus.
+Existing Charter service8, physical112, `C-removal-associated-v1-004`,
+chunk `d9706646d28f94ab115d47660a6c6010ae6471fef20c19c98c129c6d8670dbce`,
+`charter_removal` / `printed removal fields`, step1 explicitly names the Registrar's office
+for the removal form and Cashier payment. Its checklist where-to-secure fields refer to
+client-provided documents instead; do not substitute those as the removal-form location.
+
+Project review-bound `stepN_client_step` values through the same clean-field hints;
+no new institutional claims. Oversized/excess optional client-step hints are omitted
+without changing full retrieval evidence. The selector says these are bounded fragments,
+not proof of complete procedures. Filter all optional context against available field
+bindings before constructing DocumentTopic: large aggregate claims over64 fields have
+no field binding and must not acquire unbound context. Strict contracts remain unchanged.
+
+RED reproduced missing form-location hint and large-aggregate startup failure. Gates234
+and115 pass after correction; actual pinned145-topic menu loads. No new source review
+or Supabase change. Model/Docker outage delayed live checks; keepalive recovery underway.
