@@ -73,6 +73,10 @@ def _json_proposal(raw):
 
 
 REFERENCE_HINTS = {
+    'registration_audience_unstated': 'the selected source is limited to undergraduate freshmen, but the original '
+        'question does not establish that audience. Reconsider the offered registration service and its actual scope. '
+        'Do not infer freshman or continuing-student status from a generic requirements question; clarify the cohort '
+        'when it materially changes the required documents.',
     'unassigned_request_parts': 'none of the request fragments was assigned an evidence path despite the '
         'offered document topics. Reinterpret the ORIGINAL request as a whole. A condition or conjunction '
         'inside one question is not automatically a separate question. Preserve genuinely independent parts. '
@@ -610,6 +614,10 @@ class Router:
         def guarded(proposed, compiled=False):
             """The host guards every interpretation passes through, whichever path built it."""
             check_topics(proposed, topics)
+            if (not selection.freshman_context(text) and any(
+                    part.evidence_need == 'document' and part.subject_id == 'handbook_registration'
+                    for part in proposed.parts)):
+                raise ValueError('registration_audience_unstated')
             if selection_attempts:
                 proposed = answer_settled_topic(proposed, topics, text)
             proposed = apply_not_stated_cues(prefer_procedure_topic(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
