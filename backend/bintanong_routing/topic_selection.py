@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import re
+from collections import Counter
 
 VERSION = 'bintanong-topic-selection-v1'
 MAX_TOPICS = 8
@@ -37,9 +38,22 @@ def output_schema(topics):
 
 
 def build_messages(text, topics, previous=None, dialogue=None):
+    label_words = Counter(word for topic in topics for word in
+        set(re.findall(r'\w{4,}', ' '.join(topic.source_labels).casefold())))
+    distinctive = ' '.join(word for word in re.findall(r'\w{4,}', text.casefold()) if label_words[word] <= 3)
+    examples = {}
+    client_examples = 0
+    for topic in topics:
+        example = procedure_context(topic, distinctive)
+        if example:
+            client_step = any(re.fullmatch(r'step\d+_client_step', name) for name in example[0]['fields'])
+            if client_step and client_examples >= 3:
+                continue
+            examples[topic.subject_id] = example
+            client_examples += bool(client_step)
     menu = [dict(subject_id=t.subject_id,
         **({'workflow_fact_count': len(workflow_fact_indices(t))} if workflow_fact_indices(t) else {}),
-        **({'procedure_context': procedure_context(t, text)} if procedure_context(t, text) else {}),
+        **({'procedure_context': examples[t.subject_id]} if t.subject_id in examples else {}),
         **({'source_labels': list(t.source_labels)} if t.source_labels else {}),
         **({'opening': t.source_opening} if t.source_opening and not t.source_items else {}),
         **({'items': list(t.source_items)} if t.source_items else {}),

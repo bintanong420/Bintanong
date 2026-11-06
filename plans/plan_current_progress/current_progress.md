@@ -80,5 +80,8 @@ Gate-pass partial-coverage notice is now outside cited claims; condition/support
 Final `b8a59e02` gate-pass HTTP200/answered includes memo guidance and incomplete-process notice.
 Notice gate152 / malformed-field26 pass; earlier combined501 pass (overlapping, no full72 claim).
 All automated queries stopped. API12524/server56864 ready200, allfive200, keepalive36880 active.
-Next: owner exploratory/frozen benchmark testing; A07 remains untested. New commits local,
-not pushed; no source/Supabase changes, main untouched. Full72/browser acceptance pending.
+New [request/location overflow](../2026-11-06-good-moral-request-location-overflow.md): exact
+“Paano mag-request ng Good Moral? Saan po ito kinukuha?” added too many optional examples.
+Distinctive-label hints/global3-example bound: selector7749->7240tokens;338tests pass,
+isolated router exactquestion passes. Next: dev-only reload and exact3217 HTTP acceptance.
+A07/full72/browser acceptance remain pending. New commits local, no source/Supabase changes.

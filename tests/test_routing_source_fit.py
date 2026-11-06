@@ -58,6 +58,28 @@ def test_named_service_can_expose_one_short_client_step_without_selecting_a_sour
     assert procedure_context(topic, 'Explain grading policy.') == []
 
 
+def test_common_request_word_does_not_expand_every_service_example():
+    from backend.bintanong_routing.topic_selection import build_messages
+    topics = tuple(DocumentTopic(subject_id=f'fictional_{n}', claims=('service',),
+        source_labels=(f'Request for service {n}',), claim_fields={'service': ('step1_client_step',)},
+        claim_context={'service': {'step1_client_step': f'Submit fictional form {n} to Office Z.'}})
+        for n in range(12))
+    menu = json.loads(build_messages('Paano mag-request?', topics)[0]['content'].split('Menu:', 1)[1])
+    assert len(menu) == 12 and not any('procedure_context' in item for item in menu)
+
+
+def test_optional_client_step_examples_have_a_global_menu_bound():
+    from backend.bintanong_routing.topic_selection import build_messages
+    topics = tuple(DocumentTopic(subject_id=f'fictional_{n}', claims=('service',),
+        source_labels=(f'Fictional ServiceName{n}',), claim_fields={'service': ('step1_client_step',)},
+        claim_context={'service': {'step1_client_step': f'Submit fictional form {n} to Office Z.'}})
+        for n in range(12))
+    question = ' '.join(f'ServiceName{n}' for n in range(12))
+    menu = json.loads(build_messages(question, topics)[0]['content'].split('Menu:', 1)[1])
+    assert len(menu) == 12
+    assert sum('procedure_context' in item for item in menu) <= 3
+
+
 def test_a_reviewed_client_step_naming_the_requested_object_remains_a_candidate():
     from backend.bintanong_routing.topic_selection import add_companions
     policy = DocumentTopic(subject_id='fictional_policy', claims=('policy',))
