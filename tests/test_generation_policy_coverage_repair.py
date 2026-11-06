@@ -35,6 +35,11 @@ def test_inc_answer_cannot_paraphrase_a_neighboring_grade_four_rule_as_inc():
     combined = ' '.join(c.text for c in draft.claims)
     assert bodies[0] in combined and bodies[1] in combined
     assert 'only one retry' not in combined
+    from backend.bintanong_generation.part_answers import confirm_messages
+    draft, slots = to_draft(explanation, pack)
+    review = json.loads(confirm_messages(part.text, pack, draft, slots)[1]['content'])
+    assert review['mark_specific_parts'] == {'r1': part.text}
+    assert 'shared approval' in review['mark_scope_instruction']
 
 
 def policy_pack(*, detail='whole', limits=(), body=POLICY):

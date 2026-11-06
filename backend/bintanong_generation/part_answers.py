@@ -866,6 +866,17 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
         parts=[dict(part_id=p, text=texts[p], requested_claims=requested[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
             source_ids=[cards[e].evidence_id for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
+    mark_parts = {p.part_id: p.text for p in pack.understanding.parts
+                  if p.subject_id == 'grade_completion' and p.detail == 'whole'
+                  and mark_quotations(pack, p, required_record_sources(pack).get(p.part_id, set())) is not None}
+    if mark_parts:
+        payload['mark_specific_parts'] = mark_parts
+        payload['mark_scope_instruction'] = (
+            'Judge the removal method for the mark actually asked and its shared approval conditions. '
+            'Required neighboring records provide source context, not additional requested questions. '
+            'Do not require grade-4 removal rules in an INC method answer, or INC definition in a grade-4 answer. '
+            'Retain applicable source limitations and check every stated claim against its cited record; '
+            'a different mark must never be substituted. Deadlines need no invented resolution.')
     # Owner 2 Nov 2026 ("go check fix"): a part asking one detail is checked for that detail, not for every record of
     # the service (live: library-card requirements and leave length were rejected although correct).
     # A part quoting a held record keeps the full check: its disclosed limitation made the one-detail check reject
