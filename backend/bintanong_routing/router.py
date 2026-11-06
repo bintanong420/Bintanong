@@ -322,7 +322,8 @@ def prefer_printed_procedure(proposed, topics):
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
         # Grade completion is one procedure split into timing, method and approval claims.
-        whole_completion = topic is not None and topic.subject_id == 'grade_completion' and part.detail == 'whole'
+        whole_completion = (topic is not None and topic.subject_id == 'grade_completion'
+                            and part.detail == 'whole' and not topic.claim_headings)
         if (topic is not None and part.requested_claims and (whole_completion or
                 set(part.requested_claims) <= set(topic.not_stated)
                 and (part.detail == 'whole' or _other_field(topic, part)))):
@@ -353,6 +354,33 @@ def prefer_procedure_topic(proposed, topics):
         parts.append(part)
     if tuple(parts) == proposed.parts:
         return proposed
+    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
+
+
+def prefer_mark_completion(proposed, topics):
+    """A named deficiency uses its printed removal heading and shared examination conditions."""
+    menu = {topic.subject_id: topic for topic in topics}
+    parts = []
+    for part in proposed.parts:
+        topic = menu.get(part.subject_id)
+        if (topic is not None and topic.subject_id == 'grade_completion' and part.detail == 'whole'
+                and part.evidence_need == 'document' and not set(part.requested_claims) & set(topic.not_stated)):
+            inc = bool(re.search(r'\b(?:inc|incomplete)\b', part.text, re.I))
+            four = bool(re.search(r'(?<![\w.])4(?:\.0)?(?![\w.]|\s+units?\b)', part.text, re.I))
+            if inc != four:
+                mark = r'INC' if inc else r'4(?:\.0)?'
+                method = [claim for claim, headings in topic.claim_headings.items()
+                          if claim in topic.claims and claim not in topic.not_stated and any(re.search(
+                              r'\bREMOVAL\s+OF\s+[“‘"\']?' + mark + r'(?![\w.])', heading, re.I)
+                              for heading in headings)]
+                approval = [claim for claim, headings in topic.claim_headings.items()
+                            if claim in topic.claims and claim not in topic.not_stated and any(re.search(
+                                r'\bEXAMINATION\s+FOR\s+REMOVAL\s+OR\s+COMPLETION\b', heading, re.I)
+                                for heading in headings)]
+                if len(method) == len(approval) == 1:
+                    wanted = set(method + approval)
+                    part = part.model_copy(update=dict(requested_claims=tuple(c for c in topic.claims if c in wanted)))
+        parts.append(part)
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
@@ -388,7 +416,8 @@ def prefer_heading_claims(proposed, topics):
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
-        if topic is not None and part.evidence_need == 'document':
+        if (topic is not None and part.evidence_need == 'document'
+                and not (topic.subject_id == 'grade_completion' and part.detail == 'processing_time')):
             asked = set(_heading_words(part.text))
             if not any(_heading_score(topic, claim, asked) for claim in part.requested_claims):
                 scores = {claim: _heading_score(topic, claim, asked) for claim in topic.claim_headings
@@ -412,7 +441,8 @@ def prefer_heading_topic(proposed, topics):
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
-        if topic is not None and part.evidence_need == 'document':
+        if (topic is not None and part.evidence_need == 'document'
+                and not (topic.subject_id == 'grade_completion' and part.detail == 'processing_time')):
             asked = set(_heading_words(part.text))
             chosen = max((_heading_score(topic, claim, asked) for claim in part.requested_claims), default=0)
             scores = {(t.subject_id, claim): _heading_score(t, claim, asked) for t in topics
@@ -437,6 +467,7 @@ def prefer_named_claim(proposed, topics):
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
         if (topic is not None and part.evidence_need == 'document' and part.requested_claims
+                and not (topic.subject_id == 'grade_completion' and part.detail == 'processing_time')
                 and not set(part.requested_claims) & set(topic.not_stated)):
             asked = set(_heading_words(part.text))
             names = lambda claim: any(_same_word(w, a) for w in _heading_words(claim) for a in asked)
@@ -583,6 +614,7 @@ class Router:
                 proposed = answer_settled_topic(proposed, topics, text)
             proposed = apply_not_stated_cues(prefer_procedure_topic(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
                 prefer_printed_procedure(proposed, topics), topics), topics), topics), topics), topics)
+            proposed = prefer_mark_completion(proposed, topics)
             proposed = answer_years_to_graduate(lead_absence_with_attendance(
                 prefer_good_moral_checklist(proposed, topics), topics), topics, text)
             resolved = (answer_transfer_direction(proposed, self.topics, text, context.conversation)
