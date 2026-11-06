@@ -83,5 +83,7 @@ All automated queries stopped. API12524/server56864 ready200, allfive200, keepal
 New [request/location overflow](../2026-11-06-good-moral-request-location-overflow.md): exact
 “Paano mag-request ng Good Moral? Saan po ito kinukuha?” added too many optional examples.
 Distinctive-label hints/global3-example bound: selector7749->7240tokens;338tests pass,
-isolated router exactquestion passes. Next: dev-only reload and exact3217 HTTP acceptance.
+isolated router exactquestion passes. `c20c1d1a` live3217 exactquestion answered/Taglish,
+Charter procedure/OSAS, HTTP9.92s (not browser time). API61132/server18844 ready200;
+allfive200, keepalive36880. Next: owner testing; automated queries stopped.
 A07/full72/browser acceptance remain pending. New commits local, no source/Supabase changes.

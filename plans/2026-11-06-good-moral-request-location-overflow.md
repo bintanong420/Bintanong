@@ -31,3 +31,13 @@ No model context increase, dependency change, new source claim or source overrid
   `good-moral-request-location-router.json` under benchmark-fixes-20261106.
 - Dev-only8022 reload and exact3217 HTTP check are the remaining verification.
   Main/frontend/model stay running, keepalive preserves zero dev rate window/grade5120.
+
+## Live acceptance
+
+Code `c20c1d1a` loaded into dev API61132/server18844. Exact owner question through
+`3217/api/chat` returned HTTP200, status answered, Taglish, Charterpp52–53, OSAS service
+and complete reviewed seven-step process with checklist/printed fee/total. No duplicate
+process rendered for the two requested parts. HTTP9.92s excludes rendered-browser time.
+Evidence: ignored `good-moral-request-location-r4-chat.json` and `.sse`.
+Allfive endpoints HTTP200, keepalive36880 active; automated queries stopped.
+No full72 rerun or universal natural-wording claim. New commits remain local, not pushed.
