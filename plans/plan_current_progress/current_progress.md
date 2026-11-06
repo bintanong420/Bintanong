@@ -58,6 +58,10 @@ unknown-versus-unmet, English/Taglish replies and F04 hold remain mandatory.
 USG source review is owned by the separate p11 researcher GUI workflow; no new source approval is inferred here.
 ## Next action
 
+Owner CSV (3217): 47 Y / 8 P / 14 N / 3 untested; [repair checkpoint](../2026-11-06-owner-benchmark-repairs.md).
+Program alias spacing caused Forensic lookup rejection; generic fix passes 217 related tests.
+Next: real-router affected variants and shared document selection/evidence failures. Temporary dev rate override works.
+
 Completed 72 PDF language variants + 3 separate IT 3/L regression turns via Playwright and real model/retrieval/Prolog.
 [Live results](../2026-11-05-live-language-browser-results.md), [protocol](../2026-11-05-language-benchmark-and-browser-protocol.md).
 Seven eligibility references: Taglish/English 6/7 each, Tagalog 4/7; overall preferred language ranking is not established.
