@@ -70,6 +70,7 @@ def test_listing_has_no_eligibility_decision_and_needs_no_student_results(descri
     assert answer.structured_context.operation=='list_course_prerequisites'
     assert 'SYN101' in answer.text and answer.citations
     assert '?' not in answer.text and 'Conditions:' not in answer.text
+    assert 'eligibility check' not in answer.text and 'eligibility mo' not in answer.text
     assert pending_from(routed,answer,dict(integration.course_labels)) is None
 
 
