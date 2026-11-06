@@ -64,123 +64,78 @@ Latest targeted router traces: EN/TG validated; Filipino validated after clean r
 No benchmark wording was added to prompts. Source policy/guards remain; general policy alone is RAG,
 while a checked course/term request plus documentary explanation remains Hybrid.
 
-## Current offline repairs and live limits
+## Current repair snapshot
 
-Resume current state: `3991688e` requests full reviewed grade-completion procedure for whole requests and
-replaces false source-absence fallback with inability-to-verify-complete-answer wording (200 checks).
-`9bef074e` quotation spelling repair190 tests; independent read-only review81 checks, no new finding.
-Measured candidate-only grade budget5120 (4367SEA-LION context tokens) emits9/9records versus5/9at3072/4096.
-Ignored launcher derives a package copy, preserving sealed corpus; new release1d4eeb3b6bb7b8e0.
-Live15EN/Fil after model readiness still insufficient_evidence despite all9records available and noGemma
-overflow. Drafts repeat timing and omit procedure conditions; ordinary completeness review rejects them.
-New grade_generation worker owns this final generation repair; no bypass or fixed institutional answer.
-Integrated `9ef5b0e8`: draft prompt preserves claim-to-record purposes so method/approval is not lost to
-repeated timing (worker103 checks; root71). `f110e9b6`: style-only initial capitalization binds to unique
-original Filipino span (worker172; root92); strict grounding remains. Dev API reloaded from these files,
-warming, frontend remains up. Latest live results before these two patches: INC EN/TG answered with method,
-approval and source conflicts; probationTG answered; registrationEN answered. Grade4 EN/Fil still withheld;
-IDTG route failed due style quote capitalization. No semantic acceptance inferred from offline tests.
-Resume budget/runtime regression108passed; browser/model had stopped across runtime change, both restarted.
-Exact startup failure was model_http_error while model loading, separate from subsequent coverage failures.
+Last full snapshot: `29e0945b` (`git show` recovers the earlier diagnosis). No new phase or push.
 
-Parallel repair integrated: routing `1bebd24e` (198 checks); policy/probation repair `07528080`
-(worker106 checks, root integration77); claim-diverse runtime context `e5cfce72` (worker86 checks).
-Combined focused gate172 passed. Registration/ID worker completed service/ID verification and synthetic
-legacy-header regression (66 pass). Root now reloads only8022 frome5cfce72, frontend remains up.
-Fresh3217 frontend/API/model readiness all200 after owner reported temporary-unavailable for grade4.
-That symptom is request-specific; context overflow remains a hypothesis for the owner's exact browser
-turn until a failing request trace establishes the cause. No service-outage claim from that message.
-Owner reiterated continuing fixes with subagents; one serial model acceptance batch follows readiness.
-Read-only worker reviews combined code during startup. No full correctness claim from offline counts.
+- Round two: 33 retested, 20 Y / 13 N, 39 untested. Export SHA-256
+  `ac426d1b43ec172b7beff9854ed225e44cf42ca051549b1e88c14b2a1d7d7268`.
+  Three regressions: B-14-TG and B-15-TL/TG. Marks are owner observations, not adjudicated accuracy.
+- Owner requested parallel repairs. Workers covered generation, runtime context, registration/ID and review.
+  Shared inference stays serial. Main gathering checkout/server code and sealed sources remain unchanged.
+- Owner audit proposal is preserved unchanged in `2026-11-06-deferred-audit-remediation-proposal.md`,
+  hash `93a06cce464e5d69a1647d81a2bf46b61e5a9fa02a3554412309a9f148a20a95`.
+  Its wider PR, corpus and integration work is explicitly deferred.
 
-New trace evidence: selector reads 'May4' as calendar date, not Filipino possession. Bounded untrusted
-language annotation preserves original quote and creates no grade fact or eligibility result; adds only
-reviewed grade topic as candidate. Live router now chooses grade_completion for Filipino, but initially
-still chooses timing-only claim. New selector request_meaning is bounded/discarded, never evidence.
-Printed headings/items replace redundant first-section openings in selector, preserving full router
-metadata. Saved router probes now select Charter registration and both ID FAQ parts correctly.
+### Delivered code
 
-Owner now targets benchmark-ready research candidate plus exploratory testing, without starting the
-deferred audit programme. Acceptance: controlled live verification of the 13 round-two failures and
-previously passing controls on one loaded revision, then freeze that revision/config/source pin for the
-72-query run. Report missing gold/source coverage separately; no school deployment or perfect-score claim.
-Offline integrated tail after the unknown-course file: 598 passed in 64.89s. Combined segmented evidence
-is not a single full-suite pass; the unknown-course wording failure remains recorded.
-Docker Desktop and dev API subsequently started successfully as separate narrowly scoped commands;
-model container started. The frontend start with per-process environment remained policy-rejected.
-Model/API are warming; direct API acceptance can proceed when ready, browser acceptance still pending.
+- `5c5f1093`: compact reviewed program aliases; Forensic target works. Related gate 217 passed.
+- `53e4fd81`: prerequisite listings omit unsolicited eligibility invitation. Gate 50 passed.
+- `29c7c1a3`: compiled generic policies stay documentary; named course/term Hybrid checks preserved.
+- `1ba98d82`, `1bebd24e`, `ac5d4f65`: reviewed document context, procedure preference, compact menu,
+  bounded meaning summary, Filipino possession hint with calendar-date negatives. No verified grade invented.
+- `e1abe4d3`, `07528080`: bounded completeness retry, facilities companion quotations and style repair.
+- `e5cfce72`: more than four routing contexts no longer erase the subject; prioritize distinct reviewed
+  purposes within the same four-item budget. Conflict notes stay attached; source fields are not truncated.
+- `3991688e`: full grade procedure coverage and honest inability-to-verify fallback instead of claiming
+  that a policy is absent from the corpus.
+- `9bef074e`, `f110e9b6`: exact original-span Pano/Paano and style-only initial-capitalization repairs.
+  Codes, grades, changed words and ambiguous spans remain strict. Related gates 190 / 172 passed.
+- `9ef5b0e8`, `6f830de2`: preserve claim-to-record purposes; after a failed coverage check, quote requested
+  records separately before ordinary conflict/context/cutoff rewriting and relevance/support review.
+  Mixed citations previously lost independent approval text during timing-group replacement.
+- `5b162803`: whole prerequisite policy uses its complete clean reviewed body; ordinary review remains.
+- `9581df1f`: owner pointed to INC section 3.4. Select the requested mark's printed removal heading plus
+  shared approval/forfeiture conditions: INC two records, grade 4 four records. Unasked duplicate timing
+  group is excluded. Deadline detail requests and explicit source-gap questions retain their limits.
+  RED 3 failures; worker 150 passed; final combined routing/generation gate 159 passed.
+  Live scope selection is correct, but reviewed required neighbors still include the other mark's text.
+  INC EN draft incorrectly paraphrased grade-4 re-examination outcomes as INC. Do not count the `answered`
+  status as correctness. Worker is fixing source-bound mark quotation; grade4 reply length fell to ~2200
+  characters, but INC correctness must pass before calling the cleanup complete.
+  `af770128` nowconstructsmark-specificexactbody+sharedapprovalquotations beforeexistingrewrites,
+  preventingneighborgrade4paraphrasesfrombecomingINCrules. SyntheticREDreproducedwrongINCrule;
+  focused79checks pass. LoadingonlydevAPI PID46352; liveconfirmationpending.
+  OwnerrequestedLunasubagentCodexstatusandbothstackkeepalive;Lunamonitorshealth/restoresmodel/frontends,
+  rootownsdevAPIreload. CodexCLIhasno`status`subcommand; supportedauth/doctorchecksnotusageUIclaims.
 
-Live API after recovery: add/change 14 EN/Filipino/Taglish returns full Charter DAC workflow. Grade-4
-15 EN/Taglish returns removal policy with recorded source gaps; Filipino incorrectly selects dropping.
-Do not score grade-4 Filipino fixed. Expanded semantic guidance did not fix that selection in a router
-probe. Selector hit context overflow; compacted redundant instructions and removed duplicate bodies from
-source_context when already bound in claim_context. RED 1 failed /26 passed; GREEN123. Router then runs
-without overflow, but Filipino intent remains wrong. No further prompt sweep claimed.
-Stopped the next API batch after 10-Filipino returned temporarily unavailable on the older loaded prompt;
-remaining cases were not adjudicated. Restarted only dev API to load compact context.
-Owner requested frontend: added ignored frontend/.env.local pointing to8022/3217 and a node_modules junction
-to existing main dependencies (no install). Narrow frontend launch succeeded, PID62684. Fresh /chat,
-/api/health and8022/health/ready all200. Dev API realPID62736. Runtime is available for exploration;
-benchmark acceptance remains open. New API calls would share the owner's model slot.
+### Runtime and live evidence
 
-Owner 6 Nov: fix round-two failures first; the supplied audit-driven remediation plan is deferred.
-Preserved unchanged as [deferred proposal](2026-11-06-deferred-audit-remediation-proposal.md), SHA-256
-`93a06cce464e5d69a1647d81a2bf46b61e5a9fa02a3554412309a9f148a20a95`.
-Its branch graph is a historical planning baseline, not verified current remote state. Do not start its
-PR/merge, new held-out corpus, multi-operation or release gates as part of this repair.
+- Candidate launcher is ignored `audit-evidence/p12dev-language-20261105/start-candidate.py`.
+  Temporary rate window stays zero on 8022 only; main/default limits are unchanged.
+- Measured all nine grade records: budget 3072 and 4096 emitted only five; 5120 emitted nine,
+  4367 SEA-LION context tokens, no gaps. Launcher derives a package copy with grade budget 5120.
+  Sealed package unchanged; computed research release becomes `1d4eeb3b6bb7b8e0`.
+- Model and development API/frontend were restored after being stopped across runtime changes.
+  Some combined startup commands were policy-rejected without a specific rationale; separate narrow
+  starts succeeded. Do not claim a continuing approval block. Current 9581df1f API is warming.
+- On `6f830de2` + budget 5120, all 13 prior failure variants returned `answered`: rows 10 Fil/TG,
+  13 EN, 14 all, 15 all, 16 EN/TG, 17 TG, 18 TG. These are runtime acceptance observations, not a
+  new accuracy score. Source conflicts and missing removal-form location remain explicit.
+- General-policy paraphrases still omitted conditions despite an accepted review. `5b162803` was then
+  live-verified EN/Fil/TG with the complete policy body. Do not grade status alone as correct.
+- Grade and INC answers were very repetitive. The newest mark-scoping fix needs live verification;
+  it addresses excessive source selection, rather than stripping validated text in the frontend.
+- Evidence: ignored `benchmark-fixes-20261106/candidate-*` JSON/SSE, `api-call-*`, `api-error-*`,
+  retrieval trace and `grade_budget_probe.json`. HTTP timings exclude browser/network end-to-end claims.
+- Integrated suite was segmented: 697 passed before an old attempt-count assertion; corrected group
+  passed. Remainder 723 passed before a pre-existing unknown-course wording assertion; later tail 598 passed.
+  No single full-suite pass. New focused gates passed; no full 72-query rerun or browser acceptance yet.
 
-Saved grade-4 traces show deadline-only claim selection despite a procedure request; add/change traces
-select Handbook policy. Existing procedure preference addresses the latter. Added review-bound per-claim
-body context so the interpreter can distinguish a method from a deadline/meaning label: only one complete
-body up to 1024 characters; held, oversized or multiple distinct bodies supply no hint. No new source claim.
-RED 1 failed / 26 passed; GREEN 200 across topic/source-binding, document selection and coverage/cutoff tests.
-This metadata correction is not yet end-to-end verified. New evidence remains separate from final success.
-Routing/context fixes committed as `1ba98d82`. Final focused answer/facility/coverage gate: 66 passed.
-Owner confirmed not currently using 3217; local loading and targeted inference window now available.
-Answer fixes committed `e1abe4d3`; deferred proposal/intake `541524d5`.
-Fresh HTTP checks: 8021/live 200; 3216,3217,8022 and18088 unavailable; Docker Linux pipe absent.
-Attempt to restore Docker Desktop/dev API/frontend was rejected by automatic approval review as
-'blocked by policy', with no specific rationale. No service start occurred through that command.
-Live acceptance remains unverified; restore services through an allowed mechanism before retesting.
+### Next action
 
-Working-tree repairs: clean semantic retry and bounded complete source context (296 routing checks);
-legacy registration service labels (80 checks); unique approved-family procedure preference (290 checks);
-cheating loanword recognition (98 checks); general facilities companion retrieval and source-bound reply
-(55 checks). Owner chose quotations from both Handbook and Charter, with general and library scopes kept
-distinct; decision recorded in the ledger. No original source was changed.
-
-Live Taglish cheating now selects the relevant two claims; Taglish facilities quotes both scoped sources.
-General-policy routing works in three languages, but full replies still omit material or abstain. A new
-generation repair uses the existing second attempt when supported claims fail question coverage; 108
-related tests pass. It is not loaded on the current API. Probation and INC remain unresolved end to end;
-registration/procedure changes also need controlled live verification. Vehicle checklist expansion lacks
-original-backed reviewed coverage; the active payment/office evidence does not establish a full procedure.
-
-Integrated offline gate stopped at 697 passed / 1 failed: cutoff test expected one relevance review,
-where the new bounded coverage retry performs two and still withholds unsupported answers. Updated that
-expectation; cutoff/completeness group 32 passed. Remaining integrated tests are running separately.
-Three other stale rejection-message assertions reproduced unchanged on main; the test now asserts rejection
-without depending on which guard runs first (12 passed). No runtime guard was weakened.
-
-Ignored candidate launcher temporarily captures model calls and retrieval IDs. Restore its
-`start-candidate.py.before-repair-trace` backup after investigation, retaining the zero-window benchmark override.
-Prior dev API was `54fa32ea`; replacemente5cfce72 is warming. Main remains untouched.
-
-Second round received: `E:/Hawksprey/Downloads/Bintanong_AI_Export_2026-11-06_1002.csv`, SHA-256
-`ac426d1b43ec172b7beff9854ed225e44cf42ca051549b1e88c14b2a1d7d7268`.
-72 roster rows, 33 retested: 20 Y / 13 N; 39 untested. Owner classifications: 12 fixed, 8 unchanged pass,
-10 still failing, 3 regressed. Regressions: B-14-TG and B-15-TL/TG. Pass counts EN 7/11, TL 8/11,
-TG 5/11; targeted subset only, not an overall language ranking or 72-case accuracy estimate.
-Forensic A-09 all pass; cheating B-19 all pass; vehicle B-23 all owner-marked pass (does not expand reviewed
-source coverage); facilities B-24 all pass with response pollution noted. Remaining failures:
-A-10-TL/TG; B-13-EN; B-14 all; B-15 all; B-16-EN/TG; B-17-TG; B-18-TG.
-Notes repeat at item level across languages; do not reinterpret an EN Y as N from a shared Taglish note.
-Export contains marks/notes, not full answer transcripts, model IDs or source citations: use existing traces
-for causes, and keep owner pass separate from independently source-verified correctness.
-Recovered restarted remainder: 723 passed before an unrelated unknown-course wording expectation failed
-(`test_routing_unknown_course.py`, expects 'as printed in your prospectus'). Do not claim a full integrated
-pass or alter unrelated wording merely to clear the gate. Relevant focused gate above passes.
-
-Next: finish parallel fixes and integrated offline gate, reload only dev during the owner-authorized
-window, then verify grade4/general-policy/INC/probation/registration/ID plus passing controls live.
-Reuse existing evidence; no full rerun until targeted checks pass. No full benchmark success claimed.
+Verify 9581df1f INC and grade-4 scope live, then freeze a reviewable candidate for exploratory testing and
+fresh benchmark evaluation. Do not call the whole benchmark correct or the source institutionally approved.
+Keep deadline/applicability gaps, undergraduate scope, advisory-only behavior and English/Taglish replies.
+After diagnosis, remove ignored model-message instrumentation using the launcher backup while preserving
+its benchmark-only rate override and measured grade context budget.

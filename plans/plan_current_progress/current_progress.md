@@ -87,6 +87,16 @@ Grade fullprocedure3991688e; originalquote9bef074e190pass; budget/runtime108pass
 now9/9records live; release1d4eeb3b6bb7b8e0. English/Filgradeanswers still failcompleteness, nooverflow.
 Generation9ef5b0e8 preserves purposes; stylef110e9b6 fixesID capitalizationgrounding; loadingAPIonce.
 Livebeforethese: INCEN/TG, probationTG, registrationENanswered. Grade4/ID stillneedliveproof.
-Next: afterAPIready verifyexactgrade4andID; sourceholdsandordinaryreviewremain mandatory.
+IDTG and grade4Fil answered live; Englishgrade4 still failed mixed-citation rewrite coverage.
+Recovery6f830de2 preserves separate requested records (worker128/root123checks); loading8022now.
+Exactgrade4EN/Fil/TGandIDTGnowanswered; all13oldfailuresreturnedanswered on6f830de2+5120.
+That statusisnotindependentaccuracy:10policyparaphrasesomittedconditions. Fullsourcebodyfix5b162803
+committed(worker102/root44checks), loadingdevAPI. Next: verify10alllanguagesandgradecontrol.
+Longquotationsremain; full72benchmarknotrerun. Sourceholdsandordinaryreviewremainmandatory.
+OwnerpointedtoINC3.4;9581df1fnarrowsINCvs4method+approvalrecords, excludesunaskedduplicatetiming.
+159integrationtests pass;9581df1flivescopeisright,butINCdraftmisusedgrade4neighborasINCrule.
+Exactmark-boundaf770128committed,79focusedchecks pass;loadingonlydevAPI PID46352.
+LunasubagentchecksCodexstatusandmain/devkeepalive;rootownsdevreload. Next: liveINC/grade4proof.
+Policy10fullbodyall3languagesverified; grade4longreplyreducedbutfull72benchmarkstillpending.
 No full benchmark pass; source-absence fallback corrected but underlying grade answer remains open.
 Details/remaining INC, probation and vehicle evidence limits are in the checkpoint. No full success or push.
