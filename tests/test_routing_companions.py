@@ -18,7 +18,7 @@ def test_a_stated_deficient_mark_keeps_grade_completion_available_to_the_interpr
 
 
 @pytest.mark.parametrize('text', ['I have 4 units to drop.', 'Enrollment starts May 4.',
-                                'May 4 classes ako next semester.'])
+                                'May 4 classes ako next semester.', 'May 4 ako mag-eenroll.'])
 def test_numbers_for_units_dates_or_classes_do_not_add_grade_completion(text):
     grade = DocumentTopic(subject_id='grade_completion', claims=('reviewed completion fields',))
     drop = DocumentTopic(subject_id='handbook_dac_policy', claims=('reviewed change fields',))

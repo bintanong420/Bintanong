@@ -120,7 +120,7 @@ _YEARS = re.compile(r'(ilang\s+taon|how\s+many\s+years|how\s+long|gaano\s+(ka)?t
 _HONOURS = re.compile(r'honou?rs|latin|laude', re.IGNORECASE)
 _STATED_DEFICIENCY = re.compile(
     r'\b(?:may|meron|got|received|have)\s+(?:a\s+)?(?:4(?:\.0)?|inc)\s+'
-    r'(?:(?:po\s+)?ako\b|(?:sa|in)\s+(?:(?:a|isang|the)\s+)?(?:subject|course)\b)', re.I)
+    r'(?:(?:po\s+)?ako\s+)?(?:sa|in)\s+(?:(?:a|isang|the)\s+)?(?:subject|course)\b', re.I)
 
 
 def possession_hint(text):

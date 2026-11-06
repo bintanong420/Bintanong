@@ -48,14 +48,14 @@ def test_selector_printed_items_replace_the_redundant_first_section_opening():
 
 
 def test_filipino_possession_hint_preserves_original_input_and_does_not_create_facts():
-    text = 'May INC ako sa elective; what comes next?'
+    text = 'May INC ako sa course; what comes next?'
     selector = json.loads(topic_selection.build_messages(text, MENU)[1]['content'])
     messages = build_messages(
         text, RequestContext.parse(context()), catalog(), registry(), MENU[:1])
     interpreter = json.loads(messages[1]['content'])
     assert selector['original_text'] == interpreter['original_text'] == text
     assert selector['input_language_hint'] == interpreter['input_language_hint']
-    assert selector['input_language_hint']['quote'] == 'May INC ako'
+    assert selector['input_language_hint']['quote'] == 'May INC ako sa course'
     assert interpreter['context']['facts'] == []
     assert topic_selection.possession_hint('The deadline is May 4.') is None
 
