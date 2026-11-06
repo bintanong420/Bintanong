@@ -64,7 +64,8 @@ def application_fragment_notice(cards, language):
             continue
         fields = record.get('fields', [])
         if isinstance(fields, list) and {'application_form_office_context', 'submission_office_context'} <= {
-                field.get('name') for field in fields if isinstance(field, dict) and field.get('source_blank') is False}:
+                field['name'] for field in fields if isinstance(field, dict) and isinstance(field.get('name'), str)
+                and field.get('source_blank') is False and isinstance(field.get('value'), str) and field['value'].strip()}:
             return ('These are selected office steps, not a complete application procedure. The full requirements list is unavailable here.'
                     if language == 'en' else
                     'Selected office steps lang ito. Hindi pa kumpleto ang application procedure at requirements list.')

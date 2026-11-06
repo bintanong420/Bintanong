@@ -36,6 +36,12 @@ def test_uncited_office_fragments_do_not_add_a_notice_to_an_unrelated_answer():
     assert 'not a complete application procedure' not in render_text(pack, claim.claims, 'answered')
 
 
+def test_malformed_context_fields_do_not_crash_or_trigger_the_notice():
+    from backend.bintanong_generation.required_context import application_fragment_notice
+    pack = pack_with(json.dumps(dict(fields=[dict(name=[], value='Malformed', source_blank=False)], source_limits=[])))
+    assert application_fragment_notice(pack.cards, 'en') is None
+
+
 def test_fragment_notice_does_not_introduce_a_source_condition_disjunction():
     import json
     from backend.bintanong_generation.part_answers import disjunction_errors
