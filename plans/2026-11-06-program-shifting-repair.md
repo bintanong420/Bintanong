@@ -36,5 +36,7 @@ Extend the existing companion cue for Filipino course/program changes and Englis
 - That observation exposed existing Taglish “sa ang” in the closing. Focused RED reproduced
   it; remove the redundant article at the office-name join, retaining all role names/conditions.
   Final parent gate57 passed,1.99s. Only this host-wording change follows the live observation.
-- Final dev-only reload loads the wording fix. Full72 and rendered-browser acceptance
+- Final dev-only reload loads the wording fix: root52864 / server46896 ready200,
+  monitor72532 active, all five service endpoints HTTP200. No additional inference pending.
+  Full72 and rendered-browser acceptance
   remain pending; no whole-benchmark or institutional-readiness claim.

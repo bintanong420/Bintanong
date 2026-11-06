@@ -44,7 +44,8 @@ Owner: capabilities and research scope must be callable in chat.
 
 - Main web/API 3216/8021, dev web/API 3217/8022, shared model18088.
   Luna confirmed all five HTTP200; model container healthy; hidden keepalive PID72532.
-- Dev API reloaded for index: root6780 / Uvicorn30848, ready200. Frontends/main/model untouched.
+- Dev API reloaded for index and shifting repair. Frontends/main/model untouched.
+  Final wording reload ready200: root52864 / server46896; all five services HTTP200.
   Dev-only zero rate window and measured grade budget5120 remain ignored launcher overrides.
   Main controls unchanged. Keep `pause-dev-api` sentinel during intentional dev reloads.
 - Wider [audit proposal](../2026-11-06-deferred-audit-remediation-proposal.md) remains deferred.
@@ -55,9 +56,9 @@ Owner: capabilities and research scope must be callable in chat.
 
 Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
 [Shifting repair](../2026-11-06-program-shifting-repair.md): exact “Pano po lumipat ng kurso?”
-retrieved the right policy but generation quoted only cross-college4.1. Both college branches
+retrieved the right policy but generation quoted only cross-college section 4.1. Both college branches
 and Registrar guidance now use clean exact source quotes for generic whole-program questions;
-FAQ companion cue and conditional office closing repaired at `9830a030`. Worker309 / parent57 pass.
-Exact3217 proxy question returned answered/Taglish with both branches, FAQ and Registrar guidance.
-Small closing grammar correction passed57 tests after its RED; final dev-only reload loads it.
-Next: owner exploratory testing or requested frozen72 rerun; no automated model calls pending.
+FAQ companion cue and conditional office closing repaired at `9830a030`: worker 309 / parent 57 pass.
+Exact 3217 proxy question returned answered/Taglish with both branches, FAQ and Registrar guidance.
+Closing grammar correction `a5e5a6a0` passed 57 tests after its RED; final dev-only reload is ready.
+Next: owner exploratory testing or requested frozen 72-query rerun; no automated model calls pending.
