@@ -115,3 +115,20 @@ def test_result_cannot_claim_institutional_authorization():
     bad['institutional_use_allowed'] = True
     with pytest.raises(ValueError):
         CompoundResearchResult.parse(bad)
+
+
+def test_developer_entrypoint_routes_once_and_keeps_two_checked_results():
+    import json
+    from test_routing_router import FakeTransport
+    from test_orchestration_pipeline import ports
+    from backend.bintanong_orchestration.compound import run_bounded_compound
+    fact = dict(fact_id='fact-a', session_id='sess-a', program_id='program-a',
+                curriculum_id='curriculum-a', course_id='course-pre', state='passed')
+    release = resources()
+    model = FakeTransport(json.dumps(compound_data()))
+    result = asyncio.run(run_bounded_compound(QUESTION, RequestContext.parse(context(facts=[fact])),
+        model, ports().SyntheticReleaseProvider(release)))
+    assert result.status == 'complete'
+    assert [item.status for item in result.parts] == ['ready', 'ready']
+    assert len(release.symbolic.calls) == 2
+    assert len(model.calls) == 2
