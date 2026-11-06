@@ -286,7 +286,9 @@ def topic_menu(register, *, catalogue=None, chunks=(), routing_context=False):
     topics = []
     for s, c in subjects.items():
         not_stated = tuple(dict.fromkeys(missing.get(s, ())))
-        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)), source_context=contexts.get(s, ()),
+        claim_bodies = {v['body'] for v in columns.get(s, {}).values() if 'body' in v}
+        topics.append(DocumentTopic(subject_id=s, claims=tuple(dict.fromkeys(c)),
+            source_context=tuple(v for v in contexts.get(s, ()) if v not in claim_bodies),
             claim_fields=fields.get(s, {}),
             not_stated=not_stated,
             cues=tuple(NotStatedCue(claim=n, phrases=NOT_STATED_CUES[n]) for n in not_stated if n in NOT_STATED_CUES),

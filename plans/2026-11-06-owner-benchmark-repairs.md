@@ -76,6 +76,19 @@ Docker Desktop and dev API subsequently started successfully as separate narrowl
 model container started. The frontend start with per-process environment remained policy-rejected.
 Model/API are warming; direct API acceptance can proceed when ready, browser acceptance still pending.
 
+Live API after recovery: add/change 14 EN/Filipino/Taglish returns full Charter DAC workflow. Grade-4
+15 EN/Taglish returns removal policy with recorded source gaps; Filipino incorrectly selects dropping.
+Do not score grade-4 Filipino fixed. Expanded semantic guidance did not fix that selection in a router
+probe. Selector hit context overflow; compacted redundant instructions and removed duplicate bodies from
+source_context when already bound in claim_context. RED 1 failed /26 passed; GREEN123. Router then runs
+without overflow, but Filipino intent remains wrong. No further prompt sweep claimed.
+Stopped the next API batch after 10-Filipino returned temporarily unavailable on the older loaded prompt;
+remaining cases were not adjudicated. Restarted only dev API to load compact context.
+Owner requested frontend: added ignored frontend/.env.local pointing to8022/3217 and a node_modules junction
+to existing main dependencies (no install). Narrow frontend launch succeeded, PID62684. Fresh /chat,
+/api/health and8022/health/ready all200. Dev API realPID62736. Runtime is available for exploration;
+benchmark acceptance remains open. New API calls would share the owner's model slot.
+
 Owner 6 Nov: fix round-two failures first; the supplied audit-driven remediation plan is deferred.
 Preserved unchanged as [deferred proposal](2026-11-06-deferred-audit-remediation-proposal.md), SHA-256
 `93a06cce464e5d69a1647d81a2bf46b61e5a9fa02a3554412309a9f148a20a95`.

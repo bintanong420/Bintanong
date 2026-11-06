@@ -77,4 +77,8 @@ Docker/model and dev API started using separately scoped commands; encoder weigh
 503 during cold startup. Frontend launch with its environment was policy-rejected. Integrated tail 598 pass.
 Next: establish model/API readiness, verify 13 failures plus passing controls on one revision, then freeze
 the candidate for the 72-query run. Browser acceptance remains pending; no benchmark-ready claim yet.
+Runtime recovered: dev /chat, /api/health and8022/health/ready200. Frontend62684, API62736.
+Live add/change all3 now answers procedure; grade-4 EN/TG answers with gaps, Filipino still wrong-dropping.
+Context dedup/shorter selector: RED1, GREEN123; overflow probe resolved, semantic failure remains.
+Next: fix Filipino grade-removal topic selection, then remaining acceptance cases. No full benchmark pass.
 Details/remaining INC, probation and vehicle evidence limits are in the checkpoint. No full success or push.

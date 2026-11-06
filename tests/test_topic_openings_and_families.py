@@ -80,7 +80,8 @@ def test_claim_body_hint_never_uses_defective_truncated_or_arbitrary_body(damage
 def test_selected_topic_carries_its_complete_short_reviewed_body_for_interpretation():
     body = 'FICTIONAL SEQUENCING. An activity requires the preceding module. Exceptions require review.'
     topic, = candidate(*body_inputs(body))
-    assert topic.source_context == (body,)
+    assert topic.claim_context['printed fictional fields']['body'] == body
+    assert body not in topic.source_context
 
 
 def test_a_long_body_is_not_cut_to_create_routing_context():
