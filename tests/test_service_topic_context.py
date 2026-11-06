@@ -139,7 +139,7 @@ def test_selector_field_names_require_the_same_reviewed_source_binding_as_contex
 def test_absent_field_metadata_does_not_add_an_empty_selection_payload():
     register,_,_=inputs()
     topics,system=menu_content(register,None,[])
-    assert topics[0].claim_fields=={} and 'fact_fields' not in system
+    assert topics[0].claim_fields=={} and '"fact_fields":' not in system
 
 
 def test_context_cannot_bind_fields_to_a_claim_that_is_not_selectable():
@@ -167,3 +167,62 @@ def test_repeated_field_sets_are_shown_once_with_complete_fact_positions():
     menu,_=json.JSONDecoder().raw_decode(system[start:])
     assert menu[0]['fact_fields']==[{'fields':['Cause','First consequence'],'fact_indices':list(range(12))}]
     assert menu[0]['facts']==list(claims)
+
+
+def procedure_inputs():
+    register, catalogue, chunks = inputs()
+    register['reviews'][0]['field_refs'] = [dict(reading_id='header-a', field_name='application_fee_procedure')]
+    chunks[0]['text'] = json.dumps(dict(fields=[dict(name='application_fee_procedure',
+        value='Pay the fictional initial application charge.', source_blank=False),
+        dict(name='application_form_office_context', value='Unbound office context must stay hidden.',
+             source_blank=False)], source_limits=[]))
+    return register, catalogue, chunks
+
+
+def procedure_menu(register, catalogue, chunks):
+    topics = topic_menu(register, catalogue=catalogue, chunks=chunks, routing_context=True)
+    system = build_messages('How do I get slip Q?', RequestContext(session_id='sess-a', request_id='req-a'),
+                            (), registry(), topics)[0]['content']
+    return topics, system
+
+
+def test_review_bound_partial_procedure_value_reaches_claim_context_without_new_claims_or_steps():
+    topics, system = procedure_menu(*procedure_inputs())
+    assert topics[0].claim_context == {'visible service fields': {
+        'application_fee_procedure': 'Pay the fictional initial application charge.'}}
+    assert 'Pay the fictional initial application charge.' in system
+    assert 'Unbound office context must stay hidden.' not in system
+    assert topics[0].claims == ('visible service fields',)
+    assert 'step1_client_step' not in system
+
+
+@pytest.mark.parametrize('mutation', ['unassigned', 'unreviewed', 'missing_membership', 'blank', 'held', 'wrong_suffix'])
+def test_partial_procedure_context_keeps_existing_review_and_source_guards(mutation):
+    register, catalogue, chunks = procedure_inputs()
+    value = json.loads(chunks[0]['text'])
+    if mutation == 'unassigned': catalogue['assignments'] = []
+    elif mutation == 'unreviewed':
+        register['reviews'][0]['finding'] = 'not_stated_in_selected_fields'
+        register['reviews'].append(dict(subject_id='fictional_service', claim='other visible field',
+                                       finding='visible_fields', field_refs=[], reviewed_chunk_ids=[]))
+    elif mutation == 'missing_membership': register['reviews'][0]['reviewed_chunk_ids'] = []
+    elif mutation == 'blank': value['fields'][0]['source_blank'] = True
+    elif mutation == 'held':
+        value['source_limits'] = [dict(issue='source_cutoff', resolution='unresolved',
+                                      affected_claims=['missing continuation'])]
+    else:
+        value['fields'][0]['name'] = 'application_fee_procedure_note'
+        register['reviews'][0]['field_refs'][0]['field_name'] = 'application_fee_procedure_note'
+    chunks[0]['text'] = json.dumps(value)
+    topics, system = procedure_menu(register, catalogue, chunks)
+    assert not topics[0].claim_context
+    assert 'Pay the fictional initial application charge.' not in system
+
+
+def test_oversized_partial_procedure_context_is_not_silently_truncated():
+    register, catalogue, chunks = procedure_inputs()
+    value = json.loads(chunks[0]['text'])
+    value['fields'][0]['value'] = 'x' * 1025
+    chunks[0]['text'] = json.dumps(value)
+    with pytest.raises(ValueError, match='routing_context_capacity'):
+        topic_menu(register, catalogue=catalogue, chunks=chunks, routing_context=True)

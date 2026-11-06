@@ -8,6 +8,21 @@ VERSION = 'bintanong-topic-selection-v1'
 MAX_TOPICS = 8
 
 
+def workflow_fact_indices(topic):
+    """Expose existing client-step bindings; never infer steps from a service title."""
+    return [i for i, claim in enumerate(topic.claims) if claim not in topic.not_stated and any(
+        re.fullmatch(r'step\d+_client_step', field) for field in topic.claim_fields.get(claim, ()))]
+
+
+def procedure_context(topic):
+    context = []
+    for claim, fields in topic.claim_context.items():
+        selected = {name: value for name, value in fields.items() if name.endswith('_procedure')}
+        if claim not in topic.not_stated and selected:
+            context.append(dict(claim=claim, fields=selected))
+    return context[:4]
+
+
 def output_schema(topics):
     return dict(type='object', additionalProperties=False,
         required=['schema_version', 'request_meaning', 'subject_ids', 'ambiguous'], properties=dict(
@@ -20,6 +35,8 @@ def output_schema(topics):
 
 def build_messages(text, topics, previous=None, dialogue=None):
     menu = [dict(subject_id=t.subject_id,
+        **({'workflow_fact_count': len(workflow_fact_indices(t))} if workflow_fact_indices(t) else {}),
+        **({'procedure_context': procedure_context(t)} if procedure_context(t) else {}),
         **({'source_labels': list(t.source_labels)} if t.source_labels else {}),
         **({'opening': t.source_opening} if t.source_opening and not t.source_items else {}),
         **({'items': list(t.source_items)} if t.source_items else {}),
@@ -32,6 +49,11 @@ def build_messages(text, topics, previous=None, dialogue=None):
         'Select every relevant topic needed for ALL requested document parts, up to eight. '
         'For processes select steps, requirements and policy; preserve the requested service scope. '
         'Generic enrollment requirements do not establish freshman status; include the general registration service. '
+        'For a whole how-to request compare actual reviewed workflow coverage, not just a matching FAQ title. '
+        'workflow_fact_count counts available client-step facts, not authority or currentness. '
+        'procedure_context quotes only the named reviewed procedural fragments; it does not establish '
+        'a complete workflow, replacement price, full requirements or source supersession. '
+        'Keep policy/checklist questions distinct; honor an explicitly requested source. '
         'claims names reviewed coverage without a printed description. '
         'If more than eight are needed, or the choice is unclear, set ambiguous true; '
         'never discard a requested part to fit. Empty subject_ids is allowed when no document '

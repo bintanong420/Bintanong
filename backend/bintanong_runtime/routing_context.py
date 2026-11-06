@@ -189,7 +189,7 @@ def reviewed_context(register, catalogue, chunks):
                     values.append(value)
                 if len(values) > 4:
                     raise ValueError('routing_context_capacity')
-            if name in COLUMN_FIELDS:
+            if name in COLUMN_FIELDS or name.endswith('_procedure'):
                 values = columns.setdefault(subject, {}).setdefault(claim, {})
                 if len(value) > 1024 or len(values) >= 8 and name not in values:
                     raise ValueError('routing_context_capacity')

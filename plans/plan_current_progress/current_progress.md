@@ -61,4 +61,8 @@ and Registrar guidance now use clean exact source quotes for generic whole-progr
 FAQ companion cue and conditional office closing repaired at `9830a030`: worker 309 / parent 57 pass.
 Exact 3217 proxy question returned answered/Taglish with both branches, FAQ and Registrar guidance.
 Closing grammar correction `a5e5a6a0` passed 57 tests after its RED; final dev-only reload is ready.
-Next: owner exploratory testing or requested frozen 72-query rerun; no automated model calls pending.
+Adaptive [procedure source fit](../2026-11-06-adaptive-procedure-source-fit.md) now addresses
+the good-moral report without a blanket source switch: menus expose reviewed workflow
+bindings; whole selected procedures retain step facts within the existing eight-claim bound.
+Policy, explicit source and requirements-only scope remain. Gates258/184 pass; four live
+router checks pass. Next: dev API reload and exact3217 chat check, then owner exploratory testing.

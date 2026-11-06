@@ -325,6 +325,15 @@ def prefer_printed_procedure(proposed, topics):
     parts = []
     for part in proposed.parts:
         topic = menu.get(part.subject_id)
+        if (proposed.intent == 'document_procedure' and topic is not None
+                and part.evidence_need == 'document' and part.detail == 'whole'
+                and not set(part.requested_claims) & set(topic.not_stated)):
+            workflow = tuple(topic.claims[i] for i in selection.workflow_fact_indices(topic))
+            complete = tuple(dict.fromkeys((*part.requested_claims, *workflow)))
+            if workflow and len(complete) > 8:
+                raise ValueError('workflow_claim_capacity')
+            if workflow:
+                part = part.model_copy(update=dict(requested_claims=complete))
         # Grade completion is one procedure split into timing, method and approval claims.
         whole_completion = (topic is not None and topic.subject_id == 'grade_completion'
                             and part.detail == 'whole' and not topic.claim_headings)
@@ -517,22 +526,6 @@ def lead_absence_with_attendance(proposed, topics):
     return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
 
 
-def prefer_good_moral_checklist(proposed, topics):
-    """Owner 2 Nov 2026 (#4): a requirements part about a good moral certificate that chose the Handbook FAQ is
-    answered from the Charter CGMC checklist when that topic is offered; a "how do I get" part keeps the FAQ."""
-    from .topic_selection import GOOD_MORAL
-    checklist = 'printed good moral metadata and checklist fields'
-    offered = {t.subject_id: t for t in topics}.get('charter_good_moral')
-    if offered is None or checklist not in offered.claims:
-        return proposed
-    parts = [part.model_copy(update=dict(subject_id='charter_good_moral', requested_claims=(checklist,)))
-             if part.subject_id == 'handbook_student_faq' and part.detail == 'requirements'
-             and GOOD_MORAL.search(part.text) else part for part in proposed.parts]
-    if all(a.subject_id == b.subject_id for a, b in zip(parts, proposed.parts)):
-        return proposed
-    return Interpretation.parse(proposed.model_copy(update=dict(parts=tuple(parts))).model_dump(mode='json'))
-
-
 def apply_not_stated_cues(proposed, topics):
     """Host guard: a part whose own words name a cued not-stated fact also requests that fact, so the
     evidence policy withholds instead of answering from a nearby printed fact."""
@@ -626,8 +619,7 @@ class Router:
             proposed = apply_not_stated_cues(prefer_procedure_topic(prefer_named_claim(prefer_heading_topic(prefer_heading_claims(
                 prefer_printed_procedure(proposed, topics), topics), topics), topics), topics), topics)
             proposed = prefer_mark_completion(proposed, topics)
-            proposed = answer_years_to_graduate(lead_absence_with_attendance(
-                prefer_good_moral_checklist(proposed, topics), topics), topics, text)
+            proposed = answer_years_to_graduate(lead_absence_with_attendance(proposed, topics), topics, text)
             resolved = (answer_transfer_direction(proposed, self.topics, text, context.conversation)
                         or answer_detail_follow_up(proposed, self.topics, text, context.conversation)
                         or repeat_previous_check(proposed, text, context.conversation)

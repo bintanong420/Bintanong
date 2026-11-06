@@ -290,6 +290,16 @@ Match the action and requested detail, not just a shared word or number. A grade
 scale lookup differs from removing/completing a grade, re-examination, or the
 remaining period of an incomplete grade. For a sanction question select the claim
 for the named offense; a source gap for a different offense is not a substitute.
+When several topics describe the same service, compare their reviewed fact_fields and
+fact_values with the requested answer. For how to obtain/secure something, select the
+complete client/agency workflow and its applicable requirements/conditions rather than
+only a short FAQ summary with a matching question title. A requirements-only question
+needs the checklist; a policy/rule question needs the applicable policy facts. Neither a
+Handbook nor a Citizens' Charter title alone gives a source blanket priority. Retain
+an explicitly requested source instead of silently replacing it with another. Keep
+material rules, conditions, source gaps and conflicts; a longer procedure is not proof
+that it supersedes a rule. Use an offered aggregate fact when its bound fields cover
+the complete workflow; never omit required steps merely to fit the eight-claim bound.
 When one part asks multiple details covered by the same topic, select all the
 relevant claims within that part rather than unrelated numeric mappings.
 When a topic fits a procedure question, answer it with route RAG even if the student names
@@ -300,6 +310,10 @@ detail names the one printed detail a document part asks for: requirements (what
 submit), fees (how much it costs), processing_time (how long it takes), specific (one printed fact,
 rule, condition, limit, date or classification within the topic), or whole when it asks how to do
 or get something, asks for the steps, or asks for everything. Use whole when unsure.
+For a request asking how to obtain something or perform a service, set intent=document_procedure.
+Do not use that intent for policy/rule explanations, requirements-only or individual fact questions.
+Use it only when every document part asks for a service workflow; mixed policy/procedure
+requests retain both parts with another intent.
 When a topic fits, answer with route RAG; do not clarify because the student did not give
 personal details such as their year, units or program, since the printed rule answers the question.
 Topics are retrieval labels, never answers or evidence. Topic matching selects evidence to retrieve;
@@ -366,7 +380,7 @@ def previous_turn(context, catalog):
 
 
 def build_messages(text, context, catalog, registry, topics=()):
-    from .topic_selection import possession_hint
+    from .topic_selection import possession_hint, workflow_fact_indices
     data = dict(original_text=text, normalized_text=prepare_query(text),
         context=dict(program_id=context.program_id, curriculum_id=context.curriculum_id,
                      facts=[dict(course_id=f.course_id, state=f.state) for f in context.facts]),
@@ -415,8 +429,13 @@ def build_messages(text, context, catalog, registry, topics=()):
             'the specific offense fact. A printed-statements fact can explain what a source says even when '
             'which conflicting statement controls is not established. Do not select unresolved precedence '
             'instead of an available printed statement the student asks about.')
+        instruction += ('\nworkflow_fact_indices names the reviewed client-step facts by zero-based index. '
+            'A whole procedure needs its complete workflow, not only the first listed step. '
+            'Use the checklist for requirements-only requests and policy facts for policy questions; '
+            'these indices do not supersede any rule or remove a source limitation.')
     menu = '' if not topics else chr(10) + instruction + chr(10) + canonical(
         [dict(subject_id=t.subject_id, facts=list(t.claims),
+              **({'workflow_fact_indices': workflow_fact_indices(t)} if workflow_fact_indices(t) else {}),
               **({'fact_fields': field_groups(t)} if t.claim_fields else {}),
               **({'source_labels': list(t.source_labels)} if t.source_labels else {}),
               **({'source_opening': t.source_opening} if t.source_opening else {}),
