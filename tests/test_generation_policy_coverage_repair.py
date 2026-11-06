@@ -186,3 +186,44 @@ def test_coverage_retry_keeps_independent_approval_beside_a_conflicting_timing_g
     assert all(any(text in claim.text for claim in draft.claims) for text in VALUES)
     assert any(claim.evidence_ids == (approval,) for claim in draft.claims)
     assert 'does not establish which deadline applies' in ' '.join(claim.text for claim in draft.claims)
+
+
+@pytest.mark.parametrize('accept', [True, False])
+def test_whole_prerequisite_policy_keeps_its_complete_exception_conditions_under_ordinary_review(accept):
+    question = 'Can fictional activities be attended together?'
+    value = integrated('RAG', text=question, response_style='taglish').model_dump(mode='json')
+    policy = ('The fictional sequence shall be followed. However, graduating trainees who previously '
+              'attended Module Z in full may attend together upon approval of Fictional Coordinator. '
+              'Failure in Module Z gives no credit for the higher activity.')
+    passage = value['evidence']['documents']['passages'][0]
+    passage['text'] = json.dumps(dict(fields=[dict(name='body', value=policy, source_blank=False)], source_limits=[]))
+    value['evidence']['documents']['passages'] = [passage]
+    value['evidence']['pin']['documents'] = value['evidence']['pin']['documents'][:1]
+    value['understanding']['parts'][0].update(subject_id='handbook_prerequisite_policy',
+        requested_claims=['printed prerequisite fields'], detail='whole')
+    value['evidence']['documents']['record_coverage'] = [dict(subject_id='handbook_prerequisite_policy',
+        claim='printed prerequisite fields', chunk_ids=[passage['chunk_id']])]
+    source = type(integrated('RAG')).parse(value)
+
+    class OmittedCondition:
+        def __init__(self):
+            self.reviewed = []
+
+        async def infer(self, messages, schema):
+            payload = json.loads(messages[1]['content'])
+            if schema['properties'].get('schema_version', {}).get('const') == PartExplanation.SCHEMA_VERSION:
+                ref = payload['evidence']['sources'][0]['evidence_id']
+                return json.dumps(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+                    release_id=payload['evidence']['release_id'], language='taglish', answers=dict(r1=dict(
+                        status='answered', claims=[dict(text='Pwede ang graduating trainees with approval.',
+                                                      evidence_ids=[ref])]))))
+            self.reviewed.append(payload['parts'][0]['claims'][0]['claim']['text'])
+            return json.dumps(dict(parts=dict(r1='answers' if accept else 'does_not_answer'),
+                support=report().model_dump(mode='json')))
+
+    model = OmittedCondition()
+    answer = asyncio.run(Generator(model).generate(question, source))
+    assert model.reviewed and all(policy in text for text in model.reviewed)
+    assert answer.status == ('answered' if accept else 'insufficient_evidence')
+    if accept:
+        assert policy in answer.text

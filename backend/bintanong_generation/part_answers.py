@@ -707,6 +707,12 @@ def to_draft(explanation, pack, *, coverage_retry_parts=()):
             raise ValueError('non_document_evidence')
         status = slot.status
         asked = parts_by_id.get(part_id)
+        if status == 'answered' and asked is not None and asked.subject_id == 'handbook_prerequisite_policy':
+            complete = complete_policy_quotes(pack, requirements, {part_id}).get(part_id)
+            if complete is not None:
+                words, ref = complete
+                lead = 'Ayon sa source: ' if pack.language in ('fil', 'taglish') else 'The source states: '
+                proposed = (PartClaim(text=lead + '"' + words + '"', evidence_ids=(ref,)),)
         if (part_id in coverage_retry_parts and asked is not None and asked.detail == 'whole'
                 and len(asked.requested_claims) > 1):
             required = requirements.get(part_id, set())
