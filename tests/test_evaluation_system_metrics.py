@@ -20,6 +20,16 @@ def test_roster_is_exactly_24_rows_by_3_languages():
     assert {r['case_id'] for r in rows if r['row'] == 24} == {'B24-EN', 'B24-TG', 'B24-TL'}
 
 
+def test_each_row_carries_the_curriculum_the_picker_would_hold():
+    scopes = {row['row']: (row['program_id'], row['curriculum_id']) for row in load_roster()}
+    assert scopes[1] == ('palsu-bscs', 'bscs-2018-2019') and scopes[2] == ('palsu-bsit', 'bsit-2018-2019')
+    assert scopes[3] == ('palsu-bsce', 'bsce-2018-2019') and scopes[4] == ('palsu-bsed-math', 'bsed-math-2018-2019')
+    assert scopes[5] == ('palsu-bsn', 'bsn-2018-2019') and scopes[6] == ('palsu-bstm', 'bstm-2018-2019')
+    assert scopes[8] == ('palsu-bsit', 'bsit-2018-2019') and scopes[9] == ('palsu-bscrim', 'bscrim-2018-2019')
+    assert scopes[7] == (None, None)
+    assert all(scopes[row] == ('palsu-bscs', 'bscs-2018-2019') for row in range(10, 25))
+
+
 def test_normalize_question_ignores_case_and_spacing_only():
     assert normalize_question('  How to\n DROP  subjects? ') == 'how to drop subjects?'
     assert normalize_question('How to drop subject?') != normalize_question('How to drop subjects?')

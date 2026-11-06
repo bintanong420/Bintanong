@@ -25,7 +25,8 @@ DISCLOSURES = (
 def load_roster(path=ROSTER_PATH):
     document = json.loads(Path(path).read_text(encoding='utf-8'))
     return [dict(case_id=f"{row['subset']}{row['row']:02d}-{language.upper()}", row=row['row'], subset=row['subset'],
-                 category=row['category'], language=language.upper(), question=row[language])
+                 category=row['category'], language=language.upper(), question=row[language],
+                 program_id=row['program_id'], curriculum_id=row['curriculum_id'])
             for row in document['rows'] for language in ('en', 'tg', 'tl')]
 
 
