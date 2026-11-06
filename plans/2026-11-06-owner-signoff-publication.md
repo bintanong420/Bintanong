@@ -56,3 +56,13 @@ Fresh gate542 Python tests pass,22 frontend tests pass, TypeScript passes.
 [Human/automation alignment](2026-11-06-human-automation-alignment.md) audits concrete
 assertions and four saved live outputs; explicitly retains unexecuted/natural-language gaps.
 Owner authorized publication continues after this verification, not a new model benchmark.
+
+## Publication receipt
+
+Integrated merge `1685647ed8746a390e38d04436bb7690fc5263d4` published first to
+`origin/p12-evaluation-harness`, then `origin/p12-post-gathering-fixes`.
+`git ls-remote --heads` verified both exact SHAs. Both updates were normal fast-forward
+remote pushes, no force. Local working branch fast-forwarded to integrated history;
+only remote architecture image and publication documentation differed from its code.
+No server restart/model query, raw CSV/private artifact or ignored override was pushed.
+This receipt is a documentation follow-up to that verified publication.

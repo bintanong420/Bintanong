@@ -90,5 +90,7 @@ Final72Y; A07 inferred/waived, gate-pass selected-fragment condition retained.
 [Publication](../2026-11-06-owner-signoff-publication.md): push origin P12 first, then working
 branch, preserving remote image/history. Integrated542Python/22frontend/TypeScript pass;
 [alignment audit](../2026-11-06-human-automation-alignment.md) checks reported behaviors,
-four saved live outputs and gaps. Next: normal pushes in requested order, verify remote SHAs.
+four saved live outputs and gaps. Both origin branches verified at integrated `1685647e`,
+P12 pushed first, working second; no force/runtime changes. Next: owner testing and remaining
+explicitly unexecuted A07 cases; receipt follow-up is documentation only.
 No new source/Supabase or runtime changes; no independent full72 execution claim.
