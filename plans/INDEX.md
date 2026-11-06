@@ -14,7 +14,11 @@
   [current continuation](2026-11-04-codex-continuation-log.md). Bounded owner-approved work; no phase started.
 - Test-suite audit/consolidation complete, Claude-reviewed (nits only): [plan](2026-10-30-test-suite-audit-plan.md),
   [results and verification](2026-10-30-test-suite-audit-results.md).
-- Worktree p12 / `p12-evaluation-harness`; [current progress](plan_current_progress/current_progress.md).
+- Active development: worktree `p12-dev` / branch `p12-dev`, based on published `039e80a2`.
+  Owner7Nov reserves `p12-evaluation-harness` for thesis system evaluation; do not use it
+  as the development mainline or automatically publish ongoing fixes there.
+  `p12-post-gathering-fixes` remains the previous checkpoint branch.
+  [Current progress](plan_current_progress/current_progress.md).
   Immutable master: [master plan](master_implementation_plan_original_long.md).
   Structural next_phase13 is cancelled; no next implementation phase authorized.
 

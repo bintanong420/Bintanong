@@ -1,6 +1,10 @@
 # Current progress
 
-Updated 6 November 2026. Development: `p12-dev` / `p12-post-gathering-fixes`.
+Updated 7 November 2026. Development: worktree `p12-dev` / branch `p12-dev`.
+Owner reserves `p12-evaluation-harness` for thesis evaluation by netorare; it is no longer
+the development mainline. New branch starts at published `039e80a2`; previous working
+branch `p12-post-gathering-fixes` remains intact. Push ongoing work only to `origin/p12-dev`
+unless explicitly directed otherwise. No server, runtime, source or dependency changes.
 Last full snapshot before condensation: `d2ad9fef` (recover with `git show`).
 Gathering checkout and owner USG notes remain separate. No numbered phase is active;
 Phase 12 research/software write-up is complete with disclosures; Phase 13 is cancelled.
@@ -92,5 +96,6 @@ branch, preserving remote image/history. Integrated542Python/22frontend/TypeScri
 [alignment audit](../2026-11-06-human-automation-alignment.md) checks reported behaviors,
 four saved live outputs and gaps. Both origin branches verified at integrated `1685647e`,
 P12 pushed first, working second; no force/runtime changes. Next: owner testing and remaining
-explicitly unexecuted A07 cases; receipt follow-up is documentation only.
+explicitly unexecuted A07 cases. Continue the agreed answer-structure/prompt/frontend
+presentation pass on `p12-dev`; evaluation-branch changes require explicit coordination.
 No new source/Supabase or runtime changes; no independent full72 execution claim.

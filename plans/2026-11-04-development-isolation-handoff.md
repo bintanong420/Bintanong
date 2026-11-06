@@ -1,5 +1,12 @@
 # Development isolation during data gathering
 
+Current branch decision,7November2026: continue in the existing `p12-dev` worktree on
+new branch `p12-dev`, based on published `039e80a2`. `p12-evaluation-harness` is reserved
+for netorare's thesis system evaluation; do not automatically merge ongoing development
+there. `p12-post-gathering-fixes` remains the earlier published checkpoint. The historical
+creation and data-gathering evidence below is retained; no worktree relocation or server
+restart was needed for this branch split.
+
 Owner requested a separate worktree so development can continue while p12 serves actual data gathering.
 
 - Gathering checkout: `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p12`, branch
