@@ -66,11 +66,14 @@ Live, the "Leaving PalSU" routing prompt went 8319 -> 7362 tokens (7416 usable).
 Open gap: `evaluation/system_metrics.py` cannot count a relevant chunk in neither top-3 list, so recall is overstated for unkeyed rows. Proposed `FN: C123, C145` in the page's Note box; awaiting owner yes/no; scorer change needs RED/GREEN and no page or API restart. Undecided: RAGAS install/judge, BATAYAN source, Integration box rename.
 
 ## RAGAS branch (7 Nov)
-Branch `p12-ragas-benchmark` (from `p12-evaluation-harness` at `69fc7cea`), checked out in worktree `p12`: owner will run
-the RAGAS benchmark here. Another developer does BERTScore on their own branch from `docs/evaluation/bertscore/`
-(42 saved answers; `reference_answer` empty until the owner supplies references). Still undecided: RAGAS
-install and judge model (dependency install needs owner approval), BATAYAN source. Answer keys rows 11-24 have
-no expected-answer text.
+Branch `p12-ragas-benchmark` in worktree `p12`. Owner approved: separate venv (ignored
+`audit-evidence/ragas-20261107/`, ragas 0.4.3, langchain-community pinned <0.4, frozen list kept), DeepSeek
+`deepseek-chat` judge (key in that folder's `.env`, outside Git), local SEA-LION E5 embeddings, telemetry off.
+Shared references `51048843`: `docs/evaluation/references/` = verbatim TP+FN chunks per Q1-Q14 (owner rule);
+BERTScore pairs now carry them. Full 42-row run done (no errors, 481k in / 185k out tokens): faithfulness .52,
+answer relevancy .58, context precision .90, context recall .75 (optimistic), factual correctness (precision) .57.
+Relevancy is 0 on 7 rows where the judge called source-limitation notices noncommittal. Low faithfulness not
+yet inspected; results are a research measurement, not yet reported.
 
 ## Next action
 
