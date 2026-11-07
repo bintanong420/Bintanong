@@ -10,7 +10,7 @@ no mainline/evaluation merge, release activation, source edits or application da
   from the usual `127.0.0.1:3217` development URL. `127.0.0.1:3218` also serves staging.
 - API: `http://127.0.0.1:8023`; model: existing local container on18088.
 - Serving worktree: `p12-pr20`, branch `feature/p12-unified-answer-pipeline`.
-- Loaded commit: `d5538a4f9d751b26086d8b5996e3fdd7718344ae`; frontend production Webpack
+- Loaded commit: `c5f20a4ed8a1c5b6a27dc79c67bc6c168ad3e346`; frontend production Webpack
   build from `be8948a5` (no frontend source changes through loaded commit).
 - `/health/staging` returns the startup identity and flags; `/health/ready` checks model/Janus.
 - Existing reviewed cached research snapshot: `p12-research-faqsplit-20261030`,39 curricula.
@@ -28,14 +28,16 @@ It contains `start-api.py`, `start-web.ps1`, `pids.json`, `runtime.json`, startu
 Starts use existing Python3.13.5/Node24.21 environments and existing read-only model weights.
 Docker Desktop was already running; started existing `bintanong-p09-cuda-latency`, no pull or reconfiguration.
 CPU encoder loaded existing verified assets; no installs, downloads or dependency changes.
-Initial launchers: API8776/server41188, web6656. PIDs are evidence, not permanent identities;
+Recovery reload: API3240/server24116, web launcher4344. PIDs are evidence, not permanent identities;
 verify command and port before stopping/restarting a staging process. Original3217 launcher,
 evaluation worktree and mainline branches were not modified or started by this task.
 
 To recover, from `p12-pr20` run the ignored `start-api.py` with the existing workspace venv,
 and run `start-web.ps1` with PowerShell. Check model18088 first and start its existing container
 only if stopped. Launch hidden, preserving unrelated processes. Both services use their own
-staging logs. No unbounded restart monitor was installed.
+staging logs. A bounded ignored model-only keepalive runs for4hours (20s checks, at most2
+restarts,180s cooldown); stop via the ignored staging `stop-keepalive` sentinel. It does not
+restart Docker Desktop or unrelated services. Model context remains8192.
 
 ## Executed checks
 
@@ -51,7 +53,14 @@ staging logs. No unbounded restart monitor was installed.
   prerequisite verdict was emitted. Treat as an unresolved live-routing failure, not a source gap.
   Independent trace used existing cached resources, no second encoder; process exited afterward.
 
-All automated inference stopped after these checks, leaving the single model slot for owner testing.
+- [Recovery follow-up](2026-11-07-pr20-recovery-routing.md): owner confirmed oldBSCS;
+  separate container outage and routing overflow diagnosed. v26 preserves source metadata,
+  distinguishes recovery advice from an explicit proposed schedule, and keeps hypothetical failure.
+  1,077 routing/recovery tests pass. Exact frontend request now answered in44.37s after staging
+  API/frontend reload, with dependent subjects, recovery drafts and source/approval/load limits.
+  Recovery draft preference/length/optimality remain concerns; this is not plan acceptance.
+
+Automated inference stopped after the bounded checks; model slot is available for owner testing.
 No actual browser viewport/interaction verification or independent72-case benchmark was performed.
-Next: owner exploratory testing on3218 and narrow follow-up to the recorded compound-reference failure;
-retain draft/acceptance gates before merge. Staging availability is not institutional approval.
+Next: owner retest on3218; investigate the recorded compound-reference and recovery presentation/
+preference concerns before acceptance. Staging availability is not institutional approval.

@@ -67,10 +67,11 @@ Compound ON only in isolated staging; default OFF. Local benchmark rate window0,
 cached research snapshot; no source/database/release changes or3217/evaluation reload.
 Frontend/API/model health200; INC question answered with citations/presentationV2.
 Two-course live smoke clarified; trace shows invalid model quote occurrences. Not fixed or passed.
-Owner reproduced recovery failure on BSCS2018–2019. Model had exited255 (not marked OOM);
-restarted existing container. Separate trace proved8065-token routing input exceeded8192 with
-768-token output reserve. Candidate v26 condenses instructions without dropping source metadata,
-clarifies recovery versus explicit-plan checking and retains hypothetical failure. Live router now
-validates Symbolic/list_affected_courses at7351 input tokens; full frontend retest/reload pending.
-99 focused tests and1,077 routing/recovery regressions pass. Existing known two-course
-quote-reference failure remains open. Next: load verified recovery fix on3218 and retest exact question.
+Owner confirmed BSCS2018–2019 recovery failure. Existing model exited255 (not marked OOM);
+restarted; context8065+768 output/8 guard exceeded8192. v26 condenses repeated instructions,
+preserves all reviewed metadata/guards and distinguishes recovery advice from explicit-plan checks.
+[Recovery evidence](../2026-11-07-pr20-recovery-routing.md):1,077 routing/recovery tests pass;
+code `c5f20a4e` loaded on3218/API8023. Exact frontend request now answers in44.37s after
+staging API/frontend reload. Hypothetical failure, affected courses and source/load limits retained.
+Model-only keepalive bounded4h; automated inference stopped. Context still8192;12K only proposed.
+Next: owner retest3218; compound references and recovery preference/length/optimality remain open.

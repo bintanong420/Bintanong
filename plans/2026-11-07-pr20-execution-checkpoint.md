@@ -66,9 +66,12 @@ in multi-topic passage merge while package B was being edited; not a clean final
   plus768 output/8 guard exceeded8192. v26 condenses repeated instructions, keeps all reviewed
   menu metadata/decoder guards, distinguishes recovery advice from checking an explicit plan.
   Exact old-BSCS router trace now validates7351 input tokens, hypothetical failure retained.
-  Focused99 and broader1,077 routing/recovery tests pass; staging full-answer retest pending.
-- Next: finish focused regression, reload only staging8023, retest exact recovery question;
-  retain compound-reference/browser/latency acceptance and owner review before merge.
+  Focused99 and broader1,077 routing/recovery tests pass. Code `c5f20a4e` loaded on staging.
+  Exact frontend request answers in44.37s after API/frontend reload; guarded drafts and source
+  limits retained. [Evidence](2026-11-07-pr20-recovery-routing.md) records transport uncertainty,
+  bounded model keepalive and unresolved recovery draft preference/length/optimality concerns.
+- Next: owner retest3218; retain compound-reference/recovery-quality/browser/latency acceptance
+  and owner review before merge. Context remains8192;12K capacity trial is only proposed.
 
 ## Verification boundaries
 
