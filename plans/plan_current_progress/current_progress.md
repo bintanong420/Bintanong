@@ -43,7 +43,9 @@ external-module standalone tracing warnings remain. PR20 staging3218 stays ready
 
 ## Next action
 
-Owner exploratory review, then freeze protocol and shared evidence coverage before
-scoring an independently reviewed benchmark. C here is not the full production
-pipeline; B is not a standalone RAG executor. Source cards may be fragments.
-Historical Phase12 RAG-only conditionB suite remains unrun. No merge/release authorized.
+[Validity/metrics audit](../2026-11-07-ablation-validity-and-metrics-audit.md): existing page is
+exploratory, not a thesis-ready ablation.42 exported references are empty; Q11 provenance
+needs reconciliation. Success-conditioned context/case selection must be replaced before scoring.
+Next: freeze independent cases/context/gold and explicit executors, then shared metric export/
+adapters and blinded calibration. C is not production; historical RAG-only suite remains unrun.
+No new model/judge calls, installs, source decisions or formal experiment performed by this audit.
