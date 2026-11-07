@@ -72,9 +72,14 @@ shared references in `docs/evaluation/references/` (BERTScore pairs carry them).
 rebuilt writer evidence, answer relevancy .584 (.701 without 7 noncommittal-flagged source-limit answers), context
 precision .896, recall .754, factual correctness precision .570. One judge run (DeepSeek); not Bintu-1 compared.
 
-## BATAYAN benchmark (7 Nov) - starting
-Branch `p12-batayan-benchmark` from `p12-evaluation-harness` at `af3836e8`, worktree `p12`. Not yet scoped:
-BATAYAN source/version, which tasks apply to Bintanong, and any install need owner decisions.
+## BATAYAN benchmark (8 Nov) - set up, waiting on HF access
+Branch `p12-batayan-benchmark` from harness `af3836e8`. Owner: use SEA-HELM (github.com/aisingapore/sea-helm,
+cloned at `9be3986` in ignored `audit-evidence/batayan-20261107/`), follow Montalan et al. (2025, arXiv 2502.14911:
+8 tasks, zero-shot Filipino prompts, single run, macro-F1 NLU/NLR, ChrF++/ROUGE-L/MetricX NLG); installs approved
+only as needed. Venv (Python 3.13, CPU torch, no vLLM) imports SEA-HELM; plan `--tasks batayan --model_type
+local_openai` against the served Gemma 4 E4B Q4_K_XL (llama.cpp :18088), `--skip_tokenize_prompts`, MetricX-24
+(13B judge) replaced by ChrF++ on this 4 GB GPU. Blocker: the 7 aisingapore HF datasets are gated (auto-approve);
+owner must accept terms and put `HF_TOKEN` in that folder's `.env`. Measures the model, not the RAG pipeline.
 
 ## Next action
 
