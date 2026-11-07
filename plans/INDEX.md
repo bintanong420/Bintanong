@@ -9,6 +9,9 @@
   This is not institutional approval or public deployment. Phase 13 deployment cancelled by owner.
 - Post-Phase-12 accuracy work: [current handoff](2026-10-30-eight-failures-handoff.md) (open): common-query
   readiness for the student sessions, new-machine setup and runs to do.
+- Ingestion pipeline + researcher review GUI (merged from `feat/p11-policy-ingestion-review`, 7 Nov):
+  [combined plan](2026-11-02-combined-ingestion-plan.md), [checkpoint](2026-10-26-policy-ingestion-checkpoint.md),
+  [USG fixes](2026-11-02-usg-ingestion-bugfix-plan.md). Stages A–E open; workstream boundaries are in its plan.
 - Academic Recovery Planner (owner plan, 4 Nov): [ingestion and thesis-bounded scope](2026-11-04-academic-recovery-planner-ingestion.md);
   [plan of action and settled D1–D7](2026-11-04-academic-recovery-plan-of-action.md);
   [current continuation](2026-11-04-codex-continuation-log.md). Bounded owner-approved work; no phase started.
