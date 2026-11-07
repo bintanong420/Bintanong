@@ -198,6 +198,18 @@ def YEARS_TO_GRADUATE(text):
 LEAVING_CUES = ('honorable dismissal', 'transfer out', 'transferring out', 'leave palsu', 'leaving palsu',
                 'leave the university', 'leaving the university', 'to another school', 'to another university',
                 'to other school', 'aalis', 'lilipat sa ibang', 'lilipat ng ibang')
+# Owner 7 Nov 2026 (#11): "Lilipat na po ako ng ibang unibersidad" / "Magta-transfer na kasi ako ng ibang university"
+# say the student is leaving. Only these short particles may stand between the verb and "ng/sa ibang ...", so
+# "lilipat ako sa PalSU galing sa ibang school" (transferring in) is not read as leaving.
+LEAVING_PHRASE = re.compile(r'\b(?:lilipat|lumipat|mag-?ta-?transfer|mag-?transfer)(?:\s+(?:na|po|ako|kasi|rin|din|lang|kami))*'
+                            r'\s+(?:ng|sa)\s+ibang\s+(?:school|university|unibersidad|paaralan|eskwelahan|college)\b',
+                            re.IGNORECASE)
+
+
+def names_leaving(text):
+    return any(cue in text.casefold() for cue in LEAVING_CUES) or bool(LEAVING_PHRASE.search(text))
+
+
 INCOMING_TOPICS = {'handbook_transfer', 'handbook_transfer_credentials', 'handbook_transfer_load'}
 LEAVING_TOPICS = ('charter_transfer', 'handbook_transfer_clearance')
 
@@ -228,7 +240,7 @@ def add_companions(chosen, topics, text):
         wanted.append('grade_completion')
     if YEARS_TO_GRADUATE(text):
         wanted.append('handbook_graduation')
-    if ids & INCOMING_TOPICS and any(cue in text.casefold() for cue in LEAVING_CUES):
+    if ids & INCOMING_TOPICS and names_leaving(text):
         wanted += list(LEAVING_TOPICS)
     menu = {t.subject_id: t for t in topics}
     extra = tuple(menu[s] for s in dict.fromkeys(wanted) if s in menu and s not in ids)

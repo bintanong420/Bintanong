@@ -128,14 +128,18 @@ def check_topics(proposed, topics):
 # Owner F4 (28 Oct 2026, provisional "b perhaps"): a transfer question that does not say whether the student is
 # leaving PalSU or transferring in is asked first. Phrases that state the direction (English/Filipino/Taglish).
 TRANSFER_FAMILIES = frozenset(('leaving_palsu_transfer_credentials', 'transferring_into_palsu'))
-TRANSFER_DIRECTION_CUES = (
+LEAVING_DIRECTION_CUES = (
     'honorable dismissal', 'transfer out', 'transferring out', 'leave palsu', 'leaving palsu',
     'leave the university', 'leaving the university', 'to another school', 'to another university',
     'to other school', 'aalis', 'lilipat sa ibang', 'lilipat ng ibang',
+    # Owner GUI 3 Nov 2026 (#11): typed Taglish.
+    'to ibang school', 'lipat sa ibang school')
+INCOMING_DIRECTION_CUES = (
     'transferee', 'from another school', 'from other school', 'from another university',
     'galing sa ibang', 'transfer to palsu', 'transferring to palsu', 'lilipat sa palsu', 'lumipat sa palsu',
     # Owner GUI 3 Nov 2026 (#11): typed Taglish.
-    'lipat to palsu', 'lipat sa palsu', 'from ibang school', 'galing ibang school', 'to ibang school', 'lipat sa ibang school')
+    'lipat to palsu', 'lipat sa palsu', 'from ibang school', 'galing ibang school')
+TRANSFER_DIRECTION_CUES = LEAVING_DIRECTION_CUES + INCOMING_DIRECTION_CUES
 
 
 # Owner, 28 Oct 2026: a question explicitly naming an excluded program gets the undergraduate-scope notice even
@@ -160,23 +164,78 @@ _INCOMING_REPLY = ('transferring in', 'transfer in', 'transferring into', 'trans
                    'lipat to palsu', 'lipat sa palsu', 'into palsu', 'from ibang school', 'galing ibang school')
 
 
+def stated_transfer_family(text, conversation):
+    """The transfer family whose side the student named: in a reply to the direction question, or in the question
+    itself. None when neither or both sides are named."""
+    if conversation is not None and conversation.pending == 'transfer_direction':
+        leaving, incoming = _names_any(text, _LEAVING_REPLY), _names_any(text, _INCOMING_REPLY)
+    else:
+        leaving = _names_any(text, LEAVING_DIRECTION_CUES) or bool(selection.LEAVING_PHRASE.search(text))
+        incoming = _names_any(text, INCOMING_DIRECTION_CUES)
+    if leaving == incoming:
+        return None
+    return 'leaving_palsu_transfer_credentials' if leaving else 'transferring_into_palsu'
+
+
+def direction_stated(text):
+    return _names_any(text, TRANSFER_DIRECTION_CUES) or bool(selection.LEAVING_PHRASE.search(text))
+
+
+def reply_topic(menu, family):
+    """The topic a reply to the direction question is answered from: the Charter for leaving, else the side's first."""
+    preferred = 'charter_transfer' if family == 'leaving_palsu_transfer_credentials' else 'handbook_transfer_credentials'
+    members = [t for t in menu if t.family == family]
+    return next((t for t in members if t.subject_id == preferred), members[0] if members else None)
+
+
+def offer_stated_side(topics, menu, text, conversation):
+    """Owner 7 Nov 2026 (#11): once the side is known, the other side's transfer topics are not offered, and a reply
+    to the direction question is offered only the topic it is answered from. Offering more overflowed the model
+    context ("Leaving PalSU": 8319, then 7729, of 7416 usable tokens)."""
+    family = stated_transfer_family(text, conversation)
+    if family is None:
+        return topics
+    others = tuple(t for t in topics if t.family not in TRANSFER_FAMILIES)
+    if conversation is not None and conversation.pending == 'transfer_direction':
+        topic = reply_topic(menu, family)  # the reply's part is pinned to it (pin_transfer_reply)
+        return others + ((topic,) if topic is not None else ())
+    side = tuple(t for t in topics if t.family == family)
+    return others + side if side else topics
+
+
+def _reply_claims(topic):
+    return [c for c in topic.claims if c not in topic.not_stated][:8]
+
+
+def pin_transfer_reply(decoded, text, menu, conversation):
+    """Owner 7 Nov 2026 (#11): a reply naming a side is answered from that side's topic (answer_transfer_direction),
+    so its one document part quotes the reply itself. A model quote of the earlier question (live: "How to secure
+    Transfer Credentials?" for "Leaving PalSU") no longer rejects the reply."""
+    if not isinstance(decoded, dict) or conversation is None or conversation.pending != 'transfer_direction':
+        return decoded
+    family = stated_transfer_family(text, conversation)
+    topic = reply_topic(menu, family) if family is not None else None
+    if topic is None:
+        return decoded
+    part = dict(part_id='r1', quote=dict(text=text, occurrence=0), evidence_need='document', operation_indices=[],
+                subject_id=topic.subject_id, requested_claims=_reply_claims(topic), detail=conversation.detail or 'whole')
+    mentions = [m for m in decoded.get('mentions') or [] if isinstance(m, dict) and m.get('kind') != 'course'
+                and isinstance(m.get('quote'), dict) and m['quote'].get('text', '') in text]
+    return dict(decoded, parts=[part], part_count=1, control=None, route='RAG', operations=[], claims=[],
+                ambiguities=[], mentions=mentions)
+
+
 def answer_transfer_direction(proposed, menu, text, conversation):
     """The previous turn asked leaving or transferring in; a reply naming one side is answered from that side's
     topic, keeping the detail the original question asked. A reply naming neither or both returns None."""
     if conversation is None or conversation.pending != 'transfer_direction':
         return None
-    leaving, incoming = _names_any(text, _LEAVING_REPLY), _names_any(text, _INCOMING_REPLY)
-    if leaving == incoming:
-        return None
-    family = 'leaving_palsu_transfer_credentials' if leaving else 'transferring_into_palsu'
-    preferred = 'charter_transfer' if leaving else 'handbook_transfer_credentials'
-    members = [t for t in menu if t.family == family]
-    topic = next((t for t in members if t.subject_id == preferred), members[0] if members else None)
+    family = stated_transfer_family(text, conversation)
+    topic = reply_topic(menu, family) if family is not None else None
     if topic is None:
         return None
     part = dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='document', operation_indices=[],
-                subject_id=topic.subject_id, requested_claims=[c for c in topic.claims if c not in topic.not_stated][:8],
-                detail=conversation.detail or 'whole')
+                subject_id=topic.subject_id, requested_claims=_reply_claims(topic), detail=conversation.detail or 'whole')
     return Interpretation.parse(dict(proposed.model_dump(mode='json'), parts=[part], route='RAG', control=None,
                                      claims=[], ambiguities=[], operations=[],
                                      mentions=[m for m in proposed.model_dump(mode='json')['mentions']
@@ -267,7 +326,7 @@ def switch_program_follow_up(proposed, text, conversation, catalog):
 def transfer_direction_unstated(proposed, topics, text):
     families = {t.subject_id: t.family for t in topics}
     return (any(families.get(p.subject_id) in TRANSFER_FAMILIES for p in proposed.parts)
-            and not _names_any(text, TRANSFER_DIRECTION_CUES))
+            and not direction_stated(text))
 
 
 def _printed_claims(topic, text):
@@ -602,6 +661,7 @@ class Router:
             except ValueError:
                 return failure('topic_selection_unavailable', 0)
 
+        topics = offer_stated_side(topics, self.topics, text, context.conversation)
         messages = build_messages(text, context, self.catalog, self.registry, topics)
 
         def guarded(proposed, compiled=False):
@@ -624,7 +684,7 @@ class Router:
                         or answer_detail_follow_up(proposed, self.topics, text, context.conversation)
                         or repeat_previous_check(proposed, text, context.conversation)
                         or (stay_on_shifting(proposed, self.topics, text, context.conversation,
-                                             _names_any(text, TRANSFER_DIRECTION_CUES)) if compiled else None))
+                                             direction_stated(text)) if compiled else None))
             if resolved is not None:  # owner GUI 3 Nov 2026: the reply to the direction question
                 proposed = resolved
             switch = None if resolved is not None else switch_program_follow_up(
@@ -660,6 +720,7 @@ class Router:
                             subject_id=offered.get('subject_id'), requested_claims=offered.get('requested_claims', []),
                             detail=offered.get('detail', 'whole')))
                     decoded = dict(decoded, parts=parts, part_count=len(parts), control=None)
+                decoded = pin_transfer_reply(decoded, text, self.topics, initial_context.conversation)
                 payload, context = bind_dialogue(decoded, text, initial_context, self.catalog, topics)
                 follow_up = bool((previous_turn(context, self.catalog) or {}).get('course_available'))
             except DialogueReferenceError as error:

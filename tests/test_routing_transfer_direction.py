@@ -150,3 +150,90 @@ def test_a_detail_word_without_a_previous_topic_is_left_to_the_router():
     alone, _ = run(Transport(selected(('fictional_office',)), reply, text='magkano naman?'), text='magkano naman?',
                    topics=MENU, ctx=context())
     assert not alone.decision.dispatchable
+
+
+# Owner 7 Nov 2026 (benchmark #11): with both directions' topics offered, the reply "Leaving PalSU" overflowed the
+# model context (8319 of 7416 usable tokens), and Filipino wordings that say the student is leaving were still asked.
+def offered(transport, menu=MENU):
+    """Topic ids shown to the semantic router (not the selection call)."""
+    prompts = [m[0]['content'] for m, schema in transport.calls
+               if schema['properties']['schema_version'].get('const') == 'bintanong-interpretation-wire-v4']
+    return {t.subject_id for t in menu if any(f'"{t.subject_id}"' in p for p in prompts)}
+
+
+BOTH = ('fictional_incoming', 'fictional_outgoing', 'fictional_office')
+
+
+@pytest.mark.parametrize('text,ctx', [('Leaving PalSU', dict(pending='transfer_direction', detail='whole')),
+                                      ('I am leaving PalSU, what do I need for transfer credentials?', None)])
+def test_a_known_direction_offers_only_that_sides_transfer_topics(text, ctx):
+    from test_routing_contracts import context
+    transport = Transport(selected(BOTH), answer('fictional_outgoing', (MENU_CLAIMS['fictional_outgoing'],), text=text),
+                          text=text)
+    result, _ = run(transport, text=text, topics=MENU, ctx=context(conversation=ctx) if ctx else None)
+    assert offered(transport) == {'fictional_outgoing', 'fictional_office'}
+    assert result.decision.dispatchable and result.proposed.parts[0].subject_id == 'fictional_outgoing'
+
+
+def test_an_unstated_direction_still_offers_both_sides():
+    text = 'What are the requirements for transfer credentials?'
+    transport = Transport(selected(BOTH), answer('fictional_incoming', (MENU_CLAIMS['fictional_incoming'],), text=text),
+                          text=text)
+    run(transport, text=text, topics=MENU)
+    assert offered(transport) == set(BOTH)
+
+
+@pytest.mark.parametrize('text', [
+    'Lilipat na po ako ng ibang unibersidad, pano po kukunin yung transfer credentials ko?',
+    'Paano kumuha ng transfer credentials? Magta-transfer na kasi ako ng ibang university.'])
+def test_filipino_wordings_that_say_the_student_is_leaving_answer_without_asking(text):
+    result = route(text, 'fictional_outgoing')
+    assert result.decision.dispatchable and result.decision.route == 'RAG'
+
+
+def test_coming_from_another_school_is_not_read_as_leaving():
+    text = 'Lilipat ako sa PalSU galing sa ibang school, ano ang requirements?'
+    transport = Transport(selected(BOTH), answer('fictional_incoming', (MENU_CLAIMS['fictional_incoming'],), text=text),
+                          text=text)
+    result, _ = run(transport, text=text, topics=MENU)
+    assert 'fictional_outgoing' not in offered(transport)
+    assert result.decision.dispatchable and result.proposed.parts[0].subject_id == 'fictional_incoming'
+
+
+SECOND_OUTGOING = DocumentTopic(subject_id='fictional_outgoing_more', claims=('printed outgoing clause',),
+                                family='leaving_palsu_transfer_credentials')
+
+
+def test_a_reply_to_the_direction_question_offers_only_the_topic_it_is_answered_from():
+    # Live 7 Nov 2026: with both leaving topics and the dialogue context, "Leaving PalSU" still overflowed (7729).
+    from test_routing_contracts import context
+    text = 'Leaving PalSU'
+    transport = Transport(selected(BOTH + ('fictional_outgoing_more',)),
+                          answer('fictional_outgoing', (MENU_CLAIMS['fictional_outgoing'],), text=text), text=text)
+    result, _ = run(transport, text=text, topics=MENU + (SECOND_OUTGOING,),
+                    ctx=context(conversation=dict(pending='transfer_direction', detail='whole')))
+    assert offered(transport, MENU + (SECOND_OUTGOING,)) == {'fictional_outgoing', 'fictional_office'}
+    assert result.proposed.parts[0].subject_id == 'fictional_outgoing'
+
+
+def test_a_question_stating_the_side_still_offers_all_of_that_sides_topics():
+    text = 'I am leaving PalSU, what do I need for transfer credentials?'
+    transport = Transport(selected(BOTH + ('fictional_outgoing_more',)),
+                          answer('fictional_outgoing', (MENU_CLAIMS['fictional_outgoing'],), text=text), text=text)
+    run(transport, text=text, topics=MENU + (SECOND_OUTGOING,))
+    assert offered(transport, MENU + (SECOND_OUTGOING,)) == {
+        'fictional_outgoing', 'fictional_outgoing_more', 'fictional_office'}
+
+
+def test_a_reply_quoting_the_earlier_question_is_still_answered_from_the_side_it_names():
+    # Live 7 Nov 2026: the router chose the Charter topic but quoted the previous turn's question, which is not in
+    # "Leaving PalSU"; the rejected quote's repair prompt then overflowed. The host already sets this reply's part.
+    from test_routing_contracts import context
+    earlier = 'How to secure Transfer Credentials?'
+    transport = Transport(selected(BOTH), answer('fictional_outgoing', (MENU_CLAIMS['fictional_outgoing'],), text=earlier),
+                          text='Leaving PalSU')
+    result, _ = run(transport, text='Leaving PalSU', topics=MENU,
+                    ctx=context(conversation=dict(pending='transfer_direction', detail='whole')))
+    assert result.decision.dispatchable and result.attempts == 1
+    part, = result.proposed.parts
+    assert (part.subject_id, part.text) == ('fictional_outgoing', 'Leaving PalSU')
