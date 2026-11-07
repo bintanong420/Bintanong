@@ -65,15 +65,16 @@ Owner asked to plan, not implement, a website testing mode for Accuracy/Precisio
 Live, the "Leaving PalSU" routing prompt went 8319 -> 7362 tokens (7416 usable). All three Q11 wordings now answer from the 2025 Charter, pp. 11-12. Q11 counts: EN 2/1/0/557; TL and Taglish 2/1/2/555. Macro P .8155 / R .8099 / F1 .7858 / Acc .9977. Q11 ran on newer code than the other 41 rows and than the owner's pinned 72-run. 8022 still runs the old code until restarted.
 Open gap: `evaluation/system_metrics.py` cannot count a relevant chunk in neither top-3 list, so recall is overstated for unkeyed rows. Proposed `FN: C123, C145` in the page's Note box; awaiting owner yes/no; scorer change needs RED/GREEN and no page or API restart. Undecided: RAGAS install/judge, BATAYAN source, Integration box rename.
 
-## RAGAS branch (7 Nov)
-Branch `p12-ragas-benchmark` (worktree `p12`, pushed). Owner approved separate venv (ignored
-`audit-evidence/ragas-20261107/`), DeepSeek judge (key in that folder's `.env`), local SEA-LION E5, telemetry off.
-Shared references `docs/evaluation/references/` (verbatim TP+FN chunks); BERTScore pairs + zip carry them.
-Write-up, per-row CSV and scripts: [RAGAS results](../../docs/evaluation/ragas/README.md). Headline (42 rows):
-faithfulness .883 against rebuilt writer evidence (neighbours 42/42 match logged counts; top-3-only .525),
-answer relevancy .584 (0 on 7 rows flagged noncommittal for source-limit notices; .701 without), context
-precision .896, context recall .754 (optimistic), factual correctness precision .570. One judge run; not yet
-reported in the thesis.
+## RAGAS benchmark (7 Nov) - complete
+`p12-ragas-benchmark` kept as the frozen record and fast-forwarded into `p12-evaluation-harness` at `af3836e8`
+(owner-approved, no force). Results, thesis section draft/PDF and scripts: [RAGAS](../../docs/evaluation/ragas/README.md);
+shared references in `docs/evaluation/references/` (BERTScore pairs carry them). Headline: faithfulness .883 against
+rebuilt writer evidence, answer relevancy .584 (.701 without 7 noncommittal-flagged source-limit answers), context
+precision .896, recall .754, factual correctness precision .570. One judge run (DeepSeek); not Bintu-1 compared.
+
+## BATAYAN benchmark (8 Nov) - starting
+Branch `p12-batayan-benchmark` from `p12-evaluation-harness` at `af3836e8`, worktree `p12`. Not yet scoped:
+BATAYAN source/version, which tasks apply to Bintanong, and any install need owner decisions.
 
 ## Next action
 
