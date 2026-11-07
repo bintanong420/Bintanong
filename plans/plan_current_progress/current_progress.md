@@ -1,109 +1,57 @@
 # Current progress
 
-Updated 7 November 2026. Development mainline: `p12-dev`. PR20 implementation is active in
-isolated `p12-pr20` / `feature/p12-unified-answer-pipeline`, targeting `p12-dev`.
-Owner reserves `p12-evaluation-harness` for thesis evaluation by netorare; it is no longer
-the development mainline. New branch starts at published `039e80a2`; previous working
-branch `p12-post-gathering-fixes` remains intact. Push ongoing work only to `origin/p12-dev`
-unless explicitly directed otherwise. No server, runtime, source or dependency changes.
-Last full snapshot before condensation: `d2ad9fef` (recover with `git show`).
-Gathering checkout and owner USG notes remain separate. No numbered phase is active;
-Phase 12 research/software write-up is complete with disclosures; Phase 13 is cancelled.
+Updated 7 November 2026. Mainline `p12-dev`; active worktree `p12-pr20`, branch
+`feature/p12-unified-answer-pipeline`, PR20 targets `p12-dev`. Follow its runbook:
+publish the feature branch, retain draft, no automatic merge or release.
+Last full snapshot before condensation: `743004ad` (`git show` recovers it).
+No numbered phase active; Phase12 write-up complete with disclosures, Phase13 cancelled.
 
-## Active PR20 implementation
+## Current candidate
 
-[Execution checkpoint](../2026-11-07-pr20-execution-checkpoint.md): five source commits
-imported once; B partial evidence, C presentation, D compound integration and E dialogue
-work underway in parallel. Next: complete integration and recorded verification; keep
-PR draft, evaluation checkout/services unchanged, new compound feature OFF by default.
+[Execution checkpoint](../2026-11-07-pr20-execution-checkpoint.md) records imports,
+implementation, reviews and verification. Core candidate `be8948a5`; follow-up schema/fixture fixes `410db9ce`/`2869f569` and
+explicit hypothetical-premise retention `b21df7bf` include:
 
-## Delivered repairs
+- Five exact PR18/19 source commits imported once with cherry-pick provenance.
+- Typed topic outcomes preserve independent successful documentary parts; conflicts,
+  release mismatch and untrusted membership stay held. Missing parts cannot borrow citations.
+- Host-owned presentation V2 spans Python, SSE, Zod and React. Version2 opt-in also gates
+  clarification bindings/slots, preserving original metadata for strict legacy clients.
+- Imported bounded executor supplies separate two-check proofs, optionally one document part.
+  Strict `compound_checks` default stays OFF; existing single-operation paths are reused.
+- Clarification replies bind to the owned pending turn/revision/requested slots. Scope fill
+  cannot change a known curriculum or goal; negation, taken/unknown and EN/Taglish stay guarded.
+- Focused unified272, D/imported23, research29, frontend104 and TypeScript passed
+  (overlapping gates, not a total). Final frontend105, TypeScript and Webpack build passed after negotiation.
+- Production Webpack build passed. Default Turbopack cannot resolve the reused external
+  dependency junction; no installs/config changes to hide that environmental limitation.
+- Final full-default Python regression uses isolated shards of the exact selected roster.
+  Interrupted/pre-freeze runs are not passes. External runner isolation was repaired; Docker
+  database fixtures are blocked by the unavailable engine pipe, not counted as successes.
+  Final hypothetical-premise regression and80 related checks pass at `b21df7bf`.
 
-- [Benchmark repair checkpoint](../2026-11-06-owner-benchmark-repairs.md) records source/routing,
-  registration, Taglish, grade-4 and INC fixes. Final code `bdf6d50a`, handoff `d2ad9fef`.
-- R3 owner export: 21 tested, 20 Y / 1 N, 51 untested; grade answers needed brevity work.
-  Subsequent live B13-TL registration and ID Taglish checks pass. Final English grade-4/INC
-  outputs retain method, approval and source limitations; 25.4%/52.5% shorter than earlier candidate.
-  Final focused grade gate: 174 pass. No frozen full-72 accuracy claim.
-- Published integrated repairs to `origin/p12-evaluation-harness` at `c8cd43c8`, preserving
-  remote architecture image commit `abd007b4`. Integrated gate: 585 pass. No force push.
-  Publication worktree: `p12-eval-publish`; dev checkout remains isolated.
+## Preserved evidence and limits
+
+- [Benchmark repairs](../2026-11-06-owner-benchmark-repairs.md),
+  [source fit](../2026-11-06-adaptive-procedure-source-fit.md),
+  [good-moral overflow](../2026-11-06-good-moral-request-location-overflow.md) and
+  [human/automation alignment](../2026-11-06-human-automation-alignment.md) retain prior delivery.
+- Owner18:33 sign-off marked Final72Y with A07 inferred/waived and gate-pass fragment limits.
+  This is not independent full72 execution. [Publication](../2026-11-06-owner-signoff-publication.md).
+- [Chat system index](../2026-11-06-system-information-index.md) exposes project capabilities,
+  research scope and limitations separately from institutional policy evidence.
 - [Earlier continuation](../2026-11-04-codex-continuation-log.md) and
-  [isolation handoff](../2026-11-04-development-isolation-handoff.md) retain memory,
-  prerequisite-listing, term checks and recovery-planner evidence. Do not repeat setup.
+  [isolation handoff](../2026-11-04-development-isolation-handoff.md) preserve setup/recovery evidence.
 
-## Chat self-information index
+## Boundaries and next action
 
-Owner: capabilities and research scope must be callable in chat.
-[Design and checks](../2026-11-06-system-information-index.md).
-- Dedicated semantic `system_information` control and fixed English/Taglish index cover
-  implemented features, undergraduate 2026–2027 research scope, excluded audiences,
-  advisory limits, source gaps, private-PDF isolation and pending university validation.
-- This is project metadata, not university-policy corpus content. No fake institutional citations,
-  embedding changes, new dependencies or model weights. Academic answer ledgers stay mandatory.
-- Coverage questions naming programs do not select student curriculum. Mixed self/academic
-  clarification is preserved before policy-topic repair; it asks for separate questions.
-- Initial RED: 6 failures; program-resolution RED: 2; mixed-request RED: 1.
-  Focused gates: 337 pass; later 266 pass; final guard/compile/routing integration: 319 pass.
-  Frontend workspace/transport: 22 pass; TypeScript passes. Gates overlap; not a full-suite total.
-- Live router: four standalone EN/Filipino/Taglish/graduate-coverage questions select self-info;
-  mixed capability+INC query finally selects `clarify` / `compound_request`. Earlier model outage
-  and wrong mixed fallback were diagnosed, not counted as successful checks.
-- Context rechecked: thesis physical17–18 and runtime routing PNG, master architecture and
-  undergraduate scope policy. This adds a non-academic terminal control; academic routes unchanged.
-
-## Runtime and boundaries
-
-- Main web/API 3216/8021, dev web/API 3217/8022, shared model18088.
-  Luna confirmed all five HTTP200; model container healthy; hidden keepalive PID72532.
-- Dev API reloaded for index and shifting repair. Frontends/main/model untouched.
-  Final wording reload ready200: root52864 / server46896; all five services HTTP200.
-  Dev-only zero rate window and measured grade budget5120 remain ignored launcher overrides.
-  Main controls unchanged. Keep `pause-dev-api` sentinel during intentional dev reloads.
-- Wider [audit proposal](../2026-11-06-deferred-audit-remediation-proposal.md) remains deferred.
-  Undergraduate advisory scope, unknown-versus-unmet, source conflicts, F04 hold,
-  English/Taglish replies and private-upload isolation remain mandatory.
-
-## Next action
-
-Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
-[Shifting repair](../2026-11-06-program-shifting-repair.md): exact “Pano po lumipat ng kurso?”
-retrieved the right policy but generation quoted only cross-college section 4.1. Both college branches
-and Registrar guidance now use clean exact source quotes for generic whole-program questions;
-FAQ companion cue and conditional office closing repaired at `9830a030`: worker 309 / parent 57 pass.
-Exact 3217 proxy question returned answered/Taglish with both branches, FAQ and Registrar guidance.
-Closing grammar correction `a5e5a6a0` passed 57 tests after its RED; final dev-only reload is ready.
-Adaptive [procedure source fit](../2026-11-06-adaptive-procedure-source-fit.md) now addresses
-the good-moral report without a blanket source switch: menus expose reviewed workflow
-bindings; whole selected procedures retain step facts within the existing eight-claim bound.
-Policy, explicit source and requirements-only scope remain. `b5312a47` committed;
-reviewed five-case good-moral router checks pass; later gate362 pass.
-Round4 [intake](../2026-11-06-round4-benchmark-intake.md): latest63Y/6P/3untested;
-good moral/gate pass all partial, shifting FinalY but verbose, B15 form-location note remains.
-Shifting short-referral cleanup `e8a848a1`:141 tests pass, source quotations retained.
-Removal form is reviewed Charterphysical112 step1 (Registrar's office); new bounded
-client-step hints expose it. Context/aggregate binding regressions fixed; pinned145topicsload;
-`622b68b0` committed; optional selector hints reduced to fit existing8192modelcontext.
-Reviewed client-step object phrases expand candidates only, preserving semantic source selection.
-All3gate-pass router variants pass; compound grade4/form correctly splits Handbook/Charter.
-`f048a75c` final combined gate501 pass. Live3217 good moral/gate pass/compound grade4+form
-all answered with correct sources; form Registrar location now present, source limits retained.
-Gate-pass partial-coverage notice is now outside cited claims; condition/support guards unchanged.
-Final `b8a59e02` gate-pass HTTP200/answered includes memo guidance and incomplete-process notice.
-Notice gate152 / malformed-field26 pass; earlier combined501 pass (overlapping, no full72 claim).
-All automated queries stopped. API12524/server56864 ready200, allfive200, keepalive36880 active.
-New [request/location overflow](../2026-11-06-good-moral-request-location-overflow.md): exact
-“Paano mag-request ng Good Moral? Saan po ito kinukuha?” added too many optional examples.
-Distinctive-label hints/global3-example bound: selector7749->7240tokens;338tests pass,
-isolated router exactquestion passes. `c20c1d1a` live3217 exactquestion answered/Taglish,
-Charter procedure/OSAS, HTTP9.92s (not browser time). API61132/server18844 ready200;
-allfive200, keepalive36880. Automated queries stopped. Owner18:33 validation sign-off:
-Final72Y; A07 inferred/waived, gate-pass selected-fragment condition retained.
-[Publication](../2026-11-06-owner-signoff-publication.md): push origin P12 first, then working
-branch, preserving remote image/history. Integrated542Python/22frontend/TypeScript pass;
-[alignment audit](../2026-11-06-human-automation-alignment.md) checks reported behaviors,
-four saved live outputs and gaps. Both origin branches verified at integrated `1685647e`,
-P12 pushed first, working second; no force/runtime changes. Next: owner testing and remaining
-explicitly unexecuted A07 cases. Continue the agreed answer-structure/prompt/frontend
-presentation pass on `p12-dev`; evaluation-branch changes require explicit coordination.
-No new source/Supabase or runtime changes; no independent full72 execution claim.
+Evaluation checkout is reserved for thesis evaluation; this task does not edit or publish it.
+Running web/API3216/8021 and3217/8022, shared model18088 are not reloaded by PR20 work.
+Historical PID/health notes are not a present health assertion. Sources, private uploads,
+database, credentials, model assets and dependencies remain unchanged by this task.
+Keep undergraduate advisory scope, unknown-versus-unmet, F04/source gaps and privacy limits.
+Browser bootstrap reports no available browser; actual390px/desktop verification is NOT RUN.
+Live model/PDF-backed human acceptance and latency comparisons are NOT RUN without an
+isolated authorized window. PR18/19 closures and promotion remain gated on acceptance evidence.
+Next: finish frozen regression gates and evidence matrix, then publish the reviewed candidate
+to the PR20 feature branch while retaining draft status.

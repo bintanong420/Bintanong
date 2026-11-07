@@ -6,9 +6,12 @@ Updated 7 November 2026. In progress; no numbered phase started or advanced.
 - Worktree `p12-pr20`, branch `feature/p12-unified-answer-pipeline`, targets `p12-dev`.
   Base `21be2614`; PR20 planning head `35fb0898`. Frozen evaluation checkout and
   running prod/dev services are untouched. Keep PR draft; no merge or activation.
-- Consulted: undergraduate/source-gap policies, thesis physical17–18, runtime routing
-  architecture, current phase/progress/index, PR20 plan/runbook and GitHub PR body.
+- Consulted: undergraduate/source-gap policies, thesis physical17–18 and39–44, runtime routing
+  architecture, master sections3/11/13, current phase/progress/index, PR20 plan/runbook and GitHub PR body.
   Scope remains undergraduate 2026–2027 advisory research; private inputs stay separate.
+  Thesis closed-world illustration is not a grade-completion rule: standing owner direction
+  preserves unknown versus documented unmet. Master13.3 permits explicitly limited independent
+  partial results; this does not certify a combined decision when another component is missing.
 
 ## Source import parity
 
@@ -37,12 +40,14 @@ in multi-topic passage merge while package B was being edited; not a clean final
   Research authorization and real-result labels remain pinned; child proofs stay separate.
 - Independent review fixes: scope clarification loop/goal retargeting, recursive safe legacy
   text, compound conditional metadata, document tool-failure retention and proof/citation binding.
+- Frozen candidate `be8948a5`: metadata/clarification additions require explicit version2 request;
+  old strict clients retain original stream metadata. Legacy validator fixture is independent of Git history.
 - Focused unified gate: 272 passed; final D/imported executor gate: 23 passed; labelled
   research/provenance gate: 29 passed (overlap, not summed). Frontend104 passed; TypeScript clean.
 - Next build with Webpack passes. Default Turbopack fails resolving the external reused
   node_modules junction; no dependency/config mutation to conceal that environmental limit.
-- Full default Python suite running. Stale legacy metadata, control-vocabulary and strict
-  calibration expectations reconciled; remaining failures are being investigated, not waived.
+- Pre-freeze monolithic run stopped at55% after exposing stale fixtures; not a passing gate.
+  Frozen exact default roster is being verified in isolated shards, with all failure IDs retained.
 - Next: finish full-suite reconciliation and final evidence matrix, then publish only PR20
   feature branch and retain draft. No source PR closures before acceptance evidence.
 
