@@ -84,7 +84,12 @@ in multi-topic passage merge while package B was being edited; not a clean final
   one footer and stacked mobile cells. [Evidence](2026-11-07-pr20-recovery-ui-polish.md):
   15 backend/109 frontend checks, TypeScript and production build pass; isolated real-component
   Edge replay1440/390 light/dark passes keyboard/source-count/overflow checks. Not full-chat UAT.
-- Next: owner exploratory review; remaining independent/browser/paired-language/latency acceptance
+- Recovery `0634d12c`: source consolidation and affected-course-first presentation;
+  [current evidence](2026-11-07-pr20-recovery-source-order.md).234 regressions pass; API reloaded,
+  proxy/identity200. Fresh chat answered;24 source GETs200, including11 Handbook passages.
+  Combined chat/source-read43.06s, not browser latency. Rechecked thesis scope/routing
+  excerpts and runtime PNG; undergraduate advisory boundary and unknown-versus-unmet preserved.
+- Next: owner exploratory review, then remaining independent/browser/paired-language/latency acceptance
   and owner review before merge. Context8192;12K remains proposed. Automated inference stopped.
 
 ## Verification boundaries

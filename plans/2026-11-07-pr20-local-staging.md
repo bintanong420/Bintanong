@@ -10,7 +10,7 @@ no mainline/evaluation merge, release activation, source edits or application da
   from the usual `127.0.0.1:3217` development URL. `127.0.0.1:3218` also serves staging.
 - API: `http://127.0.0.1:8023`; model: existing local container on18088.
 - Serving worktree: `p12-pr20`, branch `feature/p12-unified-answer-pipeline`.
-- Loaded commit: `9833bb7ac00dcbaf1e983a06e71e2134ddfadadf`; frontend production Webpack
+- Loaded API commit: `0634d12ced97b33786b2fa9719501ab4c8577ab3`; frontend production Webpack
   build includes `9833bb7a` (short labels, one footer and stacked mobile tables).
 - `/health/staging` returns the startup identity and flags; `/health/ready` checks model/Janus.
 - Existing reviewed cached research snapshot: `p12-research-faqsplit-20261030`,39 curricula.
@@ -28,7 +28,7 @@ It contains `start-api.py`, `start-web.ps1`, `pids.json`, `runtime.json`, startu
 Starts use existing Python3.13.5/Node24.21 environments and existing read-only model weights.
 Docker Desktop was already running; started existing `bintanong-p09-cuda-latency`, no pull or reconfiguration.
 CPU encoder loaded existing verified assets; no installs, downloads or dependency changes.
-Latest reload: API67924/server56188, web launcher5808. PIDs are evidence, not permanent identities;
+Latest API launcher9200; web launcher5808 unchanged. PIDs are evidence, not permanent identities;
 verify command and port before stopping/restarting a staging process. Original3217 launcher,
 evaluation worktree and mainline branches were not modified or started by this task.
 
@@ -65,6 +65,10 @@ restart Docker Desktop or unrelated services. Model context remains8192.
 Automated inference stopped after bounded checks; model slot is available for owner testing.
 Isolated real-component browser replay now covers1440/390px light/dark, keyboard disclosures,
 one source action and contained layout; see [UI evidence](2026-11-07-pr20-recovery-ui-polish.md).
-Full-chat/source-picker/screen-reader acceptance and independent72-case benchmark remain open.
+Recovery source/order `0634d12c`: live frontend query answered with24 sources; all24 GETs200,
+including11 labelled Handbook passages. Only2 disclosures; affected courses before recovery.
+[Evidence](2026-11-07-pr20-recovery-source-order.md);234 affected regressions pass. Combined
+chat/source-read43.06s is not browser or warm-pipeline latency.
+Authenticated-browser/source-picker/screen-reader acceptance and independent72-case benchmark remain open.
 Next: owner review of primary draft/disclosures, independent acceptance and paired compiler
 language/latency/browser checks before merge. Staging availability is not institutional approval.

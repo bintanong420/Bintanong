@@ -37,7 +37,7 @@ Last full snapshot before condensation: `743004ad` (`git show` recovers it).
 
 ## Runtime and boundaries
 
-Owner-authorized staging: http://localhost:3218/chat, API8023; APIa34c10c6, frontend651ce26d.
+Owner-authorized staging: http://localhost:3218/chat, API8023; API0634d12c, frontend9833bb7a.
 39 reviewed curricula, existing cached research snapshot; loopback guests/rate window0.
 Compiler/compound ON only in this staging composition; repository defaults unchanged.
 Context8192;12K is proposed/unmeasured. planView remains OFF. No dependency/model downloads.
@@ -57,11 +57,12 @@ stacked mobile table cells. [Evidence/research](../2026-11-07-pr20-recovery-ui-p
 15 backend presentation and109 frontend tests pass; TypeScript/production build pass.
 Existing Edge/Playwright checked isolated real-component replay1440/390px in light/dark,
 keyboard disclosures, source count and overflow; footer contrast6.58/7.66:1. This is not full-chat UAT.
-Owner review finding: saved recovery result has13 curriculum rule citations only; Handbook
-clauses are inline under Source quotations, absent from the source registry cards. Consolidate
-those pinned clauses into Sources before removing the quotation disclosure. Recovery overview
-currently leads with return timing before dependencies; question calls for affected courses first,
-then recovery timing/draft with adjacent assumptions and approval limits. No renderer change yet.
-Next: fix source consolidation and recovery section order, then full-chat/source-picker checks,
-independent acceptance, paired compiler OFF/ON language evaluation and latency measurement.
+Recovery `0634d12c`: affected courses precede the recovery plan; Handbook cards share Sources.
+[Evidence](../2026-11-07-pr20-recovery-source-order.md): saved BSCS replay answers with24 cards
+(13 curriculum/11 Handbook) and2 disclosures; missing/page-mismatched evidence retains quotes.
+Reviewed span metadata/labels preserved; existing D5 maximum-load source pointer added.
+13 source/9 presentation/6 frontend checks and4 browser size/theme replays pass; gates overlap.
+Broader gate234 passed; API0634d12c/proxy health200. Fresh live query answered and all24 source
+GETs passed, including11 labelled Handbook passages.43.06s combined chat/source-read observation.
+Next: owner exploratory review, then independent acceptance and paired language/latency work.
 No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.
