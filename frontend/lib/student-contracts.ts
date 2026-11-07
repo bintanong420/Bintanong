@@ -10,8 +10,9 @@ export const answerPresentationSchema = z.strictObject({
     evidenceNeed: z.enum(["structured", "document"]),
     conditional: z.boolean().optional(),
     state: z.enum(["answered", "unknown", "clarification_needed", "not_checked", "withheld", "unavailable"]),
-    blocks: z.array(z.strictObject({ type: z.enum(["summary", "verdict", "explanation", "limitation", "source_notice"]),
-      text: z.string().min(1).max(12000) })).min(1).max(8),
+    blocks: z.array(z.strictObject({ type: z.enum(["summary", "verdict", "explanation", "limitation", "source_notice", "details"]),
+      text: z.string().min(1).max(12000), title: z.string().min(1).max(160).optional(),
+    }).refine(block => (block.type === "details") === (block.title !== undefined), "Details require a title")).min(1).max(8),
     sourceIds: z.array(sourceIdSchema).max(64),
   })).min(1).max(8),
 }).superRefine((value, ctx) => {

@@ -12,8 +12,15 @@ class PresentationRecord(BaseModel):
 
 
 class PresentationBlock(PresentationRecord):
-    type: Literal['summary', 'verdict', 'explanation', 'limitation', 'source_notice']
+    type: Literal['summary', 'verdict', 'explanation', 'limitation', 'source_notice', 'details']
     text: str = Field(min_length=1, max_length=12000)
+    title: str | None = Field(default=None, min_length=1, max_length=160)
+
+    @model_validator(mode='after')
+    def disclosure(self):
+        if (self.type == 'details') != (self.title is not None):
+            raise ValueError('details_require_title')
+        return self
 
 
 class PresentationPart(PresentationRecord):
@@ -50,11 +57,13 @@ class AnswerPresentationV2(PresentationRecord):
         return self
 
 
-def build_answer_presentation(answer) -> dict | None:
+def build_answer_presentation(answer, course_labels=None) -> dict | None:
     """Fall back intact when part attribution cannot be safely represented."""
     ledger = answer.part_ledger
     if answer.status != 'answered' or answer.validation != 'validated' or ledger is None or ledger.errors:
         return None
+    if getattr(answer, 'recovery', None) is not None:
+        return _recovery_presentation(answer, course_labels or {})
     children = getattr(answer, 'part_answers', ())
     if children:
         parts = []
@@ -62,7 +71,7 @@ def build_answer_presentation(answer) -> dict | None:
         for child in children:
             if getattr(child.answer, 'part_answers', ()):
                 return None
-            view = build_answer_presentation(child.answer)
+            view = build_answer_presentation(child.answer, course_labels)
             if view is None:
                 # Host control messages keep their explicit state; they provide no supported claims.
                 if child.answer.status == 'answered' or child.answer.claims or child.answer.citations:
@@ -141,6 +150,50 @@ def _checked(parts):
     coverage = 'complete' if answered == len(parts) else 'partial' if answered else 'withheld'
     try:
         return AnswerPresentationV2.model_validate(dict(schemaVersion='bintanong-answer-presentation-v2',
-            coverageState=coverage, parts=parts)).model_dump()
+            coverageState=coverage, parts=parts)).model_dump(exclude_none=True)
     except ValidationError:
         return None
+
+
+def _recovery_presentation(answer, labels):
+    from backend.bintanong_generation.recovery_reply import recovery_sections
+
+    recovery, ledger = answer.recovery, answer.part_ledger
+    if (answer.dependencies is None or answer.structured_context is None or len(ledger.entries) != 1
+            or len(ledger.canonical_parts) != 1 or ledger.entries[0].status != 'mapped'
+            or not any(i.name == 'course_id' and i.value == recovery.failed_course_id
+                       for i in answer.structured_context.inputs)):
+        return None
+    courses = {recovery.failed_course_id, *answer.dependencies.course_ids,
+               *(c for draft in recovery.drafts for term in draft.terms
+                 for c in (*term.kept, *(p.course_id for p in term.moved))),
+               *(r.course_id for draft in recovery.drafts for term in draft.terms
+                 for r in term.verdict.reasons if r.course_id)}
+    if not courses <= labels.keys():
+        return None
+    english = answer.language in ('en', 'unknown')
+    sections = recovery_sections(recovery, answer.language, labels.__getitem__, answer.dependencies)
+    visible, alternatives, options, sources = [], [], [], []
+    primary_shown = False
+    for kind, lines in sections:
+        if kind == 'options':
+            options.extend(lines)
+        elif kind == 'sources':
+            sources.extend(lines)
+        elif kind == 'order' or kind == 'draft' and primary_shown:
+            alternatives.extend(lines)
+        else:
+            visible.extend(lines)
+        primary_shown |= kind == 'draft'
+    blocks = [dict(type='summary', text='\n'.join(visible).strip())]
+    for title, lines in (
+        ('Other drafts' if english else 'Iba pang draft', alternatives),
+        ('Recovery options and conditions' if english else 'Recovery options at conditions', options),
+        ('Source quotations' if english else 'Mga sipi sa source', sources),
+    ):
+        if any(line.strip() for line in lines):
+            blocks.append(dict(type='details', title=title, text='\n'.join(lines).strip()))
+    return _checked([dict(partId=ledger.entries[0].part_id,
+        label='Recovery draft', evidenceNeed='structured',
+        conditional=True, state='answered', blocks=blocks,
+        sourceIds=list(dict.fromkeys(c.evidence_id for c in answer.citations)))])

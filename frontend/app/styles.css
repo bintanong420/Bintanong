@@ -149,6 +149,9 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 .answer-block-limitation, .answer-block-source_notice { border-inline-start: 2px solid var(--border); padding-inline-start: 0.75rem; }
 .answer-part-sources { display: inline-block; margin-block-start: 0.5rem; min-block-size: 2.75rem; text-align: start; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
 .answer-part-sources:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.answer-details { min-inline-size: 0; overflow-wrap: anywhere; margin-block-start: 0.75rem; }
+.answer-details > summary { cursor: pointer; padding-block: 0.65rem; font-weight: 600; }
+.answer-details > summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .message-user { flex-direction: row-reverse; }
 .message-user .message-body { max-inline-size: min(75%, 36rem); }
 .message-card { padding: 0; gap: 0; border: 0; border-radius: 0.75rem; box-shadow: none; background: transparent; }

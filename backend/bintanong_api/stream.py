@@ -71,7 +71,7 @@ def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False
                            if slot.startswith(prefix) and (course_labels or {}).get(slot[len(prefix):]) == course['code']]
                 if len(matches) == 1:
                     course['slot'] = matches[0]
-    presentation = build_answer_presentation(answer) if presentation_version == 2 else None
+    presentation = build_answer_presentation(answer, course_labels) if presentation_version == 2 else None
     if presentation is not None:
         parts[-1]['data']['presentation'] = presentation
     view = build_plan_view(answer, course_labels or {}) if plan_view else None

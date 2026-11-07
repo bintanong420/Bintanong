@@ -281,8 +281,8 @@ NAMES = dict(regular_class='Regular class', special_class='Special class', off_s
 
 _MD = {
     'en': dict(
-        fastest='**Fastest: Draft {variant}**, back on your prescribed sequence by {term}. Each step still needs '
-                'approval.',
+        fastest='**Earliest projected return among these drafts: Draft {variant}**, by {term}. '
+                'This is not a confirmed feasible schedule; each step still needs approval.',
         fewest='**Draft {variant}** needs the fewest requests; Draft {fast} gets you back on your prescribed sequence '
                'soonest ({term}). Each step still needs approval.',
         only='**Draft {variant}** gets you back on your prescribed sequence by {term}. Each step still needs approval.',
@@ -311,8 +311,8 @@ _MD = {
         closing='These are drafts, not approved: show them to your program adviser. None of this confirms a class '
                 'offering, an approval, a grade or your academic standing.'),
     'taglish': dict(
-        fastest='**Pinakamabilis: Draft {variant}**, balik ka sa prescribed sequence mo pagdating ng {term}. Kailangan '
-                'pa rin ng approval ang bawat step.',
+        fastest='**Pinakamaagang projected return sa mga draft na ito: Draft {variant}**, sa {term}. '
+                'Hindi pa confirmed na feasible ang schedule; kailangan pa ng approval ang bawat step.',
         fewest='**Draft {variant}** ang may pinakakaunting request; ang Draft {fast} ang pinakamabilis makabalik sa '
                'prescribed sequence mo ({term}). Kailangan pa rin ng approval ang bawat step.',
         only='**Draft {variant}**: balik ka sa prescribed sequence mo pagdating ng {term}. Kailangan pa rin ng '
@@ -352,8 +352,8 @@ def _cell(text):
     return text.replace('|', '/')
 
 
-def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
-    """The whole Ask-mode reply as Markdown. dependencies: the reviewed affected-courses result, listed by term."""
+def recovery_sections(recovery, language, shown, dependencies=None):
+    """Host sections shared by full copy text and the progressive student view."""
     words, md = _words(language), _MD['en' if language in ('en', 'unknown') else 'taglish']
     clause = {c.kind: c for c in recovery.clauses}
     course = shown(recovery.failed_course_id)
@@ -369,22 +369,25 @@ def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
         lines.append(words['regular'])
     if dependencies is not None:
         lines.extend(['', '### ' + md['delayed'], *_delayed(dependencies, recovery, md, shown, language)])
-    lines.extend(['', '### ' + md['options'].format(course=course)])
+    sections = [('overview', lines)]
+    lines = ['', '### ' + md['options'].format(course=course)]
     lines.extend('- ' + line for line in removal_lines(recovery, language, shown, cite))
     when = f' ({term_label(recovery.next_offering, language)})' if recovery.next_offering is not None else ''
     for kind, key in (('regular_class', 'retake'), ('special_class', 'special'), ('off_semester', 'off_semester'),
                       ('summer', 'summer')):
         lines.append('- ' + md[key].format(ref=cite(clause[kind]), when=when))
-    lines.extend('- ' + line for line in status_lines(recovery, language, shown, cite))
-    lines.extend(['', '### ' + md['drafts']])
+    sections.append(('options', lines))
+    sections.append(('conditions', ['- ' + line for line in status_lines(recovery, language, shown, cite)]))
+    lines = ['', '### ' + md['drafts']]
     start = term_label(recovery.start_term, language)
     lines.append(words['stated'].format(start=start) if recovery.term_stated else words['assumed'].format(
         course=course, failed=term_label(recovery.failed_term, language), start=start))
     if not recovery.drafts:
         lines.append(words['none'])
+    sections.append(('assumptions', lines))
     for draft in recovery.drafts:
-        lines.extend(['', md['draft'].format(variant=draft.variant, title=words['titles'][draft.variant]),
-                      md['table'], md['rule']])
+        lines = ['', md['draft'].format(variant=draft.variant, title=words['titles'][draft.variant]),
+                 md['table'], md['rule']]
         lines.extend(_rows(draft, md, words, clause, shown, language, cite))
         unknown = dict.fromkeys(reason.course_id for term in draft.terms for reason in term.verdict.reasons
                                 if reason.kind == 'prerequisite_unknown')
@@ -392,6 +395,8 @@ def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
             lines.append(md['prereq_unknown'].format(course=', '.join(map(shown, unknown))))
         lines.append(words['beyond'] if draft.beyond_curriculum or draft.rejoin_term is None
                      else md['back'].format(term=term_label(draft.rejoin_term, language)))
+        sections.append(('draft', lines))
+    lines = []
     for dropped in recovery.dropped:
         lines.append(words['dropped'][dropped.reason].format(
             variant=dropped.variant, same=dropped.same_as, course=shown(dropped.course_id) if dropped.course_id else '',
@@ -399,10 +404,15 @@ def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
             missing=words['join'].join(map(shown, dropped.missing))))
     if len(recovery.drafts) > 1 and not recovery.fastest_asked:
         lines.append(words['order' if recovery.drafts[0].variant == 'D' else 'other_order'])
-    lines.extend(['', '### ' + md['sources']])
-    lines.extend(f'- **{name}** (Student Handbook p. {page}): "{text}"' for name, (page, text) in used.items())
-    lines.extend(['', md['closing']])
-    return lines
+    sections.append(('order', lines))
+    sections.append(('sources', ['', '### ' + md['sources'], *[
+        f'- **{name}** (Student Handbook p. {page}): "{text}"' for name, (page, text) in used.items()]]))
+    sections.append(('closing', ['', md['closing']]))
+    return sections
+
+
+def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
+    return [line for _, lines in recovery_sections(recovery, language, shown, dependencies) for line in lines]
 
 
 def _answer(recovery, md, language):

@@ -100,6 +100,21 @@ def route(text, value, ctx, monkeypatch, *, compiled=True):
     return asyncio.run(router.route(text, ctx))
 
 
+@pytest.mark.parametrize('key', CURRICULA)
+def test_two_explicit_checks_in_one_quoted_question_keep_separate_target_parts(key, monkeypatch):
+    c = CURRICULA[key]
+    a, b = c['main'][0], c['second'][0]
+    text = f'Maaari ko bang kunin ang {a} at {b}?'
+    value = wire(parts=[part('r1', text, 'structured', [0, 1])],
+        mentions=[('course', a, 0), ('course', b, 0)],
+        operations=[dict(name='check_prerequisite_eligibility', target=quote(a)),
+                    dict(name='check_prerequisite_eligibility', target=quote(b))])
+    result = route(text, value, context(key), monkeypatch)
+    assert result.diagnostic == 'compound_request'
+    assert [p.operation_indices for p in result.proposed.parts] == [(0,), (1,)]
+    assert [p.text for p in result.proposed.parts] == [a, b]
+
+
 def predicate(result):
     request = result.decision.predicate_request
     return (request.predicate, {i.name: i.value for i in request.inputs}.get('course_id')) if request else None

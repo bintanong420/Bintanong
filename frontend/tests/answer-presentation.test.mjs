@@ -66,4 +66,18 @@ test('Taglish status and constrained wrapping are retained without introducing c
   assert.match(css, /\.answer-part-header[^}]+flex-wrap: wrap/);
   assert.match(css, /\.answer-part-sources:focus-visible/);
 });
+test('recovery details are native disclosures while material warnings stay visible', () => {
+  const html = renderToStaticMarkup(React.createElement(AnswerPresentation, {
+    presentation: { schemaVersion: 'bintanong-answer-presentation-v2', coverageState: 'complete', parts: [
+      { partId: 'r1', label: 'Recovery draft', evidenceNeed: 'structured', state: 'answered', sourceIds: [],
+        blocks: [{ type: 'limitation', text: 'Load exceeds the prescribed total.' },
+          { type: 'details', title: 'Other drafts', text: '<script>unsafe()</script>\n\nAlternative.' }] },
+    ] }, language: 'en', sources: [], onSource() {},
+  }));
+  assert.match(html, /<details[^>]*><summary[^>]*>Other drafts<\/summary>/);
+  assert.ok(html.indexOf('Load exceeds') < html.indexOf('<details'));
+  assert.ok(!html.includes('<script>'));
+  assert.ok(!html.includes('<details open'));
+});
+
 test.after(() => hooks.deregister());

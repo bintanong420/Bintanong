@@ -509,6 +509,14 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
     for a in asks:
         if a[1] is None:
             a[1] = whole
+    shared = [a for a in asks if a[0] == 'structured']
+    if (len(shared) == 2 and shared[0][1] == shared[1][1]
+            and all(operations[a[2]]['name'] == 'check_prerequisite_eligibility' for a in shared)):
+        spans = [(a[4]['start'], a[4]['end']) for a in shared]
+        if spans[0][1] <= spans[1][0] or spans[1][1] <= spans[0][0]:
+            # The model supplied both checks; separate their literal targets without inventing an operation.
+            for ask, span in zip(shared, spans):
+                ask[1] = span
     # A topic-less document ask on the same words as a check adds nothing to answer; other clashes give up.
     checked = {tuple(a[1]) for a in asks if a[0] == 'structured'}
     asks = [a for a in asks if not (a[0] == 'document' and a[3].subject_id is None and tuple(a[1]) in checked)]

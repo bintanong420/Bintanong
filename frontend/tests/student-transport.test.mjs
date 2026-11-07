@@ -37,9 +37,16 @@ test('optional presentation is bounded, source-bound and safely falls back to va
   const send = value => sendStudentMessage(request, { signal: new AbortController().signal, onText() {},
     fetch: async () => response(sse(normal.map(p => p.type === 'data-answer' ? { ...p, data: { ...p.data, presentation: value } } : p))) });
   assert.deepEqual((await send(presentation)).presentation, presentation);
+    const disclosed = { ...presentation, parts: [{ ...presentation.parts[0], blocks: [
+      { type: 'summary', text: 'Load warning stays visible.' },
+      { type: 'details', title: 'Other drafts', text: 'Checked alternative.' },
+    ] }] };
+    assert.deepEqual((await send(disclosed)).presentation, disclosed);
   for (const invalid of [{ ...presentation, coverageState: 'partial' },
     { ...presentation, parts: [{ ...presentation.parts[0], sourceIds: ['ev-' + 'a'.repeat(64)] }] },
-    { ...presentation, parts: [{ ...presentation.parts[0], blocks: [{ type: 'html', text: '<script>x</script>' }] }] }]) {
+      { ...presentation, parts: [{ ...presentation.parts[0], blocks: [{ type: 'html', text: '<script>x</script>' }] }] },
+      { ...presentation, parts: [{ ...presentation.parts[0], blocks: [{ type: 'details', text: 'No label' }] }] },
+      { ...presentation, parts: [{ ...presentation.parts[0], blocks: [{ type: 'limitation', title: 'Hide warning', text: 'Warning' }] }] }]) {
     const answer = await send(invalid);
     assert.equal(answer.presentation, undefined);
     assert.equal(answer.text, 'Synthetic response.');
