@@ -9,6 +9,8 @@ export type ClarificationDrafts = Record<string, { value: string; explanation: s
 type Choice = { value: string; label: string; text: string; scope?: StudentScope };
 export type ClarificationQuestion = { key: string; title: string; options: Choice[] };
 export type SuppliedDetail = StudentScope & { key: string; code: string; label: string; text: string };
+export type ClarificationSubmission = { text: string; scope: StudentScope | null;
+  clarificationReply?: { replyToTurnId: string; revision: number; slots: { slot: string; value: string }[] } };
 type Answer = Pick<StudentAnswer, "status" | "language" | "missingFields" | "clarification">;
 export const copyForClarification = (language: StudentAnswer["language"]) => clarificationCopy[language === "unknown" ? "en" : language];
 
@@ -51,10 +53,13 @@ export function clarificationQuestions(answer: Answer, curricula: StudentCurricu
   return questions;
 }
 
-export function clarificationReply(original: string, answer: Answer, curricula: StudentCurriculum[], drafts: ClarificationDrafts): { text: string; scope: StudentScope | null } | null {
+export function clarificationReply(original: string, answer: Answer, curricula: StudentCurriculum[], drafts: ClarificationDrafts): ClarificationSubmission | null {
   const questions = clarificationQuestions(answer, curricula);
   if (!questions.length) return null;
-  const lines = [original];
+  const binding = answer.clarification?.binding;
+  const lines = [binding ? "" : original];
+  const slots: { slot: string; value: string }[] = [];
+  const used = new Set<string>();
   const canonical = answer.clarification?.scope;
   let scope: StudentScope | null = canonical && curricula.some(c => c.programId === canonical.programId && c.curriculumId === canonical.curriculumId) ? canonical : null;
   for (const question of questions) {
@@ -63,20 +68,31 @@ export function clarificationReply(original: string, answer: Answer, curricula: 
     if ((!option && !explanation) || (draft?.value && !option) || (option?.value === "other" && !explanation)) return null;
     if (question.key === "scope") scope = option?.scope ?? null;
     lines.push([option?.text, explanation].filter(Boolean).join("\n"));
+    const courseSlot = answer.clarification?.courses.find(c => question.key === `${c.kind}:${c.code}`)?.slot;
+    const slot = binding?.requestedSlots.find(s => !used.has(s) && s === (courseSlot ??
+      (question.key === "scope" ? "curriculum_id" : question.key === "course" ? "course_id" : question.key)));
+    if (slot && option) { used.add(slot); slots.push({ slot, value: explanation ? "other" : option.value }); }
   }
-  const text = `${lines[0]}\n\n${lines.slice(1).join("\n")}`;
+  const text = binding ? lines.slice(1).join("\n") : `${lines[0]}\n\n${lines.slice(1).join("\n")}`;
   if (text.length > 8192 || new TextEncoder().encode(text).byteLength > 16384) throw new Error("clarification_too_long");
-  return { text, scope };
+  return { text, scope, ...(binding ? { clarificationReply: { replyToTurnId: binding.replyToTurnId, revision: binding.revision, slots } } : {}) };
 }
 
-// Owner 3 Nov 2026 (fix 2): a typed reply to the leaving-or-incoming question is sent with the original question, as
-// the dialog choice is; the server keeps ids only, so the reply alone loses what was asked. Too long: the reply alone.
+// Older servers supply no binding, so their direction/program replies retain the original-question fallback.
+// Bound replies send the current utterance only; the host resolves their owned origin and revision.
 // Owner GUI 3 Nov 2026 (#12): a typed program name answering "Which program is this for?" selects that program, as
 // the dialog choice does; a name with several curricula, or no match, is sent as typed.
 // With no pending question (answer null), a typed program name asks the last question again for that program; the
 // last question is its first paragraph, before any choice lines the GUI appended.
-export function typedReply(original: string, answer: Answer | null, typed: string, curricula: StudentCurriculum[]): { text: string; scope: StudentScope | null } {
+export function typedReply(original: string, answer: Answer | null, typed: string, curricula: StudentCurriculum[]): ClarificationSubmission {
   const reply = typed.trim(), alone = { text: reply, scope: null };
+  const binding = answer?.clarification?.binding;
+  if (binding) {
+    const named = answer?.missingFields.includes("program")
+      ? curricula.filter(c => c.programName.trim().toLowerCase() === reply.toLowerCase()) : [];
+    const scope = named.length === 1 ? { programId: named[0].programId, curriculumId: named[0].curriculumId } : null;
+    return { text: reply, scope, clarificationReply: { replyToTurnId: binding.replyToTurnId, revision: binding.revision, slots: [] } };
+  }
   if (!answer) original = original.split("\n\n")[0];
   if (!original.trim()) return alone;
   let line = reply, scope: StudentScope | null = null;

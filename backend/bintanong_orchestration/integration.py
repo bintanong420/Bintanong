@@ -46,9 +46,10 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, co
     sources = {s.version_id:s.byte_sha256 for s in pin.sources}
     members = {d.chunk_id:(d.version_id,d.byte_sha256) for d in pin.documents}
     if documents is not None:
-        if documents.release_id != pin.release_id or any(
+        observations = (documents, *documents.topic_outcomes)
+        if any(o.release_id != pin.release_id for o in observations) or any(
                 members.get(p.chunk_id) != (c.version_id,c.byte_sha256)
-                for p in documents.passages for c in p.citations):
+                for o in observations for p in o.passages for c in p.citations):
             status = 'release_mismatch'
     if result is not None:
         if (not _identity_pinned(pin, result)
@@ -87,9 +88,9 @@ def assemble(pin, route, *, documents=None, symbolic=None, dependencies=None, co
             'insufficient_evidence':'no_evidence', 'unassessed':'no_evidence',
             # No reviewed topic matched: missing information, not something the student can clarify (owner E1).
             'needs_subject':'no_evidence', 'needs_claims':'clarify'}.get(documents.status)
-        if documents.status != 'ok':
+        if documents.status not in ('ok', 'partial'):
             doc_status = doc_status or 'error'
-        elif not documents.passages or documents.gaps:
+        elif not documents.passages or documents.status == 'ok' and documents.gaps:
             doc_status = 'no_evidence'
         # Both observations stay in the package. Availability cannot conceal a
         # conflict or operational failure in the other required branch.

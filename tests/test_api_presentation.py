@@ -2,6 +2,7 @@
 validator checks byte for byte) stays unchanged; the student view is derived from it."""
 import asyncio
 import re
+from types import SimpleNamespace
 
 import pytest
 
@@ -54,6 +55,23 @@ def test_canonical_text_is_left_unchanged():
     before = answer.text
     student_text(answer)
     assert answer.text == before and 'ev-' in before
+
+
+def test_compound_legacy_text_projects_each_validated_child_without_internal_scope_or_source_markers():
+    structured, document = answer_for('Symbolic'), answer_for('RAG')
+    children = (SimpleNamespace(part_id='r1', evidence_need='structured', answer=structured),
+                SimpleNamespace(part_id='r2', evidence_need='document', answer=document))
+    raw = '\n\n'.join(f'Bahagi {n}\n{part.answer.text}' for n, part in enumerate(children, 1))
+    citations = tuple({c.evidence_id: c for child in children for c in child.answer.citations}.values())
+    parent = SimpleNamespace(**{**structured.__dict__, 'part_answers': children, 'structured_context': None,
+        'decision': None, 'claims': document.claims, 'citations': citations, 'text': raw})
+    shown = student_text(parent)
+    assert shown == f'Bahagi 1\n{student_text(structured)}\n\nBahagi 2\n{student_text(document)}'
+    assert 'Check scope' not in shown and 'Sakop ng check' not in shown
+    assert structured.structured_context.operation not in shown
+    assert 'ev-' not in shown and not _CODE.search(shown)
+    assert all(claim.text in shown for claim in document.claims)
+    assert parent.text == raw
 
 
 def test_eligible_prerequisite_reply_does_not_repeat_explanation_and_rule():

@@ -19,7 +19,7 @@ import { PreviewDialog } from "./preview-dialog";
 import { FilePanel, type ChatFile } from "./file-panel";
 import { SourcePanel } from "./source-panel";
 import { ClarificationDialog } from "./clarification-dialog";
-import { clarificationQuestions, confirmedDetails, followUpMessage, sameScope, typedReply } from "@/lib/student-clarification";
+import { clarificationQuestions, confirmedDetails, followUpMessage, sameScope, typedReply, type ClarificationSubmission } from "@/lib/student-clarification";
 import { RephraseDialog, SuppliedDetailsPanel } from "./follow-up-dialog";
 
 /** m:ss, for the question-limit wait. */
@@ -31,6 +31,7 @@ function errorText(error: unknown) {
     if (error.code === "answers_busy") return "All answer slots are busy. Your question is still here; try again later.";
     if (error.code === "account_busy" || error.code === "chat_in_progress") return "Another question from this account or browser session is still running. Wait for it to finish or stop it in that tab.";
     if (error.code === "already_answered") return "That question already finished on the server. Edit or resend it explicitly if you need a new check.";
+    if (error.code === "clarification_expired" || error.code === "session_ended") return "This clarification has expired or the conversation changed. Ask your full question again, including the details you want checked.";
   }
   return "The request did not finish. Your conversation is still here. The server may have completed it; resending starts a new check.";
 }
@@ -46,7 +47,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
   const [detailsOpen, setDetailsOpen] = useState(false), [rephraseOpen, setRephraseOpen] = useState(false), [selectedDetails, setSelectedDetails] = useState<string[]>([]);
   // A question refused before it started: all answer slots busy, or this person's question limit (`limited`).
   // `retryAt` (epoch ms) is when it is sent again, null once automatic busy retries stop.
-  const [retry, setRetry] = useState<{ text: string; scope: StudentScope | null; attempt: number; retryAt: number | null; limited: boolean } | null>(null);
+  const [retry, setRetry] = useState<ClarificationSubmission & { attempt: number; retryAt: number | null; limited: boolean } | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const [review, setReview] = useState<{ text: string; scope: StudentScope | null } | null>(null);
   const [busy, setBusy] = useState<"chat" | "file" | "clear" | "signout" | null>(null), [signInNeeded, setSignInNeeded] = useState(false);
@@ -118,13 +119,13 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
       const last = state.messages.findLast(m => m.role === "user")?.text ?? "";
       const typed = typedReply(clarification?.original ?? last, clarification?.answer ?? null, state.draft, curricula);
       if (selectedDetails.length) setReview({ text, scope });
-      else if (typed && typed.text !== state.draft.trim()) {
+      else if (typed && (typed.clarificationReply || typed.text !== state.draft.trim())) {
         if (typed.scope) changeScope(curricula.find(c => sameScope(c, typed.scope)) ?? null);
-        void send({ text: typed.text, scope: typed.scope ?? scope, clearDraft: true });
+        void send({ ...typed, scope: typed.scope ?? scope, clearDraft: true });
       } else void send();
     } catch { dispatch({ type: "warning", warning: "This message could not be prepared. Shorten the question or review the selected course details." }); }
   }
-  async function send(confirmed?: { text: string; scope: StudentScope | null; clearDraft?: boolean; attempt?: number }) {
+  async function send(confirmed?: ClarificationSubmission & { clearDraft?: boolean; attempt?: number }) {
     const text = (confirmed?.text ?? state.draft).trim(), selectedScope = confirmed ? confirmed.scope : scope;
     // Owner decision, 3 Nov 2026: chat is locked until a program is chosen, whatever the DOM says.
     if (flight.current || !text || signInNeeded || !selectedScope) return;
@@ -132,7 +133,8 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
     setClarification(null); setSelectedDetails([]); setReview(null); setRetry(null);
     dispatch({ type: "submit", id: value.id, ...(confirmed ? { text, clearDraft: confirmed.clearDraft } : {}) }); setProgress("Connecting…");
     try {
-      const answer = await sendStudentMessage({ id: value.id, text, programId: selectedScope.programId, curriculumId: selectedScope.curriculumId }, {
+      const answer = await sendStudentMessage({ id: value.id, text, programId: selectedScope.programId, curriculumId: selectedScope.curriculumId,
+        ...(confirmed?.clarificationReply ? { clarificationReply: confirmed.clarificationReply } : {}) }, {
         signal: value.controller.signal,
         onText: text => { if (!value.controller.signal.aborted) dispatch({ type: "delta", id: value.id, text }); },
         onProgress: stage => { if (!value.controller.signal.aborted) setProgress(stages[stage]); },
@@ -149,7 +151,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
         const attempt = confirmed?.attempt ?? 1, limited = error.code === "rate_limited";
         dispatch({ type: "withdraw", id: value.id });
         const delay = limited ? error.retryAfter ?? 60 : busyRetryDelay(attempt);
-        setRetry({ text, scope: selectedScope, attempt, limited, retryAt: delay === null ? null : Date.now() + delay * 1000 });
+        setRetry({ text, scope: selectedScope, clarificationReply: confirmed?.clarificationReply, attempt, limited, retryAt: delay === null ? null : Date.now() + delay * 1000 });
         setNow(Date.now());
       } else dispatch({ type: "interrupt", id: value.id, warning: errorText(error) });
     }
@@ -159,7 +161,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
   const sendRef = useRef(send), retryRef = useRef(retry); sendRef.current = send; retryRef.current = retry;
   // A limit wait is not a busy attempt, so it does not use up the automatic busy retries.
   const resend = (current: NonNullable<typeof retry>) => sendRef.current({ text: current.text, scope: current.scope,
-    attempt: current.limited ? current.attempt : current.attempt + 1, clearDraft: false });
+    clarificationReply: current.clarificationReply, attempt: current.limited ? current.attempt : current.attempt + 1, clearDraft: false });
   function retryNow() { if (retry) void resend(retry); }
   function cancelRetry() { if (retry) { dispatch({ type: "draft", text: retry.text }); setRetry(null); } }
   useEffect(() => {
@@ -300,7 +302,7 @@ export function Workspace({ signedIn = false }: { signedIn?: boolean }) {
           const selected = needsScope ? reply.scope : reply.scope ?? clarification.scope;
           changeScope(curricula.find(c => c.curriculumId === selected?.curriculumId && c.programId === selected?.programId) ?? null);
           dispatch({ type: "remember", details: confirmedDetails(clarification.answer, curricula, drafts, selected) });
-          void send({ text: reply.text, scope: selected });
+          void send({ ...reply, scope: selected });
         }} />}
       <ProgramPicker open={scopeOpen} openCount={pickerKey} curricula={curricula} current={scope} status={curriculaStatus} onRetry={() => setCurriculaAttempt(n => n + 1)} busy={busy === "file" || busy === "clear" || busy === "signout"} onClose={() => setScopeOpen(false)} onSave={value => { changeScope(value); setScopeOpen(false); }} />
       {rephraseOpen && <RephraseDialog onClose={() => setRephraseOpen(false)} onUse={text => { draft(text); setRephraseOpen(false); }} />}

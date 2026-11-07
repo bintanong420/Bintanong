@@ -8,6 +8,7 @@ import type { StudentCurriculum, StudentSourceSummary } from "@/lib/student-cont
 import { pickFaqQuestions, sampleQuestionSets } from "@/lib/sample-questions";
 import { BrandMark } from "./brand-mark";
 import { MarkdownText } from "./markdown-text";
+import { AnswerPresentation } from "./answer-presentation";
 
 const rotateEveryMs = 4000;
 /**
@@ -66,26 +67,38 @@ export function Conversation({ state, progress, onSource, onClarify, onEdit, onR
       const notice = message.answer && answerNotice(message.answer);
       const latest = message.id === state.messages.at(-1)?.id;
       const hasQuestions = message.answer && clarificationQuestions(message.answer, []).length > 0;
+      const presentation = message.delivery === "interrupted" ? undefined : message.answer?.presentation;
+      const partSources = presentation && presentation.parts.length > 1;
+      const footerSources = message.answer?.sources.filter(source => !partSources ||
+        !presentation.parts.some(part => part.sourceIds.includes(source.sourceId))) ?? [];
+      const conditional = message.answer?.conditional || presentation?.parts.some(part => part.conditional);
+      const english = message.answer?.language === "en" || message.answer?.language === "unknown";
       return <article key={message.id} className={`message message-${message.role}`} aria-label={message.role === "user" ? "Your message" : "Bintanong response"}>
       {message.role === "assistant" ? <BrandMark className="message-avatar" /> : <span className="message-avatar"><CircleUserRound size={28} aria-hidden="true" /></span>}
       <div className="message-body"><Card className="message-card"><CardContent>
         {notice && <p className={`answer-notice status-${notice.tone}`}>{notice.label}</p>}
         {message.delivery === "interrupted" && <p className="supporting-copy">Response interrupted. Any text below may be incomplete.</p>}
-        {message.text && (message.role === "assistant" ? <MarkdownText text={message.text} /> : <p className="message-text">{message.text}</p>)}
-        {message.answer?.conditional && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
-        {message.answer?.notice && <p className="answer-disclaimer">{message.answer.notice}</p>}
+        {presentation && message.answer ? <AnswerPresentation presentation={presentation}
+          sources={message.answer.sources} language={message.answer.language} onSource={onSource} /> :
+          message.text && (message.role === "assistant" ? <MarkdownText text={message.text} /> : <p className="message-text">{message.text}</p>)}
       </CardContent></Card>
+      <footer className="message-footer">
       <div className="message-actions">
         {message.role === "user" && <Button type="button" variant="ghost" size="sm" onClick={() => onEdit(message.text)}><Pencil size={14} aria-hidden="true" />Edit as new question</Button>}
         {message.answer && <>
-          {!!message.answer.sources.length && <Button type="button" variant="outline" size="sm" className="source-link" onClick={() => onSource(message.answer!.sources)}><BookOpen size={14} aria-hidden="true" />Sources ({message.answer.sources.length})</Button>}
+          {!!footerSources.length && <Button type="button" variant="outline" size="sm" className="source-link" onClick={() => onSource(footerSources)}><BookOpen size={14} aria-hidden="true" />{partSources ? (english ? "Other sources" : "Iba pang source") : (english ? "Sources" : "Mga source")} ({footerSources.length})</Button>}
           <Button type="button" variant="ghost" size="sm" onClick={async () => { try { await navigator.clipboard.writeText(message.text); setCopyStatus("Answer copied."); } catch { setCopyStatus("Copy unavailable. Select the answer text to copy it."); } }}><Copy size={14} aria-hidden="true" />Copy answer</Button>
           {latest && !state.pending && message.answer.status === "clarification_needed" && <>
             {hasQuestions && canClarify && <Button type="button" variant="outline" size="sm" onClick={onClarify}>Continue clarification</Button>}
             <Button type="button" variant="ghost" size="sm" onClick={onRephrase}>Rephrase question</Button>
           </>}
         </>}
-      </div></div>
+      </div>
+      {(conditional || message.answer?.notice) && <p className="answer-disclaimer">
+        {conditional && <>{english ? "Course checks use the details you shared." : "Base ang course checks sa details na ibinigay mo."} </>}
+        {message.answer?.notice}
+      </p>}
+      </footer></div>
     </article>; })}
     {state.pending && <article className="working-card" role="status"><LoaderCircle className="request-indicator" size={18} aria-hidden="true" /><p>{progress}</p></article>}
     <p className="sr-only" role="status">{copyStatus}</p>

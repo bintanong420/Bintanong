@@ -133,11 +133,17 @@ class RequestContext(Record):
     facts: tuple[ScopedFact, ...] = Field(default=(), max_length=256)
     conversation: ConversationContext | None = None
     dialogue: DialogueContext | None = Field(default=None, exclude_if=lambda v: v is None)
+    reply_to_turn_id: str | None = Field(default=None, pattern=r'^turn-[a-f0-9]{16}$',
+                                         exclude_if=lambda v: v is None)
 
     @model_validator(mode='after')
     def _ownership(self):
         if self.dialogue is not None and self.dialogue.session_id != self.session_id:
             raise ValueError('foreign_dialogue')
+        if self.reply_to_turn_id is not None and (self.dialogue is None or
+                self.dialogue.pending_turn_id != self.reply_to_turn_id or
+                not any(t.turn_id == self.reply_to_turn_id for t in self.dialogue.turns)):
+            raise ValueError('unowned_clarification_reply')
         if len({f.fact_id for f in self.facts}) != len(self.facts):
             raise ValueError('duplicate_fact_id')
         for f in self.facts:

@@ -90,6 +90,8 @@ class CoverageObservation(Record):
 
 class CandidateAnswer(Contract):
     SCHEMA_VERSION='bintanong-candidate-answer-v2'
+    part_answers: tuple['AnswerPart', ...] = Field(default=(), max_length=3,
+        exclude_if=lambda value: not value)
     plan_check: PlanCheckResult|None=Field(default=None,exclude_if=lambda value: value is None)
     # Ask mode: the recovery result the text renders (render.shown_recovery); the API's plan view reads it.
     recovery: RecoveryResult|None=Field(default=None,exclude_if=lambda value: value is None)
@@ -135,6 +137,27 @@ class CandidateAnswer(Contract):
 
     @model_validator(mode='after')
     def _limits(self):
+        if self.part_answers:
+            from .compound import bind_answers
+            claims, entries, canonical, citations = bind_answers(self.part_answers)
+            ids = tuple(p.part_id for p in self.part_answers)
+            if (len(ids) not in (2, 3) or len(set(ids)) != len(ids) or self.decision is not None
+                    or self.structured_context is not None or self.part_ledger is None
+                    or tuple(e.part_id for e in self.part_ledger.entries) != ids):
+                raise ValueError('compound_answer_shape_mismatch')
+            if (self.claims != claims or self.citations != citations or self.part_ledger.entries != entries
+                    or self.part_ledger.canonical_parts != canonical
+                    or self.missing_facts != tuple(dict.fromkeys(f for p in self.part_answers for f in p.answer.missing_facts))
+                    or (self.status == 'answered') != any(p.answer.status == 'answered' for p in self.part_answers)):
+                raise ValueError('compound_answer_provenance_mismatch')
+            for part in self.part_answers:
+                child = part.answer
+                if (child.part_answers or child.request_id != self.request_id
+                        or (child.release_id != self.release_id and not (
+                            child.release_id is None and child.status != 'answered' and not child.citations
+                            and child.decision is None and not child.claims)) or child.language != self.language
+                        or not {c.evidence_id for c in child.citations} <= {c.evidence_id for c in self.citations}):
+                    raise ValueError('compound_answer_binding_mismatch')
         if self.status=='system_information' and (self.claims or self.citations or self.decision is not None
                 or self.structured_context is not None or self.dependencies is not None
                 or self.part_ledger is not None or self.missing_facts or self.draft_attempts
@@ -181,3 +204,12 @@ class CandidateAnswer(Contract):
         if type(self.dependencies) is ResearchDependencyResult and self.research_ref is None:
             raise ValueError('research_dependencies_require_reference')
         return self
+
+
+class AnswerPart(Record):
+    part_id: str = Field(pattern=r'^r[1-8]$')
+    evidence_need: Literal['structured', 'document']
+    answer: CandidateAnswer
+
+
+CandidateAnswer.model_rebuild()

@@ -1,13 +1,13 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { StudentAnswer, StudentCurriculum, StudentScope } from "@/lib/student-contracts";
-import { clarificationQuestions, clarificationReply, copyForClarification, type ClarificationDrafts } from "@/lib/student-clarification";
+import { clarificationQuestions, clarificationReply, copyForClarification, type ClarificationDrafts, type ClarificationSubmission } from "@/lib/student-clarification";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { PreviewDialog } from "./preview-dialog";
 
 export function ClarificationDialog({ answer, original, curricula, status, open, onClose, onRetry, onConfirm }: {
   answer: StudentAnswer; original: string; curricula: StudentCurriculum[]; status: "loading" | "ready" | "failed";
-  open: boolean; onClose: () => void; onRetry: () => void; onConfirm: (reply: { text: string; scope: StudentScope | null }, drafts: ClarificationDrafts) => void;
+  open: boolean; onClose: () => void; onRetry: () => void; onConfirm: (reply: ClarificationSubmission, drafts: ClarificationDrafts) => void;
 }) {
   const [drafts, setDrafts] = useState<ClarificationDrafts>({}), [step, setStep] = useState(0), [reviewing, setReviewing] = useState(false);
   const copy = copyForClarification(answer.language), questions = clarificationQuestions(answer, curricula), question = questions[step];

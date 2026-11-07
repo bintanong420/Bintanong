@@ -94,10 +94,12 @@ def test_listing_follows_the_reply_language(language, heading, line):
     assert heading in text and line in text
 
 
-def test_unreviewed_curriculum_gets_the_reviewed_sources_referral():
+def test_unreviewed_curriculum_withholds_facts_and_refers_to_the_office():
     reply = answer(result('list_term_courses', term_inputs(), status='not_reviewed'))
     assert reply.status == 'insufficient_evidence'
-    assert "not in Bintanong's reviewed sources yet" in student_text(reply)
+    assert 'university office' in student_text(reply)
+    assert not reply.claims and not reply.citations
+    assert 'couldn\'t verify a complete answer' in student_text(reply)
 
 
 def test_research_release_refuses_synthetic_course_facts():

@@ -83,8 +83,8 @@ def _status(engine, **options):
     return asyncio.run(RetrievalAdapter(engine, **options).retrieve(request)).status
 
 
-def test_research_mode_answers_only_reviewed_fields_available():
-    assert _status(StatusEngine('uncalibrated', 'reviewed_fields_available'), research=True) == 'ok'
+def test_research_mode_keeps_unbound_reviewed_fields_uncalibrated():
+    assert _status(StatusEngine('uncalibrated', 'reviewed_fields_available'), research=True) == 'uncalibrated'
 
 
 def test_research_mode_keeps_every_other_result_withheld():
@@ -113,7 +113,7 @@ def _gaps(engine, **options):
     return asyncio.run(RetrievalAdapter(engine, **options).retrieve(request)).gaps
 
 
-def test_research_upgrade_removes_only_the_calibration_gap():
-    assert _gaps(GapEngine(['development_calibration_pending']), research=True) == ()
-    assert _gaps(GapEngine(['development_calibration_pending', 'source_gap']), research=True) == ('source_gap',)
+def test_unbound_research_report_keeps_calibration_and_source_gaps():
+    assert _gaps(GapEngine(['development_calibration_pending']), research=True) == ('development_calibration_pending',)
+    assert _gaps(GapEngine(['development_calibration_pending', 'source_gap']), research=True) == ('development_calibration_pending', 'source_gap')
     assert _gaps(GapEngine(['development_calibration_pending'])) == ('development_calibration_pending',)

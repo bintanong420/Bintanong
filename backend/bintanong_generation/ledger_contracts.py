@@ -19,7 +19,7 @@ class LedgerEntry(Record):
     part_id: PartID
     status: Literal['mapped', 'missing', 'unavailable', 'uncertain', 'unresolved']
     claim_ids: tuple[ClaimID, ...] = Field(default=(), max_length=8)
-    reason: Literal['not_in_evidence', 'source_gap', 'structured_check_not_run', 'uncertain',
+    reason: Literal['not_in_evidence', 'source_gap', 'structured_check_not_run', 'document_check_not_run', 'uncertain',
                     'missing_mapping', 'unknown_requirement_kind'] | None = None
 
 

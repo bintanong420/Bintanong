@@ -14,10 +14,7 @@ from .contracts import (TERM_OPERATIONS, CatalogEntry, ConversationContext, Dial
 from .style import StyleEvidence
 from .languages import unsupported_language
 from .terms import parse_term
-
-OPERATIONS = ('check_prerequisite_eligibility', 'list_course_prerequisites', 'list_missing_prerequisites',
-              'list_affected_courses', 'course_facts', 'list_term_courses', 'assess_term_prerequisites',
-              'check_study_plan', 'earliest_course_term')
+from .domains import OPERATIONS, route_for_evidence_needs
 LISTING = 'list_course_prerequisites'
 
 class GroundedClaim(ScopedFact):
@@ -400,8 +397,9 @@ def validate_interpretation(text: str, context: RequestContext, interpretation: 
         return result('unknown_requirement')
     if any(part.evidence_need == 'structured' and not part.operation_indices for part in p.parts):
         return result('unsupported_requirement', 'evidence_unavailable')
-    expected = {frozenset({'document'}): 'RAG', frozenset({'structured'}): 'Symbolic',
-                frozenset({'document', 'structured'}): 'Hybrid'}[frozenset(needs)]
+    expected = route_for_evidence_needs(needs)
+    if expected is None:
+        return result('unsupported_requirement', 'evidence_unavailable')
     covered_operations = {i for part in p.parts for i in part.operation_indices}
     if covered_operations != set(range(len(p.operations))):
         return result('inconsistent_requirements', 'evidence_unavailable')

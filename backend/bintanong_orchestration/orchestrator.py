@@ -11,6 +11,7 @@ from ..bintanong_contracts.symbolic import SymbolicResult
 from ..bintanong_retrieval.types import RetrievalRequest
 from ..bintanong_routing.contracts import RequestContext, ScopedFact, prepare_query
 from ..bintanong_routing.router import Router
+from ..bintanong_routing.domains import operation_domain
 from ..bintanong_routing.validation import effective_facts, facts_for_term
 from ..bintanong_routing.combined import CombinedRouter
 from ..bintanong_routing.topic_selection import ABSENCE, ABSENCE_TOPICS, SHIFT, SHIFT_TOPICS
@@ -19,7 +20,7 @@ from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import DependencyResult, ResearchDependencyResult, ResearchSymbolicResult
 from .adapters import AdapterFailure
 from .term_assessment import TermAssessmentResult
-from .contracts import DocumentResult, IntegrationResult, StageEvent, RequestUnderstanding
+from .contracts import DocumentResult, DocumentTopicOutcome, IntegrationResult, StageEvent, RequestUnderstanding
 from .integration import assemble
 from .reasons import evidence_reason, routing_reason
 from ..bintanong_private_context.conversation import previous_refs
@@ -52,14 +53,15 @@ FEE_PRECEDENCE = {'H101/C79 overdue fine applicability and precedence unresolved
                   (('charter_returns', 'printed returns fields'), ('handbook_library', 'printed library fields'))}
 
 
-def _topic_intents(proposed, conversation=None):
+def _topic_intents(proposed, conversation=None, *, bind_parts=False):
     """Each chosen document topic with its facts and its parts' words, in part order (owner step 2e: every topic is
     retrieved). The words are the topic's query only when there are several topics (live: the whole two-topic
     message found nothing for its special-class fee part); a single topic keeps the whole message."""
     parts = [p for p in proposed.parts if p.evidence_need == 'document' and p.subject_id]
     if not parts:
-        return [(None, dict(subject_id=None, requested_claims=None))]
-    claims, texts = {}, {}
+        result = (None, dict(subject_id=None, requested_claims=None))
+        return [(*result, ()) if bind_parts else result]
+    claims, texts, part_ids = {}, {}, {}
     for p in parts:
         shifting_follow_up = (conversation is not None and conversation.subject_id in SHIFT_TOPICS
                               and p.subject_id in SHIFT_TOPICS and not SHIFT.search(p.text))
@@ -68,6 +70,7 @@ def _topic_intents(proposed, conversation=None):
             for subject, wanted in FEE_PRECEDENCE.get(claim, ((p.subject_id, claim),)):
                 claims.setdefault(subject, {})[wanted] = None
                 texts.setdefault(subject, {})[query] = None
+                part_ids.setdefault(subject, {})[p.part_id] = None
         # Owner 2 Nov 2026 (#3): an absence question gets the attendance rule and the sickness certificate together.
         # Owner 3 Nov 2026 (H8): a shifting question gets the 4.1 rule and the FAQ 8 steps together.
         for topics, cue in ((ABSENCE_TOPICS, ABSENCE), (SHIFT_TOPICS, SHIFT)):
@@ -76,24 +79,47 @@ def _topic_intents(proposed, conversation=None):
             for subject, wanted in topics.items():
                 claims.setdefault(subject, {})[wanted] = None
                 texts.setdefault(subject, {})[query] = None
+                part_ids.setdefault(subject, {})[p.part_id] = None
         if p.subject_id in FACILITY_TOPICS and general_facility_request(p.text):
             for subject, wanted in FACILITY_TOPICS.items():
                 claims.setdefault(subject, {})[wanted] = None
                 texts.setdefault(subject, {})[query] = None
-    return [(' '.join(texts[s]) if len(claims) > 1 else None, dict(subject_id=s, requested_claims=tuple(claims[s])))
-            for s in claims]
+                part_ids.setdefault(subject, {})[p.part_id] = None
+    selections = [(' '.join(texts[s]) if len(claims) > 1 else None,
+                   dict(subject_id=s, requested_claims=tuple(claims[s])), tuple(part_ids[s])) for s in claims]
+    return selections if bind_parts else [(words, intent) for words, intent, _ in selections]
 
 
 def merge_documents(results):
-    """One result for several topics: the first one that is not 'ok' (any topic without evidence leaves the
-    message unanswered, as integration requires), otherwise every distinct passage and gap in order."""
-    failed = next((r for r in results if r.status != 'ok'), None)
-    if failed is not None:
-        return failed
-    passages = {p.chunk_id: p for r in results for p in r.passages}
+    """Preserve independent successful topics; trust/conflict failures still hold globally."""
+    if not results:
+        raise ValueError('document_results_required')
+    outcomes = tuple(o for r in results for o in r.topic_outcomes)
+    if len({r.release_id for r in results}) != 1:
+        return DocumentResult(release_id=results[0].release_id, status='release_changed',
+            passages=(), gaps=('document_topic_release_mismatch',), topic_outcomes=outcomes)
+    soft = {'insufficient_evidence', 'unassessed', 'needs_subject'}
+    held = next((r for r in results if r.status not in {'ok'} | soft), None)
+    if held is not None:
+        return held.model_copy(update=dict(topic_outcomes=outcomes))
+    successful = [r for r in results if r.status == 'ok' and r.passages and not r.gaps]
+    incomplete = [r for r in results if r.status != 'ok' or r.topic_outcomes and r not in successful]
+    good_parts = {p for o in outcomes if o.status == 'ok' and o.passages and not o.gaps for p in o.part_ids}
+    failed_parts = {p for o in outcomes if o.status != 'ok' or not o.passages or o.gaps for p in o.part_ids}
+    partial = bool(incomplete and good_parts - failed_parts)
+    if incomplete and not partial:
+        failed = next((r for r in incomplete if r.status != 'ok'), incomplete[0])
+        return failed.model_copy(update=dict(topic_outcomes=outcomes))
+    selected = successful if partial else results
+    passages = {}
+    for result in selected:
+        for passage in result.passages:
+            if passage.chunk_id in passages and passages[passage.chunk_id] != passage:
+                raise ValueError('incompatible_document_chunk')
+            passages[passage.chunk_id] = passage
     gaps = dict.fromkeys(g for r in results for g in r.gaps)
     coverage = {}
-    for result in results:
+    for result in selected:
         for item in result.record_coverage:
             key = (item.subject_id, item.claim)
             previous = coverage.get(key)
@@ -107,6 +133,7 @@ def merge_documents(results):
                     chunk_ids=tuple(dict.fromkeys(previous.chunk_ids + item.chunk_ids))))
     value = results[0].model_dump(mode='json')
     value.update(passages=[p.model_dump(mode='json') for p in passages.values()], gaps=list(gaps),
+        status='partial' if partial else 'ok', topic_outcomes=[o.model_dump(mode='json') for o in outcomes],
         record_coverage=[item.model_dump(mode='json') for item in coverage.values()])
     return DocumentResult.parse(value)
 
@@ -127,7 +154,7 @@ def choice_labels(details, missing):
 
 class Orchestrator:
     def __init__(self, transport, *, releases=None, stage_timeout=120.0,
-                 routing_profile='separate', topic_selection=False):
+                 routing_profile='separate', topic_selection=False, compound_checks=False):
         if (type(stage_timeout) not in (int,float) or not math.isfinite(stage_timeout)
                 or not 0 < stage_timeout <= 300):
             raise ValueError('stage_timeout_must_be_finite_positive_at_most_300')
@@ -140,6 +167,9 @@ class Orchestrator:
         self.stage_timeout = float(stage_timeout)
         self.routing_profile = routing_profile
         self.topic_selection = topic_selection  # opt-in Router candidate narrowing for large menus
+        if type(compound_checks) is not bool:
+            raise ValueError('invalid_compound_checks')
+        self.compound_checks = compound_checks
 
     async def run(self, text: str, context: RequestContext, *, routed_sink=None) -> IntegrationResult:
         """routed_sink, when given, receives the routing result so the owning host can capture
@@ -282,6 +312,20 @@ class Orchestrator:
         if routed_sink is not None:
             routed_sink(routed)
         route, style = routed.decision.route, routed.response_style
+        if self.compound_checks and routed.diagnostic == 'compound_request':
+            from .compound import CompoundNotSupported
+            from .compound_pipeline import compose_compound
+            try:
+                return await compose_compound(text, context, routed, resources,
+                    timeout_seconds=self.stage_timeout, events=events)
+            except CompoundNotSupported:
+                pass  # The ordinary compound clarification retains every unsupported request.
+            except TimeoutError:
+                return finish('timeout')
+            except (ValueError, TypeError, KeyError, AttributeError):
+                return finish('invalid_output')
+            except Exception:
+                return finish('tool_error')
         if routed.decision.control is not None:
             return finish(routed.decision.control, missing=routed.decision.missing_facts,
                           reason=routing_reason(routed.diagnostic, routed.decision.control))
@@ -296,12 +340,20 @@ class Orchestrator:
                 # Only document versions hold chunks; curriculum sources are for Prolog.
                 document_version_ids=tuple(dict.fromkeys(d.version_id for d in resources.pin.documents)))
             results = []
-            for words, intent in (_topic_intents(routed.proposed, context.conversation) if resources.topics else [(None, {})]):
+            for words, intent, part_ids in (_topic_intents(routed.proposed, context.conversation, bind_parts=True)
+                    if resources.topics else [(None, {}, ())]):
                 topic_request = request if words is None else replace(request, query=prepare_query(words))
                 value = await resources.retrieval.retrieve(topic_request, **intent)
                 if type(value) is not DocumentResult:
                     raise ValueError('typed_document_result_required')
-                results.append(DocumentResult.parse(value.model_dump(mode='json')))
+                value = DocumentResult.parse(value.model_dump(mode='json'))
+                if intent.get('subject_id'):
+                    outcome = DocumentTopicOutcome(part_ids=part_ids, subject_id=intent['subject_id'],
+                        requested_claims=intent['requested_claims'], release_id=value.release_id,
+                        status=value.status, passages=value.passages, gaps=value.gaps,
+                        record_coverage=value.record_coverage)
+                    value = value.model_copy(update=dict(topic_outcomes=(outcome,)))
+                results.append(value)
             return merge_documents(results)
 
         async def reason():
@@ -357,7 +409,7 @@ class Orchestrator:
                         or value.synthetic is research_pin):
                     raise ValueError('operation_result_mismatch')
                 return TermAssessmentResult.parse(value.model_dump(mode='json'))
-            if request.predicate in ('course_facts', 'list_term_courses', 'list_course_prerequisites'):  # printed facts; no rule executed
+            if operation_domain(request.predicate) == 'curriculum_catalog':  # printed facts; no rule executed
                 if (type(value) is not CourseFactsResult or value.inputs != request.inputs
                         or value.predicate != request.predicate or value.synthetic is research_pin):
                     raise ValueError('operation_result_mismatch')
@@ -400,6 +452,8 @@ class Orchestrator:
             dependencies = result
             recovery = await self._recovery(text, routed.decision.predicate_request, scoped, resources, result,
                                             follow_up=context if routed.compiled else None)
+            if recovery is not None and resources.plan_route_sources is not None:
+                plan_routes = resources.symbolic.recovery_routes(scoped.curriculum_id)
         elif isinstance(result, CourseFactsResult):
             course_facts = result
         elif isinstance(result, TermAssessmentResult):
@@ -419,7 +473,7 @@ class Orchestrator:
     async def _recovery(self, text, request, scoped, resources, dependencies, *, follow_up=None):
         """Ask mode (owner 4 Nov 2026): recovery routes and greedy drafts when the dependency question also asks
         what to take or how to recover. A draft failure keeps the plain dependency answer; it never fails the turn."""
-        from ..bintanong_routing.recovery_cue import asks_recovery, recovery_follow_up
+        from ..bintanong_routing.recovery_cue import asks_recovery, asks_fastest_recovery, recovery_follow_up
         from ..bintanong_routing.terms import parse_term
         recover = getattr(resources.symbolic, 'recover', None)
         if (recover is None or not (asks_recovery(text) or (follow_up is not None and recovery_follow_up(text, follow_up)))
@@ -428,7 +482,8 @@ class Orchestrator:
         try:
             async with asyncio.timeout(self.stage_timeout):
                 value = await recover(request, scoped, dependencies.course_ids, parse_term(text),
-                                      regular_asked=bool(re.search(r'\bregular\b', text, re.I)))
+                                      regular_asked=bool(re.search(r'\bregular\b', text, re.I)),
+                                      fastest_asked=asks_fastest_recovery(text))
         except (ValueError, TypeError, KeyError, AttributeError, AdapterFailure, TimeoutError):
             return None
         return None if value is None or value.synthetic is not resources.pin.synthetic else value

@@ -52,6 +52,26 @@ def test_runtime_uses_existing_source_chunks_without_retrieval():
     assert proof == documents
 
 
+def test_runtime_preserves_reviewed_field_span_links_from_chunk_metadata():
+    from backend.bintanong_runtime.research import route_passage
+    pin, routes, documents = inputs()
+    original = documents.passages[0]
+    record = json.loads(original.text)
+    association = dict(record['fields'][0])
+    record['fields'][0].pop('span_indexes')
+    chunk = dict(chunk_id=original.chunk_id, version_id=original.version_id, text=json.dumps(record),
+                 spans=[c.model_dump(mode='json') for c in original.citations],
+                 type_fields=dict(field_associations=[association]))
+    passage = route_passage(chunk)
+    assert json.loads(passage.text)['fields'][0] == association
+    check_route_sources(pin, routes, documents.model_copy(update=dict(passages=(passage, *documents.passages[1:]))))
+    chunk['source_label'] = 'Fictional handbook.pdf'
+    assert route_passage(chunk).citations[0].filename == 'Fictional handbook.pdf'
+    chunk['type_fields']['field_associations'][0] = dict(association, value='Unrelated field text.')
+    with pytest.raises(ValueError, match='plan_route_field_association_missing'):
+        route_passage(chunk)
+
+
 def test_coordinated_page_corruption_cannot_relabel_a_clause():
     pin,routes,documents = inputs()
     data = documents.model_dump(mode='json')

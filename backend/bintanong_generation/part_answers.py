@@ -316,8 +316,12 @@ def host_claims(pack):
     held = set(malformed_records(pack))
     service = service_claims(pack, fixed)
     printed = held_service_parts(pack, service) - set(fixed)
+    unavailable = unavailable_document_parts(pack)
+    sources = topic_record_sources(pack)
     return {part: reply for part, reply in {**service, **fixed}.items()
-            if part in printed or not any(set(_ids(evidence)) & held for _, evidence in reply)}
+            if part not in unavailable and (part not in sources
+                or all(set(_ids(evidence)) <= sources[part] for _, evidence in reply))
+            and (part in printed or not any(set(_ids(evidence)) & held for _, evidence in reply))}
 
 
 def held_service_parts(pack, service):
@@ -399,6 +403,16 @@ def document_parts(pack):
                  and p.part_id not in host)
 
 
+def unavailable_document_parts(pack):
+    """Failed retrieval is a host observation, never a slot the model may fill from another topic."""
+    return {part for outcome in pack.document_topics
+            if outcome.status != 'ok' or not outcome.passages or outcome.gaps for part in outcome.part_ids}
+
+
+def topic_record_sources(pack):
+    return {part: set(refs) for part, refs in pack.document_part_sources}
+
+
 def part_schema(pack, references=None):
     schema = output_schema(ShortPartExplanation if references is not None else PartExplanation)
     slot, claim = ('ShortPartSlot', 'ShortPartClaim') if references is not None else ('PartSlot', 'PartClaim')
@@ -413,8 +427,13 @@ def part_schema(pack, references=None):
     schema['$defs'][slot]['properties']['claims']['maxItems'] = max(1, budget // max(1, len(ids)))
     schema['$defs'][claim]['properties']['evidence_ids']['items'] = dict(type='string',
         enum=[aliases[c.evidence_id] for c in pack.cards if c.kind == 'document'])
+    for part in unavailable_document_parts(pack) & set(ids):
+        unavailable = copy.deepcopy(schema['$defs'][slot])
+        unavailable['properties']['status'] = dict(type='string', const='not_in_evidence')
+        unavailable['properties']['claims'].update(maxItems=0)
+        schema['properties']['answers']['properties'][part] = unavailable
     for part,(text,ref) in quoted_field_parts(pack).items():
-        if part not in ids:
+        if part not in ids or part in unavailable_document_parts(pack):
             continue
         quoted_slot = copy.deepcopy(schema['$defs'][slot])
         quoted_claim = copy.deepcopy(schema['$defs'][claim])
@@ -465,6 +484,10 @@ def continued_records(pack):
 def part_messages(text, pack, *, errors=(), previous='', references=None):
     payload = dict(untrusted_question=text, evidence=document_payload(pack, compact=True),
         validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
+    if pack.document_topics:
+        payload['document_topic_outcomes'] = [dict(part_ids=o.part_ids, subject_id=o.subject_id,
+            requested_claims=o.requested_claims, status=o.status, gaps=o.gaps)
+            for o in pack.document_topics]
     if any(error.startswith('part_question_not_answered:') for error in errors):
         payload['question_coverage_repair'] = (
             'The previous draft was source-supported but did not answer the named question part. '
@@ -733,12 +756,26 @@ def to_draft(explanation, pack, *, coverage_retry_parts=()):
     claims, slots, conflict_ids = [], {}, {}
     requirements = required_record_sources(pack)
     parts_by_id = {p.part_id: p for p in (pack.understanding.parts if pack.understanding else ())}
+    unavailable = unavailable_document_parts(pack)
+    topic_sources = topic_record_sources(pack)
     for index, part_id in enumerate(ids):
         conflict = context = quoted = None
         slot = explanation.answers[part_id]
         proposed = slot.claims if slot.status == 'answered' else ()
+        if part_id in unavailable:
+            if slot.status == 'answered':
+                raise ValueError('document_topic_unavailable:' + part_id)
+            unchecked = any(o.status in ('unassessed', 'needs_subject')
+                            for o in pack.document_topics if part_id in o.part_ids)
+            source_gap = any(o.status == 'ok' and o.gaps
+                             for o in pack.document_topics if part_id in o.part_ids)
+            slots[part_id] = ('document_check_not_run' if unchecked else 'source_gap' if source_gap
+                             else 'not_in_evidence', ())
+            continue
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
             raise ValueError('non_document_evidence')
+        if part_id in topic_sources and any(not set(c.evidence_ids) <= topic_sources[part_id] for c in proposed):
+            raise ValueError('document_topic_evidence_mismatch:' + part_id)
         status = slot.status
         asked = parts_by_id.get(part_id)
         if status == 'answered' and asked is not None and asked.subject_id == 'handbook_prerequisite_policy':
@@ -990,7 +1027,7 @@ def assess_slots(pack, draft, slots, review=None):
                 'structured_check_not_run' if part.evidence_need == 'structured' else 'unknown_requirement_kind'))
         elif status == 'host':
             entry = LedgerEntry(part_id=part.part_id, status='mapped', claim_ids=ids)
-        elif status in ('not_in_evidence', 'source_gap'):
+        elif status in ('not_in_evidence', 'source_gap', 'document_check_not_run'):
             entry = LedgerEntry(part_id=part.part_id, status='unavailable', reason=status)
         elif review is None:
             entry = LedgerEntry(part_id=part.part_id, status='missing', reason='missing_mapping')

@@ -18,7 +18,7 @@
       "properties": {"institution": {"type": "string", "minLength": 1}, "edition": {"type": "string", "minLength": 1}, "version_id": {"type": ["string", "null"], "pattern": "^ver-[a-z0-9][a-z0-9-]*$"}}},
     "scope_null_reason": {"type": ["string", "null"]},
     "expected_route": {"enum": ["RAG", "Hybrid", "Symbolic", null]},
-    "expected_control": {"enum": ["clarify", "greeting", "unsupported_scope", "evidence_unavailable", null]},
+    "expected_control": {"enum": ["clarify", "greeting", "system_information", "unsupported_scope", "evidence_unavailable", null]},
     "expected_outcome": {"enum": ["eligible", "ineligible", "unknown", "unsupported", "error", null]},
     "required_facts": {"type": "array", "items": {"type": "string", "minLength": 1}},
     "missing_facts": {"type": "array", "items": {"type": "string", "minLength": 1}},

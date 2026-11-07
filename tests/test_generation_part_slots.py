@@ -96,6 +96,56 @@ def test_covered_part_is_answered_and_the_unavailable_part_is_named(reason):
     assert model.calls[1][1]['properties']['parts']['required'] == ['r1']
 
 
+def partial_source(status='insufficient_evidence'):
+    from test_orchestration_multi_topic import PerTopicDocuments, run as orchestrate, two_topics
+    from test_orchestration_integration import documents
+    from test_routing_document_topics import model
+    return orchestrate(model(two_topics()),
+        PerTopicDocuments(fictional_fees=documents(status, passages=[])))
+
+
+def test_partial_retrieval_reaches_the_existing_validated_part_ledger():
+    from test_orchestration_multi_topic import TEXT as question
+    model = PartModel(slots=dict(r1=('answered', ['Fictional policy.']), r2=('not_in_evidence', [])))
+    answer = asyncio.run(Generator(model).generate(question, partial_source()))
+    assert answer.status == 'answered'
+    assert answer.part_ledger.status == 'some_parts_unavailable'
+    assert [entry.status for entry in answer.part_ledger.entries] == ['mapped', 'unavailable']
+    missing = model.calls[0][1]['properties']['answers']['properties']['r2']
+    assert missing['properties']['status']['const'] == 'not_in_evidence'
+    assert missing['properties']['claims']['maxItems'] == 0
+
+
+def test_missing_topic_cannot_borrow_the_successful_topics_source():
+    from backend.bintanong_generation.part_answers import PartExplanation, to_draft
+    pack = prepare(partial_source())
+    explanation = PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
+        release_id=pack.release_id, language=pack.language, answers={
+            'r1': dict(status='answered', claims=[dict(text='Fictional policy.', evidence_ids=[pack.cards[0].evidence_id])]),
+            'r2': dict(status='answered', claims=[dict(text='A fictional fee.', evidence_ids=[pack.cards[0].evidence_id])])}))
+    with pytest.raises(ValueError, match='document_topic_unavailable:r2'):
+        to_draft(explanation, pack)
+
+
+@pytest.mark.parametrize('profile', ['legacy', 'scoped', 'guarded', 'covered'])
+def test_partial_retrieval_requires_the_part_ledger_profile(profile):
+    from test_orchestration_multi_topic import TEXT as question
+    model = PartModel()
+    answer = asyncio.run(Generator(model, explanation_profile=profile).generate(question, partial_source()))
+    assert answer.status == 'abstained' and not model.calls
+
+
+@pytest.mark.parametrize('status', ['unassessed', 'needs_subject'])
+def test_unchecked_topic_is_not_presented_as_absent_from_sources(status):
+    from test_orchestration_multi_topic import TEXT as question
+    model = PartModel(slots=dict(r1=('answered', ['Fictional policy.']), r2=('not_in_evidence', [])))
+    answer = asyncio.run(Generator(model).generate(question, partial_source(status)))
+    assert answer.status == 'answered'
+    assert answer.part_ledger.entries[1].reason == 'document_check_not_run'
+    assert 'has not been checked yet' in answer.text
+    assert 'not in Bintanong' not in answer.text
+
+
 def test_every_part_unavailable_is_still_withheld_without_a_review_call():
     model = PartModel(slots=dict(r1=('not_in_evidence', []), r2=('not_in_evidence', [])))
     answer = run(model)
