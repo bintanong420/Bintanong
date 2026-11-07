@@ -79,6 +79,10 @@ Table 2) via `local_openai` against Gemma 4 E4B Q4_K_XL (llama.cpp, Bintanong in
 model container was OOM-killed (exit 137) during Belebele, and the run was stopped. Owner handed the rest to
 another developer: run kit, patch, frozen deps, results and step-by-step instructions in
 `docs/evaluation/batayan/README.md`. Measures the model, not the RAG pipeline.
+8 Nov, second machine (RTX 4060 8 GB, 32 GB RAM): README steps 1-3 done (patch applied clean, Python 3.12.13,
+97 frozen packages, pinned image, 43/43 layers on GPU). Pilot 5/task: EXIT 0, 0 failures, 45/45 `stop`, no
+thinking text. Full run of all 9 tasks (Sentiment redone) started 03:11 in a window detached from Claude Code:
+`audit-evidence/batayan-2026-11-08/run_full.ps1` -> `full-run/`, log `full-run.log`; rerun the same script to resume.
 
 ## Next action
 
