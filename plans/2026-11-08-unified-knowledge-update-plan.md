@@ -82,6 +82,23 @@ prepare -> review (human decides every field)
 
 U0 and U1 need no owner input beyond this plan. U4 depends on T4 (Stage A).
 
+## Owner decision, 8 November 2026: work on local Supabase
+
+"as much as possible, we're gonna keep it on local Supabase instance ... ayaw ko maaffect yung eval
+testing nila". The hosted project serves the evaluators' testing, so it is read-only for this work;
+staging, publishing and rollback target the local stack (`supabase_db_Bintanong`, 54321/54322).
+This replaces the scratch-database target in U4 for this plan.
+
+Before any local write, hosted and local must match. Checked 8 Nov, read-only on both sides
+(hosted through GET requests): 16 tables fingerprinted on content columns plus 9 counted, all equal.
+5 releases, active `p12-research-faqsplit-20261030` (560 chunks, vector set `f7a7f1b0…`), 860 chunks,
+1,202 vectors, 4,322 spans, 78 curriculum ledgers. No sync was needed; nothing was written.
+Evidence: workspace `audit-evidence/p12-dev-supabase-sync-20261108/fingerprint-before.json`.
+Not checked: the hosted migration list (direct database connection failed with an SSL EOF; the REST
+API does not expose it). Local has the repository's 18 migrations.
+Rerun the fingerprint before each local publish; a local change must never be pushed to hosted
+without a separate owner decision.
+
 ## Open owner questions
 
 1. Use the ledger path as the only rule generator and leave `prospectus_extractor/prolog.py`
@@ -89,7 +106,7 @@ U0 and U1 need no owner input beyond this plan. U4 depends on T4 (Stage A).
 2. Curriculum citation chunks: add text chunks so answers can quote the prospectus, or
    keep curricula symbolic-only for now? (Recommended: later; symbolic answers already
    carry source references.)
-3. Confirm publishing stays on the scratch database until a separate hosted decision.
+3. Answered 8 Nov: local Supabase; hosted stays read-only (see above).
 
 ## Research note
 
