@@ -56,5 +56,10 @@ Live model/PDF-backed human acceptance and latency comparisons are NOT RUN witho
 isolated authorized window. PR18/19 closures and promotion remain gated on acceptance evidence.
 Candidate published to the PR20 feature branch at `ebf3c8dc`; final verification handoff follows.
 [Verification matrix](../2026-11-07-pr20-verification.md) records exact SHA/roster/results.
-Next: isolated Docker integration, live source/model, browser and latency acceptance; keep
-PR20 draft and compound_checks OFF until that evidence and owner promotion review.
+Owner7November authorized starting Docker Desktop to rerun automated checks. Engine29.8.2
+and existing `supabase_db_Bintanong` are healthy. Exact161 previously blocked cases now pass,
+with696 passing subtests, at `78514ae3`; allfour shards exit0. Disposable UUID databases
+were cleaned up; application data and model containers are untouched. Reconciled original
+roster across two runs:6,873 passed/2 xfailed, plus the separate final hypothesis regression.
+Next: remaining live source/model, browser and latency acceptance. Keep PR20 draft and
+compound_checks OFF pending that evidence and owner promotion review.

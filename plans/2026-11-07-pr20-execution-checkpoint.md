@@ -54,7 +54,11 @@ in multi-topic passage merge while package B was being edited; not a clean final
 - Final frontend105 passed; TypeScript and production Webpack build passed.
   [Verification matrix](2026-11-07-pr20-verification.md) retains exact lineage/commands/limits.
 - Published feature branch at `ebf3c8dc`; final verification handoff follows. No p12-dev merge.
-- Next: isolated Docker/source-backed/model/browser/latency acceptance, then owner review.
+- Owner7November authorized starting Docker for automated checks. Engine29.8.2 responds;
+  existing Supabase PostgreSQL is healthy. Exact161 blocked cases pass/696 subtests pass
+  at `78514ae3` with disposable UUID databases; allfour shards exit0. Reconciled original
+  roster across two runs:6,873 passed/2 xfailed. No application-data/model-container changes.
+- Next: source-backed/model/browser/latency acceptance and owner review.
   Keep PR20 draft, compound feature OFF and source PR18/19 open until required evidence.
 
 ## Verification boundaries

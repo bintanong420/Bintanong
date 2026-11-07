@@ -11,7 +11,8 @@ explicit hypothetical-premise retention: `b21df7bf`.
 ## Evidence contract
 
 All tests below use synthetic fixtures or explicitly labelled fictional research inputs.
-No live model, embedding encoder, database service or original policy PDF was exercised.
+No live model, embedding encoder or original policy PDF was exercised. The initial full
+run could not reach Docker; the owner-authorized follow-up below uses disposable databases.
 Release IDs vary by fixture; no production release was activated. Model digest: N/A,
 no inference. Python3.13.5 and Node24.21.0 reuse existing external environments.
 `compound_checks=False` remains the application default; focused tests opt in explicitly.
@@ -23,6 +24,7 @@ Compiler OFF/ON synthetic fixtures run without changing the default environment 
 | Compound/proof/type boundary | Before `978e464d` | 32 passed, including imported executor |
 | Negotiated metadata/chat/stream | Before `1af7882f` | 61 passed |
 | Full default Python roster | `2869f569` | 6,712 passed; 2 xfailed; 134 failed +27 setup errors, all161 blocked by unavailable Docker; each shard exit1 |
+| Exact161 Docker-blocked cases, owner-authorized rerun | `78514ae3` | 161 passed; 696 subtests passed; allfour shards exit0 |
 | Final hypothetical-premise correction | `b21df7bf` | 81 passed, including new RED→GREEN regression |
 | Frontend UI and real Python SSE fixtures | `be8948a5` | 105 passed, zero skipped |
 | TypeScript | `be8948a5` | Passed, `tsc --noEmit` |
@@ -42,7 +44,8 @@ Each shard completed its manifest. Results: 1=1,675 passed/35 failed/8 errors/1 
 All161 failure/error trace blocks contain the same StorageDatabase constructor assertion
 and missing `dockerDesktopLinuxEngine` pipe, before disposable database creation.
 No application assertion or unclassified failures remain in the completed logs.
-This is not an all-green Python run: database integration remains blocked.
+The initial full run was not green. Its Docker blocker is resolved by the follow-up below;
+preserve the original result instead of relabelling that historical invocation as successful.
 The external runner performs normal collection, checks every manifest member exists,
 retains exactly each shard's ordered manifest and writes per-test completion/failure state.
 The later `b21df7bf` adds one regression, verified in the 81-test focused gate; it is not
@@ -101,4 +104,26 @@ No dependency installation or lockfile change was performed.
 
 Keep PR20 draft. Human original-backed/model/viewport/latency acceptance remains outstanding;
 do not close PR18/19 as fully superseded or merge/promote the candidate before those gates.
-Existing services and the thesis evaluation checkout are not reloaded or changed by this task.
+The implementation did not reload the serving app or change the thesis evaluation checkout.
+Docker startup for the later owner-authorized follow-up is recorded below.
+
+## Owner-authorized Docker follow-up, 7 November
+
+Owner asked to start Docker and run automated checks. Started the installed Docker Desktop;
+Engine29.8.2 became ready and existing `supabase_db_Bintanong` became healthy
+(image `public.ecr.aws/supabase/postgres:17.6.1.167`). No installs, resets or application
+configuration changes. Model containers were not started. The owner authorization supersedes
+the earlier service-start hold for this bounded check only.
+
+Exactly the161 failed/error node IDs from the independently classified full run were rerun,
+disjointly partitioned41/40/40/40 at `78514ae3`. Results:41/40/40/40 passed, all exit0;
+subtests232/66/209/189 passed. SQL fixtures create uniquely named disposable databases and
+drop their own databases afterward; the application database is not reset. The three pre-existing
+test database names observed before this run remain; this task does not delete unrelated leftovers.
+Evidence: ignored `audit-evidence/pr20-20261107/docker-rerun/{run.py,result.json,roster-*.json,shard-*.log,sql-*}`.
+
+Reconciled original6,875-case roster across the initial run and targeted rerun:
+6,873 passed and2 expected failures. This is cumulative evidence across two runs, not a
+fresh monolithic all-green run. The final hypothetical-premise regression remains separately
+verified in the81-test gate. No application code changed during the Docker follow-up.
+Source/model/viewport/latency acceptance and promotion remain outstanding.
