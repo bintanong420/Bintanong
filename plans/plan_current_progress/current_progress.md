@@ -52,6 +52,11 @@ No mainline/evaluation reload, merge, source/database activation or institutiona
 [chat system index](../2026-11-06-system-information-index.md) retain earlier decisions/limits.
 Historical72Y marks include inferred cases; not independent current72/72 acceptance.
 Keep undergraduate scope, source gaps/F04, privacy and unknown-versus-unmet distinctions.
-Next: owner exploratory review on3218, then independent acceptance and actual390px/desktop
-browser/accessibility checks, paired compiler OFF/ON language evaluation and latency measurement.
+UI polish `9833bb7a`: short PlanD heading, casual term labels, one source action/footer,
+stacked mobile table cells. [Evidence/research](../2026-11-07-pr20-recovery-ui-polish.md):
+15 backend presentation and109 frontend tests pass; TypeScript/production build pass.
+Existing Edge/Playwright checked isolated real-component replay1440/390px in light/dark,
+keyboard disclosures, source count and overflow; footer contrast6.58/7.66:1. This is not full-chat UAT.
+Next: owner exploratory review on3218, then independent acceptance, full-chat/source-picker/
+screen-reader checks, paired compiler OFF/ON language evaluation and latency measurement.
 No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.

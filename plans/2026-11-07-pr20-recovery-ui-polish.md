@@ -34,6 +34,13 @@ Worktree p12-pr20 / PR20 feature branch; staging3218/API8023 only.
   emphasizes transparency, expectations and limitations. Keep material uncertainty alongside
   the plan; a quiet disclaimer must not substitute for actual load/prerequisite warnings.
 
+- [Microsoft agent UX principles](https://microsoft.design/articles/ux-design-for-agents/)
+  explicitly discusses reducing cognitive load with concise responses, visual aids and Learn
+  More content. Use detail appropriate to the request, rather than formatting every answer
+  as an equally long report. [Claude styles](https://support.anthropic.com/en/articles/10181068-configuring-and-using-styles)
+  likewise distinguishes concise from explanatory responses; this does not justify dropping
+  necessary source conditions from an academic answer.
+
 Short result first, readable headings, progressive detail and one footer are our design
 choices informed by these references, not claimed universal platform requirements. No external
 model/service migration or provider citation API was introduced.
@@ -60,5 +67,5 @@ model/service migration or provider citation API was introduced.
 
 Ignored evidence: `audit-evidence/pr20-local-staging-20261107/ui-recovery-view.json`,
 `review-recovery-ui.mjs`, `ui-browser-review.json`, `recovery-ui-{width}-{theme}.png`.
-Next: load verified UI on staging and owner review. Full app/source-picker/screen-reader and
+Staging API/frontend now load `9833bb7a`; identity endpoint verified. Next: owner review. Full app/source-picker/screen-reader and
 independent benchmark acceptance remain separate. No merge or institutional activation.

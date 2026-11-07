@@ -10,8 +10,8 @@ no mainline/evaluation merge, release activation, source edits or application da
   from the usual `127.0.0.1:3217` development URL. `127.0.0.1:3218` also serves staging.
 - API: `http://127.0.0.1:8023`; model: existing local container on18088.
 - Serving worktree: `p12-pr20`, branch `feature/p12-unified-answer-pipeline`.
-- Loaded commit: `a34c10c6c3aca8fc09a7ee2cc8b60b5d8893a994`; frontend production Webpack
-  build includes `651ce26d` (native labelled recovery disclosures).
+- Loaded commit: `9833bb7ac00dcbaf1e983a06e71e2134ddfadadf`; frontend production Webpack
+  build includes `9833bb7a` (short labels, one footer and stacked mobile tables).
 - `/health/staging` returns the startup identity and flags; `/health/ready` checks model/Janus.
 - Existing reviewed cached research snapshot: `p12-research-faqsplit-20261030`,39 curricula.
   Same cache/package composition as prior dev launcher, including grade_completion5120 budget.
@@ -28,7 +28,7 @@ It contains `start-api.py`, `start-web.ps1`, `pids.json`, `runtime.json`, startu
 Starts use existing Python3.13.5/Node24.21 environments and existing read-only model weights.
 Docker Desktop was already running; started existing `bintanong-p09-cuda-latency`, no pull or reconfiguration.
 CPU encoder loaded existing verified assets; no installs, downloads or dependency changes.
-Latest reload: API4784/server4416, web launcher32664. PIDs are evidence, not permanent identities;
+Latest reload: API67924/server56188, web launcher5808. PIDs are evidence, not permanent identities;
 verify command and port before stopping/restarting a staging process. Original3217 launcher,
 evaluation worktree and mainline branches were not modified or started by this task.
 
@@ -63,6 +63,8 @@ restart Docker Desktop or unrelated services. Model context remains8192.
  TypeScript and production Webpack pass. Prior failures remain in dated audit evidence.
 
 Automated inference stopped after bounded checks; model slot is available for owner testing.
-No actual browser viewport/interaction verification or independent72-case benchmark performed.
+Isolated real-component browser replay now covers1440/390px light/dark, keyboard disclosures,
+one source action and contained layout; see [UI evidence](2026-11-07-pr20-recovery-ui-polish.md).
+Full-chat/source-picker/screen-reader acceptance and independent72-case benchmark remain open.
 Next: owner review of primary draft/disclosures, independent acceptance and paired compiler
 language/latency/browser checks before merge. Staging availability is not institutional approval.

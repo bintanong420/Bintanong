@@ -80,6 +80,10 @@ in multi-topic passage merge while package B was being edited; not a clean final
   exact CC4/L recovery answers40.02s on a34c10c6, DraftC projected,458 visible/1,642 full words.
 - Final1,120 routing/API/compound and90 recovery/plan-view tests pass; frontend106, TypeScript
   and production Webpack pass. Overlapping gates, not a total. phase_state inspect valid/no active phase.
+- UI polish `9833bb7a`: casual display terms and PlanD heading, no duplicate source/header,
+  one footer and stacked mobile cells. [Evidence](2026-11-07-pr20-recovery-ui-polish.md):
+  15 backend/109 frontend checks, TypeScript and production build pass; isolated real-component
+  Edge replay1440/390 light/dark passes keyboard/source-count/overflow checks. Not full-chat UAT.
 - Next: owner exploratory review; remaining independent/browser/paired-language/latency acceptance
   and owner review before merge. Context8192;12K remains proposed. Automated inference stopped.
 
