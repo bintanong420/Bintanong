@@ -39,8 +39,8 @@ remain unchanged. No numbered phase, merge or institutional activation.
 - Frontend106 tests pass; after adding disclosure transport checks, focused16 pass.
   TypeScript and production Next16.4.3 Webpack build pass using existing Node24.21 dependencies.
   Known standalone tracing warnings arise from reused external node_modules; no packaging fix.
-- Router/API regression gate1,100 passes before the final shared-span correction; final rerun
-  pending. Broader recovery/plan-view regression run pending; do not sum overlapping gates.
+- Final router/API/compound gate1,118 passes after the shared-span correction. Broader
+  recovery/plan-view gate90 passes in407.22s. These overlap other gates; do not sum them.
 - Live router: Taglish now supplies two distinct correctly bound parts without repair. Filipino
   supplies both targets; compiler correction is covered offline, full staging check pending.
   Recovery token probe7325 input+768 output+8 guard=8101, under8192. Probe deliberately raises
@@ -50,6 +50,19 @@ Raw evidence stays under ignored `audit-evidence/pr20-local-staging-20261107` an
 external pytest basetemps. Docker Desktop/model were found stopped and existing instances
 restarted under prior owner authorization. Full staging reload/live verification follows
 verified commits; no availability assertion is inferred from historic PIDs or traces.
+
+## Combined-candidate follow-up
+
+Staging code651ce26d passed live English17.52s, Taglish15.64s, Filipino16.45s two-check
+requests and English mixed Hybrid24.08s, with2/2/2/3 separately cited V2 parts. Filipino
+and Taglish input replies were Taglish. These are spot checks, not whole-language acceptance.
+The exact recovery question still failed17.05s: the model emitted redundant same-course
+operations and invalid part grouping; its repair exceeded context. Existing recovery normalization
+ran too late, after span compilation/normalization had already refused the structure.
+Reuse that same normalization before compiler span construction for a recovery-only request
+with no separately requested documentary topic or previous-course reference. No new operations,
+grades or policy rules. Two synthetic RED regressions reproduce the malformed shape;185 related
+checks pass after correction. Exact live router/full staging recheck follows.
 
 ## Next action
 

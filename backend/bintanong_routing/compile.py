@@ -13,7 +13,7 @@ from dataclasses import dataclass
 
 from .contracts import TERM_OPERATIONS, Interpretation, RequestContext, prepare_query, quote_matches
 from .terms import parse_term
-from .recovery_cue import recovery_follow_up
+from .recovery_cue import asks_recovery, recovery_follow_up, recovery_request
 
 COURSE_OPERATIONS = ('check_prerequisite_eligibility', 'list_course_prerequisites', 'list_missing_prerequisites',
                      'list_affected_courses', 'course_facts')
@@ -480,6 +480,16 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
         operation['target'] = moved[operation['target']]
     for claim in claim_values:
         claim['entity'] = moved[claim['entity']]
+
+    if (operations and reference_span is None and asks_recovery(text)
+            and not any(not topic.with_check for topic in meaning.topics)):
+        # Reuse the existing recovery normalization before redundant checks create duplicate spans.
+        candidate = _build(meaning, mentions, claim_values, operations, [dict(
+            part_id='r1', text=text, start=0, end=len(text), evidence_need='structured',
+            operation_indices=list(range(len(operations))))], None, meaning.control)
+        recovery = recovery_request(candidate, text)
+        if recovery is not None:
+            return recovery
 
     # Parts: one per ask, each with its own span.
     menu = {t.subject_id: t for t in topics}
