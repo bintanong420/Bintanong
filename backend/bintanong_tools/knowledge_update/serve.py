@@ -19,7 +19,12 @@ from .app import create_app
 from .review import ReviewSession
 
 
-def frontend_environment(api_origin: str) -> dict:
+def launch_link(ui_origin: str, token: str) -> str:
+    """The one-time link that sets the review cookie, then lands on the clean /review address."""
+    return ui_origin + '/review/launch?' + urlencode({'token': token})
+
+
+def frontend_environment(api_origin: str, *, ui_origin: str | None = None, token: str | None = None) -> dict:
     url = urlsplit(api_origin)
     if (url.scheme != 'http' or url.hostname != '127.0.0.1' or not url.port or url.path
             or url.query or url.fragment or url.username):
@@ -28,6 +33,11 @@ def frontend_environment(api_origin: str) -> dict:
                'LOCALAPPDATA', 'HOME', 'HOMEDRIVE', 'HOMEPATH', 'TEMP', 'TMP', 'TMPDIR'}
     result = {key: value for key, value in os.environ.items() if key.upper() in allowed}
     result.update(NEXT_TELEMETRY_DISABLED='1', BINTANONG_REVIEW_API_ORIGIN=api_origin)
+    # read only by the researcher app's server routes; the browser never receives the token
+    if ui_origin:
+        result['BINTANONG_REVIEW_UI_ORIGIN'] = ui_origin
+    if token:
+        result['BINTANONG_REVIEW_TOKEN'] = token
     return result
 
 
@@ -65,7 +75,7 @@ def _frontend(root: Path, env: dict, log) -> tuple[str, Path]:
     return node, next_cli
 
 
-def serve(root: Path, reviewer: str, *, api_port: int = 8765, ui_port: int = 3001,
+def serve(root: Path, reviewer: str, *, api_port: int = 8765, ui_port: int = 3050,
           open_browser: bool = True) -> None:
     if (any(type(p) is not int or not 1 <= p <= 65535 for p in (api_port, ui_port))
             or api_port == ui_port):
@@ -81,9 +91,9 @@ def serve(root: Path, reviewer: str, *, api_port: int = 8765, ui_port: int = 300
         runtime.mkdir(parents=True, exist_ok=True)
         temporary = runtime / 'tmp'
         temporary.mkdir(exist_ok=True)
-        env = frontend_environment(api_origin)
-        env.update(TEMP=str(temporary), TMP=str(temporary), TMPDIR=str(temporary))
         token = secrets.token_urlsafe(32)
+        env = frontend_environment(api_origin, ui_origin=ui_origin, token=token)
+        env.update(TEMP=str(temporary), TMP=str(temporary), TMPDIR=str(temporary))
         try:
             with (runtime / 'frontend.log').open('a', encoding='utf-8') as log:
                 node, next_cli = _frontend(app_root, env, log)
@@ -109,8 +119,9 @@ def serve(root: Path, reviewer: str, *, api_port: int = 8765, ui_port: int = 300
                                 break
                     except (urllib.error.URLError, TimeoutError):
                         time.sleep(.1)
-                link = ui_origin + '/#' + urlencode({'api': api_origin, 'token': token})
+                link = launch_link(ui_origin, token)
                 print('Local researcher review: ' + link, flush=True)
+                print(f'After opening it once, use {ui_origin}/review in this browser while this command runs.', flush=True)
                 print('Keep this command running. Ctrl+C closes this review session.', flush=True)
                 if open_browser:
                     webbrowser.open(link)

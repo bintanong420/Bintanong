@@ -13,7 +13,7 @@ export default {
       { key: 'Referrer-Policy', value: 'no-referrer' },
       { key: 'X-Content-Type-Options', value: 'nosniff' },
       { key: 'Cache-Control', value: 'no-store' },
-      { key: 'Content-Security-Policy', value: `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' ${api} ws://127.0.0.1:*; frame-ancestors 'none'; base-uri 'none'; form-action 'none'` },
+      { key: 'Content-Security-Policy', value: `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' ws://127.0.0.1:*; frame-ancestors 'none'; base-uri 'none'; form-action 'none'` },
     ] }];
   },
 };

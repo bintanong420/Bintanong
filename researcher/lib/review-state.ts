@@ -41,7 +41,9 @@ export type OmissionCommand = { kind: 'omission'; revision: number; operation_id
 export type OmissionFeedback = OmissionCommand & { status: 'pending'; reviewer: string; recorded_at: string;
   source_sha256: string; event_sha256: string };
 export type FeedbackReceipt = { revision: number; event_sha256: string; feedback: OmissionFeedback };
-export type Connection = { api: string; token: string };
+// base path of the same-origin review API bridge (app/review/api)
+export type Connection = { api: string };
+export const REVIEW_CONNECTION: Connection = { api: '/review' };
 
 export function selectionRegion(start: [number, number], end: [number, number]): Region | null {
   if (![...start, ...end].every(Number.isFinite)) return null;
@@ -72,18 +74,6 @@ export function recordStatus(item: { audience: string; findings: string[]; refer
   if (item.audience === 'unresolved' && item.fields.some(f => f.decision !== 'pending')) return 'Audience not checked';
   return item.fields.length && item.fields.every(f => ['accepted', 'corrected'].includes(f.decision))
     ? 'Review saved' : 'Not checked yet';
-}
-
-export function parseConnection(fragment: string): Connection {
-  const params = new URLSearchParams(fragment.replace(/^#/, ''));
-  const api = new URL(params.get('api') ?? '');
-  const token = params.get('token') ?? '';
-  if (api.protocol !== 'http:' || !['127.0.0.1', 'localhost'].includes(api.hostname)
-      || !api.port || api.pathname !== '/' || api.search || api.hash || api.username || api.password
-      || !/^[A-Za-z0-9_-]{16,128}$/.test(token)) {
-    throw new Error('Open the launch link from the local review command.');
-  }
-  return { api: api.origin, token };
 }
 
 export function filterItems<T extends {

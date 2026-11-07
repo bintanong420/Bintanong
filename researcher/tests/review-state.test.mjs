@@ -15,16 +15,7 @@ test('AI proposals require matching source, item, field, pages and original valu
   assert.equal(proposalState({ ...field, locator: { physical_pages: [2] } }, item, doc), 'stale');
   assert.equal(proposalState({ ...field, assistance: undefined }, item, doc), null);
 });
-import { fieldLabel, filterItems, parseConnection, recordStatus, sourceRectangle, selectionRegion } from '../lib/review-state.ts';
-
-test('launch credentials accept only the declared local API shape', () => {
-  assert.deepEqual(parseConnection('#api=http%3A%2F%2F127.0.0.1%3A8765&token=abcdefghijklmnop'),
-    { api: 'http://127.0.0.1:8765', token: 'abcdefghijklmnop' });
-  for (const api of ['https://hosted.example', 'http://127.0.0.1:8765/path',
-    'http://user@127.0.0.1:8765', 'http://localhost:8765/?redirect=hosted']) {
-    assert.throws(() => parseConnection('#api=' + encodeURIComponent(api) + '&token=abcdefghijklmnop'));
-  }
-});
+import { fieldLabel, filterItems, recordStatus, sourceRectangle, selectionRegion } from '../lib/review-state.ts';
 
 test('queue combines document, literal search and unfinished state without losing rows', () => {
   const items = [

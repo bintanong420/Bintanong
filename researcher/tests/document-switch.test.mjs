@@ -3,20 +3,22 @@ import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
-import { parseConnection } from '../lib/review-state.ts';
-
 const launchFile = process.env.BINTANONG_REVIEW_TEST_LAUNCH;
+
+// open the printed launch link once and keep its review cookie, as a browser does
+async function reviewSession(url) {
+  const launch = await fetch(url, { redirect: 'manual' });
+  const cookie = launch.headers.get('set-cookie')?.split(';')[0];
+  assert(launch.status === 303 && cookie, 'use the current running review session launch link');
+  return async () => (await fetch(new URL('/review/api/state', url), { headers: { cookie } })).json();
+}
 
 test('switching documents resets the field draft and keeps the review controls usable',
   { skip: !launchFile, timeout: 180000 }, async t => {
     const url = (await readFile(launchFile, 'utf8')).trim();
-    const connection = parseConnection(new URL(url).hash);
     assert(['http://127.0.0.1:3001', 'http://127.0.0.1:3002', 'http://127.0.0.1:3003'].includes(new URL(url).origin));
-    const response = await fetch(connection.api + '/api/state', {
-      headers: { 'x-review-token': connection.token },
-    });
-    assert(response.ok, 'use the current running review session launch link');
-    const state = await response.json();
+    const readState = await reviewSession(url);
+    const state = await readState();
     const first = state.items[0];
     const prospectus = !!first.prospectus_candidate;
     const assisted = !!first.fields[0]?.assistance;
@@ -123,7 +125,7 @@ test('switching documents resets the field draft and keeps the review controls u
       await until(() => evaluate("!!document.querySelector('.ai-suggestion')"));
       await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Use suggestion').click()");
       assert(await evaluate(`document.querySelector('[aria-label="${field.name} reviewed value"]').value === ${JSON.stringify(field.proposed_value)}`));
-      const beforeSave = await (await fetch(connection.api + '/api/state', { headers: { 'x-review-token': connection.token } })).json();
+      const beforeSave = await readState();
       assert.equal(beforeSave.revision, state.revision);
       assert.equal(beforeSave.items[0].fields[0].decision, 'pending');
       await evaluate(`document.querySelector('[aria-label="${field.name} reviewed value"]').focus()`);
@@ -134,7 +136,7 @@ test('switching documents resets the field draft and keeps the review controls u
       await send('Input.insertText', { text: 'Synthetic browser rehearsal only: compared the printed number.' });
       await evaluate("document.querySelector('.review-actions button[type=submit]').click()");
       await until(() => evaluate("document.body.textContent.includes('Decision saved')"));
-      const saved = await (await fetch(connection.api + '/api/state', { headers: { 'x-review-token': connection.token } })).json();
+      const saved = await readState();
       assert.equal(saved.revision, state.revision + 1);
       assert.equal(saved.items[0].fields[0].decision, 'corrected');
       assert.equal(saved.items[0].fields[0].reviewed_value, '15 working days.');
@@ -203,7 +205,7 @@ test('switching documents resets the field draft and keeps the review controls u
       await until(() => evaluate("!document.querySelector('.feedback-dialog') && document.querySelector('[role=status]')?.textContent.includes('Missing-content note saved')"));
       assert.equal(await evaluate("document.querySelector('[aria-label=\"Audience applicability\"]').value"), 'undergraduate', 'saving feedback must retain the unsaved field review');
       assert(await evaluate("document.querySelectorAll('.companion').length > 0"), 'saving feedback must retain unsaved context links');
-      const after = await (await fetch(connection.api + '/api/state', { headers: { 'x-review-token': connection.token } })).json();
+      const after = await readState();
       assert.deepEqual(after.items, state.items);
       const report = after.feedback.at(-1);
       assert.equal(report.note, note); assert.equal(report.status, 'pending'); assert.equal(report.region.length, 4);

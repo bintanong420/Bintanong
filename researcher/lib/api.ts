@@ -5,9 +5,9 @@ export class ReviewError extends Error {
 }
 
 export async function request(connection: Connection, path: string, init: RequestInit = {}) {
-  const response = await fetch(connection.api + path, { ...init, cache: 'no-store', credentials: 'omit',
-    headers: { 'X-Review-Token': connection.token, ...(init.body ? { 'Content-Type': 'application/json' } : {}),
-      ...init.headers } });
+  // same-origin: the review server adds the session token from its launch cookie
+  const response = await fetch(connection.api + path, { ...init, cache: 'no-store', credentials: 'same-origin',
+    headers: { ...(init.body ? { 'Content-Type': 'application/json' } : {}), ...init.headers } });
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
     throw new ReviewError(body.error ?? `Review request failed (${response.status}).`, response.status);

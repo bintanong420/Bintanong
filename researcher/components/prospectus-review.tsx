@@ -21,7 +21,8 @@ const CHOICES = [
   { value: 'other', label: 'Other: record an explicit correction' },
 ];
 
-export function ProspectusReview({ connection, documentId }: { connection: Connection; documentId: string }) {
+export function ProspectusReview({ connection, documentId, initialQuestion, onQuestion }: { connection: Connection;
+  documentId: string; initialQuestion?: string; onQuestion?: (qid: string) => void }) {
   const [questions, setQuestions] = useState<Question[]>([]), [view, setView] = useState<View | null>(null);
   const [mode, setMode] = useState('attention'), [choice, setChoice] = useState(''), [filter, setFilter] = useState('');
   const [edits, setEdits] = useState<Record<string, string>>({}), [reason, setReason] = useState('');
@@ -34,13 +35,17 @@ export function ProspectusReview({ connection, documentId }: { connection: Conne
 
   async function openQuestion(qid: string) {
     const data: View = await (await request(connection, base + '/question?qid=' + encodeURIComponent(qid))).json();
-    setView(data); setChoice(''); setEdits({}); setReason('');
+    setView(data); setChoice(''); setEdits({}); setReason(''); onQuestion?.(qid);
   }
   // reload the queue, then open `pick(queue)`; by default stay on the current question when it is still queued
   async function reload(pick?: (queue: Question[]) => string | null) {
     const data = await (await request(connection, base + '/queue?mode=' + mode)).json();
     const queue: Question[] = data.questions;
     setQuestions(queue); setStatus(data.state);
+    if (!pick && !q && initialQuestion) {
+      // a linked question opens even when it is not in this queue (e.g. already decided)
+      try { await openQuestion(initialQuestion); return; } catch { setMessage('The linked question is not in this prospectus; the first question is open.'); }
+    }
     const target = pick ? pick(queue) : (queue.find(item => item.qid === q?.qid) ?? queue[0])?.qid;
     if (target) await openQuestion(target); else setView(null);
   }

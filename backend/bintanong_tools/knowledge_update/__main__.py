@@ -34,7 +34,7 @@ def main(argv=None) -> int:
     review_command.add_argument('packet', type=Path)
     review_command.add_argument('--reviewer', required=True)
     review_command.add_argument('--api-port', type=int, default=8765)
-    review_command.add_argument('--ui-port', type=int, default=3001)
+    review_command.add_argument('--ui-port', type=int, default=3050)
     review_command.add_argument('--no-open', action='store_true')
     build_command = commands.add_parser('build', help='Build reviewed candidate chunks and compatible metadata.')
     build_command.add_argument('packet', type=Path)

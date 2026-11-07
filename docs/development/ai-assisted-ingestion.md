@@ -146,11 +146,21 @@ table merely because every word is present.
 ## Review, build and verify
 
 ```powershell
-py -3.13 -m backend.bintanong_tools.knowledge_update review "$work/vision" --reviewer 'Your name' --api-port 8770 --ui-port 3010
+py -3.13 -m backend.bintanong_tools.knowledge_update review "$work/vision" --reviewer 'Your name'
 ```
 
-Use free loopback ports. Save existing browser drafts before stopping a reviewer;
-new launches use new local credentials. Keep launch links private and outside Git.
+The reviewer runs at `http://127.0.0.1:3050/review` (review API on 8765; pass
+`--ui-port`/`--api-port` to choose other free loopback ports). The command prints a
+one-time launch link, `/review/launch?token=…`; opening it sets a private browser
+cookie and lands on `/review`. After that, the plain address, new tabs, bookmarks and
+record links work in that browser while the command runs:
+
+- `/review/policy/<item>` opens a Handbook/Charter record.
+- `/review/prospectus/<document>/<question>` opens a prospectus question.
+
+Each new launch uses new credentials, so open its new launch link first. Save
+existing browser drafts before stopping a reviewer. Keep launch links private and
+outside Git; the token never appears in the browser address bar or page scripts.
 
 1. Compare the extracted wording with the original PDF beside it.
 2. **Use suggestion** copies it into your editable draft. **Ignore suggestion**

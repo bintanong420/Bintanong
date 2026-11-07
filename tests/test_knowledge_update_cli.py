@@ -22,3 +22,19 @@ def test_reviewer_child_does_not_inherit_hosted_credentials(monkeypatch):
     assert 'NODE_OPTIONS' not in env
     assert env['NEXT_TELEMETRY_DISABLED'] == '1'
     assert env['BINTANONG_REVIEW_API_ORIGIN'] == 'http://127.0.0.1:8765'
+
+
+def test_review_command_defaults_to_the_fixed_researcher_address(monkeypatch):
+    module = importlib.import_module('backend.bintanong_tools.knowledge_update.serve')
+    seen = {}
+    monkeypatch.setattr(module, 'serve', lambda packet, reviewer, **options: seen.update(options))
+    assert main(['review', 'packet', '--reviewer', 'Researcher', '--no-open']) == 0
+    assert seen == {'api_port': 8765, 'ui_port': 3050, 'open_browser': False}
+
+
+def test_launch_link_trades_the_token_for_the_clean_review_address():
+    module = importlib.import_module('backend.bintanong_tools.knowledge_update.serve')
+    assert module.launch_link('http://127.0.0.1:3050', 'abc-DEF_123') == 'http://127.0.0.1:3050/review/launch?token=abc-DEF_123'
+    env = module.frontend_environment('http://127.0.0.1:8765', ui_origin='http://127.0.0.1:3050', token='t' * 32)
+    assert env['BINTANONG_REVIEW_UI_ORIGIN'] == 'http://127.0.0.1:3050'
+    assert env['BINTANONG_REVIEW_TOKEN'] == 't' * 32
