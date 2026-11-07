@@ -39,7 +39,7 @@ remain unchanged. No numbered phase, merge or institutional activation.
 - Frontend106 tests pass; after adding disclosure transport checks, focused16 pass.
   TypeScript and production Next16.4.3 Webpack build pass using existing Node24.21 dependencies.
   Known standalone tracing warnings arise from reused external node_modules; no packaging fix.
-- Final router/API/compound gate1,118 passes after the shared-span correction. Broader
+- Final router/API/compound gate1,120 passes after both compiler corrections. Broader
   recovery/plan-view gate90 passes in407.22s. These overlap other gates; do not sum them.
 - Live router: Taglish now supplies two distinct correctly bound parts without repair. Filipino
   supplies both targets; compiler correction is covered offline, full staging check pending.
@@ -62,11 +62,23 @@ ran too late, after span compilation/normalization had already refused the struc
 Reuse that same normalization before compiler span construction for a recovery-only request
 with no separately requested documentary topic or previous-course reference. No new operations,
 grades or policy rules. Two synthetic RED regressions reproduce the malformed shape;185 related
-checks pass after correction. Exact live router/full staging recheck follows.
+checks pass after correction. Exact live router now validates with no repair at7326 input tokens. On staging API code
+`a34c10c6`, the exact question answers through the frontend proxy in40.02s, English, with V2.
+DraftC is named earliest projected among the generated drafts (3rd-year1st-semester), with
+feasibility/approval qualification. Visible view458 words versus full copy/fallback1,642 words
+(72.1% reduction), one primary draft and3 labelled disclosures. Unknown prerequisite checks
+remain visible. PrimaryC has no load warning in this result; the alternativeD's load warning
+remains in that expanded draft. Source IDs remain attached. No actual browser paint timing.
 
-## Next action
+## Delivery and remaining acceptance
 
-Finish current regression gates, commit the verified presentation/compiler change, load staging
-and retest English/Filipino/Taglish compound, mixed Hybrid and exact fastest recovery request.
-Record actual visible/full word counts and retained warnings. Actual browser viewport/accessibility,
-full72 acceptance, global optimality and RTX3050/16GB suitability remain outside this evidence.
+Code commits: `7002c43e` (router example/preference), `651ce26d` (progressive view/shared-span
+compiler), `a34c10c6` (early existing recovery normalization). Staging API loads `a34c10c6`,
+frontend production build includes651ce26d. Evaluation checkout and p12-dev remain untouched.
+Automated model calls stop after the bounded checks; owner can test http://localhost:3218/chat.
+
+Next: owner exploratory review of the primary draft and disclosures; retain full independent
+acceptance, real browser390px/desktop keyboard/screen-reader checks and paired compiler OFF/ON
+language evaluation before merge. No global optimality, all-curriculum live accuracy, latency
+improvement or RTX3050/16GB fit claim. Context remains8192, compound default OFF, planView OFF.
+The earlier bounded model-only keepalive does not establish indefinite server availability.

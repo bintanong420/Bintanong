@@ -70,12 +70,18 @@ in multi-topic passage merge while package B was being edited; not a clean final
   Exact frontend request answers in44.37s after API/frontend reload; guarded drafts and source
   limits retained. [Evidence](2026-11-07-pr20-recovery-routing.md) records transport uncertainty,
   bounded model keepalive and unresolved recovery draft preference/length/optimality concerns.
-- [Three-risk audit](2026-11-07-pr20-three-risk-check.md): English compound/mixed pass live;
-  Taglish/Filipino compound fail. Traced Taglish wrong part-to-target assignment, not overflow.
-  Host recovery reply1,685 words. DefaultD is intentional; explicit fastest intent never reaches
-  existing planner flag.12 focused tests pass; product unchanged; no benchmark/optimality claim.
-- Next: compound semantic correction, explicit fastest intent/qualifiers, then recovery brevity;
-  retain acceptance/owner review before merge. Context8192;12K remains proposed.
+- [Three-risk audit](2026-11-07-pr20-three-risk-check.md) led to owner-authorized fixes:
+  [implementation/evidence](2026-11-07-pr20-compound-recovery-implementation.md).
+  Routerv27, explicit fastest ordering, narrow shared-span reconstruction and earlier existing
+  recovery normalization preserve target/source/fact guards. Native recovery disclosures keep
+  primary assumptions/warnings visible and retain full legacy/copy text.
+- Code `7002c43e`/`651ce26d`/`a34c10c6`; APIa34c10c6/frontend651ce26d on3218/8023.
+  Live English/Taglish/Filipino compound and English mixed return2/2/2/3 parts on651ce26d;
+  exact CC4/L recovery answers40.02s on a34c10c6, DraftC projected,458 visible/1,642 full words.
+- Final1,120 routing/API/compound and90 recovery/plan-view tests pass; frontend106, TypeScript
+  and production Webpack pass. Overlapping gates, not a total. phase_state inspect valid/no active phase.
+- Next: owner exploratory review; remaining independent/browser/paired-language/latency acceptance
+  and owner review before merge. Context8192;12K remains proposed. Automated inference stopped.
 
 ## Verification boundaries
 
