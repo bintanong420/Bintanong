@@ -72,8 +72,11 @@ Branch `p12-ragas-benchmark` in worktree `p12`. Owner approved: separate venv (i
 Shared references `51048843`: `docs/evaluation/references/` = verbatim TP+FN chunks per Q1-Q14 (owner rule);
 BERTScore pairs now carry them. Full 42-row run done (no errors, 481k in / 185k out tokens): faithfulness .52,
 answer relevancy .58, context precision .90, context recall .75 (optimistic), factual correctness (precision) .57.
-Relevancy is 0 on 7 rows where the judge called source-limitation notices noncommittal. Low faithfulness not
-yet inspected; results are a research measurement, not yet reported.
+Relevancy is 0 on 7 rows where the judge called source-limitation notices noncommittal. Faithfulness .52 was
+an export gap: the writer also gets each chunk's required neighbours (rebuilt from the package; 42/42 match
+logged attached_count). Against that full evidence faithfulness = .78 (EN .80 / TG .78 / TL .77); retrieval
+metrics stay on top-3. Owner handoff zip for the BERTScore dev: `audit-evidence/bertscore-handoff-20261107/`.
+Results are a research measurement, not yet reported; branch not pushed (awaiting owner).
 
 ## Next action
 
