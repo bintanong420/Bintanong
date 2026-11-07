@@ -70,8 +70,12 @@ in multi-topic passage merge while package B was being edited; not a clean final
   Exact frontend request answers in44.37s after API/frontend reload; guarded drafts and source
   limits retained. [Evidence](2026-11-07-pr20-recovery-routing.md) records transport uncertainty,
   bounded model keepalive and unresolved recovery draft preference/length/optimality concerns.
-- Next: owner retest3218; retain compound-reference/recovery-quality/browser/latency acceptance
-  and owner review before merge. Context remains8192;12K capacity trial is only proposed.
+- [Three-risk audit](2026-11-07-pr20-three-risk-check.md): English compound/mixed pass live;
+  Taglish/Filipino compound fail. Traced Taglish wrong part-to-target assignment, not overflow.
+  Host recovery reply1,685 words. DefaultD is intentional; explicit fastest intent never reaches
+  existing planner flag.12 focused tests pass; product unchanged; no benchmark/optimality claim.
+- Next: compound semantic correction, explicit fastest intent/qualifiers, then recovery brevity;
+  retain acceptance/owner review before merge. Context8192;12K remains proposed.
 
 ## Verification boundaries
 

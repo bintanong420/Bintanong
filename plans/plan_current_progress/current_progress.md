@@ -67,11 +67,12 @@ Compound ON only in isolated staging; default OFF. Local benchmark rate window0,
 cached research snapshot; no source/database/release changes or3217/evaluation reload.
 Frontend/API/model health200; INC question answered with citations/presentationV2.
 Two-course live smoke clarified; trace shows invalid model quote occurrences. Not fixed or passed.
-Owner confirmed BSCS2018–2019 recovery failure. Existing model exited255 (not marked OOM);
-restarted; context8065+768 output/8 guard exceeded8192. v26 condenses repeated instructions,
-preserves all reviewed metadata/guards and distinguishes recovery advice from explicit-plan checks.
-[Recovery evidence](../2026-11-07-pr20-recovery-routing.md):1,077 routing/recovery tests pass;
-code `c5f20a4e` loaded on3218/API8023. Exact frontend request now answers in44.37s after
-staging API/frontend reload. Hypothetical failure, affected courses and source/load limits retained.
-Model-only keepalive bounded4h; automated inference stopped. Context still8192;12K only proposed.
-Next: owner retest3218; compound references and recovery preference/length/optimality remain open.
+Recovery code `c5f20a4e` remains loaded on3218/API8023: exact CC4/L question answers;
+[prior evidence](../2026-11-07-pr20-recovery-routing.md). Context8192;12K only proposed.
+[Three-risk audit](../2026-11-07-pr20-three-risk-check.md): English compound and mixed Hybrid
+pass live; Taglish/Filipino compound need unnecessary clarification. Taglish trace assigns both
+parts to one target; guards correctly reject it. Recovery reply1,685 words; host renders all drafts.
+DefaultD is owner-approved, but chat never passes existing fastest_asked flag for explicit fastest
+requests. C projects an earlier return; unknown/load/approval limits prevent a viable-plan guarantee.
+12 focused tests pass. Product unchanged; automated inference stopped. Next: fix compound semantics,
+connect explicit fastest intent without changing defaultD, then shorten checked recovery presentation.
