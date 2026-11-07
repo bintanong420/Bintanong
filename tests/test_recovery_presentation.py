@@ -15,12 +15,15 @@ def test_recovery_shows_one_draft_with_its_warnings_and_keeps_the_rest_accessibl
     blocks = view['parts'][0]['blocks']
     visible = '\n'.join(b['text'] for b in blocks if b['type'] != 'details')
     details = [b for b in blocks if b['type'] == 'details']
-    assert visible.count('#### Draft ') == 1
+    assert visible.count('### Plan ') == 1
+    assert '####' not in visible and 'preferred: just in time' not in visible
+    assert '2nd year, 2nd sem' in visible
+    assert 'second year, second semester' not in visible
     assert 'Heads-up:' in visible
     assert 'Assuming' in visible
     assert len(details) == 3
     assert all(b['title'] for b in details)
-    assert sum(b['text'].count('#### Draft ') for b in details) == len(answer.recovery.drafts) - 1
+    assert sum(b['text'].count('### Plan ') for b in details) == len(answer.recovery.drafts) - 1
     assert 'Fictional special_class clause.' in details[-1]['text']
     assert len(visible.split()) < len(answer.text.split()) * .7
     assert answer.text == before

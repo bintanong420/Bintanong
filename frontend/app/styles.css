@@ -141,6 +141,7 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 .message-avatar { display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: var(--muted-foreground); }
 .message-body { min-inline-size: 0; max-inline-size: 44rem; }
 .answer-presentation, .answer-part, .answer-block { min-inline-size: 0; overflow-wrap: anywhere; }
+.answer-presentation { max-inline-size: 65ch; }
 .answer-part + .answer-part { margin-block-start: 1.25rem; padding-block-start: 1rem; border-block-start: 1px solid var(--border); }
 .answer-part-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; margin-block-end: 0.5rem; }
 .answer-part-header h3 { margin: 0; font-size: 1rem; font-weight: 600; }
@@ -175,10 +176,19 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 .message-markdown a { text-decoration: underline; }
 .md-table-scroll { max-inline-size: 100%; margin-block-end: 0.625rem; overflow-x: auto; }
 .message-markdown table { border-collapse: collapse; font-size: 0.875em; line-height: 1.5; }
+.md-cell-label { display: none; }
+.answer-presentation td:first-child, .answer-presentation th:first-child { min-inline-size: 7rem; overflow-wrap: normal; }
+@media (max-width: 40rem) {
+  .answer-presentation table, .answer-presentation tbody, .answer-presentation tr, .answer-presentation td { display: block; }
+  .answer-presentation thead { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+  .answer-presentation tbody tr { padding-block: 1rem; border-block-start: 1px solid var(--border); }
+  .answer-presentation tbody td { border: 0; padding: 0.5rem 0; }
+  .answer-presentation .md-cell-label { display: block; margin-block-end: 0.25rem; font-weight: 600; }
+}
 .message-markdown th, .message-markdown td { padding: 0.375rem 0.625rem; border: 1px solid var(--border); text-align: start; vertical-align: top; }
 .message-markdown th { background: var(--secondary); font-weight: 600; }
 /* Owner, 29 Oct 2026: the guidance notice stays visible but recedes behind the answer. */
-.answer-disclaimer { margin-block: 0.75rem 0; color: var(--muted-foreground); opacity: 0.85; font-size: 0.6875rem; line-height: 1.5; }
+.answer-disclaimer { margin: 0; max-inline-size: 65ch; color: var(--muted-foreground); font-size: 0.75rem; line-height: 1.5; }
 .answer-notice { inline-size: fit-content; margin-block: 0 0.75rem; padding: 0.5rem 0.75rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 500; line-height: 1.5; }
 .source-label { margin-block: 1rem 0; color: var(--muted-foreground); font-size: 0.75rem; }
 .sample-label { margin-block: 0 0.5rem; font-size: 0.75rem; color: var(--muted-foreground); }
@@ -396,7 +406,8 @@ input:focus-visible, summary:focus-visible { outline: 2px solid var(--foreground
 .live-workspace .conversation { min-block-size: 0; scrollbar-gutter: stable; }
 .live-workspace .message-text { font-size: 0.9375rem; }
 .live-workspace .message-assistant > .brand-mark { margin-block-start: 0.125rem; box-shadow: 0 0 0 1px var(--border); }
-.message-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 0.25rem; margin-block-start: 0.5rem; }
+.message-footer { display: grid; gap: 0.5rem; margin-block-start: 0.5rem; }
+.message-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 0.25rem; }
 .message-actions button { min-block-size: 2.75rem; block-size: auto; white-space: normal; font-size: 0.75rem; }
 .message-user .message-actions { justify-content: end; }
 .clarification-explanation { margin-block-start: 0.75rem; }

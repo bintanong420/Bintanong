@@ -32,6 +32,7 @@ const hooks = registerHooks({
   },
 });
 const { AnswerPresentation } = await import('../components/workspace/answer-presentation.tsx');
+const { Conversation } = await import('../components/workspace/conversation.tsx');
 const id = 'ev-' + 'a'.repeat(64);
 const parts = [
   { partId: 'r1', label: 'Part 1', evidenceNeed: 'document', state: 'answered',
@@ -78,6 +79,44 @@ test('recovery details are native disclosures while material warnings stay visib
   assert.ok(html.indexOf('Load exceeds') < html.indexOf('<details'));
   assert.ok(!html.includes('<script>'));
   assert.ok(!html.includes('<details open'));
+});
+
+function conversationHtml(presentation, sources = [{ sourceId: id, title: 'Synthetic Handbook' }]) {
+  return renderToStaticMarkup(React.createElement(Conversation, {
+    state: { messages: [{ id: 'answer-1', role: 'assistant', text: 'Full copy text.',
+      answer: { status: 'answered', conditional: true, language: 'en', sources,
+        notice: 'Not official university guidance.', presentation } }], pending: null },
+    progress: '', onSource() {}, onClarify() {}, onEdit() {}, onRephrase() {}, canClarify: false,
+  }));
+}
+
+test('single recovery answer has one source action and one quiet footer, without redundant labels', () => {
+  const html = conversationHtml({ schemaVersion: 'bintanong-answer-presentation-v2', coverageState: 'complete',
+    parts: [{ partId: 'r1', label: 'Recovery draft', evidenceNeed: 'structured', conditional: true,
+      state: 'answered', sourceIds: [id], blocks: [{ type: 'summary', text: '### Plan D: Special classes and summer as needed\n\nAssuming the earlier courses were passed.' }] }] });
+  assert.equal((html.match(/Sources \(1\)/g) ?? []).length, 1);
+  assert.equal((html.match(/Not official university guidance\./g) ?? []).length, 1);
+  assert.ok(!html.includes('<h3>Recovery draft</h3>'));
+  assert.ok(!html.includes('This check depends'));
+  assert.match(html, /Course checks use the details you shared/);
+});
+
+test('multi-part answer keeps part sources and offers only uncategorized sources in its footer', () => {
+  const other = 'ev-' + 'b'.repeat(64);
+  const html = conversationHtml({ schemaVersion: 'bintanong-answer-presentation-v2', coverageState: 'partial', parts },
+    [{ sourceId: id, title: 'Handbook' }, { sourceId: other, title: 'Another source' }]);
+  assert.equal((html.match(/answer-part-sources/g) ?? []).length, 1);
+  assert.match(html, /Other sources \(1\)/);
+  assert.ok(!html.includes('Sources (2)'));
+});
+
+test('plan table cells retain their header labels for a stacked narrow-screen view', () => {
+  const html = conversationHtml({ schemaVersion: 'bintanong-answer-presentation-v2', coverageState: 'complete',
+    parts: [{ partId: 'r1', label: 'Recovery draft', evidenceNeed: 'structured', state: 'answered', sourceIds: [],
+      blocks: [{ type: 'summary', text: '| Term | Courses | Notes |\n| --- | --- | --- |\n| 2nd year, 2nd sem | A1 | Needs approval. |' }] }] });
+  assert.match(html, /class="md-cell-label" aria-hidden="true">Term<\/span>/);
+  assert.match(html, /role="columnheader"/);
+  assert.match(html, /role="cell"/);
 });
 
 test.after(() => hooks.deregister());

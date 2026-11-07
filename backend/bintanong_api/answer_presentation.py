@@ -172,7 +172,7 @@ def _recovery_presentation(answer, labels):
     if not courses <= labels.keys():
         return None
     english = answer.language in ('en', 'unknown')
-    sections = recovery_sections(recovery, answer.language, labels.__getitem__, answer.dependencies)
+    sections = recovery_sections(recovery, answer.language, labels.__getitem__, answer.dependencies, compact=True)
     visible, alternatives, options, sources = [], [], [], []
     primary_shown = False
     for kind, lines in sections:
