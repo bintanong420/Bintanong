@@ -135,4 +135,3 @@ def test_a_shifting_question_fetches_the_rule_and_the_faq_steps_together():
     drop = SimpleNamespace(part_id='r1', evidence_need='document', subject_id='handbook_drop_shift_faq',
                            requested_claims=('printed FAQ 7 dropping steps',), text='How to drop subjects?')
     assert len(_topic_intents(SimpleNamespace(parts=(drop,)))) == 1
-

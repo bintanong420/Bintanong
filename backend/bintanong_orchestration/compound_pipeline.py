@@ -96,6 +96,8 @@ async def compose_compound(text, context, routed, resources, *, timeout_seconds,
             request_id=context.request_id, route=route, response_style=routed.response_style,
             status=status, evidence=evidence, understanding=understanding,
             missing_facts=evidence.missing_facts if evidence else (), events=(),
+            assumed_facts=tuple(f'{c.state}:{c.course_id}' for c in routed.claims
+                                if request is not None and c.mode == 'hypothetical'),
             course_labels=referenced_labels(resources.course_labels,
                 evidence.model_dump(mode='json') if evidence else None)))
         steps.append(ExecutionStep(part_id=part.part_id, evidence_need=part.evidence_need, request=request))

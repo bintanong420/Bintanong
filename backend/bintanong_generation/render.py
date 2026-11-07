@@ -418,6 +418,9 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             missing=tuple(f for f in dict.fromkeys((*missing,*decision.missing_facts)) if f not in asked)
         else:
             lines.append(words[decision.outcome])
+            if pack.assumptions:
+                from .student_facts_reply import assumption_text
+                lines.append(assumption_text(pack.assumptions,pack.language,shown))
             conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
             if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
             missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))

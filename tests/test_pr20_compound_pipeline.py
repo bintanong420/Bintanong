@@ -215,3 +215,27 @@ def test_generator_rejects_untyped_integration_before_compound_dispatch():
     for value in ({'execution_plan': {}}, object()):
         with pytest.raises(ValueError, match='candidate_integration_required'):
             asyncio.run(Generator(FakeTransport()).generate(QUESTION, value))
+
+
+def test_compound_hypothesis_remains_explicit_in_each_checked_part():
+    from dataclasses import replace
+    from test_routing_validation import entry
+    prefix = 'If I pass P1, '
+    text = prefix + QUESTION
+    data = compound_data()
+    for quoted in (*data['mentions'], *data['parts']):
+        quoted['start'] += len(prefix)
+        quoted['end'] += len(prefix)
+    data['mentions'].append(dict(kind='course', text='P1', start=text.index('P1'), end=text.index('P1')+2))
+    data['claims'] = [dict(entity=2, text=prefix.rstrip(', '), start=0, end=len(prefix.rstrip(', ')),
+                           state='passed', mode='hypothetical')]
+    release = resources()
+    release = replace(release, catalog=(*release.catalog, entry(entity='course-pre', alias='P1').model_copy(
+        update={'source_ref': release.pin.sources[0].version_id})))
+    result = asyncio.run(Orchestrator(FakeTransport(json.dumps(data)),
+        releases=ports().SyntheticReleaseProvider(release), compound_checks=True).run(text, ctx(state=None)))
+    assert result.execution_plan is not None
+    assert all(part.assumed_facts == ('passed:course-pre',) for part in result.execution_parts)
+    answer = asyncio.run(Generator(FakeTransport()).generate(text, result))
+    assert all('what-if' in part.answer.text.casefold() or 'assum' in part.answer.text.casefold()
+               for part in answer.part_answers)
