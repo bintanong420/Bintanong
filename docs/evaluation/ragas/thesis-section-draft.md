@@ -1,6 +1,7 @@
 # Draft thesis section: RAGAS evaluation
 
-Draft wording for the manuscript; table numbers (5.x) are placeholders. Figures come from
+Draft wording for the manuscript; table numbers (5.x) are placeholders. Faithfulness is reported only against the
+full generator evidence; the top-3-only (.525) and plain-text (.782) diagnostics stay in README.md for panel questions. Figures come from
 `ragas_scores.csv` / `ragas_summary.json`; the worked example comes from `example-q9.json`
 (same judge, same evidence). The instrument is the one promised in Chapter IV, Research Instruments (2),
 citing Es et al. (2024).
@@ -124,23 +125,11 @@ that retrieval returned the general rule but not the related specific offences.
 | Context Recall | 0.754 | 0.793 | 0.737 | 0.733 |
 | Factual Correctness (precision) | 0.570 | 0.571 | 0.570 | 0.568 |
 
-**Table 5.y. Faithfulness by evidence given to the judge (same 42 answers)**
-
-| Evidence shown to the judge | Faithfulness |
-| --- | ---: |
-| Top retrieved passages only, plain text | 0.525 |
-| Full generator evidence (with required neighbours), plain text | 0.782 |
-| Full generator evidence, reviewed fields and source limitations (reported) | 0.883 |
-
 ### Discussion
 
 Faithfulness was high, 0.883 overall and at least 0.858 in every language. Answers stayed close to the
 institutional documents, which supports the design choice of quoting reviewed source fields instead of letting
-the model paraphrase freely. Table 5.y shows why the evaluation context matters. With only the top passages,
-true statements taken from required-neighbour passages looked unsupported (0.525). With plain text, table labels
-such as "1st Offense" disappeared, so correct answers that relied on them also looked unsupported (0.782).
-Neither lower figure reflects an answer defect. Most of the statements still unsupported at 0.883 are notices
-Bintanong adds deliberately, such as source-limitation statements and referrals to the relevant university
+the model paraphrase freely. Most of the statements judged unsupported are notices Bintanong adds deliberately, such as source-limitation statements and referrals to the relevant university
 office. These follow the study's source-gap rules even though they are not in the source text.
 
 Context Precision (0.896) shows that relevant passages were usually ranked first. Context Recall (0.754) shows
@@ -190,8 +179,7 @@ the system's required disclosure of source gaps.
 ### Contributions
 
 - An evaluation procedure for neuro-symbolic RAG systems that scores faithfulness against the complete evidence
-  the generator receives (retrieved passages plus required neighbours, as reviewed fields), with evidence that
-  scoring only the top retrieved passages understates faithfulness (0.525 vs 0.883).
+  the generator receives (retrieved passages plus required neighbours, as reviewed fields).
 - Shared verbatim source references for 14 PalSU queries in three languages, usable by RAGAS and BERTScore alike.
 
 ### Recommendations
