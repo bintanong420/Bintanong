@@ -72,7 +72,7 @@ shared references in `docs/evaluation/references/` (BERTScore pairs carry them).
 rebuilt writer evidence, answer relevancy .584 (.701 without 7 noncommittal-flagged source-limit answers), context
 precision .896, recall .754, factual correctness precision .570. One judge run (DeepSeek); not Bintu-1 compared.
 
-## BATAYAN benchmark (8 Nov) - starting
+## BATAYAN benchmark (7 Nov) - starting
 Branch `p12-batayan-benchmark` from `p12-evaluation-harness` at `af3836e8`, worktree `p12`. Not yet scoped:
 BATAYAN source/version, which tasks apply to Bintanong, and any install need owner decisions.
 
