@@ -74,5 +74,11 @@ pass live; Taglish/Filipino compound need unnecessary clarification. Taglish tra
 parts to one target; guards correctly reject it. Recovery reply1,685 words; host renders all drafts.
 DefaultD is owner-approved, but chat never passes existing fastest_asked flag for explicit fastest
 requests. C projects an earlier return; unknown/load/approval limits prevent a viable-plan guarantee.
-12 focused tests pass. Product unchanged; automated inference stopped. Next: fix compound semantics,
-connect explicit fastest intent without changing defaultD, then shorten checked recovery presentation.
+Owner authorized implementing all three follow-ups on PR20. Router v27 now demonstrates two
+checks/targets including abbreviated second questions; live Taglish router correctly binds both.
+Explicit fastest preference reaches the existing planner;9 chat-entrypoint preference/scope cases
+pass across two synthetic curricula. Source/target guards and defaultD remain unchanged.
+Progressive recovery presentation in progress: primary draft/warnings visible, native details for
+alternatives/options/quotes, full legacy/copy text retained. Backend/frontend checks and build
+running. Next: finish verification, load candidate on staging3218/API8023, retest three languages
+and exact fastest-recovery question. Evaluation/prod/dev checkouts remain untouched.

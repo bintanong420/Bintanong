@@ -9,7 +9,7 @@ from .contracts import prepare_query
 from .wire import WireInterpretation
 from .validation import OPERATIONS
 
-PROMPT_VERSION = 'bintanong-router-p11-v26'
+PROMPT_VERSION = 'bintanong-router-p11-v27'
 DETAILS = ('whole', 'requirements', 'fees', 'processing_time', 'specific')
 
 
@@ -19,20 +19,22 @@ def ordered_json(value):
 
 
 _WORKED_EXAMPLE = dict(
-    original_text='After failing M4, can I take N8, where do I submit ticket R, and what is the fee?',
+    original_text='After failing M4, can I take N8? P9 too? Where do I submit ticket R?',
     interpretation=dict(schema_version='bintanong-interpretation-wire-v4', language='en',
         audience='undergraduate', route='Hybrid', control=None, part_count=3,
         intent='eligibility and filing details',
         mentions=[dict(kind='course', quote=dict(text='M4', occurrence=0)),
-                  dict(kind='course', quote=dict(text='N8', occurrence=0))],
+                  dict(kind='course', quote=dict(text='N8', occurrence=0)),
+                  dict(kind='course', quote=dict(text='P9', occurrence=0))],
         claims=[dict(quote=dict(text='failing M4', occurrence=0),
                      entity=dict(text='M4', occurrence=0), state='failed', mode='asserted')],
-        operations=[dict(name='check_prerequisite_eligibility', target=dict(text='N8', occurrence=0))],
-        parts=[dict(part_id='r1', quote=dict(text='After failing M4, can I take N8', occurrence=0),
+        operations=[dict(name='check_prerequisite_eligibility', target=dict(text='N8', occurrence=0)),
+                    dict(name='check_prerequisite_eligibility', target=dict(text='P9', occurrence=0))],
+        parts=[dict(part_id='r1', quote=dict(text='After failing M4, can I take N8?', occurrence=0),
                     evidence_need='structured', operation_indices=[0]),
-               dict(part_id='r2', quote=dict(text='where do I submit ticket R', occurrence=0),
-                    evidence_need='document', operation_indices=[]),
-               dict(part_id='r3', quote=dict(text='what is the fee?', occurrence=0),
+               dict(part_id='r2', quote=dict(text='P9 too?', occurrence=0),
+                    evidence_need='structured', operation_indices=[1]),
+               dict(part_id='r3', quote=dict(text='Where do I submit ticket R?', occurrence=0),
                     evidence_need='document', operation_indices=[])],
         ambiguities=[]))
 _WORKED_EXAMPLE['interpretation'] = {
@@ -129,6 +131,9 @@ For greeting, system_information or unsupported_scope, operations=[] and claims=
 performed for these controls. A program mention must never create a course operation.
 Emit either route or control, never both. Preserve all requested operations and their parts;
 the host decides whether compound execution is available.
+An eligibility question naming two targets needs TWO operations, one per course, even when
+the second is abbreviated: "B2 too?", "Pati B2?", "at B2?" inherit the asked check, not its target.
+Do not reuse index0 for a second course or create a policy topic for an eligibility part.
 Every quote is {text,occurrence}: exact original_text and its zero-based occurrence, normally 0.
 Count overlapping exact matches when text repeats. The backend computes character positions;
 do not calculate or emit start/end offsets. Do not normalize spelling or invent alias identities.
@@ -139,13 +144,9 @@ list_term_courses targets that term mention, every other operation a course ment
 An eligibility target is the course being requested, not the failed prerequisite mentioned nearby.
 The one fictional worked example below shows target,condition and separate part roles.
 Mention ordering does not change those roles. It contains no institutional facts.
-When the student states their own program or curriculum, quote that phrase as a program
-mention (e.g. "Nursing student ako", "BSCS ako", "In the Architecture curriculum") and a stated
-school year as a curriculum mention (e.g. "2018-2019"); never as a course mention.
-A program named inside a question ("subjects of BSIT", "CC 5 in BSCS 2018-2019") is also a program
-mention, its school year a curriculum mention; a school year is never a term mention.
-An operation never targets a program/curriculum mention. Program requirements are not
-course prerequisites just because the word "requirements" occurs.
+Quote named programs as program mentions ("Nursing student ako", "subjects of BSIT"),
+and curriculum school years as curriculum mentions ("2018-2019"); a school year is never a term mention.
+Operations never target programs/curricula; program requirements are not course prerequisites.
 claims capture every supplied explicit course result or enrollment statement, with mode asserted,
 hypothetical or reported. Their quote must contain the course mention and the complete relevant
 statement, including negation. Do not omit a stated condition because the target is a different course.
@@ -164,10 +165,8 @@ Do not turn numeric grades into pass/fail or missing records into failure.
 Hypothetical conditions and friend-reported statements never become actual student records or policy.
 Leave claims empty when no completion/enrollment statement is supplied. Never invent facts or IDs.
 Missing curriculum must not be inferred from a course code, age, similarity or continuing status.
-Use ambiguities for genuinely ambiguous interpretation, not every unmentioned student grade.
-ambiguities MUST be [] when the request is interpretable. A statement such as "this needs
-document retrieval" is an EXPLANATION, not an ambiguity; do not write it. In particular,
-a clear document-procedure request has route=RAG, control=null, operations=[], ambiguities=[].
+ambiguities=[] for interpretable requests; missing grades or needing retrieval are not interpretation
+ambiguities. A clear document request has RAG, control=null, operations=[], ambiguities=[].
 part_count equals the number of parts. Academic routes need 1-8 distinct parts r1..r8,
 one per separately answerable detail (including location and charge). Quote each detail's
 contiguous original span, preserving subject, condition, negation and date. Do not merge tasks,

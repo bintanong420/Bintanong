@@ -471,7 +471,7 @@ class Orchestrator:
     async def _recovery(self, text, request, scoped, resources, dependencies, *, follow_up=None):
         """Ask mode (owner 4 Nov 2026): recovery routes and greedy drafts when the dependency question also asks
         what to take or how to recover. A draft failure keeps the plain dependency answer; it never fails the turn."""
-        from ..bintanong_routing.recovery_cue import asks_recovery, recovery_follow_up
+        from ..bintanong_routing.recovery_cue import asks_recovery, asks_fastest_recovery, recovery_follow_up
         from ..bintanong_routing.terms import parse_term
         recover = getattr(resources.symbolic, 'recover', None)
         if (recover is None or not (asks_recovery(text) or (follow_up is not None and recovery_follow_up(text, follow_up)))
@@ -480,7 +480,8 @@ class Orchestrator:
         try:
             async with asyncio.timeout(self.stage_timeout):
                 value = await recover(request, scoped, dependencies.course_ids, parse_term(text),
-                                      regular_asked=bool(re.search(r'\bregular\b', text, re.I)))
+                                      regular_asked=bool(re.search(r'\bregular\b', text, re.I)),
+                                      fastest_asked=asks_fastest_recovery(text))
         except (ValueError, TypeError, KeyError, AttributeError, AdapterFailure, TimeoutError):
             return None
         return None if value is None or value.synthetic is not resources.pin.synthetic else value
