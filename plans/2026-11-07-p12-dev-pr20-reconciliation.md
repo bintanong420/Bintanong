@@ -37,6 +37,12 @@ approval, source activation or completion of the remaining research acceptance.
 
 ## Delivery
 
-Push reconciled PR20, mark ready and merge into `p12-dev`, then fast-forward its
-clean local checkout and record the resulting merge SHA. No automatic closure
-of source PR18/19, thesis branch sync, service reload or release activation.
+Reconciled PR20 head `12f27bd647dbded5a8d4760b2b938a9740dc5228` pushed normally.
+Marked ready under the owner's explicit integration request and merged through
+GitHub with the exact expected head, without bypassing repository protections.
+PR20 is merged; target commit `84e7c0dbd0b4be61aaff254da23339aa4110131b`.
+Local `p12-dev` fast-forwarded from `0a0fd297`; both its former head and PR20 are
+ancestors of the resulting development branch. Local checkout was clean.
+No closure of source PR18/19, thesis/ablation branch sync, service reload or
+source/database/release activation. Remaining independent/human/latency acceptance
+is not converted into a pass by the development merge.

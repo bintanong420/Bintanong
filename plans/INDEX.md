@@ -17,13 +17,15 @@
   [current continuation](2026-11-04-codex-continuation-log.md). Bounded owner-approved work; no phase started.
 - Test-suite audit/consolidation complete, Claude-reviewed (nits only): [plan](2026-10-30-test-suite-audit-plan.md),
   [results and verification](2026-10-30-test-suite-audit-results.md).
-- Active development: worktree `p12-dev` / branch `p12-dev`, based on published `039e80a2`.
+- Active development: worktree `p12-dev` / branch `p12-dev`; PR20 merged at `84e7c0db`,
+  preserving ingestion/researcher merge `0a0fd297`.
   Owner7Nov reserves `p12-evaluation-harness` for thesis system evaluation; do not use it
   as the development mainline or automatically publish ongoing fixes there.
   `p12-post-gathering-fixes` remains the previous checkpoint branch.
   [Current progress](plan_current_progress/current_progress.md).
-  PR20 candidate: `p12-pr20` / `feature/p12-unified-answer-pipeline`, targets `p12-dev`;
-  [execution checkpoint](2026-11-07-pr20-execution-checkpoint.md). No automatic merge/release.
+  PR20 is merged; [reconciliation](2026-11-07-p12-dev-pr20-reconciliation.md) and
+  [execution checkpoint](2026-11-07-pr20-execution-checkpoint.md). No institutional release.
+  Evaluation/ablation remains on separate `feature/p12-evaluation-ablation`; not merged here.
   Immutable master: [master plan](master_implementation_plan_original_long.md).
   Structural next_phase13 is cancelled; no next implementation phase authorized.
 

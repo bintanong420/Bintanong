@@ -1,7 +1,7 @@
 # PR20 execution checkpoint
 
-Updated 7 November 2026. Owner requests development reconciliation/merge;
-candidate implementation delivered and remaining research acceptance disclosed.
+Updated 7 November 2026. PR20 merged into p12-dev at `84e7c0db` under the owner's
+integration request; remaining research acceptance is disclosed, not waived as passed.
 No numbered phase started or advanced.
 
 - Owner requested the implementation plan, deep audit and Orca runbook against PR20.
@@ -95,7 +95,7 @@ in multi-topic passage merge while package B was being edited; not a clean final
 
 ## Verification boundaries
 
-Owner's latest integration request supersedes keeping PR20 draft pending owner review.
+Owner's latest integration request superseded keeping PR20 draft pending owner review.
 [Reconciliation evidence](2026-11-07-p12-dev-pr20-reconciliation.md): development
 ingestion/researcher trees and PR20 application trees preserved byte-for-byte,
 clean automatic merge.215-case backend roster passes across existing environments,
