@@ -81,8 +81,10 @@ another developer: run kit, patch, frozen deps, results and step-by-step instruc
 `docs/evaluation/batayan/README.md`. Measures the model, not the RAG pipeline.
 8 Nov, second machine (RTX 4060 8 GB, 32 GB RAM): README steps 1-3 done (patch applied clean, Python 3.12.13,
 97 frozen packages, pinned image, 43/43 layers on GPU). Pilot 5/task: EXIT 0, 0 failures, 45/45 `stop`, no
-thinking text. Full run of all 9 tasks (Sentiment redone) started 03:11 in a window detached from Claude Code:
-`audit-evidence/batayan-2026-11-08/run_full.ps1` -> `full-run/`, log `full-run.log`; rerun the same script to resume.
+thinking text. Full run of all 9 tasks done 03:11-03:43 (one restart at 03:19, 4 tasks reused): 3,800/3,800
+answers `stop`, 0 failures, null_count 0. NLU 58.47 / Safety 32.00 / NLR 69.01 / NLG 43.40 (ChrF++) / overall 50.72;
+Sentiment F1 72.80 vs 73.48 on the first machine. Results JSON and score table in the README; evidence ignored in
+`audit-evidence/batayan-2026-11-08/`. Next: report with the README's differences list (MT not comparable).
 
 ## Next action
 

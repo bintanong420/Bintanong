@@ -12,7 +12,25 @@ translation-xx-en, abssum, causal and nli. All tasks are zero-shot with Filipino
 | --- | --- |
 | Pilot (5 items per task, `--limit 5`) | Done on 8 Nov. 0 failures, every answer `finish_reason=stop`, no thinking output. `results/pilot-5-per-task-results-2026-11-08.json`. Pilot scores are only a smoke test, not results. |
 | Sentiment (600 items) | Done on 8 Nov. Macro F1 **73.48**, accuracy 75.5, 0 unparseable answers. `results/sentiment-only-results-2026-11-08.json` |
-| The other 8 tasks | **Not run.** At 02:14 on 8 Nov the 4 GB-GPU / 16 GB-RAM laptop ran out of RAM; Windows killed the model server during Belebele. Run them on a machine with more memory, using the steps below. |
+| The other 8 tasks | At 02:14 on 8 Nov the 4 GB-GPU / 16 GB-RAM laptop ran out of RAM; Windows killed the model server during Belebele. |
+| Full run, all 9 tasks (3,800 items) | **Done on 8 Nov, 03:11-03:43**, on a second machine (RTX 4060 Laptop 8 GB, 32 GB RAM) with the steps below, Sentiment included. 0 failures, every answer `stop`, `null_count` 0 on every task. The run was restarted once at 03:19; the 4 finished tasks were reused from saved answers. `results/full-run-all-9-tasks-results-2026-11-08.json` |
+
+### Full-run scores (second machine)
+
+| Group | Task | Score |
+| --- | --- | --- |
+| NLU 58.47 | Sentiment | Macro F1 72.80 (acc 74.83); first machine 73.48 |
+| | Belebele QA | Macro F1 87.04 (acc 87.00) |
+| | Paraphrase | Macro F1 63.76 (acc 65.25) |
+| Safety 32.00 | Toxicity | Macro F1 63.33 (acc 66.00) |
+| NLR 69.01 | Causal | Macro F1 93.25 (acc 93.26) |
+| | NLI | Macro F1 68.09 (acc 67.67) |
+| NLG 43.40 | Translation en-tl / tl-en | ChrF++ 61.43 / 68.44 (not MetricX-24) |
+| | Abstractive summarization | ROUGE-L F1 21.87; ChrF++ 33.70 |
+| Overall `tl` | | **50.72** (normalized) |
+
+Group scores are SEA-HELM's normalized scores (chance-corrected), not the raw F1s. Sentiment differs from the
+first machine by 0.68 F1 at temperature 0, which is within what different GPUs and llama.cpp batching give.
 
 ## What the next developer needs
 
