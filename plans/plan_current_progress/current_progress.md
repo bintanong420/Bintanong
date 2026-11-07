@@ -68,4 +68,6 @@ Next: owner exploratory review, then independent acceptance and paired language/
 Thesis question: [ablation interpretation](../2026-11-07-thesis-ablation-interpretation.md):
 Objective2 indirectly supports RAG-only comparison; RQ2 explicitly requires baseline/full.
 No ablation protocol/rerun or thesis change made; historical conditionB remains skipped.
+Owner asks for a [local test page](../2026-11-07-ablation-test-page-plan.md). Inspected UI/API/
+evaluation seams; condition executor awaits controlled-ablation vs whole-system selection.
 No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.
