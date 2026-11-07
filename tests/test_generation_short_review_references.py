@@ -78,7 +78,9 @@ def test_short_review_does_not_bypass_a_negative_part_verdict():
     model=PartModel(verdicts={'r2':'does_not_answer'})
     answer=asyncio.run(Generator(model,review_reference_profile='short').generate(TEXT,source()))
     assert answer.status=='insufficient_evidence' and not answer.claims
-    assert answer.draft_attempts==answer.check_attempts==1
+    assert answer.draft_attempts==answer.check_attempts==2
+    assert answer.answer_repairs == 1 and answer.validation == 'parts_unresolved'
+    assert len(model.calls) == 4 and not answer.citations
 
 
 @pytest.mark.parametrize('profile',['legacy','scoped','guarded','covered'])

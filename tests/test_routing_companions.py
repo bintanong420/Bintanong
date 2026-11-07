@@ -28,7 +28,7 @@ def test_numbers_for_units_dates_or_classes_do_not_add_grade_completion(text):
 @pytest.mark.parametrize('picked', ['handbook_student_faq', 'charter_library_facilities'])
 def test_general_room_request_retrieves_general_and_library_guidance_together(picked):
     from backend.bintanong_orchestration.orchestrator import _topic_intents
-    part = SimpleNamespace(evidence_need='document', subject_id=picked,
+    part = SimpleNamespace(part_id='r1', evidence_need='document', subject_id=picked,
         requested_claims=('printed student faq fields' if picked == 'handbook_student_faq' else
                           'printed library facilities fields',), text='How do we reserve a room for our club?')
     intents = _topic_intents(SimpleNamespace(parts=(part,)))
@@ -115,23 +115,24 @@ def test_an_absence_part_is_led_by_the_attendance_rule():
 
 def test_an_absence_part_fetches_both_records():
     from backend.bintanong_orchestration.orchestrator import _topic_intents
-    part = SimpleNamespace(evidence_need='document', subject_id='handbook_sickness_access',
+    part = SimpleNamespace(part_id='r1', evidence_need='document', subject_id='handbook_sickness_access',
                            requested_claims=('printed sickness access fields',), text='umabsent ako kahapon')
     intents = _topic_intents(SimpleNamespace(parts=(part,)))
     assert [(i['subject_id'], i['requested_claims']) for _, i in intents] == [
         ('handbook_sickness_access', ('printed sickness access fields',)),
         ('handbook_attendance', ('printed attendance fields',))]
-    clinic = SimpleNamespace(evidence_need='document', subject_id='handbook_sickness_access',
+    clinic = SimpleNamespace(part_id='r1', evidence_need='document', subject_id='handbook_sickness_access',
                              requested_claims=('printed sickness access fields',), text='saan ang clinic?')
     assert len(_topic_intents(SimpleNamespace(parts=(clinic,)))) == 1
 
 
 def test_a_shifting_question_fetches_the_rule_and_the_faq_steps_together():
     from backend.bintanong_orchestration.orchestrator import _topic_intents
-    part = SimpleNamespace(evidence_need='document', subject_id='handbook_shifting',
+    part = SimpleNamespace(part_id='r1', evidence_need='document', subject_id='handbook_shifting',
                            requested_claims=('printed shifting fields',), text='How to shift/change curricular program?')
     assert [(i['subject_id'], i['requested_claims']) for _, i in _topic_intents(SimpleNamespace(parts=(part,)))] == [
         ('handbook_shifting', ('printed shifting fields',)), ('handbook_drop_shift_faq', ('printed FAQ 8 shifting steps',))]
-    drop = SimpleNamespace(evidence_need='document', subject_id='handbook_drop_shift_faq',
+    drop = SimpleNamespace(part_id='r1', evidence_need='document', subject_id='handbook_drop_shift_faq',
                            requested_claims=('printed FAQ 7 dropping steps',), text='How to drop subjects?')
     assert len(_topic_intents(SimpleNamespace(parts=(drop,)))) == 1
+
