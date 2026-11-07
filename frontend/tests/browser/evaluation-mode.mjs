@@ -20,10 +20,10 @@ async function open(width = 1280) {
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
   const page = await browser.newPage({ viewport: { width, height: 844 } });
   page.setDefaultTimeout(5000);
-  const state = { runs: [], fail: false };
+  const state = { runs: [], fail: false, ablation: false };
   const allowed = route => route.request().headers()['x-bintanong-evaluator'] === 'synthetic-passcode';
   await page.route('**/api/evaluation/cases', route => allowed(route)
-    ? route.fulfill({ json: { code_commit: 'abc1234', cases } })
+    ? route.fulfill({ json: { code_commit: 'abc1234', cases, ablation_available: state.ablation } })
     : route.fulfill({ status: 404, json: { error: 'route_unavailable' } }));
   await page.route('**/api/evaluation/runs', route => route.fulfill({ json: { runs: state.runs } }));
   await page.route('**/api/evaluation/run', route => {
@@ -44,7 +44,11 @@ async function open(width = 1280) {
     state.runs.find(run => run.run_id === id).judgment = route.request().postDataJSON();
     return route.fulfill({ json: {} });
   });
+  await page.goto(new URL('/about', process.env.BINTANONG_BROWSER_URL).href, { waitUntil: 'networkidle' });
+  assert.match(await page.getByRole('dialog', { name: 'Your privacy' }).innerText(), /kept temporarily/);
+  await page.getByRole('button', { name: 'I understand', exact: true }).click();
   await page.goto(new URL('/dev/evaluation', process.env.BINTANONG_BROWSER_URL).href, { waitUntil: 'networkidle' });
+  assert.match(await page.getByRole('dialog', { name: 'Your privacy' }).innerText(), /local evaluation log/);
   await page.getByRole('button', { name: 'I understand', exact: true }).click();
   return { browser, page, state };
 }
@@ -53,6 +57,40 @@ async function unlock(page, passcode = 'synthetic-passcode') {
   await page.getByLabel('Passcode').fill(passcode);
   await page.getByRole('button', { name: 'Open', exact: true }).click();
 }
+
+test('ablation keeps failed conditions, exports faithfully and counts only its reference', async () => {
+  const { browser, page, state } = await open();
+  try {
+    state.ablation = true;
+    const reference = { record_type: 'run', run_id: 'run-abcdefabcdefabcd', case_id: cases[0].case_id,
+      question: cases[0].question, outcome: 'completed', error: null, route_label: 'Symbolic', topics: [],
+      answer: { status: 'answered', text: 'Synthetic checked reference.', language: 'en', sources: [] },
+      searches: [], key: null, judgment: null };
+    const comparison = { run_id: 'abl-abcdefabcdefabcd', question: cases[0].question,
+      code_commit: 'abc1234', created_at: '2026-11-07T00:00:00+00:00', reference,
+      experiment: { outcome: 'partial_failure', matching_model_settings: false,
+        conditions: ['A', 'B', 'C'].map(condition => ({ condition, seconds: 1, student_answer_validated: false,
+          outcome: condition === 'B' ? 'failed' : 'completed', answer: condition === 'B' ? null : 'Synthetic ' + condition,
+          error: condition === 'B' ? 'context_overflow' : null })) } };
+    await page.route('**/api/evaluation/ablation', route => {
+      if (route.request().method() === 'GET') return route.fulfill({ json: { comparisons: [] } });
+      assert.equal(route.request().postDataJSON().question, cases[0].question);
+      state.runs.push(reference);
+      return route.fulfill({ json: comparison });
+    });
+    await unlock(page);
+    await page.getByLabel('Query').fill(cases[0].question);
+    await page.getByRole('button', { name: 'Compare A / B / C', exact: true }).click();
+    await page.getByText('Could not generate: context_overflow', { exact: true }).waitFor();
+    assert.match(await page.locator('header').innerText(), /Ran 1\/72 · Marked 0\/72/);
+    await page.getByText(/Matching model settings could not be verified/).waitFor();
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Download comparison JSON', exact: true }).click();
+    const download = await pending, chunks = [];
+    for await (const chunk of await download.createReadStream()) chunks.push(chunk);
+    assert.deepEqual(JSON.parse(Buffer.concat(chunks).toString()), comparison);
+  } finally { await browser.close(); }
+});
 
 test('a wrong passcode says so and shows no queries', async () => {
   const { browser, page } = await open();

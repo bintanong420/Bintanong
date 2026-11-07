@@ -52,7 +52,7 @@ export function AblationPanel({ question, passcode, enabled, busy, onBusy, onRef
     {error && <p role="alert" className={styles.alert}>{error}</p>}
     {result && <>
       <p>Result: <strong>{result.experiment.outcome}</strong>{result.experiment.reason && ` · ${result.experiment.reason}`}</p>
-      {result.experiment.matching_model_settings === false && <p className={styles.alert}>Model settings changed between conditions. Do not treat this as a matched comparison.</p>}
+      {result.experiment.matching_model_settings === false && <p className={styles.alert}>Matching model settings could not be verified. Do not treat this as a matched comparison.</p>}
       {result.experiment.conditions.map(condition => <article key={condition.condition}>
         <h4>{LABELS[condition.condition]}</h4>
         <p className={styles.muted}>{condition.outcome} · generation {condition.seconds}s, excluding shared preparation</p>
