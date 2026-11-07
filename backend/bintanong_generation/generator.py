@@ -124,6 +124,8 @@ class Generator:
 
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
+        if type(integration) is not IntegrationResult:
+            raise ValueError('candidate_integration_required')
         if integration.execution_plan is not None:
             from .compound import generate_compound
             return await generate_compound(self, text, integration, remaining_seconds=remaining_seconds)

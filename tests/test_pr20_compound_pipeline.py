@@ -208,3 +208,10 @@ def test_serialized_compound_proof_cannot_relabel_or_replace_citations():
     value['citations'][0]['text'] = 'Forged text retaining an old evidence ID'
     with pytest.raises(ValueError, match='compound_answer_provenance'):
         CandidateAnswer.parse(value)
+
+
+def test_generator_rejects_untyped_integration_before_compound_dispatch():
+    import pytest
+    for value in ({'execution_plan': {}}, object()):
+        with pytest.raises(ValueError, match='candidate_integration_required'):
+            asyncio.run(Generator(FakeTransport()).generate(QUESTION, value))
