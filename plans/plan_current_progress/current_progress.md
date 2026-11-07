@@ -61,5 +61,11 @@ and existing `supabase_db_Bintanong` are healthy. Exact161 previously blocked ca
 with696 passing subtests, at `78514ae3`; allfour shards exit0. Disposable UUID databases
 were cleaned up; application data and model containers are untouched. Reconciled original
 roster across two runs:6,873 passed/2 xfailed, plus the separate final hypothesis regression.
-Next: remaining live source/model, browser and latency acceptance. Keep PR20 draft and
-compound_checks OFF pending that evidence and owner promotion review.
+Owner authorized local staging for manual testing. [Staging handoff](../2026-11-07-pr20-local-staging.md):
+http://localhost:3218/chat, API8023, loaded `d5538a4f`;39 reviewed curriculum choices.
+Compound ON only in isolated staging; default OFF. Local benchmark rate window0, guests,
+cached research snapshot; no source/database/release changes or3217/evaluation reload.
+Frontend/API/model health200; INC question answered with citations/presentationV2.
+Two-course live smoke clarified; trace shows invalid model quote occurrences. Not fixed or passed.
+Automated inference stopped. Next: owner testing on3218 and narrow compound-reference follow-up;
+remaining original-backed/browser/latency acceptance and owner review still gate merge.

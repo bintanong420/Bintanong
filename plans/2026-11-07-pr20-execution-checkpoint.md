@@ -58,8 +58,12 @@ in multi-topic passage merge while package B was being edited; not a clean final
   existing Supabase PostgreSQL is healthy. Exact161 blocked cases pass/696 subtests pass
   at `78514ae3` with disposable UUID databases; allfour shards exit0. Reconciled original
   roster across two runs:6,873 passed/2 xfailed. No application-data/model-container changes.
-- Next: source-backed/model/browser/latency acceptance and owner review.
-  Keep PR20 draft, compound feature OFF and source PR18/19 open until required evidence.
+- Owner requested local staging: [handoff](2026-11-07-pr20-local-staging.md), localhost3218/API8023,
+  loaded `d5538a4f`. Existing model started, cached reviewed snapshot, compound ON only here;
+  default OFF. INC frontend-proxy check answered with sources/V2; compound live smoke clarified
+  because model quote occurrences were invalid. Recorded unresolved; no false verdict emitted.
+- Next: owner manual staging tests and narrow compound-reference follow-up, then remaining
+  original-backed/browser/latency acceptance and owner review. PR20 stays draft; PR18/19 stay open.
 
 ## Verification boundaries
 
