@@ -1,6 +1,7 @@
 # PR20 execution checkpoint
 
-Updated 7 November 2026. Candidate implementation delivered; acceptance gates remain open.
+Updated 7 November 2026. Owner requests development reconciliation/merge;
+candidate implementation delivered and remaining research acceptance disclosed.
 No numbered phase started or advanced.
 
 - Owner requested the implementation plan, deep audit and Orca runbook against PR20.
@@ -93,6 +94,13 @@ in multi-topic passage merge while package B was being edited; not a clean final
   and owner review before merge. Context8192;12K remains proposed. Automated inference stopped.
 
 ## Verification boundaries
+
+Owner's latest integration request supersedes keeping PR20 draft pending owner review.
+[Reconciliation evidence](2026-11-07-p12-dev-pr20-reconciliation.md): development
+ingestion/researcher trees and PR20 application trees preserved byte-for-byte,
+clean automatic merge.215-case backend roster passes across existing environments,
+16 compound and109 frontend checks, TypeScript/researcher production build pass.
+Researcher live document-switch1 skip; no source/release/phase advancement.
 
 Python3.13 uses existing external `audit-evidence/p12-env-20261031/venv`; pytest
 cache disabled, temporaries under ignored workspace audit-evidence. Node24.21 and

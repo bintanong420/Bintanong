@@ -64,5 +64,9 @@ Reviewed span metadata/labels preserved; existing D5 maximum-load source pointer
 13 source/9 presentation/6 frontend checks and4 browser size/theme replays pass; gates overlap.
 Broader gate234 passed; API0634d12c/proxy health200. Fresh live query answered and all24 source
 GETs passed, including11 labelled Handbook passages.43.06s combined chat/source-read observation.
-Next: owner exploratory review, then independent acceptance and paired language/latency work.
+Owner now requests [P12-dev/PR20 reconciliation](../2026-11-07-p12-dev-pr20-reconciliation.md).
+Clean merge preserves development ingestion/researcher tools and PR20 application code.
+215-case backend roster reconciled across existing Python environments;16 compound checks,
+109 frontend tests, TypeScript and researcher production build pass (reviewer browser1 skip).
+Next: publish reconciled PR20, merge into p12-dev, and synchronize its local checkout.
 No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.

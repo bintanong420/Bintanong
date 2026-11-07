@@ -1,6 +1,6 @@
 # Phase 11 policy-ingestion developer task
 
-Status: **not started; waiting for the primary's review-complete shared baseline**.
+Status: **T1 ready; T2 backend verified/UI under test; T3 package checks underway**.
 This is a dedicated workstream record, not a numbered phase plan/checkpoint.
 [Coordination contract](2026-10-26-phase11-two-developer-workflow.md).
 
@@ -22,10 +22,10 @@ agreement and one designated implementer before modification.
 
 | Item | Current state |
 | --- | --- |
-| Review-complete shared Git commit | Not established; do not substitute current HEAD |
-| Source/package manifest | Comparison-only snapshot linked above; final baseline pending |
-| Feature branch | `feat/p11-policy-ingestion-review`, not created yet |
-| Separate worktree | Not created yet |
+| Review-complete shared Git commit | `4e99fb655022e694c73bbd98dd6daec9d7d88fb5`; bounded review only |
+| Source/package manifest | Upstream recorded; local comparison directory missing, path requested |
+| Feature branch | `feat/p11-policy-ingestion-review`, created from the fixed fork |
+| Separate worktree | `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p11-policy-ingestion-review` |
 | Generated outputs | Workspace `audit-evidence/p11-policy-ingestion-review-20261026/` |
 | Disposable local database | Not configured or validated |
 | Shared interface changes | None agreed or implemented |
@@ -65,7 +65,39 @@ Do not edit shared workstation setup as an incidental ingestion implementation s
 
 ## Shared-change agreement and updates
 
-No shared-change proposals or implementation updates yet. For each proposal record
+Owner approved [the feature plan](2026-10-26-policy-ingestion-workstream.md), including
+Next.js/React/TypeScript UI plus FastAPI and prospectus reuse extended to Handbook/CC.
+Six ingestion documentation commits were initially made on frontend in error; they
+have been transferred here. Frontend was reset to origin/frontend e172f53 with its
+pre-existing dirty files restored. Recovery ref: recovery/p11-ingestion-misplaced-20261026.
+All further ingestion changes belong in this worktree. No frontend push occurred.
+
+Baseline synthetic checks:77 passed/110subtests,30.01s using Python3.13,pytest cache
+disabled and external basetemp. Initial setup errors came from a missing basetemp
+parent;creating that directory resolved them without code/dependency changes.
+Source/package byte verification,UI/device/reviewer choices and local DB remain pending.
+No credentials copied,no installs,hosted access or runtime/source activation.
+
+T1:manifest validation,immutable source/candidate packet,replay,resume,visible page
+holds and prepare CLI implemented in knowledge_update/. RED11missing-module failures,
+then GREEN11;edge RED3 then GREEN68with existing bundle/report checks;CLI RED1 then
+final GREEN69,21.31s. Commands:Python3.13 -Xutf8 -B -m pytest -q -p no:cacheprovider
+tests/test_knowledge_update_prepare.py tests/test_candidate_bundle.py
+tests/test_ingestion_report.py;external basetemps under the workstream evidence root.
+T2:review journal RED10/GREEN10;API RED8/GREEN18;legacy prospectus adapter RED404
+then GREEN1. Combined new/legacy session/API/geometry regressions:79passed,19.42s.
+UI uses selected existing frontend controls/helpers;no student auth/proxy imported.
+Next16.4.3 webpack build and TypeScript pass;Node helper tests REDmissing-module
+then GREEN3. Shell Node22.22.3 differs from pinned24.21.0;exact-runtime check pending.
+T3 RED7 missing module;typed fixture corrected to tuple;GREEN9,14.95s,including
+cache reuse,held/excluded rejection,explicit correction,metadata and stale reviews.
+Ruling:missing real baseline defers byte/replay acceptance,not independent synthetic
+implementation. Real-source accuracy/compatibility cannot be claimed until supplied.
+Ruling:reuse one-writer ledger locking as the safe implementation default;no claim
+that owner separately accepted simultaneous-review/UI-language/device choices.
+Docker daemon is unavailable;actual-role local DB rehearsal remains an explicit gate.
+
+No shared modules/dependencies changed. For each proposal record
 the interface, resulting behavior, compatibility, agreed implementer and commit;
 then report both ingestion and runtime compatibility test results. Keep this record
 compact and leave central Phase 11 progress/checkpoint edits to the primary.
