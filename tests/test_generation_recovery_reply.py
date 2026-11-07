@@ -192,8 +192,9 @@ def test_a_part_with_no_reviewed_topic_is_named_unavailable_beside_the_answered_
     integration, answer = run(text, value, topics=(topic,))
     lines = student_text(answer).splitlines()
     assert answer.status == 'answered' and integration.route == 'Symbolic'
-    assert lines[-1] == ('Yung part tungkol sa "tapos saan ang office ng dean?" ay wala pa sa reviewed sources ng '
-                         'Bintanong. Paki-ask sa tamang university office.')
+    assert lines[-1] == ('Hindi ko ma-match yung part tungkol sa "tapos saan ang office ng dean?" sa reviewed '
+                         'document topic. Hindi pa na-check yung part na ito; paki-clarify o ask sa tamang office.')
+    assert 'wala pa sa reviewed sources' not in lines[-1]  # unmatched topic was never a corpus search result
     assert lines[0].startswith(f'Mga course na may {X} bilang prerequisite')
 
 
