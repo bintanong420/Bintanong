@@ -66,17 +66,14 @@ Live, the "Leaving PalSU" routing prompt went 8319 -> 7362 tokens (7416 usable).
 Open gap: `evaluation/system_metrics.py` cannot count a relevant chunk in neither top-3 list, so recall is overstated for unkeyed rows. Proposed `FN: C123, C145` in the page's Note box; awaiting owner yes/no; scorer change needs RED/GREEN and no page or API restart. Undecided: RAGAS install/judge, BATAYAN source, Integration box rename.
 
 ## RAGAS branch (7 Nov)
-Branch `p12-ragas-benchmark` in worktree `p12`. Owner approved: separate venv (ignored
-`audit-evidence/ragas-20261107/`, ragas 0.4.3, langchain-community pinned <0.4, frozen list kept), DeepSeek
-`deepseek-chat` judge (key in that folder's `.env`, outside Git), local SEA-LION E5 embeddings, telemetry off.
-Shared references `51048843`: `docs/evaluation/references/` = verbatim TP+FN chunks per Q1-Q14 (owner rule);
-BERTScore pairs now carry them. Full 42-row run done (no errors, 481k in / 185k out tokens): faithfulness .52,
-answer relevancy .58, context precision .90, context recall .75 (optimistic), factual correctness (precision) .57.
-Relevancy is 0 on 7 rows where the judge called source-limitation notices noncommittal. Faithfulness .52 was
-an export gap: the writer also gets each chunk's required neighbours (rebuilt from the package; 42/42 match
-logged attached_count). Against that full evidence faithfulness = .78 (EN .80 / TG .78 / TL .77); retrieval
-metrics stay on top-3. Owner handoff zip for the BERTScore dev: `audit-evidence/bertscore-handoff-20261107/`.
-Results are a research measurement, not yet reported; branch not pushed (awaiting owner).
+Branch `p12-ragas-benchmark` (worktree `p12`, pushed). Owner approved separate venv (ignored
+`audit-evidence/ragas-20261107/`), DeepSeek judge (key in that folder's `.env`), local SEA-LION E5, telemetry off.
+Shared references `docs/evaluation/references/` (verbatim TP+FN chunks); BERTScore pairs + zip carry them.
+Write-up, per-row CSV and scripts: [RAGAS results](../../docs/evaluation/ragas/README.md). Headline (42 rows):
+faithfulness .883 against rebuilt writer evidence (neighbours 42/42 match logged counts; top-3-only .525),
+answer relevancy .584 (0 on 7 rows flagged noncommittal for source-limit notices; .701 without), context
+precision .896, context recall .754 (optimistic), factual correctness precision .570. One judge run; not yet
+reported in the thesis.
 
 ## Next action
 
