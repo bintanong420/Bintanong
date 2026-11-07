@@ -65,4 +65,7 @@ Reviewed span metadata/labels preserved; existing D5 maximum-load source pointer
 Broader gate234 passed; API0634d12c/proxy health200. Fresh live query answered and all24 source
 GETs passed, including11 labelled Handbook passages.43.06s combined chat/source-read observation.
 Next: owner exploratory review, then independent acceptance and paired language/latency work.
+Thesis question: [ablation interpretation](../2026-11-07-thesis-ablation-interpretation.md):
+Objective2 indirectly supports RAG-only comparison; RQ2 explicitly requires baseline/full.
+No ablation protocol/rerun or thesis change made; historical conditionB remains skipped.
 No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.
