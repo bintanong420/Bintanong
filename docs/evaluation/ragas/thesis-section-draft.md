@@ -1,6 +1,7 @@
 # Draft thesis section: RAGAS evaluation
 
-Draft wording for the manuscript; table numbers (5.x) are placeholders. Faithfulness is reported only against the
+Draft wording for the manuscript; table numbers (R1-R3) are placeholders. Text after the first rule is the
+manuscript section; build_section_pdf.py renders it to PDF. Faithfulness is reported only against the
 full generator evidence; the top-3-only (.525) and plain-text (.782) diagnostics stay in README.md for panel questions. Figures come from
 `ragas_scores.csv` / `ragas_summary.json`; the worked example comes from `example-q9.json`
 (same judge, same evidence). The instrument is the one promised in Chapter IV, Research Instruments (2),
@@ -102,7 +103,7 @@ original question were:
 | What are the penalties for cheating in examinations and the additional corrective measures for academic dishonesty? | 0.838 |
 
 Answer Relevancy = (0.957 + 0.843 + 0.838) / 3 = **0.879**. Question generation is not deterministic. The
-scored run, reported in Table 5.x, gave 0.840 for this item.
+scored run, reported in Table R2, gave 0.840 for this item.
 
 *Context Precision.* Both retrieved passages were relevant (v_1 = v_2 = 1), so Precision@1 = 1/1 and
 Precision@2 = 2/2. Context Precision = (1 × 1 + 1 × 1) / 2 = **1.000**.
@@ -115,7 +116,7 @@ that retrieval returned the general rule but not the related specific offences.
 
 ### Results
 
-**Table 5.x. RAGAS scores of Bintanong by query language (n = 42; 14 per language)**
+**Table R1. RAGAS scores of Bintanong by query language (n = 42; 14 per language)**
 
 | Metric | Overall | English | Tagalog | Taglish |
 | --- | ---: | ---: | ---: | ---: |
@@ -124,6 +125,40 @@ that retrieval returned the general rule but not the related specific offences.
 | Context Precision | 0.896 | 0.911 | 0.909 | 0.869 |
 | Context Recall | 0.754 | 0.793 | 0.737 | 0.733 |
 | Factual Correctness (precision) | 0.570 | 0.571 | 0.570 | 0.568 |
+
+**Table R2. RAGAS scores per benchmark query (mean of the English, Tagalog and Taglish versions)**
+
+| No. | Query (English version) | Faithfulness | Answer Relevancy | Context Precision | Context Recall | Factual Correctness |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | How to drop subjects? | 0.902 | 0.567 | 0.722 | 0.689 | 0.607 |
+| 2 | How to shift/change curricular program? | 0.858 | 0.704 | 0.833 | 1.000 | 0.787 |
+| 3 | How to enroll for the next semester? | 0.817 | 0.641 | 0.389 | 0.755 | 0.447 |
+| 4 | How to add or change subjects? | 0.958 | 0.666 | 0.889 | 0.581 | 0.270 |
+| 5 | How to remove a grade of 4? | 0.945 | 0.000 | 0.944 | 0.354 | 0.513 |
+| 6 | How to complete an INC grade? | 0.930 | 0.000 | 1.000 | 1.000 | 0.430 |
+| 7 | How do I get off probation? | 1.000 | 0.810 | 1.000 | 1.000 | 1.000 |
+| 8 | What do I do when I lose, forget my ID or to retrieve a confiscated ID? | 0.800 | 0.835 | 1.000 | 1.000 | 0.890 |
+| 9 | What is the penalty for cheating in an exam? | 0.915 | 0.767 | 1.000 | 0.692 | 0.387 |
+| 10 | How to secure a good moral certificate? | 0.993 | 0.618 | 1.000 | 0.659 | 0.353 |
+| 11 | How to secure transfer credentials? | 0.900 | 0.679 | 0.889 | 0.639 | 0.410 |
+| 12 | How do I claim accident insurance? | 1.000 | 0.873 | 1.000 | 1.000 | 1.000 |
+| 13 | How to obtain a vehicle or gate pass? | 0.646 | 0.374 | 1.000 | 0.380 | 0.430 |
+| 14 | How to avail the use of university rooms and facilities? | 0.690 | 0.643 | 0.880 | 0.812 | 0.450 |
+| | **Mean** | **0.883** | **0.584** | **0.896** | **0.754** | **0.570** |
+
+### Analysis of low-scoring items
+
+- *Answer Relevancy of 0 (Queries 5 and 6, and Query 13 in Taglish).* These answers quote the source and then
+  state a recorded source limitation (for example, conflicting completion deadlines for an INC grade) and refer
+  the student to the relevant office. The judge labelled them noncommittal, which sets the score to 0.
+- *Query 13 (vehicle or gate pass).* The source describes only selected office steps of the application, so the
+  answer adds notices such as "These are selected office steps, not a complete application procedure." These
+  notices are not in the source text, which lowers Faithfulness. The gate-pass passages that were not retrieved
+  also lowered Context Recall (0.380).
+- *Query 3 (enrolment).* Context Precision was 0.389. The RAGAS judge considered some higher-ranked passages
+  not useful for reaching the reference answer, although the human relevance judgments used for the F1
+  evaluation marked all three as relevant. RAGAS judges usefulness for the reference, not topical relevance,
+  so the two measures can disagree.
 
 ### Discussion
 
@@ -146,12 +181,13 @@ Tagalog 0.638, Taglish 0.698). English scored higher than Tagalog and Taglish on
 may come from comparing a Filipino question with questions generated from mostly English source wording, so
 it is not a clean comparison of language quality.
 
-Factual Correctness (0.570) was moderate. The references are complete source passages, and answers sometimes
-included correct content from neighbour passages or host notices that are not part of the reference. Both
-lower the precision score without indicating a factual error.
+Factual Correctness (0.570) was moderate. An answer claim counts against this score whenever it is absent from
+the reference, even if it is correct. Examples are content drawn from required-neighbour passages outside the
+reference, or system notices such as source-limitation statements. The lowest items (Queries 4, 9 and 10) were
+not analysed claim by claim, so this metric is reported without attributing its errors to a specific cause.
 
 Limitations: each item was scored once by a single judge model. The judge's reliability on Tagalog and Taglish
-was not separately validated. Query 11 was run on a later routing version; without it, the Table 5.x scores change
+was not separately validated. Query 11 was run on a later routing version; without it, the Table R1 scores change
 by at most 0.012. The planned comparison against the baseline Bintu-1 model was not carried out for RAGAS.
 
 ---
