@@ -4,6 +4,7 @@ referral. Every chosen topic is retrieved; the message is answered only when eve
 Synthetic fixtures only."""
 import asyncio
 import json
+import pytest
 
 from backend.bintanong_orchestration.orchestrator import Orchestrator, merge_documents
 from backend.bintanong_routing.contracts import RequestContext
@@ -87,10 +88,76 @@ def test_a_single_topic_keeps_the_whole_message_as_its_query():
     assert [r.query for r in docs.calls] == [TEXT]
 
 
-def test_a_topic_without_evidence_leaves_the_whole_message_unanswered():
+def test_a_topic_without_evidence_preserves_the_independent_supported_part():
     docs = PerTopicDocuments(fictional_fees=documents('insufficient_evidence', passages=[]))
     result = run(model(two_topics()), docs)
+    assert result.status == 'ready'
+    assert result.evidence.documents.status == 'partial'
+    assert len(result.evidence.documents.passages) == 1
+    outcomes = result.evidence.documents.topic_outcomes
+    assert [(o.part_ids, o.subject_id, o.status) for o in outcomes] == [
+        (('r1',), 'fictional_office', 'ok'), (('r2',), 'fictional_fees', 'insufficient_evidence')]
+
+
+def test_all_missing_topics_remain_unavailable():
+    absent = documents('insufficient_evidence', passages=[])
+    result = run(model(two_topics()), PerTopicDocuments(fictional_office=absent, fictional_fees=absent))
     assert result.status == 'no_evidence'
+
+
+def test_conflict_in_either_topic_still_holds_the_answer():
+    result = run(model(two_topics()), PerTopicDocuments(fictional_fees=documents('conflicting_sources')))
+    assert result.status == 'conflict'
+
+
+def test_missing_topic_cannot_hide_a_different_release():
+    other = documents('insufficient_evidence', release_id='release-other', passages=[])
+    result = run(model(two_topics()), PerTopicDocuments(fictional_fees=other))
+    assert result.status == 'release_mismatch'
+
+
+def test_unknown_source_inside_unavailable_topic_is_still_a_hard_hold():
+    raw = documents('insufficient_evidence').model_dump(mode='json')
+    raw['passages'][0]['citations'][0]['byte_sha256'] = 'f' * 64
+    unknown = type(documents()).parse(raw)
+    result = run(model(two_topics()), PerTopicDocuments(fictional_fees=unknown))
+    assert result.status == 'release_mismatch'
+
+
+def test_companion_failure_cannot_leave_its_own_part_looking_supported():
+    from backend.bintanong_orchestration.contracts import DocumentTopicOutcome
+    first, second = documents(), documents('insufficient_evidence', passages=[])
+    bound = []
+    for subject, result in [('fictional_office', first), ('fictional_fees', second)]:
+        observation = DocumentTopicOutcome(part_ids=('r1',), subject_id=subject, requested_claims=('detail',),
+            release_id=result.release_id, status=result.status, passages=result.passages, gaps=result.gaps)
+        bound.append(result.model_copy(update=dict(topic_outcomes=(observation,))))
+    merged = merge_documents(bound)
+    assert merged.status == 'insufficient_evidence'  # the only part depends on both topics
+
+
+def test_a_partial_aggregate_cannot_forge_away_a_conflict():
+    from backend.bintanong_orchestration.contracts import DocumentResult
+    raw = run(model(two_topics()), PerTopicDocuments(
+        fictional_fees=documents('insufficient_evidence', passages=[]))).evidence.documents.model_dump(mode='json')
+    raw['topic_outcomes'][1]['status'] = 'conflicting_sources'
+    with pytest.raises(ValueError, match='partial_documents_cannot_bypass_hard_hold'):
+        DocumentResult.parse(raw)
+
+
+def test_a_partial_aggregate_cannot_be_relabelled_ok():
+    from backend.bintanong_orchestration.contracts import DocumentResult
+    raw = run(model(two_topics()), PerTopicDocuments(
+        fictional_fees=documents('insufficient_evidence', passages=[]))).evidence.documents.model_dump(mode='json')
+    raw['status'] = 'ok'
+    with pytest.raises(ValueError, match='ok_documents_require_successful_topics'):
+        DocumentResult.parse(raw)
+
+
+def test_duplicate_chunk_with_different_body_is_rejected():
+    with pytest.raises(ValueError, match='incompatible_document_chunk'):
+        merge_documents((documents(), documents(passages=[dict(
+            documents().passages[0].model_dump(mode='json'), text='Contradictory body under same ID.')])) )
 
 
 def test_merged_results_keep_every_distinct_passage_and_gap_in_order():

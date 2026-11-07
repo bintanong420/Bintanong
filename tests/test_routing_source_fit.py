@@ -11,6 +11,24 @@ from test_routing_router import FakeTransport, style_proposal
 from test_routing_validation import catalog, registry
 
 
+def test_document_routing_instructions_leave_room_for_reviewed_metadata():
+    from backend.bintanong_routing.prompt import SYSTEM_PROMPT, build_messages
+    topic = DocumentTopic(subject_id='fictional_service', claims=('workflow',),
+        claim_fields={'workflow': ('step1_client_step',)},
+        claim_context={'workflow': {'step1_client_step': 'Submit fictional slip.'}},
+        claim_headings={'workflow': ('Fictional procedure',)},
+        source_labels=('Fictional service',), source_opening='Fictional opening.',
+        source_context=('Fictional policy context.',), not_stated=('unprinted fee',))
+    system = build_messages('How do I get slip S?', RequestContext.parse(context()), (), registry(), (topic,))[0]['content']
+    instructions, tail = system[len(SYSTEM_PROMPT):].split('[{"', 1)
+    menu, _ = json.JSONDecoder().raw_decode('[{"' + tail)
+    assert len(instructions) <= 4500
+    assert menu[0]['fact_values'][0]['fields'] == dict(topic.claim_context['workflow'])
+    assert menu[0]['source_context'] == list(topic.source_context)
+    assert menu[0]['not_stated'] == list(topic.not_stated)
+    assert menu[0]['workflow_fact_indices'] == [0]
+
+
 def test_reviewed_step_structure_reaches_both_menus_without_source_priority():
     from backend.bintanong_routing import topic_selection
     from backend.bintanong_routing.prompt import build_messages

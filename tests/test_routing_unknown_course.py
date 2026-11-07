@@ -75,8 +75,8 @@ def test_missing_scope_is_asked_as_a_question(language, missing, expected):
 
 NOT_FOUND = {'en': 'could not find that course', 'fil': 'Hindi ko nakita ang kursong iyan',
              'taglish': 'Hindi ko nakita yung course na iyan'}
-PRINTED = {'en': 'as printed in your prospectus', 'fil': 'nakasulat sa prospectus mo',
-           'taglish': 'naka-print sa prospectus mo'}
+PRINTED = {'en': 'course name or code in your prospectus', 'fil': 'course name o code nito sa prospectus mo',
+           'taglish': 'course name o code nito sa prospectus mo'}
 
 
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])

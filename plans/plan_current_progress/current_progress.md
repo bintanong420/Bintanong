@@ -1,101 +1,68 @@
 # Current progress
 
-Updated 7 November 2026. Development: worktree `p12-dev` / branch `p12-dev`.
-Owner reserves `p12-evaluation-harness` for thesis evaluation by netorare; it is no longer
-the development mainline. New branch starts at published `039e80a2`; previous working
-branch `p12-post-gathering-fixes` remains intact. Push ongoing work only to `origin/p12-dev`
-unless explicitly directed otherwise. No server, runtime, source or dependency changes.
-Last full snapshot before condensation: `d2ad9fef` (recover with `git show`).
-Gathering checkout and owner USG notes remain separate. No numbered phase is active;
-Phase 12 research/software write-up is complete with disclosures; Phase 13 is cancelled.
+Updated7November2026. Active implementation: `p12-pr20`, branch
+`feature/p12-unified-answer-pipeline`, PR20 targets `p12-dev`. PR remains draft/unmerged.
+Evaluation checkout is reserved for thesis evaluation. No numbered implementation phase active.
+Last full snapshot before condensation: `743004ad` (`git show` recovers it).
 
-## Delivered repairs
+## Current candidate
 
-- [Benchmark repair checkpoint](../2026-11-06-owner-benchmark-repairs.md) records source/routing,
-  registration, Taglish, grade-4 and INC fixes. Final code `bdf6d50a`, handoff `d2ad9fef`.
-- R3 owner export: 21 tested, 20 Y / 1 N, 51 untested; grade answers needed brevity work.
-  Subsequent live B13-TL registration and ID Taglish checks pass. Final English grade-4/INC
-  outputs retain method, approval and source limitations; 25.4%/52.5% shorter than earlier candidate.
-  Final focused grade gate: 174 pass. No frozen full-72 accuracy claim.
-- Published integrated repairs to `origin/p12-evaluation-harness` at `c8cd43c8`, preserving
-  remote architecture image commit `abd007b4`. Integrated gate: 585 pass. No force push.
-  Publication worktree: `p12-eval-publish`; dev checkout remains isolated.
-- [Earlier continuation](../2026-11-04-codex-continuation-log.md) and
-  [isolation handoff](../2026-11-04-development-isolation-handoff.md) retain memory,
-  prerequisite-listing, term checks and recovery-planner evidence. Do not repeat setup.
+[Execution checkpoint](../2026-11-07-pr20-execution-checkpoint.md) and
+[verification matrix](../2026-11-07-pr20-verification.md) record integration and earlier gates.
+- Five PR18/19 commits imported once with provenance and curriculum-only symbolic boundary.
+- Typed per-topic outcomes preserve independent evidence; conflict/release/source guards remain.
+- Host-owned presentationV2 spans Python/SSE/Zod/React; explicit version2 negotiation preserves
+  original strict metadata for legacy clients. Untrusted/invalid presentation falls back to text.
+- Bounded two-check executor keeps separate proofs; compound default OFF, staging only ON.
+- Clarifications bind server-owned turn/revision/slots; known scope and goal cannot be retargeted.
+- Original backend roster reconciled across runs:6,873 passed/2 xfailed, including161 Docker
+  reruns/696 subtests. This is cumulative historical evidence, not a new full-suite run.
 
-## Chat self-information index
+## Current follow-up
 
-Owner: capabilities and research scope must be callable in chat.
-[Design and checks](../2026-11-06-system-information-index.md).
-- Dedicated semantic `system_information` control and fixed English/Taglish index cover
-  implemented features, undergraduate 2026–2027 research scope, excluded audiences,
-  advisory limits, source gaps, private-PDF isolation and pending university validation.
-- This is project metadata, not university-policy corpus content. No fake institutional citations,
-  embedding changes, new dependencies or model weights. Academic answer ledgers stay mandatory.
-- Coverage questions naming programs do not select student curriculum. Mixed self/academic
-  clarification is preserved before policy-topic repair; it asks for separate questions.
-- Initial RED: 6 failures; program-resolution RED: 2; mixed-request RED: 1.
-  Focused gates: 337 pass; later 266 pass; final guard/compile/routing integration: 319 pass.
-  Frontend workspace/transport: 22 pass; TypeScript passes. Gates overlap; not a full-suite total.
-- Live router: four standalone EN/Filipino/Taglish/graduate-coverage questions select self-info;
-  mixed capability+INC query finally selects `clarify` / `compound_request`. Earlier model outage
-  and wrong mixed fallback were diagnosed, not counted as successful checks.
-- Context rechecked: thesis physical17–18 and runtime routing PNG, master architecture and
-  undergraduate scope policy. This adds a non-academic terminal control; academic routes unchanged.
+[Implementation/evidence](../2026-11-07-pr20-compound-recovery-implementation.md):
+- `7002c43e`: routerv27 demonstrates two eligibility targets and abbreviated second questions;
+  explicit fastest-return preference reaches the existing curriculum-scoped planner.
+- `651ce26d`: shared question span can retain two explicit target parts; recovery V2 shows one
+  primary draft with assumptions/warnings, plus native disclosures for alternatives/options/quotes.
+- `a34c10c6`: existing recovery normalization runs before redundant same-course span compilation.
+  No inferred student grades, new Prolog goals, source edits or broader execution permission.
+- Live English/Taglish/Filipino two-check and English mixed-Hybrid cases answer with2/2/2/3
+  separately cited parts on651ce26d. Prior Taglish/Filipino generic clarifications reproduced first.
+- Exact old-BSCS CC4/L fastest-recovery question answers on APIa34c10c6 through frontend3218
+  in40.02s. Earliest projected DraftC; visible458 words vs full1,642, one draft/3 disclosures.
+  Unknown checks/approval limits remain visible; alternatives keep their own load warnings.
+- Final1,120 routing/API/compound regressions,90 recovery/plan-view checks,106 frontend tests,
+  TypeScript and production Webpack build pass. Gates overlap; do not sum them.
 
 ## Runtime and boundaries
 
-- Main web/API 3216/8021, dev web/API 3217/8022, shared model18088.
-  Luna confirmed all five HTTP200; model container healthy; hidden keepalive PID72532.
-- Dev API reloaded for index and shifting repair. Frontends/main/model untouched.
-  Final wording reload ready200: root52864 / server46896; all five services HTTP200.
-  Dev-only zero rate window and measured grade budget5120 remain ignored launcher overrides.
-  Main controls unchanged. Keep `pause-dev-api` sentinel during intentional dev reloads.
-- Wider [audit proposal](../2026-11-06-deferred-audit-remediation-proposal.md) remains deferred.
-  Undergraduate advisory scope, unknown-versus-unmet, source conflicts, F04 hold,
-  English/Taglish replies and private-upload isolation remain mandatory.
+Owner-authorized staging: http://localhost:3218/chat, API8023; API0634d12c, frontend9833bb7a.
+39 reviewed curricula, existing cached research snapshot; loopback guests/rate window0.
+Compiler/compound ON only in this staging composition; repository defaults unchanged.
+Context8192;12K is proposed/unmeasured. planView remains OFF. No dependency/model downloads.
+Docker/model were found stopped and existing instances restarted under prior owner authorization.
+Automated inference stopped after bounded checks. Historical PIDs/keepalive are not indefinite health.
+No mainline/evaluation reload, merge, source/database activation or institutional approval.
 
-## Next action
+## Preserved evidence and next action
 
-Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
-[Shifting repair](../2026-11-06-program-shifting-repair.md): exact “Pano po lumipat ng kurso?”
-retrieved the right policy but generation quoted only cross-college section 4.1. Both college branches
-and Registrar guidance now use clean exact source quotes for generic whole-program questions;
-FAQ companion cue and conditional office closing repaired at `9830a030`: worker 309 / parent 57 pass.
-Exact 3217 proxy question returned answered/Taglish with both branches, FAQ and Registrar guidance.
-Closing grammar correction `a5e5a6a0` passed 57 tests after its RED; final dev-only reload is ready.
-Adaptive [procedure source fit](../2026-11-06-adaptive-procedure-source-fit.md) now addresses
-the good-moral report without a blanket source switch: menus expose reviewed workflow
-bindings; whole selected procedures retain step facts within the existing eight-claim bound.
-Policy, explicit source and requirements-only scope remain. `b5312a47` committed;
-reviewed five-case good-moral router checks pass; later gate362 pass.
-Round4 [intake](../2026-11-06-round4-benchmark-intake.md): latest63Y/6P/3untested;
-good moral/gate pass all partial, shifting FinalY but verbose, B15 form-location note remains.
-Shifting short-referral cleanup `e8a848a1`:141 tests pass, source quotations retained.
-Removal form is reviewed Charterphysical112 step1 (Registrar's office); new bounded
-client-step hints expose it. Context/aggregate binding regressions fixed; pinned145topicsload;
-`622b68b0` committed; optional selector hints reduced to fit existing8192modelcontext.
-Reviewed client-step object phrases expand candidates only, preserving semantic source selection.
-All3gate-pass router variants pass; compound grade4/form correctly splits Handbook/Charter.
-`f048a75c` final combined gate501 pass. Live3217 good moral/gate pass/compound grade4+form
-all answered with correct sources; form Registrar location now present, source limits retained.
-Gate-pass partial-coverage notice is now outside cited claims; condition/support guards unchanged.
-Final `b8a59e02` gate-pass HTTP200/answered includes memo guidance and incomplete-process notice.
-Notice gate152 / malformed-field26 pass; earlier combined501 pass (overlapping, no full72 claim).
-All automated queries stopped. API12524/server56864 ready200, allfive200, keepalive36880 active.
-New [request/location overflow](../2026-11-06-good-moral-request-location-overflow.md): exact
-“Paano mag-request ng Good Moral? Saan po ito kinukuha?” added too many optional examples.
-Distinctive-label hints/global3-example bound: selector7749->7240tokens;338tests pass,
-isolated router exactquestion passes. `c20c1d1a` live3217 exactquestion answered/Taglish,
-Charter procedure/OSAS, HTTP9.92s (not browser time). API61132/server18844 ready200;
-allfive200, keepalive36880. Automated queries stopped. Owner18:33 validation sign-off:
-Final72Y; A07 inferred/waived, gate-pass selected-fragment condition retained.
-[Publication](../2026-11-06-owner-signoff-publication.md): push origin P12 first, then working
-branch, preserving remote image/history. Integrated542Python/22frontend/TypeScript pass;
-[alignment audit](../2026-11-06-human-automation-alignment.md) checks reported behaviors,
-four saved live outputs and gaps. Both origin branches verified at integrated `1685647e`,
-P12 pushed first, working second; no force/runtime changes. Next: owner testing and remaining
-explicitly unexecuted A07 cases. Continue the agreed answer-structure/prompt/frontend
-presentation pass on `p12-dev`; evaluation-branch changes require explicit coordination.
-No new source/Supabase or runtime changes; no independent full72 execution claim.
+[Human/automation alignment](../2026-11-06-human-automation-alignment.md),
+[owner signoff](../2026-11-06-owner-signoff-publication.md),
+[chat system index](../2026-11-06-system-information-index.md) retain earlier decisions/limits.
+Historical72Y marks include inferred cases; not independent current72/72 acceptance.
+Keep undergraduate scope, source gaps/F04, privacy and unknown-versus-unmet distinctions.
+UI polish `9833bb7a`: short PlanD heading, casual term labels, one source action/footer,
+stacked mobile table cells. [Evidence/research](../2026-11-07-pr20-recovery-ui-polish.md):
+15 backend presentation and109 frontend tests pass; TypeScript/production build pass.
+Existing Edge/Playwright checked isolated real-component replay1440/390px in light/dark,
+keyboard disclosures, source count and overflow; footer contrast6.58/7.66:1. This is not full-chat UAT.
+Recovery `0634d12c`: affected courses precede the recovery plan; Handbook cards share Sources.
+[Evidence](../2026-11-07-pr20-recovery-source-order.md): saved BSCS replay answers with24 cards
+(13 curriculum/11 Handbook) and2 disclosures; missing/page-mismatched evidence retains quotes.
+Reviewed span metadata/labels preserved; existing D5 maximum-load source pointer added.
+13 source/9 presentation/6 frontend checks and4 browser size/theme replays pass; gates overlap.
+Broader gate234 passed; API0634d12c/proxy health200. Fresh live query answered and all24 source
+GETs passed, including11 labelled Handbook passages.43.06s combined chat/source-read observation.
+Next: owner exploratory review, then independent acceptance and paired language/latency work.
+No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.

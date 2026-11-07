@@ -125,6 +125,7 @@
     }
   ],
   "source_chunk_ids": [
+    "c6310c5100d075b383c2525015552372db92d111769e0fe51ea636ffff8f663f",
     "124bdab4d76ca90dc89977c7aeb0bd6e2a0fcfee0a3cccdf7fffe7c2c640af22",
     "4ea493a3761e47367468c1346e3be00c29a7e49378c052c78219b4b2af5a07da",
     "72991b15e2dadfbdd18ab0c193f6db78e529b15eb918eb76bf3e8b5988b6f8ae",
@@ -137,6 +138,7 @@
     "b4bbd9e20b222661a0e439fda39cac8d1b92404bc3d49528b0b507361cd14ab3"
   ],
   "review_refs": [
+    "owner-2026-11-04-d5-working-load-ceiling",
     "owner-2026-11-04-d1-recovery-steps-1-4",
     "owner-2026-11-04-track-a-summer-load",
     "owner-2026-11-04-track-a-items-1-4",

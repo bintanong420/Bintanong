@@ -32,9 +32,10 @@ def test_shipped_example_has_grounded_distinct_parts_and_coherent_target_conditi
     Draft202012Validator(prompt.output_schema()).validate(packet)
     normalized = normalize_interpretation(value['original_text'], WireInterpretation.parse(packet))
     assert [p.text for p in normalized.parts] == [
-        'After failing M4, can I take N8', 'where do I submit ticket R', 'what is the fee?']
-    assert [p.evidence_need for p in normalized.parts] == ['structured', 'document', 'document']
-    assert [p.operation_indices for p in normalized.parts] == [(0,), (), ()]
+        'After failing M4, can I take N8?', 'P9 too?', 'Where do I submit ticket R?']
+    assert [p.evidence_need for p in normalized.parts] == ['structured', 'structured', 'document']
+    assert [p.operation_indices for p in normalized.parts] == [(0,), (1,), ()]
+    assert normalized.mentions[normalized.operations[1].target].text == 'P9'
     assert normalized.mentions[normalized.operations[0].target].text == 'N8'
     claim = normalized.claims[0]
     assert normalized.mentions[claim.entity].text == 'M4'
@@ -45,6 +46,12 @@ def test_shipped_example_has_grounded_distinct_parts_and_coherent_target_conditi
 def route_example(mode='asserted'):
     value, context = example()
     packet = deepcopy(value['interpretation'])
+    # Exercise the existing single-check boundary separately from the compound example.
+    packet['operations'] = packet['operations'][:1]
+    packet['parts'] = [packet['parts'][0], packet['parts'][2]]
+    packet['parts'][1]['part_id'] = 'r2'
+    packet['part_count'] = 2
+    packet['mentions'] = packet['mentions'][:2]
     packet['claims'][0]['mode'] = mode
     style = dict(schema_version='bintanong-response-style-v2', style=dict(
         english_fragments=['can I take N8'], filipino_fragments=[], preferred_response_style='english_only'))
@@ -80,4 +87,4 @@ def test_router_prompt_maps_not_yet_passed_and_not_taken_to_a_failed_claim():
     text = prompt.SYSTEM_PROMPT
     # Owner memory and eligibility plan: not yet passed and not taken are their own states, not failed.
     assert 'not_passed (not yet passed' in text and 'not_taken (never or not yet' in text
-    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v25'
+    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v27'

@@ -13,7 +13,7 @@ from dataclasses import dataclass
 
 from .contracts import TERM_OPERATIONS, Interpretation, RequestContext, prepare_query, quote_matches
 from .terms import parse_term
-from .recovery_cue import recovery_follow_up
+from .recovery_cue import asks_recovery, recovery_follow_up, recovery_request
 
 COURSE_OPERATIONS = ('check_prerequisite_eligibility', 'list_course_prerequisites', 'list_missing_prerequisites',
                      'list_affected_courses', 'course_facts')
@@ -481,6 +481,16 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
     for claim in claim_values:
         claim['entity'] = moved[claim['entity']]
 
+    if (operations and reference_span is None and asks_recovery(text)
+            and not any(not topic.with_check for topic in meaning.topics)):
+        # Reuse the existing recovery normalization before redundant checks create duplicate spans.
+        candidate = _build(meaning, mentions, claim_values, operations, [dict(
+            part_id='r1', text=text, start=0, end=len(text), evidence_need='structured',
+            operation_indices=list(range(len(operations))))], None, meaning.control)
+        recovery = recovery_request(candidate, text)
+        if recovery is not None:
+            return recovery
+
     # Parts: one per ask, each with its own span.
     menu = {t.subject_id: t for t in topics}
     asks = []  # (need, span, operation index or None, topic or None)
@@ -509,6 +519,14 @@ def compile_meaning(meaning: Meaning, text: str, context: RequestContext, catalo
     for a in asks:
         if a[1] is None:
             a[1] = whole
+    shared = [a for a in asks if a[0] == 'structured']
+    if (len(shared) == 2 and shared[0][1] == shared[1][1]
+            and all(operations[a[2]]['name'] == 'check_prerequisite_eligibility' for a in shared)):
+        spans = [(a[4]['start'], a[4]['end']) for a in shared]
+        if spans[0][1] <= spans[1][0] or spans[1][1] <= spans[0][0]:
+            # The model supplied both checks; separate their literal targets without inventing an operation.
+            for ask, span in zip(shared, spans):
+                ask[1] = span
     # A topic-less document ask on the same words as a check adds nothing to answer; other clashes give up.
     checked = {tuple(a[1]) for a in asks if a[0] == 'structured'}
     asks = [a for a in asks if not (a[0] == 'document' and a[3].subject_id is None and tuple(a[1]) in checked)]

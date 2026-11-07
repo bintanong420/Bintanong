@@ -1,6 +1,6 @@
 import { DefaultChatTransport } from "ai";
 import { z } from "zod";
-import { answerMetadataSchema, confirmedSchema, choiceSchema, curriculaSchema, sourceIdSchema, sourceSchema, uploadIdSchema, uploadSchema,
+import { answerMetadataSchema, answerPresentationSchema, clarificationReplySchema, confirmedSchema, choiceSchema, curriculaSchema, sourceIdSchema, sourceSchema, uploadIdSchema, uploadSchema,
   StudentTransportError, type StudentAnswer, type StudentChoice, type StudentRequest, type StudentScope, type StudentSourceSummary } from "./student-contracts.ts";
 
 type Options = { signal: AbortSignal; onText: (text: string) => void; onProgress?: (code: string) => void; fetch?: typeof fetch };
@@ -73,7 +73,9 @@ export async function sendStudentMessage(request: StudentRequest, options: Optio
   const transport = new DefaultChatTransport({ api: "/api/chat", credentials: "same-origin",
     prepareSendMessagesRequest: () => ({ body: {
       id: "current", trigger: "submit-message", messages: [{ id: request.id, role: "user", parts: [{ type: "text", text: request.text }] }],
+      presentationVersion: 2,
       ...(request.programId && request.curriculumId ? { programId: request.programId, curriculumId: request.curriculumId } : {}),
+      ...(request.clarificationReply ? { clarificationReply: clarificationReplySchema.parse(request.clarificationReply) } : {}),
     } }),
     fetch: async (url, init) => {
       const response = await checkedFetch(url, init ?? {}, options.fetch ?? fetch);
@@ -118,7 +120,16 @@ export async function sendStudentMessage(request: StudentRequest, options: Optio
           sources.push({ sourceId: chunk.sourceId, title: chunk.title }); break;
         case "data-answer":
           if (summary || !textEnded) throw new StudentTransportError("invalid_stream");
-          summary = answerMetadataSchema.parse(chunk.data); break;
+          {
+            // Optional display metadata cannot invalidate the already validated text fallback.
+            const raw = z.record(z.string(), z.unknown()).parse(chunk.data);
+            const { presentation, ...legacy } = raw;
+            summary = answerMetadataSchema.parse(legacy);
+            const view = answerPresentationSchema.safeParse(presentation);
+            if (view.success && view.data.parts.every(p => p.sourceIds.every(id => sources.some(s => s.sourceId === id))))
+              summary.presentation = view.data;
+          }
+          break;
         case "finish": finished = true; break;
         case "start": break;
         default: throw new StudentTransportError("invalid_stream");

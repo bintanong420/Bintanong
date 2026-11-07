@@ -18,10 +18,17 @@ NEW = 'curriculum-zz-new'
 QUESTION = 'Can I take SYN201?'
 
 
-def transport(explanation):
+def transport(explanation, *, reply_to=None):
     interpretation = proposal(text=QUESTION, language='en',
                               mentions=[dict(kind='course', text='SYN201', start=11, end=17)])
     style = style_proposal('en', english=['Can I take'], filipino=[])
+    if reply_to is not None:
+        from backend.bintanong_private_context.memory import turn_ref
+        interpretation = dict(schema_version='bintanong-interpretation-wire-v4', language='en',
+            audience='undergraduate', control='clarify', part_count=0, intent='answer clarification',
+            route=None, ambiguities=[], mentions=[], claims=[], operations=[], parts=[],
+            dialogue=dict(act='answer_clarification', turn_id=turn_ref(reply_to), course_id=None))
+        style = style_proposal('en', english=['yes'], filipino=[])
     reply = json.dumps(dict(schema_version='bintanong-decision-explanation-v1', language='en', explanation=explanation))
     return FakeTransport(json.dumps(interpretation), reply, style_outputs=[json.dumps(style)])
 
@@ -36,7 +43,8 @@ def test_a_new_programs_ledger_answers_a_two_turn_check_through_the_regular_chat
     resources, _ = build(monkeypatch)
     assert NEW in {m.curriculum_id for m in resources.pin.curricula}
 
-    transports = [transport('SYN201 builds on SYN101.'), transport('SYN201 builds on SYN101, which you passed.')]
+    transports = [transport('SYN201 builds on SYN101.'),
+                  transport('SYN201 builds on SYN101, which you passed.', reply_to='msg-1')]
     pipeline = ResearchPipeline(lambda: transports.pop(0), SyntheticReleaseProvider(resources))
     store = SessionStore()
     issued = store.issue()

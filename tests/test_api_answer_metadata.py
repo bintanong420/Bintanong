@@ -2,12 +2,13 @@
 import pytest
 
 from backend.bintanong_api.stream import answer_parts, encode
+from backend.bintanong_api.answer_presentation import AnswerPresentationV2
 from backend.bintanong_contracts.runtime import BoundInput
 from test_api_presentation import answer_for
 
 
-def summary(answer, labels=None):
-    parts = answer_parts(answer, 'msg-test', course_labels=labels or {})
+def summary(answer, labels=None, presentation_version=None):
+    parts = answer_parts(answer, 'msg-test', course_labels=labels or {}, presentation_version=presentation_version)
     return next(part for part in parts if part['type'] == 'data-answer')
 
 
@@ -25,7 +26,16 @@ def test_answer_and_insufficient_metadata_golden(status, language, conditional, 
     })
     if not conditional:
         answer = answer.model_copy(update={'decision': None})
-    assert encode(summary(answer)) == expected
+    actual = summary(answer)
+    assert 'presentation' not in actual['data']
+    assert encode(actual) == expected
+    presentation = summary(answer, presentation_version=2)['data'].get('presentation')
+    if status == 'answered':
+        view = AnswerPresentationV2.model_validate(presentation)
+        assert view.coverageState == 'complete'
+        assert all(set(part.sourceIds) <= {card.evidence_id for card in answer.citations} for part in view.parts)
+    else:
+        assert presentation is None
 
 
 @pytest.mark.parametrize('missing,fields', [(('transfer_direction',), ['transfer_direction']),

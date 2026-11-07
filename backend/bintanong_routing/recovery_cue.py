@@ -23,6 +23,14 @@ def asks_recovery(text: str) -> bool:
     return bool(RECOVERY_CUE.search(text))
 
 
+def asks_fastest_recovery(text: str) -> bool:
+    """An explicit ordering preference, used only after recovery has been requested."""
+    text = re.sub(r'\b(?:not|hindi)(?:\s+necessarily|\s+naman)?\s+(?:the\s+|ang\s+)?'
+                  r'(?:fastest|earliest|pinakamabilis)\b', '', text, flags=re.I)
+    return bool(re.search(r'\b(?:fastest|earliest\s+return|as\s+soon\s+as\s+possible|asap|'
+                          r'pinakamabilis|makabalik\s+agad)\b', text, re.I))
+
+
 def recovery_request(proposed: Interpretation, text: str) -> Interpretation | None:
     """The interpretation as one dependency check on the failed course, or None when it is not a recovery request.
 

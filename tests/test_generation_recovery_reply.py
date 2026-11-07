@@ -34,17 +34,26 @@ RECOVERY_TEXT = (f'Hala, bagsak ako sa {X}, paano na yung major subs ko? Ano pwe
 
 
 def run(text, value, language='taglish', topics=(), recovery=(POLICY, ROUTES), *,
-        conversation=None, routed_sink=None, curriculum=CURRICULUM):
+        conversation=None, routed_sink=None, curriculum=CURRICULUM, route_proof=False):
     runtime = build(curriculum)
     codes = CURRICULA[curriculum]
     pin = ReleasePin.parse(dict(release_id=runtime.release_id, synthetic=True, rule_bundle_version=runtime.rule_bundle_version,
                                 sources=[dict(version_id=SOURCE.version_id, byte_sha256=SOURCE.byte_sha256)], documents=[]))
+    proof = None
+    if route_proof:
+        from test_plan_route_sources import inputs
+        source_pin, routes, proof = inputs(recovery[1])
+        pin = pin.model_copy(update=dict(documents=source_pin.documents,
+                                        plan_routes_sha256=source_pin.plan_routes_sha256))
+        proof = proof.model_copy(update=dict(release_id=pin.release_id))
+        recovery = recovery[0], routes
     registry = CapabilityRegistry({'list_affected_courses': Capability('synthetic_dependency_inspection',
                                                                        ('curriculum_id', 'course_id'))})
     catalog = tuple(entry(entity=cid(code), alias=code, curriculum=curriculum).model_copy(
         update=dict(source_ref=SOURCE.version_id)) for code in codes.values())
     resources = ReleaseResources(pin, catalog, registry, None, SymbolicAdapter(runtime, recovery=recovery),
-                                 topics=topics, course_labels=tuple((cid(code), code) for code in codes.values()))
+                                 topics=topics, course_labels=tuple((cid(code), code) for code in codes.values()),
+                                 plan_route_sources=proof)
     style = style_proposal(language, english=[text.split()[0]] if language == 'en' else [],
                                         filipino=[] if language == 'en' else [text.split()[0]])
     integration = asyncio.run(Orchestrator(FakeTransport(json.dumps(value), style_outputs=[json.dumps(style)]),
@@ -70,6 +79,26 @@ def clarify_with_failure(text, language='taglish'):
 def answered():
     integration, answer = run(RECOVERY_TEXT, clarify_with_failure(RECOVERY_TEXT))
     return integration, answer, student_text(answer).splitlines()
+
+
+def test_recovery_returns_pinned_handbook_passages_in_the_source_registry():
+    from backend.bintanong_api.sources import SourceRegistry, source_view
+    integration, answer = run(RECOVERY_TEXT, clarify_with_failure(RECOVERY_TEXT), route_proof=True)
+    assert answer.status == 'answered'
+    assert integration.evidence.plan_routes is not None
+    registry = SourceRegistry()
+    registry.remember(answer.citations)
+    excerpts = [source_view(registry.get(c.evidence_id))['excerpt'] for c in answer.citations]
+    assert all(any(clause.text in excerpt for excerpt in excerpts) for clause in answer.recovery.clauses)
+    from backend.bintanong_orchestration.contracts import IntegrationResult
+    data = integration.model_dump(mode='json')
+    data['recovery']['clauses'][0]['text'] = 'Invented recovery guidance.'
+    with pytest.raises(ValueError, match='recovery_clauses_must_match_pinned_routes'):
+        IntegrationResult.parse(data)
+    data = integration.model_dump(mode='json')
+    data['recovery'] = None
+    with pytest.raises(ValueError, match='dependency_routes_require_recovery'):
+        IntegrationResult.parse(data)
 
 
 def test_the_plain_recovery_question_is_answered_with_delays_routes_and_drafts_in_order(answered):
@@ -192,8 +221,9 @@ def test_a_part_with_no_reviewed_topic_is_named_unavailable_beside_the_answered_
     integration, answer = run(text, value, topics=(topic,))
     lines = student_text(answer).splitlines()
     assert answer.status == 'answered' and integration.route == 'Symbolic'
-    assert lines[-1] == ('Yung part tungkol sa "tapos saan ang office ng dean?" ay wala pa sa reviewed sources ng '
-                         'Bintanong. Paki-ask sa tamang university office.')
+    assert lines[-1] == ('Hindi ko ma-match yung part tungkol sa "tapos saan ang office ng dean?" sa reviewed '
+                         'document topic. Hindi pa na-check yung part na ito; paki-clarify o ask sa tamang office.')
+    assert 'wala pa sa reviewed sources' not in lines[-1]  # unmatched topic was never a corpus search result
     assert lines[0].startswith(f'Mga course na may {X} bilang prerequisite')
 
 

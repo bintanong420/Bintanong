@@ -262,7 +262,16 @@ def _number(value):
     return str(int(value)) if float(value).is_integer() else str(value)
 
 
-def term_label(term, language) -> str:
+def _short_term(year, semester):
+    suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(year, 'th')
+    ordinal = f"{year}{suffix}"
+    return (f'Summer after {ordinal} year' if semester == 'summer' else
+            f"{ordinal} year, {'1st' if semester == 'first_semester' else '2nd'} sem")
+
+
+def term_label(term, language, *, compact=False) -> str:
+    if compact:
+        return _short_term(term.year, term.semester)
     from .term_reply import term_name
     if term.semester == 'summer':
         return _words(language)['summer_term'].format(year=_ORDINAL[term.year])
@@ -281,8 +290,8 @@ NAMES = dict(regular_class='Regular class', special_class='Special class', off_s
 
 _MD = {
     'en': dict(
-        fastest='**Fastest: Draft {variant}**, back on your prescribed sequence by {term}. Each step still needs '
-                'approval.',
+        fastest='**Earliest projected return among these drafts: Draft {variant}**, by {term}. '
+                'This is not a confirmed feasible schedule; each step still needs approval.',
         fewest='**Draft {variant}** needs the fewest requests; Draft {fast} gets you back on your prescribed sequence '
                'soonest ({term}). Each step still needs approval.',
         only='**Draft {variant}** gets you back on your prescribed sequence by {term}. Each step still needs approval.',
@@ -311,8 +320,8 @@ _MD = {
         closing='These are drafts, not approved: show them to your program adviser. None of this confirms a class '
                 'offering, an approval, a grade or your academic standing.'),
     'taglish': dict(
-        fastest='**Pinakamabilis: Draft {variant}**, balik ka sa prescribed sequence mo pagdating ng {term}. Kailangan '
-                'pa rin ng approval ang bawat step.',
+        fastest='**Pinakamaagang projected return sa mga draft na ito: Draft {variant}**, sa {term}. '
+                'Hindi pa confirmed na feasible ang schedule; kailangan pa ng approval ang bawat step.',
         fewest='**Draft {variant}** ang may pinakakaunting request; ang Draft {fast} ang pinakamabilis makabalik sa '
                'prescribed sequence mo ({term}). Kailangan pa rin ng approval ang bawat step.',
         only='**Draft {variant}**: balik ka sa prescribed sequence mo pagdating ng {term}. Kailangan pa rin ng '
@@ -352,9 +361,16 @@ def _cell(text):
     return text.replace('|', '/')
 
 
-def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
-    """The whole Ask-mode reply as Markdown. dependencies: the reviewed affected-courses result, listed by term."""
+def recovery_sections(recovery, language, shown, dependencies=None, *, compact=False, cited_clauses=None):
+    """Host sections shared by full copy text and the progressive student view."""
     words, md = _words(language), _MD['en' if language in ('en', 'unknown') else 'taglish']
+    if compact:
+        md = dict(md, draft='### Plan {variant}: {title}')
+    titles = ({'A': 'Retake at the next regular offering', 'B': 'Request special classes',
+               'C': 'Special classes and summer', 'D': 'Special classes and summer as needed'}
+              if language in ('en', 'unknown') else
+              {'A': 'Retake sa next regular offering', 'B': 'Mag-request ng special classes',
+               'C': 'Special classes at summer', 'D': 'Special classes at summer kung kailangan'})
     clause = {c.kind: c for c in recovery.clauses}
     course = shown(recovery.failed_course_id)
     used = {}  # short name -> (page, text): each clause quoted once under Sources / rules
@@ -364,48 +380,62 @@ def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
         used.setdefault(name, (source.page, source.text))
         return md['ref'].format(name=name, page=source.page)
 
-    lines = _answer(recovery, md, language)
+    lines = _answer(recovery, md, language, compact=compact)
+    if compact:
+        lines[:0] = ['', '### Recovery plan']
     if recovery.regular_asked:
         lines.append(words['regular'])
-    if dependencies is not None:
-        lines.extend(['', '### ' + md['delayed'], *_delayed(dependencies, recovery, md, shown, language)])
-    lines.extend(['', '### ' + md['options'].format(course=course)])
+    affected = (['', '### ' + md['delayed'], *_delayed(
+        dependencies, recovery, md, shown, language, compact=compact)] if dependencies is not None else [])
+    sections = [('affected', affected), ('overview', lines)] if compact else [('overview', lines + affected)]
+    lines = ['', '### ' + md['options'].format(course=course)]
     lines.extend('- ' + line for line in removal_lines(recovery, language, shown, cite))
-    when = f' ({term_label(recovery.next_offering, language)})' if recovery.next_offering is not None else ''
+    when = f' ({term_label(recovery.next_offering, language, compact=compact)})' if recovery.next_offering is not None else ''
     for kind, key in (('regular_class', 'retake'), ('special_class', 'special'), ('off_semester', 'off_semester'),
                       ('summer', 'summer')):
         lines.append('- ' + md[key].format(ref=cite(clause[kind]), when=when))
-    lines.extend('- ' + line for line in status_lines(recovery, language, shown, cite))
-    lines.extend(['', '### ' + md['drafts']])
-    start = term_label(recovery.start_term, language)
+    sections.append(('options', lines))
+    sections.append(('conditions', ['- ' + line for line in status_lines(recovery, language, shown, cite)]))
+    lines = [''] if compact else ['', '### ' + md['drafts']]
+    start = term_label(recovery.start_term, language, compact=compact)
     lines.append(words['stated'].format(start=start) if recovery.term_stated else words['assumed'].format(
-        course=course, failed=term_label(recovery.failed_term, language), start=start))
+        course=course, failed=term_label(recovery.failed_term, language, compact=compact), start=start))
     if not recovery.drafts:
         lines.append(words['none'])
+    sections.append(('assumptions', lines))
     for draft in recovery.drafts:
-        lines.extend(['', md['draft'].format(variant=draft.variant, title=words['titles'][draft.variant]),
-                      md['table'], md['rule']])
-        lines.extend(_rows(draft, md, words, clause, shown, language, cite))
+        lines = ['', md['draft'].format(variant=draft.variant, title=titles[draft.variant] if compact else words['titles'][draft.variant]),
+                 md['table'], md['rule']]
+        lines.extend(_rows(draft, md, words, clause, shown, language, cite, compact=compact))
         unknown = dict.fromkeys(reason.course_id for term in draft.terms for reason in term.verdict.reasons
                                 if reason.kind == 'prerequisite_unknown')
         if unknown:
             lines.append(md['prereq_unknown'].format(course=', '.join(map(shown, unknown))))
         lines.append(words['beyond'] if draft.beyond_curriculum or draft.rejoin_term is None
-                     else md['back'].format(term=term_label(draft.rejoin_term, language)))
+                     else md['back'].format(term=term_label(draft.rejoin_term, language, compact=compact)))
+        sections.append(('draft', lines))
+    lines = []
     for dropped in recovery.dropped:
         lines.append(words['dropped'][dropped.reason].format(
             variant=dropped.variant, same=dropped.same_as, course=shown(dropped.course_id) if dropped.course_id else '',
-            term=term_label(dropped.term, language) if dropped.term else '',
+            term=term_label(dropped.term, language, compact=compact) if dropped.term else '',
             missing=words['join'].join(map(shown, dropped.missing))))
     if len(recovery.drafts) > 1 and not recovery.fastest_asked:
         lines.append(words['order' if recovery.drafts[0].variant == 'D' else 'other_order'])
-    lines.extend(['', '### ' + md['sources']])
-    lines.extend(f'- **{name}** (Student Handbook p. {page}): "{text}"' for name, (page, text) in used.items())
-    lines.extend(['', md['closing']])
-    return lines
+    sections.append(('order', lines))
+    sections.append(('sources', ['', '### ' + md['sources'], *[
+        f'- **{name}** (Student Handbook p. {page}): "{text}"' for name, (page, text) in used.items()]]))
+    sections.append(('closing', ['', md['closing']]))
+    if cited_clauses is not None:
+        cited_clauses.extend(used.values())
+    return sections
 
 
-def _answer(recovery, md, language):
+def recovery_lines(recovery, language, shown, dependencies=None) -> list[str]:
+    return [line for _, lines in recovery_sections(recovery, language, shown, dependencies) for line in lines]
+
+
+def _answer(recovery, md, language, *, compact=False):
     if not recovery.drafts:
         return [_words(language)['none']]
     first = recovery.drafts[0]
@@ -413,15 +443,15 @@ def _answer(recovery, md, language):
     if not timely:
         return [md['late'].format(variant=first.variant)]
     if not recovery.fastest_asked and first.variant == 'D' and first in timely:
-        return [md['only'].format(variant=first.variant, term=term_label(first.rejoin_term, language))]
+        return [md['only'].format(variant=first.variant, term=term_label(first.rejoin_term, language, compact=compact))]
     fastest = min(timely, key=lambda d: (_key(d.rejoin_term), d.requests))
-    when = term_label(fastest.rejoin_term, language)
+    when = term_label(fastest.rejoin_term, language, compact=compact)
     if recovery.fastest_asked or fastest is first:
         return [md['fastest' if recovery.fastest_asked else 'only'].format(variant=fastest.variant, term=when)]
     return [md['fewest'].format(variant=first.variant, fast=fastest.variant, term=when)]
 
 
-def _delayed(dependencies, recovery, md, shown, language):
+def _delayed(dependencies, recovery, md, shown, language, *, compact=False):
     from .term_reply import term_name
     from ..bintanong_symbolic.course_facts import TERM_ORDER
     placed = {c: (y, s) for c, y, s in dependencies.placements}
@@ -433,14 +463,14 @@ def _delayed(dependencies, recovery, md, shown, language):
         return (9, 9) if term is None else (term[0], TERM_ORDER.index(term[1]) if term[1] in TERM_ORDER else 9)
     lines = [md['delayed_intro'].format(course=shown(recovery.failed_course_id))]
     for term in sorted(groups, key=order):
-        label = term_name(*term) if term is not None else '?'
+        label = (_short_term(*term) if compact else term_name(*term)) if term is not None else '?'
         lines.append(f'- {label[:1].upper() + label[1:]}: ' + ', '.join(sorted(map(shown, groups[term]))))
     from .dependency_reply import dependency_lines
     lines.extend(dependency_lines(dependencies, recovery.failed_course_id, language, shown)[1:])  # condition notes
     return lines
 
 
-def _rows(draft, md, words, clause, shown, language, cite):
+def _rows(draft, md, words, clause, shown, language, cite, *, compact=False):
     request_clause = {'special_class_request': 'special_class', 'summer': 'summer', 'off_semester_request': 'off_semester'}
     rows = []
     for term in draft.terms:
@@ -468,6 +498,6 @@ def _rows(draft, md, words, clause, shown, language, cite):
                 notes.append(md['unchecked'].format(course=shown(reason.course_id)))
         if verdict.load.status == 'unknown':
             notes.append(md['load_unknown'].format(reason=verdict.load.reason))
-        rows.append(f'| {_cell(term_label(term.term, language))}{units} | {_cell(", ".join(courses))} | '
+        rows.append(f'| {_cell(term_label(term.term, language, compact=compact))}{units} | {_cell(", ".join(courses))} | '
                     f'{_cell(". ".join(note.rstrip(".") for note in notes))}. |')
     return rows

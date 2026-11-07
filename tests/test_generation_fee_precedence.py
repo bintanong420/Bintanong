@@ -69,7 +69,7 @@ def test_a_missing_printed_amount_or_edition_keeps_the_old_behaviour(missing):
 def test_the_orchestrator_fetches_both_printed_records_for_the_held_claim():
     from backend.bintanong_orchestration.orchestrator import FEE_PRECEDENCE, _topic_intents
     assert HELD in FEE_PRECEDENCE
-    part = SimpleNamespace(evidence_need='document', subject_id='charter_returns', requested_claims=(HELD,),
+    part = SimpleNamespace(part_id='r1', evidence_need='document', subject_id='charter_returns', requested_claims=(HELD,),
                            text='Magkano ang multa?')
     intents = _topic_intents(SimpleNamespace(parts=(part,)))
     assert [i['subject_id'] for _, i in intents] == ['charter_returns', 'handbook_library']
@@ -79,6 +79,6 @@ def test_the_orchestrator_fetches_both_printed_records_for_the_held_claim():
 
 def test_other_topics_keep_their_intents():
     from backend.bintanong_orchestration.orchestrator import _topic_intents
-    part = SimpleNamespace(evidence_need='document', subject_id='fees', requested_claims=('printed amount',), text='q')
+    part = SimpleNamespace(part_id='r1', evidence_need='document', subject_id='fees', requested_claims=('printed amount',), text='q')
     assert _topic_intents(SimpleNamespace(parts=(part,))) == [(None, dict(subject_id='fees',
                                                                          requested_claims=('printed amount',)))]

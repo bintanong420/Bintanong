@@ -57,6 +57,51 @@ def test_forged_turn_or_course_cannot_bind_a_reference(value):
     assert result.diagnostic == 'dialogue_reference_missing'
 
 
+@pytest.mark.parametrize('value', [packet(turn='turn-ffffffffffffffff'),
+    packet('new_topic', turn=None), packet('switch_topic', turn=None),
+    packet('refine', course='course-b'),
+    {k: v for k, v in packet().items() if k != 'dialogue'}])
+def test_explicit_owned_reply_rejects_model_retargeting_even_with_compiler_off(value):
+    from backend.bintanong_routing.dialogue import bind_dialogue, DialogueReferenceError
+    ctx = scoped()
+    ctx = ctx.model_copy(update={'dialogue': ctx.dialogue.model_copy(update={'pending_turn_id': TURN}),
+                                 'reply_to_turn_id': TURN})
+    with pytest.raises(DialogueReferenceError, match='dialogue_reference_missing'):
+        bind_dialogue(value, 'No, not passed.', ctx, catalog())
+
+
+def test_prompt_exposes_host_selected_reply_target_separately_from_utterance():
+    from backend.bintanong_routing.prompt import build_messages
+    ctx = scoped()
+    ctx = ctx.model_copy(update={'dialogue': ctx.dialogue.model_copy(update={'pending_turn_id': TURN}),
+                                 'reply_to_turn_id': TURN})
+    payload = json.loads(build_messages('No.', ctx, catalog(), registry())[1]['content'])
+    assert payload['reply_to_turn_id'] == TURN
+    assert payload['original_text'] == 'No.'
+
+
+@pytest.mark.parametrize('flag', ['0', '1'])
+def test_host_bound_requested_scope_reply_fills_only_missing_saved_scope(flag, monkeypatch):
+    monkeypatch.setenv('BINTANONG_ROUTER_COMPILE', flag)
+    ctx = scoped()
+    turn = ctx.dialogue.turns[0]
+    saved = turn.context.model_copy(update={'program_id': None, 'curriculum_id': None})
+    turn = turn.model_copy(update={'context': saved})
+    ctx = ctx.model_copy(update={'dialogue': ctx.dialogue.model_copy(update={
+        'turns': (turn,), 'pending_turn_id': TURN, 'missing_slots': ('program_id', 'curriculum_id')}),
+        'reply_to_turn_id': TURN})
+    result = run(packet('answer_clarification'), 'Program A, curriculum A.', ctx)
+    assert result.diagnostic == 'validated'
+    assert result.program_id == 'program-a' and result.curriculum_id == 'curriculum-a'
+    assert next(i.value for i in result.decision.predicate_request.inputs if i.name == 'course_id') == 'course-a'
+    unbound = ctx.model_copy(update={'reply_to_turn_id': None})
+    assert run(packet('answer_clarification'), 'Program A, curriculum A.', unbound).diagnostic == 'dialogue_reference_missing'
+    # A declared scope is never overwritten, even if the missing-slot list is malformed.
+    wrong = turn.model_copy(update={'context': saved.model_copy(update={'curriculum_id': 'curriculum-other'})})
+    wrong_ctx = ctx.model_copy(update={'dialogue': ctx.dialogue.model_copy(update={'turns': (wrong,)})})
+    assert run(packet('answer_clarification'), 'Program A, curriculum A.', wrong_ctx).diagnostic == 'dialogue_reference_missing'
+
+
 def test_fresh_repair_is_context_loss_not_missing_institutional_information():
     result = run(packet(turn=None), 'I already told you.', RequestContext.parse(context()))
     assert result.decision.control == 'clarify' and result.diagnostic == 'dialogue_reference_missing'
@@ -167,6 +212,43 @@ def test_named_result_reply_binds_saved_target_separately_from_current_grade_ent
     assert result.diagnostic == 'validated'
     assert next(i.value for i in result.decision.predicate_request.inputs if i.name == 'course_id') == 'course-a'
     assert [(c.course_id, c.state) for c in result.claims] == [('course-b', 'passed')]
+
+
+@pytest.mark.parametrize('flag', ['0', '1'])
+@pytest.mark.parametrize('language,text,state', [
+    ('en', 'I passed B1.', 'passed'),
+    ('en', 'I have not passed B1 yet.', 'not_passed'),
+    ('en', 'I took B1.', 'taken_unknown'),
+    ('fil', 'Pasado na ako sa B1.', 'passed'),
+    ('fil', 'Hindi pa ako pasado sa B1.', 'not_passed'),
+    ('fil', 'Nakuha ko na ang B1.', 'taken_unknown'),
+    ('taglish', 'Passed na ako sa B1.', 'passed'),
+    ('taglish', 'Hindi pa passed ang B1.', 'not_passed'),
+    ('taglish', 'Natake ko na ang B1.', 'taken_unknown'),
+])
+def test_owned_reply_language_gold_preserves_negation_completion_and_target(flag, language, text, state, monkeypatch):
+    """Independent synthetic gold for deterministic guards; model interpretation is deliberately supplied."""
+    monkeypatch.setenv('BINTANONG_ROUTER_COMPILE', flag)
+    quote = dict(text=text, occurrence=0)
+    value = packet('answer_clarification')
+    value.update(language=language, control=None, route='Symbolic', part_count=1,
+        mentions=[dict(kind='course', quote=dict(text='B1', occurrence=0))],
+        claims=[dict(quote=quote, entity=dict(text='B1', occurrence=0), state='passed', mode='asserted')],
+        operations=[dict(name='check_prerequisite_eligibility', target=dict(text='B1', occurrence=0))],
+        parts=[dict(part_id='r1', quote=quote, evidence_need='structured', operation_indices=[0])])
+    ctx = scoped()
+    ctx = ctx.model_copy(update={'dialogue': ctx.dialogue.model_copy(update={'pending_turn_id': TURN}),
+                                 'reply_to_turn_id': TURN})
+    style = style_proposal('en' if language == 'en' else 'taglish',
+        english=[text] if language == 'en' else [], filipino=[] if language == 'en' else [text])
+    model = FakeTransport(json.dumps(value), json.dumps(value), style_outputs=[json.dumps(style)])
+    result = asyncio.run(Router(model, catalog=catalog(), registry=registry(), documents_available=True,
+                               synthetic=True).route(text, ctx))
+    assert result.diagnostic == 'validated'
+    assert result.query.original_text == text
+    assert result.response_style == ('en' if language == 'en' else 'taglish')
+    assert next(i.value for i in result.decision.predicate_request.inputs if i.name == 'course_id') == 'course-a'
+    assert [(c.course_id, c.state) for c in result.claims] == [('course-b', state)]
 
 
 @pytest.mark.parametrize('act', ['explain', 'repair', 'answer_clarification', 'correct_fact'])

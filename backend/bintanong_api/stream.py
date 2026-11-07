@@ -15,6 +15,7 @@ import secrets
 from backend.bintanong_api.chat import ChatTurns, PreparedTurn
 from backend.bintanong_api.presentation import clarification_view, guidance_notice, student_text
 from backend.bintanong_api.presentation import plan_view as build_plan_view
+from backend.bintanong_api.answer_presentation import build_answer_presentation
 from backend.bintanong_api.session import ApiError, Session
 
 STREAM_HEADERS = {'x-vercel-ai-ui-message-stream': 'v1', 'cache-control': 'no-cache', 'x-accel-buffering': 'no'}
@@ -31,7 +32,8 @@ def _title(card) -> str:
     return _SOURCE if cite is None else f'{cite.filename or _SOURCE}, p.{cite.page}'
 
 
-def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False) -> list[dict]:
+def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False, clarification_binding=None,
+                 presentation_version=None) -> list[dict]:
     """`plan_view` stays off until the frontend's strict `data-answer` schema accepts `planView`."""
     text_id = f'{message_id}-text'
     parts = [{'type': 'text-start', 'id': text_id},
@@ -53,12 +55,25 @@ def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False
         if name and name not in missing:
             missing.append(name)
     parts.append({'type': 'data-answer', 'data': {'status': answer.status,
-        'conditional': answer.decision is not None, 'language': answer.language, 'missingFields': missing,
+        'conditional': answer.decision is not None or any(
+            part.answer.decision is not None for part in getattr(answer, 'part_answers', ())),
+        'language': answer.language, 'missingFields': missing,
         'notice': guidance_notice(answer.language)}})
     if answer.reason is not None:
         parts[-1]['data']['reason'] = answer.reason
     if answer.status == 'clarification_needed':
         parts[-1]['data']['clarification'] = clarification_view(answer, course_labels or {})
+        if presentation_version == 2 and clarification_binding is not None:
+            parts[-1]['data']['clarification']['binding'] = clarification_binding
+            for course in parts[-1]['data']['clarification']['courses']:
+                prefix = 'completion_unknown:' if course['kind'] == 'completion' else 'enrollment_unknown:'
+                matches = [slot for slot in clarification_binding['requestedSlots']
+                           if slot.startswith(prefix) and (course_labels or {}).get(slot[len(prefix):]) == course['code']]
+                if len(matches) == 1:
+                    course['slot'] = matches[0]
+    presentation = build_answer_presentation(answer, course_labels) if presentation_version == 2 else None
+    if presentation is not None:
+        parts[-1]['data']['presentation'] = presentation
     view = build_plan_view(answer, course_labels or {}) if plan_view else None
     if view is not None:
         parts[-1]['data']['planView'] = view
@@ -100,7 +115,9 @@ async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, so
             return
         if sources is not None:
             sources.remember(answer.citations)
-        for part in answer_parts(answer, message_id, course_labels):
+        binding = turns.clarification_binding(session, turn.message_id) if hasattr(turns, 'clarification_binding') else None
+        for part in answer_parts(answer, message_id, course_labels, clarification_binding=binding,
+                                 presentation_version=turn.presentation_version):
             yield encode(part)
         yield DONE
     finally:

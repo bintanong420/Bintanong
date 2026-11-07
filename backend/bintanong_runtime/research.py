@@ -447,8 +447,19 @@ def name_catalog(ledgers, program_names, curriculum_names):
 
 def route_passage(chunk):
     citations = [dict(version_id=span['version_id'], byte_sha256=span['byte_sha256'], page=span['page'],
-        locator=span['locator'], printed_page_label=span.get('printed_page_label')) for span in chunk['spans']]
-    return DocumentPassage.parse(dict(chunk_id=chunk['chunk_id'], version_id=chunk['version_id'], text=chunk['text'],
+        locator=span['locator'], printed_page_label=span.get('printed_page_label'),
+        filename=chunk.get('source_label')) for span in chunk['spans']]
+    record, changed = json.loads(chunk['text']), False
+    for field in record.get('fields', []):
+        if field.get('source_blank') is not False or 'span_indexes' in field:
+            continue
+        matches = [a for a in chunk.get('type_fields', {}).get('field_associations', [])
+                   if all(a.get(key) == field.get(key) for key in ('name', 'value', 'source_blank'))]
+        if len(matches) != 1 or 'span_indexes' not in matches[0]:
+            raise ValueError('plan_route_field_association_missing')
+        field['span_indexes'], changed = matches[0]['span_indexes'], True
+    text = json.dumps(record, ensure_ascii=False) if changed else chunk['text']
+    return DocumentPassage.parse(dict(chunk_id=chunk['chunk_id'], version_id=chunk['version_id'], text=text,
                                      citations=citations))
 
 

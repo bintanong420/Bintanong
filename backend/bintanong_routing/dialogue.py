@@ -26,6 +26,10 @@ def bind_dialogue(data, text, context, catalog, topics=()):
     if not isinstance(data, dict):
         raise ValueError('invalid_dialogue_packet')
     raw = data.get('dialogue')
+    if context.reply_to_turn_id is not None and (not isinstance(raw, dict) or
+            raw.get('turn_id') != context.reply_to_turn_id or
+            raw.get('act') != 'answer_clarification'):
+        raise DialogueReferenceError('dialogue_reference_missing')
     if raw is None:
         if context.dialogue is not None:
             if _standalone_course_request(data, text, context, catalog):
@@ -44,7 +48,13 @@ def bind_dialogue(data, text, context, catalog, topics=()):
     WireInterpretation.parse(data)
     saved = turn.context
     if saved is not None and (saved.program_id, saved.curriculum_id) != (context.program_id, context.curriculum_id):
-        raise DialogueReferenceError('dialogue_reference_missing')
+        requested = set(context.dialogue.missing_slots)
+        scope_reply = context.reply_to_turn_id == turn.turn_id and act.act == 'answer_clarification'
+        if not scope_reply or any(old != new and not (old is None and field in requested)
+                for field, old, new in (('program_id', saved.program_id, context.program_id),
+                                       ('curriculum_id', saved.curriculum_id, context.curriculum_id))):
+            raise DialogueReferenceError('dialogue_reference_missing')
+        saved = saved.model_copy(update={'program_id': context.program_id, 'curriculum_id': context.curriculum_id})
     candidates = set(turn.course_ids) | ({saved.course_id} if saved and saved.course_id else set())
     course = act.course_id or (saved.course_id if saved else None)
     if act.course_id is not None and act.course_id not in candidates:

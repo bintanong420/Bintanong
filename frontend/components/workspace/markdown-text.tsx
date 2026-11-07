@@ -24,9 +24,9 @@ function block(node: Block, index: number): ReactNode {
       const Tag = node.ordered ? "ol" : "ul";
       return <Tag key={index}>{node.items.map((item, i) => <li key={i}>{inline(item.c)}{item.children.map(block)}</li>)}</Tag>;
     }
-    case "table": return <div key={index} className="md-table-scroll"><table>
-      <thead><tr>{node.head.map((cell, i) => <th key={i}>{inline(cell)}</th>)}</tr></thead>
-      <tbody>{node.rows.map((row, r) => <tr key={r}>{row.map((cell, c) => <td key={c}>{inline(cell)}</td>)}</tr>)}</tbody>
+    case "table": return <div key={index} className="md-table-scroll"><table role="table">
+      <thead><tr role="row">{node.head.map((cell, i) => <th key={i} role="columnheader" scope="col">{inline(cell)}</th>)}</tr></thead>
+      <tbody>{node.rows.map((row, r) => <tr key={r} role="row">{row.map((cell, c) => <td key={c} role="cell"><span className="md-cell-label" aria-hidden="true">{inline(node.head[c])}</span>{inline(cell)}</td>)}</tr>)}</tbody>
     </table></div>;
   }
 }

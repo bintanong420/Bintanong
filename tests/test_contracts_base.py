@@ -263,7 +263,7 @@ def test_scope_fields_origins_and_runtime_lists_are_pinned():
                                    "effective_from", "effective_to"]
     assert VOC["session_origins"] == ["user_statement", "private_upload"]
     assert VOC["runtime"]["routes"] == ["RAG", "Hybrid", "Symbolic"]
-    assert VOC["runtime"]["controls"] == ["clarify", "greeting", "unsupported_scope", "evidence_unavailable"]
+    assert VOC["runtime"]["controls"] == ["clarify", "greeting", "system_information", "unsupported_scope", "evidence_unavailable"]
     assert VOC["supersession_relations"] == ["none", "supersedes", "superseded_by"]
     assert VOC["document_categories"] == ["source_document", "curriculum_proposal_candidate"]
     assert VOC["proposal_categories"] == ["curriculum_proposal_candidate"]

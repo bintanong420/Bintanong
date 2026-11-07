@@ -7,7 +7,8 @@ from test_api_presentation import answer_for
 from backend.bintanong_api.stream import DONE, answer_parts, encode
 
 answer = answer_for('Hybrid')
-if len(sys.argv) > 1:
+presentation_version = 2 if len(sys.argv) > 1 and sys.argv[1] == 'presentation' else None
+if len(sys.argv) > 1 and presentation_version is None:
     case = sys.argv[1]
     answer = answer.model_copy(update={
         'status': case, 'language': 'taglish', 'decision': None,
@@ -16,6 +17,6 @@ if len(sys.argv) > 1:
 
 sys.stdout.buffer.write(encode({'type': 'start', 'messageId': 'msg-synthetic'}))
 sys.stdout.buffer.write(encode({'type': 'data-status', 'data': {'stage': 'waiting'}, 'transient': True}))
-for part in answer_parts(answer, 'msg-synthetic'):
+for part in answer_parts(answer, 'msg-synthetic', presentation_version=presentation_version):
     sys.stdout.buffer.write(encode(part))
 sys.stdout.buffer.write(DONE)
