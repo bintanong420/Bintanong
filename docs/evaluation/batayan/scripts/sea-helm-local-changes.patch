@@ -1,0 +1,118 @@
+diff --git a/seahelm_tasks/nlg/abstractive_summarization/config.yaml b/seahelm_tasks/nlg/abstractive_summarization/config.yaml
+index 5e6ca2a..c7c5bc9 100644
+--- a/seahelm_tasks/nlg/abstractive_summarization/config.yaml
++++ b/seahelm_tasks/nlg/abstractive_summarization/config.yaml
+@@ -9,7 +9,7 @@ abssum:
+   dataloader_class: HuggingFaceDataloader
+   metric_file: seahelm_tasks/nlg/abstractive_summarization/summarization.py
+   metric_class: SummarizationMetric
+-  use_chrf_metric: false
++  use_chrf_metric: true
+   # use_bertscore_metric: false
+   use_rougeL_metric: true
+   metric: normalized_rougel_f1
+diff --git a/seahelm_tasks/nlg/translation/config.yaml b/seahelm_tasks/nlg/translation/config.yaml
+index a08a755..bb7dfe6 100644
+--- a/seahelm_tasks/nlg/translation/config.yaml
++++ b/seahelm_tasks/nlg/translation/config.yaml
+@@ -9,11 +9,11 @@ translation-en-xx:
+   dataloader_class: TranslationDataloader
+   metric_file: seahelm_tasks/nlg/translation/translation_metric.py
+   metric_class: TranslationMetric
+-  use_metricx_metric: true
+-  use_chrf_metric: false
+-  metric: normalized_metricx_wmt24_scores
++  use_metricx_metric: false
++  use_chrf_metric: true
++  metric: normalized_chrf_score
+   aggregation_group: translations
+-  use_judges: true
++  use_judges: false
+   judge_file: seahelm_tasks/nlg/translation/translation_judge.py
+   judge_class: TranslationJudge
+   judge:
+@@ -227,11 +227,11 @@ translation-xx-en:
+   dataloader_class: TranslationDataloader
+   metric_file: seahelm_tasks/nlg/translation/translation_metric.py
+   metric_class: TranslationMetric
+-  use_metricx_metric: true
+-  use_chrf_metric: false
+-  metric: normalized_metricx_wmt24_scores
++  use_metricx_metric: false
++  use_chrf_metric: true
++  metric: normalized_chrf_score
+   aggregation_group: translations
+-  use_judges: true
++  use_judges: false
+   judge_file: seahelm_tasks/nlg/translation/translation_judge.py
+   judge_class: TranslationJudge
+   judge:
+@@ -445,11 +445,11 @@ translation-id-xx:
+   dataloader_class: TranslationDataloader
+   metric_file: seahelm_tasks/nlg/translation/translation_metric.py
+   metric_class: TranslationMetric
+-  use_metricx_metric: true
+-  use_chrf_metric: false
+-  metric: normalized_metricx_wmt24_scores
++  use_metricx_metric: false
++  use_chrf_metric: true
++  metric: normalized_chrf_score
+   aggregation_group: translations
+-  use_judges: true
++  use_judges: false
+   judge_file: seahelm_tasks/nlg/translation/translation_judge.py
+   judge_class: TranslationJudge
+   judge:
+diff --git a/src/seahelm_evaluation.py b/src/seahelm_evaluation.py
+index b5e5dbd..f84b0f8 100755
+--- a/src/seahelm_evaluation.py
++++ b/src/seahelm_evaluation.py
+@@ -171,7 +171,7 @@ class SeaHelmEvaluation:
+         if datetime is not None:
+             self.datetime = datetime
+         else:
+-            self.datetime = dt.now().isoformat()
++            self.datetime = dt.now().isoformat().replace(":", "-")  # Windows-safe filenames (local patch)
+ 
+         # convert "all" case to list of task
+         for lang, tasks in self.tasks.items():
+@@ -1180,7 +1180,7 @@ if __name__ == "__main__":
+         model_args = {}
+ 
+     # Setup logging
+-    current_datetime = dt.now().isoformat()
++    current_datetime = dt.now().isoformat().replace(":", "-")  # Windows-safe filenames (local patch)
+ 
+     SeaHelmEvaluation.create_seahelm_run_folders(
+         output_dir=output_dir, model_name=model_name, run_number=run_number
+diff --git a/src/serving/online/local_openai_serving.py b/src/serving/online/local_openai_serving.py
+index 97120f1..c864fb4 100644
+--- a/src/serving/online/local_openai_serving.py
++++ b/src/serving/online/local_openai_serving.py
+@@ -51,7 +51,9 @@ class LocalOpenAIServing:
+         self.max_workers = max_workers
+ 
+         self.client = AsyncOpenAI(api_key=self.api_key, base_url=self.base_url)
+-        self.additional_generation_kwargs = {}
++        # local patch: same inference settings as Bintanong's LlamaTransport (backend/bintanong_routing/transport.py):
++        # greedy decoding, reasoning_effort=none, prompt-prefix cache (runtime default since 23 Oct), and the Gemma 4 thought-channel opener '<|channel>' (token 100) banned.
++        self.additional_generation_kwargs = {'temperature': 0, 'reasoning_effort': 'none', 'logit_bias': [[100, False]], 'cache_prompt': True}
+ 
+     def load_model(self) -> None:
+         """No-op for Local OpenAI serving as model is hosted externally."""
+@@ -171,6 +173,7 @@ class LocalOpenAIServing:
+         Returns:
+             list[dict]: List of raw completion response objects.
+         """
++        self.client = AsyncOpenAI(api_key=self.api_key, base_url=self.base_url)  # local patch: fresh client per event loop (Windows)
+         responses = asyncio.run(
+             self.run_generate_completions_coroutine(prompts, generation_kwargs)
+         )
+@@ -261,6 +264,7 @@ class LocalOpenAIServing:
+         Returns:
+             list[dict]: List of raw chat completion response objects.
+         """
++        self.client = AsyncOpenAI(api_key=self.api_key, base_url=self.base_url)  # local patch: fresh client per event loop (Windows)
+         responses = asyncio.run(
+             self.run_generate_chat_responses_coroutine(conversations, generation_kwargs)
+         )

@@ -1,0 +1,134 @@
+{
+  "tl": {
+    "nlu": {
+      "sentiment": {
+        "inference_time_taken": [
+          3.4097878000029596
+        ],
+        "is_cached": [
+          false
+        ],
+        "accuracy": 83.33333333333334,
+        "macro_f1": 77.77777777777777,
+        "null_weighted_f1": 77.77777777777777,
+        "normalized_accuracy": 74.99999999999999,
+        "null_count": 0
+      },
+      "belebele-qa-mc": {
+        "inference_time_taken": [
+          4.120642400004726
+        ],
+        "is_cached": [
+          false
+        ],
+        "accuracy": 55.55555555555555,
+        "macro_f1": 45.0,
+        "null_weighted_f1": 48.0,
+        "normalized_accuracy": 33.33333333333332,
+        "null_count": 1
+      },
+      "paraphrase": {
+        "inference_time_taken": [
+          3.2225056999959634
+        ],
+        "is_cached": [
+          false
+        ],
+        "accuracy": 75.0,
+        "macro_f1": 76.19047619047619,
+        "null_weighted_f1": 76.19047619047619,
+        "normalized_accuracy": 50.0,
+        "null_count": 0
+      },
+      "total": 52.77777777777777
+    },
+    "safety": {
+      "toxicity": {
+        "inference_time_taken": [
+          3.219721200002823
+        ],
+        "is_cached": [
+          false
+        ],
+        "accuracy": 66.66666666666666,
+        "macro_f1": 58.33333333333333,
+        "null_weighted_f1": 58.33333333333333,
+        "normalized_accuracy": 33.33333333333333,
+        "null_count": 0
+      },
+      "total": 33.33333333333333
+    },
+    "nlg": {
+      "translation-en-xx": {
+        "inference_time_taken": [
+          7.938013000006322
+        ],
+        "is_cached": [
+          false
+        ],
+        "chrf_score": 64.26146678155786,
+        "normalized_chrf_score": 64.26146678155786,
+        "null_count": 0
+      },
+      "translation-xx-en": {
+        "inference_time_taken": [
+          6.282024200001615
+        ],
+        "is_cached": [
+          false
+        ],
+        "chrf_score": 62.234818808463174,
+        "normalized_chrf_score": 62.234818808463174,
+        "null_count": 0
+      },
+      "abssum": {
+        "inference_time_taken": [
+          21.293425500000012
+        ],
+        "is_cached": [
+          false
+        ],
+        "null_count": 0,
+        "rougel_precision": 14.971320742067991,
+        "rougel_recall": 35.57539682539682,
+        "rougel_f1": 20.578031918330424,
+        "normalized_rougel_f1": 20.578031918330424,
+        "chrf_score": 29.58910188841328,
+        "normalized_chrf_score": 29.58910188841328
+      },
+      "translations": 63.248142795010516,
+      "total": 41.913087356670474
+    },
+    "nlr": {
+      "causal": {
+        "inference_time_taken": [
+          2.867417100002058
+        ],
+        "is_cached": [
+          false
+        ],
+        "accuracy": 100.0,
+        "macro_f1": 100.0,
+        "null_weighted_f1": 100.0,
+        "normalized_accuracy": 100.0,
+        "null_count": 0
+      },
+      "nli": {
+        "inference_time_taken": [
+          3.3076800999988336
+        ],
+        "is_cached": [
+          false
+        ],
+        "accuracy": 50.0,
+        "macro_f1": 33.33333333333333,
+        "null_weighted_f1": 40.0,
+        "normalized_accuracy": 0.0,
+        "null_count": 1
+      },
+      "total": 50.0
+    },
+    "total": 44.50604961694539
+  },
+  "total": 44.50604961694539
+}

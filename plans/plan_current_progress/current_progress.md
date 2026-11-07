@@ -72,15 +72,13 @@ shared references in `docs/evaluation/references/` (BERTScore pairs carry them).
 rebuilt writer evidence, answer relevancy .584 (.701 without 7 noncommittal-flagged source-limit answers), context
 precision .896, recall .754, factual correctness precision .570. One judge run (DeepSeek); not Bintu-1 compared.
 
-## BATAYAN benchmark (8 Nov) - full run in progress
-Branch `p12-batayan-benchmark`. SEA-HELM `9be3986` in ignored `audit-evidence/batayan-20261107/` (Python 3.12
-user install + venv, owner-approved; HF token in its `.env`). `--tasks batayan` = 3,800 tl items (matches Montalan
-Table 2) via `local_openai` against served Gemma 4 E4B Q4_K_XL (:18088, 1 slot). Local patches recorded in
-`sea-helm-local-changes.patch`: MetricX-24 -> ChrF++ for MT, ChrF++ added to summarization, Windows-safe log names,
-fresh async client per event loop, and Bintanong's inference settings (temp 0, reasoning_effort none, `<|channel>`
-token 100 banned, cache_prompt). Pilot 5/task: 0 failures, no truncation/thinking. Full run started 8 Nov ~01:00,
-estimate ~3.5-4.5 h. Owner allowed stopping unneeded services: dev API 8022, dev web 3217 and ngrok stopped;
-model container kept. Measures the model, not the RAG pipeline.
+## BATAYAN benchmark (8 Nov) - handed over, 8 of 9 tasks pending
+Branch `p12-batayan-benchmark`. SEA-HELM `9be3986` + local patch, `--tasks batayan` (3,800 tl items, Montalan
+Table 2) via `local_openai` against Gemma 4 E4B Q4_K_XL (llama.cpp, Bintanong inference settings). Pilot 5/task:
+0 failures. Full run: Sentiment done (Macro F1 73.48, 600/600, 0 null); at 02:14 the laptop ran out of RAM, the
+model container was OOM-killed (exit 137) during Belebele, and the run was stopped. Owner handed the rest to
+another developer: run kit, patch, frozen deps, results and step-by-step instructions in
+`docs/evaluation/batayan/README.md`. Measures the model, not the RAG pipeline.
 
 ## Next action
 
