@@ -18,7 +18,7 @@ metric = Faithfulness(llm=llm)
 async def one(rid):
     r = rows[rid]
     row = {'user_input': r['question'], 'response': r['candidate_answer'],
-           'retrieved_contexts': [c['text'] for c in writer[f"{r['language']} {r['query_no']}"]]}
+           'retrieved_contexts': [c['fielded_text'] for c in writer[f"{r['language']} {r['query_no']}"]]}
     statements = (await metric._create_statements(row, None)).statements
     verdicts = await metric._create_verdicts(row, statements, None)
     return {'id': rid, 'verdicts': [v.model_dump() for v in verdicts.statements]}
