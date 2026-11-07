@@ -25,7 +25,8 @@ explicit hypothetical-premise retention `b21df7bf` include:
   (overlapping gates, not a total). Final frontend105, TypeScript and Webpack build passed after negotiation.
 - Production Webpack build passed. Default Turbopack cannot resolve the reused external
   dependency junction; no installs/config changes to hide that environmental limitation.
-- Final full-default Python regression uses isolated shards of the exact selected roster.
+- Completed default Python roster:6,712 passed/2 xfailed; all161 fail/error cases
+  require the unavailable Docker engine. No application/unclassified failures in completed logs.
   Interrupted/pre-freeze runs are not passes. External runner isolation was repaired; Docker
   database fixtures are blocked by the unavailable engine pipe, not counted as successes.
   Final hypothetical-premise regression and80 related checks pass at `b21df7bf`.
@@ -53,5 +54,7 @@ Keep undergraduate advisory scope, unknown-versus-unmet, F04/source gaps and pri
 Browser bootstrap reports no available browser; actual390px/desktop verification is NOT RUN.
 Live model/PDF-backed human acceptance and latency comparisons are NOT RUN without an
 isolated authorized window. PR18/19 closures and promotion remain gated on acceptance evidence.
-Next: finish frozen regression gates and evidence matrix, then publish the reviewed candidate
-to the PR20 feature branch while retaining draft status.
+Candidate published to the PR20 feature branch at `ebf3c8dc`; final verification handoff follows.
+[Verification matrix](../2026-11-07-pr20-verification.md) records exact SHA/roster/results.
+Next: isolated Docker integration, live source/model, browser and latency acceptance; keep
+PR20 draft and compound_checks OFF until that evidence and owner promotion review.

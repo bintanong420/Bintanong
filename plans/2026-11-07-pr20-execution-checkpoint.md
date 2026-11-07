@@ -1,6 +1,7 @@
 # PR20 execution checkpoint
 
-Updated 7 November 2026. In progress; no numbered phase started or advanced.
+Updated 7 November 2026. Candidate implementation delivered; acceptance gates remain open.
+No numbered phase started or advanced.
 
 - Owner requested the implementation plan, deep audit and Orca runbook against PR20.
 - Worktree `p12-pr20`, branch `feature/p12-unified-answer-pipeline`, targets `p12-dev`.
@@ -46,10 +47,15 @@ in multi-topic passage merge while package B was being edited; not a clean final
   research/provenance gate: 29 passed (overlap, not summed). Frontend104 passed; TypeScript clean.
 - Next build with Webpack passes. Default Turbopack fails resolving the external reused
   node_modules junction; no dependency/config mutation to conceal that environmental limit.
-- Pre-freeze monolithic run stopped at55% after exposing stale fixtures; not a passing gate.
-  Frozen exact default roster is being verified in isolated shards, with all failure IDs retained.
-- Next: finish full-suite reconciliation and final evidence matrix, then publish only PR20
-  feature branch and retain draft. No source PR closures before acceptance evidence.
+- Final6,875-case roster at `2869f569`:6,712 passed/2 xfailed/134 failed/27 errors.
+  Independent trace audit confirms all161 failures/errors are the unavailable Docker engine;
+  no application/unclassified failures. Allfour manifests completed; exit1, not all-green.
+  `b21df7bf` retains explicit compound hypotheses; new RED→GREEN and80 related tests pass.
+- Final frontend105 passed; TypeScript and production Webpack build passed.
+  [Verification matrix](2026-11-07-pr20-verification.md) retains exact lineage/commands/limits.
+- Published feature branch at `ebf3c8dc`; final verification handoff follows. No p12-dev merge.
+- Next: isolated Docker/source-backed/model/browser/latency acceptance, then owner review.
+  Keep PR20 draft, compound feature OFF and source PR18/19 open until required evidence.
 
 ## Verification boundaries
 

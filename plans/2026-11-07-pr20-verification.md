@@ -22,7 +22,7 @@ Compiler OFF/ON synthetic fixtures run without changing the default environment 
 | Unified focused backend | Before `743004ad` | 272 passed; overlapping development gate |
 | Compound/proof/type boundary | Before `978e464d` | 32 passed, including imported executor |
 | Negotiated metadata/chat/stream | Before `1af7882f` | 61 passed |
-| Full default Python roster | `2869f569` | Running; do not count partial output as a pass |
+| Full default Python roster | `2869f569` | 6,712 passed; 2 xfailed; 134 failed +27 setup errors, all161 blocked by unavailable Docker; each shard exit1 |
 | Final hypothetical-premise correction | `b21df7bf` | 81 passed, including new RED→GREEN regression |
 | Frontend UI and real Python SSE fixtures | `be8948a5` | 105 passed, zero skipped |
 | TypeScript | `be8948a5` | Passed, `tsc --noEmit` |
@@ -36,15 +36,28 @@ Full-default roster contains 6,875 selected node IDs at `2869f569`, excluding th
 default ingestion deselections. Collection-order modulo4 partitions have sizes
 1,719/1,719/1,719/1,718; union is exact and disjoint. Ordered roster SHA256:
 `04f5d8f024eee7b14340d800af41c48e0dc40dc49bb3cc097d9cb5e2fde59d2b`.
+Each shard completed its manifest. Results: 1=1,675 passed/35 failed/8 errors/1 xfailed;
+2=1,678 passed/32 failed/8 errors/1 xfailed; 3=1,680 passed/33 failed/6 errors;
+4=1,679 passed/34 failed/5 errors. There were899 passing subtests (reported separately).
+All161 failure/error trace blocks contain the same StorageDatabase constructor assertion
+and missing `dockerDesktopLinuxEngine` pipe, before disposable database creation.
+No application assertion or unclassified failures remain in the completed logs.
+This is not an all-green Python run: database integration remains blocked.
 The external runner performs normal collection, checks every manifest member exists,
 retains exactly each shard's ordered manifest and writes per-test completion/failure state.
 The later `b21df7bf` adds one regression, verified in the 81-test focused gate; it is not
-silently counted in the earlier roster. No unrelated product files changed afterward.
+silently counted in the earlier roster. No unrelated product files changed afterward. The final81-test gate includes actual symbolic
+research/proof checks and the original dispatch/response regressions.
 This is the full default roster, not all optional ingestion/GPU/integration extras.
 
+Exact completed logs: `final-shards/final-1.log` through `final-4.log`; independent
+per-failure classification: `final-shards/db-failure-classification.json`.
 Private execution logs/manifests remain under ignored workspace path
 `audit-evidence/pr20-20261107/`. Docker-dependent database fixtures cannot connect to the unavailable Linux-engine pipe.
 They are infrastructure-blocked, not passed. No services were started to work around it.
+Read-only follow-up: Docker Desktop/backend processes absent, Docker helper stopped,
+`docker-desktop` WSL stopped. Last backend activity6November18:38Manila; no conclusive
+shutdown/crash cause in the consulted tail. Missing engine is confirmed, cause of exit unknown.
 Initial pre-freeze monolithic and interrupted shard runs
 remain failed/incomplete evidence; their partial successes are not added to final totals. The external runner needed a Windows
 multiprocessing main guard and progress writes immune to test-patched file APIs; these
