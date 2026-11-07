@@ -124,11 +124,17 @@ class Generator:
 
     async def generate(self,text,integration,*,remaining_seconds=None):
         prepare_query(text)
+        if integration.execution_plan is not None:
+            from .compound import generate_compound
+            return await generate_compound(self, text, integration, remaining_seconds=remaining_seconds)
         pack=prepare(integration)
         from dataclasses import replace as _replace
         from ..bintanong_routing.terms import parse_term
         pack=_replace(pack,asked_term=parse_term(text))  # live 4 Nov 2026: the year can stand outside the asked part
         check_question(text,pack)
+        if (self.explanation_profile != 'parts' and any(o.status != 'ok' or not o.passages or o.gaps
+                for o in pack.document_topics)):
+            return _answer(pack,'abstained',reason='unsupported_answer_scope')
         if (pack.plan_check is not None or pack.earliest_term is not None) and pack.route == 'Symbolic' and pack.status == 'ready':
             draft=AnswerDraft(schema_version=AnswerDraft.SCHEMA_VERSION,language=pack.language,
                 release_id=pack.release_id,decision_outcome=None,claims=())

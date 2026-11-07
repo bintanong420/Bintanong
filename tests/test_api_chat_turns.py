@@ -80,6 +80,72 @@ def test_a_short_pending_reply_reaches_router_as_the_actual_utterance():
     assert reply.calls[0][1].dialogue.turns[0].user_text == 'Natake ko na yung A1. Can I take B1?'
 
 
+def clarification_turn(store, s):
+    pending = waiting_on()
+    pending.status = 'clarification_needed'
+    pending.missing_facts = ('completion_unknown:course-a',)
+    turn(store, s, Answering(checked(s.view.session_id), pending),
+         'Natake ko na yung A1. Can I take B1?', 'msg-1')
+
+
+def test_explicit_clarification_is_bound_to_owned_origin_without_repeating_question():
+    store, pipeline = SessionStore(), Pipeline()
+    s = session(store)
+    clarification_turn(store, s)
+    turns = ChatTurns(store, pipeline, CURRICULA)
+    binding = turns.clarification_binding(s, 'msg-1')
+    assert binding['revision'] == 1
+    assert binding['requestedSlots'] == ['completion_unknown:course-a']
+    answer(turns, s, request('I do not know whether I passed A1.', message_id='msg-2', **SCOPE,
+        clarificationReply={**{k: binding[k] for k in ('replyToTurnId', 'revision')},
+                            'slots': [{'slot': 'completion_unknown:course-a', 'value': 'unknown'}]}))
+    text, ctx = pipeline.calls[0]
+    assert text == 'I do not know whether I passed A1.'
+    assert ctx.dialogue.pending_turn_id == binding['replyToTurnId']
+    assert all(f.state != 'passed' for f in ctx.facts)
+
+
+@pytest.mark.parametrize('change', [dict(revision=0), dict(replyToTurnId='foreign-turn'),
+                                  dict(slots=[{'slot': 'unrequested', 'value': 'passed'}]),
+                                  dict(slots=[{'slot': 'completion_unknown:course-a', 'value': 'passed'}] * 2)])
+def test_stale_or_unrequested_clarification_is_rejected_without_running_pipeline(change):
+    store, pipeline = SessionStore(), Pipeline()
+    s = session(store)
+    clarification_turn(store, s)
+    turns = ChatTurns(store, pipeline, CURRICULA)
+    binding = turns.clarification_binding(s, 'msg-1')
+    reply = {k: binding[k] for k in ('replyToTurnId', 'revision')}
+    reply.update({'slots': []} | change)
+    with pytest.raises(ApiError) as raised:
+        answer(turns, s, request('Passed.', message_id='msg-2', **SCOPE, clarificationReply=reply))
+    assert raised.value.code == 'clarification_expired'
+    assert pipeline.calls == []
+    assert store.resolve(s.credential).dialogue.revision == 1
+    store.begin_turn(s.credential, 'retry')
+
+
+@pytest.mark.parametrize('reset', ['new_session', 'resolved', 'expired'])
+def test_clarification_does_not_resume_after_session_reset_resolution_or_expiry(reset):
+    now = [0.0]
+    store, pipeline = SessionStore(clock=lambda: now[0], idle_seconds=10), Pipeline()
+    s = session(store)
+    clarification_turn(store, s)
+    turns = ChatTurns(store, pipeline, CURRICULA)
+    binding = turns.clarification_binding(s, 'msg-1')
+    if reset == 'new_session':
+        s = session(store)
+    elif reset == 'resolved':
+        answer(turns, s, request('A different question.', message_id='msg-other', **SCOPE))
+        pipeline.calls.clear()
+    else:
+        now[0] = 11.0
+    with pytest.raises(ApiError) as raised:
+        answer(turns, s, request('Passed.', message_id='msg-2', **SCOPE,
+            clarificationReply={k: binding[k] for k in ('replyToTurnId', 'revision')}))
+    assert raised.value.code == ('session_ended' if reset == 'expired' else 'clarification_expired')
+    assert pipeline.calls == []
+
+
 def test_context_preparation_failure_releases_turn_without_partial_history(monkeypatch):
     from backend.bintanong_api import chat
     store, pipeline = SessionStore(), Pipeline()

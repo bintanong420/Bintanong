@@ -4,11 +4,14 @@ from .memory import turn_ref
 
 
 def compile_context(view, program_id, curriculum_id):
+    pending = view.dialogue.unresolved
     eligible = [e for e in view.dialogue.exchanges
-                if (e.program_id, e.curriculum_id) == (program_id, curriculum_id)]
+                if (e.program_id, e.curriculum_id) == (program_id, curriculum_id)
+                or (pending and e.message_id == pending.originating_message_id
+                    and set(pending.missing_slots) & {'program_id', 'curriculum_id'}
+                    and e.program_id in (None, program_id) and e.curriculum_id in (None, curriculum_id))]
     if not eligible:
         return None
-    pending = view.dialogue.unresolved
     origin = next((e for e in eligible if pending and e.message_id == pending.originating_message_id), None)
     selected = eligible[-4:]
     if origin is not None and origin not in selected:

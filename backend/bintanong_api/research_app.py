@@ -52,6 +52,7 @@ class ResearchApiConfig(BaseModel):
     encoder_model_path: Path
     allowed_origins: tuple[str, ...] = Field(min_length=1)
     allow_guests: bool = False
+    compound_checks: bool = Field(default=False, strict=True)
     model_url: str = 'http://127.0.0.1:18088'
     program_names: dict[str, list[str]] = Field(default_factory=dict)
     curriculum_names: dict[str, list[str]] = Field(default_factory=dict)
@@ -165,6 +166,7 @@ def load_research_app(path=None):
         provider = ResearchProvider(client, resources, package, ledgers, local_documents=local,
                                     release_id=release, authorization_ref=authorization)
         pipeline = ResearchPipeline(lambda: LlamaTransport(config.model_url, prefix_cache=True), provider,
+            compound_checks=config.compound_checks,
             topic_selection=gate, generator_factory=lambda model: Generator(model,
                 reference_profile=pin.get('generation_reference_profile', 'canonical'),
                 review_reference_profile=pin.get('review_reference_profile', 'canonical')))

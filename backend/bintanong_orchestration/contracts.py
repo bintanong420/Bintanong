@@ -23,7 +23,7 @@ Status = Literal['ready', 'unknown', 'unsupported', 'error', 'timeout', 'conflic
     'release_mismatch', 'no_evidence', 'uncalibrated', 'clarify']
 Scope = Literal['none', 'document_explanation', 'scoped_prerequisite_check',
     'dependency_listing', 'combined_explanation', 'course_facts_listing', 'term_prerequisite_listing', 'study_plan_check', 'earliest_term_assessment']
-DocumentStatus = Literal['ok', 'insufficient_evidence', 'needs_scope', 'conflicting_sources',
+DocumentStatus = Literal['ok', 'partial', 'insufficient_evidence', 'needs_scope', 'conflicting_sources',
     'uncalibrated', 'release_changed', 'configuration_mismatch', 'encoder_unavailable',
     'invalid_query', 'storage_error', 'policy_binding_error', 'needs_subject',
     'needs_claims', 'unassessed']
@@ -150,7 +150,11 @@ class DocumentRecordCoverage(Record):
         return value
 
 
-class DocumentResult(Record):
+class DocumentTopicOutcome(Record):
+    """One retrieval observation, bound by the host to its requested question parts."""
+    part_ids: tuple[Annotated[str, Field(pattern=r'^r[1-8]$')], ...] = Field(min_length=1, max_length=8)
+    subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    requested_claims: tuple[Text, ...] = Field(min_length=1, max_length=32)
     release_id: ReleaseID
     status: DocumentStatus
     passages: tuple[DocumentPassage, ...]
@@ -158,7 +162,47 @@ class DocumentResult(Record):
     record_coverage: tuple[DocumentRecordCoverage, ...] = Field(default=(), max_length=64)
 
     @model_validator(mode='after')
+    def _observation(self):
+        if self.status == 'partial' or len(set(self.part_ids)) != len(self.part_ids):
+            raise ValueError('invalid_document_topic_observation')
+        if any(c.subject_id != self.subject_id or c.claim not in self.requested_claims
+               for c in self.record_coverage):
+            raise ValueError('topic_coverage_outside_requested_claims')
+        available = {p.chunk_id for p in self.passages}
+        if any(not set(c.chunk_ids) <= available for c in self.record_coverage):
+            raise ValueError('topic_coverage_record_not_in_context')
+        DocumentResult(release_id=self.release_id, status=self.status, passages=self.passages,
+            gaps=self.gaps, record_coverage=self.record_coverage)
+        return self
+
+
+class DocumentResult(Record):
+    release_id: ReleaseID
+    status: DocumentStatus
+    passages: tuple[DocumentPassage, ...]
+    gaps: tuple[Text, ...]
+    record_coverage: tuple[DocumentRecordCoverage, ...] = Field(default=(), max_length=64)
+    topic_outcomes: tuple[DocumentTopicOutcome, ...] = Field(default=(), max_length=32,
+        exclude_if=lambda value: not value)
+
+    @model_validator(mode='after')
     def _coverage(self):
+        if self.status == 'ok' and any(o.status != 'ok' for o in self.topic_outcomes):
+            raise ValueError('ok_documents_require_successful_topics')
+        if self.status == 'partial':
+            if not self.topic_outcomes:
+                raise ValueError('partial_documents_require_topic_outcomes')
+            if any(o.status not in ('ok', 'insufficient_evidence', 'unassessed', 'needs_subject')
+                   or o.release_id != self.release_id for o in self.topic_outcomes):
+                raise ValueError('partial_documents_cannot_bypass_hard_hold')
+            good = {p for o in self.topic_outcomes if o.status == 'ok' and o.passages and not o.gaps for p in o.part_ids}
+            failed = {p for o in self.topic_outcomes if o.status != 'ok' or not o.passages or o.gaps for p in o.part_ids}
+            if not good - failed or not failed:
+                raise ValueError('partial_documents_require_independent_success_and_gap')
+            expected = {p.chunk_id: p for o in self.topic_outcomes if o.status == 'ok' and o.passages and not o.gaps
+                        for p in o.passages}
+            if {p.chunk_id: p for p in self.passages} != expected:
+                raise ValueError('partial_document_passages_must_match_successful_topics')
         keys = [(c.subject_id, c.claim) for c in self.record_coverage]
         if len(set(keys)) != len(keys):
             raise ValueError('duplicate_record_coverage_claim')
@@ -297,6 +341,37 @@ class RequestUnderstanding(Contract):
         return self
 
 
+class ExecutionStep(Record):
+    part_id: str = Field(pattern=r'^r[1-8]$')
+    evidence_need: Literal['structured', 'document']
+    request: PredicateRequest | None
+
+
+class ExecutionPlan(Contract):
+    SCHEMA_VERSION = 'bintanong-execution-plan-v1'
+    release_id: ReleaseID
+    program_id: Text
+    curriculum_id: Text
+    steps: tuple[ExecutionStep, ...] = Field(min_length=2, max_length=3)
+
+    @model_validator(mode='after')
+    def _bounded(self):
+        checks = [s for s in self.steps if s.evidence_need == 'structured']
+        if (len({s.part_id for s in self.steps}) != len(self.steps) or len(checks) != 2
+                or any((s.request is None) != (s.evidence_need == 'document') for s in self.steps)):
+            raise ValueError('invalid_execution_shape')
+        targets = []
+        for step in checks:
+            args = {i.name: i.value for i in step.request.inputs}
+            if (step.request.predicate != 'check_prerequisite_eligibility'
+                    or args.get('curriculum_id') != self.curriculum_id or not args.get('course_id')):
+                raise ValueError('invalid_execution_scope')
+            targets.append(args['course_id'])
+        if len(set(targets)) != 2:
+            raise ValueError('duplicate_execution_target')
+        return self
+
+
 class IntegrationResult(Contract):
     SCHEMA_VERSION = 'bintanong-candidate-integration-v2'
     candidate_only: Literal[True] = True
@@ -323,9 +398,42 @@ class IntegrationResult(Contract):
     unavailable_parts: tuple[Text, ...] = Field(default=(), max_length=8, exclude_if=lambda value: not value)
     # Audit A03 (4 Nov 2026): which boundary stopped an unanswered turn (reasons.py); None when ready.
     reason: ReasonCode | None = Field(default=None, exclude_if=lambda value: value is None)
+    execution_plan: ExecutionPlan | None = Field(default=None, exclude_if=lambda value: value is None)
+    execution_parts: tuple['IntegrationResult', ...] = Field(default=(), max_length=3,
+        exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _result(self):
+        if self.execution_plan is not None:
+            execution = self.execution_plan
+            plan = self.understanding
+            if (self.evidence is not None or plan is None or plan.release_id != execution.release_id
+                    or plan.request_id != self.request_id or plan.route != self.route
+                    or len(self.execution_parts) != len(execution.steps)
+                    or len(plan.parts) != len(execution.steps) or len(plan.operations) != 2
+                    or plan.predicate_request is not None):
+                raise ValueError('execution_integration_mismatch')
+            for step, child, part in zip(execution.steps, self.execution_parts, plan.parts):
+                scoped = child.understanding
+                expected_part = part.model_copy(update={'operation_indices': (0,)}) if step.request else part
+                expected_operations = (plan.operations[part.operation_indices[0]],) if step.request and len(part.operation_indices) == 1 else ()
+                if (child.execution_plan is not None or child.execution_parts or scoped is None
+                        or child.request_id != self.request_id or scoped.release_id != execution.release_id
+                        or scoped.question_sha256 != plan.question_sha256
+                        or scoped.parts != (expected_part,) or scoped.operations != expected_operations
+                        or part.part_id != step.part_id or part.evidence_need != step.evidence_need
+                        or scoped.predicate_request != step.request
+                        or child.route != ('Symbolic' if step.evidence_need == 'structured' else 'RAG')
+                        or (child.evidence is not None and child.evidence.pin.release_id != execution.release_id)):
+                    raise ValueError('execution_part_binding_mismatch')
+            expected = 'ready' if any(c.status == 'ready' for c in self.execution_parts) else 'unknown'
+            if self.status != expected or self.route != ('Hybrid' if len(execution.steps) == 3 else 'Symbolic'):
+                raise ValueError('execution_summary_mismatch')
+            if any(c.status in ('release_mismatch', 'conflict') for c in self.execution_parts):
+                raise ValueError('unsafe_execution_evidence')
+            return self
+        if self.execution_parts:
+            raise ValueError('execution_parts_require_plan')
         if self.status == 'system_information' and (self.route is not None or self.evidence is not None
                 or self.missing_facts or (self.understanding is not None and
                     (self.understanding.parts or self.understanding.operations))):

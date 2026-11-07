@@ -1,6 +1,7 @@
 # Current progress
 
-Updated 7 November 2026. Development: worktree `p12-dev` / branch `p12-dev`.
+Updated 7 November 2026. Development mainline: `p12-dev`. PR20 implementation is active in
+isolated `p12-pr20` / `feature/p12-unified-answer-pipeline`, targeting `p12-dev`.
 Owner reserves `p12-evaluation-harness` for thesis evaluation by netorare; it is no longer
 the development mainline. New branch starts at published `039e80a2`; previous working
 branch `p12-post-gathering-fixes` remains intact. Push ongoing work only to `origin/p12-dev`
@@ -8,6 +9,13 @@ unless explicitly directed otherwise. No server, runtime, source or dependency c
 Last full snapshot before condensation: `d2ad9fef` (recover with `git show`).
 Gathering checkout and owner USG notes remain separate. No numbered phase is active;
 Phase 12 research/software write-up is complete with disclosures; Phase 13 is cancelled.
+
+## Active PR20 implementation
+
+[Execution checkpoint](../2026-11-07-pr20-execution-checkpoint.md): five source commits
+imported once; B partial evidence, C presentation, D compound integration and E dialogue
+work underway in parallel. Next: complete integration and recorded verification; keep
+PR draft, evaluation checkout/services unchanged, new compound feature OFF by default.
 
 ## Delivered repairs
 

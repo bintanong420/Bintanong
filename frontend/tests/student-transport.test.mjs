@@ -16,6 +16,22 @@ const normal = [
 ];
 function response(raw) { return new Response(raw, { headers: { 'Content-Type': 'text/event-stream', 'x-vercel-ai-ui-message-stream': 'v1' } }); }
 
+test('optional presentation is bounded, source-bound and safely falls back to validated text', async () => {
+  const presentation = { schemaVersion: 'bintanong-answer-presentation-v2', coverageState: 'complete',
+    parts: [{ partId: 'r1', label: 'Part 1', evidenceNeed: 'document', state: 'answered',
+      blocks: [{ type: 'explanation', text: 'Synthetic response.' }], sourceIds: [] }] };
+  const send = value => sendStudentMessage(request, { signal: new AbortController().signal, onText() {},
+    fetch: async () => response(sse(normal.map(p => p.type === 'data-answer' ? { ...p, data: { ...p.data, presentation: value } } : p))) });
+  assert.deepEqual((await send(presentation)).presentation, presentation);
+  for (const invalid of [{ ...presentation, coverageState: 'partial' },
+    { ...presentation, parts: [{ ...presentation.parts[0], sourceIds: ['ev-' + 'a'.repeat(64)] }] },
+    { ...presentation, parts: [{ ...presentation.parts[0], blocks: [{ type: 'html', text: '<script>x</script>' }] }] }]) {
+    const answer = await send(invalid);
+    assert.equal(answer.presentation, undefined);
+    assert.equal(answer.text, 'Synthetic response.');
+  }
+});
+
 test('system-information replies are accepted through the chat stream', async () => {
   const stream = sse(normal.map(p => p.type === 'data-answer' ? {
     ...p, data: { status: 'system_information', conditional: false, language: 'en', missingFields: [] },

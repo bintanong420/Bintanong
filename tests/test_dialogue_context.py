@@ -31,6 +31,21 @@ def test_curriculum_switch_excludes_other_curriculum_dialogue():
     assert context.dialogue is None
 
 
+def test_scope_reply_can_bind_unscoped_pending_question_without_importing_other_edition():
+    from dataclasses import replace
+    from backend.bintanong_private_context.dialogue import DialogueState, UnresolvedDialogue
+    view = stored()
+    question = view.dialogue.exchanges[0].model_copy(update={'program_id': None, 'curriculum_id': None})
+    view = replace(view, dialogue=DialogueState(revision=1, exchanges=(question,),
+        unresolved=UnresolvedDialogue(originating_message_id='question-1', missing_slots=('program_id', 'curriculum_id'))))
+    ctx = follow_up_context(view, request_id='req-2', program_id='program-a', curriculum_id='curriculum-a')
+    assert ctx.dialogue is not None and ctx.dialogue.pending_turn_id == ctx.dialogue.turns[0].turn_id
+    assert ctx.facts == ()
+    scoped = question.model_copy(update={'program_id': 'program-a', 'curriculum_id': 'curriculum-b'})
+    view = replace(view, dialogue=view.dialogue.model_copy(update={'exchanges': (scoped,)}))
+    assert follow_up_context(view, request_id='req-3', program_id='program-a', curriculum_id='curriculum-a').dialogue is None
+
+
 def test_dialogue_from_another_session_is_rejected():
     context = follow_up_context(stored(), request_id='req-2', program_id='program-a', curriculum_id='curriculum-a')
     with pytest.raises(ValueError, match='foreign_dialogue'):

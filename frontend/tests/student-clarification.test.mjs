@@ -7,6 +7,26 @@ const answer = { status: 'clarification_needed', language: 'en', missingFields: 
   clarification: { courses: [{ code: 'B2/L', kind: 'completion' }, { code: 'C3', kind: 'enrollment' }],
     scope: { programId: 'program-a', curriculumId: 'curriculum-a' } } };
 
+test('server-bound dialog and typed replies send only the new student utterance', () => {
+  const bound = { ...answer, clarification: { ...answer.clarification,
+    courses: [{ code: 'B2/L', kind: 'completion', slot: 'completion_unknown:course-b' },
+      { code: 'C3', kind: 'enrollment', slot: 'enrollment_unknown:course-c' }],
+    binding: { replyToTurnId: 'turn-owned', revision: 3,
+      requestedSlots: ['completion_unknown:course-b', 'enrollment_unknown:course-c'] } } };
+  const reply = clarificationReply('Can I take A1?', bound, curricula, {
+    'completion:B2/L': { value: 'unknown', explanation: '' },
+    'enrollment:C3': { value: 'not_enrolled', explanation: '' },
+  });
+  assert.ok(!reply.text.includes('Can I take A1?'));
+  assert.deepEqual(reply.clarificationReply, { replyToTurnId: 'turn-owned', revision: 3, slots: [
+    { slot: 'completion_unknown:course-b', value: 'unknown' },
+    { slot: 'enrollment_unknown:course-c', value: 'not_enrolled' },
+  ] });
+  const typed = typedReply('Can I take A1?', bound, 'I took it, but do not know my result.', curricula);
+  assert.equal(typed.text, 'I took it, but do not know my result.');
+  assert.deepEqual(typed.clarificationReply, { replyToTurnId: 'turn-owned', revision: 3, slots: [] });
+});
+
 test('no default or incomplete choices can be submitted', () => {
   assert.equal(clarificationReply('Can I take A1?', answer, curricula, {}), null);
   assert.equal(clarificationReply('Can I take A1?', answer, curricula, { 'completion:B2/L': { value: 'passed', explanation: '' } }), null);

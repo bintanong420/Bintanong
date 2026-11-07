@@ -8,6 +8,7 @@ import type { StudentCurriculum, StudentSourceSummary } from "@/lib/student-cont
 import { pickFaqQuestions, sampleQuestionSets } from "@/lib/sample-questions";
 import { BrandMark } from "./brand-mark";
 import { MarkdownText } from "./markdown-text";
+import { AnswerPresentation } from "./answer-presentation";
 
 const rotateEveryMs = 4000;
 /**
@@ -71,8 +72,10 @@ export function Conversation({ state, progress, onSource, onClarify, onEdit, onR
       <div className="message-body"><Card className="message-card"><CardContent>
         {notice && <p className={`answer-notice status-${notice.tone}`}>{notice.label}</p>}
         {message.delivery === "interrupted" && <p className="supporting-copy">Response interrupted. Any text below may be incomplete.</p>}
-        {message.text && (message.role === "assistant" ? <MarkdownText text={message.text} /> : <p className="message-text">{message.text}</p>)}
-        {message.answer?.conditional && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
+        {message.answer?.presentation && message.delivery !== "interrupted" ? <AnswerPresentation presentation={message.answer.presentation}
+          sources={message.answer.sources} language={message.answer.language} onSource={onSource} /> :
+          message.text && (message.role === "assistant" ? <MarkdownText text={message.text} /> : <p className="message-text">{message.text}</p>)}
+        {message.answer?.conditional && !message.answer.presentation && <p className="supporting-copy">This check depends on the course details you supplied.</p>}
         {message.answer?.notice && <p className="answer-disclaimer">{message.answer.notice}</p>}
       </CardContent></Card>
       <div className="message-actions">

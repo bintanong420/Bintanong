@@ -39,31 +39,42 @@ class CompoundPlan:
 
 
 def plan_two_eligibility_checks(text: str, context: RequestContext, routed: RoutingResult,
-                                resources: ReleaseResources) -> CompoundPlan:
+                                resources: ReleaseResources, *, allow_document=False,
+                                allow_research=False) -> CompoundPlan:
     """Revalidate each model-proposed part using P12's existing single-operation guard."""
     if (type(routed) is not RoutingResult or routed.diagnostic != 'compound_request'
             or routed.decision.dispatchable or routed.decision.control != 'clarify'
             or routed.proposed is None):
         raise CompoundNotSupported('not_a_guarded_compound_request')
     p = Interpretation.parse(routed.proposed.model_dump(mode='json'))
-    if (p.route != 'Symbolic' or p.control is not None or p.ambiguities
-            or len(p.operations) != 2 or len(p.parts) != 2
+    structured = tuple(part for part in p.parts if part.evidence_need == 'structured')
+    documents = tuple(part for part in p.parts if part.evidence_need == 'document')
+    mixed = allow_document and p.route == 'Hybrid' and len(documents) == 1 and len(p.parts) == 3
+    if ((p.route != 'Symbolic' or len(p.parts) != 2) and not mixed
+            or p.control is not None or p.ambiguities
+            or len(p.operations) != 2 or len(structured) != 2
             or any(op.name != 'check_prerequisite_eligibility' for op in p.operations)
             or any(part.evidence_need != 'structured' or len(part.operation_indices) != 1
-                   for part in p.parts)
-            or {part.operation_indices[0] for part in p.parts} != {0, 1}
-            or resources.pin.synthetic is not True or resources.symbolic is None):
+                   for part in structured)
+            or {part.operation_indices[0] for part in structured} != {0, 1}
+            or (not resources.pin.synthetic and not allow_research) or resources.symbolic is None):
         raise CompoundNotSupported('compound_shape_not_supported')
+    ordered = sorted(p.parts, key=lambda part: part.start)
+    if any(left.end > right.start for left, right in zip(ordered, ordered[1:])):
+        raise CompoundNotSupported('compound_parts_not_independent')
     context = RequestContext.parse(context.model_dump(mode='json'))
     valid = []
     for idx in range(2):
         part = next(part for part in p.parts if part.operation_indices == (idx,))
         narrowed = p.model_dump(mode='json')
+        narrowed['route'] = 'Symbolic'
         narrowed['operations'] = [p.operations[idx].model_dump(mode='json')]
         narrowed['parts'] = [dict(part.model_dump(mode='json'), operation_indices=[0])]
         checked = validate_interpretation(
             text, context, Interpretation.parse(narrowed), catalog=resources.catalog,
-            registry=resources.registry, documents_available=False, synthetic=True)
+            # Like Orchestrator: permission is the trusted research pin; result labels stay real.
+            registry=resources.registry, documents_available=False,
+            synthetic=resources.pin.synthetic or allow_research)
         if (checked.diagnostic != 'validated' or checked.decision.route != 'Symbolic'
                 or checked.decision.predicate_request is None
                 or checked.decision.predicate_request.predicate != 'check_prerequisite_eligibility'
@@ -79,6 +90,8 @@ def plan_two_eligibility_checks(text: str, context: RequestContext, routed: Rout
                      if i.name == 'course_id'), None) for _, r in valid]
     if None in targets or len(set(targets)) != 2:
         raise CompoundNotSupported('duplicate_or_unresolved_compound_targets')
+    if any(c.mode == 'hypothetical' and c.course_id in targets for c in routed.claims):
+        raise CompoundNotSupported('dependent_compound_assumption')
     if (routed.program_id, routed.curriculum_id) != (program, curriculum):
         raise CompoundNotSupported('compound_scope_binding_mismatch')
     basis = tuple(f for f in context.facts
@@ -140,9 +153,10 @@ class CompoundResearchResult(Contract):
 
 
 async def execute_two_eligibility_checks(plan: CompoundPlan, resources: ReleaseResources,
-                                         *, timeout_seconds: float = 30) -> CompoundResearchResult:
+                                         *, timeout_seconds: float = 30,
+                                         allow_research=False) -> CompoundResearchResult:
     """Run sequentially to respect the per-runtime worker-admission lock."""
-    if (not 0 < timeout_seconds <= 120 or resources.pin.synthetic is not True
+    if (not 0 < timeout_seconds <= 120 or (not resources.pin.synthetic and not allow_research)
             or plan.release_id != resources.pin.release_id or resources.symbolic is None):
         raise CompoundNotSupported('invalid_compound_execution_scope')
     results = []
@@ -151,7 +165,9 @@ async def execute_two_eligibility_checks(plan: CompoundPlan, resources: ReleaseR
             resources.registry.goal(part.predicate_request)
             async with asyncio.timeout(timeout_seconds):
                 actual = await resources.symbolic.execute(part.predicate_request, plan.scoped)
-            if type(actual) is not SymbolicResult:
+            from ..bintanong_symbolic.runtime import ResearchSymbolicResult
+            expected = SymbolicResult if resources.pin.synthetic else ResearchSymbolicResult
+            if type(actual) is not expected:
                 raise ValueError('wrong_symbolic_result_kind')
             if (actual.decision.predicate != part.predicate_request.predicate
                     or actual.inputs != part.predicate_request.inputs):

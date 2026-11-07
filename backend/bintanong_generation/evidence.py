@@ -7,7 +7,7 @@ from ..bintanong_routing.reply_policy import reply_language
 from ..bintanong_contracts.base import foreign_ids
 from ..bintanong_contracts.symbolic import DecisionOutcome,RequirementView
 from ..bintanong_contracts.runtime import BoundInput
-from ..bintanong_orchestration.contracts import DocumentCitation,IntegrationResult,RequestUnderstanding
+from ..bintanong_orchestration.contracts import DocumentCitation,DocumentTopicOutcome,IntegrationResult,RequestUnderstanding
 from ..bintanong_orchestration.integration import assemble
 from ..bintanong_symbolic.course_facts import CourseFactsResult
 from ..bintanong_symbolic.runtime import DependencyResult
@@ -44,6 +44,8 @@ class PreparedEvidence:
     earliest_term: object=None
     unavailable_parts: tuple[str,...]=()  # words of parts with no reviewed topic, named as unavailable
     reason: str|None=None  # why the turn was not answered (orchestration/reasons.py), None when ready
+    document_topics: tuple[DocumentTopicOutcome,...]=()
+    document_part_sources: tuple[tuple[str,tuple[str,...]],...]=()
 
     def model_payload(self):
         payload = dict(release_id=self.release_id,language=self.language,route=self.route,
@@ -158,6 +160,10 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         inputs=tuple(BoundInput(name=i.name,value=i.value,fact_ref=None) for i in reasoning.inputs),
         scope=reasoning.scope,rule_bundle_version=reasoning.rule_bundle_version)
     plan=result.understanding
+    topics = evidence.documents.topic_outcomes if evidence and evidence.documents else ()
+    document_parts = {p.part_id for p in plan.parts if p.evidence_need == 'document'} if plan else set()
+    if any(not set(o.part_ids) <= document_parts for o in topics):
+        raise ValueError('document_topic_part_mismatch')
     if result.status=='ready' and result.route!='RAG':
         request=plan.predicate_request
         if (context is None or request.predicate!=context.operation or
@@ -173,6 +179,9 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
                   for c in evidence.documents.record_coverage if c.source_ordered) if evidence and evidence.documents else ()
     quotes = tuple((c.subject_id,c.claim,by_chunk[c.quoted_field.chunk_id],c.quoted_field.text)
                    for c in evidence.documents.record_coverage if c.quoted_field is not None) if evidence and evidence.documents else ()
+    part_sources = tuple((part, tuple(dict.fromkeys(by_chunk[p.chunk_id] for o in topics
+        if part in o.part_ids and o.status == 'ok' for p in o.passages if p.chunk_id in by_chunk)))
+        for part in dict.fromkeys(part for o in topics for part in o.part_ids))
     return PreparedEvidence(result.request_id,evidence.pin.release_id if evidence else None,
         status,reply_language(result.response_style),result.route,cards,
         symbolic.decision if symbolic else None,dependencies,
@@ -180,4 +189,4 @@ def prepare(result: IntegrationResult)->PreparedEvidence:
         evidence.pin.research_ref if evidence else None,tuple(sorted(result.course_labels.items())),
         symbolic.requirement if symbolic else facts.requirement if facts else None,facts,coverage,order,quotes,result.assumed_facts,term,
         recovery=result.recovery,plan_check=checked_plan,plan_routes=evidence.plan_routes if evidence else None,earliest_term=earliest,unavailable_parts=result.unavailable_parts,
-        reason=None if status=='ready' else result.reason)
+        reason=None if status=='ready' else result.reason, document_topics=topics, document_part_sources=part_sources)

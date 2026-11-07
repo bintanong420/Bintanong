@@ -59,6 +59,10 @@ def guidance_notice(language: str) -> str:
 
 
 def student_text(answer) -> str:
+    children = getattr(answer, 'part_answers', ())
+    if children:
+        label = 'Part' if answer.language in ('en', 'unknown') else 'Bahagi'
+        return '\n\n'.join(f'{label} {part.part_id[1:]}\n{student_text(part.answer)}' for part in children)
     words = _WORDS.get(answer.language, _WORDS['en'])
     listed = tuple(f'{words[key]}: ' for key in ('conditions', 'missing', 'dependency'))
     scope = (tuple(f'{label}: {answer.structured_context.operation};' for label in _SCOPE_LABELS)

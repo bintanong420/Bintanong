@@ -76,6 +76,18 @@ def test_encoding_is_one_compact_sse_data_line_per_chunk():
     assert STREAM_HEADERS['x-vercel-ai-ui-message-stream'] == 'v1'
 
 
+def test_compound_metadata_keeps_student_fact_qualifier_for_child_checks():
+    from backend.bintanong_generation.generator import Generator
+    from test_pr20_compound_pipeline import run
+    from test_routing_router import FakeTransport
+    text, integration, _ = run(enabled=True)
+    answer = asyncio.run(Generator(FakeTransport()).generate(text, integration))
+    assert answer.decision is None
+    summary = next(part['data'] for part in answer_parts(answer, 'msg-compound') if part['type'] == 'data-answer')
+    assert summary['conditional'] is True
+    assert all(part['conditional'] for part in summary['presentation']['parts'])
+
+
 def test_answer_parts_carry_the_student_text_sources_and_finish():
     answer = answer_for('Hybrid')
     parts = answer_parts(answer, 'msg-a')
@@ -88,7 +100,11 @@ def test_answer_parts_carry_the_student_text_sources_and_finish():
     assert [s['sourceId'] for s in sources] == [c.evidence_id for c in answer.citations]
     assert all('ev-' not in s['title'] for s in sources)
     summary = next(p for p in parts if p['type'] == 'data-answer')
-    assert summary['data'] == {'status': 'answered', 'conditional': True,
+    metadata = dict(summary['data'])
+    presentation = metadata.pop('presentation')
+    assert presentation['schemaVersion'] == 'bintanong-answer-presentation-v2'
+    assert presentation['coverageState'] == 'complete'
+    assert metadata == {'status': 'answered', 'conditional': True,
                                'language': 'taglish', 'missingFields': [],
                                'notice': 'Hindi official university guidance.'}
     assert kinds[-1] == 'finish' and parts[-1]['finishReason'] == 'stop'

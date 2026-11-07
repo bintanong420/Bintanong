@@ -70,7 +70,7 @@ def test_required_companion_records_are_mandatory_even_without_direct_claim_fiel
             claim['required_chunk_ids']=[p['chunk_id'] for p in value['evidence']]
             return value
     result=asyncio.run(RetrievalAdapter(WithCompanion(),research=True).retrieve(
-        RetrievalRequest('Fictional service?','release-synth-1')))
+        RetrievalRequest('Fictional service?','release-synth-1'), subject_id=SUBJECT, requested_claims=(CLAIM,)))
     assert result.record_coverage[0].chunk_ids==tuple(p.chunk_id for p in result.passages)
 
 
@@ -85,7 +85,7 @@ def test_reviewed_sequence_can_be_a_subset_of_all_required_context_records():
             claim['required_chunk_ids']=[p['chunk_id'] for p in value['evidence']]
             return value
     result=asyncio.run(RetrievalAdapter(OrderedWithContext(),research=True).retrieve(
-        RetrievalRequest('Fictional service?','release-synth-1')))
+        RetrievalRequest('Fictional service?','release-synth-1'), subject_id=SUBJECT, requested_claims=(CLAIM,)))
     requirement=result.record_coverage[0]
     assert set(requirement.chunk_ids)=={p.chunk_id for p in result.passages}
     assert requirement.sequence_chunk_ids==tuple(p.chunk_id for p in result.passages[:2])

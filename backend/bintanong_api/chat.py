@@ -45,6 +45,19 @@ class _Message(BaseModel):
     parts: list[_Part]
 
 
+class ClarificationSlot(BaseModel):
+    model_config = ConfigDict(extra='forbid', strict=True)
+    slot: str = Field(min_length=1, max_length=128)
+    value: str = Field(min_length=1, max_length=2048)
+
+
+class ClarificationReply(BaseModel):
+    model_config = ConfigDict(extra='forbid', strict=True)
+    replyToTurnId: str = Field(min_length=1, max_length=128)
+    revision: int = Field(ge=0)
+    slots: list[ClarificationSlot] = Field(default_factory=list, max_length=32)
+
+
 class ChatRequest(BaseModel):
     """The AI SDK `DefaultChatTransport` body plus the student's chosen curriculum."""
     model_config = ConfigDict(extra='ignore')
@@ -54,6 +67,7 @@ class ChatRequest(BaseModel):
     messageId: str | None = None
     programId: str | None = None
     curriculumId: str | None = None
+    clarificationReply: ClarificationReply | None = None
 
 
 @dataclass(frozen=True)
@@ -63,6 +77,7 @@ class PreparedTurn:
     program_id: str | None
     curriculum_id: str | None
     regenerate: bool
+    clarification_reply: ClarificationReply | None = None
 
 
 def _ignore(_stage: str) -> None:
@@ -87,7 +102,33 @@ class ChatTurns:
         except ValueError:
             raise ApiError(422, 'invalid_message') from None
         scope = self.checked_scope(request.programId, request.curriculumId, required=False)
-        return PreparedTurn(text, message.id, *scope, regenerate=request.trigger == 'regenerate-message')
+        return PreparedTurn(text, message.id, *scope, regenerate=request.trigger == 'regenerate-message',
+                            clarification_reply=request.clarificationReply)
+
+    def clarification_binding(self, session: Session, message_id: str):
+        """Only the just-committed server clarification can offer a reply target."""
+        view = self._sessions.resolve(session.credential, account_id=session.account_id)
+        if (view is None or view.dialogue.unresolved is None or not view.dialogue.exchanges
+                or view.dialogue.exchanges[-1].message_id != message_id):
+            return None
+        pending = view.dialogue.unresolved
+        return {'replyToTurnId': turn_ref(pending.originating_message_id),
+                'revision': view.dialogue.revision, 'requestedSlots': list(pending.missing_slots)}
+
+    @staticmethod
+    def _check_clarification(turn, view):
+        reply, pending = turn.clarification_reply, view.dialogue.unresolved
+        if reply is None:
+            return
+        origin = next((e for e in view.dialogue.exchanges if pending and
+                       e.message_id == pending.originating_message_id), None)
+        slots = [s.slot for s in reply.slots]
+        if (pending is None or origin is None or reply.revision != view.dialogue.revision
+                or reply.replyToTurnId != turn_ref(pending.originating_message_id)
+                or len(slots) != len(set(slots)) or not set(slots).issubset(pending.missing_slots)
+                or (origin.program_id is not None and origin.program_id != turn.program_id)
+                or (origin.curriculum_id is not None and origin.curriculum_id != turn.curriculum_id)):
+            raise ApiError(409, 'clarification_expired')
 
     def checked_scope(self, program_id: str | None, curriculum_id: str | None, *,
                       required: bool) -> tuple[str | None, str | None]:
@@ -116,12 +157,19 @@ class ChatTurns:
             view = self._sessions.resolve(session.credential, account_id=session.account_id)
             if view is None:
                 raise ApiError(409, 'session_ended')
+            self._check_clarification(turn, view)
             bound = bind_reply(turn.text, view.pending_check, (turn.program_id, turn.curriculum_id),
                                session_id=view.session_id)
             if bound is not None and bound.fact is not None:
                 view = replace(view, facts=merge_facts(view.facts, (bound.fact,)))
             context = follow_up_context(view, request_id=f'req-{secrets.token_hex(8)}',
                                         program_id=turn.program_id, curriculum_id=turn.curriculum_id)
+            if (turn.clarification_reply is not None and
+                    (context.dialogue is None or context.dialogue.pending_turn_id !=
+                     turn.clarification_reply.replyToTurnId)):
+                raise ApiError(409, 'clarification_expired')
+            if turn.clarification_reply is not None:
+                context = context.model_copy(update={'reply_to_turn_id': turn.clarification_reply.replyToTurnId})
             try:
                 result = await self._pipeline.run(turn.text, context,
                                                   routed_sink=routed.append, progress=progress)

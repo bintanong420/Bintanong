@@ -243,6 +243,12 @@ _PART_SOURCE_GAP={
            'Paki-ask sa tamang university office.'}
 
 
+_PART_NOT_CHECKED={
+ 'en':'The part about "{words}" has not been checked yet. Please clarify or ask the relevant university office.',
+ 'fil':'Hindi pa na-check yung part tungkol sa "{words}". Paki-clarify o ask sa tamang university office.',
+ 'taglish':'Hindi pa na-check yung part tungkol sa "{words}". Paki-clarify o ask sa tamang university office.'}
+
+
 def unavailable_part_lines(pack,ledger):
     if ledger is None:
         return []
@@ -250,7 +256,8 @@ def unavailable_part_lines(pack,ledger):
     lines=[]
     for entry in ledger.entries:
         if entry.status=='unavailable':
-            notices=_PART_SOURCE_GAP if entry.reason=='source_gap' else _PART_UNAVAILABLE
+            notices=(_PART_NOT_CHECKED if entry.reason=='document_check_not_run' else
+                     _PART_SOURCE_GAP if entry.reason=='source_gap' else _PART_UNAVAILABLE)
             lines.append(notices.get(pack.language,notices['en']).format(words=texts[entry.part_id]))
     return lines
 

@@ -140,6 +140,15 @@ body:has(.workspace) { background: light-dark(oklch(1 0 none), oklch(0.19 0.004 
 .message { display: flex; align-items: flex-start; gap: 0.75rem; margin-block-end: 2rem; }
 .message-avatar { display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: var(--muted-foreground); }
 .message-body { min-inline-size: 0; max-inline-size: 44rem; }
+.answer-presentation, .answer-part, .answer-block { min-inline-size: 0; overflow-wrap: anywhere; }
+.answer-part + .answer-part { margin-block-start: 1.25rem; padding-block-start: 1rem; border-block-start: 1px solid var(--border); }
+.answer-part-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; margin-block-end: 0.5rem; }
+.answer-part-header h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+.answer-part-state { font-size: 0.8125rem; color: var(--muted-foreground); }
+.answer-block + .answer-block { margin-block-start: 0.625rem; }
+.answer-block-limitation, .answer-block-source_notice { border-inline-start: 2px solid var(--border); padding-inline-start: 0.75rem; }
+.answer-part-sources { display: inline-block; margin-block-start: 0.5rem; min-block-size: 2.75rem; text-align: start; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
+.answer-part-sources:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .message-user { flex-direction: row-reverse; }
 .message-user .message-body { max-inline-size: min(75%, 36rem); }
 .message-card { padding: 0; gap: 0; border: 0; border-radius: 0.75rem; box-shadow: none; background: transparent; }
