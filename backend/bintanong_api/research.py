@@ -153,7 +153,8 @@ def load_research_app(path=None):
         app = create_app(ApiServices(sessions=SessionStore(), curricula=tuple(curricula), pipeline=pipeline,
             extract_rows=extract, course_labels=dict(resources.course_labels), auth=auth, ready=ready, close=close,
             supabase_probe=provider.probe_supabase,
-            evaluation=evaluation_from_env(pipeline, provider, tuple(curricula), dict(resources.course_labels))),
+            evaluation=evaluation_from_env(pipeline, provider, tuple(curricula), dict(resources.course_labels),
+                model_factory=lambda: LlamaTransport(model_url, prefix_cache=True))),
             ApiSettings(allowed_origins=origins, require_auth=True))
         app.state.research_provider = provider
         return app

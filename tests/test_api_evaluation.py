@@ -92,6 +92,30 @@ def test_off_by_default_is_404():
     assert post_run(client).status_code == 404
 
 
+def test_ablation_is_gated_separate_from_the_benchmark_run_log(tmp_path):
+    from test_evaluation_ablation import Model
+    pipeline = Pipeline(result=answer_for('Hybrid'))
+    service = service_for(tmp_path, pipeline)
+    client = client_for(service)
+    assert client.post('/evaluation/ablation', json=dict(question=QUESTION), headers=GOOD).status_code == 404
+    service._model_factory = Model
+    assert client.post('/evaluation/ablation', json=dict(question=QUESTION),
+                       headers={'origin': ORIGIN}).status_code == 404
+    response = client.post('/evaluation/ablation', json=dict(question=QUESTION), headers=GOOD)
+    assert response.status_code == 200
+    body = response.json()
+    assert body['record_type'] == 'ablation' and body['experiment']['outcome'] == 'completed'
+    assert len(body['experiment']['conditions']) == 3
+    runs = client.get('/evaluation/runs', headers=GOOD).json()['runs']
+    assert len(runs) == 1 and runs[0]['record_type'] == 'run'
+    assert len(client.get('/evaluation/ablation', headers=GOOD).json()['comparisons']) == 1
+    assert client.app.state.admission.admitted == 0
+    assert client.post('/evaluation/ablation', json=dict(question=QUESTION, symbolic={'eligible': True}),
+                       headers=GOOD).status_code == 422
+    assert client.post('/evaluation/ablation', json=dict(question=QUESTION),
+                       headers={**GOOD, 'origin': 'https://other.example'}).status_code == 403
+
+
 @pytest.mark.parametrize('headers', [{}, {'x-bintanong-evaluator': 'wrong'}])
 def test_wrong_or_missing_passcode_looks_like_no_route(tmp_path, headers):
     client = client_for(service_for(tmp_path, Pipeline()))

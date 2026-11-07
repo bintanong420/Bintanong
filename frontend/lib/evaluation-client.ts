@@ -58,10 +58,20 @@ async function call<T>(path: string, passcode: string, fetcher: Fetcher, body?: 
 }
 
 export const loadCases = (passcode: string, fetcher: Fetcher = fetch) =>
-  call<{ code_commit: string; cases: EvaluationCase[] }>("cases", passcode, fetcher);
+  call<{ code_commit: string; cases: EvaluationCase[]; ablation_available?: boolean }>("cases", passcode, fetcher);
 export const listRuns = (passcode: string, fetcher: Fetcher = fetch) =>
   call<{ runs: EvaluationRun[] }>("runs", passcode, fetcher);
 export const runEvaluation = (question: string, passcode: string, fetcher: Fetcher = fetch) =>
   call<EvaluationRun>("run", passcode, fetcher, { question });
 export const saveJudgment = (runId: string, judgment: Judgment, passcode: string, fetcher: Fetcher = fetch) =>
   call<Judgment>(`runs/${runId}/judgment`, passcode, fetcher, judgment);
+
+export type AblationRun = { run_id: string; question: string; code_commit: string; created_at: string;
+  reference: EvaluationRun; experiment: { outcome: string; reason?: string; prompt_version?: string;
+    matching_model_settings?: boolean; release_id?: string; sources_sha256?: string;
+    conditions: { condition: "A" | "B" | "C"; outcome: string; answer: string | null;
+      error: string | null; seconds: number; student_answer_validated: false }[] } };
+export const runAblation = (question: string, passcode: string, fetcher: Fetcher = fetch) =>
+  call<AblationRun>("ablation", passcode, fetcher, { question });
+export const listAblations = (passcode: string, fetcher: Fetcher = fetch) =>
+  call<{ comparisons: AblationRun[] }>("ablation", passcode, fetcher);

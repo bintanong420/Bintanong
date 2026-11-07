@@ -1,7 +1,7 @@
 # Current progress
 
-Updated7November2026. Active implementation: `p12-pr20`, branch
-`feature/p12-unified-answer-pipeline`, PR20 targets `p12-dev`. PR remains draft/unmerged.
+Updated7November2026. Evaluation follow-up: `p12-evaluation-ablation`, branch
+`feature/p12-evaluation-ablation`, separate from `p12-pr20` / PR20 and thesis checkout.
 Evaluation checkout is reserved for thesis evaluation. No numbered implementation phase active.
 Last full snapshot before condensation: `743004ad` (`git show` recovers it).
 
@@ -68,6 +68,8 @@ Next: owner exploratory review, then independent acceptance and paired language/
 Thesis question: [ablation interpretation](../2026-11-07-thesis-ablation-interpretation.md):
 Objective2 indirectly supports RAG-only comparison; RQ2 explicitly requires baseline/full.
 No ablation protocol/rerun or thesis change made; historical conditionB remains skipped.
-Owner asks for a [local test page](../2026-11-07-ablation-test-page-plan.md). Inspected UI/API/
-evaluation seams; condition executor awaits controlled-ablation vs whole-system selection.
+Owner asks for a [separate evaluation test-page branch](../2026-11-07-ablation-test-page-plan.md).
+Six remote evaluation commits imported; controlled evidence comparison/API/UI implemented.
+113 backend/125 frontend and TypeScript pass. Next: production build, opt-in local launch,
+browser/live comparison verification. Experimental outputs are separate from scored student answers.
 No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.

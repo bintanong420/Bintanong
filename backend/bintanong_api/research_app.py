@@ -184,7 +184,8 @@ def load_research_app(path=None):
             return model_ok and janus_ok
         services = ApiServices(sessions=SessionStore(), curricula=curricula, pipeline=pipeline,
             course_labels=dict(resources.course_labels), auth=auth, close=close, ready=ready,
-            evaluation=evaluation_from_env(pipeline, provider, curricula, dict(resources.course_labels)),
+            evaluation=evaluation_from_env(pipeline, provider, curricula, dict(resources.course_labels),
+                model_factory=lambda: LlamaTransport(config.model_url, prefix_cache=True)),
             extract_rows=lambda raw, program, curriculum: extract_isolated(raw, resources.catalog,
                 program_id=program, curriculum_id=curriculum))
         return create_app(services, ApiSettings(allowed_origins=config.allowed_origins,

@@ -6,9 +6,10 @@ const failure = (status: number, error: string) => Response.json({ error }, { st
 export async function forwardStudentRequest(request: Request, path: string, options: Options) {
   const upload = path === "/uploads";
   // Gated on the API by the evaluator passcode; off, or a wrong passcode, is a 404 from the API.
-  const evaluationPost = path === "/evaluation/run" || /^\/evaluation\/runs\/run-[a-f0-9]{16}\/judgment$/.test(path);
-  const evaluationGet = path === "/evaluation/cases" || path === "/evaluation/runs";
-  const methods = path === "/chat" || upload || evaluationPost || /^\/uploads\/upl-[a-f0-9]{16}\/confirm$/.test(path) ? ["POST"]
+  const evaluationPost = path === "/evaluation/run" || path === "/evaluation/ablation" || /^\/evaluation\/runs\/run-[a-f0-9]{16}\/judgment$/.test(path);
+  const evaluationGet = path === "/evaluation/cases" || path === "/evaluation/runs" || path === "/evaluation/ablation";
+  const methods = evaluationGet && evaluationPost ? ["GET", "POST"]
+    : path === "/chat" || upload || evaluationPost || /^\/uploads\/upl-[a-f0-9]{16}\/confirm$/.test(path) ? ["POST"]
     : path === "/session" || /^\/uploads\/upl-[a-f0-9]{16}$/.test(path) ? ["DELETE"]
     : path === "/curricula" || evaluationGet || /^\/sources\/ev-[a-f0-9]{64}$/.test(path) ? ["GET"] : null;
   if (!methods) return failure(404, "route_unavailable");

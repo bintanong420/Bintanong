@@ -71,6 +71,7 @@ const proxied = (path, method, headers = {}) => new Request(base + '/api' + path
   headers: { Origin: base, ...headers }, ...(method === 'POST' ? { body: '{}' } : {}) });
 
 for (const [path, method] of [['/evaluation/cases', 'GET'], ['/evaluation/runs', 'GET'], ['/evaluation/run', 'POST'],
+  ['/evaluation/ablation', 'GET'], ['/evaluation/ablation', 'POST'],
   ['/evaluation/runs/run-0123456789abcdef/judgment', 'POST']]) {
   test(`proxy forwards the passcode on ${method} ${path}`, async () => {
     const seen = [];

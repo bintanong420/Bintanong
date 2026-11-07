@@ -6,6 +6,7 @@ import {
   type AnswerKey, type CaseStatus, type EvaluationCase, type EvaluationRun, type Judgment, type RankedChunk,
 } from "@/lib/evaluation-client";
 import styles from "./evaluation.module.css";
+import { AblationPanel } from "@/components/evaluation/ablation-panel";
 
 const LANGUAGES: Record<string, string> = { EN: "English", TG: "Tagalog", TL: "Taglish" };
 const STATUS_LABELS: Record<CaseStatus, string> = { not_run: "Not run", failed: "Failed, run again", needs_marks: "Needs marks", marked: "Marked" };
@@ -140,6 +141,7 @@ export default function EvaluationPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [ablationAvailable, setAblationAvailable] = useState(false);
 
   async function unlock(event: React.FormEvent) {
     event.preventDefault();
@@ -147,6 +149,7 @@ export default function EvaluationPage() {
     try {
       const [loaded, saved] = await Promise.all([loadCases(passcode), listRuns(passcode)]);
       setCases(loaded.cases); setCommit(loaded.code_commit); setRuns(saved.runs);
+      setAblationAvailable(loaded.ablation_available === true);
     } catch (failure) {
       setError(explain((failure as Error).message));
     }
@@ -226,6 +229,8 @@ export default function EvaluationPage() {
             <button type="submit" className={styles.primary} disabled={busy || !question.trim()}>{busy ? "Waiting for the answer..." : "Run query"}</button>
             {error && <p className={styles.alert} role="alert">{error}</p>}
           </form>
+          <AblationPanel question={question} passcode={passcode} enabled={ablationAvailable} busy={busy} onBusy={setBusy}
+            onReference={run => { setRuns(current => [...current, run]); setSelectedId(run.run_id); }} />
           {selected
             ? <RunResult key={selected.run_id} run={selected} passcode={passcode}
                 counted={selected.case_id !== null && countedRunId(selected.case_id, runs) === selected.run_id}

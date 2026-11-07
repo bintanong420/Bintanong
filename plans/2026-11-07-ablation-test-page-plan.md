@@ -1,7 +1,8 @@
 # Local research comparison page
 
 Owner asks whether thesis comparisons can be implemented as a test page. Worktree
-`p12-pr20`; no evaluation-worktree edits or production mode switch. Design only so far.
+`feature/p12-evaluation-ablation`, separate worktree `p12-evaluation-ablation`.
+No thesis evaluation checkout edits or production mode switch.
 
 ## Proposed smallest slice
 
@@ -29,15 +30,34 @@ Owner asks whether thesis comparisons can be implemented as a test page. Worktre
    Useful system comparisons, but routing/prompt/validation differences must be
    reported; the RAG-only/full difference is not automatically a pure Prolog effect.
 
-The choice changes the executor and interpretation, not merely the column labels.
-Await the owner's selection before implementing condition execution.
+Owner directed checking/unifying the other P12 branches, then explicitly required
+a separate branch. Fresh fetch found the evaluation page on
+`origin/p12-evaluation-harness` at `69fc7cea`; the local evaluation ref was stale.
+Reuse that page for actual full-pipeline benchmark runs; add the controlled
+evidence-synthesis comparison separately. C is not labelled the production pipeline.
 
 ## Inspection findings and acceptance
 
-`evaluation/` has benchmark/grouping/traceability contracts; no reusable live A/B/C
-executor was found in tracked Python. Existing `/dev/health` is a UI precedent,
-not an evaluation runner or an access-control solution. No dependency is needed
-merely to build the page. Historical conditionB remains skipped.
+Imported six commits with cherry-pick provenance: roster/scoring `e03d7962`,
+retrieval observation `7524b00c`, gated API `f37b1797`, page/client `14caa702`,
+curriculum binding `a73b6128`, scoring/failure fixes `1e499828`. Other remote fixes
+and thesis metrics exports were not merged. Existing live A/B/C executor absent;
+the imported page provides full-system runs and human evaluation, not ablation.
+
+Controlled comparison prepares one current reference answer, freezes its actual
+source cards and checked symbolic report, then uses one answer prompt/model profile
+for A(no evidence), B(source cards), C(same cards plus report). No gold keys or
+reference prose reach generation. All outputs stay explicitly unvalidated; failed
+conditions remain in the export. Document-only/unsuccessful reference cases are
+not applicable. Fixed-order single runs are exploratory, not statistical evidence.
+Reference benchmark runs retain their original scoring semantics; ablation records
+are separate. Existing gated local JSONL storage is reused, superseding the initial
+memory-only proposal; no private uploads or institutional database writes.
+
+Initial verification: imported gates97 passed; extension/API/composition gates113
+passed; all125 frontend tests and TypeScript pass. Production build, browser/live
+acceptance and opt-in staging configuration remain pending. Historical thesis
+conditionB remains skipped; implementing this tool is not a completed experiment.
 
 First regressions should cover default-off endpoints/page, invalid scope/input,
 condition evidence separation, failure/cancellation/admission cleanup, faithful

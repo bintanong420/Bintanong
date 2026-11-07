@@ -77,10 +77,11 @@ class _RouteCapture:
 
 class EvaluationService:
     def __init__(self, *, pipeline, releases, curricula, course_labels, roster, normalize_question, keys_document,
-                 log_path, code_commit, token):
+                 log_path, code_commit, token, model_factory=None):
         self._pipeline, self._releases, self._curricula = pipeline, releases, curricula
         self._labels, self._roster, self._normalize = course_labels, roster, normalize_question
         self._log_path, self._commit, self._token = Path(log_path), code_commit, token
+        self._model_factory = model_factory
         self._by_question = {normalize_question(row['question']): row for row in roster}
         self._curriculum_labels = {(c.program_id, c.curriculum_id): f'{c.program_name} {c.curriculum_name}' for c in curricula}
         self._keys = {case_id: key for key in keys_document['keys'] for case_id in key['case_ids']}
@@ -99,7 +100,8 @@ class EvaluationService:
         return None if case_id is None else self._keys.get(case_id, _NO_KEY)
 
     def cases(self):
-        return dict(code_commit=self._commit, cases=[dict(row, key=self._key(row['case_id']),
+        return dict(code_commit=self._commit, ablation_available=self._model_factory is not None,
+                    cases=[dict(row, key=self._key(row['case_id']),
             curriculum_label=self._curriculum_labels.get((row['program_id'], row['curriculum_id'])))
             for row in self._roster])
 
@@ -116,7 +118,7 @@ class EvaluationService:
         self._append(record)
         return record
 
-    async def run_question(self, question):
+    async def run_question(self, question, *, captured_answers=None):
         try:
             text = prepare_query(question)
         except ValueError:
@@ -141,6 +143,8 @@ class EvaluationService:
         except ApiError as error:
             failure = error.code
         else:
+            if captured_answers is not None:
+                captured_answers.append(result)
             record['answer'] = dict(status=getattr(result, 'status', 'answered'), language=getattr(result, 'language', None),
                                     text=result if isinstance(result, str) else student_text(result),
                                     reason=getattr(result, 'reason', None),
@@ -161,6 +165,23 @@ class EvaluationService:
             record.update(outcome='infrastructure_error', error=failure, searches=[])
         self._append(record)
         return dict(record, key=self._key(record['case_id']), judgment=None)
+
+    async def compare_question(self, question):
+        from datetime import datetime, timezone
+        from .ablation import compare_evidence
+        if self._model_factory is None:
+            raise ApiError(404, 'route_unavailable')
+        captured = []
+        reference = await self.run_question(question, captured_answers=captured)
+        if reference['outcome'] != 'completed' or not captured or isinstance(captured[0], str):
+            experiment = dict(outcome='not_applicable', conditions=[], reason='Reference check did not complete.')
+        else:
+            experiment = await compare_evidence(question, captured[0], self._model_factory)
+        record = dict(record_type='ablation', run_id='abl-' + secrets.token_hex(8), question=question,
+                      code_commit=self._commit, created_at=datetime.now(timezone.utc).isoformat(),
+                      reference=reference, experiment=experiment)
+        self._append(record)
+        return record
 
     async def _searches(self, seen, routed, fallback_query):
         resources = await self._releases.pin()
@@ -197,6 +218,23 @@ class EvaluationService:
         def runs():
             return self.runs()
 
+        @router.get('/ablation')
+        def comparisons():
+            if self._model_factory is None:
+                raise ApiError(404, 'route_unavailable')
+            return dict(comparisons=[r for r in self._records if r['record_type'] == 'ablation'])
+
+        @router.post('/ablation')
+        async def compare(body: RunBody):
+            if self._model_factory is None:
+                raise ApiError(404, 'route_unavailable')
+            reservation = admission.reserve(account_id='evaluator')
+            try:
+                async with reservation.running(lambda _stage: None):
+                    return await self.compare_question(body.question)
+            finally:
+                reservation.release()
+
         @router.post('/run')
         async def run(body: RunBody):
             reservation = admission.reserve(account_id='evaluator')
@@ -216,7 +254,7 @@ def _inside_git(path):
     return any((parent / '.git').exists() for parent in path.parents)
 
 
-def evaluation_from_env(pipeline, releases, curricula, course_labels, *, environ=None):
+def evaluation_from_env(pipeline, releases, curricula, course_labels, *, environ=None, model_factory=None):
     """None unless the launcher sets a passcode; a half-configured launcher refuses to start."""
     environ = os.environ if environ is None else environ
     token = environ.get('BINTANONG_EVALUATION_TOKEN')
@@ -245,4 +283,4 @@ def evaluation_from_env(pipeline, releases, curricula, course_labels, *, environ
             covered.add(case_id)
     return EvaluationService(pipeline=pipeline, releases=releases, curricula=curricula, course_labels=course_labels,
                              roster=roster, normalize_question=normalize_question, keys_document=keys_document,
-                             log_path=log_path, code_commit=commit, token=token)
+                             log_path=log_path, code_commit=commit, token=token, model_factory=model_factory)
