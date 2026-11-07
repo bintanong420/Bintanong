@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { SourceViewer, type HighlightPages } from '@/components/source-viewer';
 import { download, request, ReviewError } from '@/lib/api';
+import { answerPayload, prospectusFieldLabel, statusLines, type ProspectusState } from '@/lib/prospectus-review';
 import type { Connection, ReviewItem } from '@/lib/review-state';
 
 type Question = { qid: string; kind: string; prompt: string; pages: number[]; decided: boolean;
@@ -18,6 +19,7 @@ export function ProspectusReview({ connection, documentId }: { connection: Conne
   const [mode, setMode] = useState('attention'), [choice, setChoice] = useState('');
   const [edits, setEdits] = useState<Record<string, string>>({}), [reason, setReason] = useState('');
   const [error, setError] = useState(''), [message, setMessage] = useState(''), [busy, setBusy] = useState(false);
+  const [status, setStatus] = useState<ProspectusState>();
   const pending = useRef<Record<string, unknown> | null>(null);
   const base = '/api/prospectus/' + encodeURIComponent(documentId);
 
@@ -27,7 +29,7 @@ export function ProspectusReview({ connection, documentId }: { connection: Conne
   }
   async function reload() {
     const data = await (await request(connection, base + '/queue?mode=' + mode)).json();
-    setQuestions(data.questions);
+    setQuestions(data.questions); setStatus(data.state);
     const next = data.questions.find((q: Question) => q.qid === view?.question.qid) ?? data.questions[0];
     if (next) await openQuestion(next.qid); else setView(null);
   }
@@ -37,9 +39,7 @@ export function ProspectusReview({ connection, documentId }: { connection: Conne
     if (!view || !choice || busy) return;
     setError(''); setMessage(''); setBusy(true);
     try {
-      pending.current ??= { qid: view.question.qid, choice, edits: choice === 'other' ? edits : {}, proposals: [],
-        reason: view.question.kind === 'section_confirm' ? '' : reason,
-        note: view.question.kind === 'section_confirm' ? reason : '' };
+      pending.current ??= answerPayload(view.question, choice, edits, reason);
       const result = await (await request(connection, base + '/answer', { method: 'POST', body: JSON.stringify(pending.current) })).json();
       pending.current = null; await reload();
       setMessage(`Saved ${result.written} new decision records; ${result.skipped} unchanged records.`);
@@ -64,6 +64,7 @@ export function ProspectusReview({ connection, documentId }: { connection: Conne
       <Button variant="outline" onClick={() => void exportCandidate()}>Export corrected candidate</Button>
       <span className="muted">{questions.length} questions · Existing source-bound prospectus ledger</span>
     </div>
+    {status && <ul className="prospectus-status" aria-label="Review status">{statusLines(status).map(line => <li key={line}>{line}</li>)}</ul>}
     {error && <p className="notice error" role="alert">{error}{pending.current && <Button onClick={() => void save()}>Retry answer</Button>}</p>}
     {message && <p className="notice success" role="status">{message}</p>}
     <nav className="question-navigation" aria-label="Prospectus questions">{questions.map(question => <Button variant={q?.qid === question.qid ? 'secondary' : 'outline'}
@@ -77,7 +78,7 @@ export function ProspectusReview({ connection, documentId }: { connection: Conne
         {q.flags.map((flag, i) => <p className="notice hold" key={i}>{flag.severity}: {flag.message}</p>)}
         <pre className="original-text">{JSON.stringify(q.reference, null, 2)}</pre>
         {q.proposals.map(proposal => <div className="companion" key={proposal.letter}>
-          <p>{proposal.field}: “{proposal.old}” → “{proposal.new}”. {proposal.note}</p>
+          <p>{prospectusFieldLabel(proposal.field)}: “{proposal.old}” → “{proposal.new}”. {proposal.note}</p>
           <Button variant="outline" disabled={!q.other_allowed || busy || !!pending.current} onClick={() => {
             setChoice('other'); setEdits({ ...edits, [proposal.field]: proposal.new });
           }}>Use proposal {proposal.letter}</Button></div>)}
@@ -87,7 +88,7 @@ export function ProspectusReview({ connection, documentId }: { connection: Conne
             <option value="">Choose an answer</option><option value="yes">Yes, the displayed reading matches</option>
             <option value="no">No, hold the reading</option>{q.other_allowed && <option value="other">Other: explicit correction</option>}
           </select></label>
-          {choice === 'other' && q.editable_fields.map(name => <label key={name}>{name.replaceAll('_', ' ')}
+          {choice === 'other' && q.editable_fields.map(name => <label key={name}>{prospectusFieldLabel(name)}
             <Textarea value={edits[name] ?? ''} onChange={event => setEdits({ ...edits, [name]: event.target.value })}/>
           </label>)}
           <label>Reason / note<Textarea value={reason} onChange={event => setReason(event.target.value)} rows={3}/></label>
