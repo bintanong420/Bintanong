@@ -62,14 +62,18 @@ in multi-topic passage merge while package B was being edited; not a clean final
   loaded `d5538a4f`. Existing model started, cached reviewed snapshot, compound ON only here;
   default OFF. INC frontend-proxy check answered with sources/V2; compound live smoke clarified
   because model quote occurrences were invalid. Recorded unresolved; no false verdict emitted.
-- Next: owner manual staging tests and narrow compound-reference follow-up, then remaining
-  original-backed/browser/latency acceptance and owner review. PR20 stays draft; PR18/19 stay open.
+- Recovery follow-up: existing model exited255 without OOMKilled; restarted. Routing input8065
+  plus768 output/8 guard exceeded8192. v26 condenses repeated instructions, keeps all reviewed
+  menu metadata/decoder guards, distinguishes recovery advice from checking an explicit plan.
+  Exact old-BSCS router trace now validates7351 input tokens, hypothetical failure retained.
+  Focused99 and broader1,077 routing/recovery tests pass; staging full-answer retest pending.
+- Next: finish focused regression, reload only staging8023, retest exact recovery question;
+  retain compound-reference/browser/latency acceptance and owner review before merge.
 
 ## Verification boundaries
 
 Python3.13 uses existing external `audit-evidence/p12-env-20261031/venv`; pytest
 cache disabled, temporaries under ignored workspace audit-evidence. Node24.21 and
-existing frontend dependencies reused; no installs or lock changes. No model calls,
-source edits, PDFs uploaded, database writes, service restarts or institutional release.
-Live model/PDF/latency and human acceptance gates remain NOT RUN without an isolated
-owner-authorized window. Source PR18/19 must not close before parity and completion evidence.
+existing frontend dependencies reused; no installs or lock changes. Staging-only authorized
+model calls/reloads are recorded separately; no source edits, PDF uploads, application database
+writes or institutional release. Human/browser/benchmark acceptance gates remain outstanding. Source PR18/19 must not close before parity and completion evidence.

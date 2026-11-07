@@ -67,5 +67,10 @@ Compound ON only in isolated staging; default OFF. Local benchmark rate window0,
 cached research snapshot; no source/database/release changes or3217/evaluation reload.
 Frontend/API/model health200; INC question answered with citations/presentationV2.
 Two-course live smoke clarified; trace shows invalid model quote occurrences. Not fixed or passed.
-Automated inference stopped. Next: owner testing on3218 and narrow compound-reference follow-up;
-remaining original-backed/browser/latency acceptance and owner review still gate merge.
+Owner reproduced recovery failure on BSCS2018–2019. Model had exited255 (not marked OOM);
+restarted existing container. Separate trace proved8065-token routing input exceeded8192 with
+768-token output reserve. Candidate v26 condenses instructions without dropping source metadata,
+clarifies recovery versus explicit-plan checking and retains hypothetical failure. Live router now
+validates Symbolic/list_affected_courses at7351 input tokens; full frontend retest/reload pending.
+99 focused tests and1,077 routing/recovery regressions pass. Existing known two-course
+quote-reference failure remains open. Next: load verified recovery fix on3218 and retest exact question.

@@ -48,6 +48,12 @@ def route(text, value):
 AFFECTED = 'Anong subs ang affected if I fail A1'
 
 
+def test_prompt_distinguishes_recovery_advice_from_checking_an_explicit_plan():
+    from backend.bintanong_routing.prompt import SYSTEM_PROMPT
+    assert 'Recovery advice is not check_study_plan' in SYSTEM_PROMPT
+    assert 'subject_id=null, requested_claims=[]' in SYSTEM_PROMPT
+
+
 def test_the_recorded_gui_shape_becomes_one_recovery_request():
     text = AFFECTED + ' tapos paano ko sya maresolve?'
     value = wire(text, [part('r1', AFFECTED, 'structured', [1]), part('r2', 'tapos paano ko sya maresolve?', 'document')],
