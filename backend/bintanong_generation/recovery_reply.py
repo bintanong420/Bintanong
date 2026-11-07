@@ -361,7 +361,7 @@ def _cell(text):
     return text.replace('|', '/')
 
 
-def recovery_sections(recovery, language, shown, dependencies=None, *, compact=False):
+def recovery_sections(recovery, language, shown, dependencies=None, *, compact=False, cited_clauses=None):
     """Host sections shared by full copy text and the progressive student view."""
     words, md = _words(language), _MD['en' if language in ('en', 'unknown') else 'taglish']
     if compact:
@@ -381,11 +381,13 @@ def recovery_sections(recovery, language, shown, dependencies=None, *, compact=F
         return md['ref'].format(name=name, page=source.page)
 
     lines = _answer(recovery, md, language, compact=compact)
+    if compact:
+        lines[:0] = ['', '### Recovery plan']
     if recovery.regular_asked:
         lines.append(words['regular'])
-    if dependencies is not None:
-        lines.extend(['', '### ' + md['delayed'], *_delayed(dependencies, recovery, md, shown, language, compact=compact)])
-    sections = [('overview', lines)]
+    affected = (['', '### ' + md['delayed'], *_delayed(
+        dependencies, recovery, md, shown, language, compact=compact)] if dependencies is not None else [])
+    sections = [('affected', affected), ('overview', lines)] if compact else [('overview', lines + affected)]
     lines = ['', '### ' + md['options'].format(course=course)]
     lines.extend('- ' + line for line in removal_lines(recovery, language, shown, cite))
     when = f' ({term_label(recovery.next_offering, language, compact=compact)})' if recovery.next_offering is not None else ''
@@ -394,7 +396,7 @@ def recovery_sections(recovery, language, shown, dependencies=None, *, compact=F
         lines.append('- ' + md[key].format(ref=cite(clause[kind]), when=when))
     sections.append(('options', lines))
     sections.append(('conditions', ['- ' + line for line in status_lines(recovery, language, shown, cite)]))
-    lines = ['', '### ' + md['drafts']]
+    lines = [''] if compact else ['', '### ' + md['drafts']]
     start = term_label(recovery.start_term, language, compact=compact)
     lines.append(words['stated'].format(start=start) if recovery.term_stated else words['assumed'].format(
         course=course, failed=term_label(recovery.failed_term, language, compact=compact), start=start))
@@ -424,6 +426,8 @@ def recovery_sections(recovery, language, shown, dependencies=None, *, compact=F
     sections.append(('sources', ['', '### ' + md['sources'], *[
         f'- **{name}** (Student Handbook p. {page}): "{text}"' for name, (page, text) in used.items()]]))
     sections.append(('closing', ['', md['closing']]))
+    if cited_clauses is not None:
+        cited_clauses.extend(used.values())
     return sections
 
 

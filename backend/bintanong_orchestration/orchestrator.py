@@ -452,6 +452,8 @@ class Orchestrator:
             dependencies = result
             recovery = await self._recovery(text, routed.decision.predicate_request, scoped, resources, result,
                                             follow_up=context if routed.compiled else None)
+            if recovery is not None and resources.plan_route_sources is not None:
+                plan_routes = resources.symbolic.recovery_routes(scoped.curriculum_id)
         elif isinstance(result, CourseFactsResult):
             course_facts = result
         elif isinstance(result, TermAssessmentResult):

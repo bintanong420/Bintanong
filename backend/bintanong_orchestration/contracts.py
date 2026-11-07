@@ -272,8 +272,9 @@ class CandidateEvidence(Contract):
         check_route_sources(self.pin, self.plan_routes, self.plan_route_sources)
         if self.earliest_term is not None and self.earliest_term.synthetic is not self.pin.synthetic:
             raise ValueError('earliest_term_must_match_pin')
-        if self.plan_routes is not None and (self.plan_check is None or self.plan_routes.synthetic is not self.pin.synthetic):
-            raise ValueError('plan_routes_require_their_checked_plan')
+        if self.plan_routes is not None and ((self.plan_check is None and self.dependencies is None)
+                                            or self.plan_routes.synthetic is not self.pin.synthetic):
+            raise ValueError('plan_routes_require_checked_curriculum_result')
         if self.plan_check is not None and self.plan_check.synthetic is not self.pin.synthetic:
             raise ValueError('plan_check_must_match_pin')
         if self.term_assessment is not None and self.term_assessment.synthetic is not self.pin.synthetic:
@@ -494,4 +495,10 @@ class IntegrationResult(Contract):
                     or (inputs.get('curriculum_id'), inputs.get('course_id'))
                     != (self.recovery.curriculum_id, self.recovery.failed_course_id)):
                 raise ValueError('recovery_requires_its_ready_dependency_listing')
+            if (self.evidence.plan_routes is not None
+                    and self.recovery.clauses != self.evidence.plan_routes.clauses):
+                raise ValueError('recovery_clauses_must_match_pinned_routes')
+        if (self.evidence is not None and self.evidence.dependencies is not None
+                and self.evidence.plan_routes is not None and self.recovery is None):
+            raise ValueError('dependency_routes_require_recovery')
         return self

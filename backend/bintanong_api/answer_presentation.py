@@ -172,14 +172,20 @@ def _recovery_presentation(answer, labels):
     if not courses <= labels.keys():
         return None
     english = answer.language in ('en', 'unknown')
-    sections = recovery_sections(recovery, answer.language, labels.__getitem__, answer.dependencies, compact=True)
+    quotes = []
+    sections = recovery_sections(recovery, answer.language, labels.__getitem__, answer.dependencies,
+                                 compact=True, cited_clauses=quotes)
+    quoted_sources_available = bool(quotes) and all(any(
+        card.kind == 'document' and quote in _excerpt(card.text)[0]
+        and any(c.page == page for c in card.citations) for card in answer.citations) for page, quote in quotes)
     visible, alternatives, options, sources = [], [], [], []
     primary_shown = False
     for kind, lines in sections:
         if kind == 'options':
             options.extend(lines)
         elif kind == 'sources':
-            sources.extend(lines)
+            if not quoted_sources_available:
+                sources.extend(lines)
         elif kind == 'order' or kind == 'draft' and primary_shown:
             alternatives.extend(lines)
         else:

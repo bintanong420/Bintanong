@@ -6,6 +6,38 @@ from backend.bintanong_api.stream import answer_parts
 from test_generation_recovery_reply import answered
 
 
+@pytest.mark.parametrize('language', ['en', 'taglish'])
+def test_recovery_follows_affected_courses_then_recovery_goal(answered, language):
+    integration, answer, _ = answered
+    answer = answer.model_copy(update=dict(language=language))
+    view = build_answer_presentation(answer, integration.course_labels)
+    text = view['parts'][0]['blocks'][0]['text']
+    affected, plan = ('What gets delayed', 'Recovery plan') if language == 'en' else ('Ano ang maaatras', 'Recovery plan')
+    assert text.startswith('### ' + affected)
+    assert text.index(affected) < text.index('### ' + plan) < text.index('### Plan ')
+    assert text.index('regular load') > text.index('### ' + plan)
+
+
+def test_recovery_quotations_are_only_in_sources_when_the_passages_cover_them():
+    from test_generation_recovery_reply import run, RECOVERY_TEXT, clarify_with_failure
+    from backend.bintanong_generation.evidence import _card
+    integration, answer = run(RECOVERY_TEXT, clarify_with_failure(RECOVERY_TEXT), route_proof=True)
+    # Include a pinned-style synthetic card for load warnings, in addition to the offering cards.
+    citation = answer.citations[0].citations
+    card = _card('document', 'Fictional maximum load clause.\nFictional summer load clause.', citation)
+    answer = answer.model_copy(update=dict(citations=(*answer.citations, card)))
+    view = build_answer_presentation(answer, integration.course_labels)
+    assert all(b.get('title') != 'Mga sipi sa source' for b in view['parts'][0]['blocks'])
+    assert {c.evidence_id for c in answer.citations} == set(view['parts'][0]['sourceIds'])
+    wrong_page = tuple(c.model_copy(update=dict(citations=tuple(
+        ref.model_copy(update=dict(page=999)) for ref in c.citations))) for c in answer.citations)
+    mismatch = build_answer_presentation(answer.model_copy(update=dict(citations=wrong_page)), integration.course_labels)
+    assert any(b.get('title') == 'Mga sipi sa source' for b in mismatch['parts'][0]['blocks'])
+    # With no source-panel cards, keep the evidence visible instead of silently deleting it.
+    fallback = build_answer_presentation(answer.model_copy(update=dict(citations=())), integration.course_labels)
+    assert any(b.get('title') == 'Mga sipi sa source' for b in fallback['parts'][0]['blocks'])
+
+
 def test_recovery_shows_one_draft_with_its_warnings_and_keeps_the_rest_accessible(answered):
     integration, answer, _ = answered
     before = answer.text
