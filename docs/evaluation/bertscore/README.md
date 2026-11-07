@@ -7,8 +7,11 @@ from the 7 November 2026 metrics run (code `1e499828`; Q11 rerun on `48a45001`),
 ignored run logs; regenerate rather than hand-edit candidate answers.
 
 - `candidate_answer`: Bintanong's saved answer. No Gemma, `.env`, database or dataset is needed.
-- `reference_answer`: EMPTY. Fill these in (the project owner writes or approves them) before scoring.
-  BERTScore compares candidate vs reference; without references there is nothing to score.
+- `reference_answer`: filled 7 Nov 2026 from `../references/reference_answers.jsonl` (owner-agreed rule): the
+  verbatim Student Handbook / Citizen's Charter text of every chunk judged relevant (TP or FN) for that query in
+  any language variant of the final-metrics judgments. The same reference serves English, Tagalog and Taglish,
+  and RAGAS uses the identical file. `reference_chunk_ids` (JSONL) lists the chunks. See the references README
+  for limits: references are long source text, not concise model answers, so BERTScore recall will run low.
 - `retrieved_context`: the top-3 chunks the system retrieved. Context only, not a reference.
 - Q11 is a two-turn case (English asked "leaving or incoming?", answered with "Leaving PalSU") and ran on
   newer routing code than the other 41 rows. Report it separately or note it.
