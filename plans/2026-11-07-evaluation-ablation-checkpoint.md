@@ -18,12 +18,25 @@ Thesis evaluation worktree has owner changes and was inspected read-only.
 -113 focused backend tests,125 frontend tests, TypeScript pass. Imported initial
   gate97 passes; overlapping counts must not be summed. RED demonstrated absent
   comparison module/API and blocked proxy paths before implementation.
-- No dependency/lock/model changes, database writes or new benchmark runs.
+- Production Webpack build passes; known external node_modules tracing warnings.
+- `b796b27b`: research-specific privacy disclosure/acknowledgment and setting-unknown copy.
+  Seven synthetic API browser checks pass, including persisted marks, failures/export,
+  research notice after ordinary-site acknowledgment, and narrow layout.
+- Actual A01-EN through browser: reference answered,3 completed experimental conditions,
+  matched recorded model settings, JSON download identical,1440/390px no overflow.
+  Workflow37.964s includes preparation/model/browser checks, not warm pipeline latency.
+- No dependency/lock/model changes or institutional database writes. One developer smoke
+  case ran; no full or independently scored benchmark.
 
 ## Next action and limits
 
-Complete separate worktree move, production build and opt-in local evaluation
-launcher/browser checks. Current3218 service still loads old PR20 code `0634d12c`;
-do not claim the new page is loaded there. A comparison needs one reference plus
-three serial model generations and occupies the shared slot. Historical conditionB
-remains unrun. C in this controlled experiment is not the full production pipeline.
+Page http://localhost:3219/dev/evaluation, API8024; correct branch/startup identity.
+API code `c0a1a921`, frontend `b796b27b` content; local passcode in ignored workspace
+`audit-evidence/p12-ablation-staging-20261107/evaluation-passcode.txt`. Empty answer-key
+configuration means human judgment only. Runtime evidence/browser artifacts and local
+JSONL records are in that folder. PR20 staging3218 remains `0634d12c` and healthy.
+Next: owner review and explicit protocol/evidence freeze before formal scoring.
+A comparison occupies the shared model slot. Historical end-to-end RAG-only conditionB
+suite remains unrun. C here is controlled generation, not the full production pipeline;
+source cards may be fragments and raw model output may conflict with the checked result.
+Use human scoring; transport completion does not establish correctness.

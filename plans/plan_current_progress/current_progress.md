@@ -1,75 +1,49 @@
 # Current progress
 
-Updated7November2026. Evaluation follow-up: `p12-evaluation-ablation`, branch
-`feature/p12-evaluation-ablation`, separate from `p12-pr20` / PR20 and thesis checkout.
-Evaluation checkout is reserved for thesis evaluation. No numbered implementation phase active.
-Last full snapshot before condensation: `743004ad` (`git show` recovers it).
+Updated7November2026. Active follow-up: `p12-evaluation-ablation`, branch
+`feature/p12-evaluation-ablation`. No numbered phase started or advanced.
+Last full snapshot before condensation: `c0a1a921` (`git show` recovers it).
 
 ## Current candidate
 
-[Execution checkpoint](../2026-11-07-pr20-execution-checkpoint.md) and
-[verification matrix](../2026-11-07-pr20-verification.md) record integration and earlier gates.
-- Five PR18/19 commits imported once with provenance and curriculum-only symbolic boundary.
-- Typed per-topic outcomes preserve independent evidence; conflict/release/source guards remain.
-- Host-owned presentationV2 spans Python/SSE/Zod/React; explicit version2 negotiation preserves
-  original strict metadata for legacy clients. Untrusted/invalid presentation falls back to text.
-- Bounded two-check executor keeps separate proofs; compound default OFF, staging only ON.
-- Clarifications bind server-owned turn/revision/slots; known scope and goal cannot be retargeted.
-- Original backend roster reconciled across runs:6,873 passed/2 xfailed, including161 Docker
-  reruns/696 subtests. This is cumulative historical evidence, not a new full-suite run.
+[Protocol/plan](../2026-11-07-ablation-test-page-plan.md) and
+[checkpoint](../2026-11-07-evaluation-ablation-checkpoint.md).
+- Parent PR20 remains separate: original checkout `p12-pr20` restored to
+  `df802638`, published PR20 `73d5d16e`; no evaluation code published onto that branch.
+- Fresh remote `origin/p12-evaluation-harness` was `69fc7cea`. Six evaluation commits
+  imported selectively with provenance. Thesis checkout kept untouched.
+- `c0a1a921`: controlled comparison alongside the original benchmark page.
+  One reference run, then A(no evidence), B(fixed source cards), C(same cards plus
+  checked symbolic report), common prompt/profile. Reference prose/gold not supplied.
+- `b796b27b`: research-log privacy disclosure and separate acknowledgment, clear
+  unknown model-setting status; regression covers failed-condition display/export.
+- Comparison outputs are unvalidated and separate from scored reference runs.
+  Fixed-order single runs do not prove accuracy, causation or statistical significance.
 
-## Current follow-up
+## Verification
 
-[Implementation/evidence](../2026-11-07-pr20-compound-recovery-implementation.md):
-- `7002c43e`: routerv27 demonstrates two eligibility targets and abbreviated second questions;
-  explicit fastest-return preference reaches the existing curriculum-scoped planner.
-- `651ce26d`: shared question span can retain two explicit target parts; recovery V2 shows one
-  primary draft with assumptions/warnings, plus native disclosures for alternatives/options/quotes.
-- `a34c10c6`: existing recovery normalization runs before redundant same-course span compilation.
-  No inferred student grades, new Prolog goals, source edits or broader execution permission.
-- Live English/Taglish/Filipino two-check and English mixed-Hybrid cases answer with2/2/2/3
-  separately cited parts on651ce26d. Prior Taglish/Filipino generic clarifications reproduced first.
-- Exact old-BSCS CC4/L fastest-recovery question answers on APIa34c10c6 through frontend3218
-  in40.02s. Earliest projected DraftC; visible458 words vs full1,642, one draft/3 disclosures.
-  Unknown checks/approval limits remain visible; alternatives keep their own load warnings.
-- Final1,120 routing/API/compound regressions,90 recovery/plan-view checks,106 frontend tests,
-  TypeScript and production Webpack build pass. Gates overlap; do not sum them.
+-113 focused backend tests,125 frontend tests, TypeScript/production Webpack pass.
+  Seven synthetic API browser tests cover gating,72 cases, human marks/reload,
+  failed runs, comparison failure/export, privacy notice and phone-width overflow.
+- One actual A01-EN browser comparison: reference answered, A/B/C completed,
+  matching recorded model settings, exact JSON download,1440/390px without overflow.
+  Workflow37.964s includes preparation, model calls and browser checks/download;
+  not warm-pipeline latency. Per-condition wall times include HTTP/preflight/queue/
+  inference and exclude shared preparation. Completed is not a correctness pass.
+- Ignored evidence: workspace `audit-evidence/p12-ablation-staging-20261107/`.
 
 ## Runtime and boundaries
 
-Owner-authorized staging: http://localhost:3218/chat, API8023; API0634d12c, frontend9833bb7a.
-39 reviewed curricula, existing cached research snapshot; loopback guests/rate window0.
-Compiler/compound ON only in this staging composition; repository defaults unchanged.
-Context8192;12K is proposed/unmeasured. planView remains OFF. No dependency/model downloads.
-Docker/model were found stopped and existing instances restarted under prior owner authorization.
-Automated inference stopped after bounded checks. Historical PIDs/keepalive are not indefinite health.
-No mainline/evaluation reload, merge, source/database activation or institutional approval.
+Research page: http://localhost:3219/dev/evaluation; API8024, existing model18088.
+API loads `c0a1a921`; frontend built from `b796b27b` content.39 cached reviewed curricula.
+Passcode in ignored `evaluation-passcode.txt`; no token in Git, URL or logs.
+Local JSONL research records; no private uploads, corpus/database writes or activation.
+No dependency/model downloads. Existing dependencies reused via junction; known
+external-module standalone tracing warnings remain. PR20 staging3218 stays ready.
 
-## Preserved evidence and next action
+## Next action
 
-[Human/automation alignment](../2026-11-06-human-automation-alignment.md),
-[owner signoff](../2026-11-06-owner-signoff-publication.md),
-[chat system index](../2026-11-06-system-information-index.md) retain earlier decisions/limits.
-Historical72Y marks include inferred cases; not independent current72/72 acceptance.
-Keep undergraduate scope, source gaps/F04, privacy and unknown-versus-unmet distinctions.
-UI polish `9833bb7a`: short PlanD heading, casual term labels, one source action/footer,
-stacked mobile table cells. [Evidence/research](../2026-11-07-pr20-recovery-ui-polish.md):
-15 backend presentation and109 frontend tests pass; TypeScript/production build pass.
-Existing Edge/Playwright checked isolated real-component replay1440/390px in light/dark,
-keyboard disclosures, source count and overflow; footer contrast6.58/7.66:1. This is not full-chat UAT.
-Recovery `0634d12c`: affected courses precede the recovery plan; Handbook cards share Sources.
-[Evidence](../2026-11-07-pr20-recovery-source-order.md): saved BSCS replay answers with24 cards
-(13 curriculum/11 Handbook) and2 disclosures; missing/page-mismatched evidence retains quotes.
-Reviewed span metadata/labels preserved; existing D5 maximum-load source pointer added.
-13 source/9 presentation/6 frontend checks and4 browser size/theme replays pass; gates overlap.
-Broader gate234 passed; API0634d12c/proxy health200. Fresh live query answered and all24 source
-GETs passed, including11 labelled Handbook passages.43.06s combined chat/source-read observation.
-Next: owner exploratory review, then independent acceptance and paired language/latency work.
-Thesis question: [ablation interpretation](../2026-11-07-thesis-ablation-interpretation.md):
-Objective2 indirectly supports RAG-only comparison; RQ2 explicitly requires baseline/full.
-No ablation protocol/rerun or thesis change made; historical conditionB remains skipped.
-Owner asks for a [separate evaluation test-page branch](../2026-11-07-ablation-test-page-plan.md).
-Six remote evaluation commits imported; controlled evidence comparison/API/UI implemented.
-113 backend/125 frontend and TypeScript pass. Next: production build, opt-in local launch,
-browser/live comparison verification. Experimental outputs are separate from scored student answers.
-No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.
+Owner exploratory review, then freeze protocol and shared evidence coverage before
+scoring an independently reviewed benchmark. C here is not the full production
+pipeline; B is not a standalone RAG executor. Source cards may be fragments.
+Historical Phase12 RAG-only conditionB suite remains unrun. No merge/release authorized.

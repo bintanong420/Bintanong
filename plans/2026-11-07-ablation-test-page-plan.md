@@ -54,10 +54,16 @@ Reference benchmark runs retain their original scoring semantics; ablation recor
 are separate. Existing gated local JSONL storage is reused, superseding the initial
 memory-only proposal; no private uploads or institutional database writes.
 
-Initial verification: imported gates97 passed; extension/API/composition gates113
-passed; all125 frontend tests and TypeScript pass. Production build, browser/live
-acceptance and opt-in staging configuration remain pending. Historical thesis
-conditionB remains skipped; implementing this tool is not a completed experiment.
+Verification: imported gates97 passed; extension/API/composition gates113 passed;
+all125 frontend tests, TypeScript and production build pass. Seven synthetic API
+browser cases pass, plus one actual A01-EN developer smoke with3 experimental
+conditions, matching settings, correct export and1440/390px layout. Research-specific
+privacy/logging disclosure now differs from the ordinary temporary-session notice.
+Local page3219/API8024, existing shared model18088. Details/evidence in the checkpoint.
+Historical thesis end-to-end RAG-only conditionB suite remains skipped; this one
+exploratory evidence-synthesis case is not that experiment or a correctness result.
+Source cards can contain fragments rather than the full curriculum; C can still
+produce poor wording despite the supplied symbolic report. It remains unvalidated.
 
 First regressions should cover default-off endpoints/page, invalid scope/input,
 condition evidence separation, failure/cancellation/admission cleanup, faithful

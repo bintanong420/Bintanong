@@ -21,6 +21,8 @@
   [Current progress](plan_current_progress/current_progress.md).
   PR20 candidate: `p12-pr20` / `feature/p12-unified-answer-pipeline`, targets `p12-dev`;
   [execution checkpoint](2026-11-07-pr20-execution-checkpoint.md). No automatic merge/release.
+  Separate evaluation follow-up: `p12-evaluation-ablation` / `feature/p12-evaluation-ablation`;
+  [checkpoint](2026-11-07-evaluation-ablation-checkpoint.md). No thesis checkout changes.
   Immutable master: [master plan](master_implementation_plan_original_long.md).
   Structural next_phase13 is cancelled; no next implementation phase authorized.
 
