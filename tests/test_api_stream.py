@@ -83,14 +83,46 @@ def test_compound_metadata_keeps_student_fact_qualifier_for_child_checks():
     text, integration, _ = run(enabled=True)
     answer = asyncio.run(Generator(FakeTransport()).generate(text, integration))
     assert answer.decision is None
-    summary = next(part['data'] for part in answer_parts(answer, 'msg-compound') if part['type'] == 'data-answer')
+    summary = next(part['data'] for part in answer_parts(answer, 'msg-compound', presentation_version=2) if part['type'] == 'data-answer')
     assert summary['conditional'] is True
     assert all(part['conditional'] for part in summary['presentation']['parts'])
 
 
+def test_legacy_requests_do_not_receive_new_strict_metadata_keys():
+    answer = answer_for('Hybrid')
+    old = next(p['data'] for p in answer_parts(answer, 'msg-old') if p['type'] == 'data-answer')
+    assert 'presentation' not in old
+    answer = answer.model_copy(update={'status': 'clarification_needed'})
+    binding = {'replyToTurnId': 'turn-test', 'revision': 1, 'requestedSlots': ['completion_unknown:course-a']}
+    old = next(p['data'] for p in answer_parts(answer, 'msg-old', clarification_binding=binding) if p['type'] == 'data-answer')
+    assert 'binding' not in old['clarification']
+    assert all('slot' not in course for course in old['clarification']['courses'])
+
+
+def test_request_negotiates_presentation_through_prepared_turn_and_stream():
+    for enabled in (False, True):
+        app, _ = app_with(Pipeline(answer=answer_for('Hybrid')))
+        with client(app) as browser:
+            response = browser.post('/chat', json=body(**({'presentationVersion': 2} if enabled else {})))
+        assert response.status_code == 200
+        metadata = next(part['data'] for part in parse(response.content) if part['type'] == 'data-answer')
+        assert ('presentation' in metadata) == enabled
+
+
+def test_binding_and_exact_course_slot_are_negotiated_together():
+    answer = answer_for('Hybrid').model_copy(update={'status': 'clarification_needed',
+        'missing_facts': ('completion_unknown:course-a',)})
+    binding = {'replyToTurnId': 'turn-test', 'revision': 1, 'requestedSlots': ['completion_unknown:course-a']}
+    for version in (None, 2):
+        metadata = next(part['data'] for part in answer_parts(answer, 'msg-binding', {'course-a': 'A 1'},
+            clarification_binding=binding, presentation_version=version) if part['type'] == 'data-answer')
+        assert ('binding' in metadata['clarification']) == (version == 2)
+        assert ('slot' in metadata['clarification']['courses'][0]) == (version == 2)
+
+
 def test_answer_parts_carry_the_student_text_sources_and_finish():
     answer = answer_for('Hybrid')
-    parts = answer_parts(answer, 'msg-a')
+    parts = answer_parts(answer, 'msg-a', presentation_version=2)
     for part in parts:
         assert_protocol(part)
     kinds = [p['type'] for p in parts]

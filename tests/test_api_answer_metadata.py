@@ -7,8 +7,8 @@ from backend.bintanong_contracts.runtime import BoundInput
 from test_api_presentation import answer_for
 
 
-def summary(answer, labels=None):
-    parts = answer_parts(answer, 'msg-test', course_labels=labels or {})
+def summary(answer, labels=None, presentation_version=None):
+    parts = answer_parts(answer, 'msg-test', course_labels=labels or {}, presentation_version=presentation_version)
     return next(part for part in parts if part['type'] == 'data-answer')
 
 
@@ -27,8 +27,9 @@ def test_answer_and_insufficient_metadata_golden(status, language, conditional, 
     if not conditional:
         answer = answer.model_copy(update={'decision': None})
     actual = summary(answer)
-    presentation = actual['data'].pop('presentation', None)
+    assert 'presentation' not in actual['data']
     assert encode(actual) == expected
+    presentation = summary(answer, presentation_version=2)['data'].get('presentation')
     if status == 'answered':
         view = AnswerPresentationV2.model_validate(presentation)
         assert view.coverageState == 'complete'

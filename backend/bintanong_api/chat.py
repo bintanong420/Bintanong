@@ -68,6 +68,7 @@ class ChatRequest(BaseModel):
     programId: str | None = None
     curriculumId: str | None = None
     clarificationReply: ClarificationReply | None = None
+    presentationVersion: Literal[2] | None = None
 
 
 @dataclass(frozen=True)
@@ -78,6 +79,7 @@ class PreparedTurn:
     curriculum_id: str | None
     regenerate: bool
     clarification_reply: ClarificationReply | None = None
+    presentation_version: Literal[2] | None = None
 
 
 def _ignore(_stage: str) -> None:
@@ -103,7 +105,8 @@ class ChatTurns:
             raise ApiError(422, 'invalid_message') from None
         scope = self.checked_scope(request.programId, request.curriculumId, required=False)
         return PreparedTurn(text, message.id, *scope, regenerate=request.trigger == 'regenerate-message',
-                            clarification_reply=request.clarificationReply)
+                            clarification_reply=request.clarificationReply,
+                            presentation_version=request.presentationVersion)
 
     def clarification_binding(self, session: Session, message_id: str):
         """Only the just-committed server clarification can offer a reply target."""

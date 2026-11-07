@@ -32,7 +32,8 @@ def _title(card) -> str:
     return _SOURCE if cite is None else f'{cite.filename or _SOURCE}, p.{cite.page}'
 
 
-def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False, clarification_binding=None) -> list[dict]:
+def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False, clarification_binding=None,
+                 presentation_version=None) -> list[dict]:
     """`plan_view` stays off until the frontend's strict `data-answer` schema accepts `planView`."""
     text_id = f'{message_id}-text'
     parts = [{'type': 'text-start', 'id': text_id},
@@ -62,7 +63,7 @@ def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False
         parts[-1]['data']['reason'] = answer.reason
     if answer.status == 'clarification_needed':
         parts[-1]['data']['clarification'] = clarification_view(answer, course_labels or {})
-        if clarification_binding is not None:
+        if presentation_version == 2 and clarification_binding is not None:
             parts[-1]['data']['clarification']['binding'] = clarification_binding
             for course in parts[-1]['data']['clarification']['courses']:
                 prefix = 'completion_unknown:' if course['kind'] == 'completion' else 'enrollment_unknown:'
@@ -70,7 +71,7 @@ def answer_parts(answer, message_id: str, course_labels=None, *, plan_view=False
                            if slot.startswith(prefix) and (course_labels or {}).get(slot[len(prefix):]) == course['code']]
                 if len(matches) == 1:
                     course['slot'] = matches[0]
-    presentation = build_answer_presentation(answer)
+    presentation = build_answer_presentation(answer) if presentation_version == 2 else None
     if presentation is not None:
         parts[-1]['data']['presentation'] = presentation
     view = build_plan_view(answer, course_labels or {}) if plan_view else None
@@ -115,7 +116,8 @@ async def chat_stream(turns: ChatTurns, session: Session, turn: PreparedTurn, so
         if sources is not None:
             sources.remember(answer.citations)
         binding = turns.clarification_binding(session, turn.message_id) if hasattr(turns, 'clarification_binding') else None
-        for part in answer_parts(answer, message_id, course_labels, clarification_binding=binding):
+        for part in answer_parts(answer, message_id, course_labels, clarification_binding=binding,
+                                 presentation_version=turn.presentation_version):
             yield encode(part)
         yield DONE
     finally:

@@ -73,6 +73,7 @@ export async function sendStudentMessage(request: StudentRequest, options: Optio
   const transport = new DefaultChatTransport({ api: "/api/chat", credentials: "same-origin",
     prepareSendMessagesRequest: () => ({ body: {
       id: "current", trigger: "submit-message", messages: [{ id: request.id, role: "user", parts: [{ type: "text", text: request.text }] }],
+      presentationVersion: 2,
       ...(request.programId && request.curriculumId ? { programId: request.programId, curriculumId: request.curriculumId } : {}),
       ...(request.clarificationReply ? { clarificationReply: clarificationReplySchema.parse(request.clarificationReply) } : {}),
     } }),

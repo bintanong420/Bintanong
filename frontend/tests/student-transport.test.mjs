@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { answerMetadataSchema as legacySchema } from './fixtures/legacy-answer-metadata.mjs';
 import { sendStudentMessage, uploadStudentFile } from '../lib/student-transport.ts';
 
 const request = { id: 'msg-test', text: 'A synthetic question', programId: 'program-a', curriculumId: 'curriculum-a' };
@@ -15,6 +16,19 @@ const normal = [
   { type: 'finish', finishReason: 'stop' },
 ];
 function response(raw) { return new Response(raw, { headers: { 'Content-Type': 'text/event-stream', 'x-vercel-ai-ui-message-stream': 'v1' } }); }
+
+test('actual baseline strict schema accepts unnegotiated Python stream metadata', async () => {
+  const python = process.env.BINTANONG_TEST_PYTHON;
+  for (const status of [undefined, 'clarification_needed']) {
+    const raw = execFileSync(python ?? 'py', [...(python ? [] : ['-3.13']), '-X', 'utf8', '-B',
+      fileURLToPath(new URL('../../tests/export_student_stream.py', import.meta.url)), ...(status ? [status] : [])], { encoding: 'utf8' });
+    const event = raw.split('\n').filter(line => line.startsWith('data: {')).map(line => JSON.parse(line.slice(6)))
+      .find(part => part.type === 'data-answer');
+    assert.doesNotThrow(() => legacySchema.parse(event.data));
+    assert.equal(event.data.presentation, undefined);
+    assert.equal(event.data.clarification?.binding, undefined);
+  }
+});
 
 test('optional presentation is bounded, source-bound and safely falls back to validated text', async () => {
   const presentation = { schemaVersion: 'bintanong-answer-presentation-v2', coverageState: 'complete',
@@ -55,17 +69,19 @@ test('live stream preserves canonical clarification choices and rejects malforme
 test('installed SDK parses actual Python answer stream, queue status and sources', async () => {
   const python = process.env.BINTANONG_TEST_PYTHON;
   const raw = execFileSync(python ?? 'py', [...(python ? [] : ['-3.13']), '-X', 'utf8', '-B',
-    fileURLToPath(new URL('../../tests/export_student_stream.py', import.meta.url))], { encoding: 'utf8' });
+    fileURLToPath(new URL('../../tests/export_student_stream.py', import.meta.url)), 'presentation'], { encoding: 'utf8' });
   const progress = [], text = [];
   const answer = await sendStudentMessage(request, { signal: new AbortController().signal, onText: t => text.push(t), onProgress: p => progress.push(p),
     fetch: async (_url, init) => {
       const body = JSON.parse(init.body);
+      assert.equal(body.presentationVersion, 2);
       assert.deepEqual(body.messages, [{ id: request.id, role: 'user', parts: [{ type: 'text', text: request.text }] }]);
       assert.equal(body.curriculumId, request.curriculumId);
       return response(raw);
     } });
   assert.equal(answer.status, 'answered');
   assert.equal(answer.conditional, true);
+  assert.equal(answer.presentation.coverageState, 'complete');
   assert.ok(answer.sources.length > 0);
   assert.deepEqual(progress, ['waiting']);
   assert.equal(text.join(''), answer.text);
