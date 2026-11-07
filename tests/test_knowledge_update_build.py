@@ -142,6 +142,65 @@ def test_build_preserves_explicit_scalar_correction_and_original_evidence(review
     assert package['chunks'][0]['spans'][0]['extraction']['resolution_method'] == 'human_review'
 
 
+def two_page_clause():
+    # one clause whose text runs from page 1 onto page 2, as Docling reports it
+    text = 'Submit the form to the Registrar before the end of the term.'
+    cut = len('Submit the form to the Registrar')
+    clause = item(text)
+    clause['prov'] = [dict(clause['prov'][0], charspan=[0, cut]),
+                      dict(item('', page=2)['prov'][0], charspan=[cut, len(text)])]
+    return clause
+
+
+@pytest.fixture
+def two_page(tmp_path, monkeypatch):
+    path, source, spec = manifest(tmp_path)
+    spec['build'] = {'reading_ids': ['handbook:text-0'],
+        'assignments': [{'reading_id': 'handbook:text-0', 'subject_id': 'forms', 'basis_ref': 'synthetic-authoring'}],
+        'claim_reviews': [{'subject_id': 'forms', 'claim': 'instruction', 'finding': 'visible_fields',
+            'field_refs': [{'reading_id': 'handbook:text-0', 'field_name': 'body'}],
+            'basis_ref': 'synthetic-authoring', 'basis_reading_id': 'handbook:text-0'}]}
+    path.write_text(json.dumps(spec), encoding='utf-8')
+    root = tmp_path / 'packet'
+    packet = prepare(path, root, converter=synthetic_converter(monkeypatch, InputSnapshot(source),
+        raw_document([two_page_clause()], pages=2)))
+    assert len(packet['items'][0]['fields'][0]['spans']) == 2
+    return root, packet
+
+
+@pytest.mark.parametrize('corrected,pages', [
+    ('Submit the signed form to the Registrar before the end of the term.',
+     ['Submit the signed form to the Registrar', 'before the end of the term.']),
+    ('Submit the form to the Registrar before the end of the semester.',
+     ['Submit the form to the Registrar', 'before the end of the semester.'])])
+def test_correction_on_a_clause_across_a_page_break_reaches_the_package(two_page, tmp_path, corrected, pages):
+    root, packet = two_page
+    with ReviewSession(root, 'Synthetic researcher') as review:
+        command = answer(packet)
+        command['fields']['body'] = {'decision': 'corrected', 'value': corrected}
+        review.save(command)
+    build_api().build(root, tmp_path / 'package', encoder=SyntheticEncoder())
+    chunk = build_api().load_package(tmp_path / 'package')['chunks'][0]
+    assert corrected in chunk['text']
+    assert [' '.join(s['text'].split()) for s in chunk['spans']] == pages
+    # only the page the reviewer changed is marked as a human repair; the other keeps its extraction
+    methods = [s['extraction']['resolution_method'] for s in chunk['spans']]
+    assert sorted(methods) == ['human_review', 'raw_item_provenance']
+    assert packet['items'][0]['fields'][0]['original_value'].endswith('end of the term.')
+
+
+def test_correction_across_the_page_break_itself_is_refused_with_a_way_forward(two_page):
+    root, packet = two_page
+    with ReviewSession(root, 'Synthetic researcher') as review:
+        command = answer(packet)
+        # "Registrar before" -> "Registrar's Office by": the edit straddles the page break
+        command['fields']['body'] = {'decision': 'corrected',
+            'value': "Submit the form to the Registrar's Office by the end of the term."}
+        with pytest.raises(ValueError, match='page break'):
+            review.save(command)
+        assert review.history() == []
+
+
 def test_build_refuses_incomplete_topic_and_claim_authoring(reviewed, tmp_path):
     root, packet = reviewed
     metadata = tmp_path / 'metadata.json'

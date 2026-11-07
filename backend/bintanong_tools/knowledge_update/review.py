@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import difflib
 import json
 import math
 import os
@@ -15,6 +16,34 @@ from .prepare import load_packet
 
 AUDIENCES = {'undergraduate', 'excluded', 'unresolved'}
 DECISIONS = {'accepted', 'corrected', 'unresolved', 'pending'}
+
+
+def split_correction(parts: list[str], corrected: str) -> list[str] | None:
+    """Place a corrected field text back onto the page parts it was printed on.
+
+    Each page break must fall between words the reviewer left unchanged, so the edit belongs to one page;
+    otherwise there is no honest split and None is returned. Unchanged parts keep their exact text."""
+    words = [p.split() for p in parts]
+    original = [w for part in words for w in part]
+    new = corrected.split()
+    if any(not part for part in words):
+        return None
+    blocks = [op for op in difflib.SequenceMatcher(None, original, new, autojunk=False).get_opcodes() if op[0] == 'equal']
+    cuts, position = [0], 0
+    for part in words[:-1]:
+        position += len(part)
+        # an insertion exactly at the break sits in two equal blocks: which page it belongs to is unknown
+        mapped = {j1 + position - i1 for _, i1, i2, j1, _ in blocks if i1 <= position <= i2}
+        if len(mapped) != 1:
+            return None
+        cuts.append(mapped.pop())
+    cuts.append(len(new))
+    result = []
+    for part, part_words, start, stop in zip(parts, words, cuts, cuts[1:]):
+        if start >= stop:
+            return None
+        result.append(part if new[start:stop] == part_words else ' '.join(new[start:stop]))
+    return result
 
 
 def _operation(command: dict) -> None:
@@ -174,6 +203,13 @@ class ReviewSession:
             if not isinstance(command, dict) or set(command) != required:
                 raise ValueError('invalid review command fields')
             row = self._validate(command)
+            for field in [] if command.get('kind') == 'omission' else row['fields']:
+                choice = command['fields'][field['name']]
+                if (choice['decision'] == 'corrected' and isinstance(choice['value'], str) and len(field['spans']) > 1
+                        and split_correction([s['text'] for s in field['spans']], choice['value']) is None):
+                    raise ValueError('This correction changes words at a page break, so it cannot be placed on '
+                                     'the pages. Keep the words around the break unchanged, or mark the field '
+                                     'unresolved and record a source gap.')
             request_sha = digest(encoded(command))
             for event in self.events:
                 if event['operation_id'] == command['operation_id']:
@@ -266,11 +302,19 @@ class ReviewSession:
                         ('name', 'original_value', 'reviewed_value', 'decision', 'source_blank', 'locator')})
                     reading['fields'][-1]['review_event_sha256'] = ref
                     anchors[row['id']][field['name']] = copy.deepcopy(field['spans'])
-                    if (field['decision'] == 'corrected' and isinstance(field['reviewed_value'], str)
-                            and len(anchors[row['id']][field['name']]) == 1):
-                        span = anchors[row['id']][field['name']][0]
-                        span['text'] = field['reviewed_value']
-                        span['extraction'] = {**span['extraction'], 'resolution_method': 'human_review', 'repair_id': ref}
+                    spans = anchors[row['id']][field['name']]
+                    if field['decision'] == 'corrected' and isinstance(field['reviewed_value'], str) and spans:
+                        texts = ([field['reviewed_value']] if len(spans) == 1 else
+                                 split_correction([s['text'] for s in spans], field['reviewed_value']))
+                        if texts is None:
+                            # saved before page-break checks existed; never drop the correction silently
+                            raise ValueError(f'correction on {row["id"]} {field["name"]} changes words at a page '
+                                             'break; save a new decision for it before building')
+                        for span, text in zip(spans, texts):
+                            if len(spans) == 1 or text != span['text']:
+                                span['text'] = text
+                                span['extraction'] = {**span['extraction'], 'resolution_method': 'human_review',
+                                                      'repair_id': ref}
                 for index, gap in enumerate(row.get('gaps', [])):
                     pages = sorted({p for f in row['fields'] if f['name'] in gap['field_names']
                                     for p in f['locator']['physical_pages']})

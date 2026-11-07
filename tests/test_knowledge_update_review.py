@@ -127,3 +127,20 @@ def test_review_revision_retains_original_and_history(packet):
         assert state['items'][0]['fields'][0]['reviewed_value'] == 'Submit the original form.'
         assert state['items'][0]['companions'] == [value['items'][1]['id']]
         assert len(review.history()) == 2
+
+
+@pytest.mark.parametrize('parts,corrected,expected', [
+    (['Pay the fee', ' at the Cashier.'], 'Pay the fee at the Cashier.', ['Pay the fee', ' at the Cashier.']),
+    (['Pay the fee', ' at the Cashier.'], 'Pay the full fee at the Cashier.', ['Pay the full fee', ' at the Cashier.']),
+    (['Pay the fee', ' at the Cashier.'], 'Pay the fee at the Cashier Office.', ['Pay the fee', 'at the Cashier Office.']),
+    (['A b', ' c d', ' e f'], 'A b c X e f', ['A b', 'c X', ' e f']),
+    # an insertion exactly at the break could belong to either page
+    (['Pay the fee', ' at the Cashier.'], 'Pay the fee today at the Cashier.', None),
+    # an edit that straddles the break
+    (['Pay the fee', ' at the Cashier.'], 'Pay the fees in the Cashier.', None),
+    # a page would be left with no text, which no source region may have
+    (['Pay the fee', ' at the Cashier.'], 'Pay the fee', None),
+])
+def test_split_correction_places_edits_only_where_the_page_is_certain(parts, corrected, expected):
+    from backend.bintanong_tools.knowledge_update.review import split_correction
+    assert split_correction(parts, corrected) == expected
