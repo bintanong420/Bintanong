@@ -65,6 +65,13 @@ Owner asked to plan, not implement, a website testing mode for Accuracy/Precisio
 Live, the "Leaving PalSU" routing prompt went 8319 -> 7362 tokens (7416 usable). All three Q11 wordings now answer from the 2025 Charter, pp. 11-12. Q11 counts: EN 2/1/0/557; TL and Taglish 2/1/2/555. Macro P .8155 / R .8099 / F1 .7858 / Acc .9977. Q11 ran on newer code than the other 41 rows and than the owner's pinned 72-run. 8022 still runs the old code until restarted.
 Open gap: `evaluation/system_metrics.py` cannot count a relevant chunk in neither top-3 list, so recall is overstated for unkeyed rows. Proposed `FN: C123, C145` in the page's Note box; awaiting owner yes/no; scorer change needs RED/GREEN and no page or API restart. Undecided: RAGAS install/judge, BATAYAN source, Integration box rename.
 
+## RAGAS branch (7 Nov)
+Branch `p12-ragas-benchmark` (from `p12-evaluation-harness` at `69fc7cea`), checked out in worktree `p12`: owner will run
+the RAGAS benchmark here. Another developer does BERTScore on their own branch from `docs/evaluation/bertscore/`
+(42 saved answers; `reference_answer` empty until the owner supplies references). Still undecided: RAGAS
+install and judge model (dependency install needs owner approval), BATAYAN source. Answer keys rows 11-24 have
+no expected-answer text.
+
 ## Next action
 
 Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
