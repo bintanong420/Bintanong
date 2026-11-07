@@ -57,6 +57,11 @@ stacked mobile table cells. [Evidence/research](../2026-11-07-pr20-recovery-ui-p
 15 backend presentation and109 frontend tests pass; TypeScript/production build pass.
 Existing Edge/Playwright checked isolated real-component replay1440/390px in light/dark,
 keyboard disclosures, source count and overflow; footer contrast6.58/7.66:1. This is not full-chat UAT.
-Next: owner exploratory review on3218, then independent acceptance, full-chat/source-picker/
-screen-reader checks, paired compiler OFF/ON language evaluation and latency measurement.
+Owner review finding: saved recovery result has13 curriculum rule citations only; Handbook
+clauses are inline under Source quotations, absent from the source registry cards. Consolidate
+those pinned clauses into Sources before removing the quotation disclosure. Recovery overview
+currently leads with return timing before dependencies; question calls for affected courses first,
+then recovery timing/draft with adjacent assumptions and approval limits. No renderer change yet.
+Next: fix source consolidation and recovery section order, then full-chat/source-picker checks,
+independent acceptance, paired compiler OFF/ON language evaluation and latency measurement.
 No global-optimality, all-curriculum live accuracy or RTX3050/16GB suitability claim.
