@@ -68,6 +68,20 @@ Options, recommended first:
 
 Owner decides A or B before work starts on this task.
 
+### Status, 8 November 2026 (p12-dev; owner: "go for it")
+
+- Task 1: done 2 Nov (USG packet 596 items, pages 1-34; checkpoint has the receipt).
+- Task 2: done, `64169839`. A correction on a clause across pages is placed back on its pages by
+  word comparison; each break must fall between unchanged words. A correction that changes words at
+  a break is refused on save, and an older saved one stops the build. 141 knowledge-update and
+  policy-chunk tests pass.
+- Task 3: option A chosen. USG builds as its own package; no code change needed.
+- The owner expects parts of the gate-pass memo to be re-chunked. Its sources are five images,
+  and `knowledge_update` accepts PDFs only; its three live chunks are owner-transcribed image
+  fragments inside the 560 package. Re-chunking them needs an "edit the existing release" step,
+  which the 560 chain did with one-off scripts (`p11-faq-split-20261028/encode_and_package.py`).
+  Tracked as a decision in the unified knowledge-update plan.
+
 ### 4. Lower priority (not needed for USG)
 
 - `load_packet` runs on every `state()`/`save()` call and re-hashes every artifact (10.15 s on the prospectus
