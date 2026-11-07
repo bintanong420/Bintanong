@@ -72,14 +72,15 @@ shared references in `docs/evaluation/references/` (BERTScore pairs carry them).
 rebuilt writer evidence, answer relevancy .584 (.701 without 7 noncommittal-flagged source-limit answers), context
 precision .896, recall .754, factual correctness precision .570. One judge run (DeepSeek); not Bintu-1 compared.
 
-## BATAYAN benchmark (8 Nov) - set up, waiting on HF access
-Branch `p12-batayan-benchmark` from harness `af3836e8`. Owner: use SEA-HELM (github.com/aisingapore/sea-helm,
-cloned at `9be3986` in ignored `audit-evidence/batayan-20261107/`), follow Montalan et al. (2025, arXiv 2502.14911:
-8 tasks, zero-shot Filipino prompts, single run, macro-F1 NLU/NLR, ChrF++/ROUGE-L/MetricX NLG); installs approved
-only as needed. Venv (Python 3.13, CPU torch, no vLLM) imports SEA-HELM; plan `--tasks batayan --model_type
-local_openai` against the served Gemma 4 E4B Q4_K_XL (llama.cpp :18088), `--skip_tokenize_prompts`, MetricX-24
-(13B judge) replaced by ChrF++ on this 4 GB GPU. Blocker: the 7 aisingapore HF datasets are gated (auto-approve);
-owner must accept terms and put `HF_TOKEN` in that folder's `.env`. Measures the model, not the RAG pipeline.
+## BATAYAN benchmark (8 Nov) - full run in progress
+Branch `p12-batayan-benchmark`. SEA-HELM `9be3986` in ignored `audit-evidence/batayan-20261107/` (Python 3.12
+user install + venv, owner-approved; HF token in its `.env`). `--tasks batayan` = 3,800 tl items (matches Montalan
+Table 2) via `local_openai` against served Gemma 4 E4B Q4_K_XL (:18088, 1 slot). Local patches recorded in
+`sea-helm-local-changes.patch`: MetricX-24 -> ChrF++ for MT, ChrF++ added to summarization, Windows-safe log names,
+fresh async client per event loop, and Bintanong's inference settings (temp 0, reasoning_effort none, `<|channel>`
+token 100 banned, cache_prompt). Pilot 5/task: 0 failures, no truncation/thinking. Full run started 8 Nov ~01:00,
+estimate ~3.5-4.5 h. Owner allowed stopping unneeded services: dev API 8022, dev web 3217 and ngrok stopped;
+model container kept. Measures the model, not the RAG pipeline.
 
 ## Next action
 
