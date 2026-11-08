@@ -72,7 +72,7 @@ shared references in `docs/evaluation/references/` (BERTScore pairs carry them).
 rebuilt writer evidence, answer relevancy .584 (.701 without 7 noncommittal-flagged source-limit answers), context
 precision .896, recall .754, factual correctness precision .570. One judge run (DeepSeek); not Bintu-1 compared.
 
-## BATAYAN benchmark (8 Nov) - handed over, 8 of 9 tasks pending
+## BATAYAN benchmark (8 Nov) - complete
 Branch `p12-batayan-benchmark`. SEA-HELM `9be3986` + local patch, `--tasks batayan` (3,800 tl items, Montalan
 Table 2) via `local_openai` against Gemma 4 E4B Q4_K_XL (llama.cpp, Bintanong inference settings). Pilot 5/task:
 0 failures. Full run: Sentiment done (Macro F1 73.48, 600/600, 0 null); at 02:14 the laptop ran out of RAM, the
@@ -84,7 +84,8 @@ another developer: run kit, patch, frozen deps, results and step-by-step instruc
 thinking text. Full run of all 9 tasks done 03:11-03:43 (one restart at 03:19, 4 tasks reused): 3,800/3,800
 answers `stop`, 0 failures, null_count 0. NLU 58.47 / Safety 32.00 / NLR 69.01 / NLG 43.40 (ChrF++) / overall 50.72;
 Sentiment F1 72.80 vs 73.48 on the first machine. Results JSON and score table in the README; evidence ignored in
-`audit-evidence/batayan-2026-11-08/`. Next: report with the README's differences list (MT not comparable).
+`audit-evidence/batayan-2026-11-08/`. Thesis section + PDF (formulas, worked example, Tables B1-B4, Chapter 5) in
+`docs/evaluation/batayan/` (`9fb75e27`); reports the README's differences (MT not comparable).
 
 ## Next action
 
