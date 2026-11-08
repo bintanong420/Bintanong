@@ -76,6 +76,15 @@ precision .896, context recall .754 (optimistic), factual correctness precision 
 8 Nov: Query 1 three-language worked example tried (3a5f6084) and reverted; owner keeps the Query 9
 version (af3836e8), copied to for_manuscript/Benchmarks_results/RAGAS.pdf with the BATAYAN section.
 
+## Prerequisite answer rerun (8 Nov)
+Owner's 6 Nov export (`Bintanong_AI_Export_2026-11-06_1733.csv`) has Y/N marks only, no answer text.
+Owner asked for rows 1-10 x3 on the 6 Nov setup. Live 8022 code before the 17:33 export was `995378ce`
+(restarts 16:20/17:29; no p12-dev commits 16:21-17:50); launcher copied from `p12dev-language-20261105/start-candidate.py`,
+same venv/config/ledgers (unchanged since 31 Oct/4 Nov), same `live-results.json` requests, port 8025, now stopped.
+30/30 HTTP200; 27 answered, 3 clarification (row 5). Ignored evidence: `audit-evidence/p12-prereq-rerun-20261108/`
+(`prereq-answers-995378ce.csv`). Not regraded; one model run. Rows 1/3/4/6/7 sometimes call a stated-failed
+prerequisite's sibling "unknown" instead of saying the stated failure is unmet; row 5 asks instead of answering.
+
 ## Next action
 
 Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
