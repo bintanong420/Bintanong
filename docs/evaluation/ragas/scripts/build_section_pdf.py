@@ -1,6 +1,5 @@
 """Render the manuscript part of thesis-section-draft.md (after the first '---') to a text-based PDF.
-Supports ##/### headings, paragraphs, '- ' bullets, '> ' quotes, indented formula lines, pipe tables
-(an optional '<!-- widths: 1.2,0.8,... -->' line, in inches, sets the next table's column widths),
+Supports ##/### headings, paragraphs, '- ' bullets, '> ' quotes, indented formula lines, pipe tables,
 **bold**, *italic* and `code`. Usage: python build_section_pdf.py <draft.md> <out.pdf> [title]
 Needs reportlab (present in the research venv)."""
 import re
@@ -40,7 +39,7 @@ def inline(text):
     return text
 
 
-def table(lines, preset=None):
+def table(lines):
     rows = [[c.strip() for c in line.strip().strip('|').split('|')] for line in lines]
     align = rows.pop(1)
     right = [a.endswith(':') for a in align]
@@ -48,9 +47,7 @@ def table(lines, preset=None):
             for r, row in enumerate(rows)]
     width = 6.5 * inch
     widths = None
-    if preset:
-        widths = [w * inch for w in preset]
-    elif len(rows[0]) == 7:
+    if len(rows[0]) == 7:
         widths = [0.4 * inch, 1.75 * inch] + [0.87 * inch] * 5
     elif len(rows[0]) == 6:
         widths = [0.85 * inch, 1.85 * inch, 0.75 * inch, 1.0 * inch, 0.95 * inch, 1.1 * inch]
@@ -69,13 +66,11 @@ def table(lines, preset=None):
 
 def build(md):
     text = md.split('\n---\n', 1)[1]
-    out, lines, i, preset = [], text.splitlines(), 0, None
+    out, lines, i = [], text.splitlines(), 0
     while i < len(lines):
         line = lines[i]
         if not line.strip() or line.strip() == '---':
             i += 1
-        elif line.startswith('<!-- widths:'):
-            preset = [float(w) for w in line[12:].rstrip(' ->').split(',')]; i += 1
         elif line.startswith('### '):
             out.append(Paragraph(inline(line[4:]), h3)); i += 1
         elif line.startswith('## '):
@@ -85,11 +80,7 @@ def build(md):
             while i < len(lines) and lines[i].startswith('|'):
                 block.append(lines[i]); i += 1
             pending = [out.pop()] if out and getattr(out[-1], 'style', None) is caption else []
-            built = table(block, preset); preset = None
-            if len(block) < 30:
-                out.append(KeepTogether(pending + [built, Spacer(1, 10)]))
-            else:  # a long table may break across pages; its header row repeats
-                out.extend(pending + [built, Spacer(1, 10)])
+            out.append(KeepTogether(pending + [table(block), Spacer(1, 10)]))
         elif line.startswith('> '):
             block = []
             while i < len(lines) and lines[i].startswith('>'):

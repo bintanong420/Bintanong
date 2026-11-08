@@ -7,8 +7,6 @@ public PalSU sources, not university validation.
 
 Files: `ragas_scores.csv` (one row per question), `ragas_summary.json` (by language, by query, excluding Q11),
 `scripts/` (exact scripts and frozen package list; API key and raw logs stay in ignored `audit-evidence/ragas-20261107/`).
-Thesis section: `thesis-section-draft.md` -> `ragas-thesis-section.pdf` (worked example = Query 1 in three languages,
-`example-q1.json` from `scripts/example_q1.py`; per-query table in the Chapter 5 part).
 Low-score review, Option A decision and pending manuscript changes (8 Nov): `followup-notes-2026-11-08.md` /
 `ragas-followup-notes-2026-11-08.pdf`.
 
