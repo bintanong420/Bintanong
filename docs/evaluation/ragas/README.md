@@ -7,6 +7,8 @@ public PalSU sources, not university validation.
 
 Files: `ragas_scores.csv` (one row per question), `ragas_summary.json` (by language, by query, excluding Q11),
 `scripts/` (exact scripts and frozen package list; API key and raw logs stay in ignored `audit-evidence/ragas-20261107/`).
+Low-score review, Option A decision and pending manuscript changes (8 Nov): `followup-notes-2026-11-08.md` /
+`ragas-followup-notes-2026-11-08.pdf`.
 
 ## Set-up
 
