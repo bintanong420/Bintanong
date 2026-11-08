@@ -125,3 +125,5 @@ differs because of the metric change above.
 | `scripts/requirements-frozen.txt` | Exact Python 3.12 packages of our venv |
 | `results/sentiment-only-results-2026-11-08.json` | Scored Sentiment; the other tasks show the crash error |
 | `results/pilot-5-per-task-results-2026-11-08.json` | 5-item smoke test of all tasks |
+| `thesis-section-draft.md` | Manuscript section (formulas, worked example, Tables B1-B4, Chapter 5 entries) |
+| `batayan-thesis-section.pdf` | The same section as a PDF for pasting into Word (built with `../ragas/scripts/build_section_pdf.py`) |
