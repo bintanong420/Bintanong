@@ -1,6 +1,6 @@
 """Render the manuscript part of thesis-section-draft.md (after the first '---') to a text-based PDF.
 Supports ##/### headings, paragraphs, '- ' bullets, '> ' quotes, indented formula lines, pipe tables,
-**bold**, *italic* and `code`. Usage: python build_section_pdf.py <draft.md> <out.pdf>
+**bold**, *italic* and `code`. Usage: python build_section_pdf.py <draft.md> <out.pdf> [title]
 Needs reportlab (present in the research venv)."""
 import re
 import sys
@@ -49,6 +49,12 @@ def table(lines):
     widths = None
     if len(rows[0]) == 7:
         widths = [0.4 * inch, 1.75 * inch] + [0.87 * inch] * 5
+    elif len(rows[0]) == 6:
+        widths = [0.85 * inch, 1.85 * inch, 0.75 * inch, 1.0 * inch, 0.95 * inch, 1.1 * inch]
+    elif len(rows[0]) == 4:
+        widths = [1.15 * inch, 1.55 * inch, 2.0 * inch, 1.8 * inch]
+    elif len(rows[0]) == 3:
+        widths = [3.0 * inch, 2.5 * inch, 1.0 * inch]
     elif len(rows[0]) == 2:
         widths = [5.3 * inch, 1.2 * inch]
     t = Table(data, colWidths=widths or [width / len(rows[0])] * len(rows[0]), repeatRows=1)
@@ -104,7 +110,8 @@ def build(md):
 
 if __name__ == '__main__':
     src, dest = sys.argv[1], sys.argv[2]
+    title = sys.argv[3] if len(sys.argv) > 3 else 'RAGAS Evaluation of Bintanong'
     doc = SimpleDocTemplate(dest, pagesize=LETTER, leftMargin=inch, rightMargin=inch, topMargin=inch,
-                            bottomMargin=inch, title='RAGAS Evaluation of Bintanong', author='Bintanong research team')
+                            bottomMargin=inch, title=title, author='Bintanong research team')
     doc.build(build(open(src, encoding='utf-8').read()))
     print('wrote', dest)
