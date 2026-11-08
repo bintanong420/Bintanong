@@ -84,6 +84,8 @@ same venv/config/ledgers (unchanged since 31 Oct/4 Nov), same `live-results.json
 30/30 HTTP200; 27 answered, 3 clarification (row 5). Ignored evidence: `audit-evidence/p12-prereq-rerun-20261108/`
 (`prereq-answers-995378ce.csv`). Not regraded; one model run. Rows 1/3/4/6/7 sometimes call a stated-failed
 prerequisite's sibling "unknown" instead of saying the stated failure is unmet; row 5 asks instead of answering.
+Owner graded row 5 x3 correct (8 Nov): listing every A/B part as required is the expected answer; the re-ask about
+the already-stated NCM15-115A is a wording limitation only. Other rows not yet graded.
 
 ## Next action
 
