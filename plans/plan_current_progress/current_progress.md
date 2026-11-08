@@ -72,8 +72,10 @@ Shared references `docs/evaluation/references/` (verbatim TP+FN chunks); BERTSco
 Write-up, per-row CSV and scripts: [RAGAS results](../../docs/evaluation/ragas/README.md). Headline (42 rows):
 faithfulness .883 against rebuilt writer evidence (neighbours 42/42 match logged counts; top-3-only .525),
 answer relevancy .584 (0 on 7 rows flagged noncommittal for source-limit notices; .701 without), context
-precision .896, context recall .754 (optimistic), factual correctness precision .570. One judge run; not yet
-reported in the thesis.
+precision .896, context recall .754 (optimistic), factual correctness precision .570. One judge run.
+8 Nov: thesis-section PDF redone per owner: worked example is Query 1 in English/Tagalog/Taglish
+(`example_q1.py` re-run; judge varies on a few decisions, re-run vs scored shown in Table R3); all 42
+per-query-language scores moved to a Chapter 5 table (R5), generated from `ragas_scores.csv`.
 
 ## Next action
 

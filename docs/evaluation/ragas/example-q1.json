@@ -1,0 +1,959 @@
+[
+ {
+  "id": "Q01-en",
+  "language": "English",
+  "question": "How to drop subjects?",
+  "answer": "Here's the process for CHANGING, ADDING AND DROPPING OF SUBJECTS at the Academic Unit/College, based on the Citizen's Charter.\nWhat to bring:\n- 1. Dropping/ Adding/ Changing Form (from College Secretary)\nSteps:\n1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned\n   No fee · about 5 minutes · (blank in the printed table) (Faculty Member)\n   What the office does: Faculty concerned signs the DAC Form.\n2. Seek the approval of the class adviser or department chairperson\n   No fee · about 5 minutes · (blank in the printed table) (Class Adviser/Department Chairperson)\n   What the office does: 1 Class adviser or Department Chairperson approves the DAC request.\n2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes\n   No fee · about 15 minutes · (blank in the printed table) (College Secretary College Dean)\n   What the office does: 1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.\n3. The student receives the student's copy of the DAC of the DAC Form\n   No fee · about 1 minute · (blank in the printed table) (College Secretary)\n   What the office does: 1 The College Secretary forwards one copy to the Registrar's Office and keeps one for filing.\nTotal: NONE · about 26 minutes",
+  "reference": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College\n\n1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form.\n\n2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes.\nNone\n15 minutes\nCollege Secretary College Dean\n2.1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.\n\n7. How to drop subjects? A. Students shall secure a dropping from at the University Registrar upon payment of prescribed fee at the University Cashier. B. the dropping from shall be filled out accordingly and have it approved by the class adviser and respective Dean. C. the approved dropping form shall be furnished to corresponding Offices.",
+  "top3": [
+   "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College",
+   "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form.",
+   "2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes.\nNone\n15 minutes\nCollege Secretary College Dean\n2.1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student."
+  ],
+  "writer_evidence_count": 7,
+  "faithfulness": [
+   {
+    "statement": "The process for changing, adding, and dropping subjects at the Academic Unit/College is based on the Citizen's Charter.",
+    "reason": "The context describes a service process for changing, adding, and dropping subjects, and includes classification and transaction types typical of a Citizen's Charter, but it does not explicitly state that the process is based on the Citizen's Charter.",
+    "verdict": 0
+   },
+   {
+    "statement": "The student must bring a Dropping/Adding/Changing Form from the College Secretary.",
+    "reason": "The context lists the requirement as 'Dropping/ Adding/ Changing Form' and indicates 'where_to_secure1: College Secretary', which directly implies the student must obtain the form from the College Secretary.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student fills up the Dropping/Adding/Changing Form and submits the Dropping/Adding/Changing Form to the faculty concerned.",
+    "reason": "The context states in step1_client_step: 'The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.' This directly matches the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The faculty concerned signs the Dropping/Adding/Changing Form.",
+    "reason": "The context states in step1_subaction1_action: 'Faculty concerned signs the DAC Form.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student seeks the approval of the class adviser or department chairperson.",
+    "reason": "The context states in step2_client_step: 'Seek the approval of the class adviser or department chairperson.' This directly matches the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The class adviser or department chairperson approves the Dropping/Adding/Changing request.",
+    "reason": "The context states in step2_subaction1_action: 'Class adviser or Department Chairperson approves the DAC request.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student forwards the document to the dean's office for signature.",
+    "reason": "The context states in step3_client_step: 'The document is then forwarded by the student to the dean's office for signature.' This directly matches the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The deadline for dropping is before midterm examinations.",
+    "reason": "The context states in step3_client_step: 'a. Dropping- before midterm examinations.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The deadline for changing or adding is not more than two weeks after the start of classes.",
+    "reason": "The context states in step3_client_step: 'b. Changing/ Adding- Not more than two weeks after the start of classes.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary initials the form and forwards the form to the Dean for approval.",
+    "reason": "The context states in step3_subaction1_action: 'The College Secretary initials the form and forwards it to the Dean for approval.' This directly matches the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The Dean returns the form to the College Secretary after the Dropping/Adding/Changing Form has been signed.",
+    "reason": "The context states in step3_subaction1_action: 'The Dean returns it to the College Secretary after the DAC Form has been signed.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary gives a copy of the Dropping/Adding/Changing Form to the student.",
+    "reason": "The context states in step3_subaction1_action: 'then gives a copy to the student.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student receives the student's copy of the Dropping/Adding/Changing Form.",
+    "reason": "The context states in step4_client_step: 'The student receives the student's copy of the DAC of the DAC Form.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary forwards one copy of the Dropping/Adding/Changing Form to the Registrar's Office.",
+    "reason": "The context states in step4_subaction1_action: 'The College Secretary forwards one copy to the Registrar's Office and keeps one for filing.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary keeps one copy of the Dropping/Adding/Changing Form for filing.",
+    "reason": "The context states in step4_subaction1_action: 'The College Secretary forwards one copy to the Registrar's Office and keeps one for filing.' This directly supports the statement.",
+    "verdict": 1
+   }
+  ],
+  "relevancy": [
+   {
+    "question": "What is the process for changing, adding, and dropping subjects at the Academic Unit/College?",
+    "noncommittal": 0,
+    "cosine": 0.6696707647841411
+   },
+   {
+    "question": "What is the process for changing, adding, and dropping subjects at the Academic Unit/College?",
+    "noncommittal": 0,
+    "cosine": 0.6696707647841411
+   },
+   {
+    "question": "What is the process for changing, adding, and dropping subjects at the Academic Unit/College?",
+    "noncommittal": 0,
+    "cosine": 0.6696707647841417
+   }
+  ],
+  "precision": [
+   {
+    "context": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College",
+    "verdict": 1,
+    "reason": "The context provides general information about changing, adding, and dropping subjects, including the process and offices involved. The answer expands on this with specific steps for dropping subjects, which are directly derived from the context. Therefore, the context was useful in arriving at the answer."
+   },
+   {
+    "context": "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form.",
+    "verdict": 1,
+    "reason": "The context provides information about the process of dropping subjects, including filling out the DAC Form, getting signatures from faculty and dean, and deadlines. The answer expands on this with additional steps like securing a dropping form from the University Registrar and payment, which are not in the context. However, the context is useful in outlining the initial steps and forms involved, so it was useful in arriving at the answer."
+   },
+   {
+    "context": "2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes.\nNone\n15 minutes\nCollege Secretary College Dean\n2.1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.",
+    "verdict": 1,
+    "reason": "The context provides detailed steps for dropping subjects, including filling out the DAC form, getting signatures from faculty and dean, and deadlines. The answer directly reflects these steps, making the context useful."
+   }
+  ],
+  "recall": [
+   {
+    "statement": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS",
+    "reason": "This heading is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Students may change, add and drop subjects during the prescribed schedule.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Office or Division:",
+    "reason": "This text is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Academic Unit/College",
+    "reason": "This text is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "None",
+    "reason": "This word appears in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "5 minutes",
+    "reason": "This text is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Faculty Member",
+    "reason": "This text is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "1.1. Faculty concerned signs the DAC Form.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "None",
+    "reason": "This word appears in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "15 minutes",
+    "reason": "This text is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "College Secretary College Dean",
+    "reason": "This text is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "2.1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "7. How to drop subjects? A. Students shall secure a dropping from at the University Registrar upon payment of prescribed fee at the University Cashier. B. the dropping from shall be filled out accordingly and have it approved by the class adviser and respective Dean. C. the approved dropping form shall be furnished to corresponding Offices.",
+    "reason": "This text is not present in the context; it introduces new information about a different procedure.",
+    "attributed": 0
+   }
+  ],
+  "factual": [
+   {
+    "claim": "The process for changing, adding, and dropping subjects is based on the Citizen's Charter.",
+    "in_reference": false
+   },
+   {
+    "claim": "The process is for the Academic Unit/College.",
+    "in_reference": true
+   },
+   {
+    "claim": "The student must bring a Dropping/Adding/Changing Form from the College Secretary.",
+    "in_reference": false
+   },
+   {
+    "claim": "The student fills up the Dropping/Adding/Changing Form (DAC Form).",
+    "in_reference": true
+   },
+   {
+    "claim": "The student submits the DAC Form to the faculty concerned.",
+    "in_reference": true
+   },
+   {
+    "claim": "There is no fee for submitting the DAC Form to the faculty concerned.",
+    "in_reference": true
+   },
+   {
+    "claim": "Submitting the DAC Form to the faculty concerned takes about 5 minutes.",
+    "in_reference": true
+   },
+   {
+    "claim": "The faculty concerned signs the DAC Form.",
+    "in_reference": true
+   },
+   {
+    "claim": "The student seeks the approval of the class adviser or department chairperson.",
+    "in_reference": false
+   },
+   {
+    "claim": "There is no fee for seeking approval from the class adviser or department chairperson.",
+    "in_reference": false
+   },
+   {
+    "claim": "Seeking approval from the class adviser or department chairperson takes about 5 minutes.",
+    "in_reference": false
+   },
+   {
+    "claim": "The class adviser or department chairperson approves the DAC request.",
+    "in_reference": false
+   },
+   {
+    "claim": "The student forwards the document to the dean's office for signature.",
+    "in_reference": true
+   },
+   {
+    "claim": "The deadline for dropping is before midterm examinations.",
+    "in_reference": true
+   },
+   {
+    "claim": "The deadline for changing/adding is not more than two weeks after the start of classes.",
+    "in_reference": true
+   },
+   {
+    "claim": "There is no fee for forwarding the document to the dean's office.",
+    "in_reference": true
+   },
+   {
+    "claim": "Forwarding the document to the dean's office takes about 15 minutes.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary initials the form.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary forwards the form to the Dean for approval.",
+    "in_reference": true
+   },
+   {
+    "claim": "The Dean returns the DAC Form to the College Secretary after signing.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary gives a copy of the DAC Form to the student.",
+    "in_reference": true
+   },
+   {
+    "claim": "The student receives the student's copy of the DAC Form.",
+    "in_reference": true
+   },
+   {
+    "claim": "There is no fee for receiving the student's copy of the DAC Form.",
+    "in_reference": false
+   },
+   {
+    "claim": "Receiving the student's copy of the DAC Form takes about 1 minute.",
+    "in_reference": false
+   },
+   {
+    "claim": "The College Secretary forwards one copy of the DAC Form to the Registrar's Office.",
+    "in_reference": false
+   },
+   {
+    "claim": "The College Secretary keeps one copy of the DAC Form for filing.",
+    "in_reference": false
+   },
+   {
+    "claim": "The total fee for the process is none.",
+    "in_reference": false
+   },
+   {
+    "claim": "The total time for the process is about 26 minutes.",
+    "in_reference": false
+   }
+  ]
+ },
+ {
+  "id": "Q01-tl-tagalog",
+  "language": "Tagalog",
+  "question": "Pano po magtanggal ng subject na kinuha ko?",
+  "answer": "Ito ang process para sa CHANGING, ADDING AND DROPPING OF SUBJECTS sa Academic Unit/College, ayon sa Citizen's Charter.\nDalhin:\n- 1. Dropping/ Adding/ Changing Form (kunin sa College Secretary)\nSteps:\n1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned\n   Walang fee · mga 5 minutes · (blank in the printed table) (Faculty Member)\n   Gagawin ng office: Faculty concerned signs the DAC Form.\n2. Seek the approval of the class adviser or department chairperson\n   Walang fee · mga 5 minutes · (blank in the printed table) (Class Adviser/Department Chairperson)\n   Gagawin ng office: 1 Class adviser or Department Chairperson approves the DAC request.\n2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes\n   Walang fee · mga 15 minutes · (blank in the printed table) (College Secretary College Dean)\n   Gagawin ng office: 1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.\n3. The student receives the student's copy of the DAC of the DAC Form\n   Walang fee · mga 1 minute · (blank in the printed table) (College Secretary)\n   Gagawin ng office: 1 The College Secretary forwards one copy to the Registrar's Office and keeps one for filing.\nTotal: NONE · mga 26 minutes",
+  "reference": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College\n\n1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form.\n\n2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes.\nNone\n15 minutes\nCollege Secretary College Dean\n2.1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.\n\n7. How to drop subjects? A. Students shall secure a dropping from at the University Registrar upon payment of prescribed fee at the University Cashier. B. the dropping from shall be filled out accordingly and have it approved by the class adviser and respective Dean. C. the approved dropping form shall be furnished to corresponding Offices.",
+  "top3": [
+   "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College",
+   "Classification:\nSimple Transaction\nType of Transaction:\nG2C - Government to Citizen\nWho may avail:\nPalawan State University Students",
+   "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form."
+  ],
+  "writer_evidence_count": 7,
+  "faithfulness": [
+   {
+    "statement": "The process for changing, adding, and dropping subjects in the Academic Unit/College follows the Citizen's Charter.",
+    "reason": "The context describes the process for changing, adding, and dropping subjects, and the classification indicates it is a G2C transaction. The term 'Citizen's Charter' is not explicitly mentioned, but the structured format with client steps, agency actions, fees, processing time, and person responsible is typical of a Citizen's Charter. However, the statement cannot be directly inferred because the context does not explicitly state that it follows the Citizen's Charter.",
+    "verdict": 0
+   },
+   {
+    "statement": "A student must bring a Dropping/Adding/Changing Form obtained from the College Secretary.",
+    "reason": "The context lists 'Dropping/ Adding/ Changing Form' as a requirement and indicates 'where to secure' as 'College Secretary'. This directly implies that the student must bring the form obtained from the College Secretary.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student fills up the Dropping/Adding/Changing Form and submits the Dropping/Adding/Changing Form to the faculty concerned.",
+    "reason": "The context states in step1_client_step: 'The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.' This directly matches the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The faculty concerned signs the Dropping/Adding/Changing Form.",
+    "reason": "The context states in step1_subaction1_action: 'Faculty concerned signs the DAC Form.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student seeks the approval of the class adviser or department chairperson.",
+    "reason": "The context states in step2_client_step: 'Seek the approval of the class adviser or department chairperson.' This directly matches the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The class adviser or department chairperson approves the Dropping/Adding/Changing request.",
+    "reason": "The context states in step2_subaction1_action: 'Class adviser or Department Chairperson approves the DAC request.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student forwards the document to the dean's office for signature.",
+    "reason": "The context states in step3_client_step: 'The document is then forwarded by the student to the dean's office for signature.' This directly matches the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The deadline for dropping is before midterm examinations.",
+    "reason": "The context states in step3_client_step: 'a. Dropping- before midterm examinations.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The deadline for changing or adding is not more than two weeks after the start of classes.",
+    "reason": "The context states in step3_client_step: 'b. Changing/ Adding- Not more than two weeks after the start of classes.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary initials the form and forwards the form to the Dean for approval.",
+    "reason": "The context states in step3_subaction1_action: 'The College Secretary initials the form and forwards it to the Dean for approval.' This directly matches the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The Dean returns the form to the College Secretary after the Dean has signed the Dropping/Adding/Changing Form.",
+    "reason": "The context states in step3_subaction1_action: 'The Dean returns it to the College Secretary after the DAC Form has been signed.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary gives a copy of the Dropping/Adding/Changing Form to the student.",
+    "reason": "The context states in step3_subaction1_action: 'then gives a copy to the student.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student receives the student's copy of the Dropping/Adding/Changing Form.",
+    "reason": "The context states in step4_client_step: 'The student receives the student's copy of the DAC of the DAC Form.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary forwards one copy of the Dropping/Adding/Changing Form to the Registrar's Office.",
+    "reason": "The context states in step4_subaction1_action: 'The College Secretary forwards one copy to the Registrar's Office.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary keeps one copy of the Dropping/Adding/Changing Form for filing.",
+    "reason": "The context states in step4_subaction1_action: 'and keeps one for filing.' This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The total fee for the process is none.",
+    "reason": "The context states in total_fee: 'NONE'. This directly supports the statement.",
+    "verdict": 1
+   },
+   {
+    "statement": "The total time for the process is approximately 26 minutes.",
+    "reason": "The context states in total_time: '26 minutes'. This directly supports the statement.",
+    "verdict": 1
+   }
+  ],
+  "relevancy": [
+   {
+    "question": "What is the process for changing, adding, and dropping subjects in the Academic Unit/College according to the Citizen's Charter?",
+    "noncommittal": 0,
+    "cosine": 0.5027050308391785
+   },
+   {
+    "question": "What is the process for changing, adding, and dropping subjects in the Academic Unit/College according to the Citizen's Charter?",
+    "noncommittal": 0,
+    "cosine": 0.5027050308391785
+   },
+   {
+    "question": "What is the process for changing, adding, and dropping subjects in the Academic Unit/College according to the Citizen's Charter?",
+    "noncommittal": 0,
+    "cosine": 0.5027050308391788
+   }
+  ],
+  "precision": [
+   {
+    "context": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College",
+    "verdict": 1,
+    "reason": "The context provides information about changing, adding, and dropping subjects, including the process and forms involved. The answer expands on this by detailing the steps for dropping subjects, which aligns with the context and directly addresses the question."
+   },
+   {
+    "context": "Classification:\nSimple Transaction\nType of Transaction:\nG2C - Government to Citizen\nWho may avail:\nPalawan State University Students",
+    "verdict": 0,
+    "reason": "The context provides general information about the transaction type and who may avail, but it does not contain specific instructions on how to drop subjects. The answer includes detailed steps for dropping subjects, which are not present in the context. Therefore, the context was not useful in arriving at the given answer."
+   },
+   {
+    "context": "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form.",
+    "verdict": 1,
+    "reason": "The context provides relevant information about the process of dropping subjects, including filling out the DAC form, getting signatures, and deadlines. The answer directly incorporates these steps and additional details from the context, making it useful in arriving at the answer."
+   }
+  ],
+  "recall": [
+   {
+    "statement": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS",
+    "reason": "This heading is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Students may change, add and drop subjects during the prescribed schedule.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Office or Division: Academic Unit/College",
+    "reason": "This text is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "None",
+    "reason": "This word appears in the context as part of the procedure details.",
+    "attributed": 1
+   },
+   {
+    "statement": "5 minutes",
+    "reason": "This duration is directly mentioned in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Faculty Member",
+    "reason": "This role is directly mentioned in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "1.1. Faculty concerned signs the DAC Form.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "2. The document is then forwarded by the student to the dean's office for signature.",
+    "reason": "The context does not mention forwarding to the dean's office for signature; it only mentions the faculty signing and later steps about the College Secretary and Dean, but not this specific forwarding action.",
+    "attributed": 0
+   },
+   {
+    "statement": "The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes.",
+    "reason": "The context does not contain any information about deadlines for dropping, changing, or adding subjects.",
+    "attributed": 0
+   },
+   {
+    "statement": "None",
+    "reason": "This word appears in the context as part of the procedure details.",
+    "attributed": 1
+   },
+   {
+    "statement": "15 minutes",
+    "reason": "This duration is not mentioned in the context; the context only mentions 5 minutes.",
+    "attributed": 0
+   },
+   {
+    "statement": "College Secretary College Dean",
+    "reason": "These roles are mentioned in the context, though not in this exact combined form; the context mentions College Secretary and College Dean separately.",
+    "attributed": 1
+   },
+   {
+    "statement": "2.1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.",
+    "reason": "The context does not describe this specific process involving the College Secretary and Dean; it only mentions the faculty signing and later a separate procedure for dropping subjects.",
+    "attributed": 0
+   },
+   {
+    "statement": "7. How to drop subjects? A. Students shall secure a dropping from at the University Registrar upon payment of prescribed fee at the University Cashier. B. the dropping from shall be filled out accordingly and have it approved by the class adviser and respective Dean. C. the approved dropping form shall be furnished to corresponding Offices.",
+    "reason": "This entire section is not present in the context; the context only has a brief mention of dropping in the heading and the DAC form process, but not this detailed procedure.",
+    "attributed": 0
+   }
+  ],
+  "factual": [
+   {
+    "claim": "The process for changing, adding, and dropping subjects in an Academic Unit/College is according to the Citizen's Charter.",
+    "in_reference": false
+   },
+   {
+    "claim": "The student must bring a Dropping/Adding/Changing Form obtained from the College Secretary.",
+    "in_reference": false
+   },
+   {
+    "claim": "The student fills up the Dropping/Adding/Changing Form (DAC Form).",
+    "in_reference": true
+   },
+   {
+    "claim": "The student submits the DAC Form to the faculty concerned.",
+    "in_reference": true
+   },
+   {
+    "claim": "There is no fee for submitting the DAC Form to the faculty concerned.",
+    "in_reference": true
+   },
+   {
+    "claim": "Submitting the DAC Form to the faculty concerned takes about 5 minutes.",
+    "in_reference": true
+   },
+   {
+    "claim": "The faculty concerned signs the DAC Form.",
+    "in_reference": true
+   },
+   {
+    "claim": "The student seeks the approval of the class adviser or department chairperson.",
+    "in_reference": false
+   },
+   {
+    "claim": "There is no fee for seeking approval from the class adviser or department chairperson.",
+    "in_reference": false
+   },
+   {
+    "claim": "Seeking approval from the class adviser or department chairperson takes about 5 minutes.",
+    "in_reference": false
+   },
+   {
+    "claim": "The class adviser or department chairperson approves the DAC request.",
+    "in_reference": false
+   },
+   {
+    "claim": "The student forwards the document to the dean's office for signature.",
+    "in_reference": true
+   },
+   {
+    "claim": "The deadline for dropping is before midterm examinations.",
+    "in_reference": true
+   },
+   {
+    "claim": "The deadline for changing or adding is not more than two weeks after the start of classes.",
+    "in_reference": true
+   },
+   {
+    "claim": "There is no fee for forwarding the document to the dean's office.",
+    "in_reference": true
+   },
+   {
+    "claim": "Forwarding the document to the dean's office takes about 15 minutes.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary initials the form.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary forwards the form to the Dean for approval.",
+    "in_reference": true
+   },
+   {
+    "claim": "The Dean returns the DAC Form to the College Secretary after signing.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary gives a copy of the DAC Form to the student.",
+    "in_reference": true
+   },
+   {
+    "claim": "The student receives the student's copy of the DAC Form.",
+    "in_reference": true
+   },
+   {
+    "claim": "Receiving the student's copy takes about 1 minute.",
+    "in_reference": false
+   },
+   {
+    "claim": "There is no fee for receiving the student's copy.",
+    "in_reference": false
+   },
+   {
+    "claim": "The College Secretary forwards one copy of the DAC Form to the Registrar's Office.",
+    "in_reference": false
+   },
+   {
+    "claim": "The College Secretary keeps one copy of the DAC Form for filing.",
+    "in_reference": false
+   },
+   {
+    "claim": "The total fee for the process is none.",
+    "in_reference": true
+   },
+   {
+    "claim": "The total time for the process is about 26 minutes.",
+    "in_reference": false
+   }
+  ]
+ },
+ {
+  "id": "Q01-tl-taglish",
+  "language": "Taglish",
+  "question": "Paano mag-drop ng subject?",
+  "answer": "Ito ang process para sa CHANGING, ADDING AND DROPPING OF SUBJECTS sa Academic Unit/College, ayon sa Citizen's Charter.\nDalhin:\n- 1. Dropping/ Adding/ Changing Form (kunin sa College Secretary)\nSteps:\n1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned\n   Walang fee · mga 5 minutes · (blank in the printed table) (Faculty Member)\n   Gagawin ng office: Faculty concerned signs the DAC Form.\n2. Seek the approval of the class adviser or department chairperson\n   Walang fee · mga 5 minutes · (blank in the printed table) (Class Adviser/Department Chairperson)\n   Gagawin ng office: 1 Class adviser or Department Chairperson approves the DAC request.\n2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes\n   Walang fee · mga 15 minutes · (blank in the printed table) (College Secretary College Dean)\n   Gagawin ng office: 1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.\n3. The student receives the student's copy of the DAC of the DAC Form\n   Walang fee · mga 1 minute · (blank in the printed table) (College Secretary)\n   Gagawin ng office: 1 The College Secretary forwards one copy to the Registrar's Office and keeps one for filing.\nTotal: NONE · mga 26 minutes",
+  "reference": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College\n\n1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form.\n\n2. The document is then forwarded by the student to the dean's office for signature. The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes.\nNone\n15 minutes\nCollege Secretary College Dean\n2.1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.\n\n7. How to drop subjects? A. Students shall secure a dropping from at the University Registrar upon payment of prescribed fee at the University Cashier. B. the dropping from shall be filled out accordingly and have it approved by the class adviser and respective Dean. C. the approved dropping form shall be furnished to corresponding Offices.",
+  "top3": [
+   "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College",
+   "Classification:\nSimple Transaction\nType of Transaction:\nG2C - Government to Citizen\nWho may avail:\nPalawan State University Students",
+   "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form."
+  ],
+  "writer_evidence_count": 7,
+  "faithfulness": [
+   {
+    "statement": "The process for changing, adding, and dropping subjects in the Academic Unit/College is according to the Citizen's Charter.",
+    "reason": "The context describes the process for changing, adding, and dropping subjects and includes classification as 'Simple Transaction' and type as 'G2C - Government to Citizen', which implies it is part of the Citizen's Charter.",
+    "verdict": 1
+   },
+   {
+    "statement": "The student brings a Dropping/Adding/Changing Form obtained from the College Secretary.",
+    "reason": "The context states that the requirement is a Dropping/Adding/Changing Form and where to secure it is the College Secretary, but it does not explicitly state that the student brings the form obtained from the College Secretary.",
+    "verdict": 0
+   },
+   {
+    "statement": "The student fills up the Dropping/Adding/Changing Form and submits the Dropping/Adding/Changing Form to the faculty concerned.",
+    "reason": "The context explicitly states in step1_client_step: 'The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The faculty concerned signs the Dropping/Adding/Changing Form.",
+    "reason": "The context explicitly states in step1_subaction1_action: 'Faculty concerned signs the DAC Form.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The student seeks the approval of the class adviser or department chairperson.",
+    "reason": "The context explicitly states in step2_client_step: 'Seek the approval of the class adviser or department chairperson.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The class adviser or department chairperson approves the Dropping/Adding/Changing request.",
+    "reason": "The context explicitly states in step2_subaction1_action: 'Class adviser or Department Chairperson approves the DAC request.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The student forwards the document to the dean's office for signature.",
+    "reason": "The context explicitly states in step3_client_step: 'The document is then forwarded by the student to the dean's office for signature.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The deadline for dropping is before midterm examinations.",
+    "reason": "The context explicitly states in step3_client_step: 'a. Dropping- before midterm examinations.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The deadline for changing or adding is not more than two weeks after the start of classes.",
+    "reason": "The context explicitly states in step3_client_step: 'b. Changing/ Adding- Not more than two weeks after the start of classes.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary initials the form and forwards the form to the Dean for approval.",
+    "reason": "The context explicitly states in step3_subaction1_action: 'The College Secretary initials the form and forwards it to the Dean for approval.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The Dean returns the form to the College Secretary after the Dropping/Adding/Changing Form has been signed.",
+    "reason": "The context explicitly states in step3_subaction1_action: 'The Dean returns it to the College Secretary after the DAC Form has been signed.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary gives a copy of the Dropping/Adding/Changing Form to the student.",
+    "reason": "The context explicitly states in step3_subaction1_action: 'then gives a copy to the student.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The student receives the student's copy of the Dropping/Adding/Changing Form.",
+    "reason": "The context explicitly states in step4_client_step: 'The student receives the student's copy of the DAC of the DAC Form' (likely a typo for 'DAC Form').",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary forwards one copy of the Dropping/Adding/Changing Form to the Registrar's Office.",
+    "reason": "The context explicitly states in step4_subaction1_action: 'The College Secretary forwards one copy to the Registrar's Office'",
+    "verdict": 1
+   },
+   {
+    "statement": "The College Secretary keeps one copy of the Dropping/Adding/Changing Form for filing.",
+    "reason": "The context explicitly states in step4_subaction1_action: 'and keeps one for filing.'",
+    "verdict": 1
+   },
+   {
+    "statement": "The total fee for the process is none.",
+    "reason": "The context explicitly states in total_fee: 'NONE'",
+    "verdict": 1
+   },
+   {
+    "statement": "The total time for the process is approximately 26 minutes.",
+    "reason": "The context explicitly states in total_time: '26 minutes'",
+    "verdict": 1
+   }
+  ],
+  "relevancy": [
+   {
+    "question": "What is the process for changing, adding, and dropping subjects in the Academic Unit/College according to the Citizen's Charter?",
+    "noncommittal": 0,
+    "cosine": 0.5279930858123016
+   },
+   {
+    "question": "What is the process for changing, adding, and dropping subjects in the Academic Unit/College according to the Citizen's Charter?",
+    "noncommittal": 0,
+    "cosine": 0.5279930858123016
+   },
+   {
+    "question": "What is the process for changing, adding, and dropping subjects in the Academic Unit/College according to the Citizen's Charter?",
+    "noncommittal": 0,
+    "cosine": 0.5279930858123016
+   }
+  ],
+  "precision": [
+   {
+    "context": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS\nStudents may change, add and drop subjects during the prescribed schedule.\nOffice or Division:\nAcademic Unit/College",
+    "verdict": 1,
+    "reason": "The context provides general information about changing, adding, and dropping subjects, including the office responsible and the process involving a DAC form. The answer expands on this with specific steps for dropping subjects, which are partially supported by the context (e.g., the DAC form and approval process). However, the context does not include all details in the answer, such as the deadline for dropping and the specific offices involved. Nevertheless, the context is useful in arriving at the answer as it establishes the framework and some key elements."
+   },
+   {
+    "context": "Classification:\nSimple Transaction\nType of Transaction:\nG2C - Government to Citizen\nWho may avail:\nPalawan State University Students",
+    "verdict": 0,
+    "reason": "The context provides only a classification and who may avail, but does not include any information about the process of dropping a subject. The answer contains detailed steps that are not present in the context, so the context was not useful in arriving at the answer."
+   },
+   {
+    "context": "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.\nNone\n5 minutes\nFaculty Member\n1.1. Faculty concerned signs the DAC Form.",
+    "verdict": 1,
+    "reason": "The context provides detailed steps for dropping a subject, including filling out the DAC form, getting signatures from faculty and dean, and deadlines. The answer directly incorporates these steps and additional information from the context, making the context useful in arriving at the answer."
+   }
+  ],
+  "recall": [
+   {
+    "statement": "3. CHANGING, ADDING AND DROPPING OF SUBJECTS",
+    "reason": "This heading is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Students may change, add and drop subjects during the prescribed schedule.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Office or Division: Academic Unit/College",
+    "reason": "This text is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "1. The student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "None",
+    "reason": "This word appears in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "5 minutes",
+    "reason": "This phrase is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "Faculty Member",
+    "reason": "This phrase is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "1.1. Faculty concerned signs the DAC Form.",
+    "reason": "This sentence is directly present in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "2. The document is then forwarded by the student to the dean's office for signature.",
+    "reason": "This sentence is not present in the context; the context does not mention forwarding to the dean's office for signature.",
+    "attributed": 0
+   },
+   {
+    "statement": "The deadline for the accomplishment of DAC are as follows: a. Dropping- before midterm examinations. b. Changing/ Adding- Not more than two weeks after the start of classes.",
+    "reason": "The context does not specify any deadlines for dropping, changing, or adding subjects.",
+    "attributed": 0
+   },
+   {
+    "statement": "None",
+    "reason": "This word appears in the context.",
+    "attributed": 1
+   },
+   {
+    "statement": "15 minutes",
+    "reason": "This phrase is not present in the context; the context only mentions 5 minutes.",
+    "attributed": 0
+   },
+   {
+    "statement": "College Secretary College Dean",
+    "reason": "These roles are not mentioned in the context.",
+    "attributed": 0
+   },
+   {
+    "statement": "2.1 The College Secretary initials the form and forwards it to the Dean for approval. The Dean returns it to the College Secretary after the DAC Form has been signed, then gives a copy to the student.",
+    "reason": "The context does not describe any involvement of the College Secretary or Dean in this process.",
+    "attributed": 0
+   },
+   {
+    "statement": "7. How to drop subjects? A. Students shall secure a dropping from at the University Registrar upon payment of prescribed fee at the University Cashier. B. the dropping from shall be filled out accordingly and have it approved by the class adviser and respective Dean. C. the approved dropping form shall be furnished to corresponding Offices.",
+    "reason": "This entire procedure is not mentioned in the context; the context describes a different process using a DAC Form.",
+    "attributed": 0
+   }
+  ],
+  "factual": [
+   {
+    "claim": "The process for changing, adding, and dropping subjects in an Academic Unit/College is according to the Citizen's Charter.",
+    "in_reference": false
+   },
+   {
+    "claim": "The student must bring a Dropping/Adding/Changing Form obtained from the College Secretary.",
+    "in_reference": false
+   },
+   {
+    "claim": "The student fills up the Dropping/Adding/Changing Form (DAC Form).",
+    "in_reference": true
+   },
+   {
+    "claim": "The student submits the DAC Form to the faculty concerned.",
+    "in_reference": true
+   },
+   {
+    "claim": "There is no fee for submitting the DAC Form to the faculty concerned.",
+    "in_reference": true
+   },
+   {
+    "claim": "Submitting the DAC Form to the faculty concerned takes about 5 minutes.",
+    "in_reference": true
+   },
+   {
+    "claim": "The faculty concerned signs the DAC Form.",
+    "in_reference": true
+   },
+   {
+    "claim": "The student seeks the approval of the class adviser or department chairperson.",
+    "in_reference": false
+   },
+   {
+    "claim": "There is no fee for seeking approval from the class adviser or department chairperson.",
+    "in_reference": false
+   },
+   {
+    "claim": "Seeking approval from the class adviser or department chairperson takes about 5 minutes.",
+    "in_reference": false
+   },
+   {
+    "claim": "The class adviser or department chairperson approves the DAC request.",
+    "in_reference": false
+   },
+   {
+    "claim": "The student forwards the document to the dean's office for signature.",
+    "in_reference": true
+   },
+   {
+    "claim": "The deadline for dropping is before midterm examinations.",
+    "in_reference": true
+   },
+   {
+    "claim": "The deadline for changing or adding is not more than two weeks after the start of classes.",
+    "in_reference": true
+   },
+   {
+    "claim": "There is no fee for forwarding the document to the dean's office.",
+    "in_reference": true
+   },
+   {
+    "claim": "Forwarding the document to the dean's office takes about 15 minutes.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary initials the form.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary forwards the form to the Dean for approval.",
+    "in_reference": true
+   },
+   {
+    "claim": "The Dean returns the DAC Form to the College Secretary after signing.",
+    "in_reference": true
+   },
+   {
+    "claim": "The College Secretary gives a copy of the DAC Form to the student.",
+    "in_reference": true
+   },
+   {
+    "claim": "The student receives the student's copy of the DAC Form.",
+    "in_reference": true
+   },
+   {
+    "claim": "There is no fee for receiving the student's copy of the DAC Form.",
+    "in_reference": true
+   },
+   {
+    "claim": "Receiving the student's copy of the DAC Form takes about 1 minute.",
+    "in_reference": false
+   },
+   {
+    "claim": "The College Secretary forwards one copy of the DAC Form to the Registrar's Office.",
+    "in_reference": false
+   },
+   {
+    "claim": "The College Secretary keeps one copy of the DAC Form for filing.",
+    "in_reference": false
+   },
+   {
+    "claim": "The total fee for the process is none.",
+    "in_reference": true
+   },
+   {
+    "claim": "The total time for the process is about 26 minutes.",
+    "in_reference": false
+   }
+  ]
+ }
+]

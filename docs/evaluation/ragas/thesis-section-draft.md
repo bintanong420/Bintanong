@@ -1,10 +1,10 @@
 # Draft thesis section: RAGAS evaluation
 
-Draft wording for the manuscript; table numbers (R1-R3) are placeholders. Text after the first rule is the
+Draft wording for the manuscript; table numbers (R1-R5) are placeholders; Table R5 is placed in Chapter 5. Text after the first rule is the
 manuscript section; build_section_pdf.py renders it to PDF. Faithfulness is reported only against the
 full generator evidence; the top-3-only (.525) and plain-text (.782) diagnostics stay in README.md for panel questions. Figures come from
-`ragas_scores.csv` / `ragas_summary.json`; the worked example comes from `example-q9.json`
-(same judge, same evidence). The instrument is the one promised in Chapter IV, Research Instruments (2),
+`ragas_scores.csv` / `ragas_summary.json`; the Query 1 worked example comes from `example-q1.json`
+(`scripts/example_q1.py`: same judge, settings and evidence, re-run to record each judgment). The instrument is the one promised in Chapter IV, Research Instruments (2),
 citing Es et al. (2024).
 
 ---
@@ -72,51 +72,105 @@ positives (FP).
 Precision mode was used because the references are complete source passages. In recall or F1 mode, a correct
 but concise answer would be penalised for not repeating every sentence of the reference.
 
-### Worked example
+### Worked example: Query 1 in three languages
 
-Query 9 (English) is used to illustrate the computation: *"What is the penalty for cheating in an exam?"*
-Retrieval returned two passages, both from the Student Handbook: the penalty row for "a. Any form of cheating
-in examinations" (rank 1) and the clause "Additional corrective measures for all acts of academic dishonesty"
-(rank 2). Bintanong answered:
+Query 1 is used to show how the benchmark processed one query. Like every benchmark query, it was asked in
+English, Tagalog and Taglish, and all three versions were scored against the same reference answer.
 
-> Here is what the source says: Cause: "a. Any form of cheating in examinations"; 1st Offense: "Automatic grade
-> of zero (0) on the examination/ activity or failing grade of five (5) upon discretion in the subject where it
-> was committed."; 2nd Offense: "Suspension for two weeks"; 3rd Offense: "Suspension for one month";
-> Subsequent Offenses: "Dismissal". … Measures: "Withdrawal of degree; Withdrawal of honors; Disqualification
-> from graduation with honors; Cancellation of registration". Recorded source limitation: "Unavailable
-> information: which additional corrective measures apply automatically to an individual act." Please confirm
-> with the relevant university office.
+**Table R1. Query 1 language versions and the passages retrieved for each**
 
-*Faithfulness.* The judge extracted 13 statements. Twelve were supported by the evidence, for example "The
-second offense results in suspension for two weeks", which is supported by the reviewed field
-"2nd Offense: Suspension for two weeks". The unsupported statement was the closing referral, "Please confirm
-with the relevant university office". Bintanong adds this sentence by design, and it does not appear in the
-source. Faithfulness = 12 / 13 = **0.923**.
+<!-- widths: 0.9,1.6,4.0 -->
+| Language | Question | Top 3 retrieved passages (rank order) |
+| --- | --- | --- |
+| English | How to drop subjects? | (1) Charter heading "3. CHANGING, ADDING AND DROPPING OF SUBJECTS"; (2) Charter step 1, the student fills up the DAC Form and the faculty signs it; (3) Charter step 2, the dean's signature and the DAC deadlines |
+| Tagalog | Pano po magtanggal ng subject na kinuha ko? | (1) the same Charter heading; (2) the service's classification block ("Simple Transaction … Who may avail: Palawan State University Students"); (3) Charter step 1 |
+| Taglish | Paano mag-drop ng subject? | the same three passages as the Tagalog version |
 
-*Answer Relevancy.* The judge generated three questions from the answer. Their cosine similarities to the
-original question were:
+The reference answer for Query 1 is the verbatim text of every passage judged relevant to the query during the
+retrieval evaluation: the Charter heading, Charter steps 1 and 2, and Handbook item 7 ("How to drop subjects?").
+For each version, the generator received the top 3 passages together with their required neighbours, seven
+passages in total. All three answers gave the same four-step Citizen's Charter procedure. Only the framing words
+changed: English "What to bring", "No fee · about 5 minutes"; Tagalog and Taglish "Dalhin", "Walang fee · mga
+5 minutes". The English answer begins:
 
-| Generated question | cos(E_gi, E_o) |
-| --- | ---: |
-| What are the penalties for cheating in examinations? | 0.957 |
-| What are the penalties for cheating in examinations and additional corrective measures for academic dishonesty? | 0.843 |
-| What are the penalties for cheating in examinations and the additional corrective measures for academic dishonesty? | 0.838 |
+> Here's the process for CHANGING, ADDING AND DROPPING OF SUBJECTS at the Academic Unit/College, based on the
+> Citizen's Charter. What to bring: 1. Dropping/ Adding/ Changing Form (from College Secretary). Steps: 1. The
+> student fills up the Dropping/Adding/Changing Form (DAC Form) and submit to faculty concerned. No fee · about
+> 5 minutes … 2. Seek the approval of the class adviser or department chairperson … Total: NONE · about 26 minutes
 
-Answer Relevancy = (0.957 + 0.843 + 0.838) / 3 = **0.879**. Question generation is not deterministic. The
-scored run, reported in Table R2, gave 0.840 for this item.
+The judge's intermediate decisions below come from a separate re-run of the same judge on these three items,
+done to record each step. The judge is not fully deterministic, so a few decisions differ from the scored run;
+Table R3 lists both.
 
-*Context Precision.* Both retrieved passages were relevant (v_1 = v_2 = 1), so Precision@1 = 1/1 and
-Precision@2 = 2/2. Context Precision = (1 × 1 + 1 × 1) / 2 = **1.000**.
+*Faithfulness.* The judge split the English answer into 15 statements and the Tagalog and Taglish answers into 17
+each, because the judge also listed the total fee and total time for those two. In English and Tagalog the one
+unsupported statement was the opening line, "The process … is based on the Citizen's Charter". This framing
+sentence is added by Bintanong and does not appear in the passages. Every procedural step, fee, time and deadline
+was supported, for example "The deadline for dropping is before midterm examinations", which is supported by
+Charter step 2. In Taglish the judge accepted the opening line but rejected "The student brings a
+Dropping/Adding/Changing Form obtained from the College Secretary", which it had accepted in the other two
+languages. This shows the judge's run-to-run variation.
 
-*Context Recall.* The reference for Query 9 has four Handbook passages (pp. 88–90): the general cheating row
-and the additional corrective measures, which were retrieved, and two other examination-cheating rows (items e
-and g), which were not. The judge split the reference into 13 statements and found 9 in the retrieved passages.
-Context Recall = 9 / 13 = **0.692**. The missing statements are the penalties for items e and g, which shows
-that retrieval returned the general rule but not the related specific offences.
+  Faithfulness (English) = 14 / 15 = 0.933;  Tagalog = 16 / 17 = 0.941;  Taglish = 16 / 17 = 0.941
+
+*Answer Relevancy.* For each version, the judge generated the same question three times (N = 3), so the score
+equals that question's cosine similarity to the original question. No answer was labelled noncommittal.
+
+**Table R2. Questions generated from the Query 1 answers**
+
+<!-- widths: 0.9,4.4,1.2 -->
+| Language | Generated question (all three identical) | cos(E_gi, E_o) |
+| --- | --- | ---: |
+| English | What is the process for changing, adding, and dropping subjects at the Academic Unit/College? | 0.670 |
+| Tagalog | What is the process for changing, adding, and dropping subjects in the Academic Unit/College according to the Citizen's Charter? | 0.503 |
+| Taglish | What is the process for changing, adding, and dropping subjects in the Academic Unit/College according to the Citizen's Charter? | 0.528 |
+
+  Answer Relevancy (English) = (0.670 + 0.670 + 0.670) / 3 = 0.670;  Tagalog = 0.503;  Taglish = 0.528
+
+The generated questions are in English, because the answers quote English source text. Their similarity to a
+Tagalog or Taglish question is therefore lower, although the three answers give the same procedure.
+
+*Context Precision.* In English all three retrieved passages were judged useful for reaching the reference
+(v_1 = v_2 = v_3 = 1), so Context Precision = (1/1 + 2/2 + 3/3) / 3 = 1.000. In Tagalog and Taglish, rank 2 was
+the classification block, which the judge found not useful ("it does not contain specific instructions on how to
+drop subjects"), so v = (1, 0, 1):
+
+  Context Precision (Tagalog, Taglish) = (Precision@1 × 1 + Precision@2 × 0 + Precision@3 × 1) / 2 = (1/1 + 2/3) / 2 = 0.833
+
+*Context Recall.* The judge split the reference into 15 statements and checked each one against the top 3
+passages. In English, 14 statements were found; the missing one was Handbook item 7, which was not retrieved
+(14 / 15 = 0.933). In Tagalog and Taglish, Charter step 2 was not in the top 3, because the classification block
+took rank 2. The dean's signature, the DAC deadlines and the College Secretary's action were therefore missing:
+Tagalog 10 / 15 = 0.667 and Taglish 9 / 15 = 0.600.
+
+*Factual Correctness (precision).* The judge split each answer into 27 or 28 claims and checked each one against
+the reference. The claims taken from Charter steps 1 and 2 were true positives. The step "Seek the approval of the
+class adviser or department chairperson", step 3 (the student receives a copy) and the printed total of 26
+minutes were false positives. These come from correct required-neighbour passages that are not part of the
+reference.
+
+  Factual Correctness (English) = 16 / 28 = 0.571;  Tagalog = 16 / 27 = 0.593;  Taglish = 17 / 27 = 0.630
+
+**Table R3. Query 1 RAGAS scores: worked-example re-run and scored run**
+
+<!-- widths: 1.55,0.825,0.825,0.825,0.825,0.825,0.825 -->
+| Metric | English (re-run) | English (scored) | Tagalog (re-run) | Tagalog (scored) | Taglish (re-run) | Taglish (scored) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Faithfulness | 0.933 | 0.941 | 0.941 | 0.882 | 0.941 | 0.882 |
+| Answer Relevancy | 0.670 | 0.670 | 0.503 | 0.503 | 0.528 | 0.528 |
+| Context Precision | 1.000 | 1.000 | 0.833 | 0.833 | 0.833 | 0.333 |
+| Context Recall | 0.933 | 0.933 | 0.667 | 0.533 | 0.600 | 0.600 |
+| Factual Correctness | 0.571 | 0.560 | 0.593 | 0.630 | 0.630 | 0.630 |
+
+Answer Relevancy was identical in both runs, and most other values differ by one or two judge decisions. The
+largest difference is Taglish Context Precision: in the scored run the judge also rejected the rank-1 heading,
+giving v = (0, 0, 1) and Context Precision = (Precision@3 × 1) / 1 = 1/3 = 0.333. The reported results use the scored run. Query 1 shows the pattern
+seen across the benchmark: the answers stay faithful to the evidence in all three languages, while the retrieval
+of the Tagalog and Taglish questions and the English-only generated questions lower the other metrics.
 
 ### Results
 
-**Table R1. RAGAS scores of Bintanong by query language (n = 42; 14 per language)**
+**Table R4. RAGAS scores of Bintanong by query language (n = 42; 14 per language)**
 
 | Metric | Overall | English | Tagalog | Taglish |
 | --- | ---: | ---: | ---: | ---: |
@@ -126,25 +180,7 @@ that retrieval returned the general rule but not the related specific offences.
 | Context Recall | 0.754 | 0.793 | 0.737 | 0.733 |
 | Factual Correctness (precision) | 0.570 | 0.571 | 0.570 | 0.568 |
 
-**Table R2. RAGAS scores per benchmark query (mean of the English, Tagalog and Taglish versions)**
-
-| No. | Query (English version) | Faithfulness | Answer Relevancy | Context Precision | Context Recall | Factual Correctness |
-| ---: | --- | ---: | ---: | ---: | ---: | ---: |
-| 1 | How to drop subjects? | 0.902 | 0.567 | 0.722 | 0.689 | 0.607 |
-| 2 | How to shift/change curricular program? | 0.858 | 0.704 | 0.833 | 1.000 | 0.787 |
-| 3 | How to enroll for the next semester? | 0.817 | 0.641 | 0.389 | 0.755 | 0.447 |
-| 4 | How to add or change subjects? | 0.958 | 0.666 | 0.889 | 0.581 | 0.270 |
-| 5 | How to remove a grade of 4? | 0.945 | 0.000 | 0.944 | 0.354 | 0.513 |
-| 6 | How to complete an INC grade? | 0.930 | 0.000 | 1.000 | 1.000 | 0.430 |
-| 7 | How do I get off probation? | 1.000 | 0.810 | 1.000 | 1.000 | 1.000 |
-| 8 | What do I do when I lose, forget my ID or to retrieve a confiscated ID? | 0.800 | 0.835 | 1.000 | 1.000 | 0.890 |
-| 9 | What is the penalty for cheating in an exam? | 0.915 | 0.767 | 1.000 | 0.692 | 0.387 |
-| 10 | How to secure a good moral certificate? | 0.993 | 0.618 | 1.000 | 0.659 | 0.353 |
-| 11 | How to secure transfer credentials? | 0.900 | 0.679 | 0.889 | 0.639 | 0.410 |
-| 12 | How do I claim accident insurance? | 1.000 | 0.873 | 1.000 | 1.000 | 1.000 |
-| 13 | How to obtain a vehicle or gate pass? | 0.646 | 0.374 | 1.000 | 0.380 | 0.430 |
-| 14 | How to avail the use of university rooms and facilities? | 0.690 | 0.643 | 0.880 | 0.812 | 0.450 |
-| | **Mean** | **0.883** | **0.584** | **0.896** | **0.754** | **0.570** |
+The scores of each query in each language are given in Chapter 5, Table R5.
 
 ### Analysis of low-scoring items
 
@@ -154,8 +190,8 @@ that retrieval returned the general rule but not the related specific offences.
 - *Query 13 (vehicle or gate pass).* The source describes only selected office steps of the application, so the
   answer adds notices such as "These are selected office steps, not a complete application procedure." These
   notices are not in the source text, which lowers Faithfulness. The gate-pass passages that were not retrieved
-  also lowered Context Recall (0.380).
-- *Query 3 (enrolment).* Context Precision was 0.389. The RAGAS judge considered some higher-ranked passages
+  also lowered Context Recall (0.380 averaged over the three languages).
+- *Query 3 (enrolment).* Context Precision averaged 0.389 over the three languages (0.000 in Taglish). The RAGAS judge considered some higher-ranked passages
   not useful for reaching the reference answer, although the human relevance judgments used for the F1
   evaluation marked all three as relevant. RAGAS judges usefulness for the reference, not topical relevance,
   so the two measures can disagree.
@@ -183,16 +219,74 @@ it is not a clean comparison of language quality.
 
 Factual Correctness (0.570) was moderate. An answer claim counts against this score whenever it is absent from
 the reference, even if it is correct. Examples are content drawn from required-neighbour passages outside the
-reference, or system notices such as source-limitation statements. The lowest items (Queries 4, 9 and 10) were
+reference, as in Query 1, or system notices such as source-limitation statements. The lowest items (Queries 4, 9 and 10) were
 not analysed claim by claim, so this metric is reported without attributing its errors to a specific cause.
 
 Limitations: each item was scored once by a single judge model. The judge's reliability on Tagalog and Taglish
-was not separately validated. Query 11 was run on a later routing version; without it, the Table R1 scores change
+was not separately validated. Query 11 was run on a later routing version; without it, the Table R4 scores change
 by at most 0.012. The planned comparison against the baseline Bintu-1 model was not carried out for RAGAS.
 
 ---
 
 ## Chapter 5 entries
+
+### Results per query (RAGAS)
+
+Table R5 gives the RAGAS scores of every benchmark query in each language. Query 1 is the worked example in
+Chapter 4. Faithfulness is measured against the full generator evidence; Factual Correctness is in precision mode. Column abbreviations: F = Faithfulness, AR = Answer Relevancy,
+CP = Context Precision, CR = Context Recall, FC = Factual Correctness.
+
+**Table R5. RAGAS scores per benchmark query and language (n = 42)**
+
+<!-- widths: 2.5,0.9,0.62,0.62,0.62,0.62,0.62 -->
+| Query (English version) | Language | F | AR | CP | CR | FC |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1. How to drop subjects? | English | 0.941 | 0.670 | 1.000 | 0.933 | 0.560 |
+|  | Tagalog | 0.882 | 0.503 | 0.833 | 0.533 | 0.630 |
+|  | Taglish | 0.882 | 0.528 | 0.333 | 0.600 | 0.630 |
+| 2. How to shift/change curricular program? | English | 0.840 | 0.932 | 0.500 | 1.000 | 0.620 |
+|  | Tagalog | 0.867 | 0.584 | 1.000 | 1.000 | 0.870 |
+|  | Taglish | 0.867 | 0.595 | 1.000 | 1.000 | 0.870 |
+| 3. How to enroll for the next semester? | English | 0.818 | 0.676 | 0.583 | 0.735 | 0.380 |
+|  | Tagalog | 0.786 | 0.613 | 0.583 | 0.853 | 0.440 |
+|  | Taglish | 0.849 | 0.634 | 0.000 | 0.676 | 0.520 |
+| 4. How to add or change subjects? | English | 0.933 | 0.756 | 1.000 | 0.900 | 0.290 |
+|  | Tagalog | 1.000 | 0.580 | 0.833 | 0.421 | 0.260 |
+|  | Taglish | 0.941 | 0.663 | 0.833 | 0.421 | 0.260 |
+| 5. How to remove a grade of 4? | English | 0.947 | 0.000 | 0.833 | 0.438 | 0.520 |
+|  | Tagalog | 0.944 | 0.000 | 1.000 | 0.312 | 0.500 |
+|  | Taglish | 0.944 | 0.000 | 1.000 | 0.312 | 0.520 |
+| 6. How to complete an INC grade? | English | 0.929 | 0.000 | 1.000 | 1.000 | 0.370 |
+|  | Tagalog | 0.933 | 0.000 | 1.000 | 1.000 | 0.460 |
+|  | Taglish | 0.929 | 0.000 | 1.000 | 1.000 | 0.460 |
+| 7. How do I get off probation? | English | 1.000 | 0.897 | 1.000 | 1.000 | 1.000 |
+|  | Tagalog | 1.000 | 0.798 | 1.000 | 1.000 | 1.000 |
+|  | Taglish | 1.000 | 0.736 | 1.000 | 1.000 | 1.000 |
+| 8. What do I do when I lose, forget my ID or to retrieve a confiscated ID? | English | 1.000 | 0.874 | 1.000 | 1.000 | 1.000 |
+|  | Tagalog | 1.000 | 0.782 | 1.000 | 1.000 | 1.000 |
+|  | Taglish | 0.400 | 0.849 | 1.000 | 1.000 | 0.670 |
+| 9. What is the penalty for cheating in an exam? | English | 0.923 | 0.840 | 1.000 | 0.692 | 0.500 |
+|  | Tagalog | 0.889 | 0.693 | 1.000 | 0.692 | 0.330 |
+|  | Taglish | 0.933 | 0.769 | 1.000 | 0.692 | 0.330 |
+| 10. How to secure a good moral certificate? | English | 0.979 | 0.685 | 1.000 | 0.800 | 0.340 |
+|  | Tagalog | 1.000 | 0.583 | 1.000 | 0.588 | 0.350 |
+|  | Taglish | 1.000 | 0.586 | 1.000 | 0.588 | 0.370 |
+| 11. How to secure transfer credentials? | English | 0.897 | 0.644 | 0.833 | 0.607 | 0.390 |
+|  | Tagalog | 0.902 | 0.694 | 0.833 | 0.586 | 0.470 |
+|  | Taglish | 0.902 | 0.698 | 1.000 | 0.724 | 0.370 |
+| 12. How do I claim accident insurance? | English | 1.000 | 0.936 | 1.000 | 1.000 | 1.000 |
+|  | Tagalog | 1.000 | 0.685 | 1.000 | 1.000 | 1.000 |
+|  | Taglish | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| 13. How to obtain a vehicle or gate pass? | English | 0.571 | 0.580 | 1.000 | 0.308 | 0.430 |
+|  | Tagalog | 0.667 | 0.543 | 1.000 | 0.333 | 0.430 |
+|  | Taglish | 0.700 | 0.000 | 1.000 | 0.500 | 0.430 |
+| 14. How to avail the use of university rooms and facilities? | English | 0.700 | 0.706 | 1.000 | 0.688 | 0.590 |
+|  | Tagalog | 0.704 | 0.598 | 0.639 | 1.000 | 0.240 |
+|  | Taglish | 0.667 | 0.624 | 1.000 | 0.750 | 0.520 |
+| **Mean** | **English** | **0.891** | **0.657** | **0.911** | **0.793** | **0.571** |
+| **Mean** | **Tagalog** | **0.898** | **0.547** | **0.909** | **0.737** | **0.570** |
+| **Mean** | **Taglish** | **0.858** | **0.549** | **0.869** | **0.733** | **0.568** |
+| **Mean** | **All** | **0.883** | **0.584** | **0.896** | **0.754** | **0.570** |
 
 ### Summary of Findings (RAGAS)
 
