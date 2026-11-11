@@ -409,7 +409,7 @@ def _load_checks(path, package: dict) -> dict:
         raise LocalReleaseError('checks report did not pass; refusing to activate')
     cases = report.get('cases')
     if (not isinstance(cases, list) or not cases
-            or any(isinstance(c, dict) and 'passed' in c and c['passed'] is not True for c in cases)):
+            or any(not isinstance(c, dict) or c.get('passed') is not True for c in cases)):
         raise LocalReleaseError('checks report has no cases or a failed case; refusing to activate')
     if not isinstance(report.get('created_at'), str) or not report['created_at']:
         raise LocalReleaseError('checks report has no creation time; refusing to activate')
@@ -457,7 +457,11 @@ def _activation_summary(written: dict) -> str:
 
 
 def _confirm_active(client, release_id, written, what):
-    row, now = _release_row(client, release_id), _active(client)
+    try:
+        row, now = _release_row(client, release_id), _active(client)
+    except (ValueError, StorageError) as exc:  # StorageError text can carry transport details; redact it
+        raise LocalReleaseError(f'read-back failed after {what}: {_reason(exc, client)}. '
+                                f'{_activation_summary(written)} Inspect the local stack.', written) from None
     if now != release_id or not row or row['status'] != 'active':
         raise LocalReleaseError(f'read-back mismatch after {what}: active release is {now!r}, release '
                                 f'{release_id!r} status {row and row["status"]!r}. {_activation_summary(written)} '

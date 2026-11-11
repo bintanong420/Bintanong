@@ -181,6 +181,7 @@ def test_authorization_reference_is_required(staged, ref):
 
 @pytest.mark.parametrize('overrides', [{'passed': False}, {'passed': 'true'}, {'schema_version': 'other'},
     {'package_id': 'f' * 64}, {'cases': []}, {'cases': [{'case_id': 'c1', 'passed': False}]},
+    {'cases': [{'case_id': 'c1'}]}, {'cases': ['c1']},
     {'created_at': None}, {'package_binding': None}])
 def test_refuses_a_failed_forged_or_mismatched_checks_report(staged, overrides):
     client, package = staged
@@ -281,10 +282,28 @@ def test_activation_readback_mismatch_raises_and_keeps_the_baseline(staged, tamp
 def test_rollback_readback_mismatch_raises(staged):
     client, package = staged
     activate(package, client)
+    pointer = package.parent / 'baselines' / 'fingerprint-baseline.json'
+    before = pointer.read_text(encoding='utf-8')
     client.after['rollback_knowledge_release'] = lambda c: c.tables['active_release'].__setitem__(
         0, {'release_id': DRAFT})
     with pytest.raises(api().LocalReleaseError, match='read-back'):
         rollback(package, client)
+    assert pointer.read_text(encoding='utf-8') == before
+
+
+def test_a_failed_readback_query_is_reported_not_raised_raw(staged, monkeypatch):
+    client, package = staged
+    original, armed = client.select, []
+
+    def failing(table, *args, **kwargs):
+        if table == 'knowledge_releases' and armed:
+            raise StorageError('Storage transport request failed ' + SECRET)
+        return original(table, *args, **kwargs)
+    client.after['activate_knowledge_release'] = lambda c: armed.append(True)
+    monkeypatch.setattr(client, 'select', failing)
+    with pytest.raises(api().LocalReleaseError, match='read-back') as caught:
+        activate(package, client)
+    assert SECRET not in str(caught.value)
 
 
 def test_database_rejection_and_transport_failure_report_the_write_state(staged):
