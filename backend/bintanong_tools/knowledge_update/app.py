@@ -15,7 +15,7 @@ from .files import contained, read_json
 from .prepare import load_packet
 
 
-def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None) -> FastAPI:
+def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None, prepare_python=None) -> FastAPI:
     origin = urlsplit(ui_origin)
     if (origin.scheme != 'http' or origin.hostname not in {'127.0.0.1', 'localhost'}
             or not origin.port or origin.path or origin.query or origin.fragment or origin.username):
@@ -209,5 +209,22 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
         @app.get('/api/intake/uploads')
         def uploads():
             return {'uploads': intake.list_uploads(workspace)}
+
+        @app.post('/api/intake/prepare')
+        async def start_prepare(request: Request):
+            command = await read_command(request)
+            if isinstance(command, Response):
+                return command
+            if (not isinstance(command, dict) or set(command) != {'upload_id', 'assist'}
+                    or not isinstance(command['assist'], bool)):
+                raise ValueError('prepare needs upload_id and a true/false assist choice')
+            if prepare_python is None:
+                raise ValueError('this review session has no Docling interpreter configured')
+            return intake.start_prepare(workspace, command['upload_id'], python=prepare_python,
+                                        assist=command['assist'])
+
+        @app.get('/api/intake/prepare/{upload_id}')
+        def prepare_status(upload_id: str):
+            return intake.prepare_status(workspace, upload_id)
 
     return app
