@@ -3,7 +3,7 @@ import test from 'node:test';
 import { SECTIONS, prospectusDocuments, reviewSection } from '../lib/review-nav.ts';
 import { chunksQuery, groupSources, knowledgeUrl, pageImagePath, pageWindow, parseKnowledgeUrl, packageSourceId } from '../lib/knowledge.ts';
 import { clampPage, itemsOnPage, pagesOf } from '../lib/compare.ts';
-import { buildChecklist, buildControl, buildLabel, buildSummary, opensMetadataForm, pipelineSteps, REBUILD_NOTE, shouldPollBuild } from '../lib/intake.ts';
+import { buildChecklist, buildControl, buildLabel, buildSummary, opensMetadataForm, INTERRUPTED_NOTE, pipelineSteps, REBUILD_NOTE, shouldPollBuild } from '../lib/intake.ts';
 
 test('the current section follows the address and keeps every old review URL under Documents or Prospectus', () => {
   assert.deepEqual(SECTIONS.map(s => s.href), ['/review/intake', '/review', '/review/prospectus', '/review/knowledge']);
@@ -130,7 +130,8 @@ test('Build offers one start, only a retry after a failure, and nothing after su
   assert.deepEqual(buildControl(false, undefined), { kind: 'start', label: 'Build chunks' });
   assert.equal(buildControl(true, { state: 'running' }).kind, 'running');
   assert.deepEqual(buildControl(true, { state: 'failed' }), { kind: 'retry', label: 'Try the build again' });
-  assert.equal(buildControl(true, { state: 'interrupted' }).kind, 'retry');
+  assert.deepEqual(buildControl(true, { state: 'interrupted' }), { kind: 'none', label: '' });  // the old process may still be running
+  assert.match(INTERRUPTED_NOTE, /may still be running.*new upload/);
   assert.equal(buildControl(true, { state: 'done' }).kind, 'none');
   assert.match(REBUILD_NOTE, /needs a new upload/);
 });

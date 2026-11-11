@@ -103,14 +103,16 @@ const chunks = (n: number) => `${n} ${n === 1 ? 'chunk' : 'chunks'}`;
 export function buildSummary(build: Pick<BuildStatus, 'state' | 'package'> | undefined) {
   return build?.state === 'done' && build.package ? 'Built ' + chunks(build.package.chunk_count) : '';
 }
+export const INTERRUPTED_NOTE = 'This build was interrupted and may still be running. Make a new upload to build again.';
 export const REBUILD_NOTE = 'Built. A rebuild with changed review decisions needs a new upload.';
 
 // The server allows a build only once per upload (package_exists), and a retry only after a failure.
 export function buildControl(prepared: boolean, build: Pick<BuildStatus, 'state'> | undefined):
     { kind: 'start' | 'retry' | 'running' | 'none'; label: string } {
   if (build?.state === 'running') return { kind: 'running', label: 'Building…' };
-  if (build?.state === 'done') return { kind: 'none', label: '' };
-  if (build?.state === 'failed' || build?.state === 'interrupted') return { kind: 'retry', label: 'Try the build again' };
+  // done and interrupted both offer nothing: after an interruption the old process may still be running
+  if (build?.state === 'done' || build?.state === 'interrupted') return { kind: 'none', label: '' };
+  if (build?.state === 'failed') return { kind: 'retry', label: 'Try the build again' };
   return { kind: 'start', label: 'Build chunks' };
 }
 

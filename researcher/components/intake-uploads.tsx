@@ -6,7 +6,7 @@ import { PipelineSteps, StatusIcon, StatusTag } from '@/components/intake-status
 import { Button } from '@/components/ui/button';
 import type { UploadState } from '@/components/use-upload-states';
 import { request, ReviewError } from '@/lib/api';
-import { buildChecklist, buildControl, buildSummary, formatBytes, opensMetadataForm, REBUILD_NOTE, formatElapsed, latestLogLine, pipelineSteps } from '@/lib/intake';
+import { buildChecklist, buildControl, buildSummary, formatBytes, INTERRUPTED_NOTE, opensMetadataForm, REBUILD_NOTE, formatElapsed, latestLogLine, pipelineSteps } from '@/lib/intake';
 import { knowledgeUrl, packageSourceId } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
@@ -174,7 +174,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
         {build?.state === 'running' && <p className="notice"><span className="spinner" aria-hidden="true" /><span>Building the knowledge package. This page checks every 3 seconds. Seen running for {formatElapsed(buildElapsed)} on this page.</span></p>}
         {build?.state === 'done' && <p className="notice success"><span><strong>{buildSummary(build) || 'Built'}.</strong>{' '}
           {build.package ? <a href={knowledgeUrl({ source: packageSourceId(id), q: '', chunk: '', offset: 0 })}>View these chunks in Knowledge</a> : 'The server returned no package details.'}</span></p>}
-        {control.kind === 'none' && <p className="hint">{REBUILD_NOTE}</p>}
+        {control.kind === 'none' && <p className="hint">{build?.state === 'interrupted' ? INTERRUPTED_NOTE : REBUILD_NOTE}</p>}
         {control.kind === 'start' && <>
           <p className="hint">Building turns the prepared packet into chunks you can browse in Knowledge. It approves and activates nothing, and it runs once per upload.</p>
           <ul className="checklist" aria-label="Before the first build">{buildChecklist(state === 'done').map(row =>
