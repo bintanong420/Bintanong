@@ -1,10 +1,11 @@
-"""Stage a verified candidate package as an inactive draft release on the owner's local Supabase.
+"""Stage, activate and roll back candidate releases on the owner's local Supabase only.
 
-Owner decision, 8 November 2026: staging targets only the local stack; the hosted project
-stays read-only and the hosted/local fingerprint is rerun before each local publish. This
-module never activates, designates or rolls back a release, and a draft is not approval.
+Owner decision, 8 November 2026: writes target only the local stack; the hosted project
+stays read-only and the hosted/local fingerprint (freeze rule) is rerun before each local
+write. stage_draft never activates; activate_draft/rollback_to act only on an explicit owner
+authorization reference. Local activation is research use, not institutional approval.
 
-Order: target and client check -> package verification -> injected fingerprint check ->
+Staging order: target and client check -> package verification -> injected fingerprint check ->
 read current state -> register pending source versions -> load chunks/vectors -> create the
 draft -> read everything back. Each write RPC is one database transaction, so a rejected
 call wrote nothing; a transport failure leaves its outcome unknown and is reported as such.
@@ -107,7 +108,7 @@ def _summary(written: dict) -> str:
             'Nothing was activated (not activated).')
 
 
-def _write(client, written: dict, key: str, action: str, fn):
+def _write(client, written: dict, key: str, action: str, fn, summary=_summary):
     try:
         return fn()
     except ValueError as exc:
@@ -118,7 +119,7 @@ def _write(client, written: dict, key: str, action: str, fn):
     except Exception as exc:  # unexpected failure: the write may or may not have committed
         state, reason = 'unknown', _reason(exc, client)
     written[key] = state
-    raise LocalReleaseError(f'{action} failed ({reason}). {_summary(written)}', written) from None
+    raise LocalReleaseError(f'{action} failed ({reason}). {summary(written)}', written) from None
 
 
 def _in(values) -> str:
@@ -381,3 +382,168 @@ def stage_draft(package_path, *, client, target_url, fingerprint_check, release_
             'already_registered_versions': [i for i in version_ids if i in registered],
             'loader': asdict(summary), 'active_release_id': active_before, 'target': LOCAL_TARGET,
             'actor': actor.strip(), 'candidate_only': True, 'activation_eligible': False}
+
+
+CHECKS_SCHEMA = 'bintanong-draft-checks-v1'
+_RESEARCH_REF = re.compile(r'research-owner-[0-9]{8}')  # the phase-9 migration's accepted format
+_RELEASE_COLUMNS = ('release_id,release_version,status,embedding_set_id,published_at,review_scope_id,'
+                    'release_kind,research_authorization_ref')
+
+
+def _require_line(value, what: str) -> str:
+    if not isinstance(value, str) or not value.strip() or len(value) > 200 or not value.isprintable():
+        raise LocalReleaseError(f'an explicit single-line {what} is required')
+    return value.strip()
+
+
+def _load_checks(path, package: dict) -> dict:
+    """Draft-checks report (5b contract) bound to this exact package's bytes."""
+    try:
+        report = json.loads(Path(path).read_text(encoding='utf-8'))
+    except (OSError, ValueError, TypeError):
+        raise LocalReleaseError('checks report is missing or unreadable; refusing to activate') from None
+    manifest = package['manifest']
+    if not isinstance(report, dict) or report.get('schema_version') != CHECKS_SCHEMA:
+        raise LocalReleaseError(f'checks report is not a {CHECKS_SCHEMA} report; refusing to activate')
+    if report.get('passed') is not True:
+        raise LocalReleaseError('checks report did not pass; refusing to activate')
+    cases = report.get('cases')
+    if (not isinstance(cases, list) or not cases
+            or any(isinstance(c, dict) and 'passed' in c and c['passed'] is not True for c in cases)):
+        raise LocalReleaseError('checks report has no cases or a failed case; refusing to activate')
+    if not isinstance(report.get('created_at'), str) or not report['created_at']:
+        raise LocalReleaseError('checks report has no creation time; refusing to activate')
+    if report.get('package_id') != manifest['package_id']:
+        raise LocalReleaseError('checks report package_id differs from the draft package; refusing to activate')
+    binding = report.get('package_binding')
+    if not isinstance(binding, dict):
+        raise LocalReleaseError('checks report has no package_binding; refusing to activate')
+    files = manifest['files']
+    expected = {'package_id': manifest['package_id'], 'chunks_sha256': files['chunks.jsonl'],
+                'embeddings_sha256': files['embeddings.jsonl'],
+                'embedding_manifest_sha256': files['embedding_manifest.json'],
+                'embedding_set_id': package['embedding_manifest']['embedding_set_id']}
+    for name, value in expected.items():
+        if binding.get(name) != value:
+            raise LocalReleaseError(f'checks report package_binding.{name} differs from the package; '
+                                    'refusing to activate')
+    return report
+
+
+def _release_row(client, release_id):
+    rows = client.select('knowledge_releases', columns=_RELEASE_COLUMNS,
+                         filters={'release_id': 'eq.' + release_id}, role='admin')
+    return rows[0] if rows else None
+
+
+def _preflight(client, target_url, authorization_ref, actor, baseline_dir):
+    _check_client(target_url, client)
+    ref = _require_line(authorization_ref, 'owner authorization reference')
+    who = _require_line(actor, 'actor name')
+    return ref, who, _baseline_root(baseline_dir)
+
+
+def _frozen(base, fingerprint_check):
+    baseline = _load_baseline(base)
+    before = _run_fingerprint(fingerprint_check)
+    _require_consistent(before, baseline)
+    return before
+
+
+def _activation_summary(written: dict) -> str:
+    return (f"Written so far: research designation {written.get('designation', 'not_attempted')}; "
+            f"activation {written.get('activation', 'not_attempted')}; "
+            f"rollback {written.get('rollback', 'not_attempted')}.")
+
+
+def _confirm_active(client, release_id, written, what):
+    row, now = _release_row(client, release_id), _active(client)
+    if now != release_id or not row or row['status'] != 'active':
+        raise LocalReleaseError(f'read-back mismatch after {what}: active release is {now!r}, release '
+                                f'{release_id!r} status {row and row["status"]!r}. {_activation_summary(written)} '
+                                'Inspect the local stack.', written)
+
+
+def activate_draft(release_id, *, client, target_url, package_path, checks_report, authorization_ref, actor,
+                   fingerprint_check, baseline_dir) -> dict:
+    """Activate a draft this tool staged from `package_path`, after its draft checks passed.
+    `authorization_ref` is the owner's reference; it is recorded, and a draft bound to a selected
+    review is designated research with it first, as validate_release requires."""
+    ref, who, base = _preflight(client, target_url, authorization_ref, actor, baseline_dir)
+    if not isinstance(release_id, str) or not _RELEASE_ID.fullmatch(release_id):
+        raise LocalReleaseError('release id is not a valid release label')
+    try:
+        package = load_package(Path(package_path).resolve())
+    except (ValueError, OSError) as exc:
+        raise LocalReleaseError(f'package verification failed: {exc}') from None
+    _load_checks(checks_report, package)
+    package_id = package['manifest']['package_id']
+    before = _frozen(base, fingerprint_check)
+    try:
+        row = _release_row(client, release_id)
+        previous = _active(client)
+    except StorageError as exc:
+        raise LocalReleaseError(f'local read failed before any write ({_reason(exc, client)})') from None
+    if row is None:
+        raise LocalReleaseError(f'release {release_id!r} not found')
+    if row['release_version'] != 'package-' + package_id:
+        raise LocalReleaseError(f'release {release_id!r} was not staged by this tool from this package')
+    if row['status'] != 'draft' or row.get('published_at') or previous == release_id:
+        raise LocalReleaseError(f"release {release_id!r} is not an unpublished draft (status {row['status']!r}); "
+                                'nothing to activate')
+    if row['embedding_set_id'] != package['embedding_manifest']['embedding_set_id']:
+        raise LocalReleaseError('the draft embedding set differs from the package embedding set')
+    designate = bool(row.get('review_scope_id')) and row.get('release_kind') != 'research'
+    if (designate or row.get('release_kind') == 'research') and not _RESEARCH_REF.fullmatch(ref):
+        raise LocalReleaseError('a research designation needs an owner authorization reference of the form '
+                                'research-owner-YYYYMMDD')
+    if row.get('release_kind') == 'research' and row.get('research_authorization_ref') != ref:
+        raise LocalReleaseError('the draft already carries a different research authorization reference')
+
+    written = {'designation': 'not_needed', 'activation': 'not_attempted'}
+    manager, stamp = ReleaseManager(client), f'{who} [{ref}]'
+    if designate:
+        written['designation'] = 'not_attempted'
+        _write(client, written, 'designation', 'designating the research release',
+               lambda: manager.designate_research_release(release_id, ref), _activation_summary)
+        written['designation'] = 'designated'
+    _write(client, written, 'activation', 'activating the draft',
+           lambda: manager.activate_release(release_id, stamp), _activation_summary)
+    written['activation'] = 'requested'
+    _confirm_active(client, release_id, written, 'activation')
+    written['activation'] = 'active'
+    _refresh_baseline(base, release_id, before, fingerprint_check, written, action='activate',
+                      actor=who, authorization_ref=ref, previous_active_release_id=previous)
+    return {'activated': True, 'release_id': release_id, 'package_id': package_id,
+            'active_release_id': release_id, 'previous_active_release_id': previous,
+            'designated_research': designate, 'authorization_ref': ref, 'actor': who, 'target': LOCAL_TARGET}
+
+
+def rollback_to(release_id, *, client, target_url, authorization_ref, actor, fingerprint_check,
+                baseline_dir) -> dict:
+    """Point the local active release back to a previously published (superseded) release."""
+    ref, who, base = _preflight(client, target_url, authorization_ref, actor, baseline_dir)
+    if not isinstance(release_id, str) or not _RELEASE_ID.fullmatch(release_id):
+        raise LocalReleaseError('release id is not a valid release label')
+    before = _frozen(base, fingerprint_check)
+    try:
+        row = _release_row(client, release_id)
+        previous = _active(client)
+    except StorageError as exc:
+        raise LocalReleaseError(f'local read failed before any write ({_reason(exc, client)})') from None
+    if row is None:
+        raise LocalReleaseError(f'release {release_id!r} not found')
+    if previous == release_id or row['status'] == 'active':
+        raise LocalReleaseError(f'release {release_id!r} is already active; nothing to roll back')
+    if row['status'] != 'superseded' or not row.get('published_at'):
+        raise LocalReleaseError(f"only a previously published release can be restored (status {row['status']!r})")
+    written = {'rollback': 'not_attempted'}
+    _write(client, written, 'rollback', 'rolling back',
+           lambda: ReleaseManager(client).rollback_release(release_id, f'{who} [{ref}]'), _activation_summary)
+    written['rollback'] = 'requested'
+    _confirm_active(client, release_id, written, 'rollback')
+    written['rollback'] = 'active'
+    _refresh_baseline(base, release_id, before, fingerprint_check, written, action='rollback',
+                      actor=who, authorization_ref=ref, previous_active_release_id=previous)
+    return {'rolled_back': True, 'release_id': release_id, 'active_release_id': release_id,
+            'previous_active_release_id': previous, 'authorization_ref': ref, 'actor': who, 'target': LOCAL_TARGET}

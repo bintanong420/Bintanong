@@ -113,6 +113,9 @@ class FakeClient:
     def rpc_names(self):
         return [c[1] for c in self.calls if c[0] == 'rpc']
 
+    def close(self):
+        self.closed = True
+
 
 @pytest.fixture
 def package(reviewed, tmp_path):  # noqa: F811
@@ -482,3 +485,60 @@ def test_baseline_dir_inside_a_git_checkout_is_refused_before_any_call(package, 
     with pytest.raises(api().LocalReleaseError, match='Git'):
         stage(package, client, fingerprint_check=check, baseline_dir=tmp_path / 'repo' / 'evidence')
     assert client.calls == [] and check.calls == 0
+
+
+def cli_fakes(monkeypatch, client, check):
+    seen = {}
+
+    def fake_client(target):
+        seen['target'] = target
+        return client
+
+    def fake_script(script, report_path):
+        seen['script'] = (script, report_path)
+        return check
+    monkeypatch.setattr(api(), 'local_client', fake_client)
+    monkeypatch.setattr(api(), 'fingerprint_script_check', fake_script)
+    return seen
+
+
+def stage_argv(package, tmp_path):
+    docs = tmp_path / 'documents.json'
+    docs.write_text(json.dumps(documents_for(package)), encoding='utf-8')
+    return ['stage', str(package), '--documents', str(docs), '--release-label', 'local-draft-test',
+            '--actor', 'Synthetic operator', '--baseline-dir', str(tmp_path / 'baselines'),
+            '--fingerprint-script', str(tmp_path / 'fingerprint.py'),
+            '--fingerprint-report', str(tmp_path / 'report.json')]
+
+
+def test_stage_command_prints_the_draft_result(package, tmp_path, monkeypatch, capsys):
+    from backend.bintanong_tools.knowledge_update.__main__ import main
+    client = FakeClient()
+    seen = cli_fakes(monkeypatch, client, Fingerprint())
+    assert main(stage_argv(package, tmp_path)) == 0
+    out = capsys.readouterr()
+    result = json.loads(out.out)
+    assert result['status'] == 'draft' and result['release_id'] == 'local-draft-test'
+    assert seen['target'] == LOCAL and client.closed
+    assert seen['script'] == (tmp_path / 'fingerprint.py', tmp_path / 'report.json')
+    assert SECRET not in out.out + out.err
+
+
+def test_stage_command_failure_exits_nonzero_with_what_was_written(package, tmp_path, monkeypatch, capsys):
+    from backend.bintanong_tools.knowledge_update.__main__ import main
+    client = FakeClient()
+    client.fail['load_knowledge_batch'] = StorageError('Embedding does not match chunk ' + SECRET, 400)
+    cli_fakes(monkeypatch, client, Fingerprint())
+    assert main(stage_argv(package, tmp_path)) == 1
+    out = capsys.readouterr()
+    assert out.out == ''
+    assert 'loading package chunks/vectors failed' in out.err
+    assert '"artifacts": "not_written"' in out.err and '"registration": "registered"' in out.err
+    assert SECRET not in out.err and client.closed
+
+
+def test_stage_command_has_no_key_option(package, tmp_path, monkeypatch):
+    from backend.bintanong_tools.knowledge_update.__main__ import main
+    cli_fakes(monkeypatch, FakeClient(), Fingerprint())
+    with pytest.raises(SystemExit):
+        main(stage_argv(package, tmp_path) + ['--service-role-key', SECRET])

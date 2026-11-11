@@ -53,7 +53,27 @@ def main(argv=None) -> int:
     verify_command = commands.add_parser('verify', help='Recheck all package/source/review/configuration bindings.')
     verify_command.add_argument('package', type=Path)
     verify_command.add_argument('--packet', type=Path)
+    # Local Supabase only (http://127.0.0.1:54321); the key comes only from the environment.
+    stage_command = commands.add_parser('stage', help='Stage a verified package as an inactive local draft.')
+    stage_command.add_argument('package', type=Path)
+    stage_command.add_argument('--documents', required=True, type=Path, help='JSON list of storage document metadata')
+    stage_command.add_argument('--release-label', required=True)
+    activate_command = commands.add_parser('activate', help='Activate a checked local draft (owner-authorized).')
+    activate_command.add_argument('release_id')
+    activate_command.add_argument('--package', required=True, type=Path)
+    activate_command.add_argument('--checks-report', required=True, type=Path)
+    rollback_command = commands.add_parser('rollback', help='Point the local active release back to a prior one.')
+    rollback_command.add_argument('release_id')
+    for command in (stage_command, activate_command, rollback_command):
+        if command is not stage_command:
+            command.add_argument('--authorization-ref', required=True)
+        command.add_argument('--actor', required=True)
+        command.add_argument('--baseline-dir', required=True, type=Path)
+        command.add_argument('--fingerprint-script', required=True, type=Path)
+        command.add_argument('--fingerprint-report', required=True, type=Path)
     args = parser.parse_args(argv)
+    if args.command in ('stage', 'activate', 'rollback'):
+        return _local_release(args)
     try:
         with contextlib.redirect_stdout(sys.stderr):
             if args.command == 'evaluation-sample':
@@ -97,6 +117,39 @@ def main(argv=None) -> int:
         print(f'Ingestion incomplete: {exc}', file=sys.stderr)
         return 1
     return 2 if args.command == 'parse-llama' and result['failed_pages'] else 0
+
+
+def _local_release(args) -> int:
+    from . import local_release as lr
+    try:
+        with contextlib.redirect_stdout(sys.stderr):
+            check = lr.fingerprint_script_check(args.fingerprint_script, args.fingerprint_report)
+            common = dict(target_url=lr.LOCAL_TARGET, fingerprint_check=check, actor=args.actor,
+                          baseline_dir=args.baseline_dir)
+            if args.command == 'stage':
+                documents = json.loads(args.documents.read_text(encoding='utf-8'))
+            client = lr.local_client(lr.LOCAL_TARGET)
+            try:
+                if args.command == 'stage':
+                    result = lr.stage_draft(args.package, client=client, release_label=args.release_label,
+                                            documents=documents, **common)
+                elif args.command == 'activate':
+                    result = lr.activate_draft(args.release_id, client=client, package_path=args.package,
+                        checks_report=args.checks_report, authorization_ref=args.authorization_ref, **common)
+                else:
+                    result = lr.rollback_to(args.release_id, client=client,
+                                            authorization_ref=args.authorization_ref, **common)
+            finally:
+                client.close()
+        print(json.dumps(result))
+    except lr.LocalReleaseError as exc:
+        print(f'Local release refused or incomplete: {exc}', file=sys.stderr)
+        print(json.dumps({'written': exc.written}), file=sys.stderr)
+        return 1
+    except (ValueError, OSError) as exc:
+        print(f'Local release refused: {exc}', file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == '__main__':
