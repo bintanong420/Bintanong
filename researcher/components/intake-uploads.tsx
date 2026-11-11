@@ -5,8 +5,8 @@ import { IntakeBuild } from '@/components/intake-build';
 import { PipelineSteps, StatusIcon, StatusTag } from '@/components/intake-status';
 import { Button } from '@/components/ui/button';
 import type { UploadState } from '@/components/use-upload-states';
-import { request } from '@/lib/api';
-import { buildSummary, formatBytes, formatElapsed, latestLogLine, pipelineSteps } from '@/lib/intake';
+import { request, ReviewError } from '@/lib/api';
+import { buildChecklist, buildControl, buildSummary, formatBytes, opensMetadataForm, REBUILD_NOTE, formatElapsed, latestLogLine, pipelineSteps } from '@/lib/intake';
 import { knowledgeUrl, packageSourceId } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
@@ -65,6 +65,8 @@ type DetailProps = { upload: Upload; state: UploadState | undefined; current: bo
 export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function UploadDetail(
     { upload, state: entry, current, onOpen, onChanged, onPatch, onCompare, comparing }, headingRef) {
   const [busy, setBusy] = useState(false), [refused, setRefused] = useState(''), [buildRefused, setBuildRefused] = useState('');
+  const [buildCode, setBuildCode] = useState<string | undefined>(), [formOpen, setFormOpen] = useState(false);
+  const formSummary = useRef<HTMLElement>(null);
   const status = entry?.prepare, build = entry?.build, state = status?.state;
   const steps = pipelineSteps(state, current, build);
   const prepareElapsed = useElapsed(state === 'running'), buildElapsed = useElapsed(build?.state === 'running');
@@ -73,6 +75,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
   const id = upload.upload_id, base = 'upload-' + id;
   const stopped = state === 'failed' || state === 'interrupted';
   const buildStopped = build?.state === 'failed' || build?.state === 'interrupted';
+  const control = buildControl(state === 'done', build);
 
   async function start(assist: boolean) {
     setBusy(true); setRefused('');
@@ -86,11 +89,18 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
   }
 
   async function startBuild() {
-    setBusy(true); setBuildRefused('');
+    setBusy(true); setBuildRefused(''); setBuildCode(undefined);
     try {
       await request(REVIEW_CONNECTION, '/api/intake/build', { method: 'POST', body: JSON.stringify({ upload_id: id }) });
       await onChanged(id);
-    } catch (failure) { setBuildRefused(message(failure)); }
+    } catch (failure) {
+      // the server's wording is shown as written; its code only decides what else to do
+      setBuildRefused(message(failure));
+      const code = failure instanceof ReviewError ? failure.code : undefined;
+      setBuildCode(code);
+      if (opensMetadataForm(code) && current) { setFormOpen(true); setTimeout(() => formSummary.current?.focus(), 0); }
+      if (code === 'package_exists' || code === 'build_running') await onChanged(id);
+    }
     finally { setBusy(false); }
   }
 
@@ -164,27 +174,31 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
         {build?.state === 'running' && <p className="notice"><span className="spinner" aria-hidden="true" /><span>Building the knowledge package. This page checks every 3 seconds. Seen running for {formatElapsed(buildElapsed)} on this page.</span></p>}
         {build?.state === 'done' && <p className="notice success"><span><strong>{buildSummary(build) || 'Built'}.</strong>{' '}
           {build.package ? <a href={knowledgeUrl({ source: packageSourceId(id), q: '', chunk: '', offset: 0 })}>View these chunks in Knowledge</a> : 'The server returned no package details.'}</span></p>}
-        {!build && !entry?.buildError && state === 'done' && <p className="hint">Not built yet. Building turns the prepared packet into chunks you can browse in Knowledge. It approves and activates nothing.</p>}
-        {!build && state !== 'done' && <p className="hint">Available once Prepare is done.</p>}
+        {control.kind === 'none' && <p className="hint">{REBUILD_NOTE}</p>}
+        {control.kind === 'start' && <>
+          <p className="hint">Building turns the prepared packet into chunks you can browse in Knowledge. It approves and activates nothing, and it runs once per upload.</p>
+          <ul className="checklist" aria-label="Before the first build">{buildChecklist(state === 'done').map(row =>
+            <li key={row.key}><StatusTag status={row.status}>{row.text}</StatusTag></li>)}</ul></>}
       </div>
       {buildStopped && <p className="notice error" role="alert"><span>
         <strong>{build?.state === 'failed' ? 'Build failed.' : 'Build was interrupted.'}</strong>{' '}
         {build?.state === 'interrupted' ? 'The review server restarted while it ran. ' : ''}
-        {build?.exit_code !== undefined && `Exit code ${build.exit_code}. `}{build?.error ?? ''} You can build again.</span></p>}
-      {buildRefused && <p className="notice error" role="alert"><span><strong>The server did not start Build.</strong> {buildRefused}</span></p>}
+        {build?.exit_code !== undefined && `Exit code ${build.exit_code}. `}{build?.error ?? ''}</span></p>}
+      {buildRefused && <p className="notice error" role="alert"><span><strong>The server did not start Build.</strong> {buildRefused}
+        {opensMetadataForm(buildCode) && !current && ' Open this upload for review, then save its readings and claims form.'}</span></p>}
       {entry?.buildError && <p className="notice error" role="alert"><span><strong>The Build status could not be checked.</strong> {entry.buildError}</span>
         <Button variant="outline" size="sm" onClick={() => void onChanged(id)}>Check again</Button></p>}
-      <div className="intake-actions"><div className="action-choice">
-        <Button disabled={busy || state !== 'done' || build?.state === 'running'} onClick={() => void startBuild()} aria-describedby={base + '-build-hint'}>
-          {build?.state === 'done' || buildStopped ? 'Build again' : 'Build chunks'}</Button>
-        <p className="hint" id={base + '-build-hint'}>{build?.state === 'running' ? 'A build is running.' : 'Starts one build for this upload on the review server.'}</p></div></div>
+      {(control.kind === 'start' || control.kind === 'retry') && <div className="intake-actions"><div className="action-choice">
+        <Button disabled={busy || state !== 'done'} onClick={() => void startBuild()} aria-describedby={base + '-build-hint'}>{control.label}</Button>
+        <p className="hint" id={base + '-build-hint'}>{state !== 'done' ? 'Available once Prepare is done.'
+          : control.kind === 'retry' ? 'A retry is allowed only while no package was produced.' : 'Starts one build for this upload on the review server.'}</p></div></div>}
       {!!buildLog.length && <div className="log-viewer"><details open={buildStopped}>
         <summary>Build log ({buildLog.length} {buildLog.length === 1 ? 'line' : 'lines'}, raw)</summary>
         <pre className="intake-log" tabIndex={0} role="region" aria-label={`Build log for ${upload.title}`}>{buildLog.join('\n')}</pre></details></div>}
     </section>
 
-    {current && <details className="metadata-form">
-      <summary>Readings and claims form (build metadata for the open upload)</summary>
+    {current && <details className="metadata-form" open={formOpen} onToggle={event => setFormOpen(event.currentTarget.open)}>
+      <summary ref={formSummary}>Readings and claims form (build metadata for the open upload)</summary>
       <IntakeBuild uploadId={id} />
     </details>}
   </article>;

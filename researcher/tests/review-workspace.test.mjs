@@ -3,7 +3,7 @@ import test from 'node:test';
 import { SECTIONS, prospectusDocuments, reviewSection } from '../lib/review-nav.ts';
 import { chunksQuery, groupSources, knowledgeUrl, pageImagePath, pageWindow, parseKnowledgeUrl, packageSourceId } from '../lib/knowledge.ts';
 import { clampPage, itemsOnPage, pagesOf } from '../lib/compare.ts';
-import { buildLabel, buildSummary, pipelineSteps, shouldPollBuild } from '../lib/intake.ts';
+import { buildChecklist, buildControl, buildLabel, buildSummary, opensMetadataForm, pipelineSteps, REBUILD_NOTE, shouldPollBuild } from '../lib/intake.ts';
 
 test('the current section follows the address and keeps every old review URL under Documents or Prospectus', () => {
   assert.deepEqual(SECTIONS.map(s => s.href), ['/review/intake', '/review', '/review/prospectus', '/review/knowledge']);
@@ -106,4 +106,39 @@ test('the Build step is words as well as status, and reflects the build job', ()
   assert.equal(shouldPollBuild(undefined), false);
   assert.match(buildLabel('interrupted'), /restarted/);
   assert.equal(buildLabel('weird'), 'Unknown state');
+});
+
+test('the API client keeps the server message and its machine-readable code', async () => {
+  const { request, ReviewError } = await import('../lib/api.ts');
+  const original = globalThis.fetch;
+  try {
+    globalThis.fetch = async () => new Response(JSON.stringify({ error: 'A package already exists.', code: 'package_exists' }), { status: 409 });
+    await assert.rejects(request({ api: '/review' }, '/api/intake/build'), error => {
+      assert.ok(error instanceof ReviewError);
+      assert.equal(error.message, 'A package already exists.');
+      assert.equal(error.status, 409);
+      assert.equal(error.code, 'package_exists');
+      return true;
+    });
+    globalThis.fetch = async () => new Response('not json', { status: 503 });
+    await assert.rejects(request({ api: '/review' }, '/x'), error => error.code === undefined && /503/.test(error.message));
+  } finally { globalThis.fetch = original; }
+});
+
+test('Build offers one start, only a retry after a failure, and nothing after success', () => {
+  assert.deepEqual(buildControl(true, undefined), { kind: 'start', label: 'Build chunks' });
+  assert.deepEqual(buildControl(false, undefined), { kind: 'start', label: 'Build chunks' });
+  assert.equal(buildControl(true, { state: 'running' }).kind, 'running');
+  assert.deepEqual(buildControl(true, { state: 'failed' }), { kind: 'retry', label: 'Try the build again' });
+  assert.equal(buildControl(true, { state: 'interrupted' }).kind, 'retry');
+  assert.equal(buildControl(true, { state: 'done' }).kind, 'none');
+  assert.match(REBUILD_NOTE, /needs a new upload/);
+});
+
+test('the pre-build checklist and the refusal codes', () => {
+  assert.deepEqual(buildChecklist(true).map(row => [row.key, row.status]), [['prepared', 'done'], ['form', 'unknown']]);
+  assert.equal(buildChecklist(false)[0].status, 'blocked');
+  assert.match(buildChecklist(true)[1].text, /Save the readings and claims form first/);
+  assert.equal(opensMetadataForm('metadata_missing'), true);
+  for (const code of ['not_prepared', 'package_exists', 'build_running', 'model_dir_missing', 'interpreter_missing', undefined]) assert.equal(opensMetadataForm(code), false);
 });

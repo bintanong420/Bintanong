@@ -333,3 +333,4 @@ label.inline input { min-height: 0; inline-size: 1.15rem; block-size: 1.15rem; f
   .knowledge-main { position: sticky; inset-block-start: 1rem; }
 }
 @media (max-width: 900px) { .knowledge-side .chunk-rows { max-block-size: 24rem; overflow: auto; padding: 3px; } }
+.checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; }

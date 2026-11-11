@@ -1,7 +1,9 @@
 import type { Connection } from './review-state';
 
 export class ReviewError extends Error {
-  constructor(message: string, public status: number) { super(message); }
+  status: number;
+  code?: string;  // machine-readable reason from the server, e.g. package_exists
+  constructor(message: string, status: number, code?: string) { super(message); this.status = status; this.code = code; }
 }
 
 export async function request(connection: Connection, path: string, init: RequestInit = {}) {
@@ -10,7 +12,8 @@ export async function request(connection: Connection, path: string, init: Reques
     headers: { ...(init.body ? { 'Content-Type': 'application/json' } : {}), ...init.headers } });
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
-    throw new ReviewError(body.error ?? `Review request failed (${response.status}).`, response.status);
+    throw new ReviewError(body.error ?? `Review request failed (${response.status}).`, response.status,
+      typeof body.code === 'string' ? body.code : undefined);
   }
   return response;
 }
