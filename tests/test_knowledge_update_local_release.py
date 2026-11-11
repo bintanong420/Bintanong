@@ -298,6 +298,8 @@ def test_readback_mismatch_raises(package, tamper, message):
     with pytest.raises(api().LocalReleaseError, match=message) as caught:
         stage(package, client)
     assert caught.value.written['release'] == 'created'
+    if message == 'active':  # the static "nothing activated" claim would be false here
+        assert 'Nothing was activated' not in str(caught.value)
 
 
 def test_readback_detects_chunk_content_drift(package):

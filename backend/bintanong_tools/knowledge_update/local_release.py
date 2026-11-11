@@ -197,7 +197,8 @@ def _read_back(client, package: dict, label: str, release_version: str, set_id: 
         fail('stored chunks differ from the package')
     after = _active(client)
     if after != active_before:
-        fail(f'active release changed from {active_before!r} to {after!r}')
+        raise LocalReleaseError(f'read-back mismatch: active release changed from {active_before!r} to {after!r} '
+                                'during staging; this module did not request it. Inspect the local stack.', written)
     return len(members), len(vectors), len(versions)
 
 
