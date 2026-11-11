@@ -9,6 +9,10 @@ package_binding repeats the digests load_package already verified (package_id, w
 manifest and every file digest, plus the chunk/embedding/embedding-manifest file digests and the
 embedding_set_id). The report is unsigned and trusted only as a local-operator artifact: binding
 proves which package bytes it was produced for, not who produced it.
+
+Limits: ranking is raw cosine rank within the package; answer-time scope, entity hints and
+evidence-policy filters are not applied. Pass build.LocalEncoder: a bare SeaLionEmbeddingAdapter
+without its model library silently falls back to mock vectors.
 """
 from __future__ import annotations
 
@@ -79,6 +83,9 @@ def run_checks(package_path, cases_path, out_path, *, encoder) -> dict:
     files = package['manifest']['files']
     results = []
     for case in cases:
+        # the runtime query encoder refuses over-length queries; the adapter would silently truncate
+        if encoder.count_tokens(case['question'], is_query=True).count > encoder.config.max_context_length:
+            raise ValueError(f"case {case['case_id']}: question too long for the embedding model context")
         vector = encoder.encode_queries([case['question']])[0]
         hits = _retrieve(storage, vector, case['top_k'])
         retrieved = [{'chunk_id': c['chunk_id'], 'reading_id': c['type_fields']['reading_id'], 'score': s}

@@ -159,3 +159,8 @@ def test_package_binding_comes_from_package_digests(package, tmp_path):
         'chunks_sha256': files['chunks.jsonl'], 'embeddings_sha256': files['embeddings.jsonl'],
         'embedding_manifest_sha256': files['embedding_manifest.json'],
         'embedding_set_id': loaded['embedding_manifest']['embedding_set_id']}
+
+def test_question_longer_than_the_model_context_is_refused(package, tmp_path):
+    long = ' '.join(['word'] * 600)  # synthetic counter: words + 2 tokens, over the 512-token context
+    with pytest.raises(ValueError, match='too long'):
+        run(package, tmp_path, [row(question=long)])
