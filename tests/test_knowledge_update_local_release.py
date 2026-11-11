@@ -139,7 +139,8 @@ class Fingerprint:
 
 def stage(package, client, **overrides):
     kwargs = dict(client=client, target_url=LOCAL, fingerprint_check=Fingerprint(),
-                  release_label='local-draft-test', actor='Synthetic operator')
+                  release_label='local-draft-test', actor='Synthetic operator',
+                  baseline_dir=package.parent / 'baselines')
     kwargs.update(overrides)
     if 'documents' not in kwargs:
         kwargs['documents'] = documents_for(package)
@@ -389,3 +390,95 @@ def test_unexpected_write_error_is_reported_unknown_and_redacted(package):
     assert caught.value.written['release'] == 'not_attempted'
     assert 'not activated' in str(caught.value)
     assert SECRET not in str(caught.value) and SECRET not in repr(caught.value)
+
+
+def report(hosted, local, tables=('chunks', 'knowledge_releases', 'courses')):
+    return {t: {'same': hosted == local, 'hosted_rows': 3, 'local_rows': 3,
+                'hosted_sha256': hosted + t, 'local_sha256': local + t} for t in tables}
+
+
+class Reports:
+    """Returns the given reports in order, one per fingerprint run."""
+
+    def __init__(self, *reports):
+        self.reports, self.calls = list(reports), 0
+
+    def __call__(self):
+        self.calls += 1
+        return copy.deepcopy(self.reports.pop(0))
+
+
+def test_freeze_rule_first_run_strict_then_matches_the_post_stage_baseline(package):
+    client, base = FakeClient(), package.parent / 'baselines'
+    stage(package, client, fingerprint_check=Reports(report('h', 'h'), report('h', 'l1')))
+    pointer = json.loads((base / 'fingerprint-baseline.json').read_text(encoding='utf-8'))
+    assert pointer['release_id'] == 'local-draft-test'
+    saved = json.loads((base / 'fingerprint-after-local-draft-test.json').read_text(encoding='utf-8'))
+    assert saved == report('h', 'l1')  # the post-write report, not the pre-write one
+    again = stage(package, client, fingerprint_check=Reports(report('h', 'l1'), report('h', 'l1')))
+    assert again['created'] is False
+
+
+@pytest.mark.parametrize('second, message', [(report('h2', 'l1'), 'hosted'), (report('h', 'l2'), 'local')])
+def test_freeze_rule_refuses_when_either_side_moved_from_the_baseline(package, second, message):
+    client = FakeClient()
+    stage(package, client, fingerprint_check=Reports(report('h', 'h'), report('h', 'l1')))
+    calls = len(client.rpc_names())
+    with pytest.raises(api().LocalReleaseError, match=message):
+        stage(package, client, fingerprint_check=Reports(second))
+    assert len(client.rpc_names()) == calls
+
+
+def test_freeze_rule_refuses_a_baseline_with_a_different_table_set(package):
+    client = FakeClient()
+    stage(package, client, fingerprint_check=Reports(report('h', 'h'), report('h', 'l1')))
+    with pytest.raises(api().LocalReleaseError, match='table'):
+        stage(package, client, fingerprint_check=Reports(report('h', 'l1', tables=('chunks',))))
+
+
+@pytest.mark.parametrize('pointer', ['not json', '[]', '{"schema_version": "other", "release_id": "x", '
+    '"report": "fingerprint-after-x.json"}', '{"schema_version": "bintanong-fingerprint-baseline-v1", '
+    '"release_id": "x", "report": "../elsewhere.json"}', '{"schema_version": "bintanong-fingerprint-baseline-v1", '
+    '"release_id": "x", "report": "fingerprint-after-x.json"}'])
+def test_freeze_rule_refuses_a_malformed_or_foreign_baseline(package, pointer):
+    base = package.parent / 'baselines'
+    base.mkdir()
+    (base / 'fingerprint-baseline.json').write_text(pointer, encoding='utf-8')
+    client = FakeClient()
+    with pytest.raises(api().LocalReleaseError, match='baseline'):
+        stage(package, client, fingerprint_check=Reports(report('h', 'l1')))
+    assert client.calls == []
+
+
+def test_freeze_rule_refuses_a_baseline_report_that_is_not_a_report(package):
+    base = package.parent / 'baselines'
+    base.mkdir()
+    (base / 'fingerprint-baseline.json').write_text('{"schema_version": "bintanong-fingerprint-baseline-v1", '
+        '"release_id": "x", "report": "fingerprint-after-x.json"}', encoding='utf-8')
+    (base / 'fingerprint-after-x.json').write_text('{"chunks": "same"}', encoding='utf-8')
+    with pytest.raises(api().LocalReleaseError, match='baseline'):
+        stage(package, FakeClient(), fingerprint_check=Reports(report('h', 'l1')))
+
+
+def test_baseline_is_never_written_on_a_failed_stage(package):
+    client, base = FakeClient(), package.parent / 'baselines'
+    client.fail['load_knowledge_batch'] = StorageError('Embedding does not match chunk', 400)
+    with pytest.raises(api().LocalReleaseError):
+        stage(package, client, fingerprint_check=Reports(report('h', 'h'), report('h', 'l1')))
+    assert not base.exists() or not any(base.iterdir())
+
+
+def test_post_stage_fingerprint_that_shows_hosted_moved_writes_no_baseline(package):
+    client, base = FakeClient(), package.parent / 'baselines'
+    with pytest.raises(api().LocalReleaseError, match='hosted') as caught:
+        stage(package, client, fingerprint_check=Reports(report('h', 'h'), report('h2', 'l1')))
+    assert caught.value.written['release'] == 'created'
+    assert not base.exists() or not any(base.iterdir())
+
+
+def test_baseline_dir_inside_a_git_checkout_is_refused_before_any_call(package, tmp_path):
+    (tmp_path / 'repo' / '.git').mkdir(parents=True)
+    client, check = FakeClient(), Fingerprint()
+    with pytest.raises(api().LocalReleaseError, match='Git'):
+        stage(package, client, fingerprint_check=check, baseline_dir=tmp_path / 'repo' / 'evidence')
+    assert client.calls == [] and check.calls == 0

@@ -56,6 +56,12 @@ def check_target(target_url) -> None:
                                 'hosted stays read-only (owner, 8 Nov 2026)')
 
 
+def _check_client(target_url, client) -> None:
+    check_target(target_url)
+    if getattr(client, 'base_url', None) != LOCAL_TARGET + '/rest/v1':
+        raise LocalReleaseError('refused: the storage client is not bound to the local target')
+
+
 @dataclass(frozen=True)
 class _LocalConfig(StorageConfig):
     anon_key: str = field(repr=False)
@@ -135,11 +141,94 @@ def _active(client):
     return rows[0]['release_id'] if rows else None
 
 
-def _require_same(report) -> None:
-    if (not isinstance(report, Mapping) or not report
-            or any(not isinstance(v, Mapping) or v.get('same') is not True for v in report.values())):
-        raise LocalReleaseError('hosted/local fingerprint does not report every table equal; '
-                                'refusing to write until hosted and local match')
+def _is_report(report) -> bool:
+    return (isinstance(report, Mapping) and bool(report) and all(
+        isinstance(v, Mapping) and isinstance(v.get('same'), bool) for v in report.values()))
+
+
+def _side(row, side):
+    return row.get(side + '_sha256'), row.get(side + '_rows')
+
+
+def _require_consistent(report, baseline) -> None:
+    """Freeze rule (owner, 11 Nov 2026): every table equal, or both sides unchanged since the
+    baseline this tool wrote after its own last successful write."""
+    if not _is_report(report):
+        raise LocalReleaseError('fingerprint report is malformed; refusing to write')
+    if all(v['same'] is True for v in report.values()):
+        return
+    if baseline is None:
+        raise LocalReleaseError('hosted/local fingerprint does not report every table equal and no '
+                                'baseline exists; refusing to write until hosted and local match')
+    if set(report) != set(baseline):
+        raise LocalReleaseError('fingerprint table set differs from the baseline; refusing to write')
+    for side, why in (('hosted', 'hosted changed since the baseline'),
+                      ('local', 'local changed since the baseline (another writer?)')):
+        moved = [t for t in report if _side(report[t], side) != _side(baseline[t], side)
+                 or _side(report[t], side) == (None, None)]
+        if moved:
+            raise LocalReleaseError(f'fingerprint: {why} in {", ".join(sorted(moved))}; refusing to write')
+
+
+_POINTER = 'fingerprint-baseline.json'
+_BASELINE_SCHEMA = 'bintanong-fingerprint-baseline-v1'
+_RELEASE_ID = re.compile(r'[A-Za-z0-9._-]{1,100}')
+
+
+def _baseline_root(baseline_dir) -> Path:
+    if baseline_dir is None:
+        raise LocalReleaseError('an explicit baseline directory outside Git is required')
+    root = Path(baseline_dir).resolve()
+    if any((p / '.git').exists() for p in (root, *root.parents)):
+        raise LocalReleaseError('refused: the baseline directory is inside a Git checkout; keep it in ignored evidence')
+    return root
+
+
+def _load_baseline(root: Path):
+    pointer = root / _POINTER
+    if not pointer.exists():
+        return None
+    try:
+        data = json.loads(pointer.read_text(encoding='utf-8'))
+        rid = data['release_id']
+        if (data.get('schema_version') != _BASELINE_SCHEMA or not isinstance(rid, str)
+                or not _RELEASE_ID.fullmatch(rid) or data.get('report') != f'fingerprint-after-{rid}.json'):
+            raise ValueError
+        report = json.loads((root / data['report']).read_text(encoding='utf-8'))
+    except (ValueError, TypeError, KeyError, OSError):
+        raise LocalReleaseError('fingerprint baseline is malformed or foreign; refusing to write') from None
+    if not _is_report(report):
+        raise LocalReleaseError('fingerprint baseline report is malformed; refusing to write')
+    return report
+
+
+def _write_baseline(root: Path, release_id: str, report, **record) -> None:
+    root.mkdir(parents=True, exist_ok=True)
+    name = f'fingerprint-after-{release_id}.json'
+    for path, data in ((root / name, report), (root / _POINTER, {'schema_version': _BASELINE_SCHEMA,
+                        'release_id': release_id, 'report': name, **record})):
+        tmp = path.with_suffix('.tmp')
+        tmp.write_text(json.dumps(data, indent=2, sort_keys=True), encoding='utf-8')
+        os.replace(tmp, path)
+
+
+def _run_fingerprint(fingerprint_check, written=None):
+    try:
+        return fingerprint_check()
+    except Exception as exc:  # the check is injected; any failure means "not proven equal"
+        raise LocalReleaseError(f'fingerprint check failed ({type(exc).__name__}); refusing to write'
+                                if written is None else f'post-write fingerprint check failed '
+                                f'({type(exc).__name__}); baseline not refreshed', written) from None
+
+
+def _refresh_baseline(root, release_id, before, fingerprint_check, written, **record) -> None:
+    """Capture the post-write report; hosted must not have moved while this tool wrote locally."""
+    after = _run_fingerprint(fingerprint_check, written)
+    if not _is_report(after) or set(after) != set(before) or any(
+            _side(after[t], 'hosted') != _side(before[t], 'hosted') for t in after):
+        raise LocalReleaseError('post-write fingerprint shows hosted changed or is malformed; baseline not '
+                                'refreshed. Inspect before the next write.', written)
+    _write_baseline(root, release_id, after, **record)
 
 
 def _existing_release(client, label: str, release_version: str, set_id: str):
@@ -203,13 +292,13 @@ def _read_back(client, package: dict, label: str, release_version: str, set_id: 
 
 
 def stage_draft(package_path, *, client, target_url, fingerprint_check, release_label: str, actor: str,
-                documents: list[dict], packet_root=None) -> dict:
+                documents: list[dict], baseline_dir, packet_root=None) -> dict:
     """Stage one package as an inactive draft. `documents` is the explicit storage metadata
     (document_id, namespace, synthetic, document_category, title) for every package source
-    document; the storage category is never inferred from the package."""
-    check_target(target_url)
-    if getattr(client, 'base_url', None) != LOCAL_TARGET + '/rest/v1':
-        raise LocalReleaseError('refused: the storage client is not bound to the local target')
+    document; the storage category is never inferred from the package. After success the
+    post-write fingerprint becomes the freeze baseline in `baseline_dir` (outside Git)."""
+    _check_client(target_url, client)
+    base = _baseline_root(baseline_dir)
     if not isinstance(release_label, str) or not _LABEL.fullmatch(release_label):
         raise LocalReleaseError('release label must be 3-100 lowercase letters, digits, ".", "_" or "-"')
     if not isinstance(actor, str) or not actor.strip() or len(actor) > 120 or not actor.isprintable():
@@ -236,11 +325,9 @@ def stage_draft(package_path, *, client, target_url, fingerprint_check, release_
             {d['document_id'] for d in documents}):
         raise LocalReleaseError('storage document metadata must match the package source documents exactly')
 
-    try:
-        same = fingerprint_check()
-    except Exception as exc:  # the check is injected; any failure means "not proven equal"
-        raise LocalReleaseError(f'fingerprint check failed ({type(exc).__name__}); refusing to write') from None
-    _require_same(same)
+    baseline = _load_baseline(base)
+    before = _run_fingerprint(fingerprint_check)
+    _require_consistent(before, baseline)
 
     release_version = 'package-' + package_id
     try:
@@ -286,6 +373,7 @@ def stage_draft(package_path, *, client, target_url, fingerprint_check, release_
 
     chunks, embeddings, versions = _read_back(client, package, release_label, release_version, set_id,
                                               active_before, written)
+    _refresh_baseline(base, release_label, before, fingerprint_check, written, action='stage', actor=actor.strip())
     return {'staged': True, 'created': existing is None, 'release_id': release_label,
             'release_version': release_version, 'package_id': package_id, 'embedding_set_id': set_id,
             'status': 'draft', 'chunks': chunks, 'embeddings': embeddings, 'document_versions': versions,
