@@ -78,7 +78,8 @@ def test_metadata_refuses_pending_or_unknown_readings(reviewed):
 @pytest.mark.parametrize('bad', [{'reading_ids': 'handbook:text-0'}, {'assignments': [{'reading_id': 'handbook:text-0'}]},
                                  {'claim_reviews': []}, {'extra': 1},
                                  {'assignments': [{'reading_id': 'handbook:text-0', 'subject_id': 'forms',
-                                                   'basis_ref': 'forged'}]}])
+                                                   'basis_ref': 'forged'}]},
+                                 {'claim_reviews': [{**form()['claim_reviews'][0], 'basis_ref': 'forged'}]}])
 def test_metadata_refuses_malformed_forms(reviewed, bad):
     root, _ = reviewed
     with ReviewSession(root, 'Synthetic researcher') as review:
