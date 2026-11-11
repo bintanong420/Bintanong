@@ -87,6 +87,15 @@ prerequisite's sibling "unknown" instead of saying the stated failure is unmet; 
 Owner graded row 5 x3 correct (8 Nov): listing every A/B part as required is the expected answer; the re-ask about
 the already-stated NCM15-115A is a wording limitation only. Other rows not yet graded.
 
+## 22-query latency run (11 Nov)
+Owner's `Bintanong 22 bench queries test log.csv` (Ch. IV benchmark: rows 1-24 minus 7 and 10; 4 updated
+wordings in rows 19-21) x EN/Tagalog/Taglish = 66, on this branch `073035f4`, 8022 dev settings, port 8025, via `/chat`.
+Warm (63/66; Q04-TL, Q04-TG, Q19-TG excluded: ~3 s "check temporarily unavailable", Prolog check failed, cause
+not yet diagnosed; same questions answered on 8 Nov at `995378ce`): mean 15.23 s, median 15.31, p90 20.91, max 30.47;
+Prolog subset 13.77 mean, RAG subset 16.02. Cold: model 108 s + API 149 s + first query 20.9 s = 278 s. Hot
+(API restart, model loaded): 108 s + 19.4 s = 127 s. Backend time only; RAM low (warm min 454 MB available).
+Evidence/CSVs: ignored `audit-evidence/p12-latency-22-20261111/`. All Docker (Supabase, Binturong) stopped for RAM.
+
 ## Next action
 
 Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
