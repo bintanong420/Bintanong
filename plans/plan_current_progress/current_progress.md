@@ -90,11 +90,15 @@ the already-stated NCM15-115A is a wording limitation only. Other rows not yet g
 ## 22-query latency run (11 Nov)
 Owner's `Bintanong 22 bench queries test log.csv` (Ch. IV benchmark: rows 1-24 minus 7 and 10; 4 updated
 wordings in rows 19-21) x EN/Tagalog/Taglish = 66, on this branch `073035f4`, 8022 dev settings, port 8025, via `/chat`.
-Warm (63/66; Q04-TL, Q04-TG, Q19-TG excluded: ~3 s "check temporarily unavailable", Prolog check failed, cause
-not yet diagnosed; same questions answered on 8 Nov at `995378ce`): mean 15.23 s, median 15.31, p90 20.91, max 30.47;
+Warm (63/66; Q04-TL, Q04-TG, Q19-TG excluded: ~3 s "check temporarily unavailable"): mean 15.23 s, median 15.31, p90 20.91, max 30.47;
 Prolog subset 13.77 mean, RAG subset 16.02. Cold: model 108 s + API 149 s + first query 20.9 s = 278 s. Hot
 (API restart, model loaded): 108 s + 19.4 s = 127 s. Backend time only; RAM low (warm min 454 MB available).
 Evidence/CSVs: ignored `audit-evidence/p12-latency-22-20261111/`. All Docker (Supabase, Binturong) stopped for RAM.
+Failure diagnosis (`diag-failures/`, 6/6 reruns reproduce, not memory): topic selection picks 2-3 topics for these
+wordings (Q04-TL/TG: prerequisite + substitution + DAC policy / drop-shift FAQ; Q19-TG: student FAQ + transfer
+credentials); the router prompt grows 27.1k -> 32.9-34.4k chars and the transport preflight raises `context_overflow`
+(prompt + output reserve > 8192). Routing has no overflow fallback (orchestrator maps it to `tool_error`). Fix not
+started; awaiting owner choice.
 
 ## Next action
 
