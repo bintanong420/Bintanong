@@ -36,6 +36,14 @@ def main(argv=None) -> int:
     review_command.add_argument('--api-port', type=int, default=8765)
     review_command.add_argument('--ui-port', type=int, default=3050)
     review_command.add_argument('--no-open', action='store_true')
+    intake_command = commands.add_parser('intake', help='Open the local researcher tool for uploading and reviewing PDFs.')
+    intake_command.add_argument('workspace', type=Path, help='ignored folder outside Git for uploads')
+    intake_command.add_argument('--reviewer', required=True)
+    intake_command.add_argument('--prepare-python', required=True, type=Path,
+                                help='interpreter of the venv where native Docling works')
+    intake_command.add_argument('--api-port', type=int, default=8765)
+    intake_command.add_argument('--ui-port', type=int, default=3050)
+    intake_command.add_argument('--no-open', action='store_true')
     build_command = commands.add_parser('build', help='Build reviewed candidate chunks and compatible metadata.')
     build_command.add_argument('packet', type=Path)
     build_command.add_argument('--out', required=True, type=Path)
@@ -71,6 +79,11 @@ def main(argv=None) -> int:
             elif args.command == 'review':
                 from .serve import serve
                 serve(args.packet, args.reviewer, api_port=args.api_port, ui_port=args.ui_port, open_browser=not args.no_open)
+                result = {'review_closed': True}
+            elif args.command == 'intake':
+                from .serve import serve
+                serve(None, args.reviewer, api_port=args.api_port, ui_port=args.ui_port, open_browser=not args.no_open,
+                      workspace=args.workspace, prepare_python=str(args.prepare_python))
                 result = {'review_closed': True}
             elif args.command == 'build':
                 from .build import LocalEncoder, build

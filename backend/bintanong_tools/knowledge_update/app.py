@@ -227,4 +227,20 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
         def prepare_status(upload_id: str):
             return intake.prepare_status(workspace, upload_id)
 
+    if isinstance(session, intake.SessionSlot):
+
+        @app.get('/api/intake/current')
+        def current():
+            return {'upload_id': session.upload_id}
+
+        @app.post('/api/intake/open')
+        async def open_upload(request: Request):
+            command = await read_command(request)
+            if isinstance(command, Response):
+                return command
+            if not isinstance(command, dict) or set(command) != {'upload_id'}:
+                raise ValueError('open needs upload_id only')
+            from starlette.concurrency import run_in_threadpool
+            return await run_in_threadpool(session.open, command['upload_id'])
+
     return app

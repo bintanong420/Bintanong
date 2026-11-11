@@ -75,8 +75,9 @@ def _frontend(root: Path, env: dict, log) -> tuple[str, Path]:
     return node, next_cli
 
 
-def serve(root: Path, reviewer: str, *, api_port: int = 8765, ui_port: int = 3050,
-          open_browser: bool = True) -> None:
+def serve(root: Path | None, reviewer: str, *, api_port: int = 8765, ui_port: int = 3050,
+          open_browser: bool = True, workspace: Path | None = None, prepare_python: str | None = None) -> None:
+    """Serve one packet, or (with workspace) the intake tool that uploads, prepares and opens any finished upload."""
     if (any(type(p) is not int or not 1 <= p <= 65535 for p in (api_port, ui_port))
             or api_port == ui_port):
         raise ValueError('choose two distinct explicit local ports')
@@ -86,8 +87,10 @@ def serve(root: Path, reviewer: str, *, api_port: int = 8765, ui_port: int = 305
     child = None
     server = None
     worker = None
-    with ReviewSession(root, reviewer) as session:
-        runtime = session.root / 'review/runtime'
+    from .intake import SessionSlot
+    opened = ReviewSession(root, reviewer) if workspace is None else SessionSlot(workspace, reviewer)
+    with opened as session:
+        runtime = session.root / 'review/runtime' if workspace is None else session.workspace / '_runtime'
         runtime.mkdir(parents=True, exist_ok=True)
         temporary = runtime / 'tmp'
         temporary.mkdir(exist_ok=True)
@@ -97,7 +100,9 @@ def serve(root: Path, reviewer: str, *, api_port: int = 8765, ui_port: int = 305
         try:
             with (runtime / 'frontend.log').open('a', encoding='utf-8') as log:
                 node, next_cli = _frontend(app_root, env, log)
-                server = uvicorn.Server(uvicorn.Config(create_app(session, token, port=api_port, ui_origin=ui_origin),
+                app = create_app(session, token, port=api_port, ui_origin=ui_origin,
+                                 workspace=None if workspace is None else session.workspace, prepare_python=prepare_python)
+                server = uvicorn.Server(uvicorn.Config(app,
                     host='127.0.0.1', port=api_port, access_log=False, log_level='warning'))
                 worker = threading.Thread(target=server.run, daemon=True)
                 worker.start()

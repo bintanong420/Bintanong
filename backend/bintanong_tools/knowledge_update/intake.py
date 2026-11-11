@@ -166,6 +166,50 @@ def prepare_status(workspace: Path, upload_id) -> dict:
     return {**job, 'upload_id': upload_id, 'log_tail': tail}
 
 
+class SessionSlot:
+    """Stands in for one ReviewSession so a single review tool can open any finished upload's packet.
+
+    Opening another upload closes the previous session first, releasing its ledger lock. Until something is open,
+    every review call says so instead of guessing a packet.
+    """
+
+    def __init__(self, workspace: Path, reviewer: str):
+        self.workspace, self.reviewer = _workspace(workspace), reviewer.strip()
+        self.current, self.upload_id = None, None
+        self._lock = threading.RLock()
+
+    def open(self, upload_id) -> dict:
+        from .review import ReviewSession
+        with self._lock:
+            folder = _upload(self.workspace, upload_id)
+            if prepare_status(self.workspace, upload_id)['state'] != 'done':
+                raise ValueError('only an upload whose prepare finished can be opened for review')
+            opened = ReviewSession(folder / 'packet', self.reviewer)  # a failure here keeps the current packet
+            if self.current is not None:
+                self.current.close()
+            self.current, self.upload_id = opened, upload_id
+            return opened.state()
+
+    def close(self) -> None:
+        with self._lock:
+            if self.current is not None:
+                self.current.close()
+            self.current, self.upload_id = None, None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
+
+    def __getattr__(self, name):
+        # only reached for ReviewSession attributes this slot does not define itself
+        current = self.__dict__.get('current')
+        if current is None:
+            raise ValueError('Open an upload for review first.')
+        return getattr(current, name)
+
+
 def list_uploads(workspace: Path) -> list[dict]:
     workspace = _workspace(workspace)
     if not workspace.is_dir():
