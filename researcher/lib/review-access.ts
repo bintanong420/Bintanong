@@ -9,6 +9,11 @@ export function sameToken(given: string | undefined, token: string) {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
+// The review API's own limits: 1 MiB JSON everywhere, except the one PDF upload path (128 MiB, rechecked server-side).
+export function bodyLimit(path: string[]) {
+  return path.length === 2 && path[0] === 'intake' && path[1] === 'upload' ? 128 * 1024 * 1024 : 1024 * 1024;
+}
+
 export function authorizeReview({ token, cookie, method, origin, fetchSite, uiOrigin }: {
   token?: string; cookie?: string; method: string; origin?: string | null; fetchSite?: string | null; uiOrigin?: string;
 }) {

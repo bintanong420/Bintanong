@@ -15,7 +15,14 @@ test('a review link selects its record, and a record has its own link', () => {
   assert.deepEqual(targetForItem(items[0]), { kind: 'policy', item: 'handbook:grading' });
   assert.deepEqual(targetForItem(items[1], 'S1-01'), { kind: 'prospectus', document: 'bscs', question: 'S1-01' });
 });
-import { authorizeReview } from '../lib/review-access.ts';
+import { authorizeReview, bodyLimit } from '../lib/review-access.ts';
+
+test('only the PDF upload path may send more than 1 MiB', () => {
+  assert.equal(bodyLimit(['intake', 'upload']), 128 * 1024 * 1024);
+  for (const path of [['decision'], ['intake', 'uploads'], ['intake', 'upload', 'x'], ['upload'], ['x', 'intake', 'upload']]) {
+    assert.equal(bodyLimit(path), 1024 * 1024);
+  }
+});
 
 test('review paths round-trip, including ids that need escaping', () => {
   assert.deepEqual(parseReviewPath('/review'), { kind: 'home' });

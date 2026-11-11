@@ -1,8 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { authorizeReview, REVIEW_COOKIE } from '@/lib/review-access';
+import { authorizeReview, bodyLimit, REVIEW_COOKIE } from '@/lib/review-access';
 
 export const dynamic = 'force-dynamic';
-const MAX_BODY = 1024 * 1024;  // the review API's own limit
 
 // Same-origin bridge to the local review API: the token stays on this server and is added here.
 async function forward(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
@@ -18,7 +17,7 @@ async function forward(request: NextRequest, { params }: { params: Promise<{ pat
     return NextResponse.json({ error: 'Invalid review path.' }, { status: 404 });
   }
   const body = request.method === 'GET' ? undefined : await request.arrayBuffer();
-  if (body && body.byteLength > MAX_BODY) return NextResponse.json({ error: 'Request too large.' }, { status: 413 });
+  if (body && body.byteLength > bodyLimit(path)) return NextResponse.json({ error: 'Request too large.' }, { status: 413 });
   const headers: Record<string, string> = { 'x-review-token': token, origin: uiOrigin };
   const type = request.headers.get('content-type');
   if (type) headers['content-type'] = type;

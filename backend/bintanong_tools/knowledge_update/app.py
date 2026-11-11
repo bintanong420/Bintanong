@@ -15,7 +15,7 @@ from .files import contained, read_json
 from .prepare import load_packet
 
 
-def create_app(session, token: str, *, port: int, ui_origin: str) -> FastAPI:
+def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None) -> FastAPI:
     origin = urlsplit(ui_origin)
     if (origin.scheme != 'http' or origin.hostname not in {'127.0.0.1', 'localhost'}
             or not origin.port or origin.path or origin.query or origin.fragment or origin.username):
@@ -175,5 +175,26 @@ def create_app(session, token: str, *, port: int, ui_origin: str) -> FastAPI:
                     'Access-Control-Expose-Headers': 'X-Page-Width, X-Page-Height, X-Page-Count, X-Page-Rotation'})
         except PageError as exc:
             return JSONResponse({'error': str(exc)}, status_code=422)
+
+    if workspace is not None:
+        from . import intake
+
+        @app.post('/api/intake/upload')
+        async def upload(request: Request, kind: str, title: str, edition: str, office: str = '', audience: str = ''):
+            # raw PDF body with metadata in the query: no multipart dependency, and nothing reaches a command line
+            if request.headers.get('content-type', '').split(';')[0].strip() != 'application/pdf':
+                return JSONResponse({'error': 'Upload the PDF as application/pdf.'}, status_code=415)
+            data = bytearray()
+            async for chunk in request.stream():
+                data.extend(chunk)
+                if len(data) > intake.MAX_UPLOAD:
+                    return JSONResponse({'error': 'Upload exceeds 128 MiB.'}, status_code=413)
+            from starlette.concurrency import run_in_threadpool
+            return await run_in_threadpool(intake.create_upload, workspace, bytes(data), kind=kind, title=title,
+                                           edition=edition, office=office, audience=audience)
+
+        @app.get('/api/intake/uploads')
+        def uploads():
+            return {'uploads': intake.list_uploads(workspace)}
 
     return app
