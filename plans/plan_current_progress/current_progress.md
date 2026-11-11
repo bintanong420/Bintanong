@@ -42,7 +42,12 @@ No dependency/model installs or downloads. Institutional sources, F04/source gap
 undergraduate scope and private-context separation keep their established boundaries.
 GUI knowledge intake (owner 11 Nov, [plan](../2026-11-11-gui-knowledge-intake-plan.md)): `b192fc9c` plan;
 `14213e9c` step 1 upload route (RED 15/16 for missing module, then GREEN; 64 knowledge-update tests,
-researcher 24 pass/1 skip, TypeScript pass). Route not yet wired into `review`/CLI (step 4). Next: step 2.
+researcher 24 pass/1 skip, TypeScript pass). Route not yet wired into `review`/CLI (step 4).
+Workflow now follows Binturong `docs/engineering-workflow.md`: task branch/worktree, independent review,
+p12-dev as integration. Step 2 `cba6f165`+`285bd93c` on `feat/ku-intake-build-form` (`p12-ku-build`):
+build-plan/build-metadata. Independent Sonnet review of steps 1-2 APPROVED (86 py, 24/1-skip node, tsc;
+mutations caught for %PDF, pending refusal, forged basis_ref, bodyLimit); fast-forwarded into p12-dev.
+Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool). Next: step 3 (prepare job).
 Earlier next: owner review on the integrated development branch, then independent human/
 benchmark, paired language/compiler and latency acceptance. No institutional deployment
 or automatic closure of source PR18/19 is implied by the development merge.
