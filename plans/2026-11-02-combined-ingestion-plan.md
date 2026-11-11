@@ -32,6 +32,9 @@ AI work improves the first two steps. T4 adds the last three. T5 rehearses all o
   `purpose=p11-t4-disposable-rehearsal`. Secrets ignored under workspace
   `audit-evidence/p11-t4-scratch-db/`. Never the owner's local Supabase (54321/54322),
   the `postgresql-x64-18` service or any hosted target.
+  Superseded 8 Nov by the owner: T4 targets the owner's local Supabase (54321/54322); hosted
+  stays read-only ([unified plan](2026-11-08-unified-knowledge-update-plan.md),
+  [GUI intake plan](2026-11-11-gui-knowledge-intake-plan.md)).
 - GPU: the owner's p12 harness runs Gemma on :18088 (~3.5 of 8 GB), API :8021, web
   :3216. Ingestion Gemma (5.1 GB model + 1 GB projector) runs only when the owner
   says the GPU is free. Projector: `MODELS/GEMMA_4_E4B/mmproj-F16.gguf` (2 Nov).
