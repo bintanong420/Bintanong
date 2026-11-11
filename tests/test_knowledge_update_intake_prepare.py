@@ -99,6 +99,45 @@ def test_unknown_or_malformed_upload_ids_are_refused(upload, upload_id):
         intake().prepare_status(workspace, upload_id)
 
 
+def test_a_traversal_id_cannot_reach_a_real_upload(upload):
+    workspace, upload_id = upload
+    for sneaky in (f'../{workspace.name}/{upload_id}', f'{upload_id}/.', f'./{upload_id}'):
+        with pytest.raises(ValueError, match='invalid upload id'):
+            start(workspace, sneaky)
+        with pytest.raises(ValueError, match='invalid upload id'):
+            intake().prepare_status(workspace, sneaky)
+
+
+def test_each_upload_runs_prepare_once_even_after_failure_or_restart(upload):
+    workspace, upload_id = upload
+    start(workspace, upload_id)
+    FakeProcess.last.code = 1
+    assert intake().prepare_status(workspace, upload_id)['state'] == 'failed'
+    with pytest.raises(ValueError, match='new upload'):
+        start(workspace, upload_id)
+    intake()._jobs.clear()  # an orphan from a closed server may still be writing packet/
+    with pytest.raises(ValueError, match='new upload'):
+        start(workspace, upload_id)
+
+
+def test_gemma_audit_needs_the_model_setting_too(upload, monkeypatch):
+    workspace, upload_id = upload
+    monkeypatch.setenv('BINTANONG_ASSIST_URL', 'http://127.0.0.1:18089/v1')
+    monkeypatch.delenv('BINTANONG_ASSIST_MODEL', raising=False)
+    with pytest.raises(ValueError, match='Gemma'):
+        start(workspace, upload_id, assist=True)
+
+
+def test_an_unreadable_packet_after_exit_zero_reads_as_failed(upload):
+    workspace, upload_id = upload
+    start(workspace, upload_id)
+    (workspace / upload_id / 'packet').mkdir()
+    (workspace / upload_id / 'packet/packet.json').write_text('{"items": "broken"', encoding='utf-8')
+    FakeProcess.last.code = 0
+    status = intake().prepare_status(workspace, upload_id)
+    assert status['state'] == 'failed' and 'packet' in status['error']
+
+
 def test_missing_interpreter_is_refused(upload, tmp_path):
     workspace, upload_id = upload
     with pytest.raises(ValueError, match='interpreter'):

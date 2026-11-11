@@ -127,8 +127,9 @@ def start_prepare(workspace: Path, upload_id, *, python: str, assist: bool = Fal
         running = _jobs.get(upload_id)
         if running is not None and running.poll() is None:
             raise ValueError('prepare is already running for this upload')
-        if (folder / 'packet').exists():
-            raise ValueError('this upload already has a packet; a different audit choice needs a new upload')
+        # one run per upload: an orphan from a closed server may still be writing packet/, so a retry is a new upload
+        if (folder / 'job.json').exists() or (folder / 'packet').exists():
+            raise ValueError('prepare already ran for this upload; a retry or different audit choice needs a new upload')
         argv = [str(python), '-m', 'backend.bintanong_tools.knowledge_update', 'prepare',
                 str(folder / 'manifest.json'), '--out', str(folder / 'packet')]
         if assist:
@@ -151,10 +152,13 @@ def prepare_status(workspace: Path, upload_id) -> dict:
             job = {**job, 'state': 'interrupted'}
         elif code is not None:
             job = {**job, 'state': 'done' if code == 0 else 'failed', 'exit_code': code}
-            if code == 0 and (folder / 'packet/packet.json').is_file():
-                items = read_json(folder / 'packet/packet.json')['items']
-                job['gemma_unavailable_fields'] = sum(f.get('assistance', {}).get('outcome') == 'failed'
-                                                      for row in items for f in row['fields'])
+            if code == 0:
+                try:
+                    items = read_json(folder / 'packet/packet.json')['items']
+                    job['gemma_unavailable_fields'] = sum(f.get('assistance', {}).get('outcome') == 'failed'
+                                                          for row in items for f in row['fields'])
+                except (ValueError, KeyError, TypeError, AttributeError):
+                    job = {**job, 'state': 'failed', 'error': 'prepare exited cleanly but its packet is unreadable'}
         if job['state'] != 'running':
             write_json(folder / 'job.json', job)
     log = folder / 'prepare.log'
