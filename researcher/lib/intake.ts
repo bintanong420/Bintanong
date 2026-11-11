@@ -77,8 +77,9 @@ export function formatElapsed(ms: number) {
 export type StepStatus = 'done' | 'active' | 'todo' | 'failed' | 'blocked' | 'unknown';
 export type PipelineStep = { key: 'upload' | 'prepare' | 'review' | 'build'; label: string; status: StepStatus; text: string };
 
-// Where one upload sits in Upload -> Prepare -> Review -> Build form. Every status carries words, not only a symbol.
-export function pipelineSteps(prepareState: string | undefined, open: boolean): PipelineStep[] {
+// Where one upload sits in Upload -> Prepare -> Review -> Build. Every status carries words, not only a symbol.
+export function pipelineSteps(prepareState: string | undefined, open: boolean,
+    build?: Pick<BuildStatus, 'state' | 'package'>): PipelineStep[] {
   const prepare: Record<string, [StepStatus, string]> = { not_started: ['todo', 'Not started'], running: ['active', 'Running'],
     done: ['done', 'Done'], failed: ['failed', 'Failed'], interrupted: ['failed', 'Interrupted'] };
   const [prepareStatus, prepareText] = prepareState === undefined ? ['unknown', 'Checking'] : prepare[prepareState] ?? ['unknown', 'Unknown'];
@@ -88,9 +89,26 @@ export function pipelineSteps(prepareState: string | undefined, open: boolean): 
     { key: 'prepare', label: 'Prepare', status: prepareStatus as StepStatus, text: prepareText },
     { key: 'review', label: 'Review', ...(open ? { status: 'active' as const, text: 'Open for review' }
       : prepared ? { status: 'todo' as const, text: 'Ready to open' } : { status: 'blocked' as const, text: 'Waiting for Prepare' }) },
-    { key: 'build', label: 'Build form', ...(open ? { status: 'todo' as const, text: 'Fill in after review' }
-      : { status: 'blocked' as const, text: 'Needs an open upload' }) },
+    { key: 'build', label: 'Build', ...buildStep(prepared, build) },
   ];
+}
+
+export type BuildStatus = { state: string; exit_code?: number; error?: string; log_tail?: string[];
+  package?: { package_id: string; chunk_count: number } };
+const BUILD_LABELS: Record<string, string> = { running: 'Running', done: 'Done', failed: 'Failed',
+  interrupted: 'Interrupted (the review server restarted while it ran)', not_started: 'Not started' };
+export function buildLabel(state: string) { return BUILD_LABELS[state] ?? 'Unknown state'; }
+export function shouldPollBuild(state: string | undefined) { return state === 'running'; }
+const chunks = (n: number) => `${n} ${n === 1 ? 'chunk' : 'chunks'}`;
+export function buildSummary(build: Pick<BuildStatus, 'state' | 'package'> | undefined) {
+  return build?.state === 'done' && build.package ? 'Built ' + chunks(build.package.chunk_count) : '';
+}
+function buildStep(prepared: boolean, build: Pick<BuildStatus, 'state' | 'package'> | undefined):
+    { status: StepStatus; text: string } {
+  if (build?.state === 'running') return { status: 'active', text: 'Building' };
+  if (build?.state === 'failed' || build?.state === 'interrupted') return { status: 'failed', text: build.state === 'failed' ? 'Failed' : 'Interrupted' };
+  if (build?.state === 'done') return { status: 'done', text: buildSummary(build) || 'Built' };
+  return prepared ? { status: 'todo', text: 'Ready to build' } : { status: 'blocked', text: 'Needs Prepare' };
 }
 
 // The review API answers 422 with this text while no upload is open; the home page turns it into a link.

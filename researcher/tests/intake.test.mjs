@@ -127,7 +127,8 @@ test('each upload shows four steps, and a step is blocked until the one before i
   assert.equal(by('running', false).review.status, 'blocked');
   assert.equal(by('done', false).prepare.status, 'done');
   assert.equal(by('done', false).review.status, 'todo');
-  assert.equal(by('done', false).build.status, 'blocked');
+  assert.equal(by('running', false).build.status, 'blocked');
+  assert.equal(by('done', false).build.status, 'todo');  // Build needs a prepared upload, not an open one
   assert.equal(by('done', true).review.status, 'active');
   assert.equal(by('done', true).build.status, 'todo');
   assert.equal(by('failed', false).prepare.status, 'failed');
