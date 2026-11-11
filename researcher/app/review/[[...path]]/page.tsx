@@ -10,7 +10,6 @@ import { ReviewHistory, type HistoryEntry } from '@/components/review-history';
 import { ReviewedValue } from '@/components/reviewed-value';
 import { RelatedRecords } from '@/components/related-records';
 import { AdvisorySuggestion } from '@/components/advisory-suggestion';
-import { appearanceKey, appearanceValue, type Appearance } from '@/lib/appearance';
 import { download, request, ReviewError } from '@/lib/api';
 import { fieldLabel, filterItems, readableValue, recordStatus, REVIEW_CONNECTION, type Connection, type FeedbackReceipt, type Gap, type ReviewItem, type ReviewState } from '@/lib/review-state';
 import { isNoPacketError } from '@/lib/intake';
@@ -32,7 +31,7 @@ export default function ReviewWorkspace() {
   const [query, setQuery] = useState(''), [documentFilter, setDocumentFilter] = useState(''), [mode, setMode] = useState('all');
   const [draft, setDraft] = useState<Draft | null>(null), [busy, setBusy] = useState(false);
   const [error, setError] = useState(''), [message, setMessage] = useState(''), [noPacket, setNoPacket] = useState(false);
-  const [history, setHistory] = useState<HistoryEntry[] | null>(null), [appearance, setAppearance] = useState<Appearance>('system');
+  const [history, setHistory] = useState<HistoryEntry[] | null>(null);
   const [sourceFocus, setSourceFocus] = useState<{ itemId: string; page: number } | null>(null);
   const [linkedQuestion, setLinkedQuestion] = useState<string>();
   const pending = useRef<Record<string, unknown> | null>(null);
@@ -48,7 +47,6 @@ export default function ReviewWorkspace() {
   useEffect(() => {
     try {
       sessionStorage.removeItem('bintanong-review-connection');  // tokens from older launch links are no longer kept
-      setAppearance(appearanceValue(localStorage.getItem(appearanceKey)));
     } catch { /* storage can be unavailable; defaults apply */ }
     setConnection(REVIEW_CONNECTION);
     void reload(REVIEW_CONNECTION).then(value => {
@@ -77,10 +75,6 @@ export default function ReviewWorkspace() {
     return () => window.removeEventListener('popstate', follow);
   });
 
-  useEffect(() => {
-    document.documentElement.dataset.appearance = appearance;
-    localStorage.setItem(appearanceKey, appearance);
-  }, [appearance]);
   useEffect(() => { if (item) setDraft(draftFor(item)); }, [item]);
   useEffect(() => {
     function protect(event: BeforeUnloadEvent) { if (dirty || pending.current) { event.preventDefault(); event.returnValue = ''; } }
@@ -142,19 +136,15 @@ export default function ReviewWorkspace() {
     setMessage('Missing-content note saved as pending feedback. Your field review is unchanged.');
   }
 
-  return <main className="review-workspace">
+  return <main className="review-workspace" id="review-main">
     <a className="skip-link" href="#source-review">Skip to the source record</a>
-    <header className="app-header"><div><p className="wordmark">Bintanong <span>Knowledge review</span></p>
+    <div className="page-toolbar"><div><h1 className="page-title">Documents</h1>
       <p className="muted">Read the source. Check the extracted text.</p></div>
       <div className="header-actions"><span className="muted">{state?.researcher}</span>
-        <label>Appearance<select value={appearance} onChange={event => setAppearance(appearanceValue(event.target.value))}>
-          <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
-        </select></label>
-        <Button variant="outline" asChild><a href="/review/intake">Intake</a></Button>
         <Button variant="outline" disabled={!state} onClick={() => void showHistory()}>Saved reviews</Button>
         <Button variant="outline" disabled={!state} onClick={() => void exportDecisions()}>Download my reviews</Button>
       </div>
-    </header>
+    </div>
     {error && <div className="notice error" role="alert">{error}
       {pending.current && <Button variant="outline" disabled={busy} onClick={() => void save()}>Retry save</Button>}
       {connection && !pending.current && <Button variant="outline" onClick={() => {
@@ -169,16 +159,16 @@ export default function ReviewWorkspace() {
         : 'AI suggestions are not included in this packet. You can review and correct the extracted text against the PDF.'}
     </p>}
     {state?.source_basis?.kind === 'reviewed_snapshot' && <section className="scope-note" aria-label="Source coverage">
-      <h1>Handbook and Citizens’ Charter</h1><p>{state.items.length} source records. Compare the PDF, check each field, then save your review.</p>
+      <h2>Handbook and Citizens’ Charter</h2><p>{state.items.length} source records. Compare the PDF, check each field, then save your review.</p>
       <details><summary>What am I reviewing?</summary><p>{state.source_basis.candidate_review
         ? 'These are local candidate copies of selected undergraduate records. Your changes are saved separately from the frozen baseline. Previous review evidence and known source problems stay attached.'
         : 'This older packet contains read-only references. Prepare a new packet to review local candidate copies.'}
         {' '}This covers selected material, not every page. Opening, saving or downloading a review does not change the chatbot.</p></details>
     </section>}
-    {noPacket ? <section className="empty"><h1>No upload is open for review</h1>
+    {noPacket ? <section className="empty"><h2>No upload is open for review</h2>
       <p role="status">Upload a document on the Intake page, prepare it, then open it for review.</p>
       <p><Button asChild><a href="/review/intake">Go to Intake</a></Button></p></section>
-      : !state || !connection ? <section className="empty"><h1>Open a local review packet</h1>
+      : !state || !connection ? <section className="empty"><h2>Open a local review packet</h2>
       <p role="status">{error ? 'The review records could not be loaded. If this is a new review session, open the launch link printed by the local review command.' : 'Loading the source documents and review records…'}</p></section>
       : <div className="work-area">
         <aside className="queue" aria-label="Review queue"><div className="queue-heading"><h2>Source records</h2>

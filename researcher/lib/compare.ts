@@ -2,7 +2,7 @@
 
 export type CompareField = { name: string; original_value: unknown; locator: { physical_pages: number[] } };
 export type CompareItem = { id?: string; title?: string; fields: CompareField[] };
-export type PageEntry = { itemId: string; itemTitle: string; fieldName: string; text: string };
+export type PageEntry = { itemId: string; itemTitle: string; fieldName: string; text: string; pages: number[] };
 
 function readable(value: unknown) {
   if (value === null || value === undefined) return '';
@@ -15,9 +15,15 @@ export function pagesOf(items: CompareItem[]) {
   return [...new Set(items.flatMap(item => item.fields.flatMap(f => f.locator.physical_pages)))].sort((a, b) => a - b);
 }
 
+// Every field that cites at least one page, in packet order; a field citing no page cannot be placed beside a page image.
+export function entriesOf(items: CompareItem[]): PageEntry[] {
+  return items.flatMap(item => item.fields.filter(f => f.locator.physical_pages.length).map(field => ({
+    itemId: item.id ?? '', itemTitle: item.title ?? item.id ?? '', fieldName: field.name, text: readable(field.original_value),
+    pages: [...field.locator.physical_pages].sort((a, b) => a - b) })));
+}
+
 export function itemsOnPage(items: CompareItem[], page: number): PageEntry[] {
-  return items.flatMap(item => item.fields.filter(f => f.locator.physical_pages.includes(page)).map(field => ({
-    itemId: item.id ?? '', itemTitle: item.title ?? item.id ?? '', fieldName: field.name, text: readable(field.original_value) })));
+  return entriesOf(items).filter(entry => entry.pages.includes(page));
 }
 
 export function clampPage(page: number, count: number) {

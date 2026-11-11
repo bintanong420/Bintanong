@@ -76,10 +76,9 @@ export function IntakeBuild({ uploadId }: { uploadId: string }) {
   const claimsProblem = problems.find(p => p.scope === 'claims')?.message;
   const baseId = (name: string) => `${uid}-${name}`;
 
-  return <section className="intake-section" id="build" aria-labelledby="build-heading">
-    <div className="section-head"><span className="section-number" aria-hidden="true">4</span>
-      <div><h2 id="build-heading">Build form for the open upload</h2>
-        <p className="muted">Fill this after reviewing. Pick the readings that are ready, name the subject each one is about, then record the claims.</p></div></div>
+  return <section className="intake-section" id="build-form" aria-labelledby="build-heading">
+    <div><h3 id="build-heading">Build form for the open upload</h3>
+      <p className="muted">Fill this after reviewing. Pick the readings that are ready, name the subject each one is about, then record the claims.</p></div>
     <p className="notice hold"><span><strong>Saving a review decision makes a saved form stale.</strong> After any later decision on the review page, save this form again.</span></p>
     <div className="toolbar"><Button variant="outline" disabled={loading} onClick={() => void load()}>{loading ? 'Loading readings…' : 'Reload readings'}</Button></div>
     <div aria-live="polite">

@@ -11,7 +11,7 @@ import { REVIEW_CONNECTION } from '@/lib/review-state';
 type Errors = Partial<Record<UploadField, string>>;
 const ORDER = ['kind', 'title', 'edition', 'office', 'audience'] as const;
 
-export function IntakeUpload({ onUploaded }: { onUploaded: () => void }) {
+export function IntakeUpload({ onUploaded }: { onUploaded: (uploadId: string) => void }) {
   const [kind, setKind] = useState('handbook'), [title, setTitle] = useState(''), [edition, setEdition] = useState('');
   const [office, setOffice] = useState(''), [audience, setAudience] = useState('');
   const [file, setFile] = useState<File | null>(null), [dragging, setDragging] = useState(false);
@@ -64,7 +64,7 @@ export function IntakeUpload({ onUploaded }: { onUploaded: () => void }) {
       setUploaded({ id: result.upload_id, title: title.trim(), name: file.name, bytes: file.size });
       setTitle(''); setEdition(''); setOffice(''); setAudience(''); setErrors({}); setFile(null); setFileProblem('');
       if (fileInput.current) fileInput.current.value = '';
-      onUploaded();
+      onUploaded(result.upload_id);
     } catch (failure) {
       setServerError(failure instanceof ReviewError ? failure.message : 'The upload could not be sent. Check that the review command is still running, then try again.');
     } finally { setBusy(false); }
@@ -74,10 +74,8 @@ export function IntakeUpload({ onUploaded }: { onUploaded: () => void }) {
   useEffect(() => { if (uploaded) successBox.current?.focus(); }, [uploaded]);
   useEffect(() => { if (serverError) errorBox.current?.focus(); }, [serverError]);
   const problemCount = Object.keys(errors).filter(key => errors[key as UploadField]).length + (fileProblem ? 1 : 0);
-  return <section className="intake-section" id="upload" aria-labelledby="upload-heading">
-    <div className="section-head"><span className="section-number" aria-hidden="true">1</span>
-      <div><h2 id="upload-heading">Upload a document</h2>
-        <p className="muted">PDF only, up to {formatBytes(MAX_UPLOAD_BYTES)}. Uploading approves nothing: the file stays a candidate until it is reviewed.</p></div></div>
+  return <section className="intake-section" id="upload" aria-label="Upload a document">
+    <p className="muted">PDF only, up to {formatBytes(MAX_UPLOAD_BYTES)}. Uploading approves nothing: the file stays a candidate until it is reviewed.</p>
     <form onSubmit={event => void submit(event)} className="intake-form" noValidate aria-busy={busy}>
       <div className="field">
         <span className="field-label" id={id('file-label')}>PDF file</span>
@@ -132,7 +130,7 @@ export function IntakeUpload({ onUploaded }: { onUploaded: () => void }) {
         <p><strong>Uploaded: {uploaded.title}</strong></p>
         <dl className="upload-meta"><div><dt>File</dt><dd className="file-name">{uploaded.name}</dd></div>
           <div><dt>Size</dt><dd>{formatBytes(uploaded.bytes)}</dd></div><div><dt>Upload id</dt><dd><code>{uploaded.id}</code></dd></div></dl>
-        <p>Next, prepare it in <a href="#prepare">step 2</a>. The form is cleared so you can add another.</p></div></div>}
+        <p>It is selected in the list, ready to prepare. The form is cleared so you can add another.</p></div></div>}
     </div>
   </section>;
 }
