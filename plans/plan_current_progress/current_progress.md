@@ -40,14 +40,18 @@ and separate ablation3219/API8024 retain their previously recorded startup ident
 The new development branch is not evidence that a running3217 process has reloaded it.
 No dependency/model installs or downloads. Institutional sources, F04/source gaps,
 undergraduate scope and private-context separation keep their established boundaries.
-GUI knowledge intake (owner 11 Nov, [plan](../2026-11-11-gui-knowledge-intake-plan.md)): `b192fc9c` plan;
-`14213e9c` step 1 upload route (RED 15/16 for missing module, then GREEN; 64 knowledge-update tests,
-researcher 24 pass/1 skip, TypeScript pass). Route not yet wired into `review`/CLI (step 4).
-Workflow now follows Binturong `docs/engineering-workflow.md`: task branch/worktree, independent review,
-p12-dev as integration. Step 2 `cba6f165`+`285bd93c` on `feat/ku-intake-build-form` (`p12-ku-build`):
-build-plan/build-metadata. Independent Sonnet review of steps 1-2 APPROVED (86 py, 24/1-skip node, tsc;
-mutations caught for %PDF, pending refusal, forged basis_ref, bodyLimit); fast-forwarded into p12-dev.
-Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool). Next: step 3 (prepare job).
+GUI knowledge intake (owner 11 Nov, [plan](../2026-11-11-gui-knowledge-intake-plan.md)). Workflow follows
+Binturong `docs/engineering-workflow.md`: one task branch/worktree per step, independent review (Sonnet;
+Fable for the DB write), p12-dev as integration. Merged, each reviewed with mutation checks:
+steps 1-2 upload + build metadata (`14213e9c`..`285bd93c`); step 3 prepare job (`95f6ab84`,`1f7da136`);
+step 4 SessionSlot + `knowledge_update intake` command (`92ce5032`,`b9a94617`); Intake page
+(`1594dc6a`..`5d8d3eb5`); step 5 T4 `local_release.stage_draft` (inactive local draft only; exact
+127.0.0.1:54321; proxy-free client; Fable blocker D1 fixed). 131 py tests (offline) + researcher 31/1-skip,
+tsc, next build. Live smoke 12 Nov via proxy: upload, refusals, real Docling prepare done (3 items, min free
+RAM 1.0 GB), open/reopen, build plan; Gemma path and browser click-through untested; T4 never run on a DB.
+Owner decision needed: fingerprint rule after the first local draft (strict hosted==local refuses every later
+stage; Fable proposes recorded per-side freeze). Next: that decision, then steps 5b, 6, 7.
+Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 Earlier next: owner review on the integrated development branch, then independent human/
 benchmark, paired language/compiler and latency acceptance. No institutional deployment
 or automatic closure of source PR18/19 is implied by the development merge.
