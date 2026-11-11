@@ -141,17 +141,31 @@ def start_prepare(workspace: Path, upload_id, *, python: str, assist: bool = Fal
     return prepare_status(workspace, upload_id)
 
 
+def _polled(key: str, job: dict) -> dict:
+    """A running job's state from its in-memory process: interrupted when this server never started it."""
+    if job['state'] != 'running':
+        return job
+    with _jobs_lock:
+        process = _jobs.get(key)
+    code = None if process is None else process.poll()
+    if process is None:
+        return {**job, 'state': 'interrupted'}
+    if code is not None:
+        return {**job, 'state': 'done' if code == 0 else 'failed', 'exit_code': code}
+    return job
+
+
+def _tail(path: Path) -> list[str]:
+    return path.read_text(encoding='utf-8', errors='replace').splitlines()[-20:] if path.is_file() else []
+
+
 def prepare_status(workspace: Path, upload_id) -> dict:
     folder = _upload(workspace, upload_id)
     job = read_json(folder / 'job.json') if (folder / 'job.json').is_file() else {'state': 'not_started'}
     if job['state'] == 'running':
-        with _jobs_lock:
-            process = _jobs.get(upload_id)
-        code = None if process is None else process.poll()
-        if process is None:
-            job = {**job, 'state': 'interrupted'}
-        elif code is not None:
-            job = {**job, 'state': 'done' if code == 0 else 'failed', 'exit_code': code}
+        job = _polled(upload_id, job)
+        if job['state'] != 'running':
+            code = job.get('exit_code')
             if code == 0:
                 try:
                     items = read_json(folder / 'packet/packet.json')['items']
@@ -161,9 +175,91 @@ def prepare_status(workspace: Path, upload_id) -> dict:
                     job = {**job, 'state': 'failed', 'error': 'prepare exited cleanly but its packet is unreadable'}
         if job['state'] != 'running':
             write_json(folder / 'job.json', job)
-    log = folder / 'prepare.log'
-    tail = log.read_text(encoding='utf-8', errors='replace').splitlines()[-20:] if log.is_file() else []
-    return {**job, 'upload_id': upload_id, 'log_tail': tail}
+    return {**job, 'upload_id': upload_id, 'log_tail': _tail(folder / 'prepare.log')}
+
+
+class Refusal(ValueError):
+    """A plain-language refusal with a stable code the researcher UI can branch on."""
+
+    def __init__(self, message: str, code: str, status: int = 422):
+        super().__init__(message)
+        self.code, self.status = code, status
+
+
+def _package_summary(folder: Path) -> dict:
+    manifest = read_json(folder / 'package/package.json')
+    lines = (folder / 'package/chunks.jsonl').read_bytes().splitlines()
+    return {'package_id': manifest['package_id'], 'chunk_count': sum(1 for line in lines if line.strip())}
+
+
+def start_build(workspace: Path, upload_id, *, python, model_dir, runner=subprocess.Popen) -> dict:
+    """Run the existing `knowledge_update build` for one reviewed upload, writing <upload>/package."""
+    folder = _upload(workspace, upload_id)
+    if model_dir is None or not Path(model_dir).is_dir():
+        raise Refusal('No model folder was given when the tool started. Restart it with --model-dir <path>.',
+                      'model_dir_missing')
+    if python is None or not Path(python).is_file():
+        raise Refusal('The Docling interpreter set at start-up was not found. Restart with a valid --prepare-python.',
+                      'interpreter_missing')
+    if prepare_status(workspace, upload_id)['state'] != 'done':
+        raise Refusal('Prepare has not finished for this upload. Wait for it to finish, then build.', 'not_prepared')
+    metadata = folder / 'packet/review/build-metadata.json'
+    if not metadata.is_file():
+        raise Refusal('Save the build form for this upload first, then build.', 'metadata_missing')
+    key = 'build:' + upload_id
+    with _jobs_lock:
+        running = _jobs.get(key)
+        if running is not None and running.poll() is None:
+            raise Refusal('A build is already running for this upload. Wait for it to finish.', 'build_running', 409)
+        # a failed or interrupted build may run again only while no package folder exists (it may be partial)
+        if (folder / 'package').exists():
+            raise Refusal('This upload already has a package folder. Make a new upload to build again.',
+                          'package_exists', 409)
+        argv = [str(python), '-m', 'backend.bintanong_tools.knowledge_update', 'build', str(folder / 'packet'),
+                '--out', str(folder / 'package'), '--metadata', str(metadata), '--model-dir', str(model_dir)]
+        with (folder / 'build.log').open('wb') as log:
+            _jobs[key] = runner(argv, cwd=REPO, stdout=log, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL,
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
+        write_json(folder / 'build-job.json', {'state': 'running'})
+    return build_status(workspace, upload_id)
+
+
+def build_status(workspace: Path, upload_id) -> dict:
+    folder = _upload(workspace, upload_id)
+    path = folder / 'build-job.json'
+    job = read_json(path) if path.is_file() else {'state': 'not_started'}
+    if job['state'] == 'running':
+        job = _polled('build:' + upload_id, job)
+        if job['state'] == 'failed':
+            job['error'] = f'The build stopped (exit code {job["exit_code"]}). Read the log below for the cause.'
+        elif job['state'] == 'interrupted':
+            job['error'] = 'The tool restarted while this build ran. Build again if no package folder exists.'
+        if job['state'] != 'running':
+            write_json(path, job)
+    if job['state'] == 'done':
+        try:
+            job = {**job, 'package': _package_summary(folder)}
+        except (ValueError, KeyError, TypeError, OSError):
+            job = {**job, 'state': 'failed', 'error': 'The build finished but its package is unreadable. '
+                   'Make a new upload to build again.'}
+            write_json(path, job)
+    return {**job, 'upload_id': upload_id, 'log_tail': _tail(folder / 'build.log')}
+
+
+def packet_items(workspace: Path, upload_id) -> dict:
+    """What prepare extracted, read-only and without the review lock, for a side-by-side check against the page."""
+    from .prepare import load_packet
+    folder = _upload(workspace, upload_id)
+    if prepare_status(workspace, upload_id)['state'] != 'done':
+        raise Refusal('Prepare has not finished for this upload. Wait for it to finish, then reload.', 'not_prepared')
+    packet = load_packet(folder / 'packet')
+    return {'upload_id': upload_id, 'packet_id': packet['packet_id'],
+            'documents': [{'id': d['id'], 'title': d['title'], 'sha256': d['sha256']} for d in packet['documents']],
+            'items': [{'id': row['id'], 'document_id': row['document_id'], 'title': row.get('title', ''),
+                       'findings': row.get('findings', []), 'fields': [
+                {'name': f['name'], 'original_value': f['original_value'],
+                 'locator': {'physical_pages': f.get('locator', {}).get('physical_pages', [])}}
+                for f in row['fields']]} for row in packet['items']]}
 
 
 class SessionSlot:

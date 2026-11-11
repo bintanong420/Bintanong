@@ -41,6 +41,11 @@ def main(argv=None) -> int:
     intake_command.add_argument('--reviewer', required=True)
     intake_command.add_argument('--prepare-python', required=True, type=Path,
                                 help='interpreter of the venv where native Docling works')
+    intake_command.add_argument('--model-dir', type=Path, help='existing embedding model folder used by Build')
+    intake_command.add_argument('--hosted-env', type=Path,
+                                help='env file with SUPABASE_URL and SUPABASE_ANON_KEY for read-only hosted browsing')
+    intake_command.add_argument('--source-root', type=Path, action='append', default=[],
+                                help='folder of original PDFs for page images (repeatable)')
     intake_command.add_argument('--api-port', type=int, default=8765)
     intake_command.add_argument('--ui-port', type=int, default=3050)
     intake_command.add_argument('--no-open', action='store_true')
@@ -103,7 +108,8 @@ def main(argv=None) -> int:
             elif args.command == 'intake':
                 from .serve import serve
                 serve(None, args.reviewer, api_port=args.api_port, ui_port=args.ui_port, open_browser=not args.no_open,
-                      workspace=args.workspace, prepare_python=str(args.prepare_python))
+                      workspace=args.workspace, prepare_python=str(args.prepare_python), model_dir=args.model_dir,
+                      hosted_env=args.hosted_env, source_roots=args.source_root)
                 result = {'review_closed': True}
             elif args.command == 'build':
                 from .build import LocalEncoder, build

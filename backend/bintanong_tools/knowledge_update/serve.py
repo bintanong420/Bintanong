@@ -76,7 +76,8 @@ def _frontend(root: Path, env: dict, log) -> tuple[str, Path]:
 
 
 def serve(root: Path | None, reviewer: str, *, api_port: int = 8765, ui_port: int = 3050,
-          open_browser: bool = True, workspace: Path | None = None, prepare_python: str | None = None) -> None:
+          open_browser: bool = True, workspace: Path | None = None, prepare_python: str | None = None,
+          model_dir: Path | None = None, hosted_env: Path | None = None, source_roots=()) -> None:
     """Serve one packet, or (with workspace) the intake tool that uploads, prepares and opens any finished upload."""
     if (any(type(p) is not int or not 1 <= p <= 65535 for p in (api_port, ui_port))
             or api_port == ui_port):
@@ -100,8 +101,13 @@ def serve(root: Path | None, reviewer: str, *, api_port: int = 8765, ui_port: in
         try:
             with (runtime / 'frontend.log').open('a', encoding='utf-8') as log:
                 node, next_cli = _frontend(app_root, env, log)
+                knowledge = None
+                if workspace is not None:
+                    from .knowledge_browse import KnowledgeBrowser
+                    knowledge = KnowledgeBrowser(session.workspace, hosted_env=hosted_env, source_roots=source_roots)
                 app = create_app(session, token, port=api_port, ui_origin=ui_origin,
-                                 workspace=None if workspace is None else session.workspace, prepare_python=prepare_python)
+                                 workspace=None if workspace is None else session.workspace, prepare_python=prepare_python,
+                                 model_dir=model_dir, knowledge=knowledge)
                 server = uvicorn.Server(uvicorn.Config(app,
                     host='127.0.0.1', port=api_port, access_log=False, log_level='warning'))
                 worker = threading.Thread(target=server.run, daemon=True)

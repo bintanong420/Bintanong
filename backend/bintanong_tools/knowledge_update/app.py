@@ -15,7 +15,8 @@ from .files import contained, read_json
 from .prepare import load_packet
 
 
-def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None, prepare_python=None) -> FastAPI:
+def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None, prepare_python=None,
+               model_dir=None, knowledge=None) -> FastAPI:
     origin = urlsplit(ui_origin)
     if (origin.scheme != 'http' or origin.hostname not in {'127.0.0.1', 'localhost'}
             or not origin.port or origin.path or origin.query or origin.fragment or origin.username):
@@ -55,6 +56,12 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
             'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, X-Review-Token', 'Vary': 'Origin'})
         return response
+
+    from .intake import Refusal
+
+    @app.exception_handler(Refusal)
+    async def refused(request, exc):
+        return JSONResponse({'error': str(exc), 'code': exc.code}, status_code=exc.status)
 
     @app.exception_handler(ValueError)
     async def invalid(request, exc):
@@ -157,16 +164,12 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
             return JSONResponse({'error': 'Source not in this packet.'}, status_code=404)
         return Response(contained(session.root, doc['source']).read_bytes(), media_type='application/pdf')
 
-    @app.get('/api/page/{identity}/{number}')
-    def page(identity: str, number: int, scale: float = 1.5):
-        doc = document(identity)
-        if doc is None:
-            return JSONResponse({'error': 'Source not in this packet.'}, status_code=404)
+    def png(key, path, number, scale):
         try:
             with renderer_lock:
-                if identity not in renderers:
-                    renderers[identity] = PageRenderer(contained(session.root, doc['source']))
-                renderer = renderers[identity]
+                if key not in renderers:
+                    renderers[key] = PageRenderer(path)
+                renderer = renderers[key]
                 data = renderer.png(number, scale)
                 size = renderer.size(number)
                 return Response(data, media_type='image/png', headers={
@@ -175,6 +178,13 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
                     'Access-Control-Expose-Headers': 'X-Page-Width, X-Page-Height, X-Page-Count, X-Page-Rotation'})
         except PageError as exc:
             return JSONResponse({'error': str(exc)}, status_code=422)
+
+    @app.get('/api/page/{identity}/{number}')
+    def page(identity: str, number: int, scale: float = 1.5):
+        doc = document(identity)
+        if doc is None:
+            return JSONResponse({'error': 'Source not in this packet.'}, status_code=404)
+        return png(identity, contained(session.root, doc['source']), number, scale)
 
     from . import intake
 
@@ -226,6 +236,42 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
         @app.get('/api/intake/prepare/{upload_id}')
         def prepare_status(upload_id: str):
             return intake.prepare_status(workspace, upload_id)
+
+        @app.post('/api/intake/build')
+        async def start_build(request: Request):
+            command = await read_command(request)
+            if isinstance(command, Response):
+                return command
+            if not isinstance(command, dict) or set(command) != {'upload_id'}:
+                raise intake.Refusal('Build needs upload_id only.', 'bad_request')
+            return intake.start_build(workspace, command['upload_id'], python=prepare_python, model_dir=model_dir)
+
+        @app.get('/api/intake/build/{upload_id}')
+        def build_status(upload_id: str):
+            return intake.build_status(workspace, upload_id)
+
+        @app.get('/api/intake/packet/{upload_id}/items')
+        def packet_items(upload_id: str):
+            return intake.packet_items(workspace, upload_id)
+
+        from .knowledge_browse import KnowledgeBrowser
+        browser = knowledge if knowledge is not None else KnowledgeBrowser(workspace)
+
+        @app.get('/api/knowledge/sources')
+        def knowledge_sources():
+            return browser.sources()
+
+        @app.get('/api/knowledge/chunks')
+        def knowledge_chunks(source: str, q: str = '', offset: int = 0, limit: int = 25):
+            return browser.chunks(source, q, offset, limit)
+
+        @app.get('/api/knowledge/page')
+        def knowledge_page(sha256: str, page: int, scale: float = 1.5):
+            path = browser.sources_index.find(sha256)
+            if path is None:
+                return JSONResponse({'error': 'source PDF not available locally', 'code': 'source_not_local'},
+                                    status_code=404)
+            return png('sha256:' + sha256 + ':' + str(path), path, page, scale)
 
     if isinstance(session, intake.SessionSlot):
 
