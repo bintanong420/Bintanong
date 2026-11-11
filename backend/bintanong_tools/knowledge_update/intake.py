@@ -182,6 +182,8 @@ class SessionSlot:
         from .review import ReviewSession
         with self._lock:
             folder = _upload(self.workspace, upload_id)
+            if upload_id == self.upload_id:
+                return self.current.state()  # already open; a second session would hit our own ledger lock
             if prepare_status(self.workspace, upload_id)['state'] != 'done':
                 raise ValueError('only an upload whose prepare finished can be opened for review')
             opened = ReviewSession(folder / 'packet', self.reviewer)  # a failure here keeps the current packet
@@ -205,6 +207,8 @@ class SessionSlot:
     def __getattr__(self, name):
         # only reached for ReviewSession attributes this slot does not define itself
         current = self.__dict__.get('current')
+        if name.startswith('_'):  # copy/hasattr/getattr-default probes need a plain missing attribute
+            raise AttributeError(name)
         if current is None:
             raise ValueError('Open an upload for review first.')
         return getattr(current, name)

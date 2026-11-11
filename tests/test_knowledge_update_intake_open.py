@@ -101,3 +101,36 @@ def test_intake_command_is_registered():
     with pytest.raises(SystemExit) as stop:
         cli.main(['intake', '--help'])
     assert stop.value.code == 0
+
+
+def test_reopening_the_current_upload_is_harmless(slot, tmp_path, monkeypatch):
+    upload_id = finished(tmp_path, monkeypatch)
+    slot.open(upload_id)
+    assert slot.open(upload_id)['items'] and slot.upload_id == upload_id
+
+
+def test_a_locked_packet_cannot_replace_the_current_one(slot, tmp_path, monkeypatch):
+    good, busy = finished(tmp_path, monkeypatch), finished(tmp_path, monkeypatch, 'Busy rule.')
+    slot.open(good)
+    with ReviewSession(tmp_path / busy / 'packet', 'Another researcher'):
+        with pytest.raises(ValueError):
+            slot.open(busy)
+    assert slot.upload_id == good and slot.state()['items'][0]['fields'][0]['original_value'] == 'Submit the form.'
+    with pytest.raises(ValueError):  # still ours: another reviewer cannot take the current packet's lock
+        ReviewSession(tmp_path / good / 'packet', 'Another researcher')
+
+
+def test_probing_an_empty_slot_behaves_like_a_missing_attribute(slot):
+    import copy
+    assert not hasattr(slot, '_private_probe')
+    assert copy.copy(slot).upload_id is None
+
+
+def test_open_routes_are_absent_for_a_single_packet_tool(tmp_path, monkeypatch):
+    upload_id = finished(tmp_path, monkeypatch)
+    app = importlib.import_module('backend.bintanong_tools.knowledge_update.app')
+    with ReviewSession(tmp_path / upload_id / 'packet', 'Synthetic researcher') as review:
+        web = TestClient(app.create_app(review, TOKEN, port=8765, ui_origin=ORIGIN, workspace=tmp_path),
+                         base_url='http://127.0.0.1:8765')
+        assert web.post('/api/intake/open', json={'upload_id': upload_id}, headers=GOOD).status_code == 404
+        assert web.get('/api/intake/current', headers=GOOD).status_code == 404
