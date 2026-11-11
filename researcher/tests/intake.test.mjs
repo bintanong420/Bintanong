@@ -65,7 +65,7 @@ test('the form becomes the build payload only when it is complete', () => {
     reading_ids: ['r1', 'r3'],
     assignments: [{ reading_id: 'r1', subject_id: 's1' }, { reading_id: 'r3', subject_id: 's1' }],
     claim_reviews: [
-      { subject_id: 's1', claim: 'Late fee applies', finding: 'visible_fields', field_refs: ['body'], basis_reading_id: 'r1' },
+      { subject_id: 's1', claim: 'Late fee applies', finding: 'visible_fields', field_refs: [{ reading_id: 'r1', field_name: 'body' }], basis_reading_id: 'r1' },
       { subject_id: 's1', claim: 'No refund rule', finding: 'not_stated_in_selected_fields', field_refs: [], basis_reading_id: 'r3' }] });
 });
 

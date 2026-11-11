@@ -52,8 +52,9 @@ export type BuildPlan = { packet_id?: string; revision?: number; readings: PlanR
   withheld_items?: { item_id: string; reason: string }[] };
 export type ClaimDraft = { subject_id: string; claim: string; finding: string; field_refs: string[]; basis_reading_id: string };
 export type BuildForm = { selected: string[]; subjects: Record<string, string>; claims: ClaimDraft[] };
+export type FieldRef = { reading_id: string; field_name: string };
 export type BuildPayload = { reading_ids: string[]; assignments: { reading_id: string; subject_id: string }[];
-  claim_reviews: ClaimDraft[] };
+  claim_reviews: (Omit<ClaimDraft, 'field_refs'> & { field_refs: FieldRef[] })[] };
 
 export const FINDINGS = ['visible_fields', 'not_stated_in_selected_fields'] as const;
 
@@ -68,18 +69,19 @@ export function buildPayload(plan: Pick<BuildPlan, 'readings'>, form: BuildForm)
   for (const row of assignments) if (!row.subject_id) errors.push(`Enter a subject id for reading ${row.reading_id}.`);
   const subjects = new Set(assignments.map(row => row.subject_id).filter(Boolean));
   if (!form.claims.length) errors.push('Add at least one claim review.');
-  const claims = form.claims.map((draft, index): ClaimDraft => {
+  const claims = form.claims.map((draft, index): BuildPayload['claim_reviews'][number] => {
     const label = `Claim ${index + 1}`, claim = draft.claim.trim(), subject = draft.subject_id.trim();
     if (!claim) errors.push(`${label}: enter the claim text.`);
     if (!subjects.has(subject)) errors.push(`${label}: its subject must be one assigned to a selected reading.`);
     if (!(FINDINGS as readonly string[]).includes(draft.finding)) errors.push(`${label}: choose a finding.`);
     const basis = byId.get(draft.basis_reading_id);
     if (!basis || !ids.includes(draft.basis_reading_id)) errors.push(`${label}: the basis must be a selected reading.`);
-    let refs: string[] = [];
+    let refs: FieldRef[] = [];
     if (draft.finding === 'visible_fields') {
-      refs = draft.field_refs;
+      const names = draft.field_refs;
+      refs = names.map(field_name => ({ reading_id: draft.basis_reading_id, field_name }));
       if (!refs.length) errors.push(`${label}: choose the field(s) that show the claim.`);
-      else if (basis && refs.some(name => !basis.fields.includes(name))) errors.push(`${label}: a chosen field is not in the basis reading.`);
+      else if (basis && names.some(name => !basis.fields.includes(name))) errors.push(`${label}: a chosen field is not in the basis reading.`);
     }
     return { subject_id: subject, claim, finding: draft.finding, field_refs: refs, basis_reading_id: draft.basis_reading_id };
   });
