@@ -49,8 +49,16 @@ step 4 SessionSlot + `knowledge_update intake` command (`92ce5032`,`b9a94617`); 
 127.0.0.1:54321; proxy-free client; Fable blocker D1 fixed). 131 py tests (offline) + researcher 31/1-skip,
 tsc, next build. Live smoke 12 Nov via proxy: upload, refusals, real Docling prepare done (3 items, min free
 RAM 1.0 GB), open/reopen, build plan; Gemma path and browser click-through untested; T4 never run on a DB.
-Owner decision needed: fingerprint rule after the first local draft (strict hosted==local refuses every later
-stage; Fable proposes recorded per-side freeze). Next: that decision, then steps 5b, 6, 7.
+12 Nov: owner chose the recorded per-side freeze rule. Merged: 5b draft checks (`a73f9999`..`42a687ce`,
+retrieval-only, report bound to package digests, Sonnet-reviewed) and step 6 freeze rule + `stage`/`activate`/
+`rollback` commands (`f726db15`..`e512ef1f`, Fable-approved, D1-D3 fixed). 194 offline tests pass together.
+Fable confirmed: activating a fresh upload is refused by `validate_release` (sources pending, no bound selected
+review); the tool never writes approval states or binds reviews. Owner decision needed: may local uploads be
+activated before school approval, and if so the governed research route (acquisition verification, source
+observation, review receipts, `bind_selected_release_review`, `research-owner-YYYYMMDD` ref). Intake redesign
+`8b67d0b3`,`1b04318b` on `feat/ku-intake-design` (served for owner preview from detached `p12-ku-preview`),
+not yet reviewed. Next: design review, step 7 end-to-end test + `check-draft` command; first real local stage
+needs the container and owner OK; Gemma path needs the GPU free.
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 Earlier next: owner review on the integrated development branch, then independent human/
 benchmark, paired language/compiler and latency acceptance. No institutional deployment
