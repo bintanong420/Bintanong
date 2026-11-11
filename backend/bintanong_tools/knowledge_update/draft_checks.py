@@ -4,6 +4,11 @@ For each authored question this checks that the package's own stored vectors ret
 from an expected reviewed reading within top-k. It does NOT check answer correctness,
 institutional approval or currentness. The report ({package_id, passed}) is consumed by the
 activation step; passed is True only when at least one case ran and every case passed.
+
+package_binding repeats the digests load_package already verified (package_id, which covers the
+manifest and every file digest, plus the chunk/embedding/embedding-manifest file digests and the
+embedding_set_id). The report is unsigned and trusted only as a local-operator artifact: binding
+proves which package bytes it was produced for, not who produced it.
 """
 from __future__ import annotations
 
@@ -71,6 +76,7 @@ def run_checks(package_path, cases_path, out_path, *, encoder) -> dict:
     storage = PackageStorage(release_id='draft-check', manifest=manifest, chunks=package['chunks'],
         versions={v['version_id']: v for v in package['sources']},
         vectors={r['chunk_id']: r['vector'] for r in package['embeddings']})
+    files = package['manifest']['files']
     results = []
     for case in cases:
         vector = encoder.encode_queries([case['question']])[0]
@@ -81,6 +87,10 @@ def run_checks(package_path, cases_path, out_path, *, encoder) -> dict:
             'passed': any(r['reading_id'] in case['expected_reading_ids'] for r in retrieved),
             'retrieved': retrieved})
     report = {'schema_version': REPORT_SCHEMA, 'package_id': package['manifest']['package_id'],
+        'package_binding': {'package_id': package['manifest']['package_id'],
+            'chunks_sha256': files['chunks.jsonl'], 'embeddings_sha256': files['embeddings.jsonl'],
+            'embedding_manifest_sha256': files['embedding_manifest.json'],
+            'embedding_set_id': manifest['embedding_set_id']},
         'passed': bool(results) and all(r['passed'] for r in results), 'scope': SCOPE, 'cases': results,
         'created_at': datetime.now(timezone.utc).isoformat(),
         'encoder': {'model_id': encoder.config.model_id, 'model_revision': encoder.config.model_revision}}

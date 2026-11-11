@@ -107,3 +107,55 @@ def test_output_inside_git_refused(package, tmp_path):
     (inside / '.git').mkdir(parents=True)
     with pytest.raises(ValueError, match='git'):
         run(package, tmp_path, [row()], out=inside / 'report.json')
+
+
+def synthetic_ranked_package():
+    """Three chunks with distinct vectors; query (1,0,0) scores r1=0.9 > r2=0.6 > r3=0.3."""
+    import math
+    def vec(score):
+        return [score, math.sqrt(1 - score * score)] + [0.0] * 1022
+    names = ['r1', 'r2', 'r3']
+    chunks = [{'chunk_id': 'c-' + n, 'version_id': 'v', 'scope': [], 'spans': [],
+               'type_fields': {'reading_id': n}} for n in names]
+    config = {k: 'x' for k in ('model_id', 'model_revision', 'dimension', 'normalization',
+              'prompt_fingerprint', 'preprocessing_fingerprint', 'tokenizer_fingerprint')}
+    config.update(model_id='synthetic-sealion', model_revision='1' * 40, embedding_set_id='set-1')
+    return {'manifest': {'package_id': 'pkg-1', 'files': {'chunks.jsonl': 'a', 'embeddings.jsonl': 'b',
+                                                          'embedding_manifest.json': 'c'}},
+            'embedding_manifest': config, 'chunks': chunks, 'sources': [{'version_id': 'v'}],
+            'embeddings': [{'chunk_id': 'c-' + n, 'vector': vec(s)} for n, s in zip(names, (0.9, 0.6, 0.3))]}
+
+
+@pytest.fixture
+def ranked(monkeypatch):
+    monkeypatch.setattr(draft_checks, 'load_package', lambda path: synthetic_ranked_package())
+    monkeypatch.setattr(draft_checks, 'CONFIG_FIELDS', ('model_id', 'model_revision'))
+
+
+def ranked_run(tmp_path, top_k, expected='r3'):
+    encoder = QueryEncoder(vector=(1.0,) + (0.0,) * 1023)
+    return run(tmp_path, tmp_path, [row(expected=(expected,), top_k=top_k)], encoder=encoder)
+
+
+def test_rank_three_fails_top_two_passes_top_three(ranked, tmp_path):
+    assert ranked_run(tmp_path, 2)['passed'] is False
+    report = ranked_run(tmp_path, 3)
+    assert report['passed'] is True
+    assert [r['reading_id'] for r in report['cases'][0]['retrieved']] == ['r1', 'r2', 'r3']
+
+
+def test_scores_sorted_descending_and_top_k_limits(ranked, tmp_path):
+    report = ranked_run(tmp_path, 2, expected='r1')
+    scores = [r['score'] for r in report['cases'][0]['retrieved']]
+    assert len(scores) == 2 and scores == sorted(scores, reverse=True)
+    assert scores[0] == pytest.approx(0.9) and scores[1] == pytest.approx(0.6)
+
+
+def test_package_binding_comes_from_package_digests(package, tmp_path):
+    report = run(package, tmp_path, [row()])
+    loaded = build_mod.load_package(package)
+    files = loaded['manifest']['files']
+    assert report['package_binding'] == {'package_id': loaded['manifest']['package_id'],
+        'chunks_sha256': files['chunks.jsonl'], 'embeddings_sha256': files['embeddings.jsonl'],
+        'embedding_manifest_sha256': files['embedding_manifest.json'],
+        'embedding_set_id': loaded['embedding_manifest']['embedding_set_id']}
