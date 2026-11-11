@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { buildPayload, checkUploadFile, isNoPacketError, MAX_UPLOAD_BYTES, prepareLabel, shouldPoll, uploadQuery,
+import { buildPayload, buildProblems, latestLogLine, checkUploadFile, fieldErrors, formatBytes, formatElapsed, pipelineSteps, isNoPacketError, MAX_UPLOAD_BYTES, prepareLabel, shouldPoll, uploadQuery,
   validateUploadFields, withheldReason } from '../lib/intake.ts';
 
 test('a file is refused before sending when it is not a PDF or is over 128 MiB', () => {
@@ -26,7 +26,7 @@ test('upload fields are required or trimmed, and the query escapes them', () => 
 
 test('prepare status labels, polling and the Gemma warning', () => {
   assert.equal(prepareLabel('running'), 'Running');
-  assert.equal(prepareLabel('done'), 'Finished');
+  assert.equal(prepareLabel('done'), 'Done');
   assert.equal(prepareLabel('failed'), 'Failed');
   assert.equal(prepareLabel('interrupted'), 'Interrupted (the review server restarted while it ran)');
   assert.equal(prepareLabel('not_started'), 'Not started');
@@ -87,4 +87,73 @@ test('incomplete or inconsistent forms list every problem instead of sending', (
     assert.equal(result.payload, null);
     assert.ok(result.errors.some(e => pattern.test(e)), `${pattern}: ${result.errors.join(' | ')}`);
   }
+});
+
+test('sizes read in MiB or KiB with one decimal and never as zero for a non-empty file', () => {
+  assert.equal(formatBytes(0), '0 B');
+  assert.equal(formatBytes(512), '512 B');
+  assert.equal(formatBytes(1536), '1.5 KiB');
+  assert.equal(formatBytes(5 * 1024 * 1024), '5.0 MiB');
+  assert.equal(formatBytes(1), '1 B');
+  assert.equal(formatBytes(-5), '0 B');
+});
+
+test('elapsed time is minutes and seconds, and bad input reads as zero', () => {
+  assert.equal(formatElapsed(0), '0 s');
+  assert.equal(formatElapsed(9_400), '9 s');
+  assert.equal(formatElapsed(65_000), '1 min 05 s');
+  assert.equal(formatElapsed(3_600_000 + 61_000), '1 h 01 min');
+  assert.equal(formatElapsed(-1), '0 s');
+  assert.equal(formatElapsed(Number.NaN), '0 s');
+});
+
+test('field errors name the field that needs fixing and agree with the single-message check', () => {
+  const ok = { kind: 'handbook', title: 'T', edition: 'E', office: '', audience: '' };
+  assert.deepEqual(fieldErrors(ok), {});
+  assert.deepEqual(Object.keys(fieldErrors({ ...ok, title: ' ', edition: '' })).sort(), ['edition', 'title']);
+  assert.match(fieldErrors({ ...ok, office: 'x'.repeat(301) }).office ?? '', /300/);
+  assert.match(fieldErrors({ ...ok, audience: 'x'.repeat(301) }).audience ?? '', /300/);
+  assert.match(fieldErrors({ ...ok, kind: 'law' }).kind ?? '', /kind/i);
+  for (const bad of [{ ...ok, title: '' }, { ...ok, kind: 'x' }, { ...ok, office: 'x'.repeat(301) }])
+    assert.equal(validateUploadFields(bad), Object.values(fieldErrors(bad))[0]);
+});
+
+test('each upload shows four steps, and a step is blocked until the one before it is done', () => {
+  const keys = pipelineSteps('running', false).map(step => step.key);
+  assert.deepEqual(keys, ['upload', 'prepare', 'review', 'build']);
+  const by = (state, open) => Object.fromEntries(pipelineSteps(state, open).map(step => [step.key, step]));
+  assert.equal(by('running', false).upload.status, 'done');
+  assert.equal(by('running', false).prepare.status, 'active');
+  assert.equal(by('running', false).review.status, 'blocked');
+  assert.equal(by('done', false).prepare.status, 'done');
+  assert.equal(by('done', false).review.status, 'todo');
+  assert.equal(by('done', false).build.status, 'blocked');
+  assert.equal(by('done', true).review.status, 'active');
+  assert.equal(by('done', true).build.status, 'todo');
+  assert.equal(by('failed', false).prepare.status, 'failed');
+  assert.equal(by('interrupted', false).prepare.status, 'failed');
+  assert.match(by('interrupted', false).prepare.text, /Interrupted/);
+  assert.equal(by('not_started', false).prepare.status, 'todo');
+  assert.equal(by(undefined, false).prepare.status, 'unknown');
+  for (const step of pipelineSteps('failed', false)) assert.ok(step.text.length > 0);  // status is always words, never colour alone
+});
+
+test('build problems point at the reading or claim field they belong to', () => {
+  const plan = { readings: [{ reading_id: 'r1', fields: ['a'], pending_fields: [], ready: true }] };
+  const none = buildProblems(plan, { selected: [], subjects: {}, claims: [] });
+  assert.ok(none.some(p => p.scope === 'selection'));
+  assert.ok(none.some(p => p.scope === 'claims'));
+  const form = { selected: ['r1'], subjects: { r1: '' }, claims: [{ subject_id: 'zz', claim: '', finding: 'visible_fields', field_refs: [], basis_reading_id: '' }] };
+  const problems = buildProblems(plan, form);
+  assert.ok(problems.some(p => p.scope === 'reading' && p.readingId === 'r1'));
+  const fields = problems.filter(p => p.scope === 'claim' && p.index === 0).map(p => p.field).sort();
+  assert.deepEqual(fields, ['basis', 'claim', 'fields', 'subject']);
+  assert.deepEqual(buildPayload(plan, form).errors, problems.map(p => p.message));  // flat messages unchanged
+});
+test('the log summary is the latest line that is not a progress bar or a warning, trimmed', () => {
+  assert.equal(latestLogLine([]), '');
+  assert.equal(latestLogLine(['Converting page 3', '  ', 'Fetching: 40%|####   | 4/10 [00:01<00:02, 2.0it/s]']), 'Converting page 3');
+  assert.equal(latestLogLine(['Wrote packet', 'UserWarning: CPU only, no CUDA']), 'Wrote packet');
+  assert.equal(latestLogLine(['x'.repeat(300)]).length <= 160, true);
+  assert.equal(latestLogLine(['10%|# | 1/10', 'warning: x']), '');
 });

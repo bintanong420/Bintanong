@@ -15,16 +15,27 @@ export function checkUploadFile(file: { name: string; type: string; size: number
   return null;
 }
 
-export function validateUploadFields(fields: UploadFields) {
-  if (!(KINDS as readonly string[]).includes(fields.kind)) return 'Choose a document kind.';
-  if (!fields.title.trim()) return 'Enter the document title.';
-  if (!fields.edition.trim()) return 'Enter the edition or year.';
-  for (const [name, value] of [['Title', fields.title], ['Edition', fields.edition], ['Office', fields.office], ['Audience note', fields.audience]]) {
-    if (value.trim().length > TEXT_LIMIT) return `${name} must be at most ${TEXT_LIMIT} characters.`;
+export type UploadField = 'kind' | 'title' | 'edition' | 'office' | 'audience';
+
+// One message per field, so the form can show each next to its input. Order matches the visible form order.
+export function fieldErrors(fields: UploadFields): Partial<Record<UploadField, string>> {
+  const errors: Partial<Record<UploadField, string>> = {};
+  if (!(KINDS as readonly string[]).includes(fields.kind)) errors.kind = 'Choose a document kind.';
+  if (!fields.title.trim()) errors.title = 'Enter the document title.';
+  if (!fields.edition.trim()) errors.edition = 'Enter the edition or year.';
+  const limited: [UploadField, string, string][] = [['title', 'Title', fields.title], ['edition', 'Edition', fields.edition],
+    ['office', 'Office', fields.office], ['audience', 'Audience note', fields.audience]];
+  for (const [key, name, value] of limited) {
+    if (!errors[key] && value.trim().length > TEXT_LIMIT) errors[key] = `${name} must be at most ${TEXT_LIMIT} characters.`;
   }
-  return null;
+  return errors;
 }
 
+export function validateUploadFields(fields: UploadFields) {
+  const errors = fieldErrors(fields);
+  const first = (['kind', 'title', 'edition', 'office', 'audience'] as const).find(key => errors[key]);
+  return first ? errors[first]! : null;
+}
 export function uploadQuery(fields: UploadFields) {
   const query = new URLSearchParams({ kind: fields.kind, title: fields.title.trim(), edition: fields.edition.trim() });
   if (fields.office.trim()) query.set('office', fields.office.trim());
@@ -32,10 +43,55 @@ export function uploadQuery(fields: UploadFields) {
   return query.toString();
 }
 
-const LABELS: Record<string, string> = { running: 'Running', done: 'Finished', failed: 'Failed',
+const LABELS: Record<string, string> = { running: 'Running', done: 'Done', failed: 'Failed',
   interrupted: 'Interrupted (the review server restarted while it ran)', not_started: 'Not started' };
 export function prepareLabel(state: string) { return LABELS[state] ?? 'Unknown state'; }
 export function shouldPoll(state: string | undefined) { return state === 'running'; }
+
+// Newest line worth reading in a raw Docling log: skips blanks, tqdm bars and warnings. The full log stays available untouched.
+export function latestLogLine(lines: string[]) {
+  for (const raw of [...lines].reverse()) {
+    const line = raw.trim();
+    if (!line || /\d+%\||it\/s|s\/it/.test(line) || /warn/i.test(line)) continue;
+    return line.length > 160 ? line.slice(0, 157) + '...' : line;
+  }
+  return '';
+}
+
+export function formatBytes(bytes: number) {
+  if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';
+  if (bytes < 1024) return `${Math.round(bytes)} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KiB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MiB`;
+}
+
+export function formatElapsed(ms: number) {
+  const total = Number.isFinite(ms) && ms > 0 ? Math.floor(ms / 1000) : 0;
+  const hours = Math.floor(total / 3600), minutes = Math.floor((total % 3600) / 60), seconds = total % 60;
+  const two = (n: number) => String(n).padStart(2, '0');
+  if (hours) return `${hours} h ${two(minutes)} min`;
+  if (minutes) return `${minutes} min ${two(seconds)} s`;
+  return `${seconds} s`;
+}
+
+export type StepStatus = 'done' | 'active' | 'todo' | 'failed' | 'blocked' | 'unknown';
+export type PipelineStep = { key: 'upload' | 'prepare' | 'review' | 'build'; label: string; status: StepStatus; text: string };
+
+// Where one upload sits in Upload -> Prepare -> Review -> Build form. Every status carries words, not only a symbol.
+export function pipelineSteps(prepareState: string | undefined, open: boolean): PipelineStep[] {
+  const prepare: Record<string, [StepStatus, string]> = { not_started: ['todo', 'Not started'], running: ['active', 'Running'],
+    done: ['done', 'Done'], failed: ['failed', 'Failed'], interrupted: ['failed', 'Interrupted'] };
+  const [prepareStatus, prepareText] = prepareState === undefined ? ['unknown', 'Checking'] : prepare[prepareState] ?? ['unknown', 'Unknown'];
+  const prepared = prepareState === 'done';
+  return [
+    { key: 'upload', label: 'Upload', status: 'done', text: 'Uploaded' },
+    { key: 'prepare', label: 'Prepare', status: prepareStatus as StepStatus, text: prepareText },
+    { key: 'review', label: 'Review', ...(open ? { status: 'active' as const, text: 'Open for review' }
+      : prepared ? { status: 'todo' as const, text: 'Ready to open' } : { status: 'blocked' as const, text: 'Waiting for Prepare' }) },
+    { key: 'build', label: 'Build form', ...(open ? { status: 'todo' as const, text: 'Fill in after review' }
+      : { status: 'blocked' as const, text: 'Needs an open upload' }) },
+  ];
+}
 
 // The review API answers 422 with this text while no upload is open; the home page turns it into a link.
 export function isNoPacketError(message: string, status: number) {
@@ -58,33 +114,47 @@ export type BuildPayload = { reading_ids: string[]; assignments: { reading_id: s
 
 export const FINDINGS = ['visible_fields', 'not_stated_in_selected_fields'] as const;
 
+export type BuildProblem =
+  | { scope: 'selection' | 'claims'; message: string }
+  | { scope: 'reading'; readingId: string; message: string }
+  | { scope: 'claim'; index: number; field: 'claim' | 'subject' | 'finding' | 'basis' | 'fields'; message: string };
+
+// Same checks as before, but each problem says where it belongs so the form can show it inline.
+export function buildProblems(plan: Pick<BuildPlan, 'readings'>, form: BuildForm): BuildProblem[] {
+  const problems: BuildProblem[] = [];
+  const byId = new Map(plan.readings.map(row => [row.reading_id, row]));
+  const ids = plan.readings.filter(row => row.ready && form.selected.includes(row.reading_id)).map(row => row.reading_id);
+  if (!ids.length) problems.push({ scope: 'selection', message: 'Select at least one reading that is ready.' });
+  const assignments = ids.map(id => ({ reading_id: id, subject_id: (form.subjects[id] ?? '').trim() }));
+  for (const row of assignments) if (!row.subject_id) problems.push({ scope: 'reading', readingId: row.reading_id, message: `Enter a subject id for reading ${row.reading_id}.` });
+  const subjects = new Set(assignments.map(row => row.subject_id).filter(Boolean));
+  if (!form.claims.length) problems.push({ scope: 'claims', message: 'Add at least one claim review.' });
+  form.claims.forEach((draft, index) => {
+    const label = `Claim ${index + 1}`;
+    const add = (field: 'claim' | 'subject' | 'finding' | 'basis' | 'fields', text: string) =>
+      problems.push({ scope: 'claim', index, field, message: `${label}: ${text}` });
+    if (!draft.claim.trim()) add('claim', 'enter the claim text.');
+    if (!subjects.has(draft.subject_id.trim())) add('subject', 'its subject must be one assigned to a selected reading.');
+    if (!(FINDINGS as readonly string[]).includes(draft.finding)) add('finding', 'choose a finding.');
+    const basis = byId.get(draft.basis_reading_id);
+    if (!basis || !ids.includes(draft.basis_reading_id)) add('basis', 'the basis must be a selected reading.');
+    if (draft.finding === 'visible_fields') {
+      if (!draft.field_refs.length) add('fields', 'choose the field(s) that show the claim.');
+      else if (basis && draft.field_refs.some(name => !basis.fields.includes(name))) add('fields', 'a chosen field is not in the basis reading.');
+    }
+  });
+  return problems;
+}
+
 export function buildPayload(plan: Pick<BuildPlan, 'readings'>, form: BuildForm):
     { payload: BuildPayload; errors: never[] } | { payload: null; errors: string[] } {
-  const errors: string[] = [];
-  const byId = new Map(plan.readings.map(row => [row.reading_id, row]));
-  // keep plan order; a pending or unknown reading is never sent
+  const problems = buildProblems(plan, form);
+  if (problems.length) return { payload: null, errors: problems.map(problem => problem.message) };
   const ids = plan.readings.filter(row => row.ready && form.selected.includes(row.reading_id)).map(row => row.reading_id);
-  if (!ids.length) errors.push('Select at least one reading that is ready.');
   const assignments = ids.map(id => ({ reading_id: id, subject_id: (form.subjects[id] ?? '').trim() }));
-  for (const row of assignments) if (!row.subject_id) errors.push(`Enter a subject id for reading ${row.reading_id}.`);
-  const subjects = new Set(assignments.map(row => row.subject_id).filter(Boolean));
-  if (!form.claims.length) errors.push('Add at least one claim review.');
-  const claims = form.claims.map((draft, index): BuildPayload['claim_reviews'][number] => {
-    const label = `Claim ${index + 1}`, claim = draft.claim.trim(), subject = draft.subject_id.trim();
-    if (!claim) errors.push(`${label}: enter the claim text.`);
-    if (!subjects.has(subject)) errors.push(`${label}: its subject must be one assigned to a selected reading.`);
-    if (!(FINDINGS as readonly string[]).includes(draft.finding)) errors.push(`${label}: choose a finding.`);
-    const basis = byId.get(draft.basis_reading_id);
-    if (!basis || !ids.includes(draft.basis_reading_id)) errors.push(`${label}: the basis must be a selected reading.`);
-    let refs: FieldRef[] = [];
-    if (draft.finding === 'visible_fields') {
-      const names = draft.field_refs;
-      refs = names.map(field_name => ({ reading_id: draft.basis_reading_id, field_name }));
-      if (!refs.length) errors.push(`${label}: choose the field(s) that show the claim.`);
-      else if (basis && names.some(name => !basis.fields.includes(name))) errors.push(`${label}: a chosen field is not in the basis reading.`);
-    }
-    return { subject_id: subject, claim, finding: draft.finding, field_refs: refs, basis_reading_id: draft.basis_reading_id };
-  });
-  if (errors.length) return { payload: null, errors };
+  const claims = form.claims.map((draft): BuildPayload['claim_reviews'][number] => ({
+    subject_id: draft.subject_id.trim(), claim: draft.claim.trim(), finding: draft.finding,
+    field_refs: draft.finding === 'visible_fields' ? draft.field_refs.map(field_name => ({ reading_id: draft.basis_reading_id, field_name })) : [],
+    basis_reading_id: draft.basis_reading_id }));
   return { payload: { reading_ids: ids, assignments, claim_reviews: claims }, errors: [] };
 }
