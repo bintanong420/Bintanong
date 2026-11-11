@@ -176,8 +176,21 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
         except PageError as exc:
             return JSONResponse({'error': str(exc)}, status_code=422)
 
+    from . import intake
+
+    @app.get('/api/intake/build-plan')
+    def build_plan():
+        return intake.build_plan(session)
+
+    @app.post('/api/intake/build-metadata')
+    async def build_metadata(request: Request):
+        form = await read_command(request)
+        if isinstance(form, Response):
+            return form
+        from starlette.concurrency import run_in_threadpool
+        return await run_in_threadpool(intake.save_build_metadata, session, form)
+
     if workspace is not None:
-        from . import intake
 
         @app.post('/api/intake/upload')
         async def upload(request: Request, kind: str, title: str, edition: str, office: str = '', audience: str = ''):
