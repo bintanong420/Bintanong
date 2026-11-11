@@ -60,7 +60,11 @@ export default function ReviewWorkspace() {
       const first = linked ?? value.items[0];
       setSelected(first?.id ?? '');
       if (first && !linked) window.history.replaceState(null, '', reviewPath(targetForItem(first)));
-    }).catch(error => setError(error.message));
+    }).catch(error => {
+      // the intake tool starts with nothing open: point to Intake instead of the generic launch-link error
+      if (error instanceof ReviewError && isNoPacketError(error.message, error.status)) setNoPacket(true);
+      else setError(error.message);
+    });
   }, [reload]);
 
   // back and forward move between records
