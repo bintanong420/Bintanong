@@ -97,8 +97,12 @@ Evidence/CSVs: ignored `audit-evidence/p12-latency-22-20261111/`. All Docker (Su
 Failure diagnosis (`diag-failures/`, 6/6 reruns reproduce, not memory): topic selection picks 2-3 topics for these
 wordings (Q04-TL/TG: prerequisite + substitution + DAC policy / drop-shift FAQ; Q19-TG: student FAQ + transfer
 credentials); the router prompt grows 27.1k -> 32.9-34.4k chars and the transport preflight raises `context_overflow`
-(prompt + output reserve > 8192). Routing has no overflow fallback (orchestrator maps it to `tool_error`). Fix not
-started; awaiting owner choice.
+(prompt + output reserve > 8192). Routing has no overflow fallback (orchestrator maps it to `tool_error`). No code fix.
+Owner chose to raise the context to 16,384 for benchmarking and disclose it. Fit check (`fit-check/`): +167 MB VRAM
+(5,505/8,188 MB), same prompt/generation tok/s, fully on GPU. New container `bintanong-p09-cuda-16k` (same image/args
+except `--ctx-size 16384`, port 18088); 8k container unchanged. 16k rerun of all 66 (`p12-latency-22-16k-20261111/`):
+66/66 responded, no failures; warm mean 15.62 s, median 15.78, p90 21.25, max 29.98 (Prolog 14.32, RAG 16.36).
+Cold 71 + 101 + 20.1 = 193 s; hot 105 + 18.2 = 124 s. Both containers stopped; Supabase/Binturong still stopped.
 
 ## Next action
 
