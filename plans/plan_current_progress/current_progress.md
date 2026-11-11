@@ -40,6 +40,9 @@ and separate ablation3219/API8024 retain their previously recorded startup ident
 The new development branch is not evidence that a running3217 process has reloaded it.
 No dependency/model installs or downloads. Institutional sources, F04/source gaps,
 undergraduate scope and private-context separation keep their established boundaries.
-Next: owner review on the integrated development branch, then independent human/
+GUI knowledge intake (owner 11 Nov, [plan](../2026-11-11-gui-knowledge-intake-plan.md)): `b192fc9c` plan;
+`14213e9c` step 1 upload route (RED 15/16 for missing module, then GREEN; 64 knowledge-update tests,
+researcher 24 pass/1 skip, TypeScript pass). Route not yet wired into `review`/CLI (step 4). Next: step 2.
+Earlier next: owner review on the integrated development branch, then independent human/
 benchmark, paired language/compiler and latency acceptance. No institutional deployment
 or automatic closure of source PR18/19 is implied by the development merge.
