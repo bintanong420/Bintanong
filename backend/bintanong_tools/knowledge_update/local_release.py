@@ -69,7 +69,8 @@ def local_client(target_url) -> SupabaseStorageClient:
     check_target(target_url)
     return SupabaseStorageClient(_LocalConfig(api_url=LOCAL_TARGET,
         anon_key=os.environ.get(ANON_ENV, DEFAULT_LOCAL_ANON_KEY),
-        service_role_key=os.environ.get(KEY_ENV, DEFAULT_LOCAL_SERVICE_ROLE_KEY), db_url=DEFAULT_LOCAL_DB_URL))
+        service_role_key=os.environ.get(KEY_ENV, DEFAULT_LOCAL_SERVICE_ROLE_KEY), db_url=DEFAULT_LOCAL_DB_URL),
+        trust_env=False)
 
 
 def fingerprint_script_check(script: Path, report: Path, *, run=subprocess.run):
@@ -108,6 +109,8 @@ def _write(client, written: dict, key: str, action: str, fn):
     except StorageError as exc:
         state = 'not_written' if exc.status_code is not None else 'unknown'
         reason = _reason(exc, client)
+    except Exception as exc:  # unexpected failure: the write may or may not have committed
+        state, reason = 'unknown', _reason(exc, client)
     written[key] = state
     raise LocalReleaseError(f'{action} failed ({reason}). {_summary(written)}', written) from None
 

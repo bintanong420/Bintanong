@@ -28,10 +28,11 @@ class PermissionDeniedError(StorageError):
 
 
 class SupabaseStorageClient:
-    def __init__(self, config: Optional[StorageConfig] = None) -> None:
+    def __init__(self, config: Optional[StorageConfig] = None, trust_env: bool = True) -> None:
         self.config = config or StorageConfig.from_env()
         self.base_url = f"{self.config.api_url}/rest/v1"
-        self._http = httpx.Client(timeout=self.config.timeout_seconds)
+        # trust_env=False ignores proxy variables/registry so local writes and keys stay local.
+        self._http = httpx.Client(timeout=self.config.timeout_seconds, trust_env=trust_env)
 
     def close(self) -> None:
         self._http.close()

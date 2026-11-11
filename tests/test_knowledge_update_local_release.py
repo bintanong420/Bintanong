@@ -105,6 +105,11 @@ class FakeClient:
         self.tables['release_document_versions'] += [{'release_id': p['p_release_id'], 'version_id': v}
                                                       for v in p['p_document_version_ids']]
 
+    def _activate_knowledge_release(self, p):  # present so a mutation is caught by assertion, not AttributeError
+        self.tables['active_release'][:] = [{'release_id': p['p_release_id']}]
+
+    _rollback_knowledge_release = _designate_research_release = _activate_knowledge_release
+
     def rpc_names(self):
         return [c[1] for c in self.calls if c[0] == 'rpc']
 
@@ -197,7 +202,8 @@ def test_stages_inactive_draft_in_order_and_reads_it_back(package):
     result = stage(package, client)
     assert client.rpc_names() == ['register_pending_sources', 'load_knowledge_batch', 'create_knowledge_release']
     assert all(c[2] == 'admin' for c in client.calls)
-    assert 'activate_knowledge_release' not in client.rpc_names()
+    assert not {'activate_knowledge_release', 'rollback_knowledge_release',
+                'designate_research_release'} & set(client.rpc_names())
     release = [r for r in client.tables['knowledge_releases'] if r['release_id'] == 'local-draft-test'][0]
     assert release['status'] == 'draft'
     assert release['release_version'] == 'package-' + pkg['manifest']['package_id']
@@ -343,3 +349,41 @@ def test_local_client_reads_key_only_from_its_own_variable(monkeypatch):
         client.close()
     with pytest.raises(api().LocalReleaseError, match='target'):
         api().local_client('https://abcd.supabase.co')
+
+
+def test_local_client_ignores_the_generic_key_variable(monkeypatch):
+    from backend.bintanong_storage.config import DEFAULT_LOCAL_SERVICE_ROLE_KEY
+    monkeypatch.delenv('BINTANONG_LOCAL_SERVICE_ROLE_KEY', raising=False)
+    monkeypatch.setenv('SUPABASE_SERVICE_ROLE_KEY', 'hosted-key')
+    client = api().local_client(LOCAL)
+    try:
+        assert client.config.service_role_key == DEFAULT_LOCAL_SERVICE_ROLE_KEY
+    finally:
+        client.close()
+
+
+def test_local_client_never_routes_through_environment_proxies(monkeypatch):
+    from backend.bintanong_storage.client import SupabaseStorageClient
+    for name in ('HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'http_proxy', 'https_proxy', 'all_proxy'):
+        monkeypatch.setenv(name, 'http://proxy.invalid:9')
+    monkeypatch.delenv('NO_PROXY', raising=False)
+    monkeypatch.delenv('no_proxy', raising=False)
+    local = api().local_client(LOCAL)
+    default = SupabaseStorageClient()
+    try:
+        assert local._http._trust_env is False and not local._http._mounts
+        assert default._http._trust_env is True  # other callers keep httpx defaults
+    finally:
+        local.close()
+        default.close()
+
+
+def test_unexpected_write_error_is_reported_unknown_and_redacted(package):
+    client = FakeClient()
+    client.fail['load_knowledge_batch'] = RuntimeError('socket died ' + SECRET)
+    with pytest.raises(api().LocalReleaseError) as caught:
+        stage(package, client)
+    assert caught.value.written['artifacts'] == 'unknown'
+    assert caught.value.written['release'] == 'not_attempted'
+    assert 'not activated' in str(caught.value)
+    assert SECRET not in str(caught.value) and SECRET not in repr(caught.value)
