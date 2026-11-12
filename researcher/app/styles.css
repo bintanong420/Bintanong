@@ -191,7 +191,7 @@ blockquote { margin: var(--s-3) 0; white-space: pre-wrap; overflow-wrap: anywher
 @container (max-width: 820px) { .prospectus-layout { grid-template-columns: 1fr; } .prospectus-queue { border-right: 0; border-bottom: 1px solid var(--border); }
   .prospectus-queue nav { max-height: 16rem; } }
 @container (max-width: 720px) { .prospectus-main .evidence-area { grid-template-columns: 1fr; } .prospectus-main .source-pane { border-right: 0; border-bottom: 1px solid var(--border); }
-  .prospectus-main > .review-actions { margin: 0 var(--s-2); } }
+  .prospectus-main > .review-actions { margin: 0 var(--s-3); } }
 @media (max-width: 850px) { .evidence-area { grid-template-columns: 1fr; } .source-pane { border-right: 0; border-bottom: 1px solid var(--border); } .page-scroll { max-height: 65svh; } }
 @media (max-width: 600px) { .queue { border-right: 0; border-bottom: 1px solid var(--border); } .queue nav { max-height: 13rem; } .app-header { padding: var(--s-4); } .source-pane, .decision-pane { padding: var(--s-4); } }
 /* Intake page. Calm admin-tool dial (energy 1, rhythm 1, motion 1): same tokens as the review page, one section pattern repeated. */
@@ -715,3 +715,50 @@ label.inline, .checkbox-label, .rw-field-head { min-block-size: var(--h); }
   .wordmark span { display: none; }
   .shell-appearance-label { position: absolute; inline-size: 1px; block-size: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
+
+/* ==========================================================================
+   Text alignment rules (13 Nov). Loaded last.
+   1. Boxes (inputs, rows, cards, panels) share one edge per region; text inside a box is inset --s-3 (rows, inputs) or
+      --s-4 (cards); bare text (headings, labels, helper text) sits on the region edge.
+   2. Buttons size to their content with centred text; inside an action pair (button + hint) the button fills the pair's
+      column, so every pair in a row is the same width and the hint wraps under the button's left edge.
+   3. Label/value metadata is label over value on one column grid; values are left-aligned under their label.
+   4. Numerals are tabular everywhere, controls included; counts and page numbers sit at the end of their row.
+   5. Items in one row share a baseline (text rows) or a centre line (controls of equal height).
+   ========================================================================== */
+button, input, select, textarea, .chip { font-variant-numeric: tabular-nums; }
+
+/* shell and page headers share a baseline */
+.wordmark { display: flex; align-items: baseline; }
+.rw-bar { align-items: baseline; }
+.rw-bar > .rw-menu { align-self: center; }
+.prospectus-toolbar label { flex-direction: row; align-items: center; gap: var(--s-2); }
+
+/* list boxes sit on the region edge: the 3px focus gutter of a scrolling list is pulled back outside it */
+.queue nav, .knowledge-side .chunk-rows { margin-inline: -3px; }
+.rl-filters { padding-inline: var(--s-2); }
+.rl-filters select { padding-inline: var(--s-3); }
+
+/* label over value */
+.upload-meta { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr)); gap: var(--s-3) var(--s-4); }
+.upload-meta div { display: grid; gap: 0; align-content: start; }
+.upload-meta dt { font-size: var(--fs-xs); }
+.upload-meta dd { color: var(--text); }
+
+/* action pairs: equal columns, button fills its column, hint wraps under it */
+.intake-actions { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 16rem)); gap: var(--s-4); align-items: start; }
+.action-choice { max-inline-size: none; align-content: start; min-width: 0; }
+.action-choice > :is(button, a) { inline-size: 100%; }
+@media (max-width: 600px) { .intake-actions { grid-template-columns: minmax(0, 1fr); } }
+.rw-chip, .dropzone-action { display: inline-flex; align-items: center; justify-content: center; }
+
+/* progress steps: number, title and status line share two columns, so every step reads down the same edges */
+.pipeline-step { grid-template-columns: 1rem minmax(0, 1fr); column-gap: var(--s-2); align-items: baseline; }
+.pipeline-name { display: contents; }
+.pipeline-number { text-align: start; }
+.pipeline-step > .status-tag { grid-column: 2; }
+.spinner { vertical-align: -.15em; }
+/* the queue's group headings are bare text: same edge as the filter box above, not the row padding */
+.prospectus-queue summary { padding-inline: 0; }
+.prospectus-main > .review-actions { margin-inline: var(--s-3); }
+
