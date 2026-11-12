@@ -162,12 +162,12 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
       <h3 id={base + '-review'}>Review</h3>
       <div className="intake-actions">
         <div className="action-choice">
-          <Button disabled={state !== 'done' || current} onClick={() => onOpen(id)} aria-describedby={base + '-open'}>
+          <Button variant={current ? 'outline' : 'default'} disabled={state !== 'done' || current} onClick={() => onOpen(id)} aria-describedby={base + '-open'}>
             {current ? 'Open for review (already open)' : 'Open for review'}</Button>
           <p className="hint" id={base + '-open'}>{current ? 'Continue on the Documents tab.'
             : state === 'done' ? 'Opens this draft on the Documents page.' : state === undefined ? 'Waiting for the Prepare status.'
             : 'Available once Prepare is done.'}</p></div>
-        {current && <div className="action-choice"><Button variant="outline" asChild><a href="/review">Go to Documents</a></Button></div>}
+        {current && <div className="action-choice"><Button asChild><a href="/review">Go to Documents</a></Button></div>}
         <div className="action-choice">
           <Button variant="outline" disabled={state !== 'done'} aria-pressed={comparing} onClick={onCompare} aria-describedby={base + '-compare'}>
             {comparing ? 'Comparison open below' : 'Compare extraction'}</Button>
