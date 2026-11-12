@@ -173,7 +173,7 @@ test('switching documents resets the field draft and keeps the review controls u
     }
     assert.equal(await evaluate("document.querySelectorAll('select[multiple]').length"), 0, 'use the searchable related-record picker');
     assert(await evaluate("document.querySelector('.review-actions button[type=submit]')?.disabled === false"), 'save stays actionable and explains missing required input');
-    assert(await evaluate("document.querySelector('.review-actions')?.textContent.includes('add a note')"));
+    assert(await evaluate("document.querySelector('.review-actions')?.textContent.includes('note')"));
     const relatedIndex = state.items.findIndex((row, index) => index !== 0 && row.document_id === first.document_id
       && row.fields.some(field => field.spans.some(span => span.page === first.fields[0].locator.physical_pages[0])));
     assert(relatedIndex > 0);

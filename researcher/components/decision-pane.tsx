@@ -6,7 +6,7 @@ import { AdvisorySuggestion } from '@/components/advisory-suggestion';
 import { RelatedRecords } from '@/components/related-records';
 import { ReviewedValue } from '@/components/reviewed-value';
 import { SourceGaps } from '@/components/source-gaps';
-import { DEFAULT_REASON, fieldAfterChoice, reasonFor, textOf, type Draft } from '@/lib/review-form';
+import { SUGGESTED_NOTE, fieldAfterChoice, textOf, type Draft, type FieldDraft } from '@/lib/review-form';
 import { fieldLabel, readableValue, recordStatus, type Document, type Field, type ReviewItem } from '@/lib/review-state';
 
 const CHOICES = [['accepted', 'Matches'], ['corrected', 'Fix text'], ['unresolved', 'Unclear']] as const;
@@ -27,9 +27,9 @@ export function DecisionPane({ item, items, documents, draft, setDraft, dirty, b
   const [showRaw, setShowRaw] = useState(false);
   const document = documents.find(doc => doc.id === item.document_id);
   const editable = !item.reference_only && item.fields.length > 0;
-  const ready = reasonFor(draft.reason, draft) !== '';
+  const ready = draft.reason.trim() !== '';
   const patch = (change: Partial<Draft>) => setDraft(current => current && { ...current, ...change });
-  const setField = (name: string, value: { decision: string; text: string }) =>
+  const setField = (name: string, value: FieldDraft) =>
     setDraft(current => current && { ...current, fields: { ...current.fields, [name]: value } });
   const problems = item.source_gaps ?? [];
   return <section id="source-review" tabIndex={-1} className="decision-pane rw-decision" aria-label="Extraction and review">
@@ -42,7 +42,7 @@ export function DecisionPane({ item, items, documents, draft, setDraft, dirty, b
           </select></label>}
         {editable && <Button type="submit" form="review-form" disabled={busy}>{busy ? 'Saving…' : 'Save'}</Button>}
         <p id="review-save-help" role="status">{!editable ? (item.reference_only ? 'Reviewed reference' : recordStatus(item))
-          : !ready ? 'Choose a decision or add a note to save.' : dirty ? 'Unsaved changes' : recordStatus(item)}</p>
+          : !ready ? 'Write a short note to save.' : dirty ? 'Unsaved changes' : recordStatus(item)}</p>
       </div>
       {notices}
     </header>
@@ -71,7 +71,9 @@ export function DecisionPane({ item, items, documents, draft, setDraft, dirty, b
               const current = draft.fields[field.name];
               return <section className="field-review rw-field" key={field.name}>
                 <div className="rw-field-head"><h3>{fieldLabel(field.name)}</h3>
-                  <span className="muted">p. {field.locator.physical_pages.join(', ') || 'not located'}{current.decision === 'pending' && ' · not checked'}</span></div>
+                  <span className="muted">p. {field.locator.physical_pages.join(', ') || 'not located'}
+                    {current.decision !== 'pending' && <button type="button" className="rw-clear"
+                      onClick={() => setField(field.name, fieldAfterChoice(field.original_value, current, 'pending'))}>Mark as not checked</button>}</span></div>
                 <p className="original-text source-reading rw-original">{readableValue(field.original_value) || '(literal empty extraction)'}</p>
                 {field.source_blank && <p className="notice hold">Blank in the source. It stays blank.</p>}
                 <DecisionChoice field={field} value={current.decision}
@@ -82,8 +84,10 @@ export function DecisionPane({ item, items, documents, draft, setDraft, dirty, b
                   onUse={value => setField(field.name, { decision: 'corrected', text: textOf(value) })}/>
               </section>;
             })}
-            <label className="rw-note">Note<input aria-label="Review reason" aria-describedby="review-save-help" type="text" maxLength={8000}
-              value={draft.reason} placeholder={DEFAULT_REASON} onChange={event => patch({ reason: event.target.value })}/></label>
+            <div className="rw-note"><label>Note
+              <input aria-label="Review reason" aria-describedby="review-save-help" type="text" maxLength={8000}
+                value={draft.reason} placeholder="What did you check?" onChange={event => patch({ reason: event.target.value })}/></label>
+              {!ready && <button type="button" className="rw-chip" onClick={() => patch({ reason: SUGGESTED_NOTE })}>Use: {SUGGESTED_NOTE}</button>}</div>
             <RelatedRecords key={item.id} item={item} items={items} documents={documents} selected={draft.companions}
               onChange={companions => patch({ companions })} onShowSource={onShowSource}/>
             <SourceGaps gaps={draft.gaps} fields={item.fields} onChange={gaps => patch({ gaps })}/>

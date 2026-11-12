@@ -9,12 +9,12 @@ import { ReviewHistory, type HistoryEntry } from '@/components/review-history';
 import { RecordList } from '@/components/record-list';
 import { DecisionPane } from '@/components/decision-pane';
 import { download, request, ReviewError } from '@/lib/api';
-import { draftFor, reasonFor, type Draft } from '@/lib/review-form';
+import { buildPayload, draftFor, isDirty, leaveWarning, switchGate, type Draft } from '@/lib/review-form';
 import { REVIEW_CONNECTION, type Connection, type FeedbackReceipt, type ReviewState } from '@/lib/review-state';
 import { isNoPacketError } from '@/lib/intake';
 import { itemForTarget, parseReviewPath, reviewPath, targetForItem } from '@/lib/review-path';
 
-const NOTHING_TO_SAVE = 'Nothing to save yet. Choose a decision for a field or add a note.';
+const NOTHING_TO_SAVE = 'Write a short note on what you checked, then save.';
 
 export default function ReviewWorkspace() {
   const [connection, setConnection] = useState<Connection | null>(null);
@@ -25,9 +25,9 @@ export default function ReviewWorkspace() {
   const [libraryOpened, setLibraryOpened] = useState(false);
   const [sourceFocus, setSourceFocus] = useState<{ itemId: string; page: number } | null>(null);
   const [linkedQuestion, setLinkedQuestion] = useState<string>();
-  const pending = useRef<Record<string, unknown> | null>(null);
+  const pending = useRef<Record<string, unknown> | null>(null), menu = useRef<HTMLDetailsElement>(null);
   const item = useMemo(() => state?.items.find(row => row.id === selected) ?? null, [state, selected]);
-  const dirty = useMemo(() => !!item && !!draft && JSON.stringify(draftFor(item)) !== JSON.stringify(draft), [item, draft]);
+  const dirty = useMemo(() => !!item && !!draft && isDirty(item, draft), [item, draft]);
   const sourceDoc = state?.documents.find(doc => doc.id === item?.document_id);
   const relatedItems = useMemo(() => state && draft ? state.items.filter(row => draft.companions.includes(row.id)) : [], [state, draft?.companions]);
 
@@ -72,14 +72,15 @@ export default function ReviewWorkspace() {
 
   useEffect(() => { if (item) setDraft(draftFor(item)); }, [item]);
   useEffect(() => {
-    function protect(event: BeforeUnloadEvent) { if (dirty || pending.current) { event.preventDefault(); event.returnValue = ''; } }
+    function protect(event: BeforeUnloadEvent) { if (leaveWarning(dirty, !!pending.current)) { event.preventDefault(); event.returnValue = ''; } }
     window.addEventListener('beforeunload', protect);
     return () => window.removeEventListener('beforeunload', protect);
   }, [dirty]);
 
   function choose(id: string, record = true) {
-    if (pending.current) { setError('Resolve the previous save before changing items.'); return; }
-    if (dirty && !window.confirm('Discard the unsaved edits for this item?')) return;
+    const gate = switchGate(dirty, !!pending.current);
+    if (gate === 'blocked') { setError('Resolve the previous save before changing items.'); return; }
+    if (gate === 'confirm' && !window.confirm('Discard the unsaved edits for this item?')) return;
     const next = state?.items.find(row => row.id === id);
     setDraft(next ? draftFor(next) : null);
     setSourceFocus(null); setLinkedQuestion(undefined);
@@ -96,19 +97,12 @@ export default function ReviewWorkspace() {
     setError(''); setMessage('');
     try {
       if (!pending.current) {
-        const reason = reasonFor(draft.reason, draft);
-        if (!reason) {
+        if (!draft.reason.trim()) {
           setError(NOTHING_TO_SAVE);
           focusByLabel('Review reason');
           return;
         }
-        const gaps = draft.gaps;
-        const fields = Object.fromEntries(item.fields.map(field => [field.name, {
-          decision: draft.fields[field.name].decision,
-          value: typeof field.original_value === 'string' ? draft.fields[field.name].text : JSON.parse(draft.fields[field.name].text),
-        }]));
-        pending.current = { item_id: item.id, revision: state.revision, operation_id: crypto.randomUUID(),
-          audience: draft.audience, reason, companions: draft.companions, gaps, fields };
+        pending.current = buildPayload(item, draft, state.revision, crypto.randomUUID());
       }
       setBusy(true);
       await request(connection, '/api/decision', { method: 'POST', body: JSON.stringify(pending.current) });
@@ -140,6 +134,16 @@ export default function ReviewWorkspace() {
       feedback: [...(current.feedback ?? []).filter(row => row.operation_id !== receipt.feedback.operation_id), receipt.feedback] } : current);
     setMessage('Missing-content note saved as pending feedback. Your field review is unchanged.');
   }
+  function closeMenu(refocus = false) {
+    if (!menu.current) return;
+    menu.current.open = false;
+    if (refocus) menu.current.querySelector('summary')?.focus();
+  }
+  useEffect(() => {
+    function outside(event: PointerEvent) { if (menu.current?.open && !menu.current.contains(event.target as Node)) menu.current.open = false; }
+    document.addEventListener('pointerdown', outside);
+    return () => document.removeEventListener('pointerdown', outside);
+  }, []);
   function togglePanel(next: 'help' | 'library') {
     setPanel(current => current === next ? null : next);
     if (next === 'library') setLibraryOpened(true);
@@ -167,12 +171,15 @@ export default function ReviewWorkspace() {
       {state && <span className="muted" title={`Reviewer: ${state.researcher}`}>{state.items.length} records</span>}
       {state?.items.some(row => row.fields.length > 0) && <span className="muted" role="status" aria-label="AI assistance">{hasAssistance
         ? 'AI notes appear beside fields. You decide what to save.' : 'AI suggestions are not included in this packet.'}</span>}
-      {state && !noPacket && <div className="header-actions">
-        <Button variant="outline" aria-expanded={panel === 'help'} aria-controls="rw-help" onClick={() => togglePanel('help')}>How to review</Button>
-        <Button variant="outline" aria-expanded={panel === 'library'} aria-controls="rw-library" onClick={() => togglePanel('library')}>Browse knowledge</Button>
-        <Button variant="outline" onClick={() => void showHistory()}>Saved reviews</Button>
-        <Button variant="outline" onClick={() => void exportDecisions()}>Download my reviews</Button>
-      </div>}
+      {state && !noPacket && <details className="rw-menu" ref={menu} onKeyDown={event => { if (event.key === 'Escape') closeMenu(true); }}>
+        <summary>Tools</summary>
+        <div className="rw-menu-list">
+          <button type="button" aria-pressed={panel === 'help'} onClick={() => { closeMenu(); togglePanel('help'); }}>How to review</button>
+          <button type="button" aria-pressed={panel === 'library'} onClick={() => { closeMenu(); togglePanel('library'); }}>Browse knowledge</button>
+          <button type="button" onClick={() => { closeMenu(); void showHistory(); }}>Saved reviews</button>
+          <button type="button" onClick={() => { closeMenu(); void exportDecisions(); }}>Download my reviews</button>
+        </div>
+      </details>}
     </div>
     {panel === 'help' && state && <section className="rw-panel" id="rw-help" aria-label="How to review">
       <ul>
