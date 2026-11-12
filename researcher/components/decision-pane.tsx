@@ -90,7 +90,8 @@ export function DecisionPane({ item, items, documents, draft, setDraft, dirty, b
             <div className="rw-note"><label>Note
               <input aria-label="Review reason" aria-describedby="review-save-help" type="text" maxLength={8000}
                 value={draft.reason} placeholder="What did you check?" onChange={event => patch({ reason: event.target.value })}/></label>
-              {!ready && <button type="button" className="rw-chip" onClick={() => patch({ reason: SUGGESTED_NOTE })}>Use: {SUGGESTED_NOTE}</button>}</div>
+              {!ready && <p className="rw-suggest"><span>Suggested:</span><button type="button" className="rw-chip" aria-label={`Use the suggested note: ${SUGGESTED_NOTE}`}
+                onClick={() => patch({ reason: SUGGESTED_NOTE })}>{SUGGESTED_NOTE}</button></p>}</div>
             <RelatedRecords key={item.id} item={item} items={items} documents={documents} selected={draft.companions}
               onChange={companions => patch({ companions })} onShowSource={onShowSource}/>
             <SourceGaps gaps={draft.gaps} fields={item.fields} onChange={gaps => patch({ gaps })}/>

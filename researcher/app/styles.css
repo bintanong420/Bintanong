@@ -888,3 +888,7 @@ fieldset:has(> .checkbox-label) > legend { padding-block-end: var(--s-1); }
   .compare-pane.has-pdf { block-size: auto; }
   .compare-pane .source-mode { margin-inline-start: 0; }
 }
+/* Note suggestion: a small optional pill under the note, not a second field */
+.rw-suggest { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); margin: 0; font-size: var(--fs-xs); color: var(--muted-foreground); }
+.rw-suggest .rw-chip { min-block-size: 28px; padding: 0 var(--s-3); border-radius: 999px; border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); background: color-mix(in oklab, var(--accent) 8%, transparent); color: var(--foreground); font-size: var(--fs-xs); font-weight: 500; }
+.rw-suggest .rw-chip:hover { background: color-mix(in oklab, var(--accent) 16%, transparent); }
