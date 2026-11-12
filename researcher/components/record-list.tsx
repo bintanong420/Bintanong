@@ -14,12 +14,13 @@ const Row = memo(function Row({ row, index, count, doc, current, tabStop, onChoo
 }) {
   const snippet = itemSnippet(row);
   const badge = statusBadge(recordStatus(row));
+  const pages = pagesOf(row);
   return <div role="listitem" aria-posinset={index + 1} aria-setsize={count} className="rl-item" style={{ top: index * ROW }}>
     <button type="button" className="queue-item rl-row" data-index={index} title={`${row.title} · ${doc}`}
       aria-current={current ? 'true' : undefined} tabIndex={tabStop ? 0 : -1} onClick={() => onChoose(row.id)}>
       <strong>{row.title}</strong>
       {snippet && <span className="queue-snippet">{snippet}</span>}
-      <span className="rl-meta">p. {pagesOf(row)}<span className={`rl-badge tone-${badge.tone}`}><span aria-hidden="true">{GLYPH[badge.tone]}</span> {badge.label}</span></span>
+      <span className="rl-meta">{pages ? `p. ${pages}` : 'No page'}<span className={`rl-badge tone-${badge.tone}`}><span aria-hidden="true">{GLYPH[badge.tone]}</span> {badge.label}</span></span>
     </button>
   </div>;
 });
