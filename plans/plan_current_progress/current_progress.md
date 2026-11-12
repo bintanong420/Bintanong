@@ -91,7 +91,8 @@ one shared path), Prospectus page title, site icon. Full PDF view `d5946137`..`d
 4 caught; unchecked sha-format check is redundant): native browser PDF viewer in Documents and Knowledge via
 `/api/source/{id}` and new verified `/api/knowledge/pdf?sha256=`; frame-ancestors 'self' only on those two routes;
 review pane decluttered. 372 py + researcher 102/3-skip, tsc, build. Live USG Full PDF verified; restarted on Node 24
-with Gemma env, USG reopened.
+with Gemma env, USG reopened. Then note suggestion as a labelled pill `0a05a9ec` and record header
+alignment `cf1eee83` (Audience and Save one equal-height row); researcher 102 pass, tsc, build; live USG 1440/390 checked.
 12 Nov whole-pipeline startup: images `eb47a413`, on-demand Gemma review audit `f5d77d94` integrated after
 independent review. [Runtime receipt](../2026-11-12-full-pipeline-startup.md): student3217/API8022 ready200;
 ingestion3050/API8765 with Docling/SEA-LION paths and Gemma configured; local Supabase db/rest/gateway/
