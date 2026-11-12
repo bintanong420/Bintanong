@@ -60,5 +60,26 @@ ENERGY1/RHYTHM1/MOTION1, existing palette/type, one upload action, no new visual
 - Cloud publishing stays unimplemented/read-only pending the owner's choice of
   inactive drafts versus activation. Local staging does not authorize hosted changes.
 
-Next: integrate the independently reviewed multi-upload slice into p12-dev and
-rebuild/restart the researcher app, retaining the owner's USG packet unchanged.
+## Integration and live receipt
+
+`7dfb301e` fast-forwarded into p12-dev after independent approval. Integrated unit
+gate: 95 pass/2 skip. The existing intake launcher rebuilt the production UI and
+restarted hidden (PID52268), API8765/UI3050; frontend readiness HTTP200.
+`audit-evidence/ku-multi-20261112/intake.{stdout,stderr}.log` retains the new launch
+link. Installed Node22.22.3 differs from declared24.21.0; build and checks passed
+on the installed runtime. No version change was made.
+
+Real production browser/proxy smoke: two synthetic PDFs became separate uploads,
+2/2 confirmed and zero browser errors. The panel stayed open. Removed only those
+two test folders after validating their exact ids, parent path and metadata.
+Reopened owner USG `55cf92c8332fd964`:596 items. SHA256 checks preserve all16
+source/packet/review-log files; the derived `review/export.json` was regenerated
+by the existing read path. No review decision was submitted. Live receipt/script
+and screenshot remain in the ignored evidence folder. No database writes/push.
+
+UI gate: semantics/focus/live status PASS (native controls and browser regression);
+mobile/themes PASS (four overflow checks and reviewed screenshots); purpose and
+identity PASS (existing palette/type/layout, status text and upload action retained).
+
+Next: step7 synthetic upload-to-draft rehearsal and `check-draft` command; preserve
+activation/cloud boundaries pending the owner's separate decision.

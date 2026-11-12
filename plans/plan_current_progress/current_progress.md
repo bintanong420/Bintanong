@@ -1,6 +1,6 @@
 # Current progress
 
-Updated7November2026. Active development worktree/branch: `p12-dev`.
+Updated12November2026. Active development worktree/branch: `p12-dev`.
 PR20 merged at `84e7c0db`; original ingestion/researcher merge `0a0fd297` preserved.
 No numbered phase started or advanced. Last full progress snapshot: `12f27bd6`.
 
@@ -73,8 +73,13 @@ page 6-8 s -> 0.05-0.4 s, build plan 8 s -> 1.3 s; saves/build/verify keep the f
 `f5692aaf`..`dc024cb8` (viewport layout, Matches/Fix text/Unclear, windowed list, Tools menu, status badges).
 Review blocker fixed: the note is never auto-filled (owner statement); one-click suggestion chip instead.
 Researcher 80/1-skip, tsc, build pass; `document-switch.test.mjs` (live launch) not run. Server restarted, USG reopened.
-Next: step 7 + `check-draft` command; owner decisions (activation route, first local stage + container, Gemma/GPU).
+12 Nov Codex resumed Claude's interrupted multi-upload worker; independently reviewed and merged `7dfb301e`.
+[Continuation and proof](../2026-11-12-gui-multi-upload-continuation.md): up to20 separate PDFs, sequential
+uploads, editable metadata, stop/retry; lost responses require duplicate-risk confirmation. Fixed false
+deduplication, Retry cancelling Stop, and panel closure after the first upload (RED/GREEN).95 unit pass/2skip;
+browser transport1pass, tsc/build pass. Real production proxy2/2 synthetic uploads confirmed, then removed;
+USG reopened596items, source/packet/review log hashes unchanged (derived export regenerated). Hidden intake
+PID52268/API8765/UI3050 restarted; new launch link in ignored `ku-multi-20261112/intake.stderr.log`.
+Next: step7 + `check-draft`; local activation route, Gemma/GPU and cloud draft-versus-activation remain undecided.
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
-Earlier next: owner review on the integrated development branch, then independent human/
-benchmark, paired language/compiler and latency acceptance. No institutional deployment
-or automatic closure of source PR18/19 is implied by the development merge.
+No institutional deployment or closure of source PR18/19 is implied; hosted stays read-only.
