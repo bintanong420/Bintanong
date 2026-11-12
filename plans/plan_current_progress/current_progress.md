@@ -80,6 +80,11 @@ deduplication, Retry cancelling Stop, and panel closure after the first upload (
 browser transport1pass, tsc/build pass. Real production proxy2/2 synthetic uploads confirmed, then removed;
 USG reopened596items, source/packet/review log hashes unchanged (derived export regenerated). Hidden intake
 PID52268/API8765/UI3050 restarted; new launch link in ignored `ku-multi-20261112/intake.stderr.log`.
+13 Nov owner "clean design": `3a7414db`..`e358e001` one token system across all tabs (neutral palette, one accent,
+4px spacing, 12-24px type, 4/6px radius), tightened copy; reviewed APPROVE (no behaviour change, AA in light/dark,
+390px no overflow, keyboard walk, windowing row height intact). Researcher 95/2-skip, tsc, build. Local Supabase
+db/rest/kong started (gateway binds 0.0.0.0:54321 per existing config). Server restarted on p12-dev, USG reopened
+(state 171 ms; sources hosted=1 local=5).
 Next: step7 + `check-draft`; local activation route, Gemma/GPU and cloud draft-versus-activation remain undecided.
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 No institutional deployment or closure of source PR18/19 is implied; hosted stays read-only.
