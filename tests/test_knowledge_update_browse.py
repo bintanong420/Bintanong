@@ -215,6 +215,32 @@ def test_page_is_served_only_for_a_verified_pdf_under_known_roots(tmp_path, monk
                       headers={'origin': ORIGIN}).status_code == 403
 
 
+def test_whole_pdf_is_served_only_for_a_verified_sha_with_the_token(tmp_path):
+    intake().create_upload(tmp_path, PDF, kind='handbook', title='Synthetic code', edition='2026')
+    root = tmp_path.parent / (tmp_path.name + '-pdf-roots')
+    root.mkdir()
+    swapped = b'%PDF-1.7 synthetic original'
+    (root / 'later.pdf').write_bytes(swapped)
+    knowledge = browser(tmp_path, source_roots=[root])
+    assert knowledge.sources_index.locate(digest(swapped)) is not None
+    (root / 'later.pdf').write_bytes(b'%PDF-1.7 synthetic changed')  # bytes no longer match the requested sha
+    client, _ = web(tmp_path, knowledge)
+    shown = client.get('/api/knowledge/pdf', params={'sha256': digest(PDF)}, headers=GOOD)
+    assert shown.status_code == 200 and shown.content == PDF
+    assert shown.headers['content-type'] == 'application/pdf'
+    assert shown.headers['content-disposition'] == 'inline'
+    assert shown.headers['cache-control'] == 'private, max-age=300'  # content-addressed, like page images
+    unknown = client.get('/api/knowledge/pdf', params={'sha256': '0' * 64}, headers=GOOD)
+    assert unknown.status_code == 404 and unknown.json()['code'] == 'source_not_local'
+    assert client.get('/api/knowledge/pdf', params={'sha256': digest(swapped)}, headers=GOOD).status_code == 404
+    assert client.get('/api/knowledge/pdf', params={'sha256': digest(PDF)}, headers={'origin': ORIGIN}).status_code == 403
+    for hostile in ('../../original/source.pdf', '..%2F..%2Fsecret', 'C:/Windows/win.ini', digest(PDF).upper()):
+        refused = client.get('/api/knowledge/pdf', params={'sha256': hostile}, headers=GOOD)
+        assert refused.status_code in (404, 422) and refused.headers['content-type'].startswith('application/json')
+    # only the sha256 identifier is accepted; a client path is never read
+    assert client.get('/api/knowledge/pdf', params={'path': str(root / 'later.pdf')}, headers=GOOD).status_code == 422
+
+
 def test_symlinked_pdfs_are_not_indexed(tmp_path):
     outside = tmp_path.parent / (tmp_path.name + '-outside.pdf')
     outside.write_bytes(b'%PDF-1.7 outside')

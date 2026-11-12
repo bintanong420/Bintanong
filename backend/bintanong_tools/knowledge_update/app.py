@@ -7,7 +7,7 @@ from contextlib import asynccontextmanager
 from urllib.parse import urlsplit
 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import FileResponse, JSONResponse, Response
 
 from ..prospectus_review_gui.app import _host_ok
 from ..prospectus_review_gui.render import PageError, PageRenderer
@@ -192,7 +192,14 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
         doc = document(identity)
         if doc is None:
             return JSONResponse({'error': 'Source not in this packet.'}, status_code=404)
-        return Response(contained(session.root, doc['source']).read_bytes(), media_type='application/pdf')
+        return pdf_file(contained(session.root, doc['source']))
+
+    def pdf_file(path, cacheable=False):
+        # streamed, shown in place (the review page frames it in the browser's own PDF viewer)
+        headers = {'Content-Disposition': 'inline'}
+        if cacheable:
+            headers['X-Page-Cache'] = '1'
+        return FileResponse(path, media_type='application/pdf', headers=headers)
 
     def png(key, path, number, scale, cacheable=False):
         try:
@@ -315,6 +322,14 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
                 return JSONResponse({'error': 'source PDF not available locally', 'code': 'source_not_local'},
                                     status_code=404)
             return png('sha256:' + sha256, path, page, scale, cacheable=True)
+
+        @app.get('/api/knowledge/pdf')
+        def knowledge_pdf(sha256: str):
+            path = browser.sources_index.pdf(sha256)  # the same verified private copy the page images come from
+            if path is None:
+                return JSONResponse({'error': 'source PDF not available locally', 'code': 'source_not_local'},
+                                    status_code=404)
+            return pdf_file(path, cacheable=True)
 
     if isinstance(session, intake.SessionSlot):
 

@@ -75,7 +75,12 @@ def test_review_api_serves_only_packet_source_identities(packet):
         response = web.get('/api/source/handbook', headers=headers())
         assert response.status_code == 200
         assert response.content == (root / value['documents'][0]['source']).read_bytes()
+        assert response.headers['content-type'] == 'application/pdf'
+        assert response.headers['content-disposition'] == 'inline'
+        assert response.headers['cache-control'] == 'no-store'  # identity, not content, names this URL
         assert web.get('/api/source/unknown', headers=headers()).status_code == 404
+        assert web.get('/api/source/..%2F..%2Fpacket.json', headers=headers()).status_code == 404
+        assert web.get('/api/source/handbook').status_code == 403
 
 
 def test_review_api_preflight_only_accepts_declared_local_ui(packet):
