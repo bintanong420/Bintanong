@@ -61,13 +61,13 @@ knowledge API `bc33ec6e`,`8565a917` (build job; read-only sources/chunks/page/pa
 GET, reviewed) and unified workspace UI `e37bcc56`..`13a70dba` (tabs Intake/Documents/Prospectus/Knowledge,
 compare extraction, knowledge browser). 322 py + researcher 50/1-skip, tsc pass. Live server: p12-dev, flags
 --model-dir MODELS/SEA-LION-E5-Embedding-600M --hosted-env p12/.env --source-root p06/dataset (44 PDFs).
-Live UI/UX review passed on real data (560 hosted chunks, 21/21 pages shown); defects D1-D8 open.
-RESUME (weekly limit hit 12 Nov; resets 14 Nov 19:00): branch `feat/ku-documents-library` (`p12-ku-library`)
-has unreviewed `6caed23e` documents API, `eb2d2d4f` Documents "Existing knowledge" library, `6efa8fcd` page
-cache; uncommitted D1 work in knowledge_browse.py + tests (readable display_text). Still to do: D1-D8 from the
-live review (`audit-evidence/ku-live-review-20261112/`), then review, merge, restart server (check no prepare
-running; delete smoke upload `4aa8bde948eb8bc8`; keep owner upload `55cf92c8332fd964`). Then step 7 +
-`check-draft` command; first real local stage needs the container and owner OK; Gemma needs the GPU free.
+Live UI/UX review passed on real data (560 hosted chunks, 21/21 pages shown).
+Merged after review (`feat/ku-documents-library`, through `59e3830d`): Documents "Existing knowledge" library,
+documents API + document filter, readable chunk text (crash-safe), page cache, live-review D1-D8, review
+blockers fixed, owner intuitiveness goals; UI/UX + antislop + modern-web-guidance skills applied. 353 py +
+researcher 67/1-skip, tsc pass. Server restarted on p12-dev; real-data check: 5 hosted documents, readable
+prose. Smoke upload deleted; owner upload `55cf92c8332fd964` (USG, prepared) kept.
+Next: step 7 + `check-draft` command; owner decisions (activation route, first local stage + container, Gemma/GPU).
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 Earlier next: owner review on the integrated development branch, then independent human/
 benchmark, paired language/compiler and latency acceptance. No institutional deployment
