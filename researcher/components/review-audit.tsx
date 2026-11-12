@@ -28,12 +28,13 @@ export function ReviewAudit({ field, item, document, packetId, revision, disable
     finally { active.current = false; setBusy(false); }
   }
   const selected = audited?.revision === revision ? audited.field : field;
-  return <div aria-label="Gemma vision audit">
-    <Button type="button" variant="outline" disabled={busy || disabled || field.source_blank || !field.locator.physical_pages.length}
+  return <div className="rw-audit" aria-label="Gemma vision audit">
+    <div className="rw-audit-row"><Button type="button" variant="outline" size="sm"
+      disabled={busy || disabled || field.source_blank || !field.locator.physical_pages.length}
       onClick={() => void audit()}>{busy ? 'Auditing with Gemma…' : 'Audit with Gemma'}</Button>
     <p className="hint" role="status">{busy ? 'Comparing this extraction with its source page. You can continue editing.'
       : audited?.revision === revision ? 'Gemma audit ready. It has not changed your review.'
-      : 'Optional local vision check. You decide whether to use its suggestion.'}</p>
+      : 'Optional local vision check. You decide whether to use its suggestion.'}</p></div>
     {error && <p className="field-error" role="alert">{error}</p>}
     <AdvisorySuggestion key={JSON.stringify(selected.assistance ?? null)} field={selected} item={item} document={document} onUse={onUse}/>
   </div>;

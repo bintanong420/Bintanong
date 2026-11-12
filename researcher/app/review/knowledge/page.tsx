@@ -2,9 +2,11 @@
 
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { PageImage } from '@/components/page-image';
+import { PdfFrame, SourceModeSwitch, useSourceMode } from '@/components/pdf-frame';
 import { Button } from '@/components/ui/button';
 import { request } from '@/lib/api';
-import { CHUNK_LIMIT, chunksQuery, chunkText, documentChipLabel, groupSources, snippet, knowledgeUrl, pageWindow, parseKnowledgeUrl,
+import { knowledgePdfPath } from '@/lib/pdf-view';
+import { CHUNK_LIMIT, chunkMeta, chunksQuery, chunkText, documentChipLabel, groupSources, snippet, knowledgeUrl, pageWindow, parseKnowledgeUrl,
   type Chunk, type ChunksReply, type KnowledgeUrlState, type SourcesReply } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
@@ -159,12 +161,12 @@ export default function KnowledgePage() {
 const ChunkDetail = forwardRef<HTMLHeadingElement, { chunk: Chunk }>(function ChunkDetail({ chunk }, headingRef) {
   const pages = chunk.pages ?? [];
   const [page, setPage] = useState(pages[0] ?? 0), [count, setCount] = useState(0);
-  const meta: [string, string | number | undefined][] = [['Document', chunk.document_title], ['Section', chunk.section],
-    ['Pages', pages.join(', ') || undefined]];
+  const [mode, setMode] = useSourceMode();
+  const showPdf = mode === 'pdf' && !!chunk.source_sha256;
   return <article className="chunk-detail" aria-labelledby="chunk-title">
-    <h2 id="chunk-title" tabIndex={-1} ref={headingRef}>{chunk.section || chunk.document_title || 'Chunk'}</h2>
-    <dl className="upload-meta">{meta.filter(([, value]) => value !== undefined && value !== '').map(([name, value]) =>
-      <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>
+    <h2 id="chunk-title" tabIndex={-1} ref={headingRef}>{chunk.section?.trim() || chunk.document_title || 'Chunk'}</h2>
+    <dl className="upload-meta chunk-meta">{chunkMeta(chunk).map(([name, value]) =>
+      <div key={name} data-field={name.toLowerCase()}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>
     <div className="compare-grid">
       <section className="compare-pane" role="region" aria-label="Chunk text" tabIndex={0}><p className="pane-label">Chunk text</p>
         <p className="chunk-text">{chunkText(chunk)}</p>
@@ -172,12 +174,15 @@ const ChunkDetail = forwardRef<HTMLHeadingElement, { chunk: Chunk }>(function Ch
           <dl className="upload-meta"><div><dt>Tokens</dt><dd>{chunk.token_count ?? 'unknown'}</dd></div><div><dt>Passage id</dt><dd><code>{chunk.reading_id ?? 'none'}</code></dd></div>
             <div><dt>Chunk id</dt><dd><code>{chunk.chunk_id}</code></dd></div></dl>
           {chunk.display_text && <pre className="chunk-text">{chunk.text}</pre>}</details></section>
-      <section className="compare-pane" role="region" aria-label="Source page" tabIndex={0}>
+      <section className={showPdf ? 'compare-pane has-pdf' : 'compare-pane'} role="region" aria-label="Source page" tabIndex={showPdf ? undefined : 0}>
         <div className="pane-label-row"><p className="pane-label">Source page</p>
           {pages.length > 1 && <div className="page-chips" role="group" aria-label="Pages this chunk cites">{pages.map(p =>
             <button key={p} type="button" className="chip" aria-pressed={p === page} onClick={() => setPage(p)}>{p}</button>)}</div>}
-          {count > 0 && <span className="muted">of {count}</span>}</div>
-        {chunk.source_sha256 && page > 0 ? <PageImage sha256={chunk.source_sha256} page={page} onCount={setCount} />
+          {count > 0 && <span className="muted">of {count}</span>}
+          {chunk.source_sha256 && <SourceModeSwitch mode={mode} onChange={setMode}/>}</div>
+        {showPdf ? <PdfFrame url={REVIEW_CONNECTION.api + knowledgePdfPath(chunk.source_sha256!)} page={page || 1}
+            title={chunk.document_title || 'Source document'}/>
+          : chunk.source_sha256 && page > 0 ? <PageImage sha256={chunk.source_sha256} page={page} onCount={setCount} />
           : <div className="page-placeholder"><p><strong>No source page to show.</strong></p>
             <p className="muted">{chunk.source_sha256 ? 'This chunk cites no page.' : 'This chunk has no source PDF hash.'}</p></div>}
       </section>

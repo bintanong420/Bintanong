@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { request } from '@/lib/api';
 import { selectionRegion, sourceRectangle, type Connection, type Document, type FeedbackReceipt, type OmissionFeedback, type Region, type ReviewItem } from '@/lib/review-state';
 import { OmissionFeedback as OmissionForm } from '@/components/omission-feedback';
+import { PdfFrame, SourceModeSwitch, useSourceMode } from '@/components/pdf-frame';
+import { sourcePdfPath } from '@/lib/pdf-view';
 
 export type HighlightPages = Record<string, { warning?: string | null;
   boxes: { fractions: { left: number; top: number; width: number; height: number } }[] }>;
@@ -21,6 +23,7 @@ export function SourceViewer({ connection, item, legacyBoxes, document, relatedI
   const [marking, setMarking] = useState(false), [region, setRegion] = useState<Region | null>(null), [reporting, setReporting] = useState(false);
   const dragStart = useRef<[number, number] | null>(null);
   const pageScroll = useRef<HTMLDivElement>(null);
+  const [mode, setMode] = useSourceMode();
   useEffect(() => { setPage(item.fields.flatMap(f => f.locator.physical_pages)[0] ?? 1); }, [item.id]);
   useEffect(() => { if (focus) setPage(focus.page); }, [focus]);
   useEffect(() => { setRegion(null); setMarking(false); dragStart.current = null; }, [page, item.id]);
@@ -60,7 +63,8 @@ export function SourceViewer({ connection, item, legacyBoxes, document, relatedI
   return <section className="source-pane rw-source" aria-label="Original source">
     <div className="rw-source-bar">
       <h2 className="rw-source-name">{document?.title ?? 'Original PDF'}{document && <span className="muted"> · {document.edition}</span>}</h2>
-      <div className="page-controls">
+      <SourceModeSwitch mode={mode} onChange={next => { setMode(next); setMarking(false); }}/>
+      {mode === 'highlights' && <div className="page-controls">
         <Button variant="outline" size="sm" aria-label="Previous page" disabled={!image || page <= 1} onClick={() => setPage(p => p - 1)}>Prev</Button>
         <input aria-label="PDF page" type="number" min="1" max={geometry.count || 1000} value={page}
           onChange={event => { const n = Number(event.target.value); if (Number.isInteger(n) && n > 0 && n <= (geometry.count || 1000)) setPage(n); }}/>
@@ -69,9 +73,10 @@ export function SourceViewer({ connection, item, legacyBoxes, document, relatedI
         <select aria-label="Zoom" value={scale} onChange={event => setScale(event.target.value)}>
           <option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option><option value="3">300%</option>
         </select>
-      </div>
+      </div>}
     </div>
-    {error ? <p role="alert" className="notice error">The original page could not be displayed. {error} Keep affected content on hold.</p>
+    {mode === 'pdf' ? <PdfFrame url={connection.api + sourcePdfPath(item.document_id)} page={page} title={document?.title ?? 'Original PDF'}/>
+      : error ? <p role="alert" className="notice error">The original page could not be displayed. {error} Keep affected content on hold.</p>
       : !image ? <p role="status" className="empty">Loading original page…</p>
       : <div className="page-scroll" ref={pageScroll}><div className={marking ? 'pdf-page marking-region' : 'pdf-page'} style={{ aspectRatio: `${geometry.width}/${geometry.height}` }}
         onPointerDown={event => { if (marking && event.button === 0) { event.preventDefault(); event.currentTarget.setPointerCapture(event.pointerId); dragStart.current = point(event); setRegion(null); } }}
@@ -86,15 +91,15 @@ export function SourceViewer({ connection, item, legacyBoxes, document, relatedI
             width={(region[2] - region[0]) * geometry.width} height={(region[3] - region[1]) * geometry.height}/>}
         </svg>
       </div></div>}
-    <div className="source-note-row"><p className="muted source-note">{!image ? 'Highlights appear when the page loads.' : legacy?.warning ?? (geometry.rotation !== 0 ? 'Highlights are withheld for this rotated page.'
+    {mode === 'highlights' && <div className="source-note-row"><p className="muted source-note">{!image ? 'Highlights appear when the page loads.' : legacy?.warning ?? (geometry.rotation !== 0 ? 'Highlights are withheld for this rotated page.'
       : highlights.length || related.length ? 'Outlined regions are the recorded source spans.'
       : 'No verified highlight for this page. Read the original.')}</p>
     {!!(highlights.length || related.length) && <div className="source-legend"><span><i className="legend-current"/>This record</span>
-      {!!related.length && <span><i className="legend-related"/>Related</span>}</div>}</div>
+      {!!related.length && <span><i className="legend-related"/>Related</span>}</div>}</div>}
     {onFeedbackSaved && revision !== undefined && <details className="rw-disclosure feedback-tools" aria-label="Missing content feedback">
       <summary>Missing content ({reports.length})</summary>
       <p className="muted">Mark where something is missing, or report the whole page.</p>
-      <div className="feedback-actions"><Button type="button" variant="outline" disabled={!image || reviewBusy} aria-pressed={marking}
+      <div className="feedback-actions"><Button type="button" variant="outline" disabled={!image || reviewBusy || mode === 'pdf'} aria-pressed={marking}
         onClick={() => setMarking(!marking)}>{marking ? 'Cancel marking' : 'Mark the missed area'}</Button>
         {region && <Button type="button" variant="outline" onClick={() => setRegion(null)}>Clear marked area</Button>}
         <Button type="button" disabled={!image || reviewBusy} onClick={() => setReporting(true)}>Report missing content</Button></div>

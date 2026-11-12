@@ -837,3 +837,54 @@ fieldset:has(> .checkbox-label) > legend { padding-block-end: var(--s-1); }
   .upload-detail { gap: var(--s-4); }
   .step-block { padding-block-start: var(--s-4); }
 }
+
+/* ==========================================================================
+   Review pane and source view (12 Nov). Loaded last.
+   1. Each field is one bordered group; inside it the reading, the choice and the optional audit sit close together.
+   2. Secondary lines (audit status, model name) drop to the small muted step so the field value and choice lead.
+   3. The AI suggestion is a contained box on the page background, visibly separate from the reviewer's own controls.
+   4. Highlights / Full PDF: a two-button segmented switch; Full PDF is the browser's own viewer at full pane height.
+   ========================================================================== */
+.rw-record-head { gap: var(--s-1); padding-block: var(--s-2); }
+.rw-record-head h2 { font-size: var(--fs-md); line-height: 1.3; text-wrap: balance; }
+.rw-body { gap: var(--s-3); padding-block-start: var(--s-3); }
+.rw-body fieldset { gap: var(--s-4); }
+.rw-body .rw-field, .rw-body .rw-field + .rw-field { gap: var(--s-2); padding: var(--s-3); border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.rw-field-head { min-block-size: 0; }
+.rw-field-head > span { font-size: var(--fs-xs); color: var(--text-2); }
+.rw-field-head .rw-clear { min-block-size: var(--h-sm); font-size: var(--fs-xs); }
+.rw-audit { display: grid; gap: var(--s-2); }
+.rw-audit-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1) var(--s-3); }
+.rw-audit-row .hint { flex: 1 1 9rem; min-width: 0; margin: 0; font-size: var(--fs-xs); line-height: 1.35; }
+.ai-suggestion .hint { font-size: var(--fs-xs); }
+.ai-suggestion { display: grid; gap: var(--s-2); padding: var(--s-2) var(--s-3); border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); font-size: var(--fs-sm); }
+.ai-suggestion > summary { font-size: var(--fs-sm); font-weight: 600; min-block-size: var(--h-sm); }
+.ai-suggestion > :not(summary) { margin-block-start: 0; }
+.ai-suggestion .feedback-actions { gap: var(--s-2); }
+.ai-suggestion .ai-ignore { justify-self: start; padding-inline: 0; }
+.rw-note { gap: var(--s-1); }
+
+.source-mode { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--r); overflow: hidden; background: var(--surface); }
+.source-mode button { min-block-size: var(--h-sm); padding-inline: var(--s-3); border: 0; background: transparent; color: var(--text); font-size: var(--fs-sm); font-weight: 500; }
+.source-mode button + button { border-inline-start: 1px solid var(--line-strong); }
+.source-mode button[aria-pressed=true] { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+.source-mode button:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+@media (hover: hover) and (pointer: fine) { .source-mode button:hover:not([aria-pressed=true]) { background: var(--subtle); } }
+.pdf-frame { display: flex; flex-direction: column; gap: var(--s-1); flex: 1; min-block-size: 0; }
+.pdf-frame iframe { flex: 1; inline-size: 100%; min-block-size: 24rem; border: 1px solid var(--line); border-radius: var(--r); background: var(--subtle); }
+.pdf-frame-note { margin: 0; }
+.rw-grid .source-pane:has(.pdf-frame) { overflow: hidden; }
+.compare-pane.has-pdf { display: flex; flex-direction: column; block-size: 75svh; overflow: hidden; }
+.compare-pane .source-mode { margin-inline-start: auto; }
+
+/* Knowledge: the document name takes the room it needs; short facts sit beside it */
+.upload-meta.chunk-meta { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); }
+.chunk-meta > div { flex: 0 1 auto; min-width: 0; }
+.chunk-meta dd { overflow-wrap: anywhere; }
+
+@media (max-width: 700px) {
+  .rw-grid .source-pane:has(.pdf-frame) { overflow: visible; }
+  .pdf-frame iframe { min-block-size: 70dvh; }
+  .compare-pane.has-pdf { block-size: auto; }
+  .compare-pane .source-mode { margin-inline-start: 0; }
+}
