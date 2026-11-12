@@ -1,136 +1,195 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, type DragEvent, type FormEvent } from 'react';
+import { BatchRows } from '@/components/intake-batch-rows';
 import { Field } from '@/components/intake-status';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { request, ReviewError } from '@/lib/api';
-import { checkUploadFile, fieldErrors, formatBytes, MAX_UPLOAD_BYTES, uploadQuery, type UploadField } from '@/lib/intake';
+import { fieldErrors, formatBytes, MAX_UPLOAD_BYTES, uploadQuery } from '@/lib/intake';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
+import { addFiles, applyToAll, batchReducer, hasProblems, initialBatch, MAX_BATCH_FILES, nextWaiting, progressText, rowProblems,
+  retryNotice, startableIds, summaryText, type BatchAction, type BatchRow, type BatchState } from '@/lib/upload-batch';
 
-type Errors = Partial<Record<UploadField, string>>;
-const ORDER = ['kind', 'title', 'edition', 'office', 'audience'] as const;
+const NO_NOTES = { office: '', audience: '' };
 
-export function IntakeUpload({ onUploaded }: { onUploaded: (uploadId: string) => void }) {
-  const [kind, setKind] = useState('handbook'), [title, setTitle] = useState(''), [edition, setEdition] = useState('');
+export function IntakeUpload({ onUploaded, onSelect }: { onUploaded: (uploadId: string) => void; onSelect?: (uploadId: string) => void }) {
+  const [rows, setRows] = useState<BatchRow<File>[]>([]), [batch, setBatch] = useState<BatchState>(initialBatch);
+  const [kind, setKind] = useState('handbook'), [edition, setEdition] = useState('');
   const [office, setOffice] = useState(''), [audience, setAudience] = useState('');
-  const [file, setFile] = useState<File | null>(null), [dragging, setDragging] = useState(false);
-  const [errors, setErrors] = useState<Errors>({}), [fileProblem, setFileProblem] = useState('');
-  const [busy, setBusy] = useState(false), [serverError, setServerError] = useState('');
-  const [uploaded, setUploaded] = useState<{ id: string; title: string; name: string; bytes: number } | null>(null);
-  const successBox = useRef<HTMLDivElement>(null), errorBox = useRef<HTMLDivElement>(null);
-  const fileInput = useRef<HTMLInputElement>(null);
+  const [dragging, setDragging] = useState(false), [showProblems, setShowProblems] = useState(false), [addNote, setAddNote] = useState('');
+  const rowsRef = useRef(rows), batchRef = useRef(batch), seq = useRef(1), running = useRef(false);
+  const notesRef = useRef({ office, audience }), fileInput = useRef<HTMLInputElement>(null), summaryBox = useRef<HTMLDivElement>(null);
   const uid = useId();
-  const id = (name: string) => `${uid}-${name}`;
+  const idFor = (rowId: string, part: string) => `${uid}-${rowId}-${part}`;
+  notesRef.current = { office, audience };
 
-  function choose(next: File | null) {
-    setFile(next); setUploaded(null); setServerError('');
-    // a client check is only a hint: the server re-checks the type, size and fields, and its answer is shown as written
-    setFileProblem(next ? checkUploadFile(next) ?? '' : '');
+  const commitRows = (next: BatchRow<File>[]) => { rowsRef.current = next; setRows(next); };
+  // the upload loop reads the latest state between awaits, so the reducer result is kept in a ref as well as in React state
+  const send = (action: BatchAction) => { batchRef.current = batchReducer(batchRef.current, action); setBatch(batchRef.current); };
+  const isUploaded = (rowId: string) => batchRef.current.results[rowId]?.status === 'uploaded';
+
+  const busy = batch.phase === 'running' || batch.phase === 'stopping';
+  const order = rows.map(row => row.id);
+  const problems = Object.fromEntries(rows.map(row => [row.id, rowProblems(row, NO_NOTES)]));
+  const noteErrors = fieldErrors({ kind: 'handbook', title: 'x', edition: 'x', office, audience });
+  const pending = startableIds(order, batch);
+  const uploadedCount = rows.length - pending.length;
+  const summary = summaryText(order, batch);
+  const progress = progressText(order, Object.fromEntries(rows.map(row => [row.id, row.file.name])), batch);
+
+  function add(files: File[]) {
+    if (busy || !files.length) return;
+    const result = addFiles(rowsRef.current, files, { kind, edition }, seq.current);
+    seq.current = result.nextSeq; commitRows(result.rows);
+    const skipped = [result.duplicates && `${result.duplicates} already in the list`, result.overLimit && `${result.overLimit} over the limit of ${MAX_BATCH_FILES} files`].filter(Boolean);
+    setAddNote(skipped.length ? `Skipped: ${skipped.join(', ')}.` : '');
   }
   function drop(event: DragEvent) {
     event.preventDefault(); setDragging(false);
-    const dropped = event.dataTransfer.files;
-    if (busy || !dropped.length || !fileInput.current) return;
-    fileInput.current.files = dropped;
-    choose(dropped[0]);
+    add(Array.from(event.dataTransfer.files));
   }
-  function clearFile() {
-    if (fileInput.current) { fileInput.current.value = ''; fileInput.current.focus(); }
-    choose(null);
+  function edit(rowId: string, field: 'title' | 'edition' | 'kind', value: string) {
+    commitRows(rowsRef.current.map(row => row.id === rowId ? { ...row, [field]: value } : row));
   }
-  function edit(field: UploadField, set: (value: string) => void) {
-    return (value: string) => { set(value); setErrors(current => ({ ...current, [field]: undefined })); };
+  function remove(rowId: string) {
+    commitRows(rowsRef.current.filter(row => row.id !== rowId)); send({ type: 'remove', id: rowId });
+    if (!rowsRef.current.length) { send({ type: 'reset' }); setShowProblems(false); fileInput.current?.focus(); }
+  }
+  function clearUploaded() {
+    const done = rowsRef.current.filter(row => isUploaded(row.id)).map(row => row.id);
+    commitRows(rowsRef.current.filter(row => !done.includes(row.id)));
+    for (const id of done) send({ type: 'remove', id });
+    if (!rowsRef.current.length) send({ type: 'reset' });
+    fileInput.current?.focus();
+  }
+  function applyAll() {
+    commitRows(rowsRef.current.map(row => isUploaded(row.id) ? row : applyToAll([row], { kind, edition })[0]));
   }
 
-  async function submit(event: FormEvent) {
+  async function run() {
+    if (running.current) return;
+    running.current = true;
+    try {
+      for (;;) {
+        const id = nextWaiting(rowsRef.current.map(row => row.id), batchRef.current);
+        if (!id) break;
+        const row = rowsRef.current.find(candidate => candidate.id === id);
+        if (!row) { send({ type: 'remove', id }); continue; }
+        send({ type: 'begin', id });
+        try {
+          // raw bytes in the body, one request per file; the review server adds the session token and re-checks every limit
+          const fields = { kind: row.kind, title: row.title, edition: row.edition, ...notesRef.current };
+          const response = await request(REVIEW_CONNECTION, '/api/intake/upload?' + uploadQuery(fields),
+            { method: 'POST', body: row.file, headers: { 'Content-Type': 'application/pdf' } });
+          const result: { upload_id: string } = await response.json();
+          if (typeof result?.upload_id !== 'string' || !result.upload_id) throw new Error('Missing upload confirmation');
+          send({ type: 'success', id, uploadId: result.upload_id, title: row.title.trim() });
+          onUploaded(result.upload_id);
+        } catch (failure) {
+          send({ type: 'failure', id, uncertain: !(failure instanceof ReviewError) || failure.status >= 500,
+            error: failure instanceof ReviewError ? failure.message : 'The server response was lost or incomplete.' });
+        }
+      }
+    } finally {
+      send({ type: 'settle' }); running.current = false;
+      setTimeout(() => summaryBox.current?.focus(), 0);
+    }
+  }
+
+  function submit(event: FormEvent) {
     event.preventDefault();
-    if (busy) return;
-    setServerError(''); setUploaded(null);
-    const fields = { kind, title, edition, office, audience };
-    const found = fieldErrors(fields), fileCheck = checkUploadFile(file);
-    setErrors(found); setFileProblem(fileCheck ?? '');
-    if (fileCheck || !file || Object.keys(found).length) {
-      const first = fileCheck ? 'file' : ORDER.find(key => found[key]);
-      document.getElementById(id(first ?? 'file'))?.focus();
+    if (busy || !pending.length) return;
+    setShowProblems(true);
+    const bad = rows.find(row => pending.includes(row.id) && hasProblems(problems[row.id]));
+    if (bad || Object.keys(noteErrors).length) {
+      const target = bad ? idFor(bad.id, problems[bad.id].file ? 'remove' : problems[bad.id].fields.title ? 'title' : 'edition')
+        : idFor('', noteErrors.office ? 'office' : 'audience');
+      document.getElementById(target)?.focus();
       return;
     }
-    setBusy(true);
-    try {
-      // raw bytes in the body; the review server adds the session token, and the server re-checks every limit
-      const response = await request(REVIEW_CONNECTION, '/api/intake/upload?' + uploadQuery(fields),
-        { method: 'POST', body: file, headers: { 'Content-Type': 'application/pdf' } });
-      const result: { upload_id: string } = await response.json();
-      setUploaded({ id: result.upload_id, title: title.trim(), name: file.name, bytes: file.size });
-      setTitle(''); setEdition(''); setOffice(''); setAudience(''); setErrors({}); setFile(null); setFileProblem('');
-      if (fileInput.current) fileInput.current.value = '';
-      onUploaded(result.upload_id);
-    } catch (failure) {
-      setServerError(failure instanceof ReviewError ? failure.message : 'The upload could not be sent. Check that the review command is still running, then try again.');
-    } finally { setBusy(false); }
+    const warning = retryNotice(pending, batchRef.current);
+    if (warning && !window.confirm(warning)) return;
+    send({ type: 'start', ids: pending }); void run();
+  }
+  function retry(rowId: string) {
+    const row = rowsRef.current.find(row => row.id === rowId);
+    if (running.current || !row || hasProblems(rowProblems(row, notesRef.current))) return;
+    const warning = retryNotice([rowId], batchRef.current);
+    if (warning && !window.confirm(warning)) return;
+    send({ type: 'retry', id: rowId }); void run();
   }
 
-  // move focus to the outcome so keyboard and screen-reader users land on it
-  useEffect(() => { if (uploaded) successBox.current?.focus(); }, [uploaded]);
-  useEffect(() => { if (serverError) errorBox.current?.focus(); }, [serverError]);
-  const problemCount = Object.keys(errors).filter(key => errors[key as UploadField]).length + (fileProblem ? 1 : 0);
-  return <section className="intake-section" id="upload" aria-label="Upload a document">
-    <p className="muted">PDF only, up to {formatBytes(MAX_UPLOAD_BYTES)}. Uploading approves nothing: the file stays a candidate until it is reviewed.</p>
-    <form onSubmit={event => void submit(event)} className="intake-form" noValidate aria-busy={busy}>
+  // a half-sent batch is lost on reload, so ask before the page is left mid-run
+  useEffect(() => {
+    if (!busy) return;
+    const warn = (event: BeforeUnloadEvent) => event.preventDefault();
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [busy]);
+
+  const several = rows.length > 1;
+  const problemCount = rows.filter(row => pending.includes(row.id) && hasProblems(problems[row.id])).length + Object.keys(noteErrors).length;
+  const anyFailed = Object.values(batch.results).some(result => result.status === 'failed');
+  const submitLabel = busy ? 'Uploading…' : batch.phase === 'finished' ? `Upload ${pending.length} unfinished`
+    : pending.length === 1 ? 'Upload PDF' : `Upload ${pending.length} PDFs`;
+
+  return <section className="intake-section" id="upload" aria-label="Upload documents">
+    <p className="muted">PDF only, up to {formatBytes(MAX_UPLOAD_BYTES)} each, up to {MAX_BATCH_FILES} files at a time. Uploading approves nothing: each file stays a candidate until it is reviewed.</p>
+    <form onSubmit={submit} className="intake-form" noValidate aria-busy={busy} aria-label="Upload PDFs">
       <div className="field">
-        <span className="field-label" id={id('file-label')}>PDF file</span>
-        <label className={`dropzone${dragging ? ' is-dragging' : ''}${fileProblem ? ' is-invalid' : ''}`} htmlFor={id('file')}
+        <span className="field-label" id={idFor('', 'file-label')}>PDF files</span>
+        <label className={`dropzone${dragging ? ' is-dragging' : ''}`} htmlFor={idFor('', 'file')}
           onDragOver={event => { event.preventDefault(); setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={drop}>
-          <input ref={fileInput} id={id('file')} className="sr-only" type="file" accept="application/pdf,.pdf" disabled={busy}
-            aria-labelledby={id('file-label')} aria-describedby={[id('file-hint'), fileProblem ? id('file-error') : ''].filter(Boolean).join(' ')}
-            aria-invalid={fileProblem ? true : undefined}
-            onChange={event => choose(event.target.files?.[0] ?? null)} />
-          <span className="dropzone-title">{dragging ? 'Release to choose this file' : 'Choose a PDF, or drop it here'}</span>
+          <input ref={fileInput} id={idFor('', 'file')} className="sr-only" type="file" multiple accept="application/pdf,.pdf" disabled={busy}
+            aria-labelledby={idFor('', 'file-label')} aria-describedby={idFor('', 'file-hint')}
+            onChange={event => { add(Array.from(event.target.files ?? [])); event.target.value = ''; }} />
+          <span className="dropzone-title">{dragging ? 'Release to add these files' : rows.length ? 'Add more PDFs, or drop them here' : 'Choose PDFs, or drop them here'}</span>
           <span className="dropzone-action" aria-hidden="true">Browse files</span>
         </label>
-        <p className="hint" id={id('file-hint')}>The type and size are checked here as a hint. The review server checks them again when you upload.</p>
-        {file && <div className="file-chosen"><p><strong className="file-name">{file.name}</strong> <span className="muted">{formatBytes(file.size)}</span></p>
-          <Button type="button" variant="outline" size="sm" disabled={busy} onClick={clearFile} aria-label={`Remove ${file.name}`}>Remove file</Button></div>}
-        {fileProblem && <p className="field-error" id={id('file-error')}>{fileProblem}</p>}
-        {serverError && <div className="notice error" role="alert" tabIndex={-1} ref={errorBox}><span><strong>Upload failed.</strong> {serverError}</span></div>}
+        <p className="hint" id={idFor('', 'file-hint')}>Several files can be chosen at once. Each one becomes its own upload and is sent one after another. The type and size are checked here as a hint; the review server checks them again.</p>
+        {addNote && <p className="hint" role="status">{addNote}</p>}
       </div>
 
-      <fieldset className="field-group"><legend>About this document</legend>
-        <Field id={id('kind')} label="Kind" error={errors.kind}>{described =>
-          <select id={id('kind')} value={kind} aria-describedby={described} aria-invalid={errors.kind ? true : undefined}
-            onChange={event => edit('kind', setKind)(event.target.value)}>
-            <option value="handbook">Handbook (also use this for USG and other handbook-style documents)</option>
-            <option value="charter">Citizens’ Charter</option>
-          </select>}</Field>
-        <Field id={id('title')} label="Title" error={errors.title}>{described =>
-          <input id={id('title')} value={title} maxLength={300} autoComplete="off" aria-describedby={described} aria-invalid={errors.title ? true : undefined}
-            onChange={event => edit('title', setTitle)(event.target.value)} />}</Field>
-        <Field id={id('edition')} label="Edition or year" error={errors.edition}>{described =>
-          <input id={id('edition')} value={edition} maxLength={300} autoComplete="off" aria-describedby={described} aria-invalid={errors.edition ? true : undefined}
-            onChange={event => edit('edition', setEdition)(event.target.value)} />}</Field>
-      </fieldset>
+      {rows.length > 0 && <>
+        {several && <fieldset className="field-group"><legend>Defaults for all files</legend>
+          <div className="field-row">
+            <Field id={idFor('', 'kind')} label="Kind">{() =>
+              <select id={idFor('', 'kind')} value={kind} disabled={busy} onChange={event => setKind(event.target.value)}>
+                <option value="handbook">Handbook (also USG and other handbook-style documents)</option>
+                <option value="charter">Citizens’ Charter</option></select>}</Field>
+            <Field id={idFor('', 'edition')} label="Edition or year">{() =>
+              <input id={idFor('', 'edition')} value={edition} maxLength={300} autoComplete="off" disabled={busy} onChange={event => setEdition(event.target.value)} />}</Field>
+          </div>
+          <div><Button type="button" variant="outline" size="sm" disabled={busy} onClick={applyAll}>Apply kind and edition to all files</Button></div>
+        </fieldset>}
 
-      <fieldset className="field-group"><legend>Optional notes</legend>
-        <Field id={id('office')} label="Office (optional)" error={errors.office}>{described =>
-          <input id={id('office')} value={office} maxLength={300} autoComplete="off" aria-describedby={described} aria-invalid={errors.office ? true : undefined}
-            onChange={event => edit('office', setOffice)(event.target.value)} />}</Field>
-        <Field id={id('audience')} label="Audience note (optional)" hint="Note only. Who each clause applies to is decided per item in review." error={errors.audience}>{described =>
-          <Textarea id={id('audience')} rows={2} value={audience} maxLength={300} aria-describedby={described} aria-invalid={errors.audience ? true : undefined}
-            onChange={event => edit('audience', setAudience)(event.target.value)} />}</Field>
-      </fieldset>
+        <fieldset className="field-group"><legend>Optional notes{several ? ' for all files' : ''}</legend>
+          <Field id={idFor('', 'office')} label="Office (optional)" error={noteErrors.office}>{described =>
+            <input id={idFor('', 'office')} value={office} maxLength={300} autoComplete="off" disabled={busy} aria-describedby={described}
+              aria-invalid={noteErrors.office ? true : undefined} onChange={event => setOffice(event.target.value)} />}</Field>
+          <Field id={idFor('', 'audience')} label="Audience note (optional)" hint="Note only. Who each clause applies to is decided per item in review." error={noteErrors.audience}>{described =>
+            <Textarea id={idFor('', 'audience')} rows={2} value={audience} maxLength={300} disabled={busy} aria-describedby={described}
+              aria-invalid={noteErrors.audience ? true : undefined} onChange={event => setAudience(event.target.value)} />}</Field>
+        </fieldset>
 
-      <div className="form-actions">
-        <Button type="submit" disabled={busy}>{busy && <span className="spinner" aria-hidden="true" />}{busy ? 'Uploading…' : 'Upload PDF'}</Button>
-        {busy && <p className="muted">Sending {file ? `${file.name} (${formatBytes(file.size)})` : 'the file'}. Large files can take a minute; keep this page open.</p>}
-        {!busy && problemCount > 0 && <p className="field-error">Fix {problemCount} {problemCount === 1 ? 'problem' : 'problems'} above, then upload again.</p>}
-      </div>
+        <div className="batch-list-head"><h3>{rows.length} {rows.length === 1 ? 'file' : 'files'}</h3>
+          {uploadedCount > 0 && !busy && <Button type="button" variant="outline" size="sm" onClick={clearUploaded}>Clear uploaded</Button>}</div>
+        <BatchRows rows={rows} results={batch.results} problems={problems} showProblems={showProblems} locked={busy}
+          idFor={idFor} onEdit={edit} onRemove={remove} onRetry={retry} onView={id => onSelect?.(id)} />
+      </>}
+
+      {pending.length > 0 && <div className="form-actions">
+        <Button type="submit" disabled={busy}>{busy && <span className="spinner" aria-hidden="true" />}{submitLabel}</Button>
+        {batch.phase === 'running' && <Button type="button" variant="outline" onClick={() => send({ type: 'stop' })}>Stop after this file</Button>}
+        {!busy && showProblems && problemCount > 0 && <p className="field-error">Fix {problemCount} {problemCount === 1 ? 'problem' : 'problems'} above, then upload again.</p>}
+      </div>}
     </form>
-    <div aria-live="polite">
-      {uploaded && <div className="notice success" role="status" tabIndex={-1} ref={successBox}><div>
-        <p><strong>Uploaded: {uploaded.title}</strong></p>
-        <dl className="upload-meta"><div><dt>File</dt><dd className="file-name">{uploaded.name}</dd></div>
-          <div><dt>Size</dt><dd>{formatBytes(uploaded.bytes)}</dd></div><div><dt>Upload id</dt><dd><code>{uploaded.id}</code></dd></div></dl>
-        <p>It is selected in the list, ready to prepare. The form is cleared so you can add another.</p></div></div>}
+    <div aria-live="polite" className="batch-live">
+      {progress && <p className="muted">{progress}{batch.phase === 'running' ? ' Large files can take a minute; keep this page open.' : ''}</p>}
+      {batch.phase === 'finished' && summary && <div className={`notice ${anyFailed ? 'error' : 'success'}`} role="status" tabIndex={-1} ref={summaryBox}>
+        <div><p><strong>{summary}.</strong></p>
+          <p>Uploaded files are in the list below, ready to prepare. Prepare stays a separate choice for each one.</p></div></div>}
     </div>
   </section>;
 }

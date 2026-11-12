@@ -489,3 +489,28 @@ details.known-gaps { display: block; padding: 0 .75rem .75rem; }
   .rw-body { overflow: visible; padding-inline: 1rem; }
   .rw-record-head { position: sticky; inset-block-start: 0; z-index: 2; padding-inline: 1rem; }
 }
+/* Multi-file upload: stacked cards by default, a table-like row once the upload area is wide enough */
+.intake-grid > .upload-panel { grid-column: 1 / -1; }
+.intake-section { container: upload / inline-size; }
+.batch-list-head { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
+.batch-list-head h3 { margin: 0; font-size: .95rem; }
+.batch-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; min-width: 0; }
+.batch-row { display: grid; gap: .6rem; padding: .8rem; border: 1px solid var(--border); border-radius: .5rem; min-width: 0; }
+.batch-row[data-status=uploaded] { background: var(--secondary); }
+.batch-row[data-status=failed] { border-color: var(--error); }
+.batch-row-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem .75rem; flex-wrap: wrap; min-width: 0; }
+.batch-file { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.batch-fields { display: grid; gap: .6rem; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.batch-row-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.batch-row-actions:empty { display: none; }
+.batch-row-actions button, .intake-section input:not([type=file]), .intake-section select { min-block-size: 48px; }
+.intake-section input, .intake-section select, .intake-section textarea { font-size: 1rem; }
+.batch-done { margin: 0; font-size: .85rem; overflow-wrap: anywhere; }
+.batch-live:empty { display: none; }
+.batch-live { display: grid; gap: .5rem; }
+@container upload (min-width: 46rem) {
+  .batch-row { grid-template-columns: minmax(0, 1fr) minmax(0, 2.6fr) auto; align-items: start; }
+  .batch-row > .field-error, .batch-row > .muted { grid-column: 1 / -1; }
+  .batch-fields { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); }
+  .batch-row-actions { flex-direction: column; }
+}

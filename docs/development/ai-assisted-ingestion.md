@@ -224,6 +224,18 @@ correctness adjudication and matched live runs are still required.
 
 ## Offline checks
 
+Intake accepts up to 20 PDFs per batch (128 MiB each). Edit each title, edition and
+kind before uploading; optional office/audience notes apply to the batch. Files
+send sequentially and stay separate candidates. Prepare, review and build remain
+individual actions. Stop finishes the current upload and leaves the rest unsent.
+Retry is available after the batch finishes. If a response was lost, check Uploads
+first: sending again requires confirmation because the first write may have succeeded.
+
+The optional `researcher/tests/upload-batch-browser.test.mjs` intercepts all review
+API requests and writes no uploads. Set `BINTANONG_INTAKE_TEST_ORIGIN` to a loopback
+preview, and `BINTANONG_TEST_PLAYWRIGHT` to an existing Playwright `index.mjs`, then run
+it with Node's test runner. `BINTANONG_INTAKE_TEST_EVIDENCE` optionally saves screenshots.
+
 Create a fresh external test directory; do not put test temporaries in the corpus.
 
 ```powershell

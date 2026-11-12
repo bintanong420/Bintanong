@@ -15,6 +15,7 @@ export default function IntakePage() {
   const [uploads, setUploads] = useState<Upload[] | null>(null), [currentId, setCurrentId] = useState<string | null>(null);
   const [error, setError] = useState(''), [opening, setOpening] = useState(false), [openError, setOpenError] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(null), [comparing, setComparing] = useState(false);
+  const [uploadOpen, setUploadOpen] = useState(false);
   const { states, refresh, patch } = useUploadStates(ids(uploads));
   const heading = useRef<HTMLHeadingElement>(null), compare = useRef<HTMLDivElement>(null);
   const wanted = useRef<string | null>(null);  // an upload id asked for by the address or by a fresh upload
@@ -24,6 +25,7 @@ export default function IntakePage() {
       const list: Upload[] = (await (await request(REVIEW_CONNECTION, '/api/intake/uploads')).json()).uploads;
       setCurrentId((await (await request(REVIEW_CONNECTION, '/api/intake/current')).json()).upload_id);
       setUploads(list); setError('');
+      if (!list.length) setUploadOpen(true);
       // keep the choice if it still exists; otherwise the requested upload; the open one or the first is the fallback below
       setSelectedId(previous => [previous, wanted.current].find(id => id && list.some(u => u.upload_id === id)) ?? null);
     } catch (failure) { setError(failure instanceof Error ? failure.message : 'The uploads could not be loaded.'); }
@@ -64,13 +66,13 @@ export default function IntakePage() {
 
   return <main className="page-main intake-page" id="review-main">
     <div className="page-toolbar"><div><h1 className="page-title">Intake</h1>
-      <p className="muted">Upload a handbook-style PDF, prepare it, review it, then build chunks. Nothing here approves content or activates it.</p></div></div>
+      <p className="muted">Upload PDFs, then prepare, review and build each one. Nothing here approves content or activates it.</p></div></div>
     <div className="intake-grid">
-      <div className="intake-side">
-        <details className="upload-panel" open={uploads?.length === 0 ? true : undefined}>
-          <summary>Upload a PDF</summary>
-          <IntakeUpload onUploaded={uploaded} />
+        <details className="upload-panel" open={uploadOpen} onToggle={event => setUploadOpen(event.currentTarget.open)}>
+          <summary>Upload PDFs</summary>
+          <IntakeUpload onUploaded={uploaded} onSelect={select} />
         </details>
+      <div className="intake-side">
         <UploadList uploads={uploads} states={states} currentId={currentId} selectedId={shownId}
           onSelect={select} error={error} onRetry={() => void load()} />
       </div>
