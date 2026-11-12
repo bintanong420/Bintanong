@@ -63,6 +63,17 @@ def create_upload(workspace: Path, data: bytes, *, kind: str, title: str, editio
     return {'upload_id': upload_id, 'sha256': sha256}
 
 
+def _preview(fields) -> str:
+    """First words of the first field that has text, so a passage is recognised by what it says, not by its id."""
+    for field in fields:
+        value = field.get('original_value')
+        text = ' '.join(str(v) for v in value) if isinstance(value, list) else value if isinstance(value, str) else ''
+        text = ' '.join(text.split())
+        if text:
+            return text if len(text) <= 80 else text[:80] + '...'
+    return ''
+
+
 def build_plan(session) -> dict:
     """What the build form needs: each reading's pending fields and the held-back items, before build is called."""
     export = session.export()
@@ -70,7 +81,7 @@ def build_plan(session) -> dict:
     for row in export['readings']:
         pending = [f['name'] for f in row['fields'] if f['decision'] == 'pending']
         readings.append({'reading_id': row['reading_id'], 'fields': [f['name'] for f in row['fields']],
-                         'pending_fields': pending, 'ready': not pending,
+                         'pending_fields': pending, 'ready': not pending, 'preview': _preview(row['fields']),
                          'intended_audience': row['intended_audience']})
     saved = session.root / 'review/build-metadata.json'  # only a form saved against this revision counts
     return {'packet_id': export['packet_id'], 'revision': export['revision'], 'readings': readings,

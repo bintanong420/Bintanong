@@ -119,3 +119,11 @@ def test_plan_reports_whether_the_saved_form_matches_the_current_review(reviewed
         assert intake().build_plan(review)['metadata_saved'] is True
         review.save(answer(packet, revision=review.state()['revision'], operation='save-2'))
         assert intake().build_plan(review)['metadata_saved'] is False  # a later decision makes the saved form stale
+
+
+def test_plan_readings_carry_their_first_words(reviewed):
+    root, _ = reviewed
+    with ReviewSession(root, 'Synthetic researcher') as review:
+        by_id = {r['reading_id']: r for r in intake().build_plan(review)['readings']}
+    assert by_id['handbook:text-0']['preview'].startswith('Submit the form')
+    assert len(by_id['handbook:text-0']['preview']) <= 83
