@@ -125,6 +125,12 @@ export function sourceRectangle(span: SourceSpan) {
     width: Math.abs(right - left), height: high - low };
 }
 
+// Record titles can be a whole heading path ("DOC / ARTICLE XI / ... / Section 3."); the last heading is what tells records apart.
+export function recordHeading(title: string) {
+  const parts = title.split(' / ').map(part => part.trim()).filter(Boolean);
+  return { heading: parts.at(-1) ?? '', context: parts.slice(-3, -1).join(' / ') };
+}
+
 // A second line for queue rows: items can share a title, so show what the first filled field starts with.
 export function itemSnippet(item: { fields: { name: string; original_value: unknown }[] }, max = 70) {
   for (const field of item.fields) {

@@ -7,7 +7,7 @@ import { RelatedRecords } from '@/components/related-records';
 import { ReviewedValue } from '@/components/reviewed-value';
 import { SourceGaps } from '@/components/source-gaps';
 import { SUGGESTED_NOTE, fieldAfterChoice, textOf, type Draft, type FieldDraft } from '@/lib/review-form';
-import { fieldLabel, readableValue, recordStatus, type Document, type Field, type ReviewItem } from '@/lib/review-state';
+import { fieldLabel, readableValue, recordHeading, recordStatus, type Document, type Field, type ReviewItem } from '@/lib/review-state';
 
 const CHOICES = [['accepted', 'Matches'], ['corrected', 'Fix text'], ['unresolved', 'Unclear']] as const;
 
@@ -33,9 +33,11 @@ export function DecisionPane({ item, items, documents, draft, setDraft, dirty, b
   const setField = (name: string, value: FieldDraft) =>
     setDraft(current => current && { ...current, fields: { ...current.fields, [name]: value } });
   const problems = item.source_gaps ?? [];
+  const heading = recordHeading(item.title);
   return <section id="source-review" tabIndex={-1} className="decision-pane rw-decision" aria-label="Extraction and review">
     <header className="rw-record-head">
-      <h2>{item.title}</h2>
+      {heading.context && <p className="rw-record-context" title={item.title}>{heading.context}</p>}
+      <h2 title={item.title}>{heading.heading}</h2>
       <div className="review-actions">
         {editable && <label className="rw-audience"><span>Audience</span>
           <select aria-label="Audience applicability" value={draft.audience} disabled={busy} onChange={event => patch({ audience: event.target.value })}>
@@ -62,7 +64,7 @@ export function DecisionPane({ item, items, documents, draft, setDraft, dirty, b
         </section>)}
         {!!draft.companions.length && <section aria-label="Related source records"><h3>Read together</h3>
           {draft.companions.map(id => items.find(row => row.id === id)).filter(row => !!row).map(row => <button
-            type="button" className="related-record" key={row.id} onClick={() => onOpenRecord(row.id)}>{row.title}</button>)}
+            type="button" className="related-record" key={row.id} onClick={() => onOpenRecord(row.id)} title={row.title}>{recordHeading(row.title).heading}</button>)}
         </section>}</>
         : !item.fields.length ? <p className="notice hold">This prospectus uses the course review workflow. Its questions require the prospectus review controls.</p>
         : <form id="review-form" onSubmit={event => { event.preventDefault(); onSave(); }}>

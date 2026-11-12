@@ -837,3 +837,6 @@ fieldset:has(> .checkbox-label) > legend { padding-block-end: var(--s-1); }
   .upload-detail { gap: var(--s-4); }
   .step-block { padding-block-start: var(--s-4); }
 }
+
+/* Heading path above the record title: the two headings the record sits under */
+.rw-record-context { font-size: var(--fs-xs); color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-block-end: calc(var(--s-2) * -1); }
