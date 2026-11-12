@@ -892,3 +892,10 @@ fieldset:has(> .checkbox-label) > legend { padding-block-end: var(--s-1); }
 .rw-suggest { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); margin: 0; font-size: var(--fs-xs); color: var(--muted-foreground); }
 .rw-suggest .rw-chip { min-block-size: 28px; padding: 0 var(--s-3); border-radius: 999px; border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); background: color-mix(in oklab, var(--accent) 8%, transparent); color: var(--foreground); font-size: var(--fs-xs); font-weight: 500; }
 .rw-suggest .rw-chip:hover { background: color-mix(in oklab, var(--accent) 16%, transparent); }
+
+/* Record header: Audience and Save on one row with equal heights; the save status sits under the Audience label */
+.rw-record-head .review-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: var(--s-3); row-gap: var(--s-1); }
+.rw-record-head .rw-audience { display: grid; grid-template-columns: auto minmax(0, 16rem); align-items: center; gap: var(--s-2); min-width: 0; }
+.rw-record-head .rw-audience select, .rw-record-head .review-actions > button { block-size: var(--h); min-block-size: var(--h); margin: 0; }
+.rw-record-head .review-actions > button { padding-inline: var(--s-6); }
+.rw-record-head .review-actions p { grid-column: 1 / -1; order: 0; margin: 0; }
