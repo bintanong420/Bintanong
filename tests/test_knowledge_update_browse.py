@@ -445,3 +445,56 @@ def test_chunks_carry_display_text_beside_the_raw_text(tmp_path):
                                                                httpx.Client(transport=httpx.MockTransport(plain))))
     chunk = knowledge.chunks('local:rel-1')['chunks'][0]
     assert chunk['display_text'] is None and chunk['section'] == 'Part I > Forms'
+
+
+@pytest.mark.parametrize('text', ['{"fields":[{"name":"title","value":"x"}],"source_limits":5}',
+    '{"fields":[{"name":"title","value":"x"}],"source_limits":[5,"a",null,{"issue":3}]}',
+    '{"fields":[{"name":"title","value":{"a":[1,{"b":null}]},"source_blank":false}]}',
+    '{"fields":[{"name":"title","value":"x","source_blank":"yes"},{"name":7}]}',
+    '{"fields":[{"name":"title","value":"x"}],"source_limits":[{"issue":"gap","affected_claims":5}]}',
+    pytest.param('{"a":' * 5000 + '1' + '}' * 5000, id='deep-object'), pytest.param('{' + '[' * 100000, id='deep-array')])
+def test_odd_stored_chunks_never_break_the_listing(text):
+    display, section = browse().readable_chunk(text)  # must not raise
+    assert display is None or isinstance(display, str)
+    assert section is None or isinstance(section, str)
+
+
+def test_one_odd_chunk_does_not_hide_the_others(tmp_path):
+    odd = {**ROW, 'chunk_id': 'd' * 64, 'text': '{"fields":[{"name":"title","value":"x"}],"source_limits":5}'}
+    fake = Recorder({'chunks': [odd, ROW]})
+    knowledge = browser(tmp_path, local=lambda: browse().Rest('local', 'http://127.0.0.1:54321', 'k',
+                                                               httpx.Client(transport=httpx.MockTransport(fake))))
+    rows = knowledge.chunks('local:rel-1')['chunks']
+    assert [r['chunk_id'] for r in rows] == ['d' * 64, 'c' * 64] and rows[0]['text'] == odd['text']
+
+
+def pages_of(rows, size):
+    """Fake PostgREST whose server caps every response at `size` rows, whatever limit is asked."""
+    seen = []
+
+    def handler(request):
+        seen.append(request)
+        start = int(request.url.params.get('offset', 0))
+        return httpx.Response(200, json=rows[start:start + size],
+                              headers={'content-range': f'{start}-{start + size - 1}/{len(rows)}'})
+    handler.requests = seen
+    return handler
+
+
+def test_documents_keep_paging_when_the_server_caps_responses_below_the_batch(tmp_path):
+    rows = [doc_row(n, 'c' * 64, 'Big', [1]) for n in range(1, 1201)]
+    fake = pages_of(rows, 500)
+    knowledge = browser(tmp_path, local=lambda: browse().Rest('local', 'http://127.0.0.1:54321', 'k',
+                                                               httpx.Client(transport=httpx.MockTransport(fake))))
+    result = knowledge.documents('local:rel-1')
+    assert result['documents'][0]['chunk_count'] == 1200 and result['truncated'] is False
+    assert [r.url.params['offset'] for r in fake.requests] == ['0', '500', '1000']
+
+
+def test_documents_stop_on_an_empty_page_when_no_total_is_reported(tmp_path):
+    def handler(request):
+        start = int(request.url.params.get('offset', 0))
+        return httpx.Response(200, json=[doc_row(n, 'c' * 64, 'Big', [1]) for n in range(start, start + 3)] if start < 6 else [])
+    knowledge = browser(tmp_path, local=lambda: browse().Rest('local', 'http://127.0.0.1:54321', 'k',
+                                                               httpx.Client(transport=httpx.MockTransport(handler))))
+    assert knowledge.documents('local:rel-1')['documents'][0]['chunk_count'] == 6

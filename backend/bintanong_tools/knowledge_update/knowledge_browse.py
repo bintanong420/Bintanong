@@ -156,28 +156,34 @@ def _document_filter(params: dict, document: str) -> None:
 TITLE_FIELDS = ('title', 'heading', 'section', 'service_name', 'subject')
 
 
-def _prose(value) -> str:
+def _prose(value, depth=0) -> str:
     if isinstance(value, str):
         return value
+    if depth > 4 or value is None or isinstance(value, bool):
+        return ''
     if isinstance(value, list):
-        return '; '.join(_prose(v) for v in value) if all(isinstance(v, str) for v in value) else \
-            '; '.join(_prose(v) for v in value)
+        return '; '.join(p for p in (_prose(v, depth + 1) for v in value) if p)
     if isinstance(value, dict):
-        return ', '.join(_prose(v) for v in value.values() if v not in (None, ''))
-    return '' if value is None else str(value)
+        return ', '.join(p for p in (_prose(v, depth + 1) for v in value.values()) if p)
+    return str(value)
 
 
 def readable_chunk(text) -> tuple[str | None, str | None]:
     """(prose, section) for a reviewed policy chunk whose text is a JSON payload; (None, None) for anything else.
 
     Fields keep their reading order; extraction-metadata fields (page furniture) are left out of the prose. The raw
-    text stays authoritative and is returned unchanged by the caller."""
+    text stays authoritative and is returned unchanged by the caller. Whatever a stored chunk holds, a failure here
+    only means the caller shows the raw text; it never breaks the listing."""
+    try:
+        return _readable(text)
+    except (ValueError, TypeError, AttributeError, KeyError, RecursionError, MemoryError):
+        return None, None
+
+
+def _readable(text) -> tuple[str | None, str | None]:
     if not isinstance(text, str) or not text.lstrip().startswith('{'):
         return None, None
-    try:
-        payload = json.loads(text)
-    except ValueError:
-        return None, None
+    payload = json.loads(text)
     fields = payload.get('fields') if isinstance(payload, dict) else None
     if not isinstance(fields, list) or not fields or not all(isinstance(f, dict) and isinstance(f.get('name'), str) for f in fields):
         return None, None
@@ -186,18 +192,20 @@ def readable_chunk(text) -> tuple[str | None, str | None]:
         if field.get('field_role') == 'extraction_metadata' or field.get('field_kind') == 'body_partition':
             continue
         label = field['name'].replace('_', ' ').capitalize()
-        body = '(blank in the source)' if field.get('source_blank') else _prose(field.get('value'))
-        if field['name'] in TITLE_FIELDS and section is None and isinstance(field.get('value'), str) and field['value'].strip():
-            section = field['value'].strip()
+        body = '(blank in the source)' if field.get('source_blank') is True else _prose(field.get('value'))
+        value = field.get('value')
+        if field['name'] in TITLE_FIELDS and section is None and isinstance(value, str) and value.strip():
+            section = value.strip()
         if body.strip():
             lines.append(f'{label}: {body}')
-    for limit in payload.get('source_limits') or []:
+    limits = payload.get('source_limits')
+    for limit in limits if isinstance(limits, list) else []:
         if isinstance(limit, dict) and isinstance(limit.get('issue'), str):
             claims = limit.get('affected_claims')
-            affects = f" (affects: {'; '.join(c for c in claims if isinstance(c, str))})" if isinstance(claims, list) and claims else ''
+            named = [c for c in claims if isinstance(c, str)] if isinstance(claims, list) else []
+            affects = f" (affects: {'; '.join(named)})" if named else ''
             lines.append(f"Known source problem: {limit['issue'].replace('_', ' ')}{affects}")
     return ('\n'.join(lines) or None), section
-
 
 def _row(chunk_id, text, title, section_path, pages, sha, reading_id, tokens) -> dict:
     display, derived = readable_chunk(text)
@@ -325,7 +333,8 @@ class KnowledgeBrowser:
                     room = MAX_DOCUMENT_CHUNKS - len(chunks)
                     chunks += [(r.get('byte_sha256'), (r.get('documents') or {}).get('title'), _pages(r.get('source_spans')))
                                for r in rows[:room]]
-                    if len(rows) < DOCUMENT_BATCH or (total is not None and len(chunks) >= total):
+                    # a server may cap a response below the batch size, so only an empty page or the count ends it
+                    if not rows or (total is not None and len(chunks) >= total):
                         break
                     if len(chunks) >= MAX_DOCUMENT_CHUNKS:
                         truncated = True

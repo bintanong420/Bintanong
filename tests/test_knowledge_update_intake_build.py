@@ -127,3 +127,12 @@ def test_plan_readings_carry_their_first_words(reviewed):
         by_id = {r['reading_id']: r for r in intake().build_plan(review)['readings']}
     assert by_id['handbook:text-0']['preview'].startswith('Submit the form')
     assert len(by_id['handbook:text-0']['preview']) <= 83
+
+
+@pytest.mark.parametrize('content', ['{not json', '[]', '{"revision": "x"}'])
+def test_a_corrupt_saved_form_counts_as_not_saved(reviewed, content):
+    root, _ = reviewed
+    (root / 'review').mkdir(exist_ok=True)
+    (root / 'review/build-metadata.json').write_text(content, encoding='utf-8')
+    with ReviewSession(root, 'Synthetic researcher') as review:
+        assert intake().build_plan(review)['metadata_saved'] is False
