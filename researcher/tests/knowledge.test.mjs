@@ -88,3 +88,15 @@ test('the review proxy passes only the headers a page image needs', () => {
   assert.equal(proxyResponseHeaders(new Headers({ 'x-page-count': 'abc' }))['x-page-count'], undefined);
   assert.equal(proxyResponseHeaders(new Headers())['content-type'], 'application/octet-stream');
 });
+
+test('the review proxy keeps the page geometry the source viewer needs for highlight boxes', () => {
+  const upstream = new Headers({ 'content-type': 'image/png', 'x-page-count': '3', 'x-page-width': '612.0',
+    'x-page-height': '792', 'x-page-rotation': '90' });
+  const passed = proxyResponseHeaders(upstream);
+  assert.equal(passed['x-page-width'], '612.0');
+  assert.equal(passed['x-page-height'], '792');
+  assert.equal(passed['x-page-rotation'], '90');
+  assert.equal(proxyResponseHeaders(new Headers({ 'x-page-width': '1e9; evil' }))['x-page-width'], undefined);
+  // the API sends Python floats verbatim, e.g. an A4 page width
+  assert.equal(proxyResponseHeaders(new Headers({ 'x-page-width': '595.2755905511812' }))['x-page-width'], '595.2755905511812');
+});
