@@ -87,7 +87,10 @@ db/rest/kong started (gateway binds 0.0.0.0:54321 per existing config). Server r
 (state 171 ms; sources hosted=1 local=5). Then alignment `2fd62577`..`3e3a7f5e` and beautify `b33ec5e8`,`f4318000`
 (button font reset moved into `@layer base`, 2px accent focus, title steps, surface panels; 48-run audit: 0 overflow,
 min contrast 6.1:1). Real-data fixes `8862f644`..`40fc26b0`: records show the last heading of their heading path (USG titles were
-one shared path), Prospectus page title, site icon. Researcher 98/3-skip, tsc, build. Server restarted on Node 24
+one shared path), Prospectus page title, site icon. Full PDF view `d5946137`..`d1b59066` (Sonnet APPROVE, 5 mutations,
+4 caught; unchecked sha-format check is redundant): native browser PDF viewer in Documents and Knowledge via
+`/api/source/{id}` and new verified `/api/knowledge/pdf?sha256=`; frame-ancestors 'self' only on those two routes;
+review pane decluttered. 372 py + researcher 102/3-skip, tsc, build. Live USG Full PDF verified; restarted on Node 24
 with Gemma env, USG reopened.
 12 Nov whole-pipeline startup: images `eb47a413`, on-demand Gemma review audit `f5d77d94` integrated after
 independent review. [Runtime receipt](../2026-11-12-full-pipeline-startup.md): student3217/API8022 ready200;
