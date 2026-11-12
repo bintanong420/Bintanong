@@ -76,6 +76,20 @@ export function recordStatus(item: { audience: string; findings: string[]; refer
     ? 'Review saved' : 'Not checked yet';
 }
 
+// Lower-cased searchable text per record, built once per loaded record object (state objects are replaced, never edited).
+const searchCache = new WeakMap<object, string>();
+function searchText(item: { title: string; findings: string[]; source_gaps?: { issue: string; message?: string }[];
+  fields: { original_value: unknown }[] }) {
+  let value = searchCache.get(item);
+  if (value === undefined) {
+    value = [item.title, ...item.findings.map(fieldLabel), ...(item.source_gaps ?? []).map(g => fieldLabel(g.issue) + ' ' + (g.message ?? '')),
+      ...item.fields.map(f => typeof f.original_value === 'string' ? f.original_value : JSON.stringify(f.original_value))]
+      .join(' ').toLocaleLowerCase();
+    searchCache.set(item, value);
+  }
+  return value;
+}
+
 export function filterItems<T extends {
   document_id: string; title: string; audience: string; findings: string[];
   source_gaps?: { issue: string; message?: string }[];
@@ -84,9 +98,7 @@ export function filterItems<T extends {
 }>(items: T[], document: string, query: string, mode: string): T[] {
   const text = query.trim().toLocaleLowerCase();
   return items.filter(item => (!document || item.document_id === document)
-    && (!text || [item.title, ...item.findings.map(fieldLabel), ...(item.source_gaps ?? []).map(g => fieldLabel(g.issue) + ' ' + (g.message ?? '')),
-      ...item.fields.map(f => typeof f.original_value === 'string'
-      ? f.original_value : JSON.stringify(f.original_value))].join(' ').toLocaleLowerCase().includes(text))
+    && (!text || searchText(item).includes(text))
     && (mode === 'all'
       || mode === 'attention' && (item.findings.length > 0 || !!item.source_gaps?.length
         || !item.reference_only && item.audience !== 'excluded' && (item.audience === 'unresolved'
