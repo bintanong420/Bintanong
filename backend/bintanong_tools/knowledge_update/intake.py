@@ -186,6 +186,9 @@ class Refusal(ValueError):
         self.code, self.status = code, status
 
 
+ORPHAN = 'This build was interrupted and may still be running. Make a new upload to build again.'
+
+
 def _package_summary(folder: Path) -> dict:
     manifest = read_json(folder / 'package/package.json')
     lines = (folder / 'package/chunks.jsonl').read_bytes().splitlines()
@@ -206,12 +209,16 @@ def start_build(workspace: Path, upload_id, *, python, model_dir, runner=subproc
     metadata = folder / 'packet/review/build-metadata.json'
     if not metadata.is_file():
         raise Refusal('Save the build form for this upload first, then build.', 'metadata_missing')
+    # an interrupted build has no exit code: its orphan may still write package/ and build.log, so like prepare it
+    # never reruns; only a failed build (its exit code proves the process ended) may run again
+    if build_status(workspace, upload_id)['state'] == 'interrupted':
+        raise Refusal(ORPHAN, 'orphan_may_run', 409)
     key = 'build:' + upload_id
     with _jobs_lock:
         running = _jobs.get(key)
         if running is not None and running.poll() is None:
             raise Refusal('A build is already running for this upload. Wait for it to finish.', 'build_running', 409)
-        # a failed or interrupted build may run again only while no package folder exists (it may be partial)
+        # a failed build may run again only while no package folder exists (it may be partial)
         if (folder / 'package').exists():
             raise Refusal('This upload already has a package folder. Make a new upload to build again.',
                           'package_exists', 409)
@@ -233,7 +240,7 @@ def build_status(workspace: Path, upload_id) -> dict:
         if job['state'] == 'failed':
             job['error'] = f'The build stopped (exit code {job["exit_code"]}). Read the log below for the cause.'
         elif job['state'] == 'interrupted':
-            job['error'] = 'The tool restarted while this build ran. Build again if no package folder exists.'
+            job['error'] = 'The tool restarted during this build. ' + ORPHAN
         if job['state'] != 'running':
             write_json(path, job)
     if job['state'] == 'done':

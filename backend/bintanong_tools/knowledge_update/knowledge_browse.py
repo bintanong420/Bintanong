@@ -6,8 +6,10 @@ target through local_release.local_client. Source PDFs are served only from know
 """
 from __future__ import annotations
 
+import os
 import re
 import threading
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -31,10 +33,11 @@ MESSAGES = {
                        'Add both, then restart the tool.',
     'hosted_unavailable': "The hosted project can't be reached. Check your connection, then reload.",
     'hosted_rejected': 'The hosted project rejected the public key. Check SUPABASE_ANON_KEY, then restart the tool.',
-    'hosted_redirect': "The hosted address answered with a redirect, which this tool doesn't follow. "
-                       'Check SUPABASE_URL, then restart.',
+    'hosted_redirect': 'The hosted address points somewhere other than your project. '
+                       'Check SUPABASE_URL in the settings file, then restart.',
+    'hosted_bad_url': "SUPABASE_URL in the hosted settings file isn't a usable address. Fix it, then restart the tool.",
     'hosted_error': 'The hosted project refused the read (HTTP {status}). Reload, or try again later.',
-    'hosted_empty': 'The public key sees no release on hosted. Only an active release is visible there.',
+    'hosted_empty': 'Hosted shows no active release. Only an active release is visible here.',
 }
 
 
@@ -61,7 +64,11 @@ def hosted_settings(path) -> HostedSettings:
         name, sep, value = line.strip().removeprefix('export ').partition('=')
         if sep and name.strip() in ('SUPABASE_URL', 'SUPABASE_ANON_KEY'):
             wanted[name.strip()] = value.strip().strip('"\'')
-    url = urlsplit(wanted.get('SUPABASE_URL', ''))
+    try:
+        url = urlsplit(wanted.get('SUPABASE_URL', ''))
+        url.port  # raises ValueError for a malformed port
+    except ValueError:
+        raise unavailable('hosted_bad_url') from None
     if (url.scheme != 'https' or not url.hostname or url.username or url.query or url.fragment
             or url.path not in ('', '/') or not wanted.get('SUPABASE_ANON_KEY')):
         raise unavailable('hosted_settings')
@@ -80,7 +87,9 @@ class Rest:
             headers['Prefer'] = 'count=exact'
         try:
             response = self._http.get(f'{self.base}/{table}', params=params, headers=headers)
-        except httpx.HTTPError:
+        except httpx.InvalidURL:
+            raise unavailable('hosted_bad_url' if self.kind == 'hosted' else 'local_unavailable') from None
+        except (httpx.HTTPError, httpx.StreamError):  # HTTPError covers every RequestError (timeouts, protocol, proxy)
             raise unavailable(self.kind + '_unavailable') from None
         status = response.status_code
         if self.kind == 'hosted' and 300 <= status < 400:
@@ -235,17 +244,31 @@ def _inside(root: Path, path: Path) -> Path | None:
     return resolved if resolved.is_file() and resolved.is_relative_to(root.resolve()) else None
 
 
-class SourceIndex:
-    """sha256 -> PDF under the upload originals and any --source-root, hashed once per file version."""
+RESCAN_SECONDS = 30
 
-    def __init__(self, workspace: Path, roots=()):
-        self.roots = [(Path(workspace).absolute(), '*/original/source.pdf')]
-        self.roots += [(Path(r).absolute(), '**/*.pdf') for r in roots]
+
+class SourceIndex:
+    """sha256 -> PDF under the upload originals and any --source-root, served from a verified private copy.
+
+    The scan hashes a file once per (path, size, mtime_ns), which is only an index: a swap that keeps size and mtime
+    slips past it. So the bytes are hashed again at the moment they are taken for rendering, and the page renderer
+    (which reads its file lazily, by path) gets a private copy of exactly those bytes under <workspace>/_runtime/pages.
+    Later requests for that sha256 reuse the copy without re-reading or re-hashing anything, and no later change to
+    the original can alter what is served. Inode/file-id checks were not used: an in-place write keeps the id.
+    """
+
+    def __init__(self, workspace: Path, roots=(), copies: Path | None = None):
+        workspace = Path(workspace).absolute()
+        self.roots = [(workspace, '*/original/source.pdf')] + [(Path(r).absolute(), '**/*.pdf') for r in roots]
+        self.copies = copies or workspace / '_runtime/pages'
         self._seen: dict[Path, tuple[int, int, str]] = {}
+        self._index: dict[str, Path] = {}
+        self._scanned_at: float | None = None
+        self._verified: dict[str, Path] = {}
         self._lock = threading.Lock()
 
-    def _scan(self) -> dict[str, Path]:
-        found = {}
+    def _scan(self) -> None:
+        found, seen = {}, {}
         for root, pattern in self.roots:
             if not root.is_dir() or any(p.is_symlink() for p in (root, *root.parents)):
                 continue
@@ -257,16 +280,53 @@ class SourceIndex:
                 known = self._seen.get(path)
                 if known is None or known[:2] != (stat.st_size, stat.st_mtime_ns):
                     known = (stat.st_size, stat.st_mtime_ns, digest(path.read_bytes()))
-                    self._seen[path] = known
+                seen[path] = known
                 found.setdefault(known[2], path)
-        return found
+        self._seen, self._index, self._scanned_at = seen, found, time.monotonic()
 
-    def find(self, sha256: str) -> Path | None:
-        if not isinstance(sha256, str) or not SHA256.fullmatch(sha256):
-            raise Refusal('sha256 must be 64 lowercase hex characters.', 'bad_request')
+    def locate(self, sha256: str) -> Path | None:
+        """Indexed path for sha256, rescanning only on a miss or when the index is older than RESCAN_SECONDS."""
+        _check_sha(sha256)
         with self._lock:
-            path = self._scan().get(sha256)
-            # re-hash the bytes about to be rendered: a file swapped since indexing is not served
-            if path is None or digest(path.read_bytes()) != sha256:
+            stale = self._scanned_at is None or time.monotonic() - self._scanned_at > RESCAN_SECONDS
+            if stale or sha256 not in self._index:
+                self._scan()
+            return self._index.get(sha256)
+
+    def pdf(self, sha256: str) -> Path | None:
+        """A private copy holding exactly the bytes whose sha256 was requested, or None."""
+        _check_sha(sha256)
+        with self._lock:
+            ready = self._verified.get(sha256)
+        if ready is not None and ready.is_file():
+            return ready
+        path = self.locate(sha256)
+        for _ in range(2):
+            if path is None:
                 return None
-            return path
+            try:
+                data = path.read_bytes()
+            except OSError:
+                data = b''
+            if digest(data) == sha256:
+                return self._keep(sha256, data)
+            with self._lock:  # stale entry (content swapped, maybe with the same size and mtime): forget it, rescan
+                self._seen.pop(path, None)
+                self._scan()
+                path = self._index.get(sha256)
+        return None
+
+    def _keep(self, sha256: str, data: bytes) -> Path:
+        self.copies.mkdir(parents=True, exist_ok=True)
+        target = self.copies / (sha256 + '.pdf')
+        temporary = self.copies / f'{sha256}.{threading.get_ident()}.tmp'
+        temporary.write_bytes(data)
+        os.replace(temporary, target)
+        with self._lock:
+            self._verified[sha256] = target
+        return target
+
+
+def _check_sha(sha256) -> None:
+    if not isinstance(sha256, str) or not SHA256.fullmatch(sha256):
+        raise Refusal('sha256 must be 64 lowercase hex characters.', 'bad_request')

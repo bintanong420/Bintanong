@@ -267,11 +267,11 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
 
         @app.get('/api/knowledge/page')
         def knowledge_page(sha256: str, page: int, scale: float = 1.5):
-            path = browser.sources_index.find(sha256)
+            path = browser.sources_index.pdf(sha256)  # scan and hash happen here, outside the render lock
             if path is None:
                 return JSONResponse({'error': 'source PDF not available locally', 'code': 'source_not_local'},
                                     status_code=404)
-            return png('sha256:' + sha256 + ':' + str(path), path, page, scale)
+            return png('sha256:' + sha256, path, page, scale)
 
     if isinstance(session, intake.SessionSlot):
 

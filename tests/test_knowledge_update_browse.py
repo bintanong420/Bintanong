@@ -94,13 +94,37 @@ def test_hosted_refusals_and_redirects_are_not_followed(tmp_path, status, code):
 
 def test_hosted_with_rls_hiding_every_release_says_so(tmp_path):
     listed = browser(tmp_path, hosted=Recorder(), hosted_env=env_file(tmp_path)).sources()
-    assert listed['unavailable']['hosted'].startswith('The public key sees no release on hosted.')
+    assert listed['unavailable']['hosted'] == 'Hosted shows no active release. Only an active release is visible here.'
 
 
 def test_hosted_settings_need_https_and_an_anon_key(tmp_path):
     with pytest.raises(ValueError) as caught:
         browse().hosted_settings(env_file(tmp_path, url='http://synthetic.supabase.co'))
     assert caught.value.code == 'hosted_settings'
+
+
+def test_a_service_key_alone_never_stands_in_for_the_anon_key(tmp_path):
+    path = tmp_path / 'service-only.env'
+    path.write_text(f'SUPABASE_URL=https://synthetic.supabase.co\nSUPABASE_SERVICE_ROLE_KEY={SERVICE}\n', encoding='utf-8')
+    fake = Recorder({'knowledge_releases': [RELEASE]})
+    listed = browser(tmp_path, hosted=fake, hosted_env=path).sources()
+    assert listed['unavailable']['hosted'] == browse().MESSAGES['hosted_settings']
+    assert fake.requests == []  # nothing was sent, so the service key cannot have been used
+
+
+@pytest.mark.parametrize('error', [httpx.InvalidURL('bad host'), httpx.ReadTimeout('slow'), httpx.RemoteProtocolError('x')])
+def test_transport_and_url_errors_become_plain_unavailable_reasons(tmp_path, error):
+    def fail(request):
+        raise error
+    listed = browser(tmp_path, hosted=fail, hosted_env=env_file(tmp_path)).sources()
+    reason = listed['unavailable']['hosted']
+    assert reason in {browse().MESSAGES['hosted_unavailable'], browse().MESSAGES['hosted_bad_url']}
+    assert 'bad host' not in reason and 'Error' not in reason and len(reason) <= 160
+
+
+def test_redirect_message_is_actionable_without_jargon():
+    assert 'redirect' not in browse().MESSAGES['hosted_redirect'].lower()
+    assert 'SUPABASE_URL' in browse().MESSAGES['hosted_redirect']
 
 
 def test_local_chunks_filter_by_release_escape_search_and_page(tmp_path):
@@ -172,28 +196,13 @@ def test_page_is_served_only_for_a_verified_pdf_under_known_roots(tmp_path, monk
     (dataset / 'nested/prospectus.pdf').write_bytes(other)
     knowledge = browser(tmp_path, source_roots=[dataset])
     index = knowledge.sources_index
-    assert index.find(digest(PDF)) == (tmp_path / upload_id / 'original/source.pdf').resolve()
-    assert index.find(digest(other)) == (dataset / 'nested/prospectus.pdf').resolve()
-    assert index.find('0' * 64) is None
+    assert index.pdf(digest(PDF)).read_bytes() == PDF  # a private copy of exactly the verified bytes
+    assert (tmp_path / upload_id / 'original/source.pdf').read_bytes() == PDF
+    assert index.pdf('0' * 64) is None
     (dataset / 'nested/prospectus.pdf').write_bytes(b'%PDF-1.7 swapped')  # bytes changed after indexing
-    assert index.find(digest(other)) is None
+    assert index.pdf(digest(other)) is None
     with pytest.raises(ValueError):
-        index.find('NOT-A-HASH')
-
-    class FakeRenderer:
-        page_count = 4
-
-        def __init__(self, path):
-            FakeRenderer.path = path
-
-        def png(self, number, scale):
-            return b'\x89PNG synthetic'
-
-        def size(self, number):
-            return (612, 792)
-
-        def rotation(self, number):
-            return 0
+        index.pdf('NOT-A-HASH')
 
     client, app = web(tmp_path, knowledge)
     monkeypatch.setattr(app, 'PageRenderer', FakeRenderer)
@@ -215,4 +224,64 @@ def test_symlinked_pdfs_are_not_indexed(tmp_path):
         os.symlink(outside, root / 'link.pdf')
     except OSError:
         pytest.skip('symlinks need extra privileges on this machine')
-    assert browser(tmp_path, source_roots=[root]).sources_index.find(digest(b'%PDF-1.7 outside')) is None
+    assert browser(tmp_path, source_roots=[root]).sources_index.pdf(digest(b'%PDF-1.7 outside')) is None
+
+
+class FakeRenderer:
+    page_count = 4
+    opened = []
+
+    def __init__(self, path):
+        FakeRenderer.opened.append(path)
+
+    def png(self, number, scale):
+        return b'\x89PNG synthetic'
+
+    def size(self, number):
+        return (612, 792)
+
+    def rotation(self, number):
+        return 0
+
+
+def test_a_same_size_same_mtime_content_swap_is_refused(tmp_path, monkeypatch):
+    root = tmp_path / 'dataset'
+    root.mkdir()
+    original = b'%PDF-1.7 synthetic AAAA'
+    target = root / 'a.pdf'
+    target.write_bytes(original)
+    knowledge = browser(tmp_path, source_roots=[root])
+    assert knowledge.sources_index.locate(digest(original)) is not None  # indexed, not yet rendered
+    stamp = target.stat()
+    target.write_bytes(b'%PDF-1.7 synthetic BBBB')  # same size
+    os.utime(target, ns=(stamp.st_atime_ns, stamp.st_mtime_ns))  # same mtime: the stat cache cannot notice
+    assert target.stat().st_size == stamp.st_size and target.stat().st_mtime_ns == stamp.st_mtime_ns
+    client, app = web(tmp_path, knowledge)
+    monkeypatch.setattr(app, 'PageRenderer', FakeRenderer)
+    refused = client.get('/api/knowledge/page', params={'sha256': digest(original), 'page': 1}, headers=GOOD)
+    assert refused.status_code == 404 and refused.json()['code'] == 'source_not_local'
+
+
+def test_repeat_page_requests_do_not_rehash_or_rescan(tmp_path, monkeypatch):
+    root = tmp_path / 'dataset'
+    root.mkdir()
+    data = b'%PDF-1.7 synthetic repeat'
+    (root / 'r.pdf').write_bytes(data)
+    knowledge = browser(tmp_path, source_roots=[root])
+    client, app = web(tmp_path, knowledge)
+    monkeypatch.setattr(app, 'PageRenderer', FakeRenderer)
+    FakeRenderer.opened = []
+    params = {'sha256': digest(data), 'page': 1}
+    assert client.get('/api/knowledge/page', params=params, headers=GOOD).status_code == 200
+    calls = {'digest': 0, 'scan': 0}
+    real_digest, real_scan = browse().digest, knowledge.sources_index._scan
+    monkeypatch.setattr(browse(), 'digest', lambda b: calls.__setitem__('digest', calls['digest'] + 1) or real_digest(b))
+    monkeypatch.setattr(knowledge.sources_index, '_scan',
+                        lambda: calls.__setitem__('scan', calls['scan'] + 1) or real_scan())
+    for page in (2, 3):
+        assert client.get('/api/knowledge/page', params={**params, 'page': page}, headers=GOOD).status_code == 200
+    assert calls == {'digest': 0, 'scan': 0} and len(FakeRenderer.opened) == 1
+    # a sha256 not yet indexed triggers a rescan, and a newly added file is found
+    added = b'%PDF-1.7 synthetic added later'
+    (root / 'later.pdf').write_bytes(added)
+    assert knowledge.sources_index.pdf(digest(added)).read_bytes() == added and calls['scan'] >= 1

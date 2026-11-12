@@ -113,6 +113,13 @@ def test_a_restarted_server_reports_the_build_as_interrupted(prepared):
     assert status['state'] == 'interrupted' and 'restarted' in status['error']
     saved = json.loads((workspace / upload_id / 'build-job.json').read_text(encoding='utf-8'))
     assert saved['state'] == 'interrupted'
+    # the orphan may still be writing package/ and build.log, so no retry even without a package folder
+    assert not (workspace / upload_id / 'package').exists()
+    with pytest.raises(ValueError) as caught:
+        start(workspace, upload_id, model)
+    assert caught.value.code == 'orphan_may_run'
+    assert str(caught.value) == ('This build was interrupted and may still be running. '
+                                 'Make a new upload to build again.')
 
 
 def test_clean_exit_with_unreadable_package_is_a_failure(prepared):
