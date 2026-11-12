@@ -144,10 +144,10 @@ export default function ReviewWorkspace() {
     {state && !noPacket && <a className="skip-link" href="#source-review">Skip to the source record</a>}
     <div className="page-toolbar"><div><h1 className="page-title">Documents</h1>
       <p className="muted">Read the source. Check the extracted text.</p></div>
-      <div className="header-actions"><span className="muted">{state?.researcher}</span>
-        <Button variant="outline" disabled={!state} onClick={() => void showHistory()}>Saved reviews</Button>
-        <Button variant="outline" disabled={!state} onClick={() => void exportDecisions()}>Download my reviews</Button>
-      </div>
+      {state && <div className="header-actions"><span className="muted">{state.researcher}</span>
+        <Button variant="outline" onClick={() => void showHistory()}>Saved reviews</Button>
+        <Button variant="outline" onClick={() => void exportDecisions()}>Download my reviews</Button>
+      </div>}
     </div>
     {error && <div className="notice error" role="alert">{error}
       {pending.current && <Button variant="outline" disabled={busy} onClick={() => void save()}>Retry save</Button>}

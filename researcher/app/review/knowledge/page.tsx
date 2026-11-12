@@ -160,15 +160,18 @@ const ChunkDetail = forwardRef<HTMLHeadingElement, { chunk: Chunk }>(function Ch
   const pages = chunk.pages ?? [];
   const [page, setPage] = useState(pages[0] ?? 0), [count, setCount] = useState(0);
   const meta: [string, string | number | undefined][] = [['Document', chunk.document_title], ['Section', chunk.section],
-    ['Pages', pages.join(', ') || undefined], ['Tokens', chunk.token_count], ['Reading', chunk.reading_id], ['Chunk id', chunk.chunk_id]];
+    ['Pages', pages.join(', ') || undefined]];
   return <article className="chunk-detail" aria-labelledby="chunk-title">
     <h2 id="chunk-title" tabIndex={-1} ref={headingRef}>{chunk.section || chunk.document_title || 'Chunk'}</h2>
     <dl className="upload-meta">{meta.filter(([, value]) => value !== undefined && value !== '').map(([name, value]) =>
-      <div key={name}><dt>{name}</dt><dd>{name === 'Chunk id' ? <code>{value}</code> : value}</dd></div>)}</dl>
+      <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>
     <div className="compare-grid">
       <section className="compare-pane" role="region" aria-label="Chunk text" tabIndex={0}><p className="pane-label">Chunk text</p>
         <p className="chunk-text">{chunk.display_text ?? chunk.text}</p>
-        {chunk.display_text && <details className="tech-details"><summary>Technical details</summary><pre className="chunk-text">{chunk.text}</pre></details>}</section>
+        <details className="tech-details"><summary>Technical details</summary>
+          <dl className="upload-meta"><div><dt>Tokens</dt><dd>{chunk.token_count ?? 'unknown'}</dd></div><div><dt>Passage id</dt><dd><code>{chunk.reading_id ?? 'none'}</code></dd></div>
+            <div><dt>Chunk id</dt><dd><code>{chunk.chunk_id}</code></dd></div></dl>
+          {chunk.display_text && <pre className="chunk-text">{chunk.text}</pre>}</details></section>
       <section className="compare-pane" role="region" aria-label="Source page" tabIndex={0}>
         <div className="pane-label-row"><p className="pane-label">Source page</p>
           {pages.length > 1 && <div className="page-chips" role="group" aria-label="Pages this chunk cites">{pages.map(p =>

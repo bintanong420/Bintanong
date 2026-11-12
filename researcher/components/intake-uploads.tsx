@@ -79,7 +79,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
   const control = buildControl(state === 'done', build);
   // the open upload's form is checked against the current review; any other upload only shows whether a form file exists
   const formSaved = current ? planSaved : build ? build.metadata_saved : undefined;
-  const blocker = buildBlocker(state === 'done', formSaved);
+  const blocker = buildBlocker(state === 'done', formSaved, current);
 
   async function start(assist: boolean) {
     setBusy(true); setRefused('');

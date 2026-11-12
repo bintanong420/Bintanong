@@ -173,6 +173,7 @@ test('Build waits for a form saved in this review, and says why', () => {
   assert.match(buildBlocker(false, true), /prepare/i);
   assert.match(buildBlocker(true, false), /save the passages and claims form/i);
   assert.match(buildBlocker(true, undefined), /checking/i);
+  assert.match(buildBlocker(true, false, true), /form below/i);
   assert.equal(checklist(true, true)[1].status, 'done');
   assert.equal(checklist(true, false)[1].status, 'blocked');
   assert.equal(checklist(true, undefined)[1].status, 'unknown');

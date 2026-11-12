@@ -135,10 +135,11 @@ export function buildChecklist(prepared: boolean, formSaved?: boolean): { key: '
 }
 
 // Why the Build button is off, in words; empty when it can run.
-export function buildBlocker(prepared: boolean, formSaved: boolean | undefined) {
+export function buildBlocker(prepared: boolean, formSaved: boolean | undefined, open = false) {
   if (!prepared) return 'Build is available once Prepare is done.';
   if (formSaved === undefined) return 'Checking whether the passages and claims form is saved.';
-  return formSaved ? '' : 'Save the passages and claims form first (open this upload for review to fill it in).';
+  if (formSaved) return '';
+  return open ? 'Save the passages and claims form below first.' : 'Save the passages and claims form first (open this upload for review to fill it in).';
 }
 
 // The one thing to do next for an upload, from the same states the progress steps show.

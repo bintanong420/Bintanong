@@ -173,7 +173,7 @@ export function IntakeBuild({ uploadId, onFormState }: { uploadId: string; onFor
       {!!problems.length && <div className="notice error" role="alert" tabIndex={-1} ref={summary}>
         <div><p><strong>{problems.length} {problems.length === 1 ? 'thing needs' : 'things need'} fixing before this can be saved:</strong></p>
           <ul>{problems.map(problem => <li key={problem.message}>{problem.message}</li>)}</ul></div></div>}
-      <div className="form-actions"><Button disabled={busy} onClick={() => void save()}>{busy && <span className="spinner" aria-hidden="true" />}{busy ? 'Saving…' : 'Save build form'}</Button>
+      <div className="form-actions"><Button disabled={busy} onClick={() => void save()}>{busy && <span className="spinner" aria-hidden="true" />}{busy ? 'Saving…' : 'Save passages and claims form'}</Button>
         <p className="muted">Saving records metadata only. It does not approve or activate anything.</p></div>
     </>}
   </section>;
