@@ -130,26 +130,25 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
       <h3 id={base + '-prepare'}>Prepare</h3>
       <div aria-live="polite" className="upload-status">
         {state === 'running' && <p className="notice"><span className="spinner" aria-hidden="true" /><span>Docling is preparing this document. This page checks every 3 seconds. Seen running for {formatElapsed(prepareElapsed)} on this page.</span></p>}
-        {state === 'done' && <p className="notice success"><span>Prepared{status?.assist ? ' with Docling + Gemma' : ''}. It can now be opened for review.</span></p>}
+        {state === 'done' && <p className="notice success"><span>Prepared{status?.assist ? ': Docling extraction and Gemma audit done' : ' with Docling only'}. It can now be opened for review.</span></p>}
         {state === 'done' && gemmaGaps > 0 && <p className="notice hold"><span><strong>Gemma could not assist {gemmaGaps} {gemmaGaps === 1 ? 'field' : 'fields'}.</strong> Review {gemmaGaps === 1 ? 'it' : 'those'} against the original page by hand.</span></p>}
-        {state === 'not_started' && <p className="notice"><span>Not prepared yet. Choose one option below. The choice is made once per upload.</span></p>}
+        {state === 'not_started' && <p className="notice"><span>Not prepared yet.</span></p>}
       </div>
       {stopped && <p className="notice error" role="alert"><span>
         <strong>{state === 'failed' ? 'Prepare failed.' : 'Prepare was interrupted.'}</strong>{' '}
         {state === 'interrupted' ? 'The review server restarted while it ran. ' : ''}
         {status?.exit_code !== undefined && `Exit code ${status.exit_code}. `}{status?.error ?? ''}{' '}
         To retry, upload the document again: each upload is prepared once.</span></p>}
-      {refused && <p className="notice error" role="alert"><span><strong>The server did not start Prepare.</strong> {refused}{' '}
-        Nothing was started, so you can choose the other option or fix the setup and try again.</span></p>}
+      {refused && <div className="notice error" role="alert"><span><strong>The server did not start Prepare.</strong> {refused}{' '}
+        Nothing was started. Start the local Gemma model and try again, or prepare with Docling alone and audit fields during review.</span>
+        {state === 'not_started' && <Button variant="outline" size="sm" disabled={busy} onClick={() => void start(false)}>Prepare with Docling only</Button>}</div>}
       {state === 'not_started' && <div className="intake-actions">
         <div className="action-choice">
-          <Button disabled={busy} onClick={() => void start(true)} aria-describedby={base + '-gemma'}>Prepare with Docling + Gemma</Button>
-          <p className="hint" id={base + '-gemma'}>Docling makes a draft, then Gemma 4 E4B checks flagged fields against the page. You review and save every field. Needs the local Gemma model running; the server says if it is missing.</p></div>
-        <div className="action-choice">
-          <Button variant="outline" disabled={busy} onClick={() => void start(false)} aria-describedby={base + '-plain'}>Docling only</Button>
-          <p className="hint" id={base + '-plain'}>Draft without the Gemma check, for when Gemma is not running.</p></div>
+          <Button disabled={busy} onClick={() => void start(true)} aria-describedby={base + '-gemma'}>Prepare</Button>
+          <p className="hint" id={base + '-gemma'}>Docling extracts the document, then Gemma 4 E4B audits the flagged fields against the original page.
+            You then correct each field and save your verdict.</p></div>
       </div>}
-      {state && state !== 'not_started' && <p className="hint">This choice cannot be changed. To prepare differently, upload the file again.</p>}
+      {state && state !== 'not_started' && <p className="hint">Each upload is prepared once. To prepare again, upload the file again.</p>}
       {!!logLines.length && <div className="log-viewer">
         {latestLogLine(logLines) && <p className="muted">Latest message: {latestLogLine(logLines)}</p>}
         <details open={stopped}>
