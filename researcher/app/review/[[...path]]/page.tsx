@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { SourceViewer } from '@/components/source-viewer';
+import { KnowledgeLibrary } from '@/components/knowledge-library';
 import { ProspectusReview } from '@/components/prospectus-review';
 import { SourceGaps } from '@/components/source-gaps';
 import { ReviewHistory, type HistoryEntry } from '@/components/review-history';
@@ -31,7 +32,7 @@ export default function ReviewWorkspace() {
   const [query, setQuery] = useState(''), [documentFilter, setDocumentFilter] = useState(''), [mode, setMode] = useState('all');
   const [draft, setDraft] = useState<Draft | null>(null), [busy, setBusy] = useState(false);
   const [error, setError] = useState(''), [message, setMessage] = useState(''), [noPacket, setNoPacket] = useState(false);
-  const [history, setHistory] = useState<HistoryEntry[] | null>(null);
+  const [history, setHistory] = useState<HistoryEntry[] | null>(null), [libraryOpened, setLibraryOpened] = useState(false);
   const [sourceFocus, setSourceFocus] = useState<{ itemId: string; page: number } | null>(null);
   const [linkedQuestion, setLinkedQuestion] = useState<string>();
   const pending = useRef<Record<string, unknown> | null>(null);
@@ -153,6 +154,10 @@ export default function ReviewWorkspace() {
       }}>Reload packet</Button>}
     </div>}
     {message && <p className="notice success" role="status">{message}</p>}
+    {state && !noPacket && <details className="library-details" onToggle={event => { if (event.currentTarget.open) setLibraryOpened(true); }}>
+      <summary>Browse existing knowledge</summary>
+      {libraryOpened && <KnowledgeLibrary />}
+    </details>}
     {state?.items.some(row => row.fields.length > 0) && <p className="notice" role="status" aria-label="AI assistance">
       {state.items.some(row => row.fields.some(field => field.assistance))
         ? 'AI assistance notes appear beside the extracted fields. You decide what to save.'
@@ -165,9 +170,12 @@ export default function ReviewWorkspace() {
         : 'This older packet contains read-only references. Prepare a new packet to review local candidate copies.'}
         {' '}This covers selected material, not every page. Opening, saving or downloading a review does not change the chatbot.</p></details>
     </section>}
-    {noPacket ? <section className="empty"><h2>No upload is open for review</h2>
-      <p role="status">Upload a document on the Intake page, prepare it, then open it for review.</p>
-      <p><Button asChild><a href="/review/intake">Go to Intake</a></Button></p></section>
+    {noPacket ? <>
+      <section className="library-intro" aria-label="Review status"><p role="status"><strong>No upload is open for review.</strong>{' '}
+        <a href="/review/intake">Open one on Intake</a> to compare it with its PDF.</p></section>
+      <section className="library-section" aria-labelledby="library-heading"><h2 id="library-heading">Existing knowledge</h2>
+        <p className="muted">Documents already stored in each knowledge source. Pick one to read its chunks beside the source page.</p>
+        <KnowledgeLibrary headingId="library-heading" /></section></>
       : !state || !connection ? <section className="empty"><h2>Open a local review packet</h2>
       <p role="status">{error ? 'The review records could not be loaded. If this is a new review session, open the launch link printed by the local review command.' : 'Loading the source documents and review records…'}</p></section>
       : <div className="work-area">

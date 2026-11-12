@@ -173,7 +173,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
       <div aria-live="polite" className="upload-status">
         {build?.state === 'running' && <p className="notice"><span className="spinner" aria-hidden="true" /><span>Building the knowledge package. This page checks every 3 seconds. Seen running for {formatElapsed(buildElapsed)} on this page.</span></p>}
         {build?.state === 'done' && <p className="notice success"><span><strong>{buildSummary(build) || 'Built'}.</strong>{' '}
-          {build.package ? <a href={knowledgeUrl({ source: packageSourceId(id), q: '', chunk: '', offset: 0 })}>View these chunks in Knowledge</a> : 'The server returned no package details.'}</span></p>}
+          {build.package ? <a href={knowledgeUrl({ source: packageSourceId(id), q: '', chunk: '', document: '', offset: 0 })}>View these chunks in Knowledge</a> : 'The server returned no package details.'}</span></p>}
         {control.kind === 'none' && <p className="hint">{build?.state === 'interrupted' ? INTERRUPTED_NOTE : REBUILD_NOTE}</p>}
         {control.kind === 'start' && <>
           <p className="hint">Building turns the prepared packet into chunks you can browse in Knowledge. It approves and activates nothing, and it runs once per upload.</p>

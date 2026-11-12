@@ -26,15 +26,15 @@ test('prospectus documents come from candidate records only, with a record count
 });
 
 test('knowledge URL state round-trips and drops empty values', () => {
-  assert.deepEqual(parseKnowledgeUrl(''), { source: '', q: '', chunk: '', offset: 0 });
+  assert.deepEqual(parseKnowledgeUrl(''), { source: '', q: '', chunk: '', document: '', offset: 0 });
   assert.deepEqual(parseKnowledgeUrl('?source=package%3Aup-1&q=grade+scale&chunk=c%2F1&offset=40'),
-    { source: 'package:up-1', q: 'grade scale', chunk: 'c/1', offset: 40 });
+    { source: 'package:up-1', q: 'grade scale', chunk: 'c/1', document: '', offset: 40 });
   assert.deepEqual(parseKnowledgeUrl('?offset=-3').offset, 0);
   assert.deepEqual(parseKnowledgeUrl('?offset=abc').offset, 0);
-  assert.equal(knowledgeUrl({ source: '', q: '', chunk: '', offset: 0 }), '/review/knowledge');
-  const state = { source: 'package:up-1', q: 'grade scale', chunk: 'c/1', offset: 40 };
+  assert.equal(knowledgeUrl({ source: '', q: '', chunk: '', document: '', offset: 0 }), '/review/knowledge');
+  const state = { source: 'package:up-1', q: 'grade scale', chunk: 'c/1', document: '', offset: 40 };
   assert.deepEqual(parseKnowledgeUrl(knowledgeUrl(state).split('?')[1]), state);
-  assert.equal(knowledgeUrl({ source: packageSourceId('up 1'), q: '', chunk: '', offset: 0 }), '/review/knowledge?source=package%3Aup+1');
+  assert.equal(knowledgeUrl({ source: packageSourceId('up 1'), q: '', chunk: '', document: '', offset: 0 }), '/review/knowledge?source=package%3Aup+1');
 });
 
 test('chunk queries carry the source, trimmed search, offset and limit', () => {

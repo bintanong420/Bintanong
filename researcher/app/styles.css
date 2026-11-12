@@ -334,3 +334,30 @@ label.inline input { min-height: 0; inline-size: 1.15rem; block-size: 1.15rem; f
 }
 @media (max-width: 900px) { .knowledge-side .chunk-rows { max-block-size: 24rem; overflow: auto; padding: 3px; } }
 .checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; }
+
+/* Existing-knowledge library (Documents page) and the Knowledge document filter */
+.library-intro { padding: 1rem 1.5rem 0; }
+.library-section { display: grid; gap: .5rem; padding: 1rem 1.5rem 2rem; max-inline-size: 52rem; min-width: 0; }
+.library-section h2 { font-size: 1.1rem; }
+.library { display: grid; gap: 1rem; min-width: 0; margin-block-start: .5rem; }
+.library-group { display: grid; gap: .5rem; min-width: 0; }
+.library-heading { font-size: .8rem; font-weight: 650; color: var(--muted-foreground); }
+.library-source { display: grid; gap: .5rem; min-width: 0; }
+.library-source h4 { font: inherit; }
+.library-toggle { grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-block-size: 44px; cursor: pointer; }
+.chevron { inline-size: .55rem; block-size: .55rem; border-inline-end: 2px solid currentColor; border-block-end: 2px solid currentColor; transform: rotate(-45deg); }
+.library-toggle[aria-expanded=true] .chevron { transform: rotate(45deg); }
+.library-docs { display: grid; gap: .5rem; min-width: 0; padding-inline-start: 1rem; border-inline-start: 1px solid var(--border); }
+.doc-row { text-decoration: none; min-block-size: 44px; }
+.doc-row .entry-title { font-size: .9rem; }
+@media (hover: hover) and (pointer: fine) { .doc-row:hover { background: var(--secondary); border-color: var(--control-border); } }
+.library-details { margin: 1rem 1.5rem 0; padding: .25rem 0; min-width: 0; }
+.library-details > summary { cursor: pointer; min-block-size: 44px; display: flex; align-items: center; font-size: .9rem; font-weight: 600; }
+.filter-chip { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .5rem .5rem .5rem .75rem; border: 1px solid var(--foreground); border-radius: .375rem; background: var(--secondary); min-width: 0; }
+.filter-chip-text { display: grid; gap: .1rem; min-width: 0; overflow-wrap: anywhere; font-size: .9rem; }
+.filter-clear { flex: none; font-size: 1.25rem; line-height: 1; }
+@media (max-width: 700px) {
+  .library-intro, .library-section { padding-inline: 1rem; }
+  .library-details { margin-inline: 1rem; }
+  .library-docs { padding-inline-start: .5rem; }
+}

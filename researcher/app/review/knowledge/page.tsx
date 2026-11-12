@@ -4,7 +4,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { PageImage } from '@/components/page-image';
 import { Button } from '@/components/ui/button';
 import { request } from '@/lib/api';
-import { CHUNK_LIMIT, chunksQuery, groupSources, knowledgeUrl, pageWindow, parseKnowledgeUrl,
+import { CHUNK_LIMIT, chunksQuery, documentChipLabel, groupSources, knowledgeUrl, pageWindow, parseKnowledgeUrl,
   type Chunk, type ChunksReply, type KnowledgeUrlState, type SourcesReply } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
@@ -53,16 +53,22 @@ export default function KnowledgePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
 
-  const sourceId = url?.source ?? '', query = url?.q ?? '', offset = url?.offset ?? 0;
+  const sourceId = url?.source ?? '', query = url?.q ?? '', offset = url?.offset ?? 0, documentKey = url?.document ?? '';
   useEffect(() => {
     if (!sourceId) return;
     let current = true;
     setChunks({ kind: 'loading' });
-    request(REVIEW_CONNECTION, '/api/knowledge/chunks?' + chunksQuery({ source: sourceId, q: query, offset, limit: CHUNK_LIMIT }))
+    request(REVIEW_CONNECTION, '/api/knowledge/chunks?' + chunksQuery({ source: sourceId, q: query, document: documentKey, offset, limit: CHUNK_LIMIT }))
       .then(async response => { const value: ChunksReply = await response.json(); if (current) setChunks({ kind: 'ready', value }); })
       .catch(failure => { if (current) setChunks({ kind: 'error', message: message(failure, 'The chunks could not be loaded.') }); });
     return () => { current = false; };
-  }, [sourceId, query, offset, reload]);
+  }, [sourceId, query, offset, documentKey, reload]);
+  // the chip keeps the name it first learned: a filtered list only ever holds this document's chunks
+  const [documentName, setDocumentName] = useState('');
+  useEffect(() => {
+    if (!documentKey) { setDocumentName(''); return; }
+    if (chunks.kind === 'ready') setDocumentName(documentChipLabel(documentKey, chunks.value.chunks));
+  }, [documentKey, chunks]);
 
   const list = chunks.kind === 'ready' ? chunks.value.chunks : [];
   const selected = list.find(chunk => chunk.chunk_id === url?.chunk) ?? null;
@@ -93,7 +99,7 @@ export default function KnowledgePage() {
     {!!all.length && url && <div className="knowledge-grid">
       <div className="knowledge-side">
         <div className="field"><label htmlFor="source">Source</label>
-          <select id="source" value={url.source} onChange={event => { setInput(url.q); change({ source: event.target.value, offset: 0, chunk: '' }); }}>
+          <select id="source" value={url.source} onChange={event => { setInput(url.q); change({ source: event.target.value, document: '', offset: 0, chunk: '' }); }}>
             {!source && url.source && <option value={url.source}>{url.source} (not in the list)</option>}
             {groups.map(group => <optgroup key={group.kind} label={group.heading}>{group.sources.map(item =>
               <option key={item.id} value={item.id}>{item.label}{item.chunk_count !== undefined ? ` (${item.chunk_count})` : ''}{item.active ? ' · active' : ''}</option>)}</optgroup>)}
@@ -101,6 +107,10 @@ export default function KnowledgePage() {
           {source?.kind === 'hosted' && <p className="hint">Online (read-only). Nothing here changes the hosted database.</p>}
           {source?.status && <p className="hint">Status: {source.status}</p>}
         </div>
+        {url.document && <div className="filter-chip" role="group" aria-label="Document filter">
+          <span className="filter-chip-text"><span className="row-meta">Showing one document</span><strong>{documentName || 'Loading…'}</strong></span>
+          <button type="button" className="chip filter-clear" aria-label={`Clear the document filter${documentName ? ': ' + documentName : ''}`}
+            onClick={() => change({ document: '', offset: 0, chunk: '' })}><span aria-hidden="true">×</span></button></div>}
         <div className="field"><label htmlFor="chunk-search">Search chunk text</label>
           <input id="chunk-search" type="search" value={input} autoComplete="off" onChange={event => setInput(event.target.value)} placeholder="e.g. grade, enrollment" /></div>
 
@@ -111,7 +121,7 @@ export default function KnowledgePage() {
           {window_ && <p className="muted">{window_.total ? `Showing ${window_.from} to ${window_.to} of ${window_.total}` : 'No chunks'}{query ? ` matching “${query}”` : ''}</p>}
         </div>
         {window_ && !window_.total && <div className="empty-state"><h2>{query ? 'No chunks match' : 'This source has no chunks'}</h2>
-          <p className="muted">{query ? 'Try a different word, or clear the search.' : 'Nothing has been built or stored here yet.'}</p>
+          <p className="muted">{query ? 'Try a different word, or clear the search.' : url.document ? 'No chunks of this document are stored in this source.' : 'Nothing has been built or stored here yet.'}</p>
           {query && <Button variant="outline" onClick={() => { setInput(''); change({ q: '', offset: 0, chunk: '' }); }}>Clear search</Button>}</div>}
 
         <ul className="chunk-rows">{list.map(chunk => <li key={chunk.chunk_id}>
