@@ -762,3 +762,25 @@ button, input, select, textarea, .chip { font-variant-numeric: tabular-nums; }
 .prospectus-queue summary { padding-inline: 0; }
 .prospectus-main > .review-actions { margin-inline: var(--s-3); }
 
+
+/* page refs end the row as a muted tabular column in both record lists; the status label stays left and readable */
+.rl-row .rl-meta .rl-badge { order: -1; }
+.rl-row .rl-meta { font-variant-numeric: tabular-nums; }
+.chunk-row > .row-meta:last-child { text-align: end; }
+
+/* disclosures: native details/summary kept; the marker is one glyph in a fixed-width slot at the inline start, so every
+   summary's text starts at the same offset whether or not the browser draws a marker for its display type */
+details:not(.rw-menu) > summary { list-style: none; }
+details:not(.rw-menu) > summary::-webkit-details-marker { display: none; }
+details:not(.rw-menu) > summary::before { content: '\25B8' / ''; display: inline-block; flex: none; inline-size: 1rem; margin-inline-end: var(--s-1); text-align: center; font-size: var(--fs-sm); line-height: 1; color: var(--text-2); }
+details[open]:not(.rw-menu) > summary::before { content: '\25BE' / ''; }
+
+/* prospectus queue rows fill the column; the pager is Previous | Next with the position line above on narrow widths */
+.queue-item { inline-size: 100%; }
+.prospectus-main > .review-actions { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--s-3); align-items: center; }
+.prospectus-main > .review-actions p { text-align: center; }
+@container (max-width: 34rem) {
+  .prospectus-main > .review-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .prospectus-main > .review-actions p { grid-column: 1 / -1; order: -1; text-align: start; }
+}
+@media (max-width: 699px) { .prospectus-main > .review-actions { margin-inline: var(--s-4); } }
