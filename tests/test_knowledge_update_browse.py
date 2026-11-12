@@ -137,7 +137,7 @@ def test_local_chunks_filter_by_release_escape_search_and_page(tmp_path):
     assert params['text'] == r'ilike.*50\%\_a_b\\c*'
     assert (params['offset'], params['limit']) == ('25', '10')
     assert fake.requests[0].headers['prefer'] == 'count=exact'
-    assert result == {'chunks': [{'chunk_id': 'c' * 64, 'text': 'Submit the form.', 'document_title': 'Synthetic code',
+    assert result == {'chunks': [{'chunk_id': 'c' * 64, 'text': 'Submit the form.', 'display_text': None, 'document_title': 'Synthetic code',
         'section': 'Part I > Forms', 'pages': [2, 3], 'source_sha256': 'b' * 64, 'reading_id': 'handbook:text-0',
         'token_count': 7}], 'total': 26, 'offset': 25, 'limit': 10}
 
@@ -408,3 +408,40 @@ def test_knowledge_pages_are_cacheable_and_renderers_are_bounded(tmp_path, monke
     assert len(FakeRenderer.opened) == 5 and len(closed) == 1  # only four stay open
     missing = client.get('/api/knowledge/page', params={'sha256': '0' * 64, 'page': 1}, headers=GOOD)
     assert 'cache-control' not in missing.headers or 'max-age' not in missing.headers['cache-control']
+
+
+REVIEWED = ('{"evidence_sha256":"' + 'e' * 64 + '","fields":[{"name":"title","value":"Shifting of programs","source_blank":false},'
+            '{"name":"requirements","value":["Good moral standing","Grade of 2.0 or better"],"source_blank":false},'
+            '{"name":"fee","value":"","source_blank":true},'
+            '{"name":"segmentation","value":[{"kind":"page_furniture","text":"p. 4"}],"source_blank":false,"field_kind":"body_partition","field_role":"extraction_metadata"},'
+            '{"name":"arrows","value":[{"from":"A","label":"Submit form","to":"END"}],"source_blank":false,"field_kind":"arrows"}],'
+            '"source_limits":[{"issue":"clipped_text","affected_claims":["fee amount"]}]}')
+
+
+def test_reviewed_policy_json_becomes_readable_prose():
+    display, section = browse().readable_chunk(REVIEWED)
+    assert display.splitlines() == ['Title: Shifting of programs', 'Requirements: Good moral standing; Grade of 2.0 or better',
+        'Fee: (blank in the source)', 'Arrows: A, Submit form, END',
+        'Known source problem: clipped text (affects: fee amount)']
+    assert section == 'Shifting of programs'
+    assert 'evidence_sha256' not in display and '{' not in display
+
+
+@pytest.mark.parametrize('text', ['Submit the form.', '{"not":"reviewed"}', '{"fields":"x"}', '[1,2]', '{"fields":[{"value":1}]}', '{bad'])
+def test_other_chunk_text_is_left_alone(text):
+    assert browse().readable_chunk(text) == (None, None)
+
+
+def test_chunks_carry_display_text_beside_the_raw_text(tmp_path):
+    row = {**ROW, 'text': REVIEWED, 'section_path': []}
+    fake = Recorder({'chunks': [row]})
+    knowledge = browser(tmp_path, local=lambda: browse().Rest('local', 'http://127.0.0.1:54321', 'k',
+                                                               httpx.Client(transport=httpx.MockTransport(fake))))
+    chunk = knowledge.chunks('local:rel-1')['chunks'][0]
+    assert chunk['text'] == REVIEWED and chunk['display_text'].startswith('Title: Shifting of programs')
+    assert chunk['section'] == 'Shifting of programs'
+    plain = Recorder({'chunks': [ROW]})
+    knowledge = browser(tmp_path, local=lambda: browse().Rest('local', 'http://127.0.0.1:54321', 'k',
+                                                               httpx.Client(transport=httpx.MockTransport(plain))))
+    chunk = knowledge.chunks('local:rel-1')['chunks'][0]
+    assert chunk['display_text'] is None and chunk['section'] == 'Part I > Forms'

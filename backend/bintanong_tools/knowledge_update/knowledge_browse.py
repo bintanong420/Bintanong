@@ -6,6 +6,7 @@ target through local_release.local_client. Source PDFs are served only from know
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 import threading
@@ -152,6 +153,59 @@ def _document_filter(params: dict, document: str) -> None:
         params['documents.title'] = 'eq.' + document
 
 
+TITLE_FIELDS = ('title', 'heading', 'section', 'service_name', 'subject')
+
+
+def _prose(value) -> str:
+    if isinstance(value, str):
+        return value
+    if isinstance(value, list):
+        return '; '.join(_prose(v) for v in value) if all(isinstance(v, str) for v in value) else \
+            '; '.join(_prose(v) for v in value)
+    if isinstance(value, dict):
+        return ', '.join(_prose(v) for v in value.values() if v not in (None, ''))
+    return '' if value is None else str(value)
+
+
+def readable_chunk(text) -> tuple[str | None, str | None]:
+    """(prose, section) for a reviewed policy chunk whose text is a JSON payload; (None, None) for anything else.
+
+    Fields keep their reading order; extraction-metadata fields (page furniture) are left out of the prose. The raw
+    text stays authoritative and is returned unchanged by the caller."""
+    if not isinstance(text, str) or not text.lstrip().startswith('{'):
+        return None, None
+    try:
+        payload = json.loads(text)
+    except ValueError:
+        return None, None
+    fields = payload.get('fields') if isinstance(payload, dict) else None
+    if not isinstance(fields, list) or not fields or not all(isinstance(f, dict) and isinstance(f.get('name'), str) for f in fields):
+        return None, None
+    lines, section = [], None
+    for field in fields:
+        if field.get('field_role') == 'extraction_metadata' or field.get('field_kind') == 'body_partition':
+            continue
+        label = field['name'].replace('_', ' ').capitalize()
+        body = '(blank in the source)' if field.get('source_blank') else _prose(field.get('value'))
+        if field['name'] in TITLE_FIELDS and section is None and isinstance(field.get('value'), str) and field['value'].strip():
+            section = field['value'].strip()
+        if body.strip():
+            lines.append(f'{label}: {body}')
+    for limit in payload.get('source_limits') or []:
+        if isinstance(limit, dict) and isinstance(limit.get('issue'), str):
+            claims = limit.get('affected_claims')
+            affects = f" (affects: {'; '.join(c for c in claims if isinstance(c, str))})" if isinstance(claims, list) and claims else ''
+            lines.append(f"Known source problem: {limit['issue'].replace('_', ' ')}{affects}")
+    return ('\n'.join(lines) or None), section
+
+
+def _row(chunk_id, text, title, section_path, pages, sha, reading_id, tokens) -> dict:
+    display, derived = readable_chunk(text)
+    return {'chunk_id': chunk_id, 'text': text, 'display_text': display, 'document_title': title,
+            'section': ' > '.join(section_path or []) or derived, 'pages': pages, 'source_sha256': sha,
+            'reading_id': reading_id, 'token_count': tokens}
+
+
 def _pages(spans) -> list[int]:
     return sorted({s['page'] for s in spans or [] if isinstance(s, dict) and isinstance(s.get('page'), int)})
 
@@ -229,10 +283,9 @@ class KnowledgeBrowser:
             needle = q.casefold()
             matched = [c for c in package['chunks'] if needle in c['text'].casefold() and (
                 not document or document in (c.get('byte_sha256'), titles.get(c.get('byte_sha256'))))]
-            rows = [{'chunk_id': c['chunk_id'], 'text': c['text'], 'document_title': titles.get(c.get('byte_sha256')),
-                     'section': ' > '.join(c.get('section_path') or []) or None, 'pages': _pages(c.get('spans')),
-                     'source_sha256': c.get('byte_sha256'), 'reading_id': (c.get('type_fields') or {}).get('reading_id'),
-                     'token_count': (c.get('token_count') or {}).get('count')} for c in matched[offset:offset + limit]]
+            rows = [_row(c['chunk_id'], c['text'], titles.get(c.get('byte_sha256')), c.get('section_path'), _pages(c.get('spans')),
+                         c.get('byte_sha256'), (c.get('type_fields') or {}).get('reading_id'),
+                         (c.get('token_count') or {}).get('count')) for c in matched[offset:offset + limit]]
             return {'chunks': rows, 'total': len(matched), 'offset': offset, 'limit': limit}
         params = {'select': CHUNK_COLUMNS, 'release_chunks.release_id': 'eq.' + ident,
                   'order': 'chunk_id.asc', 'offset': str(offset), 'limit': str(limit)}
@@ -245,10 +298,9 @@ class KnowledgeBrowser:
             found, total = rest.get('chunks', params, count=True)
         finally:
             rest.close()
-        rows = [{'chunk_id': r['chunk_id'], 'text': r['text'], 'document_title': (r.get('documents') or {}).get('title'),
-                 'section': ' > '.join(r.get('section_path') or []) or None, 'pages': _pages(r.get('source_spans')),
-                 'source_sha256': r.get('byte_sha256'), 'reading_id': r.get('reading_id'),
-                 'token_count': r.get('token_count')} for r in found]
+        rows = [_row(r['chunk_id'], r['text'], (r.get('documents') or {}).get('title'), r.get('section_path'),
+                     _pages(r.get('source_spans')), r.get('byte_sha256'), r.get('reading_id'), r.get('token_count'))
+                for r in found]
         return {'chunks': rows, 'total': len(rows) + offset if total is None else total, 'offset': offset, 'limit': limit}
 
     def documents(self, source: str) -> dict:
