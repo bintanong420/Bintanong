@@ -152,7 +152,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
       {!!logLines.length && <div className="log-viewer">
         {latestLogLine(logLines) && <p className="muted">Latest message: {latestLogLine(logLines)}</p>}
         <details open={stopped}>
-          <summary>Log ({logLines.length} {logLines.length === 1 ? 'line' : 'lines'})</summary>
+          <summary>Prepare log ({logLines.length} {logLines.length === 1 ? 'line' : 'lines'})</summary>
           <pre className="intake-log" tabIndex={0} role="region" aria-label={`Technical log for ${upload.title}`}>{logLines.join('\n')}</pre>
         </details></div>}
     </section>
@@ -199,7 +199,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
         <p className="hint" id={base + '-build-hint'}>{blocker ? blocker
           : control.kind === 'retry' ? 'A retry is allowed only while no package was produced.' : 'Starts one build for this upload on the review server.'}</p></div></div>}
       {!!buildLog.length && <div className="log-viewer"><details open={buildStopped}>
-        <summary>Log ({buildLog.length} {buildLog.length === 1 ? 'line' : 'lines'})</summary>
+        <summary>Build log ({buildLog.length} {buildLog.length === 1 ? 'line' : 'lines'})</summary>
         <pre className="intake-log" tabIndex={0} role="region" aria-label={`Build log for ${upload.title}`}>{buildLog.join('\n')}</pre></details></div>}
     </section>
 
