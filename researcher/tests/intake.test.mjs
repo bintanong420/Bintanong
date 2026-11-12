@@ -1,9 +1,20 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { buildPayload, buildProblems, latestLogLine, checkUploadFile, fieldErrors, formatBytes, formatElapsed, pipelineSteps, isNoPacketError, MAX_UPLOAD_BYTES, prepareLabel, shouldPoll, uploadQuery,
-  validateUploadFields, withheldReason } from '../lib/intake.ts';
+  uploadMediaType, validateUploadFields, withheldReason } from '../lib/intake.ts';
 
-test('a file is refused before sending when it is not a PDF or is over 128 MiB', () => {
+test('PDF, PNG, JPG/JPEG and WebP get matching upload MIME types, including blank browser types', () => {
+  for (const [extension, type] of [['pdf', 'application/pdf'], ['png', 'image/png'], ['jpg', 'image/jpeg'],
+    ['jpeg', 'image/jpeg'], ['webp', 'image/webp']]) {
+    assert.equal(uploadMediaType({ name: `document.${extension}`, type }), type);
+    assert.equal(uploadMediaType({ name: `document.${extension.toUpperCase()}`, type: '' }), type);
+    assert.equal(checkUploadFile({ name: `document.${extension}`, type, size: 10 }), null);
+  }
+  assert.equal(uploadMediaType({ name: 'movie.gif', type: 'image/gif' }), '');
+  assert.equal(uploadMediaType({ name: 'spoof.png', type: 'text/html' }), '');
+});
+
+test('a file is refused before sending when unsupported or over 128 MiB', () => {
   assert.equal(MAX_UPLOAD_BYTES, 128 * 1024 * 1024);
   assert.equal(checkUploadFile({ name: 'usg.pdf', type: 'application/pdf', size: 10 }), null);
   assert.equal(checkUploadFile({ name: 'USG.PDF', type: '', size: 10 }), null);  // some browsers send no type
@@ -191,7 +202,7 @@ test('each upload state names one next step', () => {
   assert.match(nextStep({ prepare: 'done', open: false }), /open it for review/i);
   assert.match(nextStep({ prepare: 'done', open: true, build: undefined }), /build chunks/i);
   assert.match(nextStep({ prepare: 'done', open: true, build: 'done' }), /knowledge/i);
-  assert.match(nextStep({ prepare: 'failed' }), /upload the pdf again/i);
+  assert.match(nextStep({ prepare: 'failed' }), /upload the document again/i);
 });
 
 import { nextStep as step, findingLabel } from '../lib/intake.ts';

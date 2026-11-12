@@ -10,6 +10,8 @@ test('title is the file name without extension, tidied', () => {
   assert.equal(titleFromFileName('USG_Student_Handbook-2026.pdf'), 'USG Student Handbook 2026');
   assert.equal(titleFromFileName('  citizens__charter --  final.PDF '), 'citizens charter final');
   assert.equal(titleFromFileName('Handbook.v2.pdf'), 'Handbook.v2');
+  assert.equal(titleFromFileName('Memo_2026.JPEG'), 'Memo 2026');
+  assert.equal(titleFromFileName('Student_Notice.webp'), 'Student Notice');
   assert.equal(titleFromFileName('.pdf'), '');
 });
 

@@ -1,4 +1,4 @@
-// Pure logic for uploading several PDFs from the Intake page. Each file stays its own upload with its own fields;
+// Pure logic for uploading several documents from the Intake page. Each file stays its own upload with its own fields;
 // the review server remains authoritative for every limit, so nothing here approves or accepts a file.
 import { checkUploadFile, fieldErrors, type UploadField } from './intake.ts';
 
@@ -10,12 +10,12 @@ export type BatchDefaults = { kind: string; edition: string; office: string; aud
 export type SharedNotes = Pick<BatchDefaults, 'office' | 'audience'>;
 
 export function titleFromFileName(name: string) {
-  return name.trim().replace(/\.pdf$/i, '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return name.trim().replace(/\.(pdf|png|jpe?g|webp)$/i, '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 // A year is 19xx or 20xx not glued to other digits; two years joined by a dash or underscore stay together as one edition.
 export function editionFromFileName(name: string) {
-  const text = name.replace(/\.pdf$/i, '');
+  const text = name.replace(/\.(pdf|png|jpe?g|webp)$/i, '');
   const range = text.match(/(?<!\d)((?:19|20)\d{2})\s*[-_]\s*((?:19|20)\d{2})(?!\d)/);
   if (range) return `${range[1]}-${range[2]}`;
   return text.match(/(?<!\d)(?:19|20)\d{2}(?!\d)/)?.[0] ?? '';
@@ -97,7 +97,7 @@ export function batchReducer(state: BatchState, action: BatchAction): BatchState
 
 export function retryNotice(ids: string[], state: BatchState) {
   return ids.some(id => state.results[id]?.uncertain)
-    ? 'An upload response was lost or incomplete. The PDF may already be saved. Check the uploads list first. Uploading it again can create a duplicate. Send it again?'
+    ? 'An upload response was lost or incomplete. The document may already be saved. Check the uploads list first. Uploading it again can create a duplicate. Send it again?'
     : '';
 }
 

@@ -51,7 +51,7 @@ export function BatchRows({ rows, results, problems, showProblems, locked, idFor
                 <option value="handbook">Handbook</option><option value="charter">Citizens’ Charter</option></select></div>
           </div>}
         {status === 'failed' && <p className="field-error" role="alert"><strong>{result?.uncertain ? 'Upload not confirmed.' : 'Upload failed.'}</strong> {result?.error}
-          {result?.uncertain && ' The PDF may already be saved. Check the uploads list before sending it again.'}</p>}
+          {result?.uncertain && ' The document may already be saved. Check the uploads list before sending it again.'}</p>}
         {status === 'skipped' && <p className="muted">Not sent. The batch was stopped before this file.</p>}
         <div className="batch-row-actions">
           {uploaded && result?.uploadId && <Button type="button" variant="outline" size="sm" onClick={() => onView(result.uploadId!)}

@@ -66,10 +66,10 @@ export default function IntakePage() {
 
   return <main className="page-main intake-page" id="review-main">
     <div className="page-toolbar"><div><h1 className="page-title">Intake</h1>
-      <p className="muted">Upload a PDF, prepare it, review it, then build it. Nothing here approves or activates content.</p></div></div>
+      <p className="muted">Upload documents, prepare, review and build each one. Nothing here approves or activates content.</p></div></div>
     <div className="intake-grid">
         <details className="upload-panel" open={uploadOpen} onToggle={event => setUploadOpen(event.currentTarget.open)}>
-          <summary>Upload PDFs</summary>
+          <summary>Upload documents</summary>
           <IntakeUpload onUploaded={uploaded} onSelect={select} />
         </details>
       <div className="intake-side">
@@ -83,7 +83,7 @@ export default function IntakePage() {
           current={currentId === shown.upload_id} onOpen={id => void open(id)} onChanged={refresh} onPatch={patch}
           onCompare={showCompare} comparing={comparing} />
           : <div className="empty-state"><h2>{uploads === null ? 'Loading…' : 'Select an upload'}</h2>
-            <p className="muted">{uploads === null ? 'Fetching the upload list.' : 'Its Prepare, Review and Build steps appear here. Upload a PDF to start.'}</p></div>}
+            <p className="muted">{uploads === null ? 'Fetching the upload list.' : 'Its Prepare, Review and Build steps appear here. Upload a document to start.'}</p></div>}
       </div>
       {comparing && shown && <div className="intake-compare" ref={compare}>
         <CompareExtraction key={shown.upload_id} uploadId={shown.upload_id} sha256={shown.sha256} title={shown.title} onClose={() => setComparing(false)} /></div>}

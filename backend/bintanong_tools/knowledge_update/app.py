@@ -219,9 +219,10 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
 
         @app.post('/api/intake/upload')
         async def upload(request: Request, kind: str, title: str, edition: str, office: str = '', audience: str = ''):
-            # raw PDF body with metadata in the query: no multipart dependency, and nothing reaches a command line
-            if request.headers.get('content-type', '').split(';')[0].strip() != 'application/pdf':
-                return JSONResponse({'error': 'Upload the PDF as application/pdf.'}, status_code=415)
+            # Raw bytes with metadata in the query: no multipart dependency or client-controlled file path.
+            media_type = request.headers.get('content-type', '').split(';')[0].strip().lower()
+            if media_type not in intake.UPLOAD_TYPES:
+                return JSONResponse({'error': 'Upload a PDF, PNG, JPG/JPEG or WebP with its matching content type.'}, status_code=415)
             data = bytearray()
             async for chunk in request.stream():
                 data.extend(chunk)
@@ -229,7 +230,7 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
                     return JSONResponse({'error': 'Upload exceeds 128 MiB.'}, status_code=413)
             from starlette.concurrency import run_in_threadpool
             return await run_in_threadpool(intake.create_upload, workspace, bytes(data), kind=kind, title=title,
-                                           edition=edition, office=office, audience=audience)
+                                           edition=edition, office=office, audience=audience, media_type=media_type)
 
         @app.get('/api/intake/uploads')
         def uploads():

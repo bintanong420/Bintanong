@@ -149,6 +149,15 @@ def prepare(manifest_path: Path, out: Path, *, converter=None, assist_provider=N
         record = {k: doc[k] for k in ('id', 'kind', 'title', 'edition', 'sha256', 'locator')}
         record.update(source=source_name, candidate_bundle='candidates/' + doc['id'],
                       source_versions=[v.model_dump(mode='json') for v in checked['source_register']])
+        if 'original_image' in doc:
+            original = doc['original_image']
+            data = Path(original['path']).read_bytes()
+            if digest(data) != original['sha256']:
+                raise ValueError('original image changed during preparation')
+            name = 'originals/' + doc['id'] + Path(original['path']).suffix
+            (out / name).parent.mkdir(exist_ok=True)
+            (out / name).write_bytes(data)
+            record['original_image'] = {**original, 'path': name}
         if 'review_template' in doc:
             name = 'templates/' + doc['id'] + '.json'
             template = read_json(Path(doc['review_template']))

@@ -392,7 +392,8 @@ class SourceIndex:
 
     def __init__(self, workspace: Path, roots=(), copies: Path | None = None):
         workspace = Path(workspace).absolute()
-        self.roots = [(workspace, '*/original/source.pdf')] + [(Path(r).absolute(), '**/*.pdf') for r in roots]
+        self.roots = [(workspace, '*/original/source.pdf'), (workspace, '*/derived/source.pdf')]
+        self.roots += [(Path(r).absolute(), '**/*.pdf') for r in roots]
         self.copies = copies or workspace / '_runtime/pages'
         self._seen: dict[Path, tuple[int, int, str]] = {}
         self._index: dict[str, Path] = {}

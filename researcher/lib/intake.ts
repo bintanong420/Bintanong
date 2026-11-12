@@ -7,9 +7,16 @@ export type UploadKind = (typeof KINDS)[number];
 
 export type UploadFields = { kind: string; title: string; edition: string; office: string; audience: string };
 
+export const UPLOAD_ACCEPT = 'application/pdf,image/png,image/jpeg,image/webp,.pdf,.png,.jpg,.jpeg,.webp';
+const UPLOAD_TYPES: Record<string, string> = { pdf: 'application/pdf', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
+export function uploadMediaType(file: { name: string; type: string }) {
+  return file.type ? (Object.values(UPLOAD_TYPES).includes(file.type) ? file.type : '')
+    : UPLOAD_TYPES[file.name.split('.').pop()?.toLowerCase() ?? ''] ?? '';
+}
+
 export function checkUploadFile(file: { name: string; type: string; size: number } | null | undefined) {
-  if (!file) return 'Choose a PDF file first.';
-  if (file.type !== 'application/pdf' && !(file.type === '' && /\.pdf$/i.test(file.name))) return 'Only PDF files can be uploaded.';
+  if (!file) return 'Choose a document file first.';
+  if (!uploadMediaType(file)) return 'Upload PDF, PNG, JPG/JPEG or WebP files only.';
   if (file.size === 0) return 'That file is empty.';
   if (file.size > MAX_UPLOAD_BYTES) return 'That file is over 128 MiB, which is the upload limit.';
   return null;
@@ -147,7 +154,7 @@ export function nextStep({ prepare, open, build, formSaved }: { prepare: string 
   if (prepare === undefined) return 'Checking where this upload stands.';
   if (prepare === 'not_started') return 'Next: prepare it with Docling.';
   if (prepare === 'running') return 'Next: wait for Docling to finish. This page checks on its own.';
-  if (prepare === 'failed' || prepare === 'interrupted') return 'Prepare stopped. Upload the PDF again to retry.';
+  if (prepare === 'failed' || prepare === 'interrupted') return 'Prepare stopped. Upload the document again to retry.';
   if (build === 'done') return 'Next: read the new chunks in Knowledge.';
   if (build === 'running') return 'Next: wait for the build to finish.';
   if (build === 'failed') return 'The build failed. Read the build log below, then try again.';

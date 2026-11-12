@@ -17,13 +17,14 @@ test('Intake sends files sequentially, preserves Stop, and confirms uncertain re
     ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
   t.after(() => browser.close());
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
-  const errors = [];
+  const errors = [], sentTypes = [];
   page.on('pageerror', error => errors.push(error.message));
   let mode = 'stop', count = 0, release, started, uploads = [];
   let firstRequest = new Promise(resolve => { started = resolve; });
   await page.route('**/review/api/**', async route => {
     const url = new URL(route.request().url());
     if (url.pathname.endsWith('/intake/upload')) {
+      sentTypes.push(route.request().headers()['content-type']);
       count++;
       if (mode === 'stop') {
         if (count === 1) return route.fulfill({ status: 400, json: { error: 'Synthetic refusal' } });
@@ -41,26 +42,28 @@ test('Intake sends files sequentially, preserves Stop, and confirms uncertain re
   });
   await page.goto(origin + '/review/intake');
   await page.getByText('No uploads yet', { exact: true }).waitFor();
-  await page.locator('input[type=file]').setInputFiles([file('one_2026.pdf'), file('two_2026.pdf'), file('three_2026.pdf')]);
-  await page.getByRole('button', { name: 'Upload 3 PDFs', exact: true }).click();
+  await page.locator('input[type=file]').setInputFiles([file('one_2026.pdf'),
+    { ...file('two_2026.png'), mimeType: 'image/png' }, { ...file('three_2026.webp'), mimeType: 'image/webp' }]);
+  await page.getByRole('button', { name: 'Upload 3 documents', exact: true }).click();
   await firstRequest;
   assert.equal(count, 2, 'third request must wait for the second response');
   assert(await page.getByRole('button', { name: 'Retry one_2026.pdf', exact: true }).isDisabled(), 'retry must stay disabled during the batch');
   await page.getByRole('button', { name: 'Stop after this file', exact: true }).click();
   release();
   await page.getByText('1 uploaded, 1 failed, 1 not sent.', { exact: true }).waitFor();
-  assert(await page.getByRole('button', { name: 'Retry three_2026.pdf', exact: true }).isVisible(), 'the first uploaded file must not collapse the batch');
+  assert(await page.getByRole('button', { name: 'Retry three_2026.webp', exact: true }).isVisible(), 'the first uploaded file must not collapse the batch');
   assert.equal(count, 2);
   mode = 'success';
-  await page.getByRole('button', { name: 'Retry three_2026.pdf', exact: true }).click();
+  await page.getByRole('button', { name: 'Retry three_2026.webp', exact: true }).click();
   await page.getByText('2 uploaded, 1 failed.', { exact: true }).waitFor();
   assert.equal(count, 3, 'a row retry sends only that row');
+  assert.deepEqual(sentTypes, ['application/pdf', 'image/png', 'image/webp']);
 
   mode = 'uncertain'; count = 0; uploads = [];
   await page.reload();
   await page.getByText('No uploads yet', { exact: true }).waitFor();
   await page.locator('input[type=file]').setInputFiles(file('lost_2026.pdf'));
-  await page.getByRole('button', { name: 'Upload PDF', exact: true }).click();
+  await page.getByRole('button', { name: 'Upload document', exact: true }).click();
   await page.getByText('1 failed.', { exact: true }).waitFor();
   assert.match(await page.locator('.batch-row').innerText(), /may already be saved/);
   let dialogs = 0;

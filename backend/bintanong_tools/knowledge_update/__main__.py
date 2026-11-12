@@ -36,7 +36,7 @@ def main(argv=None) -> int:
     review_command.add_argument('--api-port', type=int, default=8765)
     review_command.add_argument('--ui-port', type=int, default=3050)
     review_command.add_argument('--no-open', action='store_true')
-    intake_command = commands.add_parser('intake', help='Open the local researcher tool for uploading and reviewing PDFs.')
+    intake_command = commands.add_parser('intake', help='Open the local researcher tool for uploading and reviewing PDFs and document images.')
     intake_command.add_argument('workspace', type=Path, help='ignored folder outside Git for uploads')
     intake_command.add_argument('--reviewer', required=True)
     intake_command.add_argument('--prepare-python', required=True, type=Path,

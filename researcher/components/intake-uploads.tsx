@@ -10,7 +10,7 @@ import { buildBlocker, buildChecklist, buildControl, nextStep, buildSummary, for
 import { knowledgeUrl, packageSourceId } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
-export type Upload = { upload_id: string; kind: string; title: string; edition: string; bytes: number; sha256?: string };
+export type Upload = { upload_id: string; kind: string; title: string; edition: string; bytes: number; sha256?: string; media_type?: string };
 
 const KIND_LABEL: Record<string, string> = { handbook: 'Handbook', charter: 'Citizens’ Charter' };
 function message(error: unknown) { return error instanceof Error ? error.message : 'The request failed.'; }
@@ -43,7 +43,7 @@ export function UploadList({ uploads, states, currentId, selectedId, onSelect, e
       <Button variant="outline" size="sm" onClick={onRetry}>Try again</Button></div>}
     {uploads === null && !error && <div role="status" aria-busy="true"><p className="muted"><span className="spinner" aria-hidden="true" /> Loading uploads…</p><Skeleton /></div>}
     {uploads?.length === 0 && <div className="empty-state"><h3>No uploads yet</h3>
-      <p className="muted">Upload a PDF above. It appears here with its progress.</p></div>}
+      <p className="muted">Upload a document above. It appears here with its progress.</p></div>}
     <ul className="upload-rows">{uploads?.map(upload => {
       const state = states[upload.upload_id], steps = pipelineSteps(state?.prepare?.state, currentId === upload.upload_id, state?.build);
       return <li key={upload.upload_id}>
@@ -120,6 +120,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
       <div><dt>Size</dt><dd>{formatBytes(upload.bytes)}</dd></div>
       <div><dt>Upload id</dt><dd><code>{id}</code></dd></div>
     </dl>
+    {upload.media_type?.startsWith('image/') && <p className="muted">The original image is kept unchanged. Preparation and review use a one-page PDF copy with the image orientation applied.</p>}
     <p className="next-step" role="status"><strong>{nextStep({ prepare: state, open: current, build: build?.state, formSaved })}</strong></p>
     <PipelineSteps steps={steps} label={`Progress for ${upload.title}`} />
     {entry?.error && <p className="notice error" role="alert"><span>{entry.error}</span>
@@ -143,7 +144,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
       {state === 'not_started' && <div className="intake-actions">
         <div className="action-choice">
           <Button disabled={busy} onClick={() => void start(false)} aria-describedby={base + '-plain'}>Prepare with Docling</Button>
-          <p className="hint" id={base + '-plain'}>Turns the PDF into a draft you can review.</p></div>
+          <p className="hint" id={base + '-plain'}>Turns the document into a draft you can review.</p></div>
         <div className="action-choice">
           <Button variant="outline" disabled={busy} onClick={() => void start(true)} aria-describedby={base + '-gemma'}>Prepare with Gemma audit</Button>
           <p className="hint" id={base + '-gemma'}>Also has a local Gemma model double-check flagged pages. It needs that model set up when the tool starts; the server says if it is missing.</p></div>

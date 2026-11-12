@@ -6,7 +6,7 @@ import { Field } from '@/components/intake-status';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { request, ReviewError } from '@/lib/api';
-import { fieldErrors, formatBytes, MAX_UPLOAD_BYTES, uploadQuery } from '@/lib/intake';
+import { fieldErrors, formatBytes, MAX_UPLOAD_BYTES, UPLOAD_ACCEPT, uploadMediaType, uploadQuery } from '@/lib/intake';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 import { addFiles, applyToAll, batchReducer, hasProblems, initialBatch, MAX_BATCH_FILES, nextWaiting, progressText, rowProblems,
   retryNotice, startableIds, summaryText, type BatchAction, type BatchRow, type BatchState } from '@/lib/upload-batch';
@@ -81,7 +81,7 @@ export function IntakeUpload({ onUploaded, onSelect }: { onUploaded: (uploadId: 
           // raw bytes in the body, one request per file; the review server adds the session token and re-checks every limit
           const fields = { kind: row.kind, title: row.title, edition: row.edition, ...notesRef.current };
           const response = await request(REVIEW_CONNECTION, '/api/intake/upload?' + uploadQuery(fields),
-            { method: 'POST', body: row.file, headers: { 'Content-Type': 'application/pdf' } });
+            { method: 'POST', body: row.file, headers: { 'Content-Type': uploadMediaType(row.file) } });
           const result: { upload_id: string } = await response.json();
           if (typeof result?.upload_id !== 'string' || !result.upload_id) throw new Error('Missing upload confirmation');
           send({ type: 'success', id, uploadId: result.upload_id, title: row.title.trim() });
@@ -132,22 +132,22 @@ export function IntakeUpload({ onUploaded, onSelect }: { onUploaded: (uploadId: 
   const problemCount = rows.filter(row => pending.includes(row.id) && hasProblems(problems[row.id])).length + Object.keys(noteErrors).length;
   const anyFailed = Object.values(batch.results).some(result => result.status === 'failed');
   const submitLabel = busy ? 'Uploading…' : batch.phase === 'finished' ? `Upload ${pending.length} unfinished`
-    : pending.length === 1 ? 'Upload PDF' : `Upload ${pending.length} PDFs`;
+    : pending.length === 1 ? 'Upload document' : `Upload ${pending.length} documents`;
 
   return <section className="intake-section" id="upload" aria-label="Upload documents">
-    <p className="muted">PDF only, up to {formatBytes(MAX_UPLOAD_BYTES)} each, {MAX_BATCH_FILES} files at a time. Uploading approves nothing; each file stays a candidate until reviewed.</p>
-    <form onSubmit={submit} className="intake-form" noValidate aria-busy={busy} aria-label="Upload PDFs">
+    <p className="muted">PDF, PNG, JPG/JPEG or WebP, up to {formatBytes(MAX_UPLOAD_BYTES)} each, {MAX_BATCH_FILES} files at a time. Uploading approves nothing; each file stays a candidate until reviewed.</p>
+    <form onSubmit={submit} className="intake-form" noValidate aria-busy={busy} aria-label="Upload documents">
       <div className="field">
-        <span className="field-label" id={idFor('', 'file-label')}>PDF files</span>
+        <span className="field-label" id={idFor('', 'file-label')}>Document files</span>
         <label className={`dropzone${dragging ? ' is-dragging' : ''}`} htmlFor={idFor('', 'file')}
           onDragOver={event => { event.preventDefault(); setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={drop}>
-          <input ref={fileInput} id={idFor('', 'file')} className="sr-only" type="file" multiple accept="application/pdf,.pdf" disabled={busy}
+          <input ref={fileInput} id={idFor('', 'file')} className="sr-only" type="file" multiple accept={UPLOAD_ACCEPT} disabled={busy}
             aria-labelledby={idFor('', 'file-label')} aria-describedby={idFor('', 'file-hint')}
             onChange={event => { add(Array.from(event.target.files ?? [])); event.target.value = ''; }} />
-          <span className="dropzone-title">{dragging ? 'Release to add these files' : rows.length ? 'Add more PDFs, or drop them here' : 'Choose PDFs, or drop them here'}</span>
+          <span className="dropzone-title">{dragging ? 'Release to add these files' : rows.length ? 'Add more documents, or drop them here' : 'Choose documents, or drop them here'}</span>
           <span className="dropzone-action" aria-hidden="true">Browse files</span>
         </label>
-        <p className="hint" id={idFor('', 'file-hint')}>Choose several files if you like. Each becomes its own upload, sent one at a time. The server checks type and size again.</p>
+        <p className="hint" id={idFor('', 'file-hint')}>Each file is sent separately. Still images up to 40 million pixels keep their original and get a one-page PDF for review. The server checks file contents.</p>
         {addNote && <p className="hint" role="status">{addNote}</p>}
       </div>
 

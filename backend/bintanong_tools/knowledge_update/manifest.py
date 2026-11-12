@@ -22,7 +22,7 @@ def load_manifest(path: Path) -> dict:
     for doc in docs:
         required = {'id', 'kind', 'title', 'edition', 'source', 'sha256', 'locator'}
         if (not isinstance(doc, dict) or not required <= set(doc)
-                or set(doc) - required - {'candidate_bundle', 'review_template', 'parser_result'}):
+                or set(doc) - required - {'candidate_bundle', 'review_template', 'parser_result', 'original_image'}):
             raise ValueError('invalid document manifest fields')
         identity = doc['id']
         if (not isinstance(identity, str) or not re.fullmatch(r'[a-z0-9][a-z0-9_-]{0,63}', identity)
@@ -52,6 +52,22 @@ def load_manifest(path: Path) -> dict:
             raise ValueError('source missing or unreadable') from exc
         if not data.startswith(b'%PDF') or digest(data) != doc['sha256']:
             raise ValueError('source PDF identity mismatch')
+        if 'original_image' in doc:
+            image = doc['original_image']
+            if (not isinstance(image, dict) or set(image) != {'path', 'sha256', 'media_type'}
+                    or not isinstance(image['path'], str) or not image['path']
+                    or not isinstance(image['sha256'], str) or not re.fullmatch('[a-f0-9]{64}', image['sha256'])
+                    or image['media_type'] not in ('image/png', 'image/jpeg', 'image/webp')):
+                raise ValueError('invalid original image reference')
+            original = path.parent / image['path']
+            if any(p.is_symlink() for p in (original, *original.parents)):
+                raise ValueError('symlink original images refused')
+            try:
+                if original.stat().st_size > 128 * 1024 * 1024 or digest(original.read_bytes()) != image['sha256']:
+                    raise ValueError('original image identity mismatch')
+            except OSError as exc:
+                raise ValueError('original image missing or unreadable') from exc
+            image['path'] = str(original.resolve())
         if 'parser_result' in doc:
             ref = doc['parser_result']
             if (doc['kind'] == 'prospectus' or 'candidate_bundle' in doc or 'review_template' in doc

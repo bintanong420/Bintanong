@@ -8,15 +8,19 @@ decision. Nothing here approves content.
 from __future__ import annotations
 
 import os
+from io import BytesIO
 import re
 import secrets
 import subprocess
 import threading
+import warnings
 from pathlib import Path
 
 from .files import digest, read_json, write_json
 
 MAX_UPLOAD = 128 * 1024 * 1024  # same ceiling load_manifest enforces
+MAX_IMAGE_PIXELS = 40_000_000
+UPLOAD_TYPES = {'application/pdf': 'pdf', 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp'}
 KINDS = ('handbook', 'charter')  # prospectus needs the ledger path (U1), not this intake
 TEXT_LIMIT = 300
 REPO = Path(__file__).resolve().parents[3]
@@ -40,8 +44,37 @@ def _workspace(workspace: Path) -> Path:
     return workspace
 
 
+def _image_pdf(data: bytes, media_type: str) -> bytes:
+    from PIL import Image, ImageOps
+    import pymupdf
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter('error', Image.DecompressionBombWarning)
+            with Image.open(BytesIO(data), formats=['PNG', 'JPEG', 'WEBP']) as image:
+                if Image.MIME[image.format] != media_type:
+                    raise ValueError('image bytes do not match the declared file type')
+                if image.width * image.height > MAX_IMAGE_PIXELS:
+                    raise ValueError('image exceeds the 40 million pixel limit')
+                if getattr(image, 'n_frames', 1) != 1:
+                    raise ValueError('upload a single image, not an animated or multi-frame image')
+                image.verify()
+            with Image.open(BytesIO(data)) as image, ImageOps.exif_transpose(image) as oriented:
+                oriented.load()
+                # A white page preserves readable transparent scans; the untouched image is retained separately.
+                with oriented.convert('RGBA') as rgba, Image.new('RGB', oriented.size, 'white') as visible:
+                    visible.paste(rgba, mask=rgba.getchannel('A'))
+                    png = BytesIO()
+                    visible.save(png, format='PNG')
+                with pymupdf.open() as pdf:
+                    page = pdf.new_page(width=oriented.width, height=oriented.height)
+                    page.insert_image(page.rect, stream=png.getvalue())
+                    return pdf.tobytes(deflate=True)
+    except (OSError, SyntaxError, Image.DecompressionBombError, Image.DecompressionBombWarning) as exc:
+        raise ValueError('image is unreadable or exceeds safe pixel limits') from exc
+
+
 def create_upload(workspace: Path, data: bytes, *, kind: str, title: str, edition: str,
-                  office: str = '', audience: str = '') -> dict:
+                  office: str = '', audience: str = '', media_type: str = 'application/pdf') -> dict:
     workspace = _workspace(workspace)
     if kind not in KINDS:
         raise ValueError('kind must be handbook or charter')
@@ -49,17 +82,29 @@ def create_upload(workspace: Path, data: bytes, *, kind: str, title: str, editio
     office, audience = _text('office', office, required=False), _text('audience', audience, required=False)
     if len(data) > MAX_UPLOAD:
         raise ValueError('upload exceeds 128 MiB')
-    if not data.startswith(b'%PDF'):
+    if media_type not in UPLOAD_TYPES:
+        raise ValueError('upload must be PDF, PNG, JPG/JPEG or WebP')
+    if media_type == 'application/pdf' and not data.startswith(b'%PDF'):
         raise ValueError('upload is not a PDF')
-    upload_id, sha256 = secrets.token_hex(8), digest(data)
+    pdf = data if media_type == 'application/pdf' else _image_pdf(data, media_type)
+    if len(pdf) > MAX_UPLOAD:
+        raise ValueError('normalized PDF exceeds 128 MiB')
+    upload_id, sha256 = secrets.token_hex(8), digest(pdf)
     folder = workspace / upload_id
     (folder / 'original').mkdir(parents=True)
-    (folder / 'original/source.pdf').write_bytes(data)
-    write_json(folder / 'manifest.json', {'schema_version': 'bintanong-knowledge-update-v1', 'documents': [{
-        'id': upload_id, 'kind': kind, 'title': title, 'edition': edition, 'source': 'original/source.pdf',
-        'sha256': sha256, 'locator': 'researcher-upload:' + upload_id}]})
+    original = 'original/source.' + UPLOAD_TYPES[media_type]
+    (folder / original).write_bytes(data)
+    doc = {'id': upload_id, 'kind': kind, 'title': title, 'edition': edition, 'source': original,
+        'sha256': sha256, 'locator': 'researcher-upload:' + upload_id}
+    if media_type != 'application/pdf':
+        (folder / 'derived').mkdir()
+        (folder / 'derived/source.pdf').write_bytes(pdf)
+        doc.update(source='derived/source.pdf', original_image={
+            'path': original, 'sha256': digest(data), 'media_type': media_type})
+    write_json(folder / 'manifest.json', {'schema_version': 'bintanong-knowledge-update-v1', 'documents': [doc]})
     write_json(folder / 'upload.json', {'upload_id': upload_id, 'kind': kind, 'title': title, 'edition': edition,
-        'office': office, 'audience_note': audience, 'sha256': sha256, 'bytes': len(data), 'candidate_only': True})
+        'office': office, 'audience_note': audience, 'sha256': sha256, 'bytes': len(data), 'candidate_only': True,
+        'media_type': media_type, 'original_sha256': digest(data)})
     return {'upload_id': upload_id, 'sha256': sha256}
 
 
