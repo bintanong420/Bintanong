@@ -3,7 +3,7 @@
 export const CHUNK_LIMIT = 20;
 export type KnowledgeSource = { id: string; kind: string; label: string; chunk_count?: number; status?: string; active?: boolean };
 export type SourcesReply = { sources: KnowledgeSource[]; unavailable?: { local?: string; hosted?: string } };
-export type Chunk = { chunk_id: string; text: string; display_text?: string | null; document_title?: string; section?: string; pages?: number[];
+export type Chunk = { chunk_id: string; text: string; display_text?: string | null; document_title?: string; section?: string | null; pages?: number[];
   source_sha256?: string; reading_id?: string; token_count?: number };
 export type ChunksReply = { chunks: Chunk[]; total: number; offset: number; limit: number };
 export type LibraryDocument = { document_key: string; title: string; source_sha256?: string; chunk_count: number;
@@ -104,6 +104,13 @@ export function pageImagePath(sha256: string, page: number, scale?: number) {
   const params = new URLSearchParams({ sha256, page: String(page) });
   if (scale) params.set('scale', String(scale));
   return '/api/knowledge/page?' + params.toString();
+}
+
+// Labelled facts for a chunk; a missing or blank value is left out rather than shown as an empty label.
+export function chunkMeta(chunk: Pick<Chunk, 'document_title' | 'section' | 'pages'>): [string, string][] {
+  const rows: [string, string | null | undefined][] = [['Document', chunk.document_title], ['Section', chunk.section],
+    ['Pages', chunk.pages?.join(', ')]];
+  return rows.map(([name, value]) => [name, (value ?? '').trim()] as [string, string]).filter(([, value]) => value !== '');
 }
 
 // The list shows readable prose when the chunk is a reviewed payload, never its raw JSON.

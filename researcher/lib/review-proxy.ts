@@ -13,6 +13,8 @@ export function proxyResponseHeaders(upstream: Headers): Record<string, string> 
     'content-type': upstream.get('content-type') ?? 'application/octet-stream',
     'cache-control': PRIVATE_CACHE.test(cache) ? cache : 'no-store',
   };
+  // a source PDF is shown in place; any other disposition (a download or a filename) is dropped
+  if (upstream.get('content-disposition') === 'inline') result['content-disposition'] = 'inline';
   for (const [name, pattern] of Object.entries(PAGE_HEADERS)) {
     const value = upstream.get(name) ?? '';
     if (pattern.test(value)) result[name] = value;
