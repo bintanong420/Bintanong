@@ -66,7 +66,7 @@ export function SourceViewer({ connection, item, legacyBoxes, document, relatedI
           onChange={event => { const n = Number(event.target.value); if (Number.isInteger(n) && n > 0 && n <= (geometry.count || 1000)) setPage(n); }}/>
         <span className="muted" aria-live="polite">of {geometry.count || '?'}</span>
         <Button variant="outline" size="sm" aria-label="Next page" disabled={!image || page >= geometry.count} onClick={() => setPage(p => p + 1)}>Next</Button>
-        <select aria-label="Image quality" value={scale} onChange={event => setScale(event.target.value)}>
+        <select aria-label="Zoom" value={scale} onChange={event => setScale(event.target.value)}>
           <option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option><option value="3">300%</option>
         </select>
       </div>
