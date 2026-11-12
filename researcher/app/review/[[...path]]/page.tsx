@@ -167,7 +167,7 @@ export default function ReviewWorkspace() {
 
   return <main className={fit ? 'review-workspace rw-fit' : 'review-workspace'} id="review-main">
     {state && !noPacket && <a className="skip-link" href="#source-review">Skip to the source record</a>}
-    <div className="rw-bar"><h1 className="page-title">Documents</h1>
+    <div className="rw-bar"><h1 className="page-title">{item?.prospectus_candidate ? 'Prospectus' : 'Documents'}</h1>
       {state && <span className="muted" title={`Reviewer: ${state.researcher}`}>{state.items.length} records</span>}
       {state?.items.some(row => row.fields.length > 0) && <span className="muted" role="status" aria-label="AI assistance">{hasAssistance
         ? 'AI notes appear beside fields. You decide what to save.' : 'AI suggestions are not included in this packet.'}</span>}
