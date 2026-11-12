@@ -67,6 +67,12 @@ documents API + document filter, readable chunk text (crash-safe), page cache, l
 blockers fixed, owner intuitiveness goals; UI/UX + antislop + modern-web-guidance skills applied. 353 py +
 researcher 67/1-skip, tsc pass. Server restarted on p12-dev; real-data check: 5 hosted documents, readable
 prose. Smoke upload deleted; owner upload `55cf92c8332fd964` (USG, prepared) kept.
+13 Nov owner: review panel broken/verbose/slow, boxes broken, look poor. Fixed: `f6dad397` proxy passes page
+geometry (boxes); `345c6926` read-only views reuse a fully checked packet (USG 596 items: state 10.9 s -> 0.15 s,
+page 6-8 s -> 0.05-0.4 s, build plan 8 s -> 1.3 s; saves/build/verify keep the full check); panel rebuild
+`f5692aaf`..`dc024cb8` (viewport layout, Matches/Fix text/Unclear, windowed list, Tools menu, status badges).
+Review blocker fixed: the note is never auto-filled (owner statement); one-click suggestion chip instead.
+Researcher 80/1-skip, tsc, build pass; `document-switch.test.mjs` (live launch) not run. Server restarted, USG reopened.
 Next: step 7 + `check-draft` command; owner decisions (activation route, first local stage + container, Gemma/GPU).
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 Earlier next: owner review on the integrated development branch, then independent human/
