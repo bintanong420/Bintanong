@@ -85,6 +85,14 @@ PID52268/API8765/UI3050 restarted; new launch link in ignored `ku-multi-20261112
 390px no overflow, keyboard walk, windowing row height intact). Researcher 95/2-skip, tsc, build. Local Supabase
 db/rest/kong started (gateway binds 0.0.0.0:54321 per existing config). Server restarted on p12-dev, USG reopened
 (state 171 ms; sources hosted=1 local=5).
-Next: step7 + `check-draft`; local activation route, Gemma/GPU and cloud draft-versus-activation remain undecided.
+12 Nov whole-pipeline startup: images `eb47a413`, on-demand Gemma review audit `f5d77d94` integrated after
+independent review. [Runtime receipt](../2026-11-12-full-pipeline-startup.md): student3217/API8022 ready200;
+ingestion3050/API8765 with Docling/SEA-LION paths and Gemma configured; local Supabase db/rest/gateway/
+Auth/Storage/meta/Studio running. Shared vision-capable Docker Gemma18089 confirmed16384context,
+vision=true; native older runtime replaced after model500. Exact transfer-credentials question now
+clarifies direction (HTTP200,17.65s), not unavailable; synthetic vision5→15days proposal passes5.03s.
+Integrated78Python pass; researcher96pass/3skip, tsc pass; audit browser1pass. USG596items reopened,
+protected source/packet/review-log hashes unchanged. No cloud writes/review saves/activation; host RAM tight.
+Next: step7 + `check-draft`; local activation route and cloud draft-versus-activation remain undecided.
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 No institutional deployment or closure of source PR18/19 is implied; hosted stays read-only.

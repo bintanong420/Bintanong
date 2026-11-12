@@ -224,12 +224,20 @@ correctness adjudication and matched live runs are still required.
 
 ## Offline checks
 
-Intake accepts up to 20 PDFs per batch (128 MiB each). Edit each title, edition and
+Intake accepts up to 20 PDF/PNG/JPG/JPEG/WebP files per batch (128 MiB each). Still
+images up to 40 million pixels keep their original bytes/hash and get a separate
+one-page PDF for the existing preparation and review path. Edit each title, edition and
 kind before uploading; optional office/audience notes apply to the batch. Files
 send sequentially and stay separate candidates. Prepare, review and build remain
 individual actions. Stop finishes the current upload and leaves the rest unsent.
 Retry is available after the batch finishes. If a response was lost, check Uploads
 first: sending again requires confirmation because the first write may have succeeded.
+
+In Documents, **Audit with Gemma** compares one extracted field with its source
+pages using the configured local `BINTANONG_ASSIST_URL` and `BINTANONG_ASSIST_MODEL`.
+The suggestion does not save or approve content. Use it as a correction, check it
+against the page, and save your own decision/reason. Unavailable or invalid model
+results leave manual review available. Existing packets do not need re-uploading.
 
 The optional `researcher/tests/upload-batch-browser.test.mjs` intercepts all review
 API requests and writes no uploads. Set `BINTANONG_INTAKE_TEST_ORIGIN` to a loopback
