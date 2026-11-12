@@ -8,7 +8,7 @@ export class ReviewError extends Error {
 
 export async function request(connection: Connection, path: string, init: RequestInit = {}) {
   // same-origin: the review server adds the session token from its launch cookie
-  const response = await fetch(connection.api + path, { ...init, cache: 'no-store', credentials: 'same-origin',
+  const response = await fetch(connection.api + path, { cache: 'no-store', ...init, credentials: 'same-origin',
     headers: { ...(init.body ? { 'Content-Type': 'application/json' } : {}), ...init.headers } });
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));

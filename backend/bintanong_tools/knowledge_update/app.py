@@ -14,6 +14,8 @@ from ..prospectus_review_gui.render import PageError, PageRenderer
 from .files import contained, read_json
 from .prepare import load_packet
 
+MAX_KNOWLEDGE_RENDERERS = 4
+
 
 def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None, prepare_python=None,
                model_dir=None, knowledge=None) -> FastAPI:
@@ -51,7 +53,12 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
             return JSONResponse({'error': 'A local review token is required.'}, status_code=403)
         else:
             response = await call_next(request)
-        response.headers.update({'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
+        # a content-addressed page image sets its own private cache lifetime; everything else is never stored
+        cacheable = 'x-page-cache' in response.headers
+        if cacheable:
+            del response.headers['x-page-cache']
+        response.headers.update({'Cache-Control': 'private, max-age=300' if cacheable else 'no-store',
+            'X-Content-Type-Options': 'nosniff',
             'Referrer-Policy': 'no-referrer', 'Access-Control-Allow-Origin': ui_origin,
             'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, X-Review-Token', 'Vary': 'Origin'})
@@ -164,18 +171,26 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
             return JSONResponse({'error': 'Source not in this packet.'}, status_code=404)
         return Response(contained(session.root, doc['source']).read_bytes(), media_type='application/pdf')
 
-    def png(key, path, number, scale):
+    def png(key, path, number, scale, cacheable=False):
         try:
             with renderer_lock:
                 if key not in renderers:
                     renderers[key] = PageRenderer(path)
+                    # knowledge renderers are keyed by verified sha and bounded; the oldest closes first
+                    held = [k for k in renderers if k.startswith('sha256:')]
+                    for old in held[:max(0, len(held) - MAX_KNOWLEDGE_RENDERERS)]:
+                        renderers.pop(old).close()
+                else:
+                    renderers[key] = renderers.pop(key)  # most recently used goes last
                 renderer = renderers[key]
                 data = renderer.png(number, scale)
                 size = renderer.size(number)
-                return Response(data, media_type='image/png', headers={
-                    'X-Page-Width': str(size[0]), 'X-Page-Height': str(size[1]),
+                headers = {'X-Page-Width': str(size[0]), 'X-Page-Height': str(size[1]),
                     'X-Page-Count': str(renderer.page_count), 'X-Page-Rotation': str(renderer.rotation(number)),
-                    'Access-Control-Expose-Headers': 'X-Page-Width, X-Page-Height, X-Page-Count, X-Page-Rotation'})
+                    'Access-Control-Expose-Headers': 'X-Page-Width, X-Page-Height, X-Page-Count, X-Page-Rotation'}
+                if cacheable:
+                    headers['X-Page-Cache'] = '1'
+                return Response(data, media_type='image/png', headers=headers)
         except PageError as exc:
             return JSONResponse({'error': str(exc)}, status_code=422)
 
@@ -275,7 +290,7 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
             if path is None:
                 return JSONResponse({'error': 'source PDF not available locally', 'code': 'source_not_local'},
                                     status_code=404)
-            return png('sha256:' + sha256, path, page, scale)
+            return png('sha256:' + sha256, path, page, scale, cacheable=True)
 
     if isinstance(session, intake.SessionSlot):
 

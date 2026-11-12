@@ -29,7 +29,8 @@ async function forward(request: NextRequest, { params }: { params: Promise<{ pat
     return NextResponse.json({ error: 'The local review API is not responding. Check the review command terminal.' }, { status: 502 });
   }
   return new NextResponse(upstream.body, { status: upstream.status, headers: {
-    'content-type': upstream.headers.get('content-type') ?? 'application/octet-stream', 'cache-control': 'no-store' } });
+    'content-type': upstream.headers.get('content-type') ?? 'application/octet-stream', 'cache-control': /^private, max-age=\d{1,4}$/.test(upstream.headers.get('cache-control') ?? '') ? upstream.headers.get('cache-control')! : 'no-store',
+    ...(upstream.headers.get('x-page-count') ? { 'x-page-count': upstream.headers.get('x-page-count')! } : {}) } });
 }
 
 export { forward as GET, forward as POST };

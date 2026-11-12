@@ -14,7 +14,7 @@ export function PageImage({ sha256, page, scale = 1.5, onCount }: { sha256: stri
   useEffect(() => {
     let current = true, objectUrl = '';
     setState({ kind: 'loading' });
-    request(REVIEW_CONNECTION, pageImagePath(sha256, page, scale)).then(async response => {
+    request(REVIEW_CONNECTION, pageImagePath(sha256, page, scale), { cache: 'default' }).then(async response => {
       const blob = await response.blob();
       if (!current) return;
       objectUrl = URL.createObjectURL(blob);

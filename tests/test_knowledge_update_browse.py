@@ -386,3 +386,25 @@ def test_documents_route_needs_token_validates_source_and_reports_unavailable(tm
     assert hosted.status_code == 503 and hosted.json()['code'] == 'hosted_not_configured'
     chunks = client.get('/api/knowledge/chunks', params={'source': 'local:rel-1', 'document': 'x' * 301}, headers=GOOD)
     assert chunks.status_code == 422
+
+
+def test_knowledge_pages_are_cacheable_and_renderers_are_bounded(tmp_path, monkeypatch):
+    root = tmp_path / 'dataset'
+    root.mkdir()
+    blobs = [b'%PDF-1.7 synthetic cache ' + str(n).encode() for n in range(5)]
+    for n, blob in enumerate(blobs):
+        (root / f'{n}.pdf').write_bytes(blob)
+    client, app = web(tmp_path, browser(tmp_path, source_roots=[root]))
+    closed = []
+    FakeRenderer.opened = []
+    monkeypatch.setattr(FakeRenderer, 'close', lambda self: closed.append(self), raising=False)
+    monkeypatch.setattr(app, 'PageRenderer', FakeRenderer)
+    first = client.get('/api/knowledge/page', params={'sha256': digest(blobs[0]), 'page': 1}, headers=GOOD)
+    assert first.headers['cache-control'] == 'private, max-age=300'
+    client.get('/api/knowledge/page', params={'sha256': digest(blobs[0]), 'page': 2}, headers=GOOD)
+    assert len(FakeRenderer.opened) == 1  # a second view of the same document reuses its renderer
+    for blob in blobs[1:]:
+        client.get('/api/knowledge/page', params={'sha256': digest(blob), 'page': 1}, headers=GOOD)
+    assert len(FakeRenderer.opened) == 5 and len(closed) == 1  # only four stay open
+    missing = client.get('/api/knowledge/page', params={'sha256': '0' * 64, 'page': 1}, headers=GOOD)
+    assert 'cache-control' not in missing.headers or 'max-age' not in missing.headers['cache-control']
