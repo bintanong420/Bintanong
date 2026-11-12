@@ -18,7 +18,7 @@ const Row = memo(function Row({ row, index, count, doc, current, tabStop, onChoo
   return <div role="listitem" aria-posinset={index + 1} aria-setsize={count} className="rl-item" style={{ top: index * ROW }}>
     <button type="button" className="queue-item rl-row" data-index={index} title={`${row.title} · ${doc}`}
       aria-current={current ? 'true' : undefined} tabIndex={tabStop ? 0 : -1} onClick={() => onChoose(row.id)}>
-      <strong>{recordHeading(row.title).heading}</strong>
+      <strong>{recordHeading(row.title)}</strong>
       {snippet && <span className="queue-snippet">{snippet}</span>}
       <span className="rl-meta">{pages ? `p. ${pages}` : 'No page'}<span className={`rl-badge tone-${badge.tone}`}><span aria-hidden="true">{GLYPH[badge.tone]}</span> {badge.label}</span></span>
     </button>
@@ -109,7 +109,7 @@ export const RecordList = memo(function RecordList({ items, documents, selected,
   return <aside className={open ? 'rw-list is-open' : 'rw-list'} aria-label="Review queue">
     <button type="button" className="rl-toggle" aria-expanded={open} aria-controls="rl-body" onClick={() => setOpen(!open)}>
       <span><strong>Records</strong> <span className="muted">{filtered.length} of {items.length}</span></span>
-      <span className="rl-current">{selectedRow ? recordHeading(selectedRow.title).heading : 'Choose a record'}</span><i className="chevron" aria-hidden="true"/>
+      <span className="rl-current">{selectedRow ? recordHeading(selectedRow.title) : 'Choose a record'}</span><i className="chevron" aria-hidden="true"/>
     </button>
     <div className="rl-body" id="rl-body">
       <div className="rl-filters">

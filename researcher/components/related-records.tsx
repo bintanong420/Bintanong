@@ -17,7 +17,7 @@ export function RelatedRecords({ item, items, documents, selected, onChange, onS
   return <details className="rw-disclosure" aria-label="Related records"><summary>Related records ({selected.length})</summary>
     <p className="muted">Steps or tables needed to read this record. They are outlined with dashes on the PDF.</p>
     {chosen.map(row => <article className="companion" key={row.id}>
-      <div className="companion-heading"><h4 title={row.title}>{recordHeading(row.title).heading}</h4><Button type="button" variant="outline" size="sm"
+      <div className="companion-heading"><h4 title={row.title}>{recordHeading(row.title)}</h4><Button type="button" variant="outline" size="sm"
         aria-label={`Remove related record: ${row.title}`} onClick={() => onChange(selected.filter(id => id !== row.id))}>Remove</Button></div>
       <p className="muted">{documents.find(doc => doc.id === row.document_id)?.title} · p. {pages(row).join(', ')}</p>
       {row.document_id === item.document_id && <div className="context-pages">{pages(row).map(page => <Button key={page} type="button" variant="outline" size="sm"
@@ -30,7 +30,7 @@ export function RelatedRecords({ item, items, documents, selected, onChange, onS
       <label>Find a record<input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Topic or phrase"/></label>
       <div className="record-choices" role="group" aria-label="Available related records">{matches.slice(0, SHOWN).map(row => <label className="record-choice" key={row.id}>
         <input type="checkbox" checked={selected.includes(row.id)} onChange={e => onChange(e.target.checked ? [...selected, row.id] : selected.filter(id => id !== row.id))}/>
-        <span><strong title={row.title}>{recordHeading(row.title).heading}</strong><span className="muted">{documents.find(doc => doc.id === row.document_id)?.title} · p. {pages(row).join(', ')}</span></span>
+        <span><strong title={row.title}>{recordHeading(row.title)}</strong><span className="muted">{documents.find(doc => doc.id === row.document_id)?.title} · p. {pages(row).join(', ')}</span></span>
       </label>)}</div>
       {matches.length > SHOWN && <p className="muted">Showing {SHOWN} of {matches.length}. Search to narrow.</p>}
       {picking && !matches.length && <p className="muted">No records match.</p>}
