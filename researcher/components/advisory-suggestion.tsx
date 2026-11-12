@@ -10,16 +10,15 @@ export function AdvisorySuggestion({ field, item, document, onUse }: {
   const [ignored, setIgnored] = useState(false);
   const state = proposalState(field, item, document);
   if (!state || ignored) return null;
-  return <section className="companion ai-suggestion" aria-label="AI suggestion">
-    <h4>AI suggestion · needs your review</h4>
-    <p className="muted">{field.assistance?.provider} · {field.assistance?.model}</p>
-    {state === 'stale' ? <p role="alert">This suggestion belongs to different source content. Reopen the current packet before using assistance.</p>
+  return <details className="rw-disclosure ai-suggestion" aria-label="AI suggestion"><summary>AI suggestion</summary>
+    <p className="muted">{field.assistance?.provider} · {field.assistance?.model}. Check it against the PDF.</p>
+    {state === 'stale' ? <p role="alert">This suggestion belongs to different source content. Reopen the current packet first.</p>
       : <><p>{field.assistance?.rationale || 'Compare this with the original before deciding.'}</p>
-        {state === 'proposal' && <><p className="original-text">{readableValue(field.proposed_value)}</p>
-          <Button type="button" variant="outline" onClick={() => onUse(field.proposed_value)}>Use suggestion</Button>
-          <p className="muted">Copies into your correction. Edit it if needed, then save your review.</p></>}
+        {state === 'proposal' && <><p className="original-text source-reading">{readableValue(field.proposed_value)}</p>
+          <div className="feedback-actions"><Button type="button" variant="outline" onClick={() => onUse(field.proposed_value)}>Use as my correction</Button>
+            <Button type="button" variant="ghost" onClick={() => setIgnored(true)}>Ignore</Button></div></>}
         {state === 'no_change' && <p>The model suggested no change. The field still needs your review.</p>}
       </>}
-    <Button type="button" variant="ghost" onClick={() => setIgnored(true)}>Ignore suggestion</Button>
-  </section>;
+    {state !== 'proposal' && <Button type="button" variant="ghost" onClick={() => setIgnored(true)}>Ignore</Button>}
+  </details>;
 }

@@ -1,6 +1,16 @@
 // Pure helpers for the Documents review panel: list windowing, keyboard stepping and the decision form's defaults.
+import type { Gap, ReviewItem } from './review-state';
 
 export const DEFAULT_REASON = 'Checked against the page';
+
+export type Draft = { audience: string; reason: string; companions: string[]; gaps: Gap[];
+  fields: Record<string, { decision: string; text: string }> };
+
+export function draftFor(row: ReviewItem): Draft {
+  return { audience: row.audience, reason: row.reason ?? '', companions: row.companions,
+    gaps: row.gaps ?? [], fields: Object.fromEntries(row.fields.map(field =>
+      [field.name, { decision: field.decision, text: textOf(field.reviewed_value) }])) };
+}
 
 // Rows to render for a fixed-height list: those in view plus `overscan` rows each side.
 export function windowRange(scrollTop: number, viewport: number, rowHeight: number, count: number, overscan = 4) {

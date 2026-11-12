@@ -71,6 +71,12 @@ test('switching documents resets the field draft and keeps the review controls u
         ws.send(JSON.stringify({ id, method, params }));
       });
     }
+    // the record list renders only the rows in view, so scroll to a row before clicking it
+    async function openRecord(index) {
+      await evaluate(`document.querySelector('.rl-scroll').scrollTop = ${index} * 76`);
+      await until(() => evaluate(`!!document.querySelector('[data-index="${index}"]')`));
+      await evaluate(`document.querySelector('[data-index="${index}"]').click()`);
+    }
     async function evaluate(expression) {
       const response = await send('Runtime.evaluate', { expression, returnByValue: true, userGesture: true });
       assert(!response.exceptionDetails, JSON.stringify(response.exceptionDetails));
@@ -119,11 +125,11 @@ test('switching documents resets the field draft and keeps the review controls u
       const field = first.fields[0];
       await until(() => evaluate("!!document.querySelector('.ai-suggestion') && document.querySelector('.pdf-page img')?.naturalWidth > 0"));
       assert(await evaluate(`document.querySelector('.source-reading').textContent.includes(${JSON.stringify(field.original_value)})`));
-      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Ignore suggestion').click()");
+      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Ignore').click()");
       assert(await evaluate("!document.querySelector('.ai-suggestion')"));
       await send('Page.reload');
       await until(() => evaluate("!!document.querySelector('.ai-suggestion')"));
-      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Use suggestion').click()");
+      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Use as my correction').click()");
       assert(await evaluate(`document.querySelector('[aria-label="${field.name} reviewed value"]').value === ${JSON.stringify(field.proposed_value)}`));
       const beforeSave = await readState();
       assert.equal(beforeSave.revision, state.revision);
@@ -135,7 +141,7 @@ test('switching documents resets the field draft and keeps the review controls u
       await evaluate("document.querySelector('[aria-label=\"Review reason\"]').focus()");
       await send('Input.insertText', { text: 'Synthetic browser rehearsal only: compared the printed number.' });
       await evaluate("document.querySelector('.review-actions button[type=submit]').click()");
-      await until(() => evaluate("document.body.textContent.includes('Decision saved')"));
+      await until(() => evaluate("document.body.textContent.includes('Saved with its source identity')"));
       const saved = await readState();
       assert.equal(saved.revision, state.revision + 1);
       assert.equal(saved.items[0].fields[0].decision, 'corrected');
@@ -147,7 +153,7 @@ test('switching documents resets the field draft and keeps the review controls u
     if (prospectus) {
       await until(() => evaluate("!!document.querySelector('[aria-label=\"Prospectus answer\"]') && document.querySelector('.pdf-page img')?.naturalWidth > 0"));
       const oldPrompt = await evaluate("document.querySelector('.decision-pane h2').textContent");
-      await evaluate(`document.querySelectorAll('.queue-item')[${different}].click()`);
+      await openRecord(different);
       assert(await evaluate("!document.querySelector('[aria-label=\"Prospectus answer\"]')"), 'old questions must clear before loading another prospectus');
       await until(() => evaluate(`!!document.querySelector('[aria-label="Prospectus answer"]') && document.querySelector('.decision-pane h2')?.textContent !== ${JSON.stringify(oldPrompt)} && document.querySelector('.pdf-page img')?.naturalWidth > 0`));
       assert.equal(errors.length, 0);
@@ -155,32 +161,33 @@ test('switching documents resets the field draft and keeps the review controls u
       return;
     }
     for (const index of [different, 0]) {
-      await evaluate(`document.querySelectorAll('.queue-item')[${index}].click()`);
-      const expected = state.items[index].fields.map(f => f.name + ' content decision');
+      await openRecord(index);
+      const label = name => { const v = name.replaceAll('_', ' '); return v.charAt(0).toUpperCase() + v.slice(1); };
+      const expected = state.items[index].fields.map(f => label(f.name) + ' decision');
       await until(async () => {
         assert.equal(errors.length, 0, 'record switch threw a browser exception');
-        const actual = await evaluate("[...document.querySelectorAll('form select[aria-label$=\" content decision\"]')].map(e=>e.getAttribute('aria-label'))");
+        const actual = await evaluate("[...document.querySelectorAll('form [role=radiogroup]')].map(e=>e.getAttribute('aria-label'))");
         return JSON.stringify(actual) === JSON.stringify(expected);
       });
       assert(await evaluate("!!document.querySelector('[aria-label=\"Audience applicability\"]') && !!document.querySelector('button[type=submit]')"));
     }
     assert.equal(await evaluate("document.querySelectorAll('select[multiple]').length"), 0, 'use the searchable related-record picker');
     assert(await evaluate("document.querySelector('.review-actions button[type=submit]')?.disabled === false"), 'save stays actionable and explains missing required input');
-    assert(await evaluate("document.querySelector('.review-actions')?.textContent.includes('review note')"));
+    assert(await evaluate("document.querySelector('.review-actions')?.textContent.includes('add a note')"));
     const relatedIndex = state.items.findIndex((row, index) => index !== 0 && row.document_id === first.document_id
       && row.fields.some(field => field.spans.some(span => span.page === first.fields[0].locator.physical_pages[0])));
     assert(relatedIndex > 0);
-    await evaluate("document.querySelector('.record-picker').open = true");
+    await evaluate("document.querySelector('[aria-label=\"Related records\"]').open = true; document.querySelector('.record-picker').open = true");
     await evaluate("document.querySelector('.record-picker input[type=search]').focus()");
     await send('Input.insertText', { text: state.items[relatedIndex].title });
     await until(() => evaluate("document.querySelectorAll('.record-choice').length > 0"));
     await evaluate("document.querySelector('.record-choice input').click()");
     await until(() => evaluate("document.querySelectorAll('.related-highlight').length > 0"));
-    assert(await evaluate("document.querySelector('.source-legend').textContent.includes('Related context')"));
+    assert(await evaluate("document.querySelector('.source-legend').textContent.includes('Related')"));
     assert(await evaluate("!!document.querySelector('.companion .context-pages button')"));
     await evaluate("document.querySelector('.companion .context-pages button').click()");
     await until(() => evaluate("document.querySelector('.pdf-page img')?.complete"));
-    await evaluate("document.querySelector('.decision-pane').scrollTop = 100000");
+    await evaluate("document.querySelector('.rw-body').scrollTop = 100000");
     assert(await evaluate("(() => {const a=document.querySelector('.review-actions').getBoundingClientRect();const p=document.querySelector('.decision-pane').getBoundingClientRect();return a.top >= p.top && a.bottom <= Math.min(p.bottom, innerHeight);})()"), 'save stays visible below long context lists');
     await evaluate("document.querySelector('.review-actions button[type=submit]').click()");
     assert(await evaluate("document.activeElement?.getAttribute('aria-label') === 'Review reason'"), 'missing note takes the reviewer to the required field');
@@ -188,7 +195,7 @@ test('switching documents resets the field draft and keeps the review controls u
       assert.match(state.researcher, /^Automated rehearsal/);
       assert.equal(new URL(url).port, '3002');
       await evaluate("(() => {const e=document.querySelector('[aria-label=\"Audience applicability\"]');e.value='undergraduate';e.dispatchEvent(new Event('change',{bubbles:true}));})()");
-      await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Mark the missed area').click()");
+      await evaluate("document.querySelector('.feedback-tools').open = true; [...document.querySelectorAll('button')].find(b=>b.textContent==='Mark the missed area').click()");
       const point = await evaluate("(() => {const p=document.querySelector('.pdf-page').getBoundingClientRect();const s=document.querySelector('.page-scroll').getBoundingClientRect();return {x:p.left+p.width*.2,y:Math.max(p.top,s.top)+30};})()");
       await send('Input.dispatchMouseEvent', { type: 'mousePressed', ...point, button: 'left', buttons: 1, clickCount: 1 });
       await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: point.x + 100, y: point.y + 60, button: 'left', buttons: 1 });
@@ -202,7 +209,7 @@ test('switching documents resets the field draft and keeps the review controls u
       const note = 'Automated rehearsal only: tests feedback persistence, not a source-content finding.';
       await send('Input.insertText', { text: note });
       await evaluate("document.querySelector('.feedback-dialog button[type=submit]').click()");
-      await until(() => evaluate("!document.querySelector('.feedback-dialog') && document.querySelector('[role=status]')?.textContent.includes('Missing-content note saved')"));
+      await until(() => evaluate("!document.querySelector('.feedback-dialog') && [...document.querySelectorAll('[role=status]')].some(e => e.textContent.includes('Missing-content note saved'))"));
       assert.equal(await evaluate("document.querySelector('[aria-label=\"Audience applicability\"]').value"), 'undergraduate', 'saving feedback must retain the unsaved field review');
       assert(await evaluate("document.querySelectorAll('.companion').length > 0"), 'saving feedback must retain unsaved context links');
       const after = await readState();
@@ -220,7 +227,7 @@ test('switching documents resets the field draft and keeps the review controls u
       await until(() => evaluate("document.querySelector('dialog')?.textContent.includes('Pending feedback')"));
       await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
       await until(() => evaluate("!document.querySelector('dialog')"));
-      await evaluate("(() => {const p=document.querySelector('.decision-pane');const r=document.querySelector('.related-records');p.scrollTop += r.getBoundingClientRect().top-p.getBoundingClientRect().top;document.querySelector('.companion details').open=true;window.scrollTo(0,0);})()");
+      await evaluate("(() => {const p=document.querySelector('.rw-body');const r=document.querySelector('[aria-label=\"Related records\"]');p.scrollTop += r.getBoundingClientRect().top-p.getBoundingClientRect().top;document.querySelector('.companion details').open=true;window.scrollTo(0,0);})()");
       await writeFile(path.join(path.dirname(launchFile),'related-context-desktop.png'), Buffer.from((await send('Page.captureScreenshot', { format: 'png' })).data, 'base64'));
       for (const width of [390,720]) {
         await send('Emulation.setDeviceMetricsOverride', { width, height: 844, deviceScaleFactor: 1, mobile: width === 390 });

@@ -57,17 +57,19 @@ export function SourceViewer({ connection, item, legacyBoxes, document, relatedI
     const box = event.currentTarget.getBoundingClientRect();
     return [(event.clientX - box.left) / box.width, (event.clientY - box.top) / box.height];
   }
-  return <section className="source-pane" aria-label="Original source">
-    {document && <div className="source-heading"><h2>{document.title}</h2><p className="muted">{document.edition}</p></div>}
-    <div className="pane-heading"><h2>Original PDF</h2><span>Page {page} of {geometry.count || '?'}</span></div>
-    <div className="page-controls">
-      <Button variant="outline" size="sm" disabled={!image || page <= 1} onClick={() => setPage(p => p - 1)}>Previous page</Button>
-      <label>Page<input aria-label="PDF page" type="number" min="1" max={geometry.count || 1000} value={page}
-        onChange={event => { const n = Number(event.target.value); if (Number.isInteger(n) && n > 0 && n <= (geometry.count || 1000)) setPage(n); }}/></label>
-      <Button variant="outline" size="sm" disabled={!image || page >= geometry.count} onClick={() => setPage(p => p + 1)}>Next page</Button>
-      <label>Quality<select value={scale} onChange={event => setScale(event.target.value)}>
-        <option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option><option value="3">300%</option>
-      </select></label>
+  return <section className="source-pane rw-source" aria-label="Original source">
+    <div className="rw-source-bar">
+      <h2 className="rw-source-name">{document?.title ?? 'Original PDF'}{document && <span className="muted"> · {document.edition}</span>}</h2>
+      <div className="page-controls">
+        <Button variant="outline" size="sm" aria-label="Previous page" disabled={!image || page <= 1} onClick={() => setPage(p => p - 1)}>Prev</Button>
+        <input aria-label="PDF page" type="number" min="1" max={geometry.count || 1000} value={page}
+          onChange={event => { const n = Number(event.target.value); if (Number.isInteger(n) && n > 0 && n <= (geometry.count || 1000)) setPage(n); }}/>
+        <span className="muted" aria-live="polite">of {geometry.count || '?'}</span>
+        <Button variant="outline" size="sm" aria-label="Next page" disabled={!image || page >= geometry.count} onClick={() => setPage(p => p + 1)}>Next</Button>
+        <select aria-label="Image quality" value={scale} onChange={event => setScale(event.target.value)}>
+          <option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option><option value="3">300%</option>
+        </select>
+      </div>
     </div>
     {error ? <p role="alert" className="notice error">The original page could not be displayed. {error} Keep affected content on hold.</p>
       : !image ? <p role="status" className="empty">Loading original page…</p>
@@ -84,23 +86,24 @@ export function SourceViewer({ connection, item, legacyBoxes, document, relatedI
             width={(region[2] - region[0]) * geometry.width} height={(region[3] - region[1]) * geometry.height}/>}
         </svg>
       </div></div>}
-    <p className="muted source-note">{!image ? 'Source regions appear when the page has loaded.' : legacy?.warning ?? (geometry.rotation !== 0 ? 'Highlights are withheld for this rotated page.'
-      : highlights.length || related.length ? 'Regions use recorded source spans. Unmarked text on this page may still be present in the review data.'
-      : 'No verified highlight is available for this page. Inspect the original; geometry remains unresolved.')}</p>
-    {!!(highlights.length || related.length) && <div className="source-legend"><span><i className="legend-current"/>Current record</span>
-      {!!related.length && <span><i className="legend-related"/>Related context</span>}</div>}
-    {onFeedbackSaved && revision !== undefined && <section className="feedback-tools" aria-label="Missing content feedback">
-      <p className="muted">Something missing from the extracted records or answer? Mark its area, or report the whole page.</p>
+    <div className="source-note-row"><p className="muted source-note">{!image ? 'Highlights appear when the page loads.' : legacy?.warning ?? (geometry.rotation !== 0 ? 'Highlights are withheld for this rotated page.'
+      : highlights.length || related.length ? 'Outlined regions are the recorded source spans.'
+      : 'No verified highlight for this page. Read the original.')}</p>
+    {!!(highlights.length || related.length) && <div className="source-legend"><span><i className="legend-current"/>This record</span>
+      {!!related.length && <span><i className="legend-related"/>Related</span>}</div>}</div>
+    {onFeedbackSaved && revision !== undefined && <details className="rw-disclosure feedback-tools" aria-label="Missing content feedback">
+      <summary>Missing content ({reports.length})</summary>
+      <p className="muted">Mark where something is missing, or report the whole page.</p>
       <div className="feedback-actions"><Button type="button" variant="outline" disabled={!image || reviewBusy} aria-pressed={marking}
         onClick={() => setMarking(!marking)}>{marking ? 'Cancel marking' : 'Mark the missed area'}</Button>
         {region && <Button type="button" variant="outline" onClick={() => setRegion(null)}>Clear marked area</Button>}
         <Button type="button" disabled={!image || reviewBusy} onClick={() => setReporting(true)}>Report missing content</Button></div>
-      {marking && <p role="status">Drag over the missing content. You can also cancel marking and report the whole page.</p>}
+      {marking && <p role="status">Drag over the missing content on the page.</p>}
       {reporting && <OmissionForm connection={connection} documentId={item.document_id} documentTitle={document?.title ?? 'Original PDF'}
         page={page} region={region} revision={revision} onClose={() => setReporting(false)} onSaved={receipt => { onFeedbackSaved(receipt); setRegion(null); }}/>}
-      {!!reports.length && <details><summary>Missing-content notes on this page ({reports.length})</summary>{reports.map(report => <article className="feedback-note" key={report.operation_id}>
+      {reports.map(report => <article className="feedback-note" key={report.operation_id}>
         <p className="muted">Pending review · {report.reviewer}</p><blockquote>{report.visible_text}</blockquote><p>{report.note}</p>
-      </article>)}</details>}
-    </section>}
+      </article>)}
+    </details>}
   </section>;
 }
