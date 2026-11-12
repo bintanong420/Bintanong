@@ -47,7 +47,7 @@ test('sources are grouped package, local, hosted, with the hosted group marked r
     { id: 'l', kind: 'local', label: 'Local' }, { id: 'package:b', kind: 'package', label: 'B' }]);
   assert.deepEqual(groups.map(g => g.kind), ['package', 'local', 'hosted']);
   assert.deepEqual(groups[0].sources.map(s => s.id), ['package:a', 'package:b']);
-  assert.equal(groups[2].heading, 'Online (read-only)');
+  assert.equal(groups[2].heading, 'Online knowledge (read-only)');
   assert.deepEqual(groupSources([]), []);
   // an unknown kind is kept visible, not dropped
   assert.equal(groupSources([{ id: 'x', kind: 'mystery', label: 'X' }]).length, 1);

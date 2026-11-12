@@ -371,3 +371,5 @@ label.inline input { min-height: 0; inline-size: 1.15rem; block-size: 1.15rem; f
 .page-frame { min-block-size: 12rem; }
 .tech-details { margin-block-start: .75rem; }
 .tech-details pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .75rem; }
+.library-note { font-weight: 400; }
+

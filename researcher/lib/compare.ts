@@ -30,3 +30,9 @@ export function clampPage(page: number, count: number) {
   const whole = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1;
   return count > 0 ? Math.min(whole, count) : whole;
 }
+
+// Prev and Next stop at the ends. Until the first page has loaded the count is 0, and then only the lower bound is known.
+export function pageNav(page: number, count: number) {
+  return { prevDisabled: page <= 1, nextDisabled: count > 0 && page >= count };
+}
+

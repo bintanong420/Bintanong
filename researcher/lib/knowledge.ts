@@ -40,7 +40,7 @@ export function chunksQuery({ source, q, document, offset, limit }:
   return params.toString();
 }
 
-const GROUPS: [string, string][] = [['package', 'Built packages'], ['local', 'Local Supabase'], ['hosted', 'Online (read-only)']];
+const GROUPS: [string, string][] = [['package', 'Built packages'], ['local', 'Local copy on this computer'], ['hosted', 'Online knowledge (read-only)']];
 
 export function groupSources(sources: KnowledgeSource[]) {
   const known = GROUPS.map(([kind, heading]) => ({ kind, heading, sources: sources.filter(s => s.kind === kind) }));
@@ -78,8 +78,20 @@ export const documentLink = (source: string, doc: LibraryDocument) =>
 // A hash key has no readable name of its own, so the chip borrows the title a loaded chunk carries.
 export function documentChipLabel(key: string, chunks: { document_title?: string }[]) {
   if (!/^[0-9a-f]{64}$/.test(key)) return key;
-  return chunks.find(chunk => chunk.document_title)?.document_title ?? 'Document ' + key.slice(0, 8);
+  return chunks.find(chunk => chunk.document_title)?.document_title ?? untitled(key);
 }
+
+const untitled = (key: string) => 'Untitled document (' + (/^[0-9a-f]{64}$/.test(key) ? key.slice(0, 8) : key.slice(0, 40)) + ')';
+export const documentTitle = (doc: Pick<LibraryDocument, 'title' | 'document_key'>) => doc.title?.trim() || untitled(doc.document_key);
+
+// Readable prose when the chunk is a reviewed payload, the stored text otherwise.
+export const chunkText = (chunk: Pick<Chunk, 'text' | 'display_text'>) => chunk.display_text ?? chunk.text;
+
+const GROUP_LABELS: Record<string, { heading: string; note: string }> = {
+  hosted: { heading: 'Online knowledge (read-only)', note: 'Hosted database' },
+  local: { heading: 'Local copy on this computer', note: 'Local Supabase' },
+  package: { heading: 'Built packages', note: '' } };
+export const groupLabel = (kind: string) => GROUP_LABELS[kind] ?? { heading: 'Other sources', note: '' };
 
 export function pageWindow(total: number, offset: number, limit: number) {
   const pages = Math.max(1, Math.ceil(total / limit));
@@ -96,6 +108,6 @@ export function pageImagePath(sha256: string, page: number, scale?: number) {
 
 // The list shows readable prose when the chunk is a reviewed payload, never its raw JSON.
 export function snippet(chunk: Pick<Chunk, 'text' | 'display_text'>, max = 140) {
-  const text = (chunk.display_text ?? chunk.text).replace(/\s+/g, ' ').trim();
+  const text = chunkText(chunk).replace(/\s+/g, ' ').trim();
   return text.length > max ? text.slice(0, max - 3) + '...' : text;
 }

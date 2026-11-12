@@ -4,7 +4,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { PageImage } from '@/components/page-image';
 import { Button } from '@/components/ui/button';
 import { request } from '@/lib/api';
-import { CHUNK_LIMIT, chunksQuery, documentChipLabel, groupSources, snippet, knowledgeUrl, pageWindow, parseKnowledgeUrl,
+import { CHUNK_LIMIT, chunksQuery, chunkText, documentChipLabel, groupSources, snippet, knowledgeUrl, pageWindow, parseKnowledgeUrl,
   type Chunk, type ChunksReply, type KnowledgeUrlState, type SourcesReply } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
@@ -98,8 +98,8 @@ export default function KnowledgePage() {
       {sources.kind === 'loading' && <p className="muted" role="status"><span className="spinner" aria-hidden="true" /> Loading sources…</p>}
       {sources.kind === 'error' && <div className="notice error" role="alert"><span><strong>The knowledge sources could not be loaded.</strong> {sources.message}</span>
         <Button variant="outline" size="sm" onClick={() => void loadSources()}>Try again</Button></div>}
-      {unavailable?.local && <p className="notice hold"><span><strong>Local Supabase is not available.</strong> {unavailable.local}</span></p>}
-      {unavailable?.hosted && <p className="notice hold"><span><strong>Online (read-only) is not available.</strong> {unavailable.hosted}</span></p>}
+      {unavailable?.local && <p className="notice hold"><span><strong>The local copy is not available.</strong> {unavailable.local}</span></p>}
+      {unavailable?.hosted && <p className="notice hold"><span><strong>Online knowledge is not available.</strong> {unavailable.hosted}</span></p>}
       {sources.kind === 'ready' && !all.length && <div className="empty-state"><h2>No knowledge sources yet</h2>
         <p className="muted">Build chunks for a prepared upload on the Intake tab, or start the local database, and they appear here.</p>
         <Button asChild><a href="/review/intake">Go to Intake</a></Button></div>}
@@ -113,7 +113,7 @@ export default function KnowledgePage() {
             {groups.map(group => <optgroup key={group.kind} label={group.heading}>{group.sources.map(item =>
               <option key={item.id} value={item.id}>{item.label}{item.chunk_count !== undefined ? ` (${item.chunk_count})` : ''}{item.active ? ' · active' : ''}</option>)}</optgroup>)}
           </select>
-          {source?.kind === 'hosted' && <p className="hint">Online (read-only). Nothing here changes the hosted database.</p>}
+          {source?.kind === 'hosted' && <p className="hint">Online knowledge, read-only. Nothing here changes the hosted database.</p>}
           {source?.status && <p className="hint">Status: {source.status}</p>}
         </div>
         {url.document && <div className="filter-chip" role="group" aria-label="Document filter">
@@ -167,7 +167,7 @@ const ChunkDetail = forwardRef<HTMLHeadingElement, { chunk: Chunk }>(function Ch
       <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>
     <div className="compare-grid">
       <section className="compare-pane" role="region" aria-label="Chunk text" tabIndex={0}><p className="pane-label">Chunk text</p>
-        <p className="chunk-text">{chunk.display_text ?? chunk.text}</p>
+        <p className="chunk-text">{chunkText(chunk)}</p>
         <details className="tech-details"><summary>Technical details</summary>
           <dl className="upload-meta"><div><dt>Tokens</dt><dd>{chunk.token_count ?? 'unknown'}</dd></div><div><dt>Passage id</dt><dd><code>{chunk.reading_id ?? 'none'}</code></dd></div>
             <div><dt>Chunk id</dt><dd><code>{chunk.chunk_id}</code></dd></div></dl>

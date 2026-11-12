@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { request } from '@/lib/api';
-import { chunkCountText, documentLink, documentsPath, libraryGroups, pageRangeText, pdfText,
+import { chunkCountText, documentLink, documentsPath, documentTitle, groupLabel, libraryGroups, pageRangeText, pdfText,
   type DocumentsReply, type KnowledgeSource, type SourcesReply } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
@@ -51,18 +51,18 @@ export function KnowledgeLibrary({ headingId }: { headingId?: string }) {
   const all = sources.kind === 'ready' ? sources.value.sources : [];
   const unavailable = sources.kind === 'ready' ? sources.value.unavailable : undefined;
 
-  return <div className="library" aria-labelledby={headingId} aria-live="polite">
+  return <div className="library" aria-labelledby={headingId}>
     {sources.kind === 'loading' && <p className="muted" role="status"><span className="spinner" aria-hidden="true" /> Loading the knowledge sources…</p>}
     {sources.kind === 'error' && <div className="notice error" role="alert"><span><strong>The knowledge sources could not be loaded.</strong> {sources.message}</span>
       <Button variant="outline" size="sm" onClick={() => void loadSources()}>Try again</Button></div>}
-    {unavailable?.hosted && <p className="notice hold"><span><strong>Online (read-only) is not available.</strong> {unavailable.hosted}</span></p>}
-    {unavailable?.local && <p className="notice hold"><span><strong>Local Supabase is not available.</strong> {unavailable.local}</span></p>}
+    {unavailable?.hosted && <p className="notice hold"><span><strong>Online knowledge is not available.</strong> {unavailable.hosted}</span></p>}
+    {unavailable?.local && <p className="notice hold"><span><strong>The local copy is not available.</strong> {unavailable.local}</span></p>}
     {sources.kind === 'ready' && !all.length && <div className="empty-state"><h3>No knowledge stored yet</h3>
       <p className="muted">Build chunks for a prepared upload on the Intake page, or start the local database, and the documents appear here.</p>
       <Button asChild variant="outline"><a href="/review/intake">Go to Intake</a></Button></div>}
 
     {libraryGroups(all).map(group => <section key={group.kind} className="library-group" aria-label={group.heading}>
-      <h3 className="library-heading">{group.heading}</h3>
+      <h3 className="library-heading">{group.heading}{groupLabel(group.kind).note && <span className="library-note"> · {groupLabel(group.kind).note}</span>}</h3>
       <ul className="entry-list">{group.sources.map(source => <li key={source.id}>
         <SourceRow source={source} expanded={!!open[source.id]} onToggle={() => toggle(source.id)}
           docs={docs[source.id]} onRetry={() => void loadDocuments(source.id, true)} />
@@ -91,7 +91,7 @@ function SourceRow({ source, expanded, onToggle, docs, onRetry }:
           <p className="muted">Nothing has been stored in it yet.</p></div>
           : <ul className="entry-list">{docs.value.documents.map(doc => <li key={doc.document_key}>
             <a className="entry doc-row" href={documentLink(source.id, doc)}>
-              <strong className="entry-title">{doc.title}</strong>
+              <strong className="entry-title">{documentTitle(doc)}</strong>
               <span className="row-meta">{chunkCountText(doc.chunk_count)} · {pageRangeText(doc.pages)}</span>
               <span className="row-meta">{pdfText(doc)}</span>
             </a></li>)}</ul>}

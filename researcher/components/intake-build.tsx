@@ -5,7 +5,7 @@ import { Field } from '@/components/intake-status';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { request } from '@/lib/api';
-import { buildPayload, buildProblems, passageLabel, withheldReason, type BuildPlan, type BuildProblem, type ClaimDraft } from '@/lib/intake';
+import { buildPayload, buildProblems, findingLabel, passageLabel, withheldReason, type BuildPlan, type BuildProblem, type ClaimDraft } from '@/lib/intake';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
 type Row = { uid: number; draft: ClaimDraft };
@@ -151,11 +151,11 @@ export function IntakeBuild({ uploadId, onFormState }: { uploadId: string; onFor
                   <option value="">Choose a passage</option>
                   {ready.map(r => <option key={r.reading_id} value={r.reading_id}>{passageLabel(r)}{selected.includes(r.reading_id) ? '' : ' (not ticked)'}</option>)}</select>}</Field>
             </div>
-            <Field id={key + '-finding'} label="Finding" error={err('finding')}>{described =>
+            <Field id={key + '-finding'} label="What the text says" error={err('finding')}>{described =>
               <select id={key + '-finding'} value={claim.finding} aria-describedby={described} aria-invalid={err('finding') ? true : undefined}
                 onChange={event => patchClaim(row.uid, { finding: event.target.value, field_refs: [] })}>
-                <option value="visible_fields">Visible in the chosen fields</option>
-                <option value="not_stated_in_selected_fields">Not stated in the selected fields</option></select>}</Field>
+                <option value="visible_fields">{findingLabel('visible_fields')}</option>
+                <option value="not_stated_in_selected_fields">{findingLabel('not_stated_in_selected_fields')}</option></select>}</Field>
             {claim.finding === 'visible_fields' && <fieldset className="field-group" aria-describedby={err('fields') ? key + '-fields-error' : undefined}>
               <legend>Fields that show the claim</legend>
               {!basis && <p className="muted">Choose the supporting passage first, then its fields appear here.</p>}

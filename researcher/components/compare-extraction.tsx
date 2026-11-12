@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PageImage } from '@/components/page-image';
 import { Button } from '@/components/ui/button';
 import { request } from '@/lib/api';
-import { clampPage, entriesOf, pagesOf, type CompareItem } from '@/lib/compare';
+import { clampPage, entriesOf, pageNav, pagesOf, type CompareItem } from '@/lib/compare';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
 type Loaded = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; items: CompareItem[] };
@@ -34,6 +34,7 @@ export function CompareExtraction({ uploadId, sha256, title, onClose }: { upload
   const pages = useMemo(() => pagesOf(items), [items]);
   const shown = scope === 'all' ? entries : entries.filter(entry => entry.pages.includes(page));
   const go = (next: number) => setPage(clampPage(next, count));
+  const nav = pageNav(page, count);
   const keyOf = (entry: (typeof entries)[number], index: number) => `${entry.itemId}:${entry.fieldName}:${index}`;
 
   return <section className="compare" aria-labelledby="compare-heading">
@@ -53,13 +54,13 @@ export function CompareExtraction({ uploadId, sha256, title, onClose }: { upload
 
     {data.kind === 'ready' && !!entries.length && <>
       <div className="compare-controls">
-        <Button variant="outline" onClick={() => go(page - 1)} disabled={page <= 1}>Previous page</Button>
+        <Button variant="outline" onClick={() => go(page - 1)} disabled={nav.prevDisabled}>Previous page</Button>
         <form className="page-jump" onSubmit={event => { event.preventDefault(); go(Number(pageDraft)); }}>
           <label>Page<input inputMode="numeric" value={pageDraft} onChange={event => setPageDraft(event.target.value)} aria-describedby="compare-count" /></label>
           <span id="compare-count" className="muted">{count ? `of ${count}` : ''}</span>
           <Button type="submit" variant="outline">Go</Button>
         </form>
-        <Button variant="outline" onClick={() => go(page + 1)} disabled={count > 0 && page >= count}>Next page</Button>
+        <Button variant="outline" onClick={() => go(page + 1)} disabled={nav.nextDisabled}>Next page</Button>
         <fieldset className="scope-toggle"><legend className="sr-only">Which extracted text to list</legend>
           <label className="inline"><input type="radio" name="compare-scope" checked={scope === 'page'} onChange={() => setScope('page')} />This page</label>
           <label className="inline"><input type="radio" name="compare-scope" checked={scope === 'all'} onChange={() => setScope('all')} />All pages</label>

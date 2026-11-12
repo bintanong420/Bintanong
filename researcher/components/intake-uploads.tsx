@@ -51,6 +51,7 @@ export function UploadList({ uploads, states, currentId, selectedId, onSelect, e
           <span className="row-top"><strong className="row-title">{upload.title}</strong>
             {currentId === upload.upload_id && <span className="row-open">Open for review</span>}</span>
           <span className="row-meta">{upload.edition} · {KIND_LABEL[upload.kind] ?? upload.kind} · {formatBytes(upload.bytes)}</span>
+          <span className="row-meta">Upload ending {upload.upload_id.slice(-6)}</span>
           <span className="mini-steps">{steps.map(step => <span key={step.key} className={`mini-step tag-${step.status}`}>
             <StatusIcon status={step.status} />{step.label}<span className="sr-only">: {step.text}</span></span>)}</span>
         </button></li>;
@@ -119,7 +120,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
       <div><dt>Size</dt><dd>{formatBytes(upload.bytes)}</dd></div>
       <div><dt>Upload id</dt><dd><code>{id}</code></dd></div>
     </dl>
-    <p className="next-step" role="status"><strong>{nextStep({ prepare: state, open: current, build: build?.state })}</strong></p>
+    <p className="next-step" role="status"><strong>{nextStep({ prepare: state, open: current, build: build?.state, formSaved })}</strong></p>
     <PipelineSteps steps={steps} label={`Progress for ${upload.title}`} />
     {entry?.error && <p className="notice error" role="alert"><span>{entry.error}</span>
       <Button variant="outline" size="sm" onClick={() => void onChanged(id)}>Check again</Button></p>}

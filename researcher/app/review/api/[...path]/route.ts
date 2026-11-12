@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { authorizeReview, bodyLimit, REVIEW_COOKIE } from '@/lib/review-access';
+import { proxyResponseHeaders } from '@/lib/review-proxy';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,9 +29,7 @@ async function forward(request: NextRequest, { params }: { params: Promise<{ pat
   } catch {
     return NextResponse.json({ error: 'The local review API is not responding. Check the review command terminal.' }, { status: 502 });
   }
-  return new NextResponse(upstream.body, { status: upstream.status, headers: {
-    'content-type': upstream.headers.get('content-type') ?? 'application/octet-stream', 'cache-control': /^private, max-age=\d{1,4}$/.test(upstream.headers.get('cache-control') ?? '') ? upstream.headers.get('cache-control')! : 'no-store',
-    ...(upstream.headers.get('x-page-count') ? { 'x-page-count': upstream.headers.get('x-page-count')! } : {}) } });
+  return new NextResponse(upstream.body, { status: upstream.status, headers: proxyResponseHeaders(upstream.headers) });
 }
 
 export { forward as GET, forward as POST };

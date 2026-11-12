@@ -17,7 +17,7 @@ test('the document filter lives in the address and the chunk query', () => {
 test('library groups put the online release first and hide empty groups', () => {
   const groups = libraryGroups([{ id: 'package:1', kind: 'package', label: 'P' }, { id: 'local:a', kind: 'local', label: 'L' },
     { id: 'hosted:h', kind: 'hosted', label: 'H', active: true }, { id: 'x:1', kind: 'x', label: 'X' }]);
-  assert.deepEqual(groups.map(g => g.heading), ['Online (read-only)', 'Local Supabase', 'Built packages', 'Other sources']);
+  assert.deepEqual(groups.map(g => g.heading), ['Online knowledge (read-only)', 'Local copy on this computer', 'Built packages', 'Other sources']);
   assert.deepEqual(libraryGroups([{ id: 'local:a', kind: 'local', label: 'L' }]).map(g => g.kind), ['local']);
   assert.deepEqual(libraryGroups([]), []);
 });
@@ -40,7 +40,7 @@ test('links and paths keep the source and document intact', () => {
   assert.equal(link, '/review/knowledge?source=local%3Ar1&document=Title+%26+more');
   assert.equal(documentChipLabel('Plain title', []), 'Plain title');
   assert.equal(documentChipLabel('b'.repeat(64), [{ document_title: 'Handbook' }]), 'Handbook');
-  assert.equal(documentChipLabel('b'.repeat(64), []), 'Document bbbbbbbb');
+  assert.equal(documentChipLabel('b'.repeat(64), []), 'Untitled document (bbbbbbbb)');
 });
 
 test('previews prefer readable prose and stay short', () => {
@@ -49,3 +49,42 @@ test('previews prefer readable prose and stay short', () => {
   assert.equal(snippet({ text: 'x'.repeat(200) }).length, 140);
 });
 
+
+import { chunkText, documentTitle, groupLabel } from '../lib/knowledge.ts';
+import { pageNav } from '../lib/compare.ts';
+import { proxyResponseHeaders } from '../lib/review-proxy.ts';
+
+test('a document with no title still gets a readable name', () => {
+  assert.equal(documentTitle({ title: '  ', document_key: 'a'.repeat(64) }), 'Untitled document (aaaaaaaa)');
+  assert.equal(documentTitle({ title: '', document_key: 'Some key' }), 'Untitled document (Some key)');
+  assert.equal(documentTitle({ title: 'Handbook', document_key: 'a'.repeat(64) }), 'Handbook');
+  assert.equal(documentChipLabel('b'.repeat(64), []), 'Untitled document (bbbbbbbb)');
+});
+
+test('readable text always beats the raw payload', () => {
+  assert.equal(chunkText({ text: '{"fields":[]}', display_text: 'Title: A' }), 'Title: A');
+  assert.equal(chunkText({ text: 'plain', display_text: null }), 'plain');
+  assert.equal(chunkText({ text: 'plain' }), 'plain');
+});
+
+test('source groups use everyday names and keep the technical name small', () => {
+  assert.deepEqual(groupLabel('hosted'), { heading: 'Online knowledge (read-only)', note: 'Hosted database' });
+  assert.deepEqual(groupLabel('local'), { heading: 'Local copy on this computer', note: 'Local Supabase' });
+  assert.deepEqual(groupLabel('package'), { heading: 'Built packages', note: '' });
+});
+
+test('page buttons stop at both ends of the PDF', () => {
+  assert.deepEqual(pageNav(1, 1), { prevDisabled: true, nextDisabled: true });
+  assert.deepEqual(pageNav(1, 3), { prevDisabled: true, nextDisabled: false });
+  assert.deepEqual(pageNav(3, 3), { prevDisabled: false, nextDisabled: true });
+  assert.deepEqual(pageNav(2, 0), { prevDisabled: false, nextDisabled: false });  // count unknown until the first page loads
+});
+
+test('the review proxy passes only the headers a page image needs', () => {
+  const upstream = new Headers({ 'content-type': 'image/png', 'cache-control': 'private, max-age=300', 'x-page-count': '12', 'set-cookie': 'a=b', 'x-review-token': 't' });
+  assert.deepEqual(proxyResponseHeaders(upstream), { 'content-type': 'image/png', 'cache-control': 'private, max-age=300', 'x-page-count': '12' });
+  assert.equal(proxyResponseHeaders(new Headers({ 'cache-control': 'public, max-age=999999' }))['cache-control'], 'no-store');
+  assert.equal(proxyResponseHeaders(new Headers({ 'cache-control': 'private, max-age=300, no-store' }))['cache-control'], 'no-store');
+  assert.equal(proxyResponseHeaders(new Headers({ 'x-page-count': 'abc' }))['x-page-count'], undefined);
+  assert.equal(proxyResponseHeaders(new Headers())['content-type'], 'application/octet-stream');
+});

@@ -143,7 +143,7 @@ export function buildBlocker(prepared: boolean, formSaved: boolean | undefined, 
 }
 
 // The one thing to do next for an upload, from the same states the progress steps show.
-export function nextStep({ prepare, open, build }: { prepare: string | undefined; open?: boolean; build?: string }) {
+export function nextStep({ prepare, open, build, formSaved }: { prepare: string | undefined; open?: boolean; build?: string; formSaved?: boolean }) {
   if (prepare === undefined) return 'Checking where this upload stands.';
   if (prepare === 'not_started') return 'Next: prepare it with Docling.';
   if (prepare === 'running') return 'Next: wait for Docling to finish. This page checks on its own.';
@@ -151,7 +151,8 @@ export function nextStep({ prepare, open, build }: { prepare: string | undefined
   if (build === 'done') return 'Next: read the new chunks in Knowledge.';
   if (build === 'running') return 'Next: wait for the build to finish.';
   if (build === 'failed') return 'The build failed. Read the build log below, then try again.';
-  return open ? 'Next: check the passages you trust, save the form, then build chunks.' : 'Next: open it for review.';
+  if (!open) return 'Next: open it for review.';
+  return formSaved ? 'Next: build chunks.' : 'Next: check the passages you trust, save the form, then build chunks.';
 }
 
 export function passageLabel(row: { reading_id: string; preview?: string }) {
@@ -232,3 +233,7 @@ export function buildPayload(plan: Pick<BuildPlan, 'readings'>, form: BuildForm)
     basis_reading_id: draft.basis_reading_id }));
   return { payload: { reading_ids: ids, assignments, claim_reviews: claims }, errors: [] };
 }
+
+const FINDING_LABELS: Record<string, string> = { visible_fields: 'The text shows this', not_stated_in_selected_fields: 'The text does not say this' };
+export const findingLabel = (value: string) => FINDING_LABELS[value] ?? value;
+

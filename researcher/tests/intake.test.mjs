@@ -193,3 +193,16 @@ test('each upload state names one next step', () => {
   assert.match(nextStep({ prepare: 'done', open: true, build: 'done' }), /knowledge/i);
   assert.match(nextStep({ prepare: 'failed' }), /upload the pdf again/i);
 });
+
+import { nextStep as step, findingLabel } from '../lib/intake.ts';
+
+test('after the form is saved the next step is to build', () => {
+  assert.match(step({ prepare: 'done', open: true, formSaved: true }), /build chunks/i);
+  assert.doesNotMatch(step({ prepare: 'done', open: true, formSaved: true }), /save the form/i);
+  assert.match(step({ prepare: 'done', open: true, formSaved: false }), /save the form/i);
+});
+
+test('finding choices read as plain statements', () => {
+  assert.equal(findingLabel('visible_fields'), 'The text shows this');
+  assert.equal(findingLabel('not_stated_in_selected_fields'), 'The text does not say this');
+});
