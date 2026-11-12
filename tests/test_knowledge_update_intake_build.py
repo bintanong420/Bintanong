@@ -109,3 +109,13 @@ def test_build_routes_need_the_token_and_save(reviewed):
         assert response.status_code == 200, response.text
         assert web.post('/api/intake/build-metadata', json=form(reading_ids=['handbook:nope']),
                         headers=good).status_code == 422
+
+
+def test_plan_reports_whether_the_saved_form_matches_the_current_review(reviewed):
+    root, packet = reviewed
+    with ReviewSession(root, 'Synthetic researcher') as review:
+        assert intake().build_plan(review)['metadata_saved'] is False
+        intake().save_build_metadata(review, form())
+        assert intake().build_plan(review)['metadata_saved'] is True
+        review.save(answer(packet, revision=review.state()['revision'], operation='save-2'))
+        assert intake().build_plan(review)['metadata_saved'] is False  # a later decision makes the saved form stale

@@ -165,3 +165,10 @@ def test_packet_items_preview_without_opening_or_locking(tmp_path, monkeypatch):
     write_json(tmp_path / upload_id / 'job.json', {'state': 'running', 'assist': False})
     pending = client.get(f'/api/intake/packet/{upload_id}/items', headers=GOOD)
     assert pending.status_code == 422 and pending.json()['code'] == 'not_prepared'
+
+
+def test_build_status_says_whether_a_form_file_exists(tmp_path):
+    upload_id = intake().create_upload(tmp_path, PDF, kind='handbook', title='Synthetic code', edition='2026')['upload_id']
+    assert intake().build_status(tmp_path, upload_id)['metadata_saved'] is False
+    write_json(tmp_path / upload_id / 'packet/review/build-metadata.json', {'packet_id': 'x', 'revision': 1, 'build': {}})
+    assert intake().build_status(tmp_path, upload_id)['metadata_saved'] is True

@@ -72,7 +72,9 @@ def build_plan(session) -> dict:
         readings.append({'reading_id': row['reading_id'], 'fields': [f['name'] for f in row['fields']],
                          'pending_fields': pending, 'ready': not pending,
                          'intended_audience': row['intended_audience']})
+    saved = session.root / 'review/build-metadata.json'  # only a form saved against this revision counts
     return {'packet_id': export['packet_id'], 'revision': export['revision'], 'readings': readings,
+            'metadata_saved': saved.is_file() and read_json(saved).get('revision') == export['revision'],
             'withheld_items': export['withheld_items'], 'required_readings': export['required_readings']}
 
 
@@ -250,7 +252,8 @@ def build_status(workspace: Path, upload_id) -> dict:
             job = {**job, 'state': 'failed', 'error': 'The build finished but its package is unreadable. '
                    'Make a new upload to build again.'}
             write_json(path, job)
-    return {**job, 'upload_id': upload_id, 'log_tail': _tail(folder / 'build.log')}
+    return {**job, 'upload_id': upload_id, 'log_tail': _tail(folder / 'build.log'),
+            'metadata_saved': (folder / 'packet/review/build-metadata.json').is_file()}
 
 
 def packet_items(workspace: Path, upload_id) -> dict:
