@@ -135,7 +135,7 @@ export function IntakeUpload({ onUploaded, onSelect }: { onUploaded: (uploadId: 
     : pending.length === 1 ? 'Upload PDF' : `Upload ${pending.length} PDFs`;
 
   return <section className="intake-section" id="upload" aria-label="Upload documents">
-    <p className="muted">PDF only, up to {formatBytes(MAX_UPLOAD_BYTES)} each, up to {MAX_BATCH_FILES} files at a time. Uploading approves nothing: each file stays a candidate until it is reviewed.</p>
+    <p className="muted">PDF only, up to {formatBytes(MAX_UPLOAD_BYTES)} each, {MAX_BATCH_FILES} files at a time. Uploading approves nothing; each file stays a candidate until reviewed.</p>
     <form onSubmit={submit} className="intake-form" noValidate aria-busy={busy} aria-label="Upload PDFs">
       <div className="field">
         <span className="field-label" id={idFor('', 'file-label')}>PDF files</span>
@@ -147,7 +147,7 @@ export function IntakeUpload({ onUploaded, onSelect }: { onUploaded: (uploadId: 
           <span className="dropzone-title">{dragging ? 'Release to add these files' : rows.length ? 'Add more PDFs, or drop them here' : 'Choose PDFs, or drop them here'}</span>
           <span className="dropzone-action" aria-hidden="true">Browse files</span>
         </label>
-        <p className="hint" id={idFor('', 'file-hint')}>Several files can be chosen at once. Each one becomes its own upload and is sent one after another. The type and size are checked here as a hint; the review server checks them again.</p>
+        <p className="hint" id={idFor('', 'file-hint')}>Choose several files if you like. Each becomes its own upload, sent one at a time. The server checks type and size again.</p>
         {addNote && <p className="hint" role="status">{addNote}</p>}
       </div>
 

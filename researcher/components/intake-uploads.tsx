@@ -145,14 +145,14 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
           <Button disabled={busy} onClick={() => void start(false)} aria-describedby={base + '-plain'}>Prepare with Docling</Button>
           <p className="hint" id={base + '-plain'}>Turns the PDF into a draft you can review.</p></div>
         <div className="action-choice">
-          <Button variant="outline" disabled={busy} onClick={() => void start(true)} aria-describedby={base + '-gemma'}>Prepare with Docling and a Gemma audit</Button>
+          <Button variant="outline" disabled={busy} onClick={() => void start(true)} aria-describedby={base + '-gemma'}>Prepare with Gemma audit</Button>
           <p className="hint" id={base + '-gemma'}>Also has a local Gemma model double-check flagged pages. It needs that model set up when the tool starts; the server says if it is missing.</p></div>
       </div>}
-      {state && state !== 'not_started' && <p className="hint">The Docling or Gemma choice cannot be changed for this upload. A different choice needs a new upload.</p>}
+      {state && state !== 'not_started' && <p className="hint">This choice cannot be changed. To prepare differently, upload the file again.</p>}
       {!!logLines.length && <div className="log-viewer">
         {latestLogLine(logLines) && <p className="muted">Latest message: {latestLogLine(logLines)}</p>}
         <details open={stopped}>
-          <summary>Technical log ({logLines.length} {logLines.length === 1 ? 'line' : 'lines'}, raw)</summary>
+          <summary>Log ({logLines.length} {logLines.length === 1 ? 'line' : 'lines'})</summary>
           <pre className="intake-log" tabIndex={0} role="region" aria-label={`Technical log for ${upload.title}`}>{logLines.join('\n')}</pre>
         </details></div>}
     </section>
@@ -199,7 +199,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
         <p className="hint" id={base + '-build-hint'}>{blocker ? blocker
           : control.kind === 'retry' ? 'A retry is allowed only while no package was produced.' : 'Starts one build for this upload on the review server.'}</p></div></div>}
       {!!buildLog.length && <div className="log-viewer"><details open={buildStopped}>
-        <summary>Build log ({buildLog.length} {buildLog.length === 1 ? 'line' : 'lines'}, raw)</summary>
+        <summary>Log ({buildLog.length} {buildLog.length === 1 ? 'line' : 'lines'})</summary>
         <pre className="intake-log" tabIndex={0} role="region" aria-label={`Build log for ${upload.title}`}>{buildLog.join('\n')}</pre></details></div>}
     </section>
 

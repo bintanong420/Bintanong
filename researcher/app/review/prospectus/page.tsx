@@ -27,7 +27,7 @@ export default function ProspectusList() {
 
   return <main className="page-main" id="review-main">
     <div className="page-toolbar"><div><h1 className="page-title">Prospectus</h1>
-      <p className="muted">Course-by-course review of the prospectus documents in the open packet.</p></div></div>
+      <p className="muted">Check each course reading against the prospectus, one at a time.</p></div></div>
     <div className="page-body" aria-live="polite">
       {view.kind === 'loading' && <div role="status" aria-busy="true"><p className="muted"><span className="spinner" aria-hidden="true" /> Loading documents…</p>
         <ul className="doc-list" aria-hidden="true">{[0, 1].map(n => <li key={n} className="doc-card"><span className="skeleton skeleton-title" /><span className="skeleton skeleton-short" /></li>)}</ul></div>}

@@ -197,7 +197,7 @@ export default function ReviewWorkspace() {
       <section className="library-intro" aria-label="Review status"><p role="status"><strong>No upload is open for review.</strong>{' '}
         <a href="/review/intake">Open one on Intake</a> to compare it with its PDF.</p></section>
       <section className="library-section" aria-labelledby="library-heading"><h2 id="library-heading">Existing knowledge</h2>
-        <p className="muted">Documents already stored in each knowledge source. Pick one to read its chunks beside the source page.</p>
+        <p className="muted">Documents stored in each knowledge source. Pick one to read its chunks beside the source page.</p>
         <KnowledgeLibrary headingId="library-heading" /></section></>
       : !state || !connection ? <section className="empty"><h2>Open a local review packet</h2>
       <p role="status">{error ? 'The review records could not be loaded. If this is a new review session, open the launch link printed by the local review command.' : 'Loading the source documents and review records…'}</p></section>

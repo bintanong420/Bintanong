@@ -82,7 +82,7 @@ export function IntakeBuild({ uploadId, onFormState }: { uploadId: string; onFor
 
   return <section className="intake-section" id="build-form" aria-labelledby="build-heading">
     <div><h3 id="build-heading">Passages and claims form</h3>
-      <p className="muted">Fill this after reviewing. Tick the passages you trust, name the topic each one is about, then write the claims they support.</p></div>
+      <p className="muted">Fill this in after review. Tick the passages you trust, name each topic, then write the claims they support.</p></div>
     <p className="notice hold"><span><strong>A new review decision makes a saved form out of date.</strong> After any later decision on the review page, save this form again.</span></p>
     <div className="toolbar"><Button variant="outline" disabled={loading} onClick={() => void load()}>{loading ? 'Loading passages…' : 'Reload passages'}</Button></div>
     <div aria-live="polite">
@@ -173,8 +173,8 @@ export function IntakeBuild({ uploadId, onFormState }: { uploadId: string; onFor
       {!!problems.length && <div className="notice error" role="alert" tabIndex={-1} ref={summary}>
         <div><p><strong>{problems.length} {problems.length === 1 ? 'thing needs' : 'things need'} fixing before this can be saved:</strong></p>
           <ul>{problems.map(problem => <li key={problem.message}>{problem.message}</li>)}</ul></div></div>}
-      <div className="form-actions"><Button disabled={busy} onClick={() => void save()}>{busy && <span className="spinner" aria-hidden="true" />}{busy ? 'Saving…' : 'Save passages and claims form'}</Button>
-        <p className="muted">Saving records metadata only. It does not approve or activate anything.</p></div>
+      <div className="form-actions"><Button disabled={busy} onClick={() => void save()}>{busy && <span className="spinner" aria-hidden="true" />}{busy ? 'Saving…' : 'Save form'}</Button>
+        <p className="muted">Saving records metadata only. It approves and activates nothing.</p></div>
     </>}
   </section>;
 }

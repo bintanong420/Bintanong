@@ -66,7 +66,7 @@ export default function IntakePage() {
 
   return <main className="page-main intake-page" id="review-main">
     <div className="page-toolbar"><div><h1 className="page-title">Intake</h1>
-      <p className="muted">Upload PDFs, then prepare, review and build each one. Nothing here approves content or activates it.</p></div></div>
+      <p className="muted">Upload a PDF, prepare it, review it, then build it. Nothing here approves or activates content.</p></div></div>
     <div className="intake-grid">
         <details className="upload-panel" open={uploadOpen} onToggle={event => setUploadOpen(event.currentTarget.open)}>
           <summary>Upload PDFs</summary>

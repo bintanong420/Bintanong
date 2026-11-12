@@ -92,7 +92,7 @@ export default function KnowledgePage() {
 
   return <main className="page-main" id="review-main">
     <div className="page-toolbar"><div><h1 className="page-title">Knowledge</h1>
-      <p className="muted">Read-only view of the chunks in built packages, the local database and the online database. Pick a chunk to read it beside its source page.</p></div></div>
+      <p className="muted">Read stored chunks beside their source pages. Nothing here changes the data.</p></div></div>
 
     <div className="page-body knowledge-notes" aria-live="polite">
       {sources.kind === 'loading' && <p className="muted" role="status"><span className="spinner" aria-hidden="true" /> Loading sources…</p>}
