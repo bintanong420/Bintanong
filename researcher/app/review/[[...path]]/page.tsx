@@ -12,7 +12,7 @@ import { ReviewedValue } from '@/components/reviewed-value';
 import { RelatedRecords } from '@/components/related-records';
 import { AdvisorySuggestion } from '@/components/advisory-suggestion';
 import { download, request, ReviewError } from '@/lib/api';
-import { fieldLabel, filterItems, readableValue, recordStatus, REVIEW_CONNECTION, type Connection, type FeedbackReceipt, type Gap, type ReviewItem, type ReviewState } from '@/lib/review-state';
+import { fieldLabel, filterItems, itemSnippet, readableValue, recordStatus, REVIEW_CONNECTION, type Connection, type FeedbackReceipt, type Gap, type ReviewItem, type ReviewState } from '@/lib/review-state';
 import { isNoPacketError } from '@/lib/intake';
 import { itemForTarget, parseReviewPath, reviewPath, targetForItem } from '@/lib/review-path';
 
@@ -50,7 +50,10 @@ export default function ReviewWorkspace() {
       sessionStorage.removeItem('bintanong-review-connection');  // tokens from older launch links are no longer kept
     } catch { /* storage can be unavailable; defaults apply */ }
     setConnection(REVIEW_CONNECTION);
-    void reload(REVIEW_CONNECTION).then(value => {
+    // the intake tool starts with nothing open; ask first so the empty state is not a failed request
+    const nothingOpen = request(REVIEW_CONNECTION, '/api/intake/current').then(async r => (await r.json()).upload_id === null, () => false);
+    void nothingOpen.then(empty => { if (empty) { setNoPacket(true); return null; } return reload(REVIEW_CONNECTION); }).then(value => {
+      if (!value) return;
       // open the record named by the address, e.g. /review/prospectus/<document>/<question>
       const target = parseReviewPath(window.location.pathname);
       const linked = itemForTarget(value.items, target);
@@ -138,7 +141,7 @@ export default function ReviewWorkspace() {
   }
 
   return <main className="review-workspace" id="review-main">
-    <a className="skip-link" href="#source-review">Skip to the source record</a>
+    {state && !noPacket && <a className="skip-link" href="#source-review">Skip to the source record</a>}
     <div className="page-toolbar"><div><h1 className="page-title">Documents</h1>
       <p className="muted">Read the source. Check the extracted text.</p></div>
       <div className="header-actions"><span className="muted">{state?.researcher}</span>
@@ -193,6 +196,7 @@ export default function ReviewWorkspace() {
           </select></label>
           <nav aria-label="Source items">{filtered.map(row => <button key={row.id} className="queue-item" aria-current={selected === row.id ? 'true' : undefined}
             onClick={() => choose(row.id)}><strong>{row.title}</strong><span>{state.documents.find(d => d.id === row.document_id)?.title} · PDF pages {Array.from(new Set(row.fields.flatMap(f => f.locator.physical_pages))).join(', ')}</span>
+            {itemSnippet(row) && <span className="queue-snippet">{itemSnippet(row)}</span>}
             <span className={row.findings.length || row.source_gaps?.length ? 'status hold' : 'status'}>{recordStatus(row)}</span>
           </button>)}</nav>
           {!filtered.length && <p className="muted">No items match these filters.</p>}

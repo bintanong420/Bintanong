@@ -139,7 +139,17 @@ test('Build offers one start, only a retry after a failure, and nothing after su
 test('the pre-build checklist and the refusal codes', () => {
   assert.deepEqual(buildChecklist(true).map(row => [row.key, row.status]), [['prepared', 'done'], ['form', 'unknown']]);
   assert.equal(buildChecklist(false)[0].status, 'blocked');
-  assert.match(buildChecklist(true)[1].text, /Save the readings and claims form first/);
+  assert.match(buildChecklist(true, false)[1].text, /Save the passages and claims form first/);
   assert.equal(opensMetadataForm('metadata_missing'), true);
   for (const code of ['not_prepared', 'package_exists', 'build_running', 'model_dir_missing', 'interpreter_missing', undefined]) assert.equal(opensMetadataForm(code), false);
 });
+
+import { itemSnippet } from '../lib/review-state.ts';
+test('queue rows tell same-titled items apart by their first words', () => {
+  const a = { fields: [{ name: 'service_name', original_value: 'Shifting of programs   from one college to another, in the same semester' }] };
+  assert.match(itemSnippet(a), /^Service name: Shifting of programs from one college/);
+  assert.ok(itemSnippet(a).length <= 84);
+  assert.equal(itemSnippet({ fields: [{ name: 'x', original_value: '' }, { name: 'fee', original_value: ['Pay 50', 'at cashier'] }] }), 'Fee: Pay 50 at cashier');
+  assert.equal(itemSnippet({ fields: [] }), '');
+});
+

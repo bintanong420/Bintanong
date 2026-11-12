@@ -48,10 +48,21 @@ const LABELS: Record<string, string> = { running: 'Running', done: 'Done', faile
 export function prepareLabel(state: string) { return LABELS[state] ?? 'Unknown state'; }
 export function shouldPoll(state: string | undefined) { return state === 'running'; }
 
+// The prepare step ends by printing the packet as one JSON line; people read a count, not 64 hex digits.
+function packetSummary(line: string) {
+  if (!line.startsWith('{')) return null;
+  try {
+    const value = JSON.parse(line);
+    if (!value || typeof value !== 'object' || typeof value.packet_id !== 'string') return null;
+    const items = value.items ?? value.item_count;
+    return typeof items === 'number' ? `Prepared: ${items} ${items === 1 ? 'item' : 'items'}` : 'Prepared: the review draft is written';
+  } catch { return null; }
+}
+
 // Newest line worth reading in a raw Docling log: skips blanks, tqdm bars and warnings. The full log stays available untouched.
 export function latestLogLine(lines: string[]) {
   for (const raw of [...lines].reverse()) {
-    const line = raw.trim();
+    const line = packetSummary(raw.trim()) ?? raw.trim();
     if (!line || /\d+%\||it\/s|s\/it/.test(line) || /warn/i.test(line)) continue;
     return line.length > 160 ? line.slice(0, 157) + '...' : line;
   }
@@ -93,7 +104,7 @@ export function pipelineSteps(prepareState: string | undefined, open: boolean,
   ];
 }
 
-export type BuildStatus = { state: string; exit_code?: number; error?: string; log_tail?: string[];
+export type BuildStatus = { state: string; metadata_saved?: boolean; exit_code?: number; error?: string; log_tail?: string[];
   package?: { package_id: string; chunk_count: number } };
 const BUILD_LABELS: Record<string, string> = { running: 'Running', done: 'Done', failed: 'Failed',
   interrupted: 'Interrupted (the review server restarted while it ran)', not_started: 'Not started' };
@@ -117,9 +128,33 @@ export function buildControl(prepared: boolean, build: Pick<BuildStatus, 'state'
 }
 
 // What the UI can know before the first build. Whether the readings and claims form was saved is only known to the server.
-export function buildChecklist(prepared: boolean): { key: 'prepared' | 'form'; status: StepStatus; text: string }[] {
+export function buildChecklist(prepared: boolean, formSaved?: boolean): { key: 'prepared' | 'form'; status: StepStatus; text: string }[] {
   return [{ key: 'prepared', status: prepared ? 'done' : 'blocked', text: prepared ? 'Prepared' : 'Not prepared yet: finish Prepare first' },
-    { key: 'form', status: 'unknown', text: 'Save the readings and claims form first' }];
+    formSaved === undefined ? { key: 'form', status: 'unknown', text: 'Checking whether the passages and claims form is saved' }
+      : { key: 'form', status: formSaved ? 'done' : 'blocked', text: formSaved ? 'Passages and claims form saved' : 'Save the passages and claims form first' }];
+}
+
+// Why the Build button is off, in words; empty when it can run.
+export function buildBlocker(prepared: boolean, formSaved: boolean | undefined) {
+  if (!prepared) return 'Build is available once Prepare is done.';
+  if (formSaved === undefined) return 'Checking whether the passages and claims form is saved.';
+  return formSaved ? '' : 'Save the passages and claims form first (open this upload for review to fill it in).';
+}
+
+// The one thing to do next for an upload, from the same states the progress steps show.
+export function nextStep({ prepare, open, build }: { prepare: string | undefined; open?: boolean; build?: string }) {
+  if (prepare === undefined) return 'Checking where this upload stands.';
+  if (prepare === 'not_started') return 'Next: prepare it with Docling.';
+  if (prepare === 'running') return 'Next: wait for Docling to finish. This page checks on its own.';
+  if (prepare === 'failed' || prepare === 'interrupted') return 'Prepare stopped. Upload the PDF again to retry.';
+  if (build === 'done') return 'Next: read the new chunks in Knowledge.';
+  if (build === 'running') return 'Next: wait for the build to finish.';
+  if (build === 'failed') return 'The build failed. Read the build log below, then try again.';
+  return open ? 'Next: check the passages you trust, save the form, then build chunks.' : 'Next: open it for review.';
+}
+
+export function passageLabel(row: { reading_id: string; preview?: string }) {
+  return row.preview ? '“' + row.preview + '”' : 'Passage ' + row.reading_id;
 }
 export function opensMetadataForm(code: string | undefined) { return code === 'metadata_missing'; }
 
@@ -141,8 +176,8 @@ const WITHHELD: Record<string, string> = {
   missing_policy_fields_or_pages: 'It has no policy fields or no source pages, so it cannot be built.' };
 export function withheldReason(reason: string) { return WITHHELD[reason] ?? reason; }
 
-export type PlanReading = { reading_id: string; fields: string[]; pending_fields: string[]; ready: boolean };
-export type BuildPlan = { packet_id?: string; revision?: number; readings: PlanReading[];
+export type PlanReading = { reading_id: string; fields: string[]; pending_fields: string[]; ready: boolean; preview?: string };
+export type BuildPlan = { packet_id?: string; revision?: number; metadata_saved?: boolean; readings: PlanReading[];
   withheld_items?: { item_id: string; reason: string }[] };
 export type ClaimDraft = { subject_id: string; claim: string; finding: string; field_refs: string[]; basis_reading_id: string };
 export type BuildForm = { selected: string[]; subjects: Record<string, string>; claims: ClaimDraft[] };
@@ -162,9 +197,9 @@ export function buildProblems(plan: Pick<BuildPlan, 'readings'>, form: BuildForm
   const problems: BuildProblem[] = [];
   const byId = new Map(plan.readings.map(row => [row.reading_id, row]));
   const ids = plan.readings.filter(row => row.ready && form.selected.includes(row.reading_id)).map(row => row.reading_id);
-  if (!ids.length) problems.push({ scope: 'selection', message: 'Select at least one reading that is ready.' });
+  if (!ids.length) problems.push({ scope: 'selection', message: 'Select at least one passage that is ready.' });
   const assignments = ids.map(id => ({ reading_id: id, subject_id: (form.subjects[id] ?? '').trim() }));
-  for (const row of assignments) if (!row.subject_id) problems.push({ scope: 'reading', readingId: row.reading_id, message: `Enter a subject id for reading ${row.reading_id}.` });
+  for (const row of assignments) if (!row.subject_id) problems.push({ scope: 'reading', readingId: row.reading_id, message: `Enter a topic for ${passageLabel(byId.get(row.reading_id) ?? row)}.` });
   const subjects = new Set(assignments.map(row => row.subject_id).filter(Boolean));
   if (!form.claims.length) problems.push({ scope: 'claims', message: 'Add at least one claim review.' });
   form.claims.forEach((draft, index) => {
@@ -172,13 +207,13 @@ export function buildProblems(plan: Pick<BuildPlan, 'readings'>, form: BuildForm
     const add = (field: 'claim' | 'subject' | 'finding' | 'basis' | 'fields', text: string) =>
       problems.push({ scope: 'claim', index, field, message: `${label}: ${text}` });
     if (!draft.claim.trim()) add('claim', 'enter the claim text.');
-    if (!subjects.has(draft.subject_id.trim())) add('subject', 'its subject must be one assigned to a selected reading.');
+    if (!subjects.has(draft.subject_id.trim())) add('subject', 'its topic must be one you gave to a selected passage.');
     if (!(FINDINGS as readonly string[]).includes(draft.finding)) add('finding', 'choose a finding.');
     const basis = byId.get(draft.basis_reading_id);
-    if (!basis || !ids.includes(draft.basis_reading_id)) add('basis', 'the basis must be a selected reading.');
+    if (!basis || !ids.includes(draft.basis_reading_id)) add('basis', 'the basis passage must be a selected one.');
     if (draft.finding === 'visible_fields') {
       if (!draft.field_refs.length) add('fields', 'choose the field(s) that show the claim.');
-      else if (basis && draft.field_refs.some(name => !basis.fields.includes(name))) add('fields', 'a chosen field is not in the basis reading.');
+      else if (basis && draft.field_refs.some(name => !basis.fields.includes(name))) add('fields', 'a chosen field is not in the basis passage.');
     }
   });
   return problems;

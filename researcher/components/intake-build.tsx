@@ -5,7 +5,7 @@ import { Field } from '@/components/intake-status';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { request } from '@/lib/api';
-import { buildPayload, buildProblems, withheldReason, type BuildPlan, type BuildProblem, type ClaimDraft } from '@/lib/intake';
+import { buildPayload, buildProblems, passageLabel, withheldReason, type BuildPlan, type BuildProblem, type ClaimDraft } from '@/lib/intake';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
 type Row = { uid: number; draft: ClaimDraft };
@@ -19,7 +19,7 @@ function claimError(problems: BuildProblem[], index: number, field: ClaimField) 
   return found?.message.replace(/^Claim \d+: /, '').replace(/^./, c => c.toUpperCase());
 }
 
-export function IntakeBuild({ uploadId }: { uploadId: string }) {
+export function IntakeBuild({ uploadId, onFormState }: { uploadId: string; onFormState?: (saved: boolean) => void }) {
   const [plan, setPlan] = useState<BuildPlan | null>(null), [error, setError] = useState(''), [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<string[]>([]), [subjects, setSubjects] = useState<Record<string, string>>({});
   const nextUid = useRef(2);
@@ -31,9 +31,13 @@ export function IntakeBuild({ uploadId }: { uploadId: string }) {
 
   const load = useCallback(async () => {
     setError(''); setLoading(true);
-    try { setPlan(await (await request(REVIEW_CONNECTION, '/api/intake/build-plan')).json()); }
+    try {
+      const loaded: BuildPlan = await (await request(REVIEW_CONNECTION, '/api/intake/build-plan')).json();
+      setPlan(loaded); onFormState?.(!!loaded.metadata_saved);
+    }
     catch (failure) { setPlan(null); setError(message(failure)); }
     finally { setLoading(false); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => { void load(); }, [load, uploadId]);
 
@@ -63,9 +67,9 @@ export function IntakeBuild({ uploadId }: { uploadId: string }) {
     if (!result.payload) { setTimeout(() => summary.current?.focus(), 0); return; }
     setBusy(true);
     try {
-      const reply: { path: string; revision: number } = await (await request(REVIEW_CONNECTION, '/api/intake/build-metadata',
+      await (await request(REVIEW_CONNECTION, '/api/intake/build-metadata',
         { method: 'POST', body: JSON.stringify(result.payload) })).json();
-      setSaved(`Saved build metadata for review revision ${reply.revision}.`);
+      setSaved('Passages and claims form saved.'); onFormState?.(true);
     } catch (failure) { setError(message(failure)); }
     finally { setBusy(false); }
   }
@@ -77,33 +81,33 @@ export function IntakeBuild({ uploadId }: { uploadId: string }) {
   const baseId = (name: string) => `${uid}-${name}`;
 
   return <section className="intake-section" id="build-form" aria-labelledby="build-heading">
-    <div><h3 id="build-heading">Build form for the open upload</h3>
-      <p className="muted">Fill this after reviewing. Pick the readings that are ready, name the subject each one is about, then record the claims.</p></div>
-    <p className="notice hold"><span><strong>Saving a review decision makes a saved form stale.</strong> After any later decision on the review page, save this form again.</span></p>
-    <div className="toolbar"><Button variant="outline" disabled={loading} onClick={() => void load()}>{loading ? 'Loading readings…' : 'Reload readings'}</Button></div>
+    <div><h3 id="build-heading">Passages and claims form</h3>
+      <p className="muted">Fill this after reviewing. Tick the passages you trust, name the topic each one is about, then write the claims they support.</p></div>
+    <p className="notice hold"><span><strong>A new review decision makes a saved form out of date.</strong> After any later decision on the review page, save this form again.</span></p>
+    <div className="toolbar"><Button variant="outline" disabled={loading} onClick={() => void load()}>{loading ? 'Loading passages…' : 'Reload passages'}</Button></div>
     <div aria-live="polite">
       {error && <p className="notice error" role="alert"><span><strong>That did not work.</strong> {error}</span></p>}
       {saved && <p className="notice success" role="status"><span>{saved} Nothing has been approved or activated.</span></p>}
       {removed && <p className="notice" role="status"><span>Claim {removed.index + 1} removed.</span><Button variant="outline" size="sm" onClick={undoRemove}>Undo</Button></p>}
     </div>
-    {loading && !plan && <div role="status" aria-busy="true"><p className="muted"><span className="spinner" aria-hidden="true" /> Loading readings…</p>
+    {loading && !plan && <div role="status" aria-busy="true"><p className="muted"><span className="spinner" aria-hidden="true" /> Loading passages…</p>
       <div className="intake-upload" aria-hidden="true"><span className="skeleton skeleton-title" /><span className="skeleton" /><span className="skeleton skeleton-short" /></div></div>}
-    {!loading && !plan && !error && <div className="empty-state"><h3>No readings to show</h3><p className="muted">Reload to ask the review server for this packet’s readings.</p></div>}
+    {!loading && !plan && !error && <div className="empty-state"><h3>No passages to show</h3><p className="muted">Reload to ask the review server for this draft’s passages.</p></div>}
 
     {plan && <>
       <div className="build-group">
-        <h3>Readings that are ready ({ready.length})</h3>
+        <h3>Passages that are ready ({ready.length})</h3>
         {selectionProblem && <p className="field-error">{selectionProblem}</p>}
-        {!plan.readings.length && <div className="empty-state"><p className="muted">This packet has no readings, so there is nothing to build.</p></div>}
-        {!!plan.readings.length && !ready.length && <p className="muted">No reading is ready yet. See the pending readings below.</p>}
+        {!plan.readings.length && <div className="empty-state"><p className="muted">This draft has no passages, so there is nothing to build.</p></div>}
+        {!!plan.readings.length && !ready.length && <p className="muted">No passage is ready yet. See the ones still waiting below.</p>}
         <ul className="plain-list">{ready.map(row => {
           const checked = selected.includes(row.reading_id);
           const problem = problems.find(p => p.scope === 'reading' && p.readingId === row.reading_id)?.message;
-          const subjectId = baseId('subject-' + row.reading_id);
+          const subjectId = baseId('topic-' + row.reading_id);
           return <li key={row.reading_id} className={`reading-card${checked ? ' is-selected' : ''}`}>
             <label className="inline"><input type="checkbox" checked={checked} onChange={() => setSelected(list => toggle(list, row.reading_id))} />
-              <span><code>{row.reading_id}</code> <span className="muted">{row.fields.length} {row.fields.length === 1 ? 'field' : 'fields'}</span></span></label>
-            {checked && <Field id={subjectId} label="Subject id for this reading" hint="The record this reading is about." error={problem?.replace(/^Enter/, 'Enter')}>{described =>
+              <span className="passage-name"><span>{passageLabel(row)}</span> <span className="muted">{row.fields.length} {row.fields.length === 1 ? 'field' : 'fields'} · <code>{row.reading_id}</code></span></span></label>
+            {checked && <Field id={subjectId} label="Topic for this passage" hint="A short name for what it is about, for example shifting or good moral. Passages on the same topic share one name." error={problem?.replace(/^Enter/, 'Enter')}>{described =>
               <input id={subjectId} value={subjects[row.reading_id] ?? ''} autoComplete="off"
                 aria-describedby={described} aria-invalid={problem ? true : undefined}
                 onChange={event => setSubjects(map => ({ ...map, [row.reading_id]: event.target.value }))} />}</Field>}
@@ -113,9 +117,9 @@ export function IntakeBuild({ uploadId }: { uploadId: string }) {
 
       {!!pending.length && <details className="build-group">
         <summary>Not ready yet ({pending.length})</summary>
-        <p className="muted">These readings still have fields waiting on a review decision. They cannot be selected until every field is settled.</p>
+        <p className="muted">These passages still have fields waiting on a review decision. They cannot be ticked until every field is settled.</p>
         <ul className="plain-list">{pending.map(row => <li key={row.reading_id} className="reading-card is-pending">
-          <p><code>{row.reading_id}</code></p><p className="muted">Waiting on {row.pending_fields.length} {row.pending_fields.length === 1 ? 'field' : 'fields'}: {row.pending_fields.join(', ')}</p></li>)}</ul>
+          <p>{passageLabel(row)} <code className="muted">{row.reading_id}</code></p><p className="muted">Waiting on {row.pending_fields.length} {row.pending_fields.length === 1 ? 'field' : 'fields'}: {row.pending_fields.join(', ')}</p></li>)}</ul>
       </details>}
 
       {!!plan.withheld_items?.length && <details className="build-group" open>
@@ -135,17 +139,17 @@ export function IntakeBuild({ uploadId }: { uploadId: string }) {
               <Textarea id={key + '-claim'} rows={2} value={claim.claim} aria-describedby={described} aria-invalid={err('claim') ? true : undefined}
                 onChange={event => patchClaim(row.uid, { claim: event.target.value })} />}</Field>
             <div className="field-row">
-              <Field id={key + '-subject'} label="Subject" hint="Chosen from the subjects you assigned to readings above; picking a basis reading fills it in." error={err('subject')}>{described =>
+              <Field id={key + '-subject'} label="Topic" hint="One of the topics you gave to the ticked passages above. Picking a basis passage fills it in." error={err('subject')}>{described =>
                 <select id={key + '-subject'} value={claim.subject_id} aria-describedby={described} aria-invalid={err('subject') ? true : undefined}
                   onChange={event => patchClaim(row.uid, { subject_id: event.target.value })}>
-                  <option value="">{assigned.length ? 'Choose a subject' : 'Assign a subject to a reading first'}</option>
+                  <option value="">{assigned.length ? 'Choose a topic' : 'Give a topic to a passage first'}</option>
                   {assigned.map(value => <option key={value} value={value}>{value}</option>)}</select>}</Field>
-              <Field id={key + '-basis'} label="Basis reading" error={err('basis')}>{described =>
+              <Field id={key + '-basis'} label="Passage that supports it" error={err('basis')}>{described =>
                 <select id={key + '-basis'} value={claim.basis_reading_id} aria-describedby={described} aria-invalid={err('basis') ? true : undefined}
                   onChange={event => { const id = event.target.value, own = (subjects[id] ?? '').trim();
                     patchClaim(row.uid, { basis_reading_id: id, field_refs: [], ...(own && selected.includes(id) ? { subject_id: own } : {}) }); }}>
-                  <option value="">Choose a reading</option>
-                  {ready.map(r => <option key={r.reading_id} value={r.reading_id}>{r.reading_id}{selected.includes(r.reading_id) ? '' : ' (not selected)'}</option>)}</select>}</Field>
+                  <option value="">Choose a passage</option>
+                  {ready.map(r => <option key={r.reading_id} value={r.reading_id}>{passageLabel(r)}{selected.includes(r.reading_id) ? '' : ' (not ticked)'}</option>)}</select>}</Field>
             </div>
             <Field id={key + '-finding'} label="Finding" error={err('finding')}>{described =>
               <select id={key + '-finding'} value={claim.finding} aria-describedby={described} aria-invalid={err('finding') ? true : undefined}
@@ -154,7 +158,7 @@ export function IntakeBuild({ uploadId }: { uploadId: string }) {
                 <option value="not_stated_in_selected_fields">Not stated in the selected fields</option></select>}</Field>
             {claim.finding === 'visible_fields' && <fieldset className="field-group" aria-describedby={err('fields') ? key + '-fields-error' : undefined}>
               <legend>Fields that show the claim</legend>
-              {!basis && <p className="muted">Choose the basis reading first, then its fields appear here.</p>}
+              {!basis && <p className="muted">Choose the supporting passage first, then its fields appear here.</p>}
               {basis && <div className="check-grid">{basis.fields.map(name => <label className="inline" key={name}>
                 <input type="checkbox" checked={claim.field_refs.includes(name)}
                   onChange={() => patchClaim(row.uid, { field_refs: toggle(claim.field_refs, name) })} />{name}</label>)}</div>}

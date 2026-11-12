@@ -112,3 +112,12 @@ export function sourceRectangle(span: SourceSpan) {
   return { x, y: span.bbox_origin === 'BOTTOMLEFT' ? size[1] - high : low,
     width: Math.abs(right - left), height: high - low };
 }
+
+// A second line for queue rows: items can share a title, so show what the first filled field starts with.
+export function itemSnippet(item: { fields: { name: string; original_value: unknown }[] }, max = 70) {
+  for (const field of item.fields) {
+    const text = readableValue(field.original_value).replace(/\s+/g, ' ').trim();
+    if (text) return fieldLabel(field.name) + ': ' + (text.length > max ? text.slice(0, max - 3) + '...' : text);
+  }
+  return '';
+}

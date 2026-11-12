@@ -6,7 +6,7 @@ import { PipelineSteps, StatusIcon, StatusTag } from '@/components/intake-status
 import { Button } from '@/components/ui/button';
 import type { UploadState } from '@/components/use-upload-states';
 import { request, ReviewError } from '@/lib/api';
-import { buildChecklist, buildControl, buildSummary, formatBytes, INTERRUPTED_NOTE, opensMetadataForm, REBUILD_NOTE, formatElapsed, latestLogLine, pipelineSteps } from '@/lib/intake';
+import { buildBlocker, buildChecklist, buildControl, nextStep, buildSummary, formatBytes, INTERRUPTED_NOTE, opensMetadataForm, REBUILD_NOTE, formatElapsed, latestLogLine, pipelineSteps } from '@/lib/intake';
 import { knowledgeUrl, packageSourceId } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
@@ -66,6 +66,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
     { upload, state: entry, current, onOpen, onChanged, onPatch, onCompare, comparing }, headingRef) {
   const [busy, setBusy] = useState(false), [refused, setRefused] = useState(''), [buildRefused, setBuildRefused] = useState('');
   const [buildCode, setBuildCode] = useState<string | undefined>(), [formOpen, setFormOpen] = useState(false);
+  const [planSaved, setPlanSaved] = useState<boolean | undefined>();
   const formSummary = useRef<HTMLElement>(null);
   const status = entry?.prepare, build = entry?.build, state = status?.state;
   const steps = pipelineSteps(state, current, build);
@@ -76,6 +77,9 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
   const stopped = state === 'failed' || state === 'interrupted';
   const buildStopped = build?.state === 'failed' || build?.state === 'interrupted';
   const control = buildControl(state === 'done', build);
+  // the open upload's form is checked against the current review; any other upload only shows whether a form file exists
+  const formSaved = current ? planSaved : build ? build.metadata_saved : undefined;
+  const blocker = buildBlocker(state === 'done', formSaved);
 
   async function start(assist: boolean) {
     setBusy(true); setRefused('');
@@ -115,6 +119,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
       <div><dt>Size</dt><dd>{formatBytes(upload.bytes)}</dd></div>
       <div><dt>Upload id</dt><dd><code>{id}</code></dd></div>
     </dl>
+    <p className="next-step" role="status"><strong>{nextStep({ prepare: state, open: current, build: build?.state })}</strong></p>
     <PipelineSteps steps={steps} label={`Progress for ${upload.title}`} />
     {entry?.error && <p className="notice error" role="alert"><span>{entry.error}</span>
       <Button variant="outline" size="sm" onClick={() => void onChanged(id)}>Check again</Button></p>}
@@ -131,16 +136,16 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
         <strong>{state === 'failed' ? 'Prepare failed.' : 'Prepare was interrupted.'}</strong>{' '}
         {state === 'interrupted' ? 'The review server restarted while it ran. ' : ''}
         {status?.exit_code !== undefined && `Exit code ${status.exit_code}. `}{status?.error ?? ''}{' '}
-        To retry, upload the document again: one packet is made per upload.</span></p>}
+        To retry, upload the document again: each upload is prepared once.</span></p>}
       {refused && <p className="notice error" role="alert"><span><strong>The server did not start Prepare.</strong> {refused}{' '}
         Nothing was started, so you can choose the other option or fix the setup and try again.</span></p>}
       {state === 'not_started' && <div className="intake-actions">
         <div className="action-choice">
-          <Button disabled={busy} onClick={() => void start(false)} aria-describedby={base + '-plain'}>Run Docling</Button>
-          <p className="hint" id={base + '-plain'}>Converts the PDF into a review packet.</p></div>
+          <Button disabled={busy} onClick={() => void start(false)} aria-describedby={base + '-plain'}>Prepare with Docling</Button>
+          <p className="hint" id={base + '-plain'}>Turns the PDF into a draft you can review.</p></div>
         <div className="action-choice">
-          <Button variant="outline" disabled={busy} onClick={() => void start(true)} aria-describedby={base + '-gemma'}>Run Docling + Gemma audit</Button>
-          <p className="hint" id={base + '-gemma'}>Also asks a local Gemma model to audit flagged pages. It needs that model configured on the review command; the server says if it is not.</p></div>
+          <Button variant="outline" disabled={busy} onClick={() => void start(true)} aria-describedby={base + '-gemma'}>Prepare with Docling and a Gemma audit</Button>
+          <p className="hint" id={base + '-gemma'}>Also has a local Gemma model double-check flagged pages. It needs that model set up when the tool starts; the server says if it is missing.</p></div>
       </div>}
       {state && state !== 'not_started' && <p className="hint">The Docling or Gemma choice cannot be changed for this upload. A different choice needs a new upload.</p>}
       {!!logLines.length && <div className="log-viewer">
@@ -158,7 +163,7 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
           <Button disabled={state !== 'done' || current} onClick={() => onOpen(id)} aria-describedby={base + '-open'}>
             {current ? 'Open for review (already open)' : 'Open for review'}</Button>
           <p className="hint" id={base + '-open'}>{current ? 'Continue on the Documents tab.'
-            : state === 'done' ? 'Opens this packet in the review tool.' : state === undefined ? 'Waiting for the Prepare status.'
+            : state === 'done' ? 'Opens this draft on the Documents page.' : state === undefined ? 'Waiting for the Prepare status.'
             : 'Available once Prepare is done.'}</p></div>
         {current && <div className="action-choice"><Button variant="outline" asChild><a href="/review">Go to Documents</a></Button></div>}
         <div className="action-choice">
@@ -176,8 +181,8 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
           {build.package ? <a href={knowledgeUrl({ source: packageSourceId(id), q: '', chunk: '', document: '', offset: 0 })}>View these chunks in Knowledge</a> : 'The server returned no package details.'}</span></p>}
         {control.kind === 'none' && <p className="hint">{build?.state === 'interrupted' ? INTERRUPTED_NOTE : REBUILD_NOTE}</p>}
         {control.kind === 'start' && <>
-          <p className="hint">Building turns the prepared packet into chunks you can browse in Knowledge. It approves and activates nothing, and it runs once per upload.</p>
-          <ul className="checklist" aria-label="Before the first build">{buildChecklist(state === 'done').map(row =>
+          <p className="hint">Building turns the prepared draft into chunks you can browse in Knowledge. It approves and activates nothing, and it runs once per upload.</p>
+          <ul className="checklist" aria-label="Before the first build">{buildChecklist(state === 'done', formSaved).map(row =>
             <li key={row.key}><StatusTag status={row.status}>{row.text}</StatusTag></li>)}</ul></>}
       </div>
       {buildStopped && <p className="notice error" role="alert"><span>
@@ -185,12 +190,12 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
         {build?.state === 'interrupted' ? 'The review server restarted while it ran. ' : ''}
         {build?.exit_code !== undefined && `Exit code ${build.exit_code}. `}{build?.error ?? ''}</span></p>}
       {buildRefused && <p className="notice error" role="alert"><span><strong>The server did not start Build.</strong> {buildRefused}
-        {opensMetadataForm(buildCode) && !current && ' Open this upload for review, then save its readings and claims form.'}</span></p>}
+        {opensMetadataForm(buildCode) && !current && ' Open this upload for review, then save its passages and claims form.'}</span></p>}
       {entry?.buildError && <p className="notice error" role="alert"><span><strong>The Build status could not be checked.</strong> {entry.buildError}</span>
         <Button variant="outline" size="sm" onClick={() => void onChanged(id)}>Check again</Button></p>}
       {(control.kind === 'start' || control.kind === 'retry') && <div className="intake-actions"><div className="action-choice">
-        <Button disabled={busy || state !== 'done'} onClick={() => void startBuild()} aria-describedby={base + '-build-hint'}>{control.label}</Button>
-        <p className="hint" id={base + '-build-hint'}>{state !== 'done' ? 'Available once Prepare is done.'
+        <Button disabled={busy || !!blocker} onClick={() => void startBuild()} aria-describedby={base + '-build-hint'}>{control.label}</Button>
+        <p className="hint" id={base + '-build-hint'}>{blocker ? blocker
           : control.kind === 'retry' ? 'A retry is allowed only while no package was produced.' : 'Starts one build for this upload on the review server.'}</p></div></div>}
       {!!buildLog.length && <div className="log-viewer"><details open={buildStopped}>
         <summary>Build log ({buildLog.length} {buildLog.length === 1 ? 'line' : 'lines'}, raw)</summary>
@@ -198,8 +203,8 @@ export const UploadDetail = forwardRef<HTMLHeadingElement, DetailProps>(function
     </section>
 
     {current && <details className="metadata-form" open={formOpen} onToggle={event => setFormOpen(event.currentTarget.open)}>
-      <summary ref={formSummary}>Readings and claims form (build metadata for the open upload)</summary>
-      <IntakeBuild uploadId={id} />
+      <summary ref={formSummary}>Passages and claims form (needed before the first build)</summary>
+      <IntakeBuild uploadId={id} onFormState={setPlanSaved} />
     </details>}
   </article>;
 });

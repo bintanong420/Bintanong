@@ -72,14 +72,14 @@ test('the form becomes the build payload only when it is complete', () => {
 test('incomplete or inconsistent forms list every problem instead of sending', () => {
   const good = { subject_id: 's1', claim: 'c', finding: 'visible_fields', field_refs: ['body'], basis_reading_id: 'r1' };
   const cases = [
-    [{ selected: [], subjects: {}, claims: [good] }, /reading/i],
-    [{ selected: ['r1'], subjects: { r1: ' ' }, claims: [good] }, /subject/i],
+    [{ selected: [], subjects: {}, claims: [good] }, /passage/i],
+    [{ selected: ['r1'], subjects: { r1: ' ' }, claims: [good] }, /topic/i],
     [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [] }, /claim/i],
     [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [{ ...good, claim: ' ' }] }, /claim text/i],
     [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [{ ...good, field_refs: [] }] }, /field/i],
     [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [{ ...good, field_refs: ['nope'] }] }, /field/i],
-    [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [{ ...good, basis_reading_id: 'r3' }] }, /selected reading/i],
-    [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [{ ...good, subject_id: 'other' }] }, /subject/i],
+    [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [{ ...good, basis_reading_id: 'r3' }] }, /selected one/i],
+    [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [{ ...good, subject_id: 'other' }] }, /topic/i],
     [{ selected: ['r1'], subjects: { r1: 's1' }, claims: [{ ...good, finding: 'maybe' }] }, /finding/i],
   ];
   for (const [form, pattern] of cases) {
@@ -157,4 +157,38 @@ test('the log summary is the latest line that is not a progress bar or a warning
   assert.equal(latestLogLine(['Wrote packet', 'UserWarning: CPU only, no CUDA']), 'Wrote packet');
   assert.equal(latestLogLine(['x'.repeat(300)]).length <= 160, true);
   assert.equal(latestLogLine(['10%|# | 1/10', 'warning: x']), '');
+});
+import { buildBlocker, buildChecklist as checklist, passageLabel, nextStep } from '../lib/intake.ts';
+
+test('the packet JSON line is summarised, not shown raw', () => {
+  const raw = JSON.stringify({ packet_id: 'a'.repeat(64), items: 12, revision: 1 });
+  assert.equal(latestLogLine(['Converting', raw]), 'Prepared: 12 items');
+  assert.equal(latestLogLine([JSON.stringify({ packet_id: 'a'.repeat(64), items: 1 })]), 'Prepared: 1 item');
+  assert.equal(latestLogLine([JSON.stringify({ packet_id: 'a'.repeat(64) })]), 'Prepared: the review draft is written');
+  assert.equal(latestLogLine(['{"other": 1}']), '{"other": 1}');
+});
+
+test('Build waits for a form saved in this review, and says why', () => {
+  assert.equal(buildBlocker(true, true), '');
+  assert.match(buildBlocker(false, true), /prepare/i);
+  assert.match(buildBlocker(true, false), /save the passages and claims form/i);
+  assert.match(buildBlocker(true, undefined), /checking/i);
+  assert.equal(checklist(true, true)[1].status, 'done');
+  assert.equal(checklist(true, false)[1].status, 'blocked');
+  assert.equal(checklist(true, undefined)[1].status, 'unknown');
+});
+
+test('passages are named by their first words, not their ids', () => {
+  assert.equal(passageLabel({ reading_id: 'abc:text-0', preview: 'Shifting of programs' }), '“Shifting of programs”');
+  assert.equal(passageLabel({ reading_id: 'abc:text-0' }), 'Passage abc:text-0');
+});
+
+test('each upload state names one next step', () => {
+  assert.match(nextStep({ prepare: undefined }), /checking/i);
+  assert.match(nextStep({ prepare: 'not_started' }), /prepare/i);
+  assert.match(nextStep({ prepare: 'running' }), /wait/i);
+  assert.match(nextStep({ prepare: 'done', open: false }), /open it for review/i);
+  assert.match(nextStep({ prepare: 'done', open: true, build: undefined }), /build chunks/i);
+  assert.match(nextStep({ prepare: 'done', open: true, build: 'done' }), /knowledge/i);
+  assert.match(nextStep({ prepare: 'failed' }), /upload the pdf again/i);
 });

@@ -361,3 +361,13 @@ label.inline input { min-height: 0; inline-size: 1.15rem; block-size: 1.15rem; f
   .library-details { margin-inline: 1rem; }
   .library-docs { padding-inline-start: .5rem; }
 }
+
+/* walkthrough fixes */
+.next-step { font-size: .95rem; }
+.log-viewer p, .intake-log, .upload-status .notice, .upload-meta dd { overflow-wrap: anywhere; min-width: 0; }
+.passage-name { display: grid; gap: .1rem; min-width: 0; overflow-wrap: anywhere; }
+.queue-snippet { font-size: .75rem; color: var(--muted-foreground); overflow-wrap: anywhere; }
+.chunk-detail h2 { scroll-margin-block-start: 1rem; }
+.page-frame { min-block-size: 12rem; }
+.tech-details { margin-block-start: .75rem; }
+.tech-details pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .75rem; }

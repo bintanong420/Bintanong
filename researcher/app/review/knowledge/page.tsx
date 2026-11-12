@@ -4,7 +4,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { PageImage } from '@/components/page-image';
 import { Button } from '@/components/ui/button';
 import { request } from '@/lib/api';
-import { CHUNK_LIMIT, chunksQuery, documentChipLabel, groupSources, knowledgeUrl, pageWindow, parseKnowledgeUrl,
+import { CHUNK_LIMIT, chunksQuery, documentChipLabel, groupSources, snippet, knowledgeUrl, pageWindow, parseKnowledgeUrl,
   type Chunk, type ChunksReply, type KnowledgeUrlState, type SourcesReply } from '@/lib/knowledge';
 import { REVIEW_CONNECTION } from '@/lib/review-state';
 
@@ -76,10 +76,19 @@ export default function KnowledgePage() {
   const unavailable = sources.kind === 'ready' ? sources.value.unavailable : undefined;
   const groups = groupSources(all);
 
+  // on a phone the detail sits below the list: once it has rendered, bring it into view and read its heading out
+  const reveal = useRef(false);
   function pick(chunk: Chunk) {
+    reveal.current = window.matchMedia('(max-width: 900px)').matches;
     change({ chunk: chunk.chunk_id });
-    if (window.matchMedia('(max-width: 900px)').matches) setTimeout(() => detailHeading.current?.focus(), 0);
   }
+  const selectedId = selected?.chunk_id;
+  useEffect(() => {
+    if (!reveal.current || !selectedId) return;
+    reveal.current = false;
+    detailHeading.current?.focus();
+    detailHeading.current?.scrollIntoView({ block: 'start' });
+  }, [selectedId]);
 
   return <main className="page-main" id="review-main">
     <div className="page-toolbar"><div><h1 className="page-title">Knowledge</h1>
@@ -127,7 +136,7 @@ export default function KnowledgePage() {
         <ul className="chunk-rows">{list.map(chunk => <li key={chunk.chunk_id}>
           <button type="button" className="chunk-row" aria-current={selected?.chunk_id === chunk.chunk_id ? 'true' : undefined} onClick={() => pick(chunk)}>
             <span className="row-meta">{[chunk.document_title, chunk.section].filter(Boolean).join(' · ') || chunk.chunk_id}</span>
-            <span className="chunk-snippet">{chunk.text.length > 140 ? chunk.text.slice(0, 137) + '...' : chunk.text}</span>
+            <span className="chunk-snippet">{snippet(chunk)}</span>
             <span className="row-meta">{chunk.pages?.length ? `Page${chunk.pages.length === 1 ? '' : 's'} ${chunk.pages.join(', ')}` : 'No page reference'}</span>
           </button></li>)}</ul>
 
@@ -158,7 +167,8 @@ const ChunkDetail = forwardRef<HTMLHeadingElement, { chunk: Chunk }>(function Ch
       <div key={name}><dt>{name}</dt><dd>{name === 'Chunk id' ? <code>{value}</code> : value}</dd></div>)}</dl>
     <div className="compare-grid">
       <section className="compare-pane" role="region" aria-label="Chunk text" tabIndex={0}><p className="pane-label">Chunk text</p>
-        <p className="chunk-text">{chunk.text}</p></section>
+        <p className="chunk-text">{chunk.display_text ?? chunk.text}</p>
+        {chunk.display_text && <details className="tech-details"><summary>Technical details</summary><pre className="chunk-text">{chunk.text}</pre></details>}</section>
       <section className="compare-pane" role="region" aria-label="Source page" tabIndex={0}>
         <div className="pane-label-row"><p className="pane-label">Source page</p>
           {pages.length > 1 && <div className="page-chips" role="group" aria-label="Pages this chunk cites">{pages.map(p =>

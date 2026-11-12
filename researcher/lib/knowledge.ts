@@ -3,7 +3,7 @@
 export const CHUNK_LIMIT = 20;
 export type KnowledgeSource = { id: string; kind: string; label: string; chunk_count?: number; status?: string; active?: boolean };
 export type SourcesReply = { sources: KnowledgeSource[]; unavailable?: { local?: string; hosted?: string } };
-export type Chunk = { chunk_id: string; text: string; document_title?: string; section?: string; pages?: number[];
+export type Chunk = { chunk_id: string; text: string; display_text?: string | null; document_title?: string; section?: string; pages?: number[];
   source_sha256?: string; reading_id?: string; token_count?: number };
 export type ChunksReply = { chunks: Chunk[]; total: number; offset: number; limit: number };
 export type LibraryDocument = { document_key: string; title: string; source_sha256?: string; chunk_count: number;
@@ -92,4 +92,10 @@ export function pageImagePath(sha256: string, page: number, scale?: number) {
   const params = new URLSearchParams({ sha256, page: String(page) });
   if (scale) params.set('scale', String(scale));
   return '/api/knowledge/page?' + params.toString();
+}
+
+// The list shows readable prose when the chunk is a reviewed payload, never its raw JSON.
+export function snippet(chunk: Pick<Chunk, 'text' | 'display_text'>, max = 140) {
+  const text = (chunk.display_text ?? chunk.text).replace(/\s+/g, ' ').trim();
+  return text.length > max ? text.slice(0, max - 3) + '...' : text;
 }

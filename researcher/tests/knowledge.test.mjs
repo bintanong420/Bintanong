@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { chunkCountText, chunksQuery, documentChipLabel, documentLink, documentsPath, knowledgeUrl, libraryGroups,
-  pageRangeText, parseKnowledgeUrl, pdfText } from '../lib/knowledge.ts';
+  pageRangeText, parseKnowledgeUrl, pdfText, snippet } from '../lib/knowledge.ts';
 
 test('the document filter lives in the address and the chunk query', () => {
   const state = parseKnowledgeUrl('?source=hosted:r1&document=Handbook%20%282026%29&offset=20');
@@ -42,3 +42,10 @@ test('links and paths keep the source and document intact', () => {
   assert.equal(documentChipLabel('b'.repeat(64), [{ document_title: 'Handbook' }]), 'Handbook');
   assert.equal(documentChipLabel('b'.repeat(64), []), 'Document bbbbbbbb');
 });
+
+test('previews prefer readable prose and stay short', () => {
+  assert.equal(snippet({ text: '{\"fields\":[]}', display_text: 'Title: Shifting' }), 'Title: Shifting');
+  assert.equal(snippet({ text: 'a\n  b' }), 'a b');
+  assert.equal(snippet({ text: 'x'.repeat(200) }).length, 140);
+});
+

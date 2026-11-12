@@ -8,7 +8,7 @@ import { REVIEW_CONNECTION } from '@/lib/review-state';
 
 // One source page, fetched by PDF hash. A 404 means this machine does not hold that PDF; it is reported, not retried.
 export function PageImage({ sha256, page, scale = 1.5, onCount }: { sha256: string; page: number; scale?: number; onCount?: (count: number) => void }) {
-  const [state, setState] = useState<{ kind: 'loading' } | { kind: 'ready'; url: string } | { kind: 'missing' } | { kind: 'error'; message: string }>({ kind: 'loading' });
+  const [state, setState] = useState<{ kind: 'loading' } | { kind: 'ready'; url: string } | { kind: 'missing' } | { kind: 'error'; message: string } | { kind: 'no_page' }>({ kind: 'loading' });
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
@@ -24,6 +24,7 @@ export function PageImage({ sha256, page, scale = 1.5, onCount }: { sha256: stri
     }).catch(failure => {
       if (!current) return;
       if (failure instanceof ReviewError && failure.status === 404) setState({ kind: 'missing' });
+      else if (failure instanceof ReviewError && failure.status === 422) setState({ kind: 'no_page' });  // the page is past the end of the PDF; nothing to retry
       else setState({ kind: 'error', message: failure instanceof Error ? failure.message : 'The page could not be loaded.' });
     });
     return () => { current = false; if (objectUrl) URL.revokeObjectURL(objectUrl); };
@@ -35,9 +36,11 @@ export function PageImage({ sha256, page, scale = 1.5, onCount }: { sha256: stri
     {state.kind === 'loading' && <div className="page-placeholder" role="status" aria-busy="true"><span className="spinner" aria-hidden="true" /> Loading page {page}…</div>}
     {state.kind === 'missing' && <div className="page-placeholder"><p><strong>Source PDF not available on this machine.</strong></p>
       <p className="muted">This review server has no PDF with this hash, so page {page} cannot be shown.</p><p><code>{sha256}</code></p></div>}
+    {state.kind === 'no_page' && <div className="page-placeholder" role="status"><p><strong>This PDF has no page {page}.</strong></p>
+      <p className="muted">Go back to an earlier page.</p></div>}
     {state.kind === 'error' && <div className="page-placeholder notice error" role="alert"><span><strong>Page {page} could not be loaded.</strong> {state.message}</span>
       <Button variant="outline" size="sm" onClick={() => setAttempt(n => n + 1)}>Try again</Button></div>}
     {/* eslint-disable-next-line @next/next/no-img-element */}
-    {state.kind === 'ready' && <img className="page-img" src={state.url} alt={`Source page ${page}`} />}
+    {state.kind === 'ready' && <img className="page-img" src={state.url} alt={`Source page ${page}`} decoding="async" />}
   </div>;
 }
