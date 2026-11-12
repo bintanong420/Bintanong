@@ -10,8 +10,8 @@ export function AdvisorySuggestion({ field, item, document, onUse }: {
   const [ignored, setIgnored] = useState(false);
   const state = proposalState(field, item, document);
   if (!state || ignored) return null;
-  return <details className="rw-disclosure ai-suggestion" aria-label="AI suggestion"><summary>AI suggestion</summary>
-    <p className="muted">{field.assistance?.provider} · {field.assistance?.model}. Check it against the PDF.</p>
+  return <details className="rw-disclosure ai-suggestion" aria-label="AI suggestion" open><summary>AI suggestion</summary>
+    <p className="muted">{field.assistance?.provider} · {field.assistance?.model}. Check it against the source page.</p>
     {state === 'stale' ? <p role="alert">This suggestion belongs to different source content. Reopen the current packet first.</p>
       : <><p>{field.assistance?.rationale || 'Compare this with the original before deciding.'}</p>
         {state === 'proposal' && <><p className="original-text source-reading">{readableValue(field.proposed_value)}</p>

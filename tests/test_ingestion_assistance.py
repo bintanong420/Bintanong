@@ -158,6 +158,10 @@ def test_vision_transport_sends_original_images_and_no_credentials_in_result():
     def handle(req):
         assert req.url.path == '/v1/chat/completions'
         value = json.loads(req.content)
+        assert value['response_format']['type'] == 'json_schema'
+        schema = value['response_format']['json_schema']['schema']
+        assert schema['oneOf'][0]['properties']['outcome'] == {'const': 'proposal'}
+        assert 'proposed_value' not in schema['oneOf'][1]['properties']
         assert value['messages'][1]['content'][2]['image_url']['url'].startswith('data:image/png;base64,')
         assert req.headers['authorization'] == 'Bearer synthetic-test-only'
         return httpx.Response(200, json={'choices': [{'message': {'content': json.dumps({

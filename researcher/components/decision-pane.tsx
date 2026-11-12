@@ -2,7 +2,7 @@
 
 import { useId, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
-import { AdvisorySuggestion } from '@/components/advisory-suggestion';
+import { ReviewAudit } from '@/components/review-audit';
 import { RelatedRecords } from '@/components/related-records';
 import { ReviewedValue } from '@/components/reviewed-value';
 import { SourceGaps } from '@/components/source-gaps';
@@ -19,10 +19,11 @@ function DecisionChoice({ field, value, onChoose }: { field: Field; value: strin
   </div>;
 }
 
-export function DecisionPane({ item, items, documents, draft, setDraft, dirty, busy, notices, onSave, onShowSource, onOpenRecord }: {
+export function DecisionPane({ item, items, documents, draft, setDraft, dirty, busy, notices, onSave, onShowSource, onOpenRecord, packetId, revision }: {
   item: ReviewItem; items: ReviewItem[]; documents: Document[]; draft: Draft; setDraft: Dispatch<SetStateAction<Draft | null>>;
   dirty: boolean; busy: boolean; notices: ReactNode; onSave: () => void; onShowSource: (itemId: string, page: number) => void;
   onOpenRecord: (id: string) => void;
+  packetId: string; revision: number;
 }) {
   const [showRaw, setShowRaw] = useState(false);
   const document = documents.find(doc => doc.id === item.document_id);
@@ -80,7 +81,8 @@ export function DecisionPane({ item, items, documents, draft, setDraft, dirty, b
                   onChoose={choice => setField(field.name, fieldAfterChoice(field.original_value, current, choice))}/>
                 {current.decision === 'corrected' && <ReviewedValue field={field} value={current.text}
                   onChange={text => setField(field.name, { decision: 'corrected', text })}/>}
-                <AdvisorySuggestion key={item.id + ':' + field.name} field={field} item={item} document={document}
+                <ReviewAudit key={item.id + ':' + field.name} field={field} item={item} document={document}
+                  packetId={packetId} revision={revision} disabled={busy}
                   onUse={value => setField(field.name, { decision: 'corrected', text: textOf(value) })}/>
               </section>;
             })}

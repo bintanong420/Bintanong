@@ -52,7 +52,7 @@ def validate(rows, documents):
                 raise ValueError('stale advisory proposed value')
 
 
-def assist(rows, documents, provider, render, *, mode='none', pages=(), item_ids=()):
+def assist(rows, documents, provider, render, *, mode='none', pages=(), item_ids=(), field_names=()):
     if (mode not in ('none', 'all', 'flagged', 'selected')
             or any(type(p) is not int or p < 1 for p in pages)
             or (mode == 'selected' and not pages and not item_ids)):
@@ -68,6 +68,8 @@ def assist(rows, documents, provider, render, *, mode='none', pages=(), item_ids
         if mode == 'flagged' and not row.get('findings') and not row.get('source_gaps'):
             continue
         for field in row['fields']:
+            if field_names and field['name'] not in field_names:
+                continue
             located = field['locator']['physical_pages']
             if (not located or field.get('source_blank') or (mode == 'selected'
                     and row['id'] not in item_ids and not set(located).intersection(pages))):

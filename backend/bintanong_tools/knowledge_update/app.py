@@ -28,6 +28,7 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
     renderers = {}
     prospectus_sessions = {}
     renderer_lock = threading.RLock()
+    audit_lock = threading.Lock()
 
     @asynccontextmanager
     async def lifespan(app):
@@ -107,6 +108,28 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
     @app.post('/api/export')
     def export():
         return session.export()
+
+    @app.post('/api/audit')
+    async def audit(request: Request):
+        command = await read_command(request)
+        if isinstance(command, Response):
+            return command
+        from starlette.concurrency import run_in_threadpool
+        from .review_audit import audit_field
+        def run():
+            if not audit_lock.acquire(blocking=False):
+                raise Refusal('Another Gemma audit is running. Wait for it to finish.', 'audit_busy', 409)
+            try:
+                review = session.current if workspace is not None else session
+                if review is None:
+                    raise ValueError('Open an upload for review first.')
+                result = audit_field(review, command, PageRenderer)
+                if workspace is not None and session.current is not review:
+                    raise Refusal('The open document changed during the audit.', 'stale_audit', 409)
+                return result
+            finally:
+                audit_lock.release()
+        return await run_in_threadpool(run)
 
     def document(identity):
         packet = load_packet(session.root, reuse_checked=True)

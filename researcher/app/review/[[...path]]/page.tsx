@@ -211,6 +211,7 @@ export default function ReviewWorkspace() {
             relatedItems={relatedItems} focus={sourceFocus}
             revision={state.revision} feedback={state.feedback} onFeedbackSaved={feedbackSaved} reviewBusy={busy || !!pending.current}/>
             <DecisionPane key={item.id} item={item} items={state.items} documents={state.documents} draft={draft} setDraft={editDraft}
+              packetId={state.packet_id} revision={state.revision}
               dirty={dirty} busy={busy || !!pending.current} notices={notices} onSave={() => void save()}
               onShowSource={(itemId, page) => setSourceFocus({ itemId, page })} onOpenRecord={onChoose}/>
           </div>}
