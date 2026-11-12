@@ -30,7 +30,7 @@ export function ReviewShell({ children }: { children: ReactNode }) {
         {SECTIONS.map(item => <li key={item.id}>
           <a href={item.href} aria-current={section === item.id ? 'page' : undefined}>{item.label}</a></li>)}
       </ul></nav>
-      <label className="shell-appearance">Appearance<select value={appearance} onChange={event => choose(event.target.value)}>
+      <label className="shell-appearance"><span className="shell-appearance-label">Appearance</span><select value={appearance} onChange={event => choose(event.target.value)}>
         <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
     </header>
     {children}
