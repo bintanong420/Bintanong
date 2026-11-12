@@ -74,6 +74,15 @@ def _preview(fields) -> str:
     return ''
 
 
+def _saved_for(path: Path, revision) -> bool:
+    """True only for a readable form file written against this revision; a corrupt file counts as not saved."""
+    try:
+        value = read_json(path)
+    except (OSError, ValueError):
+        return False
+    return isinstance(value, dict) and value.get('revision') == revision
+
+
 def build_plan(session) -> dict:
     """What the build form needs: each reading's pending fields and the held-back items, before build is called."""
     export = session.export()
@@ -85,7 +94,7 @@ def build_plan(session) -> dict:
                          'intended_audience': row['intended_audience']})
     saved = session.root / 'review/build-metadata.json'  # only a form saved against this revision counts
     return {'packet_id': export['packet_id'], 'revision': export['revision'], 'readings': readings,
-            'metadata_saved': saved.is_file() and read_json(saved).get('revision') == export['revision'],
+            'metadata_saved': _saved_for(saved, export['revision']),
             'withheld_items': export['withheld_items'], 'required_readings': export['required_readings']}
 
 
