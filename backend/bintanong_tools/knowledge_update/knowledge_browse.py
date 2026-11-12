@@ -22,6 +22,9 @@ from .intake import Refusal, _workspace, list_uploads
 SOURCE_ID = re.compile(r'(?:package:[0-9a-f]{16}|(?:local|hosted):[A-Za-z0-9._-]{1,100})')
 SHA256 = re.compile(r'[0-9a-f]{64}')
 MAX_QUERY = 200
+MAX_DOCUMENT = 300
+DOCUMENT_BATCH = 1000          # rows per request; PostgREST commonly caps a response near this
+MAX_DOCUMENT_CHUNKS = 5000     # most chunks one listing reads before it reports truncated
 CHUNK_COLUMNS = ('chunk_id,text,section_path,byte_sha256,reading_id:type_fields->>reading_id,'
                  'token_count:token_count->count,documents(title),source_spans(page),release_chunks!inner(release_id)')
 MESSAGES = {
@@ -133,6 +136,22 @@ def _bounded(offset, limit, q) -> str:
     return q.strip()
 
 
+def _document(document) -> str:
+    document = document or ''
+    if len(document) > MAX_DOCUMENT or any(ord(c) < 32 for c in document):
+        raise Refusal(f'Document must be one line of at most {MAX_DOCUMENT} characters.', 'bad_request')
+    return document
+
+
+def _document_filter(params: dict, document: str) -> None:
+    """Exact match on the source hash, or on the document title through an inner join on documents."""
+    if SHA256.fullmatch(document):
+        params['byte_sha256'] = 'eq.' + document
+    else:
+        params['select'] = params['select'].replace('documents(title)', 'documents!inner(title)')
+        params['documents.title'] = 'eq.' + document
+
+
 def _pages(spans) -> list[int]:
     return sorted({s['page'] for s in spans or [] if isinstance(s, dict) and isinstance(s.get('page'), int)})
 
@@ -198,16 +217,18 @@ class KnowledgeBrowser:
                 self._packages[upload_id] = cached
             return cached[1]
 
-    def chunks(self, source: str, q: str = '', offset: int = 0, limit: int = 25) -> dict:
+    def chunks(self, source: str, q: str = '', offset: int = 0, limit: int = 25, document: str = '') -> dict:
         if not isinstance(source, str) or not SOURCE_ID.fullmatch(source):
             raise Refusal('Unknown knowledge source. Pick one from the source list.', 'unknown_source')
         q = _bounded(offset, limit, q)
+        document = _document(document)
         kind, _, ident = source.partition(':')
         if kind == 'package':
             package = self._package(ident)
             titles = {d['sha256']: d.get('title') for d in package['recipe']['source_documents']}
             needle = q.casefold()
-            matched = [c for c in package['chunks'] if needle in c['text'].casefold()]
+            matched = [c for c in package['chunks'] if needle in c['text'].casefold() and (
+                not document or document in (c.get('byte_sha256'), titles.get(c.get('byte_sha256'))))]
             rows = [{'chunk_id': c['chunk_id'], 'text': c['text'], 'document_title': titles.get(c.get('byte_sha256')),
                      'section': ' > '.join(c.get('section_path') or []) or None, 'pages': _pages(c.get('spans')),
                      'source_sha256': c.get('byte_sha256'), 'reading_id': (c.get('type_fields') or {}).get('reading_id'),
@@ -217,6 +238,8 @@ class KnowledgeBrowser:
                   'order': 'chunk_id.asc', 'offset': str(offset), 'limit': str(limit)}
         if q:
             params['text'] = 'ilike.' + like_pattern(q)
+        if document:
+            _document_filter(params, document)
         rest = self._rest(kind)
         try:
             found, total = rest.get('chunks', params, count=True)
@@ -227,6 +250,55 @@ class KnowledgeBrowser:
                  'source_sha256': r.get('byte_sha256'), 'reading_id': r.get('reading_id'),
                  'token_count': r.get('token_count')} for r in found]
         return {'chunks': rows, 'total': len(rows) + offset if total is None else total, 'offset': offset, 'limit': limit}
+
+    def documents(self, source: str) -> dict:
+        """One entry per source document: grouped by source hash (else title). Chunk text is never fetched."""
+        if not isinstance(source, str) or not SOURCE_ID.fullmatch(source):
+            raise Refusal('Unknown knowledge source. Pick one from the source list.', 'unknown_source')
+        kind, _, ident = source.partition(':')
+        truncated = False
+        if kind == 'package':
+            package = self._package(ident)
+            titles = {d['sha256']: d.get('title') for d in package['recipe']['source_documents']}
+            chunks = [(c.get('byte_sha256'), titles.get(c.get('byte_sha256')), _pages(c.get('spans')))
+                      for c in package['chunks']]
+        else:
+            chunks = []
+            params = {'select': 'chunk_id,byte_sha256,documents(title),source_spans(page),release_chunks!inner(release_id)',
+                      'release_chunks.release_id': 'eq.' + ident, 'order': 'chunk_id.asc', 'limit': str(DOCUMENT_BATCH)}
+            rest = self._rest(kind)
+            try:
+                while True:
+                    rows, total = rest.get('chunks', {**params, 'offset': str(len(chunks))}, count=True)
+                    room = MAX_DOCUMENT_CHUNKS - len(chunks)
+                    chunks += [(r.get('byte_sha256'), (r.get('documents') or {}).get('title'), _pages(r.get('source_spans')))
+                               for r in rows[:room]]
+                    if len(rows) < DOCUMENT_BATCH or (total is not None and len(chunks) >= total):
+                        break
+                    if len(chunks) >= MAX_DOCUMENT_CHUNKS:
+                        truncated = True
+                        break
+            finally:
+                rest.close()
+        groups: dict[str, dict] = {}
+        for sha, title, pages in chunks:
+            sha = sha if isinstance(sha, str) and SHA256.fullmatch(sha) else None
+            key = sha or title
+            if not key:
+                continue  # no hash and no title: nothing to group or filter by
+            group = groups.setdefault(key, {'document_key': key, 'title': title or '', 'chunk_count': 0, 'pages': set()})
+            group['title'] = group['title'] or title or ''
+            group['chunk_count'] += 1
+            group['pages'].update(pages)
+            if sha:
+                group['source_sha256'] = sha
+        documents = []
+        for group in sorted(groups.values(), key=lambda g: (g['title'].casefold(), g['document_key'])):
+            pages = sorted(group.pop('pages'))
+            sha = group.get('source_sha256')
+            documents.append({**group, 'pages': [pages[0], pages[-1]] if pages else [],
+                              'pdf_available': bool(sha and self.sources_index.locate(sha))})
+        return {'documents': documents, 'source': source, 'truncated': truncated}
 
 
 def _inside(root: Path, path: Path) -> Path | None:

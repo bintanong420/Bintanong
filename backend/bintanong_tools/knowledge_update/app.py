@@ -262,8 +262,12 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
             return browser.sources()
 
         @app.get('/api/knowledge/chunks')
-        def knowledge_chunks(source: str, q: str = '', offset: int = 0, limit: int = 25):
-            return browser.chunks(source, q, offset, limit)
+        def knowledge_chunks(source: str, q: str = '', offset: int = 0, limit: int = 25, document: str = ''):
+            return browser.chunks(source, q, offset, limit, document)
+
+        @app.get('/api/knowledge/documents')
+        def knowledge_documents(source: str):
+            return browser.documents(source)
 
         @app.get('/api/knowledge/page')
         def knowledge_page(sha256: str, page: int, scale: float = 1.5):

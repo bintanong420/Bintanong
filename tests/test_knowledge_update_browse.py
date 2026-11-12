@@ -285,3 +285,104 @@ def test_repeat_page_requests_do_not_rehash_or_rescan(tmp_path, monkeypatch):
     added = b'%PDF-1.7 synthetic added later'
     (root / 'later.pdf').write_bytes(added)
     assert knowledge.sources_index.pdf(digest(added)).read_bytes() == added and calls['scan'] >= 1
+
+
+def paged(rows, total=None):
+    """Fake PostgREST that honours offset/limit like the real thing and records each request."""
+    seen = []
+
+    def handler(request):
+        seen.append(request)
+        params = request.url.params
+        start, size = int(params.get('offset', 0)), int(params.get('limit', len(rows)))
+        return httpx.Response(200, json=rows[start:start + size],
+                              headers={'content-range': f'{start}-{start + size - 1}/{len(rows) if total is None else total}'})
+    handler.requests = seen
+    return handler
+
+
+def doc_row(n, sha, title, pages):
+    return {'chunk_id': f'{n:064x}', 'byte_sha256': sha, 'documents': {'title': title} if title else None,
+            'source_spans': [{'page': p} for p in pages], 'release_chunks': [{'release_id': 'rel-1'}]}
+
+
+def test_documents_group_chunks_by_source_hash_then_title(tmp_path):
+    upload_id = intake().create_upload(tmp_path, PDF, kind='handbook', title='Synthetic code', edition='2026')['upload_id']
+    have = digest(PDF)
+    rows = [doc_row(1, have, 'Handbook', [4, 2]), doc_row(2, have, 'Handbook', [9]), doc_row(3, 'a' * 64, 'Missing PDF', []),
+            doc_row(4, None, 'Title only', [1]), doc_row(5, None, 'Title only', [3]), doc_row(6, None, None, [1])]
+    fake = paged(rows)
+    knowledge = browser(tmp_path, local=lambda: browse().Rest('local', 'http://127.0.0.1:54321', 'k',
+                                                               httpx.Client(transport=httpx.MockTransport(fake))))
+    result = knowledge.documents('local:rel-1')
+    assert result['source'] == 'local:rel-1' and result['truncated'] is False
+    assert result['documents'] == [
+        {'document_key': have, 'title': 'Handbook', 'source_sha256': have, 'chunk_count': 2, 'pages': [2, 9], 'pdf_available': True},
+        {'document_key': 'a' * 64, 'title': 'Missing PDF', 'source_sha256': 'a' * 64, 'chunk_count': 1, 'pages': [], 'pdf_available': False},
+        {'document_key': 'Title only', 'title': 'Title only', 'chunk_count': 2, 'pages': [1, 3], 'pdf_available': False}]
+    assert upload_id and 'text' not in fake.requests[0].url.params['select'].split(',')  # no chunk text is fetched
+
+
+def test_documents_page_through_chunks_and_report_truncation(tmp_path, monkeypatch):
+    rows = [doc_row(n, 'c' * 64, 'Big', [n]) for n in range(1, 8)]
+    fake = paged(rows)
+    monkeypatch.setattr(browse(), 'DOCUMENT_BATCH', 2)
+    monkeypatch.setattr(browse(), 'MAX_DOCUMENT_CHUNKS', 4)
+    knowledge = browser(tmp_path, local=lambda: browse().Rest('local', 'http://127.0.0.1:54321', 'k',
+                                                               httpx.Client(transport=httpx.MockTransport(fake))))
+    result = knowledge.documents('local:rel-1')
+    assert result['truncated'] is True and result['documents'][0]['chunk_count'] == 4
+    assert [r.url.params['offset'] for r in fake.requests] == ['0', '2']
+    monkeypatch.setattr(browse(), 'MAX_DOCUMENT_CHUNKS', 50)
+    assert knowledge.documents('local:rel-1')['truncated'] is False
+
+
+def test_hosted_documents_stay_anon_and_get_only(tmp_path):
+    fake = paged([doc_row(1, 'd' * 64, 'Online', [1])])
+    knowledge = browser(tmp_path, hosted=fake, hosted_env=env_file(tmp_path))
+    result = knowledge.documents('hosted:rel-1')
+    assert result['documents'][0]['title'] == 'Online'
+    assert fake.requests and all(r.method == 'GET' for r in fake.requests)
+    for request in fake.requests:
+        assert request.headers['apikey'] == ANON and SERVICE not in str(dict(request.headers)) + str(request.url)
+        assert request.url.host == 'synthetic.supabase.co' and request.url.params['release_chunks.release_id'] == 'eq.rel-1'
+
+
+def test_document_filter_on_chunks_matches_exactly_by_hash_or_title(tmp_path):
+    fake = Recorder({'chunks': [ROW]})
+    knowledge = browser(tmp_path, local=lambda: browse().Rest('local', 'http://127.0.0.1:54321', 'k',
+                                                               httpx.Client(transport=httpx.MockTransport(fake))))
+    knowledge.chunks('local:rel-1', document='b' * 64)
+    assert fake.requests[0].url.params['byte_sha256'] == 'eq.' + 'b' * 64
+    knowledge.chunks('local:rel-1', document='Code, (2026)*')
+    params = fake.requests[1].url.params
+    assert params['documents.title'] == 'eq.Code, (2026)*' and 'documents!inner' in params['select']
+    for bad in ('x' * 301, 'a\nb'):
+        with pytest.raises(ValueError) as caught:
+            knowledge.chunks('local:rel-1', document=bad)
+        assert caught.value.code == 'bad_request'
+
+
+def test_package_documents_and_document_filter(reviewed, tmp_path):  # noqa: F811
+    root, _ = reviewed
+    upload_id = intake().create_upload(tmp_path, PDF, kind='handbook', title='Synthetic code', edition='2026')['upload_id']
+    build = importlib.import_module('backend.bintanong_tools.knowledge_update.build')
+    build.build(root, tmp_path / upload_id / 'package', encoder=SyntheticEncoder())
+    knowledge = browser(tmp_path)
+    listed = knowledge.documents('package:' + upload_id)['documents']
+    assert len(listed) == 1 and listed[0]['chunk_count'] == 1 and isinstance(listed[0]['pdf_available'], bool)
+    assert knowledge.chunks('package:' + upload_id, document=listed[0]['document_key'])['total'] == 1
+    assert knowledge.chunks('package:' + upload_id, document='no such document')['total'] == 0
+
+
+def test_documents_route_needs_token_validates_source_and_reports_unavailable(tmp_path):
+    client, _ = web(tmp_path, browser(tmp_path))
+    assert client.get('/api/knowledge/documents', params={'source': 'local:rel-1'}, headers={'origin': ORIGIN}).status_code == 403
+    unknown = client.get('/api/knowledge/documents', params={'source': 'remote:rel'}, headers=GOOD)
+    assert unknown.status_code in (404, 422) and unknown.json()['code'] == 'unknown_source'
+    down = client.get('/api/knowledge/documents', params={'source': 'local:rel-1'}, headers=GOOD)
+    assert down.status_code == 503 and down.json()['code'] == 'local_unavailable'
+    hosted = client.get('/api/knowledge/documents', params={'source': 'hosted:rel-1'}, headers=GOOD)
+    assert hosted.status_code == 503 and hosted.json()['code'] == 'hosted_not_configured'
+    chunks = client.get('/api/knowledge/chunks', params={'source': 'local:rel-1', 'document': 'x' * 301}, headers=GOOD)
+    assert chunks.status_code == 422
