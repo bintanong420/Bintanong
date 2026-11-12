@@ -182,10 +182,31 @@ def prepare(manifest_path: Path, out: Path, *, converter=None, assist_provider=N
     return load_packet(out)
 
 
-def load_packet(root: Path) -> dict:
+# Fully checked packets, keyed by root, with the file signature taken before that check.
+# ponytail: size+mtime signature, so a same-size same-mtime edit is only caught by the full check on save/build/verify.
+_verified: dict[str, tuple] = {}
+
+
+def _signature(root: Path) -> tuple:
+    rows = []
+    for path in sorted(root.rglob('*')):
+        relative = path.relative_to(root)
+        if relative.parts[0] == 'review' or not path.is_file():  # review/ holds decisions and runtime files, never checked here
+            continue
+        stat = path.stat()
+        rows.append((relative.as_posix(), stat.st_size, stat.st_mtime_ns))
+    return tuple(rows)
+
+
+def load_packet(root: Path, *, reuse_checked: bool = False) -> dict:
+    """Load and fully check a packet. Read-only views pass reuse_checked=True to skip the re-hash while nothing changed."""
     if any(p.is_symlink() for p in (Path(root), *Path(root).absolute().parents)):
         raise ValueError('symlink packet refused')
     root = Path(root).resolve()
+    signature = _signature(root)
+    cached = _verified.get(str(root))
+    if reuse_checked and cached is not None and cached[0] == signature:
+        return copy.deepcopy(cached[1])
     packet = read_json(root / 'packet.json')
     if (not isinstance(packet, dict) or packet.get('schema_version') != 'bintanong-review-packet-v1'
             or packet.get('candidate_only') is not True):
@@ -228,4 +249,5 @@ def load_packet(root: Path) -> dict:
             raise ValueError('snapshot review projection differs from its source records')
     from .advisory import validate
     validate(packet['items'], packet['documents'])
+    _verified[str(root)] = (signature, copy.deepcopy(packet))
     return packet

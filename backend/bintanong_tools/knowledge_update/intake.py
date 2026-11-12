@@ -282,7 +282,7 @@ def packet_items(workspace: Path, upload_id) -> dict:
     folder = _upload(workspace, upload_id)
     if prepare_status(workspace, upload_id)['state'] != 'done':
         raise Refusal('Prepare has not finished for this upload. Wait for it to finish, then reload.', 'not_prepared')
-    packet = load_packet(folder / 'packet')
+    packet = load_packet(folder / 'packet', reuse_checked=True)
     return {'upload_id': upload_id, 'packet_id': packet['packet_id'],
             'documents': [{'id': d['id'], 'title': d['title'], 'sha256': d['sha256']} for d in packet['documents']],
             'items': [{'id': row['id'], 'document_id': row['document_id'], 'title': row.get('title', ''),

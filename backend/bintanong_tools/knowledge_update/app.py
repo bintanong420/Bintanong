@@ -109,7 +109,7 @@ def create_app(session, token: str, *, port: int, ui_origin: str, workspace=None
         return session.export()
 
     def document(identity):
-        packet = load_packet(session.root)
+        packet = load_packet(session.root, reuse_checked=True)
         return next((d for d in packet['documents'] if d['id'] == identity), None)
 
     def prospectus(identity):

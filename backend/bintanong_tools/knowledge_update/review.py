@@ -246,7 +246,7 @@ class ReviewSession:
 
     def state(self) -> dict:
         with self.guard:
-            load_packet(self.root)
+            load_packet(self.root, reuse_checked=True)
             self.events = self._read_events()
             rows = copy.deepcopy(self.packet['items'])
             latest = {e['item_id']: e for e in self.events if e.get('kind') != 'omission'}
