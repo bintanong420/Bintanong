@@ -84,7 +84,9 @@ PID52268/API8765/UI3050 restarted; new launch link in ignored `ku-multi-20261112
 4px spacing, 12-24px type, 4/6px radius), tightened copy; reviewed APPROVE (no behaviour change, AA in light/dark,
 390px no overflow, keyboard walk, windowing row height intact). Researcher 95/2-skip, tsc, build. Local Supabase
 db/rest/kong started (gateway binds 0.0.0.0:54321 per existing config). Server restarted on p12-dev, USG reopened
-(state 171 ms; sources hosted=1 local=5).
+(state 171 ms; sources hosted=1 local=5). Then alignment `2fd62577`..`3e3a7f5e` and beautify `b33ec5e8`,`f4318000`
+(button font reset moved into `@layer base`, 2px accent focus, title steps, surface panels; 48-run audit: 0 overflow,
+min contrast 6.1:1). Researcher 96/3-skip, tsc, build. Server restarted with Gemma env, USG reopened.
 12 Nov whole-pipeline startup: images `eb47a413`, on-demand Gemma review audit `f5d77d94` integrated after
 independent review. [Runtime receipt](../2026-11-12-full-pipeline-startup.md): student3217/API8022 ready200;
 ingestion3050/API8765 with Docling/SEA-LION paths and Gemma configured; local Supabase db/rest/gateway/
