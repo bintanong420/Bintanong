@@ -104,3 +104,57 @@ protected source/packet/review-log hashes unchanged. No cloud writes/review save
 Next: step7 + `check-draft`; local activation route and cloud draft-versus-activation remain undecided.
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 No institutional deployment or closure of source PR18/19 is implied; hosted stays read-only.
+
+## Evaluation testing mode (6 Nov)
+Owner asked to plan, not implement, a website testing mode for Accuracy/Precision/Recall/F1.
+[Feasibility and plan](../2026-11-06-evaluation-testing-mode-plan.md). Owner: keep the 72 queries typed singly; both lists; keys with human judging; row10 Handbook.
+[Tasks](../2026-11-06-evaluation-testing-mode-implementation.md) built: page `/dev/evaluation` on 3217/API 8022, off unless launcher sets passcode. Pilot 5/5 ran at `a73b6128`; final `1e499828`, focused 137 pass. Keys: rows1-10 draft, 11-24 human-judged unless owner confirms. Full suite not run; not a results claim.
+7 Nov: owner running the 72 by hand via ngrok at pinned `1e499828`; 20 runs saved at last check. Stack is detached from the CLI; shut down API, web, ngrok and Docker memory when owner finishes. Ignored `audit-evidence/evaluation-testing-mode-20261106/chunk-reference/` has the searchable all-chunk PDF (C001-C560; read-back 560/560 IDs, 2160/2160 field values).
+7 Nov final metrics sheet: owner's `Context/for_f1scoreprecisionaccuracyrecall.pdf` (42 = 14 RAG rows x 3, prerequisite rows removed). Ran all 42 PDF wordings on a separate API 8023 at the same pinned commit, own log (`audit-evidence/final-metrics-20261107/`), so the owner's 72-run log stayed at 20 lines; 42/42 completed, 8023 then stopped. Rule calibrated on owner's English Q1 (3/0/1/556): TP/FP = as-run top-3, FN = relevant chunk in the all-chunk top 3 that was not retrieved, TN = 560 minus the rest. Pooled, so recall can be overstated. Q11 x3 routed `clarify` (no retrieval, P shown as 0). Macro P .7679 / R .7623 / F1 .7396 / Acc .9977. Output: untracked `Context/for_f1scoreprecisionaccuracyrecall_completed.pdf` (pages 1-2 original). Owner approved the Q1 fix: page 1 now reads 3/(3+0) = 1, applied as a page overlay (`q1_fix.py`), with the original PDF unchanged. Owner asked for a Q11 rerun replying "Leaving PalSU" and approved fixing what blocked it. The router changes in `router.py` / `topic_selection.py` came with RED/GREEN tests in `test_routing_transfer_direction.py`:
+- Once the transfer side is known, only that side's topics are offered.
+- A reply to the direction question is offered only its reply topic, with its part pinned (the model had quoted the earlier question).
+- Filipino "lilipat/magta-transfer [na po ako] ng ibang university" now counts as leaving.
+
+Live, the "Leaving PalSU" routing prompt went 8319 -> 7362 tokens (7416 usable). All three Q11 wordings now answer from the 2025 Charter, pp. 11-12. Q11 counts: EN 2/1/0/557; TL and Taglish 2/1/2/555. Macro P .8155 / R .8099 / F1 .7858 / Acc .9977. Q11 ran on newer code than the other 41 rows and than the owner's pinned 72-run. 8022 still runs the old code until restarted.
+Open gap: `evaluation/system_metrics.py` cannot count a relevant chunk in neither top-3 list, so recall is overstated for unkeyed rows. Proposed `FN: C123, C145` in the page's Note box; awaiting owner yes/no; scorer change needs RED/GREEN and no page or API restart. Undecided: RAGAS install/judge, BATAYAN source, Integration box rename.
+
+## RAGAS branch (7 Nov)
+Branch `p12-ragas-benchmark` (worktree `p12`, pushed). Owner approved separate venv (ignored
+`audit-evidence/ragas-20261107/`), DeepSeek judge (key in that folder's `.env`), local SEA-LION E5, telemetry off.
+Shared references `docs/evaluation/references/` (verbatim TP+FN chunks); BERTScore pairs + zip carry them.
+Write-up, per-row CSV and scripts: [RAGAS results](../../docs/evaluation/ragas/README.md). Headline (42 rows):
+faithfulness .883 against rebuilt writer evidence (neighbours 42/42 match logged counts; top-3-only .525),
+answer relevancy .584 (0 on 7 rows flagged noncommittal for source-limit notices; .701 without), context
+precision .896, context recall .754 (optimistic), factual correctness precision .570. One judge run.
+8 Nov: Query 1 three-language worked example tried (3a5f6084) and reverted; owner keeps the Query 9
+version (af3836e8), copied to for_manuscript/Benchmarks_results/RAGAS.pdf with the BATAYAN section.
+
+## Prerequisite answer rerun (8 Nov)
+Owner's 6 Nov export (`Bintanong_AI_Export_2026-11-06_1733.csv`) has Y/N marks only, no answer text.
+Owner asked for rows 1-10 x3 on the 6 Nov setup. Live 8022 code before the 17:33 export was `995378ce`
+(restarts 16:20/17:29; no p12-dev commits 16:21-17:50); launcher copied from `p12dev-language-20261105/start-candidate.py`,
+same venv/config/ledgers (unchanged since 31 Oct/4 Nov), same `live-results.json` requests, port 8025, now stopped.
+30/30 HTTP200; 27 answered, 3 clarification (row 5). Ignored evidence: `audit-evidence/p12-prereq-rerun-20261108/`
+(`prereq-answers-995378ce.csv`). Not regraded; one model run. Rows 1/3/4/6/7 sometimes call a stated-failed
+prerequisite's sibling "unknown" instead of saying the stated failure is unmet; row 5 asks instead of answering.
+Owner graded row 5 x3 correct (8 Nov): listing every A/B part as required is the expected answer; the re-ask about
+the already-stated NCM15-115A is a wording limitation only. Other rows not yet graded.
+
+## 22-query latency run (11 Nov)
+Owner's `Bintanong 22 bench queries test log.csv` (Ch. IV benchmark: rows 1-24 minus 7 and 10; 4 updated
+wordings in rows 19-21) x EN/Tagalog/Taglish = 66, on this branch `073035f4`, 8022 dev settings, port 8025, via `/chat`.
+Warm (63/66; Q04-TL, Q04-TG, Q19-TG excluded: ~3 s "check temporarily unavailable"): mean 15.23 s, median 15.31, p90 20.91, max 30.47;
+Prolog subset 13.77 mean, RAG subset 16.02. Cold: model 108 s + API 149 s + first query 20.9 s = 278 s. Hot
+(API restart, model loaded): 108 s + 19.4 s = 127 s. Backend time only; RAM low (warm min 454 MB available).
+Evidence/CSVs: ignored `audit-evidence/p12-latency-22-20261111/`. All Docker (Supabase, Binturong) stopped for RAM.
+Failure diagnosis (`diag-failures/`, 6/6 reruns reproduce, not memory): topic selection picks 2-3 topics for these
+wordings (Q04-TL/TG: prerequisite + substitution + DAC policy / drop-shift FAQ; Q19-TG: student FAQ + transfer
+credentials); the router prompt grows 27.1k -> 32.9-34.4k chars and the transport preflight raises `context_overflow`
+(prompt + output reserve > 8192). Routing has no overflow fallback (orchestrator maps it to `tool_error`). No code fix.
+Owner chose to raise the context to 16,384 for benchmarking and disclose it. Fit check (`fit-check/`): +167 MB VRAM
+(5,505/8,188 MB), same prompt/generation tok/s, fully on GPU. New container `bintanong-p09-cuda-16k` (same image/args
+except `--ctx-size 16384`, port 18088); 8k container unchanged. 16k rerun of all 66 (`p12-latency-22-16k-20261111/`):
+66/66 responded, no failures; warm mean 15.62 s, median 15.78, p90 21.25, max 29.98 (Prolog 14.32, RAG 16.36).
+Cold 71 + 101 + 20.1 = 193 s; hot 105 + 18.2 = 124 s. Both containers stopped; Supabase/Binturong still stopped.
+
+Merged `p12-evaluation-harness` into p12-dev (13 Nov, owner request). Its 6 Nov runtime/next-action notes are kept verbatim in the [harness snapshot](../2026-11-13-p12-evaluation-harness-progress-snapshot.md).

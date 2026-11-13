@@ -5,9 +5,12 @@ const failure = (status: number, error: string) => Response.json({ error }, { st
 
 export async function forwardStudentRequest(request: Request, path: string, options: Options) {
   const upload = path === "/uploads";
-  const methods = path === "/chat" || upload || /^\/uploads\/upl-[a-f0-9]{16}\/confirm$/.test(path) ? ["POST"]
+  // Gated on the API by the evaluator passcode; off, or a wrong passcode, is a 404 from the API.
+  const evaluationPost = path === "/evaluation/run" || /^\/evaluation\/runs\/run-[a-f0-9]{16}\/judgment$/.test(path);
+  const evaluationGet = path === "/evaluation/cases" || path === "/evaluation/runs";
+  const methods = path === "/chat" || upload || evaluationPost || /^\/uploads\/upl-[a-f0-9]{16}\/confirm$/.test(path) ? ["POST"]
     : path === "/session" || /^\/uploads\/upl-[a-f0-9]{16}$/.test(path) ? ["DELETE"]
-    : path === "/curricula" || /^\/sources\/ev-[a-f0-9]{64}$/.test(path) ? ["GET"] : null;
+    : path === "/curricula" || evaluationGet || /^\/sources\/ev-[a-f0-9]{64}$/.test(path) ? ["GET"] : null;
   if (!methods) return failure(404, "route_unavailable");
   if (!methods.includes(request.method)) return failure(405, "method_unavailable");
   const url = new URL(request.url), host = request.headers.get("host");
@@ -20,6 +23,8 @@ export async function forwardStudentRequest(request: Request, path: string, opti
   // Browser headers cannot replace the cookie identity used by this workspace.
   if (request.headers.has("authorization")) return failure(401, "sign_in_required");
   if (options.accessToken) headers.set("Authorization", "Bearer " + options.accessToken);
+  const passcode = request.headers.get("x-bintanong-evaluator");
+  if (passcode && (evaluationPost || evaluationGet)) headers.set("x-bintanong-evaluator", passcode);
   // Only the chat session and the anonymous browser id (per-person question limit) reach the API.
   const owned = request.headers.get("cookie")?.split(";").map(c => c.trim())
     .filter(c => /^__Host-bintanong_(session|client)=[A-Za-z0-9_-]{43}$/.test(c)) ?? [];

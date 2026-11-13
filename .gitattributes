@@ -1,2 +1,4 @@
 # Runtime bundles bind the exact Prolog engine bytes across checkouts.
 backend/algorithms/curriculum_runtime.pl text eol=lf
+# PDFs are binary even when their bytes look like text; never convert line endings.
+*.pdf binary

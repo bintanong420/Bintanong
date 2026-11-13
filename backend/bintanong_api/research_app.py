@@ -32,6 +32,7 @@ from backend.bintanong_storage.config import StorageConfig
 from .app import ApiServices, ApiSettings, create_app
 from .auth import SupabaseAuth
 from .chat import CurriculumOption
+from .evaluation import evaluation_from_env
 from .probes import probe_http_service, probe_janus
 from .research_pipeline import ResearchPipeline
 
@@ -183,6 +184,7 @@ def load_research_app(path=None):
             return model_ok and janus_ok
         services = ApiServices(sessions=SessionStore(), curricula=curricula, pipeline=pipeline,
             course_labels=dict(resources.course_labels), auth=auth, close=close, ready=ready,
+            evaluation=evaluation_from_env(pipeline, provider, curricula, dict(resources.course_labels)),
             extract_rows=lambda raw, program, curriculum: extract_isolated(raw, resources.catalog,
                 program_id=program, curriculum_id=curriculum))
         return create_app(services, ApiSettings(allowed_origins=config.allowed_origins,

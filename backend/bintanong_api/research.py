@@ -24,6 +24,7 @@ from backend.bintanong_storage.config import StorageConfig
 from .app import ApiServices, ApiSettings, create_app
 from .auth import SupabaseAuth
 from .chat import CurriculumOption
+from .evaluation import evaluation_from_env
 from .hosted_snapshot import bind_document_policy, load_document_snapshot
 from .research_pipeline import ResearchPipeline
 
@@ -151,7 +152,8 @@ def load_research_app(path=None):
         origins = tuple(value.strip() for value in os.environ.get('STUDENT_ALLOWED_ORIGINS', 'http://127.0.0.1:3215').split(',') if value.strip())
         app = create_app(ApiServices(sessions=SessionStore(), curricula=tuple(curricula), pipeline=pipeline,
             extract_rows=extract, course_labels=dict(resources.course_labels), auth=auth, ready=ready, close=close,
-            supabase_probe=provider.probe_supabase),
+            supabase_probe=provider.probe_supabase,
+            evaluation=evaluation_from_env(pipeline, provider, tuple(curricula), dict(resources.course_labels))),
             ApiSettings(allowed_origins=origins, require_auth=True))
         app.state.research_provider = provider
         return app
