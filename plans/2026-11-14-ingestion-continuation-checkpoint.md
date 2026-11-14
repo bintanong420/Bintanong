@@ -3,6 +3,8 @@
 Owner asked to continue the unfinished-work checklist. Bounded slice:
 `check-draft` CLI and GUI intake step 7, from `p12-dev` at `a518f1c7`.
 Task branch/worktree: `feat/ku-draft-rehearsal` / `p12-ku-rehearsal`.
+Delivered code/checks `4f4d4079`, independently reviewed and fast-forwarded into
+local `p12-dev`; no remote push or runtime reload. Both worktrees clean after integration.
 No numbered phase started; Phase 12 remains complete with disclosures.
 
 ## Delivered and remaining checklist
@@ -38,6 +40,7 @@ System Python 3.13, pytest cache disabled, fresh basetemp under
   (`knowledge-gate`). The subsequently added missing-model CLI case also passes in
   the final five-case CLI gate; do not add overlapping totals.
 - `git diff --check` passes; phase inspector valid, no active numbered phase.
+- CLI `check-draft --help` passes from the committed task worktree.
 
 Exact commands: `py -3.13 -B -m pytest tests/test_knowledge_update_cli.py
 tests/test_knowledge_update_draft_checks.py -q -p no:cacheprovider --basetemp <fresh>`;

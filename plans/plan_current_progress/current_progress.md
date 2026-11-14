@@ -102,8 +102,9 @@ clarifies direction (HTTP200,17.65s), not unavailable; synthetic vision5→15day
 Integrated78Python pass; researcher96pass/3skip, tsc pass; audit browser1pass. USG596items reopened,
 protected source/packet/review-log hashes unchanged. No cloud writes/review saves/activation; host RAM tight.
 14 Nov: [intake continuation](../2026-11-14-ingestion-continuation-checkpoint.md) delivers
-`check-draft` CLI and step7 PDF/PNG synthetic intake-to-draft rehearsals on an isolated
-task branch. Independent review approved; actual local DB/provider rehearsal remains open.
+`check-draft` CLI and step7 PDF/PNG synthetic intake-to-draft rehearsals (`4f4d4079`),
+independently reviewed and fast-forwarded into local p12-dev. Knowledge-update gate378pass;
+actual local DB/provider rehearsal remains open. No push or runtime reload.
 Next: actual conversion/embeddings -> inactive local draft with fingerprint preflight;
 local activation route and cloud draft-versus-activation remain undecided.
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
