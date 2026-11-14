@@ -17,7 +17,10 @@ No numbered phase started; Phase 12 remains complete with disclosures.
   inactive staging/readback and repeat staging. Held reading excluded; prior active
   release and original upload bytes preserved.
 - [x] Reconcile the GUI intake checklist and document command/measurement limits.
-- [ ] Live Docling/image/embedding-to-local-database rehearsal and local readback.
+- [x] Actual native PDF/embedding-to-local-database rehearsal and local readback;
+  [live results](2026-11-14-live-local-draft-rehearsal.md), inactive synthetic draft only.
+- [ ] Actual image OCR-to-local-draft path: raster conversion emits a held empty-text
+  page because native conversion disables OCR; no image content built or staged.
 - [ ] Governed fresh-upload activation route, authorization and live rollback proof.
 - [ ] Real assisted-packet human review/build and matched effort/accuracy measurements.
 - [ ] Unified prospectus ledger build, combined manifest, changed-span review and
@@ -52,9 +55,10 @@ Overlapping counts are not summed. No fresh whole-repository/frontend suite.
 
 Conversion, embeddings, fingerprints and storage in the rehearsal are test doubles;
 the test uses the real preparation/review/build/verify/check/stage implementations.
-This proves component composition, not real conversion, model accuracy, browser
-acceptance or a live database transaction. No sources/review packets/services/
-database state changed; no activation, hosted writes, dependency changes or push.
+That test proves component composition. The subsequent live rehearsal separately
+proves actual PDF conversion/embeddings/inactive local writes, not model accuracy,
+image OCR or browser acceptance. One synthetic local draft is retained; owner review
+packets unchanged. No activation, hosted writes, dependency changes or push.
 
 Consulted current INDEX/progress, Phase 12 handoff, GUI/unified plans, owner ledger,
 master sections 3/11/13/18.3, thesis physical 17–18 and runtime routing PNG.
@@ -63,6 +67,6 @@ gates are unchanged. Original October blockers are historical, not fresh failure
 
 ## Next action
 
-Rehearse a synthetic document with actual local conversion/embeddings and inactive
-local database staging using the current fingerprint/freeze preflight. Keep source
-approval and activation decisions separate; do not repeat the completed mock rehearsal.
+Wire bounded image OCR with actual conversion-settings provenance, then rehearse
+the held PNG fixture. Preserve the live report's freeze baseline for local writes.
+Keep source approval/activation separate; do not repeat completed PDF/mock rehearsals.

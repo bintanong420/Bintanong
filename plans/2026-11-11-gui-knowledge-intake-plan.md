@@ -47,11 +47,12 @@ Checked software tasks do not establish live database/provider acceptance.
 - [x] 3. Run `prepare` in the configured p12 venv as a background process; status file and
   log tail; say clearly when Gemma was not reachable ("AI assistance unavailable").
 - [x] 4. Open review for a chosen upload (swap the review session; one reviewer per packet).
-- [ ] 5. T4 `local_release.py`, local Supabase only (127.0.0.1:54321; owner 8 Nov replaces the
+- [x] 5. T4 `local_release.py`, local Supabase only (127.0.0.1:54321; owner 8 Nov replaces the
   2 Nov scratch-only target): hosted/local fingerprint first, `load_versions` ->
   `load_artifacts` -> inactive draft `create_release`, then read back counts, draft status
   and the unchanged active release. Build passes the local `--model-dir`.
-  Implementation and fake-client checks delivered; actual local DB rehearsal remains open.
+  [Actual PDF/local draft rehearsal](2026-11-14-live-local-draft-rehearsal.md) passes,
+  including repeat staging/RLS and unchanged active pointer. Real image OCR remains open.
 - [x] 5b. Targeted question checks against the draft before it may be activated (master 18.3 step 5).
   Retrieval-only module and `check-draft` CLI; not answer-quality or approval validation.
 - [x] 6. Tracked local-only command for activate and rollback with the owner's authorization reference.

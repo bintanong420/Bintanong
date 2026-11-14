@@ -103,10 +103,17 @@ Integrated78Python pass; researcher96pass/3skip, tsc pass; audit browser1pass. U
 protected source/packet/review-log hashes unchanged. No cloud writes/review saves/activation; host RAM tight.
 14 Nov: [intake continuation](../2026-11-14-ingestion-continuation-checkpoint.md) delivers
 `check-draft` CLI and step7 PDF/PNG synthetic intake-to-draft rehearsals (`4f4d4079`),
-independently reviewed and fast-forwarded into local p12-dev. Knowledge-update gate378pass;
-actual local DB/provider rehearsal remains open. No push or runtime reload.
-Next: actual conversion/embeddings -> inactive local draft with fingerprint preflight;
-local activation route and cloud draft-versus-activation remain undecided.
+independently reviewed and fast-forwarded into local p12-dev. Knowledge-update gate378pass.
+14 Nov [live rehearsal](../2026-11-14-live-local-draft-rehearsal.md): actual native PDF,
+SEA-LION, verify/check and local draft/repeat pass. One synthetic unpublished draft
+`ku-rehearsal-20261114-pdf` retained; active560 unchanged, draft hidden from anon,
+unapproved release validation refused. Hosted25 fingerprint checks unchanged; freeze
+baseline: workspace `audit-evidence/ku-live-rehearsal-20261114/freeze-baseline/`.
+PNG conversion returned a held empty-text page: loader disables OCR; no image built.
+Next: bounded image OCR with truthful conversion settings, then held-PNG rehearsal.
+Activation and hosted publication decisions stay open; no push or student/Gemma reload.
+Services restored after rehearsal: Bintanong db/rest/kong stopped as initially;
+Binturong original3 running again, both DBs healthy and storage `/status`200.
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 No institutional deployment or closure of source PR18/19 is implied; hosted stays read-only.
 
