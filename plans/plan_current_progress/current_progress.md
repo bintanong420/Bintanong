@@ -109,11 +109,11 @@ SEA-LION, verify/check and local draft/repeat pass. One synthetic unpublished dr
 `ku-rehearsal-20261114-pdf` retained; active560 unchanged, draft hidden from anon,
 unapproved release validation refused. Hosted25 fingerprint checks unchanged; freeze
 baseline: workspace `audit-evidence/ku-live-rehearsal-20261114/freeze-baseline/`.
-PNG conversion returned a held empty-text page: loader disables OCR; no image built.
-Image OCR [continuation](../2026-11-14-image-ocr-results.md) on `feat/ku-image-ocr`:
-local pinned Tesseract, original-image-only opt-in, pending review; focused57/edge12
-and independent42pass. Actual PNG text + real embeddings pass; broader/local gates pending.
-Next: complete affected regressions and inactive PNG staging, then integrate after checks.
+Image OCR [results](../2026-11-14-image-ocr-results.md), code `64a7879c`:
+local pinned Tesseract, original-image-only opt-in, pending review; affected1885pass/93subtests,
+independent42pass. Actual PNG OCR/embedding/check/stage/repeat/RLS pass; second inactive
+synthetic draft retained, active560 and hosted25fingerprint checks unchanged. Old packet intact.
+Next: U0 read-only mapping for unified prospectus build; no source edits/release writes.
 Activation and hosted publication decisions stay open; no push or student/Gemma reload.
 Services restored after rehearsal: Bintanong db/rest/kong stopped as initially;
 Binturong original3 running again, both DBs healthy and storage `/status`200.

@@ -52,7 +52,8 @@ Checked software tasks do not establish live database/provider acceptance.
   `load_artifacts` -> inactive draft `create_release`, then read back counts, draft status
   and the unchanged active release. Build passes the local `--model-dir`.
   [Actual PDF/local draft rehearsal](2026-11-14-live-local-draft-rehearsal.md) passes,
-  including repeat staging/RLS and unchanged active pointer. Real image OCR remains open.
+  including repeat staging/RLS and unchanged active pointer; the subsequent
+  [PNG OCR rehearsal](2026-11-14-image-ocr-results.md) also passes, with human review retained.
 - [x] 5b. Targeted question checks against the draft before it may be activated (master 18.3 step 5).
   Retrieval-only module and `check-draft` CLI; not answer-quality or approval validation.
 - [x] 6. Tracked local-only command for activate and rollback with the owner's authorization reference.
