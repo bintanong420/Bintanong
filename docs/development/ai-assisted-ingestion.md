@@ -222,6 +222,34 @@ paths, so swapped fees/times fail even with 100% word recall. The harness does n
 create a human gold standard or decide which provider is better. Reviewer timing,
 correctness adjudication and matched live runs are still required.
 
+## Draft retrieval checks
+
+After building and verifying a package, author a cases file using reading IDs from
+that package. For example (replace the reading ID with an actual selected ID):
+
+```json
+{"schema_version":"bintanong-draft-check-cases-v1","cases":[{"case_id":"form-location","question":"Where do I submit the form?","expected_reading_ids":["handbook:text-0"],"top_k":5}]}
+```
+
+```powershell
+py -3.13 -m backend.bintanong_tools.knowledge_update check-draft "$work/package" --cases "$work/inputs/draft-cases.json" --out "$work/draft-checks.json" --model-dir C:/Coding-projects/bintanong_workspace/MODELS/SEA-LION-E5-Embedding-600M
+```
+
+Exit codes: **0** all cases pass; **2** at least one retrieval miss (report still
+written); **1** invalid input or an operational failure. Argument errors also use
+2 and print usage instead of a report. The explicit existing local model must
+match the package's embedding configuration. No database or model download is used.
+Keep the report outside Git; it binds the checked package's digests and can be
+passed to local `activate --checks-report` after the separate release-review and
+authorization requirements are satisfied. A passing report measures raw top-k
+retrieval only, not answer correctness, source approval or activation eligibility.
+
+The synthetic PDF/image intake-to-draft rehearsal is
+`tests/test_knowledge_update_rehearsal.py`. It exercises explicit review, metadata,
+build, verify, retrieval checks and repeated inactive staging. Conversion,
+embeddings, fingerprints and database calls use test doubles; this is not a live
+Docling/Gemma/database or browser acceptance run.
+
 ## Offline checks
 
 Intake accepts up to 20 PDF/PNG/JPG/JPEG/WebP files per batch (128 MiB each). Still

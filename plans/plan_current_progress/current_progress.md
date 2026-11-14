@@ -1,6 +1,6 @@
 # Current progress
 
-Updated12November2026. Active development worktree/branch: `p12-dev`.
+Updated14November2026. Active development worktree/branch: `p12-dev`.
 PR20 merged at `84e7c0db`; original ingestion/researcher merge `0a0fd297` preserved.
 No numbered phase started or advanced. Last full progress snapshot: `12f27bd6`.
 
@@ -101,7 +101,11 @@ vision=true; native older runtime replaced after model500. Exact transfer-creden
 clarifies direction (HTTP200,17.65s), not unavailable; synthetic vision5→15days proposal passes5.03s.
 Integrated78Python pass; researcher96pass/3skip, tsc pass; audit browser1pass. USG596items reopened,
 protected source/packet/review-log hashes unchanged. No cloud writes/review saves/activation; host RAM tight.
-Next: step7 + `check-draft`; local activation route and cloud draft-versus-activation remain undecided.
+14 Nov: [intake continuation](../2026-11-14-ingestion-continuation-checkpoint.md) delivers
+`check-draft` CLI and step7 PDF/PNG synthetic intake-to-draft rehearsals on an isolated
+task branch. Independent review approved; actual local DB/provider rehearsal remains open.
+Next: actual conversion/embeddings -> inactive local draft with fingerprint preflight;
+local activation route and cloud draft-versus-activation remain undecided.
 Known limit: upload buffers up to ~256 MiB in memory (local single-researcher tool).
 No institutional deployment or closure of source PR18/19 is implied; hosted stays read-only.
 

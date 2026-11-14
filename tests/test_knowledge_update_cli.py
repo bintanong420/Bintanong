@@ -1,9 +1,60 @@
 import importlib
 import json
 
+import pytest
+
 from backend.bintanong_tools.knowledge_update.__main__ import main
 from test_knowledge_update_verify import package
 from test_knowledge_update_build import reviewed
+from test_knowledge_update_draft_checks import QueryEncoder, cases, row
+
+
+@pytest.mark.parametrize('hit, expected_exit', [(True, 0), (False, 2)])
+def test_check_draft_writes_bound_report_and_fails_on_retrieval_miss(package, tmp_path, monkeypatch, capsys,
+                                                                  hit, expected_exit):
+    from backend.bintanong_tools.knowledge_update import build, draft_checks
+
+    monkeypatch.setattr(build, 'LocalEncoder', lambda path: QueryEncoder())
+    if not hit:
+        monkeypatch.setattr(draft_checks, '_retrieve', lambda *args: [])
+    out = tmp_path / 'checks.json'
+    assert main(['check-draft', str(package), '--cases', str(cases(tmp_path, [row()])),
+                 '--out', str(out), '--model-dir', str(tmp_path / 'model')]) == expected_exit
+    report = json.loads(capsys.readouterr().out)
+    assert report == json.loads(out.read_text(encoding='utf-8'))
+    assert report['passed'] is hit
+    assert report['cases'][0]['passed'] is hit
+    assert report['package_binding']['package_id'] == report['package_id']
+    assert 'retrieval only' in report['scope']
+
+
+def test_check_draft_refuses_invalid_cases_without_writing_report(package, tmp_path, monkeypatch, capsys):
+    from backend.bintanong_tools.knowledge_update import build
+
+    monkeypatch.setattr(build, 'LocalEncoder', lambda path: QueryEncoder())
+    out = tmp_path / 'checks.json'
+    assert main(['check-draft', str(package), '--cases', str(cases(tmp_path, [row(expected=('unknown',))])),
+                 '--out', str(out), '--model-dir', str(tmp_path / 'model')]) == 1
+    captured = capsys.readouterr()
+    assert 'unknown expected reading id' in captured.err
+    assert not captured.out and not out.exists()
+
+
+def test_check_draft_requires_explicit_model_directory(tmp_path, capsys):
+    with pytest.raises(SystemExit) as exc:
+        main(['check-draft', 'package', '--cases', 'cases.json', '--out', str(tmp_path / 'report.json')])
+    assert exc.value.code == 2
+    assert '--model-dir' in capsys.readouterr().err
+    assert not (tmp_path / 'report.json').exists()
+
+
+def test_check_draft_refuses_missing_local_model_instead_of_using_mock_vectors(tmp_path, capsys):
+    out = tmp_path / 'report.json'
+    assert main(['check-draft', 'package', '--cases', 'cases.json', '--out', str(out),
+                 '--model-dir', str(tmp_path / 'missing-model')]) == 1
+    captured = capsys.readouterr()
+    assert 'explicit existing workspace embedding model required' in captured.err
+    assert not captured.out and not out.exists()
 
 
 def test_verify_command_exposes_candidate_verification_without_database(package, capsys):

@@ -58,6 +58,11 @@ def main(argv=None) -> int:
     verify_command = commands.add_parser('verify', help='Recheck all package/source/review/configuration bindings.')
     verify_command.add_argument('package', type=Path)
     verify_command.add_argument('--packet', type=Path)
+    checks_command = commands.add_parser('check-draft', help='Check draft retrieval against authored cases; no database writes.')
+    checks_command.add_argument('package', type=Path)
+    checks_command.add_argument('--cases', required=True, type=Path)
+    checks_command.add_argument('--out', required=True, type=Path)
+    checks_command.add_argument('--model-dir', required=True, type=Path)
     # Local Supabase only (http://127.0.0.1:54321); the key comes only from the environment.
     stage_command = commands.add_parser('stage', help='Stage a verified package as an inactive local draft.')
     stage_command.add_argument('package', type=Path)
@@ -115,6 +120,10 @@ def main(argv=None) -> int:
                 from .build import LocalEncoder, build
                 result = build(args.packet, args.out, encoder=LocalEncoder(args.model_dir) if args.model_dir else None,
                                cached_package=args.cache, metadata=args.metadata)
+            elif args.command == 'check-draft':
+                from .build import LocalEncoder
+                from .draft_checks import run_checks
+                result = run_checks(args.package, args.cases, args.out, encoder=LocalEncoder(args.model_dir))
             else:
                 from .verify import verify
                 result = verify(args.package, packet_root=args.packet)
@@ -122,6 +131,8 @@ def main(argv=None) -> int:
     except (ValueError, OSError, RuntimeError, ImportError) as exc:
         print(f'Ingestion incomplete: {exc}', file=sys.stderr)
         return 1
+    if args.command == 'check-draft':
+        return 0 if result['passed'] else 2
     return 2 if args.command == 'parse-llama' and result['failed_pages'] else 0
 
 
