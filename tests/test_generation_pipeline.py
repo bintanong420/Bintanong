@@ -47,13 +47,13 @@ def test_composed_request_deadline_includes_orchestration_time():
     asyncio.run(scenario())
 
 
-@pytest.mark.parametrize('language,missing_label,program_label,curriculum_label',[
-    ('en','Missing information','degree program','curriculum version'),
-    ('fil','Missing information','degree program','curriculum version'),
-    ('taglish','Missing information','degree program','curriculum version')])
+@pytest.mark.parametrize('language,program_label,curriculum_label',[
+    ('en','degree program','curriculum version'),
+    ('fil','degree program','curriculum version'),
+    ('taglish','degree program','curriculum version')])
 @pytest.mark.parametrize('missing',['program_id','curriculum_id'])
 def test_scope_clarification_names_the_information_the_student_must_supply(
-        language,missing_label,program_label,curriculum_label,missing):
+        language,program_label,curriculum_label,missing):
     from backend.bintanong_routing.contracts import RequestContext
     from test_routing_contracts import context
     async def scenario():
@@ -69,7 +69,9 @@ def test_scope_clarification_names_the_information_the_student_must_supply(
         answer=await pipeline.run('A1 policy',request)
         expected=program_label if missing=='program_id' else curriculum_label
         assert answer.status=='clarification_needed' and answer.draft_attempts==0
-        assert f'{missing_label}: {expected}' in answer.text
+        # Owner, 2 Nov 2026: asked as one question naming the missing fact, not a "Missing information" list.
+        question=answer.text.splitlines()[1]
+        assert expected in question and question.endswith('?') and 'Missing information' not in answer.text
         assert missing not in answer.text
         assert answer.missing_facts==(missing,)
     asyncio.run(scenario())

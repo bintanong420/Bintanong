@@ -1,7 +1,10 @@
 """Shared fakes for the prospectus run tests: no real Docling, no real parse.
 
 Pytest markers (for example the OCR branch's `gpu`) are registered in backend/pyproject.toml,
-not here; this file only holds fixtures.
+not here. This file holds fixtures and the default-run selection below.
+
+The offline ingestion-tool tests (prospectus extractor/fixer, review GUI, OCR bench) are left out of
+the default run; pass `--include-ingestion`, or name the test file directly, to run them.
 """
 
 from __future__ import annotations
@@ -145,3 +148,26 @@ def snapshot():
         }
 
     return take
+
+
+INGESTION_TOOL_TEST_PREFIXES = ("test_prospectus_", "test_review_gui_", "test_ocr_")
+
+
+def left_out_of_default_run(filename: str, include_ingestion: bool, named_files: set[str]) -> bool:
+    return filename.startswith(INGESTION_TOOL_TEST_PREFIXES) and not include_ingestion and filename not in named_files
+
+
+def pytest_addoption(parser):
+    parser.addoption("--include-ingestion", action="store_true",
+                     help="also run the offline ingestion-tool tests (prospectus, review GUI, OCR bench)")
+
+
+def pytest_collection_modifyitems(config, items):
+    include_ingestion = config.getoption("--include-ingestion")
+    named_files = {Path(arg.split("::")[0]).name for arg in config.args}
+    kept, left_out = [], []
+    for item in items:
+        (left_out if left_out_of_default_run(item.path.name, include_ingestion, named_files) else kept).append(item)
+    if left_out:
+        config.hook.pytest_deselected(items=left_out)
+        items[:] = kept

@@ -16,6 +16,7 @@ test('answer notices match the backend reply language and request clarification 
 test('answered and greeting responses do not add an unsupported success claim', () => {
   assert.equal(answerNotice({ status: 'answered', language: 'en' }), null);
   assert.equal(answerNotice({ status: 'greeting', language: 'en' }), null);
+  assert.equal(answerNotice({ status: 'system_information', language: 'en' }), null);
 });
 
 test('empty and pending submissions do not create duplicate messages', () => {
@@ -59,4 +60,22 @@ test('unsupported or multiple selection does not replace an existing review', ()
   assert.equal(selectedPDF([pdf, pdf]).file, null);
   assert.equal(selectedPDF([pdf]).file, pdf);
   assert.equal(selectedPDF([pdf]).file, pdf);
+});
+
+test('a busy refusal withdraws the question without an interrupted bubble or warning', async () => {
+  let state = reduce(createWorkspace(), { type: 'submit', id: 'a', text: 'First?' });
+  state = reduce(state, { type: 'complete', id: 'a', answer: { status: 'answered', conditional: false, language: 'en', missingFields: [], text: 'One.', sources: [] } });
+  state = reduce(state, { type: 'draft', text: 'Unrelated draft' });
+  state = reduce(state, { type: 'submit', id: 'b', text: 'Second?', clearDraft: false });
+  state = reduce(state, { type: 'withdraw', id: 'b' });
+  assert.deepEqual(state.messages.map(message => message.id), ['a', 'a-answer']);
+  assert.equal(state.pending, null);
+  assert.equal(state.warning, null);
+  assert.equal(state.draft, 'Unrelated draft');
+  assert.equal(reduce(state, { type: 'withdraw', id: 'a' }), state, 'only the pending question can be withdrawn');
+});
+
+test('busy retries wait 15 seconds, four times, then stop', async () => {
+  const { busyRetryDelay } = await import('../lib/student-workspace.ts');
+  assert.deepEqual([1, 2, 3, 4, 5].map(busyRetryDelay), [15, 15, 15, 15, null]);
 });

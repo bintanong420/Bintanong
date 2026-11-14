@@ -1,127 +1,120 @@
 # Current progress
 
-Updated 30 October 2026. Phase 11 closed, Phase 12 prepared; p11 / `feat/p11-fullstack-integration` (owner 28 Oct: branched from
-`feat/p11-backend-api` f0889c3; frontend-integration and charter-layouts lanes pushed to origin; this branch local only).
-[Plan](../phase-11-backend-api-plan.md) · [Checkpoint](../phase-11-checkpoint.md) ·
-[Session handoff](../2026-10-28-phase11-session-handoff.md).
-Last full snapshot before condensation: `7be3e1c` (earlier ba7d8b4, 40a35f9, f635ccc, d32aa18); use `git show`.
+Updated 6 November 2026. Development: `p12-dev` / `p12-post-gathering-fixes`.
+Last full snapshot before condensation: `d2ad9fef` (recover with `git show`).
+Gathering checkout and owner USG notes remain separate. No numbered phase is active;
+Phase 12 research/software write-up is complete with disclosures; Phase 13 is cancelled.
 
-## Latest change
+## Delivered repairs
 
-Topic families batch 1 (owner 28 Oct: F1-F4 and "separate" approved; F4 "b perhaps" provisional) and printed
-openings, `a4f33f7` test-first (RED 9 fail -> GREEN 9 pass; related 558 pass). 88 unlabelled Handbook topics show a
-verbatim 100-char opening (defects withhold it); one family member brings its siblings (<=8). Real selector prompt
-3409 -> 5625 tokens. Live 12 affected cases (run-a4f33f7-families): 3 newly pass (refund en/Taglish, transfer fee).
-Selector now right for drop (FAQ), probation (standing), honors; remaining are router claim/detail picks.
-Gate case req-transfer-en now expects a clarification (F4). Then `72f6ab6` (whole request naming only not-stated
-facts answers the printed procedure; diploma en/Taglish now pass) and `e2cbc62` router v25 (meeting a printed rule
--> specific; honors residence en/Taglish now pass; probation still `whole`, not retried under the stop rule).
-Then `19d762f` F4 host clarify (leaving vs transferring in; req-transfer-en passes) and `4221d26` excluded-program
-scope notice (law-scope passes); both phrase lists owner-approved 28 Oct (ledger). Owner chose A for drop: split FAQ 7 (drop) from FAQ 8 (shift) as a new derived package (chunk-level
-required_neighbor_chunk_ids + one shared claim force citing the shift continuation; package sealed). Earlier today: simple-question gate run 2 67/91
-([results](../2026-10-28-simple-question-gate-results.md)); router v24, detail split, owner year-level limit.
+- [Benchmark repair checkpoint](../2026-11-06-owner-benchmark-repairs.md) records source/routing,
+  registration, Taglish, grade-4 and INC fixes. Final code `bdf6d50a`, handoff `d2ad9fef`.
+- R3 owner export: 21 tested, 20 Y / 1 N, 51 untested; grade answers needed brevity work.
+  Subsequent live B13-TL registration and ID Taglish checks pass. Final English grade-4/INC
+  outputs retain method, approval and source limitations; 25.4%/52.5% shorter than earlier candidate.
+  Final focused grade gate: 174 pass. No frozen full-72 accuracy claim.
+- Published integrated repairs to `origin/p12-evaluation-harness` at `c8cd43c8`, preserving
+  remote architecture image commit `abd007b4`. Integrated gate: 585 pass. No force push.
+  Publication worktree: `p12-eval-publish`; dev checkout remains isolated.
+- [Earlier continuation](../2026-11-04-codex-continuation-log.md) and
+  [isolation handoff](../2026-11-04-development-isolation-handoff.md) retain memory,
+  prerequisite-listing, term checks and recovery-planner evidence. Do not repeat setup.
 
-Verification: full suite on `72f6ab6` 7215 pass / 1608 subtests, 6 skip / 2 xfail, exit 0 (1370.39 s;
-A/p11-fullsuite-20261028d); a4f33f7 7212. e2cbc62 (at 3eb31ae): 4 sequential batches after a memory-pressure stop,
-7216 pass / 1608 subtests, 6 skip / 2 xfail, all exit 0 (A/p11-fullsuite-20261028e, 286 files once each).
-19d762f batched 7226 pass / 1608, exit 0 (…-20261028f); e4a676b (4221d26 + docs) batched 7233 pass / 1608,
-exit 0 (…-20261028g).
+## Chat self-information index
 
-Owner-approved FAQ 7/8 split built as inactive 560 package (A/p11-faq-split-20261028: 557 vectors reused,
-3 encoded offline 40 s, 155 storage probes, drop claim = 1 record); drop en/Taglish and shifting en/Taglish pass.
-Gate run 3 (0dfef59, split package): 73/91 (76 adjusted) vs run 2 67/91, but 8 run-2 passes regressed: router
-v25 labelled eligibility parts specific/topic -> reverted `682fe7b`; `9553ed9` drops a stray topic on a course-
-check part (test-first, related 1303 pass). Still failing after fixes: cc5-en (router omitted course mentions),
-crim-1-1-taglish (selector ambiguous). Gate 4 (29 Oct, code 9553ed9): **77/91**, exit 0 (+6 fixed vs run 3,
-honors en/Taglish regressed as expected after the v25 revert; [results](../2026-10-28-simple-question-gate-results.md)).
-Batched full suite at 75ec50f: 7232 pass / 1608 subtests, 6 skip / 2 xfail, 4 batches exit 0 (A/p11-fullsuite-20261029a).
+Owner: capabilities and research scope must be callable in chat.
+[Design and checks](../2026-11-06-system-information-index.md).
+- Dedicated semantic `system_information` control and fixed English/Taglish index cover
+  implemented features, undergraduate 2026–2027 research scope, excluded audiences,
+  advisory limits, source gaps, private-PDF isolation and pending university validation.
+- This is project metadata, not university-policy corpus content. No fake institutional citations,
+  embedding changes, new dependencies or model weights. Academic answer ledgers stay mandatory.
+- Coverage questions naming programs do not select student curriculum. Mixed self/academic
+  clarification is preserved before policy-topic repair; it asks for separate questions.
+- Initial RED: 6 failures; program-resolution RED: 2; mixed-request RED: 1.
+  Focused gates: 337 pass; later 266 pass; final guard/compile/routing integration: 319 pass.
+  Frontend workspace/transport: 22 pass; TypeScript passes. Gates overlap; not a full-suite total.
+- Live router: four standalone EN/Filipino/Taglish/graduate-coverage questions select self-info;
+  mixed capability+INC query finally selects `clarify` / `compound_request`. Earlier model outage
+  and wrong mixed fallback were diagnosed, not counted as successful checks.
+- Context rechecked: thesis physical17–18 and runtime routing PNG, master architecture and
+  undergraduate scope policy. This adds a non-academic terminal control; academic routes unchanged.
 
-## Lane status (owner 28 Oct)
+## Runtime and boundaries
 
-- [Workstream split](../2026-10-28-phase11-model-workstream-split.md): Codex lanes idle, all merged.
-  A: Charter layouts 41/44 (e574d67). B: frontend, PSU auth, account-bound sessions (307a2bd, df3811a),
-  guest mode (04e6d38; [results](../2026-10-28-guest-mode-results.md); [review](../2026-10-28-guest-mode-review.md)).
-- Guest mode: full features incl. temporary PDF upload, login kept (master 25.1 amended). Real PSU sign-in
-  verification owner-deferred; no authenticated HTTP smoke claim. P3s: delete the superseded guest session on
-  mode switch; cross-tab early-auth race (not reproduced).
-- No program given -> ask program and curriculum (216/1093 codes repeat; BSIT/BSCS share 20; BSCS has 2
-  versions); the frontend ScopePanel asks up front. "CS6 (title)" mentions are covered by prompting guidance.
+- Main web/API 3216/8021, dev web/API 3217/8022, shared model18088.
+  Luna confirmed all five HTTP200; model container healthy; hidden keepalive PID72532.
+- Dev API reloaded for index and shifting repair. Frontends/main/model untouched.
+  Final wording reload ready200: root52864 / server46896; all five services HTTP200.
+  Dev-only zero rate window and measured grade budget5120 remain ignored launcher overrides.
+  Main controls unchanged. Keep `pause-dev-api` sentinel during intentional dev reloads.
+- Wider [audit proposal](../2026-11-06-deferred-audit-remediation-proposal.md) remains deferred.
+  Undergraduate advisory scope, unknown-versus-unmet, source conflicts, F04 hold,
+  English/Taglish replies and private-upload isolation remain mandatory.
 
-## Open gate failures (diagnosed 28 Oct, run-e193093 call artifacts)
+## Evaluation testing mode (6 Nov)
+Owner asked to plan, not implement, a website testing mode for Accuracy/Precision/Recall/F1.
+[Feasibility and plan](../2026-11-06-evaluation-testing-mode-plan.md). Owner: keep the 72 queries typed singly; both lists; keys with human judging; row10 Handbook.
+[Tasks](../2026-11-06-evaluation-testing-mode-implementation.md) built: page `/dev/evaluation` on 3217/API 8022, off unless launcher sets passcode. Pilot 5/5 ran at `a73b6128`; final `1e499828`, focused 137 pass. Keys: rows1-10 draft, 11-24 human-judged unless owner confirms. Full suite not run; not a results claim.
+7 Nov: owner running the 72 by hand via ngrok at pinned `1e499828`; 20 runs saved at last check. Stack is detached from the CLI; shut down API, web, ngrok and Docker memory when owner finishes. Ignored `audit-evidence/evaluation-testing-mode-20261106/chunk-reference/` has the searchable all-chunk PDF (C001-C560; read-back 560/560 IDs, 2160/2160 field values).
+7 Nov final metrics sheet: owner's `Context/for_f1scoreprecisionaccuracyrecall.pdf` (42 = 14 RAG rows x 3, prerequisite rows removed). Ran all 42 PDF wordings on a separate API 8023 at the same pinned commit, own log (`audit-evidence/final-metrics-20261107/`), so the owner's 72-run log stayed at 20 lines; 42/42 completed, 8023 then stopped. Rule calibrated on owner's English Q1 (3/0/1/556): TP/FP = as-run top-3, FN = relevant chunk in the all-chunk top 3 that was not retrieved, TN = 560 minus the rest. Pooled, so recall can be overstated. Q11 x3 routed `clarify` (no retrieval, P shown as 0). Macro P .7679 / R .7623 / F1 .7396 / Acc .9977. Output: untracked `Context/for_f1scoreprecisionaccuracyrecall_completed.pdf` (pages 1-2 original). Owner approved the Q1 fix: page 1 now reads 3/(3+0) = 1, applied as a page overlay (`q1_fix.py`), with the original PDF unchanged. Owner asked for a Q11 rerun replying "Leaving PalSU" and approved fixing what blocked it. The router changes in `router.py` / `topic_selection.py` came with RED/GREEN tests in `test_routing_transfer_direction.py`:
+- Once the transfer side is known, only that side's topics are offered.
+- A reply to the direction question is offered only its reply topic, with its part pinned (the model had quoted the earlier question).
+- Filipino "lilipat/magta-transfer [na po ako] ng ibang university" now counts as leaving.
 
-1. Selector topic: fixed for drop/probation/honors/refund by a4f33f7; certification fee still -> charter_tor_copy
-   (charter_certifications has no label: held). k-NN only searches the selected topic's chunks.
-2. Router claim/detail: drop (en/Taglish), diploma, DAC, overdue pick a not-stated claim; probation and honors
-   ask `whole` over multi-chunk topics -> repair_exhausted; grad residence answers max-residence clause.
-3. F4 clarify (leaving vs transferring in) not built; Law scope notice; Taglish second-year empty clarify.
-Families combine selection only; one part still answers from one subject (multi-source answers not built).
+Live, the "Leaving PalSU" routing prompt went 8319 -> 7362 tokens (7416 usable). All three Q11 wordings now answer from the 2025 Charter, pp. 11-12. Q11 counts: EN 2/1/0/557; TL and Taglish 2/1/2/555. Macro P .8155 / R .8099 / F1 .7858 / Acc .9977. Q11 ran on newer code than the other 41 rows and than the owner's pinned 72-run. 8022 still runs the old code until restarted.
+Open gap: `evaluation/system_metrics.py` cannot count a relevant chunk in neither top-3 list, so recall is overstated for unkeyed rows. Proposed `FN: C123, C145` in the page's Note box; awaiting owner yes/no; scorer change needs RED/GREEN and no page or API restart. Undecided: RAGAS install/judge, BATAYAN source, Integration box rename.
 
-## Package state and boundaries
-
-559 package inactive (559 vectors / 145 subjects / 240 reviews); active corrected78 / 39 curricula unchanged.
-Original PDFs, the base package and the active pin are unchanged. No hosted writes, dependency or model changes,
-institutional approval, Phase 11 exit or Phase 12 advance.
-
-## Owner decisions 29 Oct (ledger)
-
-Finish by 30 Oct. Phase 13 deployment cancelled. Replies English/Taglish only; pure-Tagalog input kept only while
-free. Keep upload if doable. Phase 12: 50 common English/Taglish queries across enrollment procedures, prerequisite
-eligibility, grade policies and academic standing, disciplinary policies. Honors/probation: option A (Handbook policy sections).
-
-## Website on local 560 package (owner option A, 29 Oct)
-
-`f235319` Handbook policy sections answer from the cited clause (honors/probation en+Taglish pass live).
-`d1a2d53` local-documents pin: the website backend serves the gate-tested 560 package with the gate composition
-(it had searched hosted 78 chunks without topic selection). Live HTTP: document, structured, hybrid, upload ->
-confirm -> follow-up, deletion all work ([results](../2026-10-29-local-documents-website-results.md)).
-Config: A/p11-local-documents-20261029/research-api-config.json (old 78 config unchanged). Hosted activation deferred.
-
-## Phase 12 benchmark and final suite (29 Oct)
-
-Benchmark (50 en/Taglish, four owner categories; 40 development cases disclosed): full system 40/50 at `7f8c02b`
-(disciplinary 2/10 -> 7/10 via `38ccb83` printed row names and `7f8c02b` exact penalty quotes; no regressions);
-plain Gemma 3/50 strict, 8/50 content ([results](../2026-10-29-phase12-benchmark-results.md),
-[questions](../../docs/evaluation/benchmark-questions.md)). `37688aa` hides "(e2)" aliases in student text.
-Batched full suite at `e50e18a`: 7247 pass / 1608 subtests, 6 skip / 2 xfail, 4 batches exit 0 (A/p11-fullsuite-20261029b).
-
-## Phase 11 closed (29 Oct)
-
-Browser check passed (Playwright guest run, 0 console errors); owner approved closing with disclosures:
-[Phase 11 handoff](../phase-11-handoff.md). Next permitted phase: 12.
-
-## After closing (29 Oct, owner)
-
-`f770169`: student answers drop the "Candidate preview" line; the reply-language guidance sentence travels as
-data-answer `notice` and shows small and muted under the answer (backend RED 6 -> API 151 pass; frontend RED 1 ->
-66/66, typecheck 0). Browser-checked (smoking penalty, exact quotes). `npm ci` in p11/frontend (owner): 89 packages,
-0 vulnerabilities, lockfile unchanged; the site now runs from this worktree.
-
-## Late 29 Oct (owner decisions in ledger)
-
-- `d5e638a` course title-initial abbreviations (963 approved, e.g. DSA = CC 4/L), any case, curriculum-scoped;
-  `159d1f3`/`9820734` a mention fitting two courses lists each with printed code, title, year/semester, units.
-- `cb82c53` reviewed Filipino shorthand expansion (`backend/bintanong_routing/shorthand.py`); probe 8/26 -> 15/26
-  (normal spelling 20/26; list built after seeing the probe: disclosed). Docs: `docs/evaluation/accepted-input-forms.md`
-  (forms, probe questions, research basis).
-- Benchmark layout (owner): main 50 = 24 English / 16 Taglish / 10 pure Tagalog (`p12-benchmark-20261029/benchmark-cases-v2.json`);
-  shorthand Taglish (26) and broken English (4, `loose/`) are separate robustness results.
-- Runs at cb82c53 (A/p12-benchmark-20261029): shorthand2 done; condition-c4 (original 50), tagalog (26), loose (4)
-  queued/running in this session and stop if the CLI closes. Restart with the commands in the exit/log files' scripts:
-  `run_condition_c.py` (GATE_SUFFIX=-condition-c-cb82c53), `tagalog/run_tagalog.py`, `loose/run_loose.py`,
-  each with GATE_PACKAGE=p11-faq-split-20261028/runtime-package; check for existing run-* folders first.
-- No full suite yet on d5e638a..cb82c53 (related tests 1546 pass).
+## RAGAS branch (7 Nov)
+Branch `p12-ragas-benchmark` (worktree `p12`, pushed). Owner approved separate venv (ignored
+`audit-evidence/ragas-20261107/`), DeepSeek judge (key in that folder's `.env`), local SEA-LION E5, telemetry off.
+Shared references `docs/evaluation/references/` (verbatim TP+FN chunks); BERTScore pairs + zip carry them.
+Write-up, per-row CSV and scripts: [RAGAS results](../../docs/evaluation/ragas/README.md). Headline (42 rows):
+faithfulness .883 against rebuilt writer evidence (neighbours 42/42 match logged counts; top-3-only .525),
+answer relevancy .584 (0 on 7 rows flagged noncommittal for source-limit notices; .701 without), context
+precision .896, context recall .754 (optimistic), factual correctness precision .570. One judge run.
+8 Nov: Query 1 three-language worked example tried (3a5f6084) and reverted; owner keeps the Query 9
+version (af3836e8), copied to for_manuscript/Benchmarks_results/RAGAS.pdf with the BATAYAN section.
 
 ## Next action
 
-Runs finished and recorded (`5fe66cc`): main 50 v2 = 38/50; regression check 39/50; Tagalog 19/26; shorthand 15/26;
-broken English 2/4. absence-taglish diagnosed (30 Oct): identical selector request, one-off server non-determinism
-(8/8 replays correct); recorded in the benchmark results. Phase 12 [plan](../phase-12-evaluation-writeup-plan.md)
-prepared with [pre-phase research](../2026-10-30-phase-12-pre-phase-research.md) (`f2b00dc`); paired stats done
-(C 40/50 Wilson [0.67,0.89] vs A 3/50, exact McNemar 37/0, p≈1.5e-11). Batched full suite running at `0d6ebac`
-(A/p11-fullsuite-20261030a). Owner decided single runs (disclosed) and write-up before hosted 560 activation (ledger).
-Report written (`36ae881`); Phase 12 started (`a6363c3`, checkpoint seq 1).
-
-**Paused (owner, 30 Oct) for a new Phase 12 worktree branched from `dev` `a3ff208`** (p11 + origin/dev merged;
-full suite 7314 / 1608 pass). Next: hosted 560 activation there (owner 30 Oct), per the
-[session handoff](../2026-10-30-phase12-session-handoff.md); then report section 8 and the Phase 12 handoff.
-Gemma :18088 and `supabase_db_Bintanong` running; website/backend stopped.
+Index committed `11b2e015`; 3217 proxy chat returned HTTP200 with `system_information`.
+[Shifting repair](../2026-11-06-program-shifting-repair.md): exact “Pano po lumipat ng kurso?”
+retrieved the right policy but generation quoted only cross-college section 4.1. Both college branches
+and Registrar guidance now use clean exact source quotes for generic whole-program questions;
+FAQ companion cue and conditional office closing repaired at `9830a030`: worker 309 / parent 57 pass.
+Exact 3217 proxy question returned answered/Taglish with both branches, FAQ and Registrar guidance.
+Closing grammar correction `a5e5a6a0` passed 57 tests after its RED; final dev-only reload is ready.
+Adaptive [procedure source fit](../2026-11-06-adaptive-procedure-source-fit.md) now addresses
+the good-moral report without a blanket source switch: menus expose reviewed workflow
+bindings; whole selected procedures retain step facts within the existing eight-claim bound.
+Policy, explicit source and requirements-only scope remain. `b5312a47` committed;
+reviewed five-case good-moral router checks pass; later gate362 pass.
+Round4 [intake](../2026-11-06-round4-benchmark-intake.md): latest63Y/6P/3untested;
+good moral/gate pass all partial, shifting FinalY but verbose, B15 form-location note remains.
+Shifting short-referral cleanup `e8a848a1`:141 tests pass, source quotations retained.
+Removal form is reviewed Charterphysical112 step1 (Registrar's office); new bounded
+client-step hints expose it. Context/aggregate binding regressions fixed; pinned145topicsload;
+`622b68b0` committed; optional selector hints reduced to fit existing8192modelcontext.
+Reviewed client-step object phrases expand candidates only, preserving semantic source selection.
+All3gate-pass router variants pass; compound grade4/form correctly splits Handbook/Charter.
+`f048a75c` final combined gate501 pass. Live3217 good moral/gate pass/compound grade4+form
+all answered with correct sources; form Registrar location now present, source limits retained.
+Gate-pass partial-coverage notice is now outside cited claims; condition/support guards unchanged.
+Final `b8a59e02` gate-pass HTTP200/answered includes memo guidance and incomplete-process notice.
+Notice gate152 / malformed-field26 pass; earlier combined501 pass (overlapping, no full72 claim).
+All automated queries stopped. API12524/server56864 ready200, allfive200, keepalive36880 active.
+New [request/location overflow](../2026-11-06-good-moral-request-location-overflow.md): exact
+“Paano mag-request ng Good Moral? Saan po ito kinukuha?” added too many optional examples.
+Distinctive-label hints/global3-example bound: selector7749->7240tokens;338tests pass,
+isolated router exactquestion passes. `c20c1d1a` live3217 exactquestion answered/Taglish,
+Charter procedure/OSAS, HTTP9.92s (not browser time). API61132/server18844 ready200;
+allfive200, keepalive36880. Automated queries stopped. Owner18:33 validation sign-off:
+Final72Y; A07 inferred/waived, gate-pass selected-fragment condition retained.
+[Publication](../2026-11-06-owner-signoff-publication.md): push origin P12 first, then working
+branch, preserving remote image/history. Integrated542Python/22frontend/TypeScript pass;
+[alignment audit](../2026-11-06-human-automation-alignment.md) checks reported behaviors,
+four saved live outputs and gaps. Both origin branches verified at integrated `1685647e`,
+P12 pushed first, working second; no force/runtime changes. Next: owner testing and remaining
+explicitly unexecuted A07 cases; receipt follow-up is documentation only.
+No new source/Supabase or runtime changes; no independent full72 execution claim.

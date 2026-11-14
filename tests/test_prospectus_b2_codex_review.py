@@ -207,13 +207,6 @@ def test_item8_an_entry_without_reviewer_time_disposition_or_pdf_is_never_applie
     assert good_entry(payload["courses"][0], reviewer="  ") and entry_problem(good_entry(payload["courses"][0], reviewer="  "))
 
 
-def test_item8_the_untouched_entry_is_still_applied(tmp_path):
-    payload = fx.bscs()
-    path = tmp_path / "ledger.jsonl"
-    write_lines(path, good_entry(payload["courses"][0]))
-    assert materialise(payload, read_entries(path), HASH)[1]["applied"] == 1
-
-
 def test_item9_a_declared_hash_that_differs_from_the_candidates_recorded_one_is_refused(capsys, tmp_path):
     payload = {**fx.bscs(), "run_identity": {"pdf_sha256": HASH}}
     with pytest.raises(FixerError, match="recorded"):

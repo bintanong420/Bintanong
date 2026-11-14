@@ -99,7 +99,8 @@ reaches(Bundle,ID,Target,Visited) :-
     ( Next == Target ; \+ memberchk(Next,Visited), reaches(Bundle,Next,Target,[Next|Visited]) ).
 
 contains_unresolved(Node) :-
-    ( Node.kind == unresolved -> true
+    % A year-level standing names no course, so it cannot hide a dependency (owner report, 4 Nov 2026).
+    ( Node.kind == unresolved -> \+ get_dict(course_free, Node, true)
     ; (Node.kind == all_of ; Node.kind == any_of), member(Child,Node.items), contains_unresolved(Child), !
     ).
 

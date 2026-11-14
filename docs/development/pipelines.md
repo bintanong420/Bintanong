@@ -212,7 +212,7 @@ process memory.
 - Students see `presentation.student_text`. The canonical `CandidateAnswer.text`, which the validator checks byte
   for byte, stays the researcher diagnostic.
 - `research_pipeline.ResearchPipeline` adapts the real answer path. The real-data launcher (hosted release, encoder,
-  model URL) is a trusted script kept in ignored workspace evidence.
+  model URL) is a trusted script kept in ignored workspace evidence; see [hosted research setup](hosted-research-setup.md).
 
 ## Resource and telemetry behavior
 

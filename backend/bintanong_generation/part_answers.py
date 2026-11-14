@@ -24,6 +24,15 @@ from .service_steps import parse_service, render_service
 from .deadline_conflict import deadline_conflict_reply
 from .required_context import context_reply,context_errors
 from .service_cutoff import cutoff_reply
+from .malformed_condition import clean_quote, malformed_records, malformed_reply
+from .grade_completion_reply import concise_mark_reply
+from .fee_precedence import fee_precedence_reply
+from .residence_reply import residence_reply
+from .honours_reply import honours_reply
+from .leave_reply import leave_reply
+from .absence_reply import sickness_branch
+from .facilities_reply import facilities_claims
+from .shifting_reply import complete_program_shifting_reply
 from .references import ShortEvidenceID
 from .ledger_contracts import BoundRequirementLedger, Digest, LedgerEntry, PartID
 from .prompt import _messages, output_schema
@@ -137,10 +146,19 @@ the responsible actor, action and object: an action on a student must not become
 an action on a form. Explain the agency action alongside the client step. Include
 applicable source conflicts, missing continuations and effectivity limitations;
 do not replace a specific discrepancy with only a generic warning.
-Write every claim in the requested style. en: plain English. taglish: everyday
-Tagalog structure with English policy terms,actions and source quotations where
-needed for accuracy,for example "I-email mo yung request form sa registrar."
-Do not force translations of source terms or target an exclusive Filipino reply.
+Put the claim that directly answers the question first, for example yes or no for a
+"can I" question. Speak to the student: use "you" (en) or "mo/ka" (taglish) where
+the source describes what a student does or must do, not "the student". Keep every
+other actor exactly as printed (offices, Dean, instructor); never turn an office's
+action into the student's. In both en and taglish, rules, numbers, conditions,
+offices, dates and quotations stay exactly as printed.
+Write every claim in the requested style. en: plain English. taglish: keep the
+English office names, English policy terms, numbers and exact source quotations unchanged.
+For paraphrases, preserve every rule, condition and actor while using natural Filipino
+grammar and everyday verbs. Address the student directly: "Mag-report ka sa Office Z"
+rather than "Ang student shall report to Office Z." Keep an English quotation exact;
+do not splice English legal grammar into a Filipino sentence. Do not target an
+exclusive Filipino reply.
 Preserve meaning,conditions and quotations;do not copy unrelated English sentences.
 The host separately renders any structured prerequisite result; do not generate or
 broaden it or assert enrollment eligibility. Each claim must cite only sources that
@@ -186,12 +204,26 @@ CONFIRM_PROMPT_SHA256 = hashlib.sha256(CONFIRM_PROMPT.encode()).hexdigest()
 
 def style_errors(draft, pack, question=''):
     """No pure-English claims for Filipino styles. Owner25Oct: word formality is a
-    preference, never a hard exclusion of otherwise supported Filipino wording."""
-    if pack.language in ('fil', 'taglish') and any(
-            not has_filipino_function_word(c.text)
-            for c in draft.claims):
+    preference, never a hard exclusion of otherwise supported Filipino wording. Owner 30 Oct: printed
+    wording stays English, so a claim repeating its cited sources' words verbatim is in style when another
+    claim carries the Filipino connecting words; a reply made only of printed English is not."""
+    if pack.language not in ('fil', 'taglish'):
+        return ()
+    english = [c for c in draft.claims if not has_filipino_function_word(c.text)]
+    if english and (len(english) == len(draft.claims) or not all(_repeats_printed(c, pack) for c in english)):
         return ('claim_not_in_requested_style',)
     return ()
+
+
+def _printed_words(text):
+    return ' '.join(re.findall(r'\w+', text.casefold()))
+
+
+def _repeats_printed(claim, pack):
+    texts = {c.evidence_id: c.text for c in pack.cards}
+    printed = ' '.join(_printed_words(s) for ref in claim.evidence_ids for s in _printed_sentences(texts.get(ref, '')))
+    words = _printed_words(claim.text)
+    return bool(words) and f' {words} ' in f' {printed} '
 
 
 DISJUNCTION = re.compile(r'\b(?:or|o)\b', re.I)
@@ -229,11 +261,94 @@ def conjunction_errors(draft, pack, slots=None):
     return _added_connective(CONJUNCTION, 'introduced_conjunction', draft, pack, slots)
 
 
+# A numbered exception printed right after a numbered rule ("may, however", "unless", "subject to").
+EXCEPTION = re.compile(r'\b(?:however|unless|except|subject\s+to|provided\s+that)\b', re.I)
+PRINTED_NUMBER = re.compile(r'\((\d+)\)|\b(\d+)\b')
+EXCEPTION_REPAIR = ('A claim states a printed rule but leaves out the exception, higher limit or approval '
+                    'condition printed right after it. Include each sentence below with the rule it qualifies, '
+                    'keeping its numbers, conditions and offices as printed.')
+
+
+def _numbers(text):
+    return {bracketed or bare for bracketed, bare in PRINTED_NUMBER.findall(text)}
+
+
+def _printed_sentences(card_text):
+    try:
+        values = [f['value'] for f in json.loads(card_text)['fields'] if isinstance(f.get('value'), str)]
+    except (ValueError, TypeError, KeyError):
+        values = [card_text]
+    return [s.strip() for value in values for s in re.split(r'(?<=[.;])\s+', value) if s.strip()]
+
+
+def _attached_exceptions(card_text):
+    """(rule, exception) pairs: a sentence with printed numbers directly followed by a numbered exception."""
+    sentences = _printed_sentences(card_text)
+    return [(rule, exception) for rule, exception in zip(sentences, sentences[1:])
+            if EXCEPTION.search(exception) and _numbers(exception) and _numbers(rule)]
+
+
+def omitted_exception_errors(draft, pack, slots=None):
+    """Claims giving a rule's printed numbers must also give the numbers of the exception printed right after
+    it. With slots, each answered part is checked on its own claims; host replies keep their reviewed wording."""
+    texts = {c.evidence_id: c.text for c in pack.cards}
+    groups = ([draft.claims] if slots is None else
+              [[c for c in draft.claims if c.claim_id in ids] for status, ids in slots.values() if status == 'answered'])
+    for claims in groups:
+        stated = _numbers(' '.join(c.text for c in claims))
+        for ref in {r for c in claims for r in c.evidence_ids}:
+            for rule, exception in _attached_exceptions(texts.get(ref, '')):
+                if _numbers(rule) <= stated and not _numbers(exception) <= stated:
+                    return ('omitted_printed_exception',)
+    return ()
+
+
+def printed_exceptions(pack):
+    return [exception for card in pack.cards for _, exception in _attached_exceptions(card.text)]
+
+
 def host_claims(pack):
     """Host-written replies (printed service steps, special class fee, grading table) by part; these
-    parts get no model wording. Each claim is (text, evidence_id) or (text, (evidence_id, ...))."""
-    fixed = {**fee_claims(pack), **grade_claims(pack)}
-    return {**service_claims(pack, fixed), **fixed}
+    parts get no model wording. Each claim is (text, evidence_id) or (text, (evidence_id, ...)).
+    A part whose reply would cite a record held for a malformed condition is left out, so the ordinary
+    per-part path quotes that record with its limitation or reports a source gap (owner 30 Oct 2026)."""
+    fixed = {**fee_claims(pack), **grade_claims(pack), **facilities_claims(pack)}
+    held = set(malformed_records(pack))
+    service = service_claims(pack, fixed)
+    printed = held_service_parts(pack, service) - set(fixed)
+    return {part: reply for part, reply in {**service, **fixed}.items()
+            if part in printed or not any(set(_ids(evidence)) & held for _, evidence in reply)}
+
+
+def held_service_parts(pack, service):
+    """Owner 3 Nov 2026 (fix 1): whole-procedure parts whose host-printed steps cite a held record and print that
+    record's own limitation line. An 11-record procedure cannot fit the eight-claim draft, so the model path abstained."""
+    whole = {p.part_id for p in pack.understanding.parts if p.detail == 'whole'} if pack.understanding else set()
+    held = set(malformed_records(pack))
+    notes = {}
+    for card in pack.cards:
+        try:
+            limits = json.loads(card.text).get('source_limits', [])
+        except (ValueError, AttributeError):
+            continue
+        notes[card.evidence_id] = [l.get('message') for l in limits if isinstance(l, dict)
+                                   and l.get('issue') == 'malformed_source_condition' and l.get('resolution') == 'unresolved']
+    parts = set()
+    for part, reply in service.items():
+        refs = {ref for _, evidence in reply for ref in _ids(evidence)} & held
+        text = '\n'.join(t for t, _ in reply)
+        if part in whole and refs and all(notes.get(r) and all(m and f'Source limitation: {m}' in text for m in notes[r])
+                                          for r in refs):
+            parts.add(part)
+    return parts
+
+
+def printed_held_claims(pack):
+    """The exact host claims of held_service_parts; the final malformed-source check accepts only these."""
+    fixed = {**fee_claims(pack), **grade_claims(pack), **facilities_claims(pack)}
+    service = service_claims(pack, fixed)
+    return {(text, _ids(evidence)) for part in held_service_parts(pack, service) - set(fixed)
+            for text, evidence in service[part]}
 
 
 def _ids(evidence):
@@ -312,20 +427,80 @@ def part_schema(pack, references=None):
 
 
 REWRITE = dict(
-    taglish='Rewrite every claim in Taglish: Tagalog sentence structure and grammar words '
-            '(ang, sa, yung, mo, lang, po), retaining accurate English source terms and quotations. '
+    taglish="Rewrite every claim in Taglish: keep the printed wording in the source's English as is "
+            '(rules, limits, numbers, conditions, terms and quotations) and use only the connecting words in '
+            'Filipino: Tagalog sentence structure and grammar words (ang, sa, yung, mo, lang, po). '
+            'An English paraphrase still needs Filipino connecting words in that claim. For an English quotation, '
+            'copy the source wording exactly, including its pronouns; do not turn students into you. '
             'Preserve the complete source meaning and conditions.')
+
+
+# Owner 3 Nov 2026 (H4): the printed Handbook FAQ pages are split across consecutive records.
+CONTINUED_TOPICS = ('handbook_student_faq', 'handbook_drop_shift_faq')
+CONTINUED_INSTRUCTION = (
+    'Each list is consecutive records of one printed FAQ page, in printed order. A numbered question or sentence '
+    'that ends one record continues at the start of the next; read them as one text. That split is not a source '
+    'cutoff. A real gap inside the printed text is still disclosed.')
+
+
+def continued_records(pack):
+    """Canonical evidence ids, in pack order, of each FAQ-topic part's records (two or more)."""
+    if not pack.understanding:
+        return []
+    documents = [c.evidence_id for c in pack.cards if c.kind == 'document']
+    required = required_record_sources(pack)
+    parts = [p for p in pack.understanding.parts if p.evidence_need == 'document']
+    groups = []
+    for part in parts:
+        if part.subject_id not in CONTINUED_TOPICS:
+            continue
+        refs = required.get(part.part_id) or (set(documents) if all(p.subject_id in CONTINUED_TOPICS for p in parts)
+                                               else set())
+        group = [i for i in documents if i in refs]
+        if len(group) >= 2 and group not in groups:
+            groups.append(group)
+    return groups
 
 
 def part_messages(text, pack, *, errors=(), previous='', references=None):
     payload = dict(untrusted_question=text, evidence=document_payload(pack, compact=True),
         validation_errors=list(errors), untrusted_previous_draft=previous[:4096])
+    if any(error.startswith('part_question_not_answered:') for error in errors):
+        payload['question_coverage_repair'] = (
+            'The previous draft was source-supported but did not answer the named question part. '
+            'Answer the actual question using the SAME evidence, including the relevant rule, conditions '
+            'and exceptions rather than only an introduction. Do not invent missing information; '
+            'use an unavailable slot if the evidence cannot answer it. All source and support checks still apply.')
     aliases = _part_aliases(pack, references)
     for card in payload['evidence']['sources']:
         card['evidence_id'] = aliases[card['evidence_id']]
     coverage = required_record_sources(pack)
+    repair_parts = {error.split(':', 1)[1] for error in errors if error.startswith('part_question_not_answered:')}
+    if repair_parts:
+        options = complete_policy_quotes(pack, coverage, repair_parts)
+        if options:
+            payload['complete_policy_quote_options'] = {
+                part: dict(text=words, evidence_id=aliases[ref]) for part, (words, ref) in options.items()}
+            payload['policy_quote_instruction'] = (
+                'These are complete short source bodies, not additional evidence or proof of relevance. '
+                'When one answers the part, you may quote it in full with a short requested-language lead-in, '
+                'preserving its rule, exception and consequence together. Otherwise keep the part unavailable. '
+                'The ordinary question-coverage and support review still applies.')
     if coverage:
         payload['record_coverage'] = {part: sorted(aliases[i] for i in ids) for part, ids in coverage.items()}
+        purposes = {part.part_id: {claim: [aliases[ref] for ref in refs]
+                    for subject, claim, refs in pack.record_coverage
+                    if subject == part.subject_id and claim in part.requested_claims}
+                    for part in (pack.understanding.parts if pack.understanding else ())
+                    if part.evidence_need == 'document' and part.part_id in coverage}
+        payload['claim_record_coverage'] = {part: claims for part, claims in purposes.items() if len(claims) > 1}
+        if payload['claim_record_coverage']:
+            payload['claim_coverage_instruction'] = (
+                'Cover each distinct requested purpose, not only the first claim group. For a how-to answer, '
+                'include its method, approvals, fees and conditions where the mapped records establish them. '
+                'Combine repeated timing statements concisely without choosing unresolved precedence; '
+                'do not spend the whole claim budget repeating deadlines and omit the action or approval. '
+                'All cited source limitations and the ordinary completeness review still apply.')
         payload['record_coverage_instruction'] = (
             'Each answered part must explain and cite every reviewed source record listed for it, '
             'including the visible client steps in order. A checklist alone does not cover the steps. '
@@ -339,6 +514,10 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'For each part named here, the listed part carries the full explanation of the shared '
             'records; answer only what that part specifically asks, citing its own records, and do '
             'not repeat the whole procedure.')
+    continued = continued_records(pack)
+    if continued:
+        payload['continued_records'] = [[aliases[i] for i in group] for group in continued]
+        payload['continued_records_instruction'] = CONTINUED_INSTRUCTION
     order = required_record_order(pack)
     if order:
         payload['record_order'] = {part: [[aliases[i] for i in sequence] for sequence in sequences]
@@ -358,9 +537,45 @@ def part_messages(text, pack, *, errors=(), previous='', references=None):
             'the whole-procedure instruction applies to other parts.')
     if {'introduced_disjunction', 'introduced_conjunction'} & set(errors):
         payload['condition_instruction'] = CONDITION_REPAIR
+    if 'omitted_printed_exception' in errors:
+        payload['exception_instruction'] = dict(instruction=EXCEPTION_REPAIR, printed_exceptions=printed_exceptions(pack))
     if 'claim_not_in_requested_style' in errors and pack.language in REWRITE:
         payload['repair_instruction'] = REWRITE[pack.language]  # plain words, not only a code
     return _messages(PART_PROMPT, payload, part_schema(pack, references))
+
+
+def complete_policy_quotes(pack, coverage, repair_parts):
+    """One complete clean body bound to the part's reviewed claim; never trim or choose between records."""
+    cards = {card.evidence_id: card for card in pack.cards if card.kind == 'document'}
+    options = {}
+    for part in (pack.understanding.parts if pack.understanding else ()):
+        refs = coverage.get(part.part_id, ())
+        if part.part_id not in repair_parts or part.detail != 'whole' or len(refs) != 1:
+            continue
+        ref = next(iter(refs))
+        if ref not in cards:
+            continue
+        try:
+            record = json.loads(cards[ref].text)
+            fields, limits = record['fields'], record['source_limits']
+            if (not isinstance(fields, list) or len(fields) != 1 or not isinstance(fields[0], dict)
+                    or not isinstance(limits, list) or any(not isinstance(limit, dict)
+                        or limit.get('resolution') != 'resolved' for limit in limits)):
+                continue
+            field = fields[0]
+            value = field.get('value')
+            if (field.get('name') == 'body' and field.get('source_blank') is False
+                    and isinstance(value, str) and 0 < len(value.strip()) <= 1024):
+                options[part.part_id] = value.strip(), ref
+        except (ValueError, TypeError, KeyError):
+            continue
+    return options
+
+
+# Owner 3 Nov 2026 (H8): when both are fetched (the orchestrator's shifting companion), a shifting answer covers the
+# Handbook 4.1 rule and the FAQ 8 printed steps.
+COVERED_TOGETHER = (('handbook_shifting', 'printed shifting fields'),
+                    ('handbook_drop_shift_faq', 'printed FAQ 8 shifting steps'))
 
 
 def required_record_sources(pack):
@@ -369,8 +584,10 @@ def required_record_sources(pack):
     for part in (pack.understanding.parts if pack.understanding else ()):
         if part.evidence_need != 'document':
             continue
-        ids = {i for subject, claim, refs in pack.record_coverage
-               if subject == part.subject_id and claim in part.requested_claims for i in refs}
+        wanted = {(part.subject_id, claim) for claim in part.requested_claims}
+        if wanted & set(COVERED_TOGETHER):
+            wanted |= set(COVERED_TOGETHER)
+        ids = {i for subject, claim, refs in pack.record_coverage if (subject, claim) in wanted for i in refs}
         if ids:
             required[part.part_id] = ids
     for part,(_,ref) in quoted_field_parts(pack).items():
@@ -474,35 +691,87 @@ def required_record_order(pack):
     return required
 
 
-def to_draft(explanation, pack):
+def mark_quotations(pack, part, required):
+    if part is None or part.subject_id != 'grade_completion' or part.detail != 'whole':
+        return None
+    inc = bool(re.search(r'\b(?:inc|incomplete)\b', part.text, re.I))
+    four = bool(re.search(r'(?<![\w.])4(?:\.0)?(?![\w.])', part.text))
+    if inc == four:
+        return None
+    method, approval = [], []
+    mark = 'INC' if inc else '4(?:\\.0)?'
+    for card in pack.cards:
+        if card.kind != 'document' or card.evidence_id not in required:
+            continue
+        try:
+            fields = json.loads(card.text)['fields']
+            bodies = [f['value'] for f in fields if f.get('name') == 'body' and f.get('source_blank') is False]
+            if len(bodies) != 1:
+                continue
+            body = bodies[0]
+            if re.search(r'\bREMOVAL\s+OF\s+[“‘"\']?' + mark + r'(?![\w.])', body, re.I):
+                method.append(card)
+            if re.search(r'\bEXAMINATION\s+FOR\s+REMOVAL\s+OR\s+COMPLETION\b', body, re.I):
+                approval.append(card)
+        except (ValueError, TypeError, KeyError, AttributeError):
+            continue
+    if len(method) != 1 or len(approval) != 1:
+        return None
+    cards = list(dict.fromkeys(c.evidence_id for c in method + approval))
+    by_id = {c.evidence_id: c for c in method + approval}
+    quotes = [(ref, clean_quote(by_id[ref], pack.language)) for ref in cards]
+    return tuple(PartClaim(text=words, evidence_ids=(ref,)) for ref, words in quotes) if all(w for _, w in quotes) else None
+
+
+def to_draft(explanation, pack, *, coverage_retry_parts=()):
     """Host-numbered claims plus each document part's slot status and claim IDs."""
     ids = document_parts(pack)
     if tuple(sorted(explanation.answers)) != tuple(sorted(ids)):
         raise ValueError('part_slot_mismatch')
     allowed = {c.evidence_id for c in pack.cards if c.kind == 'document'}
-    held = malformed_condition_sources(pack)
     host = host_claims(pack)
     claims, slots, conflict_ids = [], {}, {}
     requirements = required_record_sources(pack)
+    parts_by_id = {p.part_id: p for p in (pack.understanding.parts if pack.understanding else ())}
     for index, part_id in enumerate(ids):
-        conflict = None
-        context = None
+        conflict = context = quoted = None
         slot = explanation.answers[part_id]
         proposed = slot.claims if slot.status == 'answered' else ()
         if any(not set(c.evidence_ids) <= allowed for c in proposed):
             raise ValueError('non_document_evidence')
-        # The model cannot resolve a source-content hold. Filter before numbering/review,
-        # preserving independent slots and binding the reviewer to the actual final draft.
-        status = ('source_gap' if any(held.intersection(c.evidence_ids) for c in proposed)
-                  else slot.status)
+        status = slot.status
+        asked = parts_by_id.get(part_id)
+        if status == 'answered' and asked is not None and asked.subject_id == 'handbook_prerequisite_policy':
+            complete = complete_policy_quotes(pack, requirements, {part_id}).get(part_id)
+            if complete is not None:
+                words, ref = complete
+                lead = 'Ayon sa source: ' if pack.language in ('fil', 'taglish') else 'The source states: '
+                proposed = (PartClaim(text=lead + '"' + words + '"', evidence_ids=(ref,)),)
+        if (part_id in coverage_retry_parts and asked is not None and asked.detail == 'whole'
+                and len(asked.requested_claims) > 1):
+            required = requirements.get(part_id, set())
+            records = [card for card in pack.cards if card.kind == 'document' and card.evidence_id in required]
+            quotations = [(card, clean_quote(card, pack.language)) for card in records]
+            if required and len(records) == len(required) and all(words for _, words in quotations):
+                # Separate citations prevent a timing-group rewrite discarding an unrelated approval clause.
+                proposed = tuple(PartClaim(text=words, evidence_ids=(card.evidence_id,))
+                                 for card, words in quotations)
+                status = 'answered'
+        if status == 'answered':
+            exact_mark = mark_quotations(pack, asked, requirements.get(part_id, set()))
+            if exact_mark is not None:
+                proposed = exact_mark
+        fee = (fee_precedence_reply(pack, asked) or residence_reply(pack, asked) or honours_reply(pack, asked)
+               or leave_reply(pack, asked))
+        if fee is not None:  # owner 2 Nov 2026 (#10): Charter fee first, Handbook figure disclosed
+            proposed, status = tuple(PartClaim.parse(c) for c in fee), 'fee_precedence'
         if status == 'answered':
             reserved = sum(len(explanation.answers[p].claims) for p in ids[index+1:]
                            if explanation.answers[p].status == 'answered') + _host_claim_count(host)
             comparison = precedence_reply(pack, proposed, max_claims=8-len(claims)-reserved)
             if comparison is not None:
                 proposed = tuple(PartClaim.parse(c) for c in comparison)
-                status = ('answered' if proposed and not any(held.intersection(c.evidence_ids) for c in proposed)
-                          else 'source_gap')
+                status = 'answered' if proposed else 'source_gap'
                 # Deterministic wording still needs the existing per-part relevance/support review.
             if status == 'answered':
                 conflict = deadline_conflict_reply(pack, proposed, max_claims=8-len(claims)-reserved,
@@ -521,16 +790,37 @@ def to_draft(explanation, pack):
                 if excerpt is not None:
                     proposed = tuple(PartClaim.parse(c) for c in excerpt)
                     status = 'answered' if proposed else 'source_gap'
+            # The model cannot resolve a malformed condition: quote that record with its limitation
+            # (owner 30 Oct 2026) before numbering/review; an unquotable record is a source_gap.
+            if status == 'answered':
+                quoted = malformed_reply(pack, proposed, max_claims=8-len(claims)-reserved)
+                if quoted is not None:
+                    proposed = tuple(PartClaim.parse(c) for c in quoted)
+                    status = 'answered' if proposed else 'source_gap'
+        if status == 'fee_precedence':  # the host reply skips the other rewrites, then is reviewed like any claim
+            status = 'answered'
+        if status == 'answered':
+            shifting = complete_program_shifting_reply(pack, asked, requirements.get(part_id, set()))
+            if shifting is not None:
+                proposed = tuple(PartClaim.parse(c) for c in shifting)
+            concise = concise_mark_reply(pack, asked, requirements.get(part_id, set()))
+            if concise is not None:
+                proposed = tuple(PartClaim.parse(c) for c in concise)
+        if status == 'answered' and len(claims) + len(proposed) < 8:
+            branch = sickness_branch(pack, asked, proposed)  # owner 2 Nov 2026 (#3): the "if you were sick" branch
+            if branch is not None:
+                proposed = (*proposed, PartClaim.parse(branch))
         numbered = []
+        shared = conflict is not None or context is not None or quoted is not None
         for claim in (proposed if status == 'answered' else ()):
             key = (claim.text, tuple(claim.evidence_ids))
-            if (conflict is not None or context is not None) and key in conflict_ids:
+            if shared and key in conflict_ids:
                 if conflict_ids[key] not in numbered:
                     numbered.append(conflict_ids[key])
                 continue
             numbered.append(f'c{len(claims) + 1}')
             claims.append(dict(claim_id=numbered[-1], text=claim.text, evidence_ids=list(claim.evidence_ids)))
-            if conflict is not None or context is not None:
+            if shared:
                 conflict_ids[key] = numbered[-1]
         slots[part_id] = (status, tuple(numbered))
     host_ids = {}
@@ -552,23 +842,6 @@ def to_draft(explanation, pack):
     return draft, slots
 
 
-def malformed_condition_sources(pack):
-    """Record-level hold: no model interpretation of an unresolved malformed condition."""
-    held = set()
-    for card in pack.cards:
-        if card.kind != 'document':
-            continue
-        try:
-            limits = json.loads(card.text).get('source_limits', [])
-        except (ValueError, AttributeError):
-            continue
-        if isinstance(limits, list) and any(isinstance(limit, dict)
-                and limit.get('issue') == 'malformed_source_condition'
-                and limit.get('resolution') == 'unresolved' for limit in limits):
-            held.add(card.evidence_id)
-    return held
-
-
 def host_only(pack):
     """(draft, ledger) when every document part has a host-written reply, so no model call is needed."""
     if not host_claims(pack) or document_parts(pack):
@@ -576,6 +849,18 @@ def host_only(pack):
     draft, slots = to_draft(PartExplanation.parse(dict(schema_version=PartExplanation.SCHEMA_VERSION,
         release_id=pack.release_id, language=pack.language, answers={})), pack)
     return draft, assess_slots(pack, draft, slots)
+
+
+def host_quote_override(pack, review):
+    """Owner 2 Nov 2026 ("ok host quotes"): parts answered by an owner-approved exact host quote (#2 residence, #5
+    honours, leave length, #10 overdue fine) whose "answers" verdict flipped although every claim is supported.
+    Identical check requests gave opposite verdicts live; the owner-approved rule already decided these quotes answer
+    these questions. Drafts and unsupported claims keep the full check. Returns the part ids to accept."""
+    if pack.understanding is None or not all(v.verdict == 'supported' for v in review.support.verdicts):
+        return ()
+    quoted = {p.part_id for p in pack.understanding.parts
+              if fee_precedence_reply(pack, p) or residence_reply(pack, p) or honours_reply(pack, p) or leave_reply(pack, p)}
+    return tuple(part for part, verdict in review.parts.items() if verdict != 'answers' and part in quoted)
 
 
 def confirm_messages(text, pack, draft, slots, *, references=None):
@@ -590,9 +875,38 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
         parts=[dict(part_id=p, text=texts[p], requested_claims=requested[p], claims=[dict(claim=claims[c].model_dump(mode='json'),
             source_ids=[cards[e].evidence_id for e in claims[c].evidence_ids]) for c in ids])
             for p, (_, ids) in slots.items()])
-    required = required_record_sources(pack)
+    mark_parts = {p.part_id: p.text for p in pack.understanding.parts
+                  if p.subject_id == 'grade_completion' and p.detail == 'whole'
+                  and mark_quotations(pack, p, required_record_sources(pack).get(p.part_id, set())) is not None}
+    if mark_parts:
+        payload['mark_specific_parts'] = mark_parts
+        payload['mark_scope_instruction'] = (
+            'Judge the removal method for the mark actually asked and its shared approval conditions. '
+            'Required neighboring records provide source context, not additional requested questions. '
+            'Do not require grade-4 removal rules in an INC method answer, or INC definition in a grade-4 answer. '
+            'Retain applicable source limitations and check every stated claim against its cited record; '
+            'a different mark must never be substituted. Deadlines need no invented resolution.')
+    # Owner 2 Nov 2026 ("go check fix"): a part asking one detail is checked for that detail, not for every record of
+    # the service (live: library-card requirements and leave length were rejected although correct).
+    # A part quoting a held record keeps the full check: its disclosed limitation made the one-detail check reject
+    # a correct library-card answer in the 2 Nov replay.
+    held = set(malformed_records(pack))
+    detail = {p.part_id: p.detail for p in pack.understanding.parts if p.part_id in slots and p.detail != 'whole'
+              and not any(set(claims[c].evidence_ids) & held for c in slots[p.part_id][1])}
+    if detail:
+        payload['detail_parts'] = detail
+        payload['detail_instruction'] = (
+            'These parts ask only for the named detail (requirements, fees, processing_time or one specific fact). '
+            'Judge whether their claims give that detail completely and correctly as far as the source shows; a quoted '
+            'record with its disclosed source limitation answers what the source shows. Do not require the whole '
+            'procedure, other steps or unrelated records. All support, conflict, language and scope checks apply.')
+    required = {part: refs for part, refs in required_record_sources(pack).items() if part not in detail}
     if required:
         payload['required_records'] = {part: sorted(refs) for part,refs in required.items() if part in slots}
+    continued = continued_records(pack)
+    if continued:
+        payload['continued_records'] = continued
+        payload['continued_records_instruction'] = CONTINUED_INSTRUCTION
     shared = {part: covering for part, covering in shared_record_coverage(pack).items()
               if part in slots and covering in slots}
     if shared:
@@ -600,7 +914,8 @@ def confirm_messages(text, pack, draft, slots, *, references=None):
         payload['shared_record_coverage_instruction'] = (
             'For each part named here, the listed part carries the shared records; judge whether the '
             'named part answers its own specific ask without requiring it to repeat the procedure.')
-    order = {part: sequences for part, sequences in required_record_order(pack).items() if part in slots}
+    order = {part: sequences for part, sequences in required_record_order(pack).items()
+             if part in slots and part not in detail}
     if order:
         payload['record_order'] = order
     quotes = quoted_field_parts(pack)

@@ -7,16 +7,22 @@ reviewed package's chunks (ids and content hashes).
 """
 
 
+def require_active_research_release(client, release_id, authorization_ref):
+    """The per-request check. Published chunks are immutable in the database, so the chunk comparison
+    runs once at startup and this asks only whether the release is still the authorized active one."""
+    releases = client.select('knowledge_releases', filters={'release_id': 'eq.' + release_id}, role='runtime')
+    if (len(releases) != 1 or releases[0].get('status') != 'active'
+            or releases[0].get('release_kind') != 'research'
+            or releases[0].get('research_authorization_ref') != authorization_ref):
+        raise ValueError('hosted_release_not_active_research')
+
+
 class HostedReleaseStorage:
     def __init__(self, client, *, pin_release_id, hosted_release_id, authorization_ref, chunks):
         self.client, self.pin, self.hosted = client, pin_release_id, hosted_release_id
-        releases = client.select('knowledge_releases', filters={'release_id': 'eq.' + hosted_release_id},
-                                 role='runtime')
-        if (len(releases) != 1 or releases[0].get('status') != 'active'
-                or releases[0].get('release_kind') != 'research'
-                or releases[0].get('research_authorization_ref') != authorization_ref):
-            raise ValueError('hosted_release_not_active_research')
-        hosted = {c['chunk_id']: c['content_hash'] for c in client.select('chunks', role='runtime')}
+        require_active_research_release(client, hosted_release_id, authorization_ref)
+        hosted = {c['chunk_id']: c['content_hash']
+                  for c in client.select('chunks', columns='chunk_id,content_hash', role='runtime')}
         if hosted != {c['chunk_id']: c['content_hash'] for c in chunks}:
             raise ValueError('hosted_release_differs')
 

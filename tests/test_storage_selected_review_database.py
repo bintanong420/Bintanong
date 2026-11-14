@@ -15,7 +15,7 @@ from backend.bintanong_storage.source_partial_review import SourcePartialReviewL
 from tests.storage_database import StorageDatabase, DatabaseStorageClient, sql_literal, FIXTURE
 from tests.test_storage_source_registration import pending_version, document_record
 from tests.test_storage_source_acquisition import byte_check
-from tests.test_storage_selected_release_review import selected_fixture, add_record_group
+from tests.test_storage_selected_release_review import selected_fixture, add_record_group, add_flow_group
 from backend.bintanong_contracts.reviewed_policy_context import serialize_reviewed_fields
 from backend.bintanong_contracts.source import compute_content_hash
 
@@ -246,6 +246,27 @@ class SelectedReviewDatabaseTests(unittest.TestCase):
         self.loader.record(self.receipt); self.bind(); self.authority()
         self.manager.activate_release('release-selected')
         self.assertEqual(len(self.client.select('chunks')),2)
+
+    def test_complete_flow_group_records_and_can_publish(self):
+        self.prepare(add_flow_group)
+        self.loader.record(self.receipt); self.bind(); self.authority()
+        self.manager.activate_release('release-selected')
+        self.assertEqual(len(self.client.select('chunks')),2)
+
+    def test_flow_manifest_differing_from_its_review_event_is_rejected_by_sql(self):
+        def mutate(partial):
+            add_flow_group(partial)
+            for chunk in partial['chunks']:
+                chunk['type_fields']['service_group']['flow_manifest']['nodes'][1]['region']=[0,20,10,31]
+        self.prepare(mutate)
+        with self.assertRaises(StorageError): self.record()
+
+    def test_flow_group_with_differing_member_manifests_is_rejected_by_sql(self):
+        def mutate(partial):
+            add_flow_group(partial)
+            partial['chunks'][1]['type_fields']['service_group']['flow_manifest']['physical_page']=2
+        self.prepare(mutate)
+        with self.assertRaises(StorageError): self.record()
 
     def test_missing_projected_original_gap_in_c1_is_rejected_by_sql(self):
         def mutate(partial):

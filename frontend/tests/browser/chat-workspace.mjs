@@ -94,7 +94,7 @@ test('general chat supports explicit follow-up review, grouped evidence and safe
     assert.equal(await page.getByRole('link',{name:'Sign in again',exact:true}).count(),1);
     await page.getByRole('button',{name:'New chat',exact:true}).click();
     await page.getByRole('button',{name:'Clear chat',exact:true}).click();
-    await page.getByRole('heading',{name:'Ask away, Bintanong.',exact:true}).waitFor();
+    await page.getByRole('heading',{name:"Hi, I'm Bintanong",exact:true}).waitFor();
     await dismissInitialScope(page);
     assert.equal(await page.getByRole('button',{name:/Include earlier details/}).count(),0);
     await page.setViewportSize({width:390,height:844});

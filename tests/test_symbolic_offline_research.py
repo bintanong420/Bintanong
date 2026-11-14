@@ -27,6 +27,14 @@ def research(bundle=None,operations=OPERATIONS,**kw):
         authorization=authorization(bundle,operations),**kw)
 
 
+@pytest.mark.parametrize('passed,outcome', [((), 'unknown'), (('course-1',), 'eligible')])
+def test_research_checks_still_execute_with_prerequisite_listing_authorized(passed, outcome):
+    operations = (*OPERATIONS, 'course_facts', 'list_term_courses', 'list_course_prerequisites')
+    runner = research(operations=operations)
+    assert runner.check(request(), facts(passed=passed)).decision.outcome == outcome
+    assert runner.look_up(request(predicate='list_course_prerequisites')).requirement.course_id == 'course-1'
+
+
 @pytest.mark.parametrize('passed,failed,outcome',[(('course-1',),(),'eligible'),
     ((),('course-1',),'ineligible'),((),(),'unknown'),(('course-1',),('course-1',),'unknown')])
 def test_explicit_research_executes_real_input_with_fictional_facts_and_truthful_labels(passed,failed,outcome):

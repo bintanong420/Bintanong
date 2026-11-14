@@ -239,3 +239,9 @@ def test_answers_past_the_model_capacity_wait_in_a_short_queue_then_get_busy():
     for response in (results['running'], results['waiting'], afterwards):
         assert response.status_code == 200 and any(p['type'] == 'text-delta' for p in parse(response.content))
     assert model.peak == 1 and model.calls == 3
+
+
+def test_answer_parts_preserve_typed_unanswered_reason():
+    answer=answer_for('RAG').model_copy(update=dict(status='clarification_needed', reason='dialogue_unresolved'))
+    summary=next(p['data'] for p in answer_parts(answer,'msg-reason') if p['type']=='data-answer')
+    assert summary['reason']=='dialogue_unresolved'

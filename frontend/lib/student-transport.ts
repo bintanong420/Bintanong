@@ -27,9 +27,13 @@ async function checkedFetch(url: RequestInfo | URL, init: RequestInit, fetcher =
   try { response = await fetcher(url, { ...init, cache: "no-store", credentials: "same-origin" }); }
   catch (error) { if (init.signal?.aborted) throw error; throw new StudentTransportError("connection_failed", 503); }
   if (!response.ok) {
-    let code = "request_failed";
-    try { const value = await boundedJSON(response, 8192); if (/^[a-z_]{1,64}$/.test(value?.error)) code = value.error; } catch {}
-    throw new StudentTransportError(code, response.status);
+    let code = "request_failed", retryAfter: number | null = null;
+    try {
+      const value = await boundedJSON(response, 8192);
+      if (/^[a-z_]{1,64}$/.test(value?.error)) code = value.error;
+      if (Number.isInteger(value?.retryAfter) && value.retryAfter >= 1 && value.retryAfter <= 3600) retryAfter = value.retryAfter;
+    } catch {}
+    throw new StudentTransportError(code, response.status, retryAfter);
   }
   return response;
 }

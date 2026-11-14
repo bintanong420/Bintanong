@@ -14,9 +14,12 @@ from dataclasses import dataclass, field
 
 from ..bintanong_routing.contracts import ConversationContext, RequestContext, ScopedFact
 from .grades import ExtractionResult, confirm_rows
+from .memory import PendingCheck, merge_facts
+from .dialogue import DialogueExchange, DialogueState, UnresolvedDialogue, append_exchange
 
 IDLE_SECONDS = 30 * 60
 MAX_SESSIONS = 1000
+MAX_COMPLETED_TURNS = 512
 # A session never holds more facts than one request may carry.
 MAX_FACTS = next(m.max_length for m in RequestContext.model_fields['facts'].metadata if hasattr(m, 'max_length'))
 _CREDENTIAL = re.compile(r'^[A-Za-z0-9_-]{43}$')  # secrets.token_urlsafe(32)
@@ -39,6 +42,8 @@ class SessionView:
     pending: ExtractionResult | None
     conversation: ConversationContext | None
     pending_upload_id: str | None = None
+    pending_check: PendingCheck | None = None  # the check waiting on one stated result (memory plan, Task 2)
+    dialogue: DialogueState = field(default_factory=DialogueState)
 
 
 @dataclass
@@ -54,6 +59,10 @@ class _Session:
     pending_upload_id: str | None = None
     upload_facts: dict[str, tuple[str, ...]] = field(default_factory=dict)  # upload id -> fact ids it confirmed
     account_id: str | None = None  # verified opaque identity, never an email or bearer token
+    pending_check: PendingCheck | None = None
+    dialogue: DialogueState = field(default_factory=DialogueState)
+    active_message: str | None = None
+    completed_messages: set[str] = field(default_factory=set)
 
 
 def _digest(credential: object) -> str | None:
@@ -89,7 +98,8 @@ class SessionStore:
         with self._lock:
             session = self._live(credential, account_id=account_id)
             return None if session is None else SessionView(session.session_id, session.facts, session.pending,
-                                                                 session.conversation, session.pending_upload_id)
+                                                                 session.conversation, session.pending_upload_id,
+                                                                 session.pending_check, session.dialogue)
 
     def set_facts(self, credential: object, facts: tuple[ScopedFact, ...], *, account_id: str | None = None) -> None:
         with self._lock:
@@ -154,20 +164,76 @@ class SessionStore:
             session = self._owned(credential, account_id=account_id)
             if session.turn_in_flight:
                 raise ValueError('chat_in_progress')
-            if not regenerate and message_id == session.answered_message:
+            message_hash = hashlib.sha256(message_id.encode('utf-8')).hexdigest()
+            if not regenerate and (message_id == session.answered_message or message_hash in session.completed_messages):
                 raise ValueError('already_answered')
+            if len(session.completed_messages) >= MAX_COMPLETED_TURNS and message_hash not in session.completed_messages:
+                raise ValueError('conversation_turn_limit')
             session.turn_in_flight = True
+            session.active_message = message_id
+
+    def commit_turn_result(self, credential: object, message_id: str, *, expected_revision: int,
+                           exchange: DialogueExchange, facts: tuple[ScopedFact, ...] = (),
+                           pending_check: PendingCheck | None = None,
+                           conversation: ConversationContext | None = None,
+                           unresolved: UnresolvedDialogue | None = None,
+                           account_id: str | None = None) -> bool:
+        """Validate first, then publish one completed turn under the session lock."""
+        with self._lock:
+            session = self._live(credential, account_id=account_id)
+            if session is None:
+                # A deleted/expired owner cannot be resurrected; wrong owners cannot write.
+                key = _digest(credential)
+                if key in self._sessions:
+                    raise KeyError('unknown_session')
+                return False
+            if not session.turn_in_flight or session.active_message != message_id:
+                raise ValueError('turn_mismatch')
+            if session.dialogue.revision != expected_revision:
+                raise ValueError('stale_dialogue_revision')
+            exchange = DialogueExchange.model_validate(exchange.model_dump(mode='python'))
+            if exchange.message_id != message_id:
+                raise ValueError('turn_mismatch')
+            if any(f.session_id != session.session_id for f in facts):
+                raise ValueError('foreign_session_fact')
+            merged = merge_facts(session.facts, facts)
+            if len(merged) > MAX_FACTS:
+                raise ValueError('too_many_facts')
+            dialogue = append_exchange(session.dialogue, exchange, unresolved)
+            session.facts = merged
+            session.pending_check = pending_check
+            session.conversation = conversation
+            session.dialogue = dialogue
+            session.answered_message = message_id
+            session.completed_messages.add(hashlib.sha256(message_id.encode('utf-8')).hexdigest())
+            session.turn_in_flight = False
+            session.active_message = None
+            return True
 
     def end_turn(self, credential: object, message_id: str, *, completed: bool,
-                 account_id: str | None = None) -> None:
-        """A session deleted or expired during the turn stays gone."""
+                 account_id: str | None = None, facts: tuple[ScopedFact, ...] = (),
+                 pending_check: PendingCheck | None = None) -> None:
+        """A session deleted or expired during the turn stays gone. A completed turn commits its accepted
+        statements and its waiting check together (memory/eligibility plan, Task 2); any other completed turn
+        retires the earlier waiting check, and a failed or cancelled turn commits nothing."""
         with self._lock:
             session = self._live(credential, account_id=account_id)
             if session is None:
                 return
+            if session.active_message != message_id:
+                return
             session.turn_in_flight = False
-            if completed:
-                session.answered_message = message_id
+            session.active_message = None
+            if not completed:
+                return
+            session.answered_message = message_id
+            session.completed_messages.add(hashlib.sha256(message_id.encode('utf-8')).hexdigest())
+            if any(f.session_id != session.session_id for f in facts):
+                raise ValueError('foreign_session_fact')
+            merged = merge_facts(session.facts, facts)
+            if len(merged) <= MAX_FACTS:  # over the limit, the turn's new statements are not kept
+                session.facts = merged
+            session.pending_check = pending_check
 
     def delete(self, credential: object, *, account_id: str | None = None) -> bool:
         key = _digest(credential)
@@ -204,7 +270,8 @@ class SessionStore:
         """Owner, 24 Oct 2026: cookie-less requests must not lock students out, so the least recently used
         session that holds nothing the student stated (and no running turn) makes room."""
         empty = [(s.last_seen, k) for k, s in self._sessions.items()
-                 if not (s.facts or s.pending or s.conversation or s.turn_in_flight)]
+                 if not (s.facts or s.pending or s.conversation or s.pending_check or s.turn_in_flight
+                         or s.dialogue.exchanges)]
         if not empty:
             return False
         del self._sessions[min(empty)[1]]

@@ -615,3 +615,151 @@ Each program still gets its own dated review record listing which standing rule 
 - 30 Oct 2026 (dev merge and activation start): owner "We need to merge into dev"; p11 + origin/dev merged and
   fast-forwarded to `dev` (`a3ff208`), dev's older frontend superseded by p11's. Owner: start the hosted 560
   activation first thing in the new Phase 12 worktree ("yes, start there once I've created the worktree").
+- 30 Oct 2026 (hosted 560 chunk-level validation): asked whether the 29 Oct activation directive may serve as the
+  chunk-level validation for the 257 re-authored records (230 Charter service-association records, 27 Handbook
+  flowchart records) whose recorded events say "New chunks are prepared for owner validation, not yet approved as
+  chunks", owner chose "Yes, record it that way". Their receipts state: owner activation directive for the
+  gate-tested 560 package; assistant-verified associations over 213 human / 123 assistant source comparisons; no
+  per-chunk human approval. Correction to the question: the other 303 carry bound partially_reviewed states, but most
+  were not yet inside receipts; adding them is the routine receipt mechanism, not a new approval. No source-state
+  promotion, institutional approval or public deployment.
+- 30 Oct 2026 (flowchart schema gap): the hosted 560 rehearsal accepted 533 chunks, but hosted
+  `validate_selected_context` rejects the 27 Handbook flowchart records (pages 60/61/63/64, `flow_manifest`,
+  supported in Python since 27 Oct). Owner chose "Add a DB migration": port the flowchart check to SQL test-first,
+  rehearse locally, apply to hosted, then activate all 560.
+- 30 Oct 2026 (hosted connection path): the 560 rehearsal passed locally, but record review (36 s), bind (34 s)
+  and activate (~122 s) exceed hosted REST's 8 s statement timeout. Owner chose to add a hosted session-pooler URL
+  to `.env` as `SUPABASE_HOSTED_DB_URL`; the rehearsed steps then run over psql under the same service role and
+  database functions with a longer statement timeout. Secret never printed or staged; corrected78 stays the rollback.
+- 30 Oct 2026 (hosted query fixes): after diagnosis (INC removal: selector chose handbook_grade_correction because
+  grade_completion's menu entry shows only a cut opening; honors requirements: draft hit max_output_tokens 768,
+  shown as temporarily_unavailable; probation: 4/4 local passes, one hosted miss treated as run variation), owner
+  chose "Yes, add printed headings" (every Handbook policy topic's menu lists its printed numbered section headings
+  verbatim, from reviewed body fields, like the 29 Oct printed penalty row names) and "Retry once at 1,536" (a
+  truncated draft is retried once with a 1,536-token output limit; normal answers unchanged). Benchmark regression
+  check required after both.
+- 30 Oct 2026 (source-defect strictness): asked whether a recorded source defect should keep hiding a topic's
+  printed headings and refusing whole-topic answers (honors p.54 residence conflict, INC p.47 deadline conflict),
+  owner: "i think we should still show, the source defect aren't that big of a deal to be honest, if anything we
+  can just note the limitation and ask them to refer to the appropriate university office for more info". Applied:
+  printed section headings stay in the topic menu despite a defect elsewhere in the chunk (a heading ending a
+  defective body may be cut and stays withheld; openings stay withheld); a claim citing an unresolved
+  malformed_source_condition record becomes an exact quotation of that record plus its recorded limitation and a
+  relevant-university-office referral, never an interpretation. Other source-gap rules are unchanged.
+- 30 Oct 2026 (INC and honors follow-up): owner "yes, lets proceed" for INC: a conflicting_deadlines record outside
+  any printed group is quoted with its limitation and an office referral (incomplete/mixed groups stay source_gap),
+  and the router menu lists each fact's own printed section headings (`fact_headings`), with the same defect and
+  cut-heading rules. Honors: owner chose "Leave the check": the introduced_disjunction guard is unchanged and honors
+  requirements stay a disclosed limitation. Full regression required after the router change.
+- 30 Oct 2026 (INC second attempt): owner "we need to solve both": after fact_headings alone did not change Gemma's
+  claim choice, a host guard lets the one fact of the chosen topic whose printed section heading names at least two of
+  the part's own words replace a choice whose headings name none (stem/abbreviation match, generic words ignored, a tie
+  or single-word match keeps the model's choice, same topic only). Adding instead of replacing exceeded
+  grade_completion's 3,072-token budget (timing 1,520 + 3.4 group 1,959 tokens). Offline on 53 recorded router outputs
+  it changes only "How do I remove an incomplete grade?" (timing -> 3.4 REMOVAL OF "INC" group).
+- 30 Oct 2026 (Taglish source wording): shown leave-length-taglish's reply ("hindi dapat lumagpas sa isang (1) academic
+  year", the printed rule translated into Filipino structure), owner chose (a): "we keep the answers that came from
+  the data as english as is. But for other like words that connect them like the connecting as filipino. This is
+  for taglish". Taglish claims keep printed rules, limits, numbers, conditions and terms in the source's English
+  wording; only connecting words are Filipino. Refines the 27 Oct English/Taglish decision; English replies unchanged.
+  The leave-length scorer is left as is (it already accepts "one (1) academic year").
+- 30 Oct 2026 (Filipino penalty-row words): shown a proposed Filipino -> printed English term list for the Handbook
+  sanctions table, owner: "use it but uniporme we dont really use this but the rest definitely yes, kopya/pangongopya/
+  kumopya/kumukopya ... Add these new words to the docs". Reviewed whole-word forms for cheating, examination,
+  smoking, bullying, drinking, gambling and littering live in `backend/bintanong_routing/filipino_terms.py` and the
+  table in `docs/evaluation/accepted-input-forms.md`; "uniporme" excluded. Understanding only; answers keep printed
+  English. Also authorized by owner the same day: Claude restarts the hosted research backend on :8021.
+- 2 Nov 2026 (failing-case fixes and tone): owner approved, in order, the student view without the supplied-evidence
+  line; scope asked as a question; a shared program name using the selected program; whole-unresolved prerequisite
+  replies (blank = "not listed" with adviser/college referral, printed condition = unverified quote; blanks stay unknown,
+  first-term inference withdrawn per lines 27-29); a split printed code naming one course; #6 drops "misadvising";
+  9A held-record quotes with plain labels, a "Heads-up" and kept steps; the draft tone prompt; #11 option B+ (ask
+  leaving or incoming, naming the fee); #5 target covers Handbook 5.1.3 and 5.1.4.
+- 2 Nov 2026 (#10 overdue fine, "go #10 CC-first, its fine, but with transparency din ha"): for fees, the Citizen's
+  Charter prevails over the Student Handbook (owner view; RA 11032 Sec. 6 requires Charter fees and Sec. 21(c) bars
+  costs not in the Charter; the Charter is the 2025 edition, the Handbook 2021). Scope: fees of Charter-listed services
+  with a recorded conflict, starting with H101/C79. The reply leads with the Charter Php 10.00/day and quotes the
+  Handbook "General Circulation Books – Php 2.00/day" (Reserved Books amount not printed) with a University Library
+  referral. Not university confirmation; the source limitation and data stay unchanged (option c not chosen).
+- 2 Nov 2026 (host quotes, "ok host quotes"): for the owner-approved exact host quotes only (#2 Handbook 1.4 residence,
+  #5 Handbook 5.1.3/5.1.4, leave length, #10 Charter-first overdue fine), a "does_not_answer" verdict is not decisive
+  when the check judges every claim supported. Evidence: byte-identical check requests got opposite verdicts in
+  different runs (#2 and leave length). Each skip is recorded on the answer as host_quote_override. Drafts and any
+  unsupported claim keep the full check; the recheck tried earlier was reverted.
+- 3 Nov 2026 (follow-up memory, "memory system.. to talaga"; owner chose option 2 of three): session memory (master 23)
+  may also keep the previous question's structure as fixed values: its check operation, year level and semester,
+  and the detail its document part asked. Still never the student's text or a grade. A follow-up that changes one
+  thing re-asks that question; the host fills only a year or semester the follow-up leaves out. Options 1 (more
+  browser-side patches) and 3 (sending earlier turns' text to the router) were not chosen.
+- 3 Nov 2026 (procedure layout, "go"): whole Charter procedures open with a plain lead, "What to bring", one line per
+  step with fee, time and office, then what the office does; printed values, limits and the original note unchanged.
+- 4 Nov 2026 (blank prerequisite cells, owner): "those blank literally means no prerequisites, they are usually
+  foundational subjects that are usually found in first and second years. I've reviewed all of the prospectus so im
+  confident in it." Asked how far it applies, the owner chose: everywhere. A blank printed prerequisite cell in a
+  reviewed prospectus ledger now means no prerequisite. It is treated like a printed "None" (verified none) in
+  eligibility checks, term lists and dependency lists. It supersedes the earlier "Blank prerequisite cell -> unknown"
+  rulings (17 Oct review03 note, 23 Oct scenario list, 2 Nov reply wording) for prerequisite cells only.
+  - Unchanged: printed-but-unverified conditions (e.g. BSEd FS 2 "all professional education courses"), year
+    standing, self-referencing cells and other recorded source gaps keep their limits.
+  - Unchanged: blank units or other blank fields keep their own rulings.
+  - The ledgers themselves are not edited; the mapping belongs in the runtime or bundle compilation.
+  - Implemented 4 Nov 2026 on `feat/memory-eligibility` (`1376e0e`) at the owner's request; year-level standing
+    (names no course) no longer makes a dependency list uncertain (`671ad26`).
+- 4 Nov 2026 (removal period, "yes go ahead, just print the discrepancy"): for removing a grade of 4.0 or INC, use the
+  printed succeeding term (Handbook 3.2, Resolution 279, Series of 2018; 3.7 "within a period of one term ... shall
+  automatically become 5.0"). Every answer that uses this period also prints the discrepancy: the same section also
+  states "within one year" (3.3, 3.7). The source text is unchanged; this is a reading for answers, not a correction.
+- 4 Nov 2026 (semester load ceiling, "we can safely do this as a working assumption, just communicate it in a friendly
+  student way"): working assumption that the semester's prescribed total units (Handbook p. 35, maximum academic load)
+  is the ceiling for any mix of courses. A plan above it is shown with a friendly major warning naming the units, the
+  clause and the Dean or Registrar, never blocked. This is a reading for plan checks, not an institutional ruling.
+- 4 Nov 2026 (thesis copies, "Complement, not replace"): Context/bintanong_thesis_for_context.pdf stays the
+  thesis-leader-approved copy; the newer owner-supplied working draft (SHA-256 614f9e21...) is supplementary context.
+  Where they differ, the approved copy governs scope.
+- 4 Nov 2026 (academic recovery delivery, "ikaw bahala"): a bounded task list on p12-evaluation-harness, not a numbered
+  phase. Owner direction the same day: plain questions ("bagsak ako sa DSA, ano pwede ko itake...") must trigger the
+  recovery help, and drafts follow the greedy prerequisite chain (earliest term for each blocked course).
+- 4 Nov 2026 (academic recovery, "go"): Steps 1-4 and 6 of the plan of action approved (D1). Taken from the same "go"
+  on the stated recommendations, revisable by the owner: Step 5 drafts are built and belong in Chapter 3 with Aurora
+  as precedent (D2); the advance-course restriction is quoted with a Dean referral, not checked (D7).
+- 4 Nov 2026 (shifting referral offices, "stick muna tayo sa anong meron sa chunks, for consistency"): the shifting
+  referral names only offices printed in the reviewed chunks (Deans of both colleges, or Department Head and Dean
+  within a college; College Guidance Practitioner; Office of the University Registrar). OSAS, which appears only in
+  the 4.3 section heading, is not named.
+- 4 Nov 2026 (academic recovery Track A, "go" on each): (1) summer load: over nine units is a friendly heads-up; a
+  student who says they are graduating is told up to twelve is possible with the Dean's prior approval (p. 35);
+  (2) overload: mentioned only to a student who says it is their last semester and they are graduating, always as
+  needing Dean and Registrar approval, never above 28 units and never after a stated delinquency (p. 36); (3) the
+  prerequisite waiver is quoted as an option only for graduating students, with its conditions, never planned
+  automatically (owner: "as long there is a graduating student clause"; p. 31); (4) 4.0/INC removal within the
+  succeeding term with the D6 discrepancy printed, before enrollment when it is a prerequisite of next semester's
+  subjects, a heads-up when a plan re-enrolls a subject with an open 4.0/INC, and no removal route for 5.0 (pp. 46-47).
+  The semester ceiling and the summer normal load are stored as knowledge/rules/palsu-load-policy-v1.json.
+- 4 Nov 2026 (plan checker behaviors, "2a ok too" / 2b "pwede naman"): (2a) terms are read in time order; a course
+  that works in its own term counts as passed for every later term (CC 4/L in the 2nd semester, then CS 4/L and
+  CS 6 in summer, works), and a course scheduled before its prerequisite is blocked and earns no credit for later
+  terms (p. 31). (2b) a special-class, off-semester or summer request never changes a term's outcome; the term reads
+  "Works, needs confirmation" / "Works, may kailangan pang i-confirm" with each request listed as requested, not yet
+  approved, with its printed conditions and source, plus what changes if it does not open.
+- 4 Nov 2026 (conversational wording, "Ok"): host-written prerequisite replies use plain conversational wording in
+  English and Taglish, e.g. "Yes, you can take CS 13/L! You've passed its prerequisite, CC 5/L." / "Oo, pwede mo nang
+  i-take ang CS 13/L! Pasado ka na sa prerequisite nito, ang CC 5/L."; "Not yet. COMM BC 13 needs COMM BC 11 first.
+  Once you pass it, you're good to go."; "COMM BC 14 needs COMM BC 13. Have you passed it? Tell me and I'll check for
+  you."; every clarification names what is missing (never the empty "Paki-clarify muna ang missing information");
+  quoted procedure fields read as steps, not "Reviewed source fields (quoted)"; "temporarily unavailable" only for a
+  real outage. Sources, unknown-versus-unmet and the advisory boundary are unchanged.
+- 4 Nov 2026 (printed units reading, owner choice "Lec/Lab units, a+b"): for load checks, a printed Units value
+  "a/b" in a reviewed prospectus (e.g. "2/1" for CC 4/L) is lecture units / laboratory units, total a+b ("2/1" -> 3);
+  a plain number is the total ("3" -> 3); any other form (e.g. "None", a malformed value) stays unknown. The printed
+  value is unchanged and answers keep it as printed; this is a reading for load checks, not a source correction.
+- 4 Nov 2026 (recovery draft preference, owner "Draft B, but make sure it needs to be program agnostic"): for the owner's
+  BSCS 2018-2019 CC 4/L case the preferred draft is special CC 4/L (2nd yr 2nd sem) -> summer CS 4/L + CS 6 -> special
+  CC 5/L on top of 3rd yr 1st sem -> regular, over the all-summer draft (CS 4/L + CS 6 + CC 5/L in summer). Generic rule
+  proposed by the coordinator to reproduce it (revisable by the owner): "just in time": each delayed course is placed in
+  the latest term that still delays none of the courses that need it; summer holds only courses needed by the next
+  term. Other drafts remain shown as alternatives; every step still needs approval.
+- 6 Nov 2026 (general facilities, owner: "I think pretty much ang naiisip ko is quote something from both?"):
+  quote the Handbook physical p.57 general application guidance beside the Citizens' Charter physical pp.80–81
+  library-facilities procedure. Label the latter as library-specific (IMC/Zoom/Studio); do not present it as the
+  general university room workflow or imply supersession. Originals, printed total discrepancy and other source
+  limits remain. This selects existing reviewed content for research replies, not institutional approval.

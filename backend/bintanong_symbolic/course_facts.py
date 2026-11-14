@@ -12,7 +12,8 @@ from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Contract, Record
 from ..bintanong_contracts.runtime import BoundInput
-from ..bintanong_contracts.symbolic import DecisionScope
+from ..bintanong_contracts.symbolic import DecisionScope, RequirementView
+from ..bintanong_contracts.source import SourceSpan
 
 YEARS = {'FIRST YEAR': 1, 'SECOND YEAR': 2, 'THIRD YEAR': 3, 'FOURTH YEAR': 4, 'FIFTH YEAR': 5}
 TERMS = {'FIRST SEMESTER': 'first_semester', 'SECOND SEMESTER': 'second_semester', 'SUMMER': 'summer'}
@@ -52,11 +53,15 @@ class PrintedCourse(Record):
 class CourseFactsResult(Contract):
     SCHEMA_VERSION = 'bintanong-course-facts-result-v1'
     synthetic: bool
-    predicate: Literal['course_facts', 'list_term_courses']
+    predicate: Literal['course_facts', 'list_term_courses', 'list_course_prerequisites']
     inputs: tuple[BoundInput, ...]
     status: Literal['complete', 'not_reviewed', 'not_found', 'unsupported']
     courses: tuple[PrintedCourse, ...]
     scope: DecisionScope | None
+    requirement: RequirementView | None = Field(default=None, exclude_if=lambda value: value is None)
+    rule_spans: tuple[SourceSpan, ...] = Field(default=(), exclude_if=lambda value: not value)
+    rule_ids: tuple[str, ...] = Field(default=(), exclude_if=lambda value: not value)
+    rule_bundle_version: str | None = Field(default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode='after')
     def _boundaries(self):
@@ -66,6 +71,13 @@ class CourseFactsResult(Contract):
             raise ValueError('only a complete lookup lists printed facts')
         if self.predicate == 'course_facts' and self.status == 'complete' and len(self.courses) != 1:
             raise ValueError('a course lookup names exactly one course')
+        listing = self.predicate == "list_course_prerequisites" and self.status == "complete"
+        if listing != (self.requirement is not None):
+            raise ValueError("only a complete prerequisite description carries a rule tree")
+        if listing and (not self.rule_spans or not self.rule_ids or not self.rule_bundle_version or self.courses):
+            raise ValueError("a prerequisite description requires scoped rule provenance")
+        if not listing and (self.rule_spans or self.rule_ids or self.rule_bundle_version):
+            raise ValueError("only prerequisite descriptions carry rule provenance")
         return self
 
 

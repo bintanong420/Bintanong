@@ -8,7 +8,7 @@ import json
 
 import pytest
 
-import test_evaluation_fixtures as fx
+import evaluation_fixtures as fx
 from evaluation import protocol as pr
 from evaluation.case import CATEGORIES
 

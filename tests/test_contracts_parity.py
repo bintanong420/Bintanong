@@ -1,10 +1,9 @@
-"""Phase 1 Task 3, fix pass 2: the package and the test-local governance checker must agree.
+"""Package/schema parity over synthetic governance and runtime records.
 
 The test-local checker (tests/test_source_governance_manifests.py) is the independent cross-check of the
 schemas and the vocabulary. This file feeds both implementations the SAME documents (the synthetic
 examples and its whole mutation corpus) and asserts the same verdict, accept or reject. A document one
-accepts and the other rejects is a bug in one of them.
-"""
+accepts and the other rejects is a bug in one of them."""
 
 from __future__ import annotations
 
@@ -13,9 +12,14 @@ import copy
 import pytest
 from pydantic import ValidationError
 
-from backend.bintanong_contracts import base, governance as gov, symbolic
-import test_contracts_fix3_governance as f3
+from backend.bintanong_contracts import base
+from backend.bintanong_contracts import governance as gov
+from backend.bintanong_contracts import symbolic
+
+import contracts_fixtures as fx
+import test_contracts_governance as f3
 import test_source_governance_manifests as tl
+
 
 VOC = tl.vocabulary()
 
@@ -135,13 +139,9 @@ def register_corpus():
         out[f"authref:{value!r}"] = _auth_blank(value)
     for value in tl.PRIVATE_IN_INSTITUTIONAL + tl.LEGITIMATE_PROSE:
         out[f"issuer:{value!r}"] = tl.mutated(reg()[1], lambda r, v=value: r["issuer"].update(value=v))
-    for name in ("C:\\Users\\x\\a.pdf", "C:/Users/x/a.pdf", "dir\\a.pdf", "/abs/a.pdf", "file:///a.pdf", "\\\\host\\share\\a.pdf",
-                 "a/b.pdf", "x:y.pdf", "..", ".", "a\tb.pdf", "a\nb.pdf", "", "D:rel.pdf", "https://x.invalid/a.pdf",
-                 "synthetic-handbook.pdf", "Student Handbook (2023) v2.pdf", "a.b.c.pptx"):
+    for name in fx.FILENAME_PARITY_CASES:
         out[f"filename:{name!r}"] = tl.mutated(reg()[1], lambda r, n=name: r.update(filename=n))
-    for loc in ("C:\\Users\\x\\a.pdf", "C:/Users/x/a.pdf", "d:\\a", "\\\\host\\share", "/home/x/a.pdf", "/Users/x/a.pdf",
-                "file:///a.pdf", "../a.pdf", "synthetic-locator-x/../y", "~/a.pdf", "a\\b", " leading", "", "x\ny",
-                "https://example.invalid/handbook.pdf", "synthetic-locator-alpha/2", "registrar-shelf-3/box-2"):
+    for loc in fx.LOCATOR_PARITY_CASES:
         out[f"locator:{loc!r}"] = tl.mutated(reg()[1], lambda r, v=loc: r.update(acquisition_locators=["synthetic-locator-base/1", v]))
     for field, good in tl.ID_FIELDS:
         for bad in (good, good + "\n", good.upper(), " " + good, good + " ", good[:-1] + "_", "x" + good, ""):

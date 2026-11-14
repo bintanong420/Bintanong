@@ -1,0 +1,164 @@
+{
+ "question": "What is the penalty for cheating in an exam?",
+ "answer": "Here is what the source says: Cause: \"a. Any form of cheating in examinations\"; 1st Offense: \"Automatic grade of zero (0) on the examination/ activity or failing grade of five (5) upon discretion in the subject where it was committed.\"; 2nd Offense: \"Suspension for two weeks\"; 3rd Offense: \"Suspension for one month\"; Subsequent Offenses: \"Dismissal\"\nHere is what the source says: Scope: \"Additional corrective measures for all acts of academic dishonesty:\"; Measures: \"Withdrawal of degree; Withdrawal of honors; Disqualification from graduation with honors; Cancellation of registration\" Recorded source limitation: \"Unavailable information: which additional corrective measures apply automatically to an individual act.\" Please confirm with the relevant university office.",
+ "reference": "a. Any form of cheating in examinations\nAutomatic grade of zero (0) on the examination/ activity or failing grade of five (5) upon discretion in the subject where it was committed.\nSuspension for two weeks\nSuspension for one month\nDismissal\n\ng. Allowing another student to take the examination as an act to pretend to be the examinee.\nSuspension for 1 semester.\nDismissal\n\ne. Unauthorized reproduction of examination, exam answers, possession and/or use of any cheating devices during examination.\nSuspension for 1 semester automatic grade of 5 in the subject.\nDismissal\n\nAdditional corrective measures for all acts of academic dishonesty:\nWithdrawal of degree; Withdrawal of honors; Disqualification from graduation with honors; Cancellation of registration",
+ "writer_evidence": [
+  "Cause: a. Any form of cheating in examinations\n1st Offense: Automatic grade of zero (0) on the examination/ activity or failing grade of five (5) upon discretion in the subject where it was committed.\n2nd Offense: Suspension for two weeks\n3rd Offense: Suspension for one month\nSubsequent Offenses: Dismissal",
+  "Scope: Additional corrective measures for all acts of academic dishonesty:\nMeasures: Withdrawal of degree; Withdrawal of honors; Disqualification from graduation with honors; Cancellation of registration\nRecorded source limitation: Unavailable information: which additional corrective measures apply automatically to an individual act. Source limitation remains unresolved (claim_not_stated)."
+ ],
+ "top3": [
+  "a. Any form of cheating in examinations\nAutomatic grade of zero (0) on the examination/ activity or failing grade of five (5) upon discretion in the subject where it was committed.\nSuspension for two weeks\nSuspension for one month\nDismissal",
+  "Additional corrective measures for all acts of academic dishonesty:\nWithdrawal of degree; Withdrawal of honors; Disqualification from graduation with honors; Cancellation of registration"
+ ],
+ "faithfulness": [
+  {
+   "statement": "The source states that any form of cheating in examinations is a cause.",
+   "reason": "The context explicitly lists 'Cause: a. Any form of cheating in examinations'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The first offense results in an automatic grade of zero on the examination or activity.",
+   "reason": "The context states for 1st Offense: 'Automatic grade of zero (0) on the examination/ activity'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The first offense may result in a failing grade of five upon discretion in the subject where the cheating was committed.",
+   "reason": "The context states for 1st Offense: 'or failing grade of five (5) upon discretion in the subject where it was committed'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The second offense results in suspension for two weeks.",
+   "reason": "The context states for 2nd Offense: 'Suspension for two weeks'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The third offense results in suspension for one month.",
+   "reason": "The context states for 3rd Offense: 'Suspension for one month'.",
+   "verdict": 1
+  },
+  {
+   "statement": "Subsequent offenses result in dismissal.",
+   "reason": "The context states for Subsequent Offenses: 'Dismissal'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The source states that additional corrective measures apply to all acts of academic dishonesty.",
+   "reason": "The context states: 'Scope: Additional corrective measures for all acts of academic dishonesty'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The additional corrective measures include withdrawal of degree.",
+   "reason": "The context lists under Measures: 'Withdrawal of degree'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The additional corrective measures include withdrawal of honors.",
+   "reason": "The context lists under Measures: 'Withdrawal of honors'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The additional corrective measures include disqualification from graduation with honors.",
+   "reason": "The context lists under Measures: 'Disqualification from graduation with honors'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The additional corrective measures include cancellation of registration.",
+   "reason": "The context lists under Measures: 'Cancellation of registration'.",
+   "verdict": 1
+  },
+  {
+   "statement": "The recorded source limitation states that information is unavailable regarding which additional corrective measures apply automatically to an individual act.",
+   "reason": "The context states: 'Recorded source limitation: Unavailable information: which additional corrective measures apply automatically to an individual act.'",
+   "verdict": 1
+  },
+  {
+   "statement": "The answer requests confirmation with the relevant university office.",
+   "reason": "The context does not mention any request for confirmation with a university office.",
+   "verdict": 0
+  }
+ ],
+ "relevancy": [
+  {
+   "question": "What are the penalties for cheating in examinations?",
+   "noncommittal": 0,
+   "cosine": 0.9565317825226501
+  },
+  {
+   "question": "What are the penalties for cheating in examinations and additional corrective measures for academic dishonesty?",
+   "noncommittal": 0,
+   "cosine": 0.8434485525822067
+  },
+  {
+   "question": "What are the penalties for cheating in examinations and the additional corrective measures for academic dishonesty?",
+   "noncommittal": 0,
+   "cosine": 0.838353906336056
+  }
+ ],
+ "recall": [
+  {
+   "statement": "a. Any form of cheating in examinations",
+   "reason": "This exact phrase is present in the context.",
+   "attributed": 1
+  },
+  {
+   "statement": "Automatic grade of zero (0) on the examination/ activity or failing grade of five (5) upon discretion in the subject where it was committed.",
+   "reason": "This exact sentence is present in the context.",
+   "attributed": 1
+  },
+  {
+   "statement": "Suspension for two weeks",
+   "reason": "This exact phrase is present in the context.",
+   "attributed": 1
+  },
+  {
+   "statement": "Suspension for one month",
+   "reason": "This exact phrase is present in the context.",
+   "attributed": 1
+  },
+  {
+   "statement": "Dismissal",
+   "reason": "This exact word is present in the context.",
+   "attributed": 1
+  },
+  {
+   "statement": "g. Allowing another student to take the examination as an act to pretend to be the examinee.",
+   "reason": "This statement is not found in the context.",
+   "attributed": 0
+  },
+  {
+   "statement": "Suspension for 1 semester.",
+   "reason": "This statement is not found in the context.",
+   "attributed": 0
+  },
+  {
+   "statement": "Dismissal",
+   "reason": "This exact word is present in the context.",
+   "attributed": 1
+  },
+  {
+   "statement": "e. Unauthorized reproduction of examination, exam answers, possession and/or use of any cheating devices during examination.",
+   "reason": "This statement is not found in the context.",
+   "attributed": 0
+  },
+  {
+   "statement": "Suspension for 1 semester automatic grade of 5 in the subject.",
+   "reason": "This statement is not found in the context.",
+   "attributed": 0
+  },
+  {
+   "statement": "Dismissal",
+   "reason": "This exact word is present in the context.",
+   "attributed": 1
+  },
+  {
+   "statement": "Additional corrective measures for all acts of academic dishonesty:",
+   "reason": "This exact phrase is present in the context.",
+   "attributed": 1
+  },
+  {
+   "statement": "Withdrawal of degree; Withdrawal of honors; Disqualification from graduation with honors; Cancellation of registration",
+   "reason": "This exact phrase is present in the context.",
+   "attributed": 1
+  }
+ ]
+}

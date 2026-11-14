@@ -65,9 +65,11 @@ def test_shipped_example_dispatches_scoped_target_and_request_local_failure():
 
 @pytest.mark.parametrize('mode', ['hypothetical', 'reported'])
 def test_nonasserted_variant_of_shipped_example_stays_guarded(mode):
+    # Owner memory and eligibility plan (3 Nov 2026): a hypothetical is a request-only assumption (what-if) and a
+    # reported quotation about someone else contributes no fact about the speaker; neither blocks the question.
     result, model = route_example(mode)
-    assert result.claims[0].mode == mode
-    assert result.diagnostic == 'nonasserted_facts' and not result.decision.dispatchable
+    assert result.diagnostic == 'validated' and result.decision.dispatchable
+    assert [c.mode for c in result.claims] == (['hypothetical'] if mode == 'hypothetical' else [])
     assert len(model.calls) == 2 and result.repair_attempts == 0
 
 
@@ -76,5 +78,6 @@ def test_router_prompt_maps_not_yet_passed_and_not_taken_to_a_failed_claim():
     # all 7 curricula (English "if I failed Y" passed). failed means not completed for the engine.
     from backend.bintanong_routing import prompt
     text = prompt.SYSTEM_PROMPT
-    assert 'not yet passed' in text and 'not taken' in text and 'state failed' in text
-    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v24'
+    # Owner memory and eligibility plan: not yet passed and not taken are their own states, not failed.
+    assert 'not_passed (not yet passed' in text and 'not_taken (never or not yet' in text
+    assert prompt.PROMPT_VERSION == 'bintanong-router-p11-v25'

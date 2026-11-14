@@ -38,6 +38,16 @@ export function clarificationQuestions(answer: Answer, curricula: StudentCurricu
       ] });
   }
   if (answer.missingFields.includes("course_status") && !answer.clarification?.courses.length) questions.push({ key: "course_status", title: copy.status, options: extra });
+  // Owner GUI 3 Nov 2026 (H2): the leaving-or-incoming question; the chosen text names the side the router reads.
+  if (answer.missingFields.includes("transfer_direction")) questions.push({ key: "transfer_direction",
+    title: en ? "Are you leaving PalSU, or transferring into PalSU?" : "Aalis ka ba sa PalSU, o lilipat ka sa PalSU?",
+    options: [
+      { value: "leaving", label: en ? "Leaving PalSU" : "Aalis sa PalSU",
+        text: en ? "I am leaving PalSU (transfer credentials / honorable dismissal)." : "Aalis ako sa PalSU (transfer credentials / honorable dismissal)." },
+      { value: "incoming", label: en ? "Transferring into PalSU" : "Lilipat sa PalSU",
+        text: en ? "I am transferring into PalSU from another school." : "Lilipat ako sa PalSU galing sa ibang school." },
+      ...extra,
+    ] });
   return questions;
 }
 
@@ -57,6 +67,27 @@ export function clarificationReply(original: string, answer: Answer, curricula: 
   const text = `${lines[0]}\n\n${lines.slice(1).join("\n")}`;
   if (text.length > 8192 || new TextEncoder().encode(text).byteLength > 16384) throw new Error("clarification_too_long");
   return { text, scope };
+}
+
+// Owner 3 Nov 2026 (fix 2): a typed reply to the leaving-or-incoming question is sent with the original question, as
+// the dialog choice is; the server keeps ids only, so the reply alone loses what was asked. Too long: the reply alone.
+// Owner GUI 3 Nov 2026 (#12): a typed program name answering "Which program is this for?" selects that program, as
+// the dialog choice does; a name with several curricula, or no match, is sent as typed.
+// With no pending question (answer null), a typed program name asks the last question again for that program; the
+// last question is its first paragraph, before any choice lines the GUI appended.
+export function typedReply(original: string, answer: Answer | null, typed: string, curricula: StudentCurriculum[]): { text: string; scope: StudentScope | null } {
+  const reply = typed.trim(), alone = { text: reply, scope: null };
+  if (!answer) original = original.split("\n\n")[0];
+  if (!original.trim()) return alone;
+  let line = reply, scope: StudentScope | null = null;
+  if (!answer || answer.missingFields.includes("program")) {
+    const named = curricula.filter(c => c.programName.trim().toLowerCase() === reply.toLowerCase());
+    if (named.length !== 1) return alone;
+    line = `${named[0].programName} · ${named[0].curriculumName}`;
+    scope = { programId: named[0].programId, curriculumId: named[0].curriculumId };
+  } else if (!answer.missingFields.includes("transfer_direction")) return alone;
+  const text = `${original.trim()}\n\n${line}`;
+  return text.length > 8192 || new TextEncoder().encode(text).byteLength > 16384 ? alone : { text, scope };
 }
 
 export function sameScope(a: StudentScope | null, b: StudentScope | null) {

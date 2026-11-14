@@ -128,8 +128,11 @@ Repairs reuse the same map; unavailable-slot placeholders remain ignored. The de
 is still canonical. Actual-model quality for this composition is not yet measured.
 The host validates citation IDs, numbers retained claims and derives the part mapping.
 An answered model slot citing a record with an unresolved `malformed_source_condition`
-becomes `source_gap` before numbering/review. This conservative record-level hold can
-withhold otherwise usable details from that record; it never interprets the malformed field.
+(owner 30 Oct 2026, `malformed_condition.py`) has those claims replaced, before numbering/review,
+by one exact quotation of that record's visible fields with its recorded limitation and a referral
+to the relevant university office; other claims in the slot stay. The host never interprets the
+malformed field; draft/final validation reject other prose attached to that record, and an
+unquotable or oversized record still makes the slot `source_gap`. Ordinary review still runs.
 Independent answerable parts and canonical structured results remain available. Unavailable
 parts are named, with distinct source-gap and absent-information notices. If nothing is
 answerable, the answer is withheld without a review call. Reviewer-rejected parts still

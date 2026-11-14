@@ -7,8 +7,11 @@ from ..bintanong_contracts.base import Contract,Record
 from ..bintanong_contracts.symbolic import DecisionOutcome,DecisionScope
 from ..bintanong_contracts.runtime import BoundInput
 from ..bintanong_orchestration.contracts import DocumentCitation,ReleaseID
+from ..bintanong_orchestration.reasons import ReasonCode
 from ..bintanong_symbolic.runtime import DependencyResult,ResearchDependencyResult
 from .ledger_contracts import ANSWERED_LEDGERS, ClaimID, BoundRequirementLedger
+from ..bintanong_planning.contracts import PlanCheckResult,RecoveryResult
+from ..bintanong_orchestration.earliest_term import EarliestTermAssessment
 
 Language=Literal['en','fil','taglish','unknown']
 Outcome=Literal['eligible','ineligible','unknown','unsupported','error']
@@ -87,6 +90,10 @@ class CoverageObservation(Record):
 
 class CandidateAnswer(Contract):
     SCHEMA_VERSION='bintanong-candidate-answer-v2'
+    plan_check: PlanCheckResult|None=Field(default=None,exclude_if=lambda value: value is None)
+    # Ask mode: the recovery result the text renders (render.shown_recovery); the API's plan view reads it.
+    recovery: RecoveryResult|None=Field(default=None,exclude_if=lambda value: value is None)
+    earliest_term: EarliestTermAssessment|None=Field(default=None,exclude_if=lambda value: value is None)
     candidate_only: Literal[True]=True
     institutional_use_allowed: Literal[False]=False
     activation_allowed: Literal[False]=False
@@ -94,7 +101,7 @@ class CandidateAnswer(Contract):
     release_id: ReleaseID|None
     language: Language
     status: Literal['answered','clarification_needed','source_conflict','insufficient_evidence',
-        'out_of_scope','temporarily_unavailable','greeting','abstained']
+        'out_of_scope','temporarily_unavailable','greeting','system_information','abstained']
     text: str=Field(min_length=1,max_length=65536)
     decision: DecisionOutcome|None
     dependencies: ResearchDependencyResult|DependencyResult|None
@@ -106,14 +113,33 @@ class CandidateAnswer(Contract):
     validation: Literal['validated','control_fallback','repair_exhausted','timeout','tool_error',
         'decision_withheld','question_uncovered','parts_unresolved','thanks','unsupported_answer_scope']
     part_ledger: BoundRequirementLedger|None
+    # Audit A03 (4 Nov 2026): why an unanswered turn stopped (orchestration/reasons.py), also supplied as optional stream metadata.
+    reason: ReasonCode|None=Field(default=None,exclude_if=lambda value: value is None)
     decision_guard: GuardObservation|None=None
     question_coverage: CoverageObservation|None=None
     draft_attempts: int=Field(ge=0,le=2)
     check_attempts: int=Field(ge=0,le=2)
     answer_repairs: int=Field(ge=0,le=1)
+    # Owner 2 Nov 2026 ("ok host quotes"): parts whose flipped "answers" verdict was not decisive for an exact host
+    # quote with every claim supported; recorded so evaluation evidence shows it.
+    host_quote_override: tuple[Annotated[str,Field(pattern=r'^r[1-8]$')],...]=Field(default=(),
+        exclude_if=lambda value: not value)
+    # Memory/eligibility plan, Task 3: Bintu's validated explanation of a checked prerequisite result.
+    decision_explanation: str|None=Field(default=None,min_length=1,max_length=400,
+        exclude_if=lambda value: value is None)
+    # What happened to that explanation (evaluation diagnostics: codes only, never the draft text).
+    explanation_check: Literal['accepted','rejected','unavailable','skipped']|None=Field(default=None,
+        exclude_if=lambda value: value is None)
+    explanation_errors: tuple[Annotated[str,Field(pattern=r'^[a-z_]+$',max_length=64)],...]=Field(default=(),
+        max_length=16,exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _limits(self):
+        if self.status=='system_information' and (self.claims or self.citations or self.decision is not None
+                or self.structured_context is not None or self.dependencies is not None
+                or self.part_ledger is not None or self.missing_facts or self.draft_attempts
+                or self.check_attempts or self.validation!='control_fallback'):
+            raise ValueError('system_information_has_academic_work')
         if self.answer_repairs!=max(self.draft_attempts-1,0):
             raise ValueError('repair_counter_mismatch')
         if self.check_attempts>self.draft_attempts:

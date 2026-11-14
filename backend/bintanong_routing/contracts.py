@@ -1,6 +1,7 @@
 """Strict routing data. Model proposals never carry trusted IDs or executable goals."""
 from __future__ import annotations
 
+import re
 import unicodedata
 from typing import Annotated, Literal
 
@@ -13,8 +14,15 @@ Identifier = Annotated[str, Field(min_length=1, max_length=128, pattern=r'^[a-z]
 Kind = Literal['program', 'curriculum', 'course']
 # A student's year/semester words ("first year, second sem"); read by the host, never a catalog entity.
 MentionKind = Literal['program', 'curriculum', 'course', 'term']
-TERM_OPERATIONS = ('list_term_courses',)  # operations whose target is a term mention
-State = Literal['passed', 'failed', 'enrolled', 'not_enrolled']
+TERM_OPERATIONS = ('list_term_courses', 'assess_term_prerequisites', 'check_study_plan')  # operations whose target is a term mention
+# A course result as the student stated it (memory/eligibility plan, Task 1): an explicit failure, "not yet passed",
+# "never taken" and "took it, result not said" stay distinct; enrollment is a separate dimension.
+State = Literal['passed', 'failed', 'not_passed', 'not_taken', 'taken_unknown', 'enrolled', 'not_enrolled']
+COMPLETION_STATES = ('passed', 'failed', 'not_passed', 'not_taken', 'taken_unknown')
+
+
+def fact_dimension(state: str) -> str:
+    return 'completion' if state in COMPLETION_STATES else 'enrollment'
 Language = Literal['en', 'fil', 'taglish', 'unknown']
 
 
@@ -33,6 +41,18 @@ def prepare_query(text: str) -> str:
     return normalized
 
 
+_QUESTION_QUOTE = re.compile(r'(?<![\w-])([Pp]aa?no)(?![\w-])')
+
+
+def quote_matches(text: str, quote: str) -> list[tuple[int, int]]:
+    """Original spans for whitespace or whole-word pano/paano spelling; other words and case stay literal."""
+    def word_pattern(word):
+        return ''.join(r'(?<![\w-])' + part[0] + r'aa?no(?![\w-])' if _QUESTION_QUOTE.fullmatch(part)
+                       else re.escape(part) for part in _QUESTION_QUOTE.split(word))
+    pattern = r'\s+'.join(word_pattern(word) for word in re.split(r'\s+', quote))
+    return [m.span(1) for m in re.finditer('(?=(' + pattern + '))', text)]
+
+
 class ScopedFact(Record):
     """Trusted caller's scoped user assertion; not an institutional record."""
     fact_id: str = Field(pattern=r'^fact-[a-z0-9-]+$')
@@ -41,6 +61,11 @@ class ScopedFact(Record):
     curriculum_id: Identifier
     course_id: Identifier
     state: State
+    # Memory/eligibility plan, Task 2 (absent fields keep earlier dumps): who supplied the fact (an upload
+    # confirmation when absent), an opaque turn reference, and for enrollment the term it covers.
+    source: Literal['user_statement', 'private_upload'] | None = Field(default=None, exclude_if=lambda v: v is None)
+    ref: str | None = Field(default=None, pattern=r'^turn-[a-f0-9]{16}$', exclude_if=lambda v: v is None)
+    period: Literal['current', 'next'] | None = Field(default=None, exclude_if=lambda v: v is None)
 
 
 class ConversationContext(Record):
@@ -49,6 +74,54 @@ class ConversationContext(Record):
     curriculum_id: Identifier | None = None
     course_id: Identifier | None = None
     subject_id: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    # Owner GUI 3 Nov 2026: the previous turn asked whether the student is leaving or transferring in, and the
+    # detail its question asked; no text is kept.
+    pending: Literal['transfer_direction'] | None = None
+    detail: Literal['whole', 'requirements', 'fees', 'processing_time', 'specific'] | None = None
+    # Owner GUI 3 Nov 2026 ("memory system"): the previous question's structure, so a follow-up that changes one
+    # thing ("e yung 2nd sem?", "how about CC 5?") can re-ask it. Fixed values only, never text.
+    operation: str | None = Field(default=None, pattern=r'^[a-z][a-z_]*$', max_length=64)
+    year_level: int | None = Field(default=None, ge=1, le=6)
+    semester: Literal['first_semester', 'second_semester', 'summer', 'any'] | None = None
+
+
+class DialogueDocument(Record):
+    subject_id: str = Field(pattern=r'^[a-z][a-z0-9_]*$', max_length=64)
+    claims: tuple[Annotated[str, Field(min_length=1, max_length=256)], ...] = Field(max_length=8)
+    detail: Literal['whole', 'requirements', 'fees', 'processing_time', 'specific'] = 'whole'
+
+
+class DialogueTurn(Record):
+    turn_id: str = Field(pattern=r'^turn-[a-f0-9]{16}$')
+    user_text: str = Field(max_length=8192)
+    assistant_text: str = Field(max_length=8192)
+    context: ConversationContext | None = None
+    course_ids: tuple[Identifier, ...] = Field(default=(), max_length=32)
+    documents: tuple[DialogueDocument, ...] = Field(default=(), max_length=8)
+    truncated: bool = False
+
+
+class DialogueContext(Record):
+    session_id: str = Field(pattern=r'^sess-[a-z0-9-]+$')
+    revision: int = Field(ge=0)
+    turns: tuple[DialogueTurn, ...] = Field(max_length=4)
+    pending_turn_id: str | None = Field(default=None, pattern=r'^turn-[a-f0-9]{16}$')
+    missing_slots: tuple[str, ...] = Field(default=(), max_length=32)
+
+    @model_validator(mode='after')
+    def _bounds(self):
+        ids = [t.turn_id for t in self.turns]
+        if len(set(ids)) != len(ids) or self.pending_turn_id is not None and self.pending_turn_id not in ids:
+            raise ValueError('invalid_dialogue_reference')
+        if sum(len((t.user_text+t.assistant_text).encode('utf-8')) for t in self.turns) > 16384:
+            raise ValueError('dialogue_context_budget')
+        return self
+
+
+class DialogueAct(Record):
+    act: Literal['new_topic', 'refine', 'answer_clarification', 'explain', 'repair', 'correct_fact', 'switch_topic']
+    turn_id: str | None = Field(default=None, pattern=r'^turn-[a-f0-9]{16}$')
+    course_id: Identifier | None = None
 
 
 class RequestContext(Record):
@@ -59,9 +132,12 @@ class RequestContext(Record):
     curriculum_id: Identifier | None = None
     facts: tuple[ScopedFact, ...] = Field(default=(), max_length=256)
     conversation: ConversationContext | None = None
+    dialogue: DialogueContext | None = Field(default=None, exclude_if=lambda v: v is None)
 
     @model_validator(mode='after')
     def _ownership(self):
+        if self.dialogue is not None and self.dialogue.session_id != self.session_id:
+            raise ValueError('foreign_dialogue')
         if len({f.fact_id for f in self.facts}) != len(self.facts):
             raise ValueError('duplicate_fact_id')
         for f in self.facts:
@@ -130,6 +206,9 @@ class DocumentTopic(Record):
     # Verbatim printed row names (e.g. a penalty table's causes): selector routing context only.
     source_items: tuple[Annotated[str, Field(min_length=1, max_length=64)], ...] = Field(
         default=(), max_length=48, exclude_if=lambda value: not value)
+    # Each claim's own printed section headings (owner 30 Oct 2026): router routing context only.
+    claim_headings: dict[TopicClaim, tuple[Annotated[str, Field(min_length=1, max_length=64)], ...]] = Field(
+        default_factory=dict, max_length=64, exclude_if=lambda value: not value)
     # Owner-approved topic family (28 Oct 2026): selecting one member offers all of them.
     family: str | None = Field(default=None, pattern=r'^[a-z][a-z0-9_]*$', max_length=64,
         exclude_if=lambda value: value is None)
@@ -137,6 +216,9 @@ class DocumentTopic(Record):
     not_stated: tuple[TopicClaim, ...] = Field(default=(), max_length=16)
     # Host-only (never shown to the model): phrases in a part that add a not-stated fact to it.
     cues: tuple[NotStatedCue, ...] = Field(default=(), max_length=16)
+    # Host-only: the printed fields each not-stated fact's limitation was recorded on (owner 2 Nov 2026).
+    not_stated_fields: dict[TopicClaim, tuple[Annotated[str, Field(min_length=1, max_length=256)], ...]] = Field(
+        default_factory=dict, max_length=16, exclude_if=lambda value: not value)
 
     @model_validator(mode='after')
     def _cues(self):
@@ -147,8 +229,13 @@ class DocumentTopic(Record):
                or not set(values) <= set(self.claim_fields.get(claim, ()))
                for claim,values in self.claim_context.items()):
             raise ValueError('context_requires_bound_fields')
+        if any(claim not in self.claims or not values or len(values) > 8
+               for claim, values in self.claim_headings.items()):
+            raise ValueError('headings_require_selectable_claim')
         if any(c.claim not in self.not_stated for c in self.cues):
             raise ValueError('cue_requires_not_stated_claim')
+        if any(claim not in self.not_stated or not fields for claim, fields in self.not_stated_fields.items()):
+            raise ValueError('fields_require_not_stated_claim')
         return self
 
 
@@ -197,9 +284,9 @@ class Interpretation(Contract):
     def _structure(self):
         if (self.route is None) == (self.control is None):
             raise ValueError('exactly_one_route_or_control')
-        if self.control in ('greeting', 'unsupported_scope') and (self.operations or self.claims):
+        if self.control in ('greeting', 'system_information', 'unsupported_scope') and (self.operations or self.claims):
             raise ValueError('terminal_control_has_actions')
-        if self.control in ('greeting', 'unsupported_scope') and self.parts:
+        if self.control in ('greeting', 'system_information', 'unsupported_scope') and self.parts:
             raise ValueError('terminal_control_has_parts')
         if self.route is not None and not self.parts:
             raise ValueError('route_requires_parts')
@@ -224,12 +311,15 @@ class CatalogEntry(Record):
     program_id: Identifier
     curriculum_id: Identifier | None
     aliases: tuple[Text, ...] = Field(min_length=1, max_length=32)
+    course_code: Text | None = Field(default=None, exclude_if=lambda value: value is None)
     source_ref: str = Field(pattern=r'^ver-[a-z0-9-]+$')
     review_ref: Text
     reviewed: Literal[True]
 
     @model_validator(mode='after')
     def _scope(self):
+        if self.course_code is not None and (self.kind != 'course' or self.course_code not in self.aliases):
+            raise ValueError('course_code_requires_course_alias')
         if any(not x.strip() for x in self.aliases) or not self.review_ref.strip():
             raise ValueError('empty_alias_or_review')
         if self.kind != 'program' and self.curriculum_id is None:

@@ -1,18 +1,19 @@
 """Plain-text candidate previews; canonical decisions never come from generated prose."""
 import json
+import re
 
 from .course_facts_reply import course_fact_lines
 
 _WORDS={
  'en':dict(preview='Candidate preview only. Not official university guidance.',
-  answered='Based on the supplied evidence:',eligible='Supported prerequisite check: conditions satisfied.',
-  ineligible='Supported prerequisite check: a documented condition is unmet.',
+  answered="Here's what I found:",eligible='You meet the reviewed prerequisite conditions.',
+  ineligible='Not yet. A prerequisite condition is still unmet.',
   unknown='Eligibility cannot be established from the available facts and rule coverage.',
   unsupported='This structured operation is not supported.',error='The structured check could not complete.',
   conditions='Conditions',missing='Missing information',dependency='Potential affected courses within the supplied bundle',
-  clarification_needed='Please clarify the missing information before a conclusion can be given.',
+  clarification_needed='Could you tell me which subject or topic you mean?',
   source_conflict='The supplied evidence conflicts; no conclusion is available.',
-  insufficient_evidence="This information is not in Bintanong's reviewed sources yet. Please ask the relevant university office.",
+  insufficient_evidence="I couldn't verify a complete answer from the retrieved sources. Please confirm with the relevant university office.",
   out_of_scope='Bintanong covers undergraduate academic affairs; this request is outside that scope.',
   temporarily_unavailable='The check is temporarily unavailable. Please try again later.',
   greeting='Hello. I can help with supported undergraduate academic-affairs questions.',
@@ -24,23 +25,23 @@ _WORDS={
   unknown='Hindi pa masabi kung pwede ka, dahil kulang ang impormasyon o hindi ito sakop ng rules.',
   unsupported='Hindi supported ang check na ito.',error='Hindi natapos ang check.',
   conditions='Mga kondisyon',missing='Kulang na impormasyon',dependency='Posibleng maapektuhang kurso sa ibinigay na bundle',
-  clarification_needed='Pakilinaw ang kulang na impormasyon bago makapagbigay ng pasya.',
+  clarification_needed='Anong subject o topic ang tinutukoy mo?',
   source_conflict='Magkasalungat ang ibinigay na ebidensya; walang maibibigay na pasya.',
-  insufficient_evidence='Wala pa ito sa mga na-review na source ng Bintanong. Pakitanong sa tamang opisina ng unibersidad.',
+  insufficient_evidence='Hindi ko pa ma-verify ang kumpletong sagot gamit ang nakuhang sources. Paki-confirm sa tamang university office.',
   out_of_scope='Saklaw ng Bintanong ang undergraduate academic affairs; nasa labas nito ang tanong.',
   temporarily_unavailable='Hindi muna magawa ang check ngayon. Subukan ulit mamaya.',
   greeting='Kumusta. Makakatulong ako sa mga suportadong tanong tungkol sa undergraduate academic affairs.',
   thanks='Walang anuman! Magtanong ka lang tungkol sa undergraduate academic affairs.',
   abstained='Hindi makumpirma ang sagot mula sa ibinigay na ebidensya.'),
  'taglish':dict(preview='Candidate preview lang. Hindi official university guidance.',
-  answered='Based sa supplied evidence:',eligible='Sa supported prerequisite check, satisfied ang conditions.',
-  ineligible='Sa supported prerequisite check, may documented condition na hindi met.',
+  answered='Ito yung nakita ko:',eligible='Pasok ka sa reviewed prerequisite conditions.',
+  ineligible='Hindi pa. May prerequisite condition pang hindi met.',
   unknown='Hindi pa ma-establish ang eligibility gamit ang available facts at rule coverage.',
   unsupported='Hindi supported ang structured operation na ito.',error='Hindi nakumpleto ang structured check.',
   conditions='Conditions',missing='Missing information',dependency='Potential affected courses sa supplied bundle',
-  clarification_needed='Paki-clarify muna ang missing information bago magbigay ng conclusion.',
+  clarification_needed='Anong subject o topic ang tinutukoy mo?',
   source_conflict='May conflict sa supplied evidence; wala pang supported conclusion.',
-  insufficient_evidence='Wala pa ito sa reviewed sources ng Bintanong. Paki-ask sa tamang university office.',
+  insufficient_evidence='Hindi ko pa ma-verify ang kumpletong sagot gamit ang retrieved sources. Paki-confirm sa tamang university office.',
   out_of_scope='Undergraduate academic affairs ang scope ng Bintanong; outside scope ang request.',
   temporarily_unavailable='Temporarily unavailable ang check. Paki-try ulit later.',
   greeting='Hello. Pwede akong tumulong sa supported undergraduate academic-affairs questions.',
@@ -66,22 +67,67 @@ _LANGUAGE_NOTICE=('Bintanong accepts English, Filipino and Taglish questions and
 
 
 # Owner F4 (28 Oct 2026, provisional): ask whether the student is leaving PalSU or transferring in.
+# Owner 2 Nov 2026 (#11, B+): name the leaving fee so the student sees why it is asked.
 _TRANSFER_DIRECTION={
- 'en':'Are you leaving PalSU (transfer credentials / honorable dismissal), or transferring into PalSU '
-      'from another school? The requirements differ.',
- 'fil':'Aalis ka ba sa PalSU (transfer credentials / honorable dismissal), o lilipat ka sa PalSU '
-       'galing sa ibang school? Magkaiba ang requirements.',
- 'taglish':'Aalis ka ba sa PalSU (transfer credentials / honorable dismissal), o lilipat ka sa PalSU '
-       'galing sa ibang school? Magkaiba ang requirements.'}
+ 'en':"There's a fee when you leave PalSU (transfer credentials / honorable dismissal). Are you leaving PalSU, "
+      'or transferring into PalSU from another school?',
+ 'fil':'May fee kapag aalis ka sa PalSU (transfer credentials / honorable dismissal). Aalis ka ba, o lilipat '
+       'ka sa PalSU galing sa ibang school?',
+ 'taglish':'May fee kapag aalis ka sa PalSU (transfer credentials / honorable dismissal). Aalis ka ba, o lilipat '
+       'ka sa PalSU galing sa ibang school?'}
 _COURSE_CHOICE={'en':'Which course do you mean?','fil':'Aling kurso ang tinutukoy mo?',
  'taglish':'Aling course ang ibig mong sabihin?'}
+# Owner, 2 Nov 2026: a missing program or curriculum is asked as a question (also for someone asking for another).
+_SCOPE_QUESTION={
+ 'en':('Sure, I can check that! Which {fields} is this for?',' and ',
+       {'program_id':'degree program','curriculum_id':'curriculum version'}),
+ 'fil':('Sige, titingnan natin yan! Para saang {fields} ito?',' at ',
+        {'program_id':'programa','curriculum_id':'bersiyon ng kurikulum'}),
+ 'taglish':('Sige, i-check natin yan! Para saang {fields} ito?',' at ',
+            {'program_id':'degree program','curriculum_id':'curriculum version'})}
+
+
+# Owner, 2 Nov 2026: a course whose whole rule is unresolved says what the prospectus shows. A blank cell stays
+# unknown (never "no prerequisite", ledger 23 Oct); a printed non-course condition is quoted as printed.
+_TAGLISH_UNRESOLVED=dict(
+ blank='Walang nakalistang prerequisite ang {course} sa prospectus ng curriculum na ito. '
+       'Pwede i-confirm sa program adviser o college kung gusto mong makasigurado.',
+ printed='"{printed}" ang naka-print para sa {course} sa prospectus, pero hindi pa verified sa system. '
+         'Paki-confirm sa program adviser at college.',
+ other='Sorry, hindi ko pa ma-confirm ang prerequisite ng {course}. Paki-check sa program adviser o college.')
+_UNRESOLVED_RULE={
+ 'en':dict(
+  blank="The prospectus for this curriculum doesn't list a prerequisite for {course}. "
+        "Your program adviser or college can confirm if you need to be sure.",
+  printed='The prospectus prints "{printed}" for {course}, but it isn\'t verified in the system yet. '
+          'Please confirm with your program adviser and the college.',
+  other="Sorry, I can't confirm the prerequisite of {course} yet. Please check with your program adviser or college."),
+ 'fil':_TAGLISH_UNRESOLVED,'taglish':_TAGLISH_UNRESOLVED}
+
+
+def unresolved_rule_text(reason,course,language):
+    words=_UNRESOLVED_RULE.get(language,_UNRESOLVED_RULE['en'])
+    printed=re.match(r'Printed (?:condition|reference) "(.+?)"',reason or '')
+    if (reason or '').startswith('Printed prerequisite cell is blank'):
+        return words['blank'].format(course=course)
+    if printed:
+        return words['printed'].format(printed=printed.group(1),course=course)
+    return words['other'].format(course=course)
+
+
+_PROGRAM_CHOICE={'en':'Which program is this for?','fil':'Para saang programa ito?',
+ 'taglish':'Para saang program ito?'}
+_PROGRAM_TOPIC={
+ 'en':'Got it: {program}. What would you like to know about it, such as subjects for a term or a prerequisite?',
+ 'fil':'Sige: {program}. Ano ang gusto mong malaman tungkol dito, halimbawa subjects sa isang sem o prerequisite?',
+ 'taglish':'Sige: {program}. Ano ang gusto mong malaman tungkol dito, halimbawa subjects sa isang sem o prerequisite?'}
 _COURSE_NOT_FOUND={
  'en':'I could not find that course among the reviewed courses of your curriculum. '
-      'Please give the course code as printed in your prospectus.',
+      'What is its course name or code in your prospectus?',
  'fil':'Hindi ko nakita ang kursong iyan sa mga na-review na kurso ng curriculum mo. '
-       'Pakibigay ang course code na nakasulat sa prospectus mo.',
+       'Ano ang course name o code nito sa prospectus mo?',
  'taglish':'Hindi ko nakita yung course na iyan sa reviewed courses ng curriculum mo. '
-       'Pakibigay ang course code na naka-print sa prospectus mo.'}
+       'Ano ang course name o code nito sa prospectus mo?'}
 
 
 def requirement_text(requirement,language,nested=False):
@@ -121,7 +167,8 @@ def fallback_status(status):
     if status=='unsupported_scope': return 'out_of_scope'
     if status=='greeting': return 'greeting'
     if status=='unsupported': return 'abstained'
-    return 'temporarily_unavailable'
+    if status in ('error','timeout','busy','tool_error'): return 'temporarily_unavailable'
+    return 'insufficient_evidence'
 
 
 def selected_cards(pack,claims):
@@ -131,9 +178,13 @@ def selected_cards(pack,claims):
         actual=tuple(dict(text=c.text,evidence_ids=list(c.evidence_ids)) for c in claims)
         if not expected or actual!=expected:
             return ()
+    if pack.plan_routes is not None and pack.status == 'ready':
+        return tuple(pack.cards)
     ids={ref for claim in claims for ref in claim.evidence_ids}
     return tuple(c for c in pack.cards if c.evidence_id in ids or
-                 (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None)))
+                 (c.kind=='rule' and (pack.decision is not None or pack.dependencies is not None
+                                      or (pack.course_facts is not None and pack.course_facts.requirement is not None)
+                                      or pack.term_assessment is not None or pack.plan_check is not None or pack.earliest_term is not None)))
 
 
 _WITHHELD={
@@ -210,7 +261,27 @@ def limit_notices(cards):
     return kinds
 
 
-def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False):
+def shown_label(pack):
+    """A course id as its printed code (display only)."""
+    labels=dict(pack.course_labels)
+    return lambda course: labels.get(course,course)
+
+
+def shown_recovery(pack,status):
+    """The recovery result the reply text renders for its dependency listing, else None."""
+    context=pack.structured_context
+    if (pack.recovery is None or pack.dependencies is None or context is None or pack.status!='ready'
+            or status!='answered'):
+        return None
+    target=next((i.value for i in context.inputs if i.name=='course_id'),None)
+    return pack.recovery if pack.recovery.failed_course_id==target else None
+
+
+def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=False,ledger=None,thanked=False,
+                explanation=None):
+    if status=='system_information' and pack.status=='system_information':
+        from .system_information import system_information
+        return system_information(pack.language)
     words=_WORDS.get(pack.language,_WORDS['en'])
     message=(words['thanks'] if thanked else _UNCOVERED.get(pack.language,_UNCOVERED['en']) if question_uncovered else
         _WITHHELD.get(pack.language,_WITHHELD['en']) if decision_withheld else words[status])
@@ -225,13 +296,44 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
         values='; '.join(f'{i.name}={i.value}' for i in context.inputs)
         editions=', '.join(context.scope.edition_ids) if context.scope else ''
         lines.append(shown(f'{label}: {context.operation}; {values}; {context.rule_bundle_version or ""}; {editions}'))
+    from .decision_reply import asked_fields,decision_lines
     if _lists_requirement(pack,status):
         listing=_REQUIREMENT.get(pack.language,_REQUIREMENT['en'])
         course=next(i.value for i in pack.structured_context.inputs if i.name=='course_id')
-        lines[1]=shown(f"{listing['heading']} {course}: {requirement_text(pack.requirement,pack.language)}.")
-        lines.append(shown(listing['ask'].format(course=course)))
+        reply=decision_lines(pack,shown)
+        if reply is not None:
+            lines[1]=reply[0]
+        else:
+            lines[1]=shown(f"{listing['heading']} {course}: {requirement_text(pack.requirement,pack.language)}.")
+            lines.append(shown(listing['ask'].format(course=course)))
+        if explanation:
+            lines.insert(2,explanation)
         return '\n'.join(lines)
+    if pack.earliest_term is not None and status == 'answered':
+        from .plan_check_reply import earliest_term_lines
+        lines.extend(earliest_term_lines(pack.earliest_term, pack.language, shown))
+    if pack.plan_check is not None and status == 'answered':
+        from .plan_check_reply import plan_check_lines
+        lines.extend(plan_check_lines(pack.plan_check.checked_request, pack.plan_check, pack.language, shown, routes=pack.plan_routes))
     missing=pack.missing_facts
+    plan_questions = {'earliest_start_term': ('Which year and semester should I start counting from?',
+                                                 'Sa anong year at sem ako magsisimulang magbilang?'),
+                      'plan_term': ('Which year and semester is each term of your plan for?',
+                                     'Anong year at sem ang bawat term ng plan mo?'),
+                      'plan_terms': ('Could you list your plan by year and semester, with course names or codes, one term per line?',
+                                     'Pwede mong ilista ang plan by year at sem, with course names or codes, one term per line?'),
+                      'plan_courses': ('Which course names or codes should I use for your plan?',
+                                       'Anong course names or codes ang gagamitin sa plan mo?'),
+                      'plan_order': ('Could you list the terms of your plan in time order?',
+                                     'Pwede mong ilista ang terms ng plan mo sa tamang pagkakasunod?')}
+    for field, questions in plan_questions.items():
+        if status == 'clarification_needed' and field in missing:
+            lines[1] = questions[0 if pack.language == 'en' else 1]
+            missing = tuple(f for f in missing if f != field)
+    if status=='clarification_needed' and 'separate_system_question' in missing:
+        lines[1] = ('Please send these as separate questions so I can address each one.' if pack.language=='en' else
+                    'Paki-send nang hiwalay ang mga tanong para masagot natin ang bawat isa.')
+        missing = tuple(f for f in missing if f != 'separate_system_question')
     if status=='clarification_needed' and 'language' in missing:
         lines[1]=_LANGUAGE_NOTICE
         missing=tuple(field for field in missing if field!='language')
@@ -242,28 +344,108 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
     if status=='clarification_needed' and choices:  # owner 29 Oct 2026: name each candidate course
         lines[1]='\n'.join([_COURSE_CHOICE.get(pack.language,_COURSE_CHOICE['en']),*('- '+c for c in choices)])
         missing=tuple(field for field in missing if not field.startswith('course_choice:'))
+    programs=[shown(field.split(':',1)[1]) for field in missing if field.startswith('program_choice:')]
+    if status=='clarification_needed' and programs:  # owner 2 Nov 2026: a name shared by two programs or tracks
+        lines[1]='\n'.join([_PROGRAM_CHOICE.get(pack.language,_PROGRAM_CHOICE['en']),*('- '+p for p in programs)])
+        missing=tuple(field for field in missing if not field.startswith('program_choice:'))
+    topics=[shown(field.split(':',1)[1]) for field in missing if field.startswith('program_topic:')]
+    if status=='clarification_needed' and topics:  # thesis leader 4 Nov 2026: a message that is only a program name
+        lines[1]=_PROGRAM_TOPIC.get(pack.language,_PROGRAM_TOPIC['en']).format(program=topics[0])
+        missing=tuple(field for field in missing if not field.startswith('program_topic:'))
     if status=='clarification_needed' and 'transfer_direction' in missing:
         lines[1]=_TRANSFER_DIRECTION.get(pack.language,_TRANSFER_DIRECTION['en'])
         missing=tuple(field for field in missing if field!='transfer_direction')
+    disputed=[field for field in missing if field.startswith('conflict:')]
+    if status=='clarification_needed' and disputed:  # a statement that disagrees with a confirmed upload
+        from .student_facts_reply import conflict_text
+        lines[1]=conflict_text(disputed,pack.language,shown)
+        missing=tuple(field for field in missing if not field.startswith('conflict:'))
+    noted=[field for field in missing if field.startswith('noted_')]
+    if status=='clarification_needed' and noted:  # memory/eligibility plan: a result stated without a question
+        from .student_facts_reply import noted_text
+        lines[1]=noted_text(noted,pack.language,shown)
+        missing=tuple(field for field in missing if not field.startswith('noted_'))
+    if status=='clarification_needed' and 'term' in missing:  # a term question with no year level stated
+        from .term_reply import term_question
+        lines[1]=term_question(pack.language)
+        missing=tuple(field for field in missing if field!='term')
+    scope=[field for field in ('program_id','curriculum_id') if field in missing]
+    if status=='clarification_needed' and lines[1]==words[status] and scope and set(missing)==set(scope):
+        question,joiner,labels=_SCOPE_QUESTION.get(pack.language,_SCOPE_QUESTION['en'])
+        lines[1]=question.format(fields=joiner.join(labels[field] for field in scope))
+        missing=()
+    if status=='clarification_needed' and pack.reason=='dialogue_unresolved':  # audit A03: never a source gap
+        from .dialogue_reply import PREVIOUS,dialogue_text
+        lines[1]=dialogue_text(missing,pack.language,shown)
+        missing=tuple(field for field in missing if not field.startswith(PREVIOUS))
+    held_rule=(status=='clarification_needed' and pack.requirement is not None and pack.requirement.kind=='unresolved'
+               and pack.decision is not None and pack.decision.outcome=='unknown' and pack.structured_context is not None)
+    if held_rule:
+        course=next(i.value for i in pack.structured_context.inputs if i.name=='course_id')
+        lines[1]=shown(unresolved_rule_text(pack.requirement.reason,course,pack.language))
     canonical_allowed=pack.status=='ready' and status=='answered'
-    if pack.decision is not None and (canonical_allowed or
+    if pack.decision is not None and not held_rule and (canonical_allowed or
             (pack.status=='unknown' and pack.decision.outcome=='unknown')):
         decision=pack.decision
-        lines.append(words[decision.outcome])
-        conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
-        if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
-        missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
+        reply=decision_lines(pack,shown)
+        if reply is not None:  # memory/eligibility plan, Task 3: the scoped conclusion first, then Bintu's explanation
+            if status=='answered':
+                lines.extend(reply)
+            else:
+                lines[1:2]=reply[:1]
+                lines.extend(reply[1:])
+            if explanation:
+                lines.insert(lines.index(reply[0])+1,explanation)
+            if pack.assumptions:  # a what-if answer says it is conditional and unsaved, right after the conclusion
+                from .student_facts_reply import assumption_text
+                lines.insert(lines.index(reply[0])+1,assumption_text(pack.assumptions,pack.language,shown))
+            asked=asked_fields(decision)
+            missing=tuple(f for f in dict.fromkeys((*missing,*decision.missing_facts)) if f not in asked)
+        else:
+            lines.append(words[decision.outcome])
+            conditions=(*decision.satisfied_conditions,*decision.violated_conditions,*decision.unknown_conditions)
+            if conditions: lines.append(shown(words['conditions']+': '+', '.join(conditions)))
+            missing=tuple(dict.fromkeys((*missing,*decision.missing_facts)))
     if pack.course_facts is not None and canonical_allowed:
-        lines.extend(course_fact_lines(pack.course_facts,pack.language))
+        lines.extend(course_fact_lines(pack.course_facts,pack.language,shown))
+    if pack.term_assessment is not None and canonical_allowed:  # memory/eligibility plan, Task 4
+        from .term_reply import term_lines
+        listed=term_lines(pack.term_assessment,pack.language,shown)
+        lines.extend(listed)
+        if explanation:  # Bintu's explanation right after the heading; the groups stay host-written
+            lines.insert(lines.index(listed[0])+1,explanation)
     if pack.dependencies is not None:
-        if canonical_allowed:
+        target=next((i.value for i in pack.structured_context.inputs if i.name=='course_id'),None) \
+            if pack.structured_context is not None else None
+        if canonical_allowed and target is not None:  # owner report, 4 Nov 2026: answer, never a list of unknowns
+            from .dependency_reply import dependency_lines
+            recovery=shown_recovery(pack,status)
+            # Ask mode lists every delayed course with its prescribed term; the drafts follow (owner 4 Nov 2026).
+            if recovery is not None:  # one Markdown reply: answer, delayed courses by term, options, drafts, sources
+                from .recovery_reply import recovery_lines
+                reply=recovery_lines(recovery,pack.language,shown,dependencies=pack.dependencies)
+            else:
+                reply=dependency_lines(pack.dependencies,target,pack.language,shown,term=pack.asked_term)
+            lines.extend(reply)
+            if pack.assumptions:
+                from .student_facts_reply import assumption_text
+                lines.insert(lines.index(reply[0])+1,assumption_text(pack.assumptions,pack.language,shown))
+        elif canonical_allowed:
             lines.append(shown(words['dependency']+': '+(', '.join(pack.dependencies.course_ids) or '(0)')))
-        if (canonical_allowed or pack.status=='unknown') and pack.dependencies.unknown_conditions:
+        if pack.status=='unknown' and pack.dependencies.unknown_conditions:
             lines.append(shown(words['missing']+': '+', '.join(pack.dependencies.unknown_conditions)))
     if missing and (canonical_allowed or status=='clarification_needed'):
         labels=({'program_id':'programa','curriculum_id':'bersiyon ng kurikulum'}
             if pack.language=='fil' else {'program_id':'degree program','curriculum_id':'curriculum version'})
         lines.append(shown(words['missing']+': '+', '.join(labels.get(field,field) for field in missing)))
+    if status=='answered' and claims:
+        # Owner 2 Nov 2026 (#2 B, #5): host lead lines, shown only above their own exact quotes, never above a draft.
+        from .residence_reply import POINTER,asks_years_to_graduate
+        from .honours_reply import LEAD,asks_honours_length
+        if asks_years_to_graduate(pack) and '"No student shall be graduated' in claims[0].text:
+            lines.append(POINTER.get(pack.language,POINTER['en']))
+        if asks_honours_length(pack) and '"5.1.3 RESIDENCE' in claims[0].text:
+            lines.append(LEAD['taglish' if pack.language in ('taglish','fil') else 'en'])
     for claim in claims:
         lines.append(claim.text+' ['+', '.join(claim.evidence_ids)+']')
     if (status=='insufficient_evidence' and ledger is not None
@@ -277,8 +459,24 @@ def render_text(pack,claims,status,*,decision_withheld=False,question_uncovered=
             lines[1:2]=notices
     if status=='answered':
         lines.extend(unavailable_part_lines(pack,ledger))
+        lines.extend(_PART_UNAVAILABLE.get(pack.language,_PART_UNAVAILABLE['en']).format(words=words_)
+                     for words_ in pack.unavailable_parts)  # owner GUI 4 Nov 2026: a part with no reviewed topic
         notices=_LIMIT_NOTICES.get(pack.language,_LIMIT_NOTICES['en'])
-        lines.extend(notices[kind] for kind in limit_notices(selected_cards(pack,claims)))
+        # A held record quoted with its own heads-up is not noted again (final run 2 Nov 2026, #9).
+        held={ref for claim in claims if 'Heads-up:' in claim.text for ref in claim.evidence_ids}
+        from .grade_completion_reply import concise_mark_claims
+        canonical = concise_mark_claims(pack)
+        if canonical and canonical <= {(c.text, tuple(c.evidence_ids)) for c in claims}:
+            held.update(ref for _, refs in canonical for ref in refs)
+        lines.extend(notices[kind] for kind in limit_notices([c for c in selected_cards(pack,claims) if c.evidence_id not in held]))
+        from .required_context import application_fragment_notice
+        fragment_notice = application_fragment_notice(selected_cards(pack, claims), pack.language)
+        if fragment_notice:
+            lines.append(fragment_notice)
+    if status in ('answered','insufficient_evidence','abstained'):
+        from .shifting_reply import shifting_referral  # thesis leader 4 Nov 2026: end with the printed offices
+        referral=shifting_referral(pack,claims if status=='answered' else ())
+        if referral: lines.append(referral)
     for card in selected_cards(pack,claims):
         for cite in card.citations:
             locator=cite.locator.ref or '/'.join((*cite.locator.section_path,*cite.locator.cell_ids,*cite.locator.item_ids))

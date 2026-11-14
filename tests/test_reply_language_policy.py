@@ -94,7 +94,7 @@ def test_symbolic_host_answer_uses_taglish_without_changing_canonical_decision()
     answer=asyncio.run(Generator(GenerationTransport()).generate('Fictional check?',integration))
     assert answer.language=='taglish' and answer.status=='answered'
     assert answer.decision==integration.evidence.symbolic.decision
-    assert 'satisfied ang conditions' in answer.text
+    assert 'Pasok ka sa reviewed prerequisite conditions.' in answer.text
 
 
 def test_prepared_evidence_normalizes_before_any_generation_or_review_identity():

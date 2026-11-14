@@ -227,3 +227,18 @@ def test_prefix_cache_profile_is_explicit_and_recorded():
     asyncio.run(run())
     with pytest.raises(ValueError):
         api().LlamaTransport('http://localhost', prefix_cache='yes')
+
+
+def test_a_per_call_output_limit_applies_to_preflight_request_and_metadata():
+    # Owner 30 Oct 2026: a truncated draft is retried once with a larger output limit.
+    async def run():
+        handler, calls = handler_for(n_ctx=2048, token_count=1000)
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            transport = api().LlamaTransport('http://localhost', client=client)
+            await transport.infer([dict(role='user', content='long')], {'type':'object'}, max_output_tokens=1024)
+            assert calls[-1][1]['max_tokens'] == 1024 and transport.metadata['max_output_tokens'] == 1024
+            with pytest.raises(api().RuntimeFailure, match='context_overflow'):
+                await transport.infer([dict(role='user', content='long')], {'type':'object'}, max_output_tokens=1536)
+            await transport.infer([dict(role='user', content='default')], {'type':'object'})
+            assert calls[-1][1]['max_tokens'] == 768
+    asyncio.run(run())

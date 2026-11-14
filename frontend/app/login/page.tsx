@@ -1,5 +1,7 @@
 import { authConfiguration } from "@/lib/server-auth";
+import { SIGN_IN_ENABLED } from "@/lib/auth-policy";
 import { AppearanceControl } from "@/components/workspace/appearance-control";
+import { BrandMark } from "@/components/workspace/brand-mark";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
@@ -17,7 +19,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
   return <main className="workspace public-page auth-page">
     <aside className="auth-art" aria-label="Palawan State University">
       <img src="/design/campus.png" alt="Entrance to Palawan State University" />
-      <div className="auth-art-caption"><a href="/">Bintanong</a><p>For the questions that come with university life.</p></div>
+      <div className="auth-art-caption"><a href="/"><BrandMark size={32} />Bintanong</a><p>For the questions that come with university life.</p></div>
     </aside>
     <div className="auth-panel">
       <header className="auth-navigation"><a href="/"><ArrowLeft size={16} aria-hidden="true" />Back to home</a><AppearanceControl /></header>
@@ -28,7 +30,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
         {notice === "signed_out" && <p role="status">You're signed out of Bintanong on this browser.</p>}
         {notice === "cleanup_pending" && <p role="status">You're signed out of Bintanong on this browser. We couldn't confirm that all temporary data was cleared.</p>}
         {error && <p role="alert" className="outcome-notice status-danger">{error === "psu_account_required" ? "Use a verified @psu.palawan.edu.ph Google account." : "Sign-in could not finish. Please try again."}</p>}
-        <form action="/auth/login" method="post"><Button type="submit" disabled={!available} className="google-sign-in">
+        <form action="/auth/login" method="post"><Button type="submit" disabled={!available || !SIGN_IN_ENABLED} className="google-sign-in">
           <span className="google-letter" aria-hidden="true">G</span>Continue with PSU Google
         </Button></form>
         <Button asChild variant="outline"><a href="/chat">Continue as guest</a></Button>

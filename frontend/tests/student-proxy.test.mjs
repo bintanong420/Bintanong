@@ -22,6 +22,19 @@ test('proxy forwards only owned session cookie and server-resolved auth', async 
   assert.equal(response.headers.get('cache-control'), 'no-store');
 });
 
+test('a tunnel serving the configured site origin is accepted while request.url stays loopback', async () => {
+  const local = 'http://127.0.0.1:3216', tunnel = 'https://tunnel.example', seen = [];
+  const send = (origin, siteOrigin) => forwardStudentRequest(new Request(local + '/api/chat', { method: 'POST', headers: { Origin: origin }, body: '{}' }), '/chat', {
+    ...options, siteOrigin, fetch: async (_url, init) => { seen.push(init.headers.get('Origin')); return new Response(); } });
+  assert.equal((await send(tunnel, tunnel)).status, 200);
+  assert.equal((await send(local, tunnel)).status, 200);
+  assert.deepEqual(seen, [tunnel, local]);
+  assert.equal((await send('https://attacker.example', tunnel)).status, 403);
+  assert.equal((await send(tunnel, undefined)).status, 403);
+  await assert.rejects(send('http://tunnel.example', 'http://tunnel.example'), /invalid_site_origin/);
+  assert.equal(seen.length, 2);
+});
+
 test('foreign origin and unknown routes never reach upstream', async () => {
   let calls = 0;
   const fetcher = async () => { calls++; return new Response(); };
@@ -83,4 +96,17 @@ test('oversize JSON is rejected before upstream and cancellation is forwarded', 
   await forwardStudentRequest(input, '/curricula', { ...options, fetch: async (_url, init) => {
     controller.abort(); assert.equal(init.signal.aborted, true); return new Response();
   } });
+});
+
+test('proxy forwards the anonymous browser id cookie both ways, and nothing else', async () => {
+  const browserId = '__Host-bintanong_client=' + 'b'.repeat(43);
+  const response = await forwardStudentRequest(request('/api/chat', 'POST', { Cookie: cookie + '; ' + browserId + '; unrelated=secret' }), '/chat', { ...options,
+    fetch: async (_url, init) => {
+      assert.equal(init.headers.get('Cookie'), cookie + '; ' + browserId);
+      const headers = new Headers();
+      headers.append('Set-Cookie', browserId + '; Max-Age=2592000; Secure; HttpOnly; SameSite=Strict; Path=/');
+      headers.append('Set-Cookie', 'other=1; Path=/');
+      return new Response('data', { headers });
+    } });
+  assert.deepEqual(response.headers.getSetCookie().map(value => value.split('=')[0]), ['__Host-bintanong_client']);
 });

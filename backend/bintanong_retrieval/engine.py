@@ -3,9 +3,33 @@ from dataclasses import asdict, replace
 
 from backend.bintanong_storage.client import StorageError
 from .context import build_context
+from .observation import record_emitted, record_search
 from .query import EncoderUnavailable, configuration_identity, validate_vector
 from .types import RetrievalSettings
 from .evidence_policy import SourceAwareEvidencePolicy, PolicyBindingError
+import json, os
+from datetime import datetime, timezone
+
+
+def _trace(subject_id, requested_claims, candidates, evidence, status):
+    """Owner GUI 3 Nov 2026: opt-in retrieval trace (BINTANONG_RETRIEVAL_TRACE = a JSONL path). Ids, ranks and
+    similarities only, never question or chunk text. A trace failure never affects the answer."""
+    path = os.environ.get('BINTANONG_RETRIEVAL_TRACE')
+    if not path:
+        return
+    def chunk_id(row):
+        return (row.get('chunk') or {}).get('chunk_id', row.get('chunk_id'))
+    record = dict(time=datetime.now(timezone.utc).isoformat(timespec='seconds'), subject_id=subject_id,
+        requested_claims=list(requested_claims or ()), status=status,
+        candidates=[dict(rank=i, chunk_id=chunk_id(row), similarity=None if row.get('similarity') is None
+                         else float(row['similarity'])) for i, row in enumerate(candidates, 1)],
+        emitted=[dict(chunk_id=e.get('chunk_id'), similarity=e.get('similarity'), selection=e.get('selection'))
+                 for e in evidence])
+    try:
+        with open(path, 'a', encoding='utf-8') as out:
+            out.write(json.dumps(record, ensure_ascii=False) + '\n')
+    except (OSError, TypeError, ValueError):
+        pass
 
 
 def _source_issue(candidates, scope):
@@ -39,6 +63,23 @@ class RetrievalEngine:
                     or not evidence_policy._has_subject(subject)):
                 raise ValueError('context budget requires a reviewed subject')
             self._subject_settings[subject] = replace(self.settings, context_budget=budget)
+
+    def _search_params(self, request, config, vector, top_k):
+        return dict(p_release_id=request.release_id,p_config=config,
+            query_embedding=list(vector),p_top_k=top_k,p_min_similarity=self.settings.min_similarity,
+            p_scope=list(request.scope),p_entity_hints=list(request.entity_hints),
+            p_version_ids=list(request.document_version_ids))
+
+    def search_all_chunks(self, request, top_k=None):
+        """Evaluation-only ranking without the topic filter. Its rows are never answer evidence."""
+        config=configuration_identity(self.encoder.config)
+        vector=self.encoder.encode(request.query)
+        validate_vector(vector)
+        params=self._search_params(request,config,vector,self.settings.top_k if top_k is None else top_k)
+        raw=self.client.rpc('retrieve_context',params,role='runtime')
+        if raw.get('status')!='ok':
+            raise ValueError(raw.get('status','storage_error'))
+        return raw['items']
 
     def retrieve(self, request, *, subject_id=None, requested_claims=None):
         config=configuration_identity(self.encoder.config)
@@ -76,10 +117,7 @@ class RetrievalEngine:
                 return fail('configuration_mismatch')
             vector=self.encoder.encode(request.query)
             validate_vector(vector)
-            params=dict(p_release_id=request.release_id,p_config=config,
-                query_embedding=list(vector),p_top_k=self.settings.top_k,p_min_similarity=self.settings.min_similarity,
-                p_scope=list(request.scope),p_entity_hints=list(request.entity_hints),
-                p_version_ids=list(request.document_version_ids))
+            params=self._search_params(request,config,vector,self.settings.top_k)
             if self.evidence_policy is not None and subject_id is not None:
                 params['p_chunk_ids']=self.evidence_policy._chunk_ids(subject_id,requested_claims)
             raw=self.client.rpc('retrieve_context',params,role='runtime')
@@ -87,12 +125,14 @@ class RetrievalEngine:
                 return fail(raw.get('status','storage_error'))
             if raw.get('release_id')!=request.release_id:
                 return fail('release_changed')
+            record_search(request.query,subject_id,requested_claims,raw['items'])
             if self.evidence_policy is not None:
                 return self._retrieve_source_aware(request,raw,response,fail,subject_id,requested_claims,
                     context_budget=effective_settings.context_budget)
             response['embedding_set_id']=raw['embedding_set_id']
             candidates=raw['items']
             response.update(build_context(candidates,self.settings.context_budget,self.encoder.count_context_tokens))
+            record_emitted(response['evidence'])
         except EncoderUnavailable as exc:
             return fail('encoder_unavailable',str(exc))
         except PolicyBindingError as exc:
@@ -137,6 +177,8 @@ class RetrievalEngine:
         response['coverage']='partial' if response['evidence'] else 'none'
         report=policy._assess(subject_id,requested_claims,[e['chunk_id'] for e in response['evidence']],
                               emitted_evidence=response['evidence'])
+        _trace(subject_id,requested_claims,candidates,response['evidence'],report['status'])
+        record_emitted(response['evidence'])
         response['evidence_policy'].update(assessment=report,not_run_reason=None)
         if report['status']=='insufficient_evidence':
             return fail('insufficient_evidence','requested_claim_not_established')

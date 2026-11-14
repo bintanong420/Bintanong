@@ -20,6 +20,9 @@ import pytest
 
 from backend.bintanong_tools.prospectus_extractor import prerequisites
 
+import contracts_fixtures as fx
+
+
 ROOT = Path(__file__).resolve().parents[1]
 MAN = ROOT / "knowledge" / "manifests"
 EXAMPLES = MAN / "examples"
@@ -1123,26 +1126,23 @@ def test_conflict_session_and_timestamp_patterns_reject_a_trailing_newline():
                          schema("source-register-v1"))
 
 
-@pytest.mark.parametrize("bad", ["C:\\Users\\x\\a.pdf", "C:/Users/x/a.pdf", "dir\\a.pdf", "/abs/a.pdf", "file:///a.pdf",
-                                 "\\\\host\\share\\a.pdf", "a/b.pdf", "x:y.pdf", "..", ".", "a\tb.pdf", "a\nb.pdf", ""])
+@pytest.mark.parametrize("bad", fx.INVALID_SOURCE_FILENAMES)
 def test_filename_rejects_paths_urls_and_control_characters(bad):
     assert schema_errors(mutated(register()[1], _set(("filename",), bad)), schema("source-register-v1")), bad
 
 
-@pytest.mark.parametrize("good", ["synthetic-handbook.pdf", "Student Handbook (2023) v2.pdf", "a.b.c.pptx"])
+@pytest.mark.parametrize("good", fx.PLAIN_SOURCE_FILENAMES)
 def test_filename_accepts_plain_names(good):
     assert schema_errors(mutated(register()[1], _set(("filename",), good)), schema("source-register-v1")) == []
 
 
-@pytest.mark.parametrize("bad", ["C:\\Users\\x\\a.pdf", "C:/Users/x/a.pdf", "d:\\a", "\\\\host\\share", "/home/x/a.pdf",
-                                 "/Users/x/a.pdf", "file:///a.pdf", "../a.pdf", "synthetic-locator-x/../y", "~/a.pdf",
-                                 "a\\b", " leading", "", "x\ny"])
+@pytest.mark.parametrize("bad", fx.PRIVATE_SOURCE_LOCATORS)
 def test_acquisition_locators_reject_local_paths(bad):
     rec = mutated(register()[1], _set(("acquisition_locators",), ["synthetic-locator-alpha/2", bad]))
     assert schema_errors(rec, schema("source-register-v1")), bad
 
 
-@pytest.mark.parametrize("good", ["https://example.invalid/handbook.pdf", "synthetic-locator-alpha/2", "registrar-shelf-3/box-2"])
+@pytest.mark.parametrize("good", fx.PUBLIC_SOURCE_LOCATORS)
 def test_acquisition_locators_accept_urls_and_shelf_references(good):
     rec = mutated(register()[1], _set(("acquisition_locators",), [good]))
     assert schema_errors(rec, schema("source-register-v1")) == []
@@ -1195,13 +1195,9 @@ def test_an_empty_register_is_rejected():
 
 
 # ---------------------------------- namespace scan ------------------------------------------
-PRIVATE_IN_INSTITUTIONAL = ["fact-0001", "sess-7", "fact-synth-0001 ", " fact-synth-0001", "FACT-synth-0001", "fact-synth-0001\n",
-                            "\uff46act-synth-0001", "fact\u2011synth-0001", "fact-synth-0001/x", "sess-synth-0001#a",
-                            "see fact-synth-0001.", "(sess-synth-0001)", "x/FACT\u2010SYNTH-1"]
-INSTITUTIONAL_IN_SESSION = ["ver-1", "doc-synth-handbook\n", "ver-synth-0001 ", "DOC-synth-x", " edition-synth-1", "conflict-synth-0001\t",
-                            "ｖer-synth-0001", "ver\u2011synth-0001", "doc-synth-handbook/x", "ver-synth-0001#a"]
-LEGITIMATE_PROSE = ["Fact-checking Office of Records", "over-the-counter version-controlled copies", "edition-specific wording",
-                    "conflict-resolution procedure", "Doc-ument handling", "a fact", "xfact-synth-0001", "verification", "sess"]
+PRIVATE_IN_INSTITUTIONAL = fx.SCHEMA_PRIVATE_ID_VARIANTS
+INSTITUTIONAL_IN_SESSION = fx.SCHEMA_INSTITUTIONAL_ID_VARIANTS
+LEGITIMATE_PROSE = fx.LEGITIMATE_ID_PROSE
 
 
 @pytest.mark.parametrize("value", PRIVATE_IN_INSTITUTIONAL)
@@ -1577,3 +1573,9 @@ def test_an_authorization_dated_before_the_evidence_it_relies_on_is_rejected():
 def test_a_timestamp_outside_the_plausible_years_is_not_real():
     assert _ts({"recorded_at": "9999-12-31T23:59:59Z"}) is None
     assert _ts({"recorded_at": "2026-01-01T00:00:00Z"}) is not None
+
+
+# Mutation regressions: dates, identifiers and language markers
+
+def test_the_test_local_checker_scans_keys_too():
+    assert list(_strings({"k1": ["v1"], "k2": {"k3": "v3"}})) == ["k1", "v1", "k2", "k3", "v3"]

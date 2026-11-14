@@ -59,6 +59,26 @@ def test_each_topic_is_retrieved_with_its_own_part_text():
     assert [r.query for r in docs.calls] == ['Where do I file slip S?', 'What is the fee?']
 
 
+def test_shifting_follow_up_retrieval_keeps_the_resolved_topic_and_companion():
+    from dataclasses import replace
+    from backend.bintanong_routing.contracts import ConversationContext, DocumentTopic
+    from test_routing_router import FakeTransport, style_proposal
+    text = 'How many units transfer?'
+    menu = tuple(DocumentTopic(subject_id=s, claims=(c,)) for s,c in (
+        ('handbook_shifting', 'printed shifting fields'),
+        ('handbook_drop_shift_faq', 'printed FAQ 8 shifting steps')))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], language='en', parts=[
+        dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='document', operation_indices=[],
+             subject_id=menu[0].subject_id, requested_claims=list(menu[0].claims))])
+    docs = PerTopicDocuments()
+    base = replace(resources(doc=docs), topics=menu)
+    ctx = RequestContext.parse(context(conversation=ConversationContext(subject_id=menu[0].subject_id).model_dump(mode='json')))
+    model_ = FakeTransport(json.dumps(value), style_outputs=[json.dumps(style_proposal('en', english=['How']))])
+    asyncio.run(Orchestrator(model_, releases=ports().SyntheticReleaseProvider(base)).run(text, ctx))
+    assert {i['subject_id'] for i in docs.intents} == {t.subject_id for t in menu}
+    assert all('shifting' in r.query.casefold() and text in r.query for r in docs.calls)
+
+
 def test_a_single_topic_keeps_the_whole_message_as_its_query():
     docs = PerTopicDocuments()
     value = json.loads(two_topics())

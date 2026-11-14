@@ -10,12 +10,20 @@ import copy
 
 import pytest
 
-from backend.bintanong_contracts import base, chunk_adapter as ca, source
-from backend.bintanong_tools.prospectus_extractor import chunking, rag
-from backend.bintanong_tools.prospectus_extractor.evidence import (
-    NormalizedCell, NormalizedTable, ProspectusEvidence, SourceBBox)
+from backend.bintanong_contracts import base
+from backend.bintanong_contracts import chunk_adapter as ca
+from backend.bintanong_contracts import source
+from backend.bintanong_tools.prospectus_extractor import chunking
+from backend.bintanong_tools.prospectus_extractor import rag
+from backend.bintanong_tools.prospectus_extractor.evidence import NormalizedCell
+from backend.bintanong_tools.prospectus_extractor.evidence import NormalizedTable
+from backend.bintanong_tools.prospectus_extractor.evidence import ProspectusEvidence
+from backend.bintanong_tools.prospectus_extractor.evidence import SourceBBox
 from backend.bintanong_tools.prospectus_extractor.prerequisites import classify_prerequisite_state
 from backend.bintanong_tools.prospectus_extractor.units import parse_units
+
+import test_contracts_source as sf
+
 
 PDF_A = "a" * 64
 META = {"program_name": "BS Test", "degree": "BS Test", "college_code": "CT", "college_name": "College of Test",
@@ -226,3 +234,51 @@ def test_a_page_missing_chunk_with_docling_ref_is_rejected_not_filled_in():
     raw["source_spans"][0]["page"] = None
     # page is part of the identity, so the page-free chunk is first refused for the missing page
     assert reason(raw) == "span_missing_page"
+
+
+# Mutation regressions: field and relationship guards
+_chunk_adapter_reason = reason
+
+
+
+
+# ---------------------------------------------------------------- the chunk adapter names every rejection
+@pytest.mark.parametrize("change,reason", [
+    ({"section_path": "a/b"}, "invalid_section_path"), ({"section_path": [""]}, "invalid_section_path"),
+    ({"section_path": [1]}, "invalid_section_path"), ({"section_path": ["a", ""]}, "invalid_section_path"),
+    ({"token_count": -1}, "invalid_token_count"), ({"token_count": True}, "invalid_token_count"),
+    ({"token_count": "3"}, "invalid_token_count"),
+    ({"source_text": 5}, "invalid_source_text"),
+    ({"weird": float("nan")}, "type_fields_not_json"),
+    ({"chunk_type": ""}, "invalid_chunk"),
+    ({"source_spans": [5]}, "invalid_span"),
+])
+def test_adapter_rejections_have_a_named_reason(change, reason):
+    raw = {**one("course"), **change}
+    assert _chunk_adapter_reason(raw, page_sizes=PAGE) == reason
+
+def test_a_zero_estimate_token_count_is_a_count():
+    got = ca.adapt_chunk({**one("course"), "token_count": 0}, page_sizes=PAGE)
+    assert got.chunk.token_count.count == 0 and got.chunk.token_count.exact is False
+
+def test_adapter_span_level_rejections_have_a_named_reason():
+    raw = copy.deepcopy(one("course"))
+
+    def with_span(**over):
+        c = copy.deepcopy(raw)
+        c["source_spans"][0].update(over)
+        return c
+    missing = copy.deepcopy(raw)
+    del missing["source_spans"][0]["text"]
+    assert reason(missing, page_sizes=PAGE) == "missing_span_key:text"
+    assert reason(with_span(extraction=5), page_sizes=PAGE) == "invalid_span:extraction"
+    assert reason(with_span(extraction={"source_kind": "k", "colour": "red"}), page_sizes=PAGE) == "unmapped_extraction_key:colour"
+    assert reason(with_span(bbox=[1, 2, 3, "x"]), page_sizes=PAGE) == "invalid_span:bbox"
+    assert reason(with_span(bbox=[True, 2, 3, 4]), page_sizes=PAGE) == "invalid_span:bbox"
+    with pytest.raises(ValueError, match="on_missing_page_size"):
+        ca.adapt_chunk(raw, page_sizes=PAGE, on_missing_page_size="guess")
+
+def test_a_span_with_text_in_a_chunk_that_has_no_source_text_is_a_named_reason():
+    raw = sf.layout_with_no_text()
+    raw["source_spans"][0]["text"] = "printed after all"
+    assert reason(raw) == "span_text_without_source_text"

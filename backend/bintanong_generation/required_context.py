@@ -8,11 +8,11 @@ from .precedence_reply import precedence_sources
 _ISSUES = {'claim_not_stated', 'printed_total_discrepancy'}
 _OFFENSES = {'1st Offense', '2nd Offense', '3rd Offense', 'Subsequent Offenses'}
 _WORDS = {
-    'en': ('Reviewed source fields (quoted): ', 'Recorded source limitation: ',
+    'en': ('Here is what the source says: ', 'Recorded source limitation: ',
            'Please confirm with the relevant university office.', 'unspecified'),
-    'fil': ('Mga field sa reviewed source (original wording): ', 'Limitasyon sa source: ',
+    'fil': ('Ito yung nakalista sa source: ', 'Limitasyon sa source: ',
             'Pakitanong sa tamang opisina ng unibersidad.', 'hindi tinukoy'),
-    'taglish': ('Ang reviewed source fields (quoted): ', 'Limit sa source: ',
+    'taglish': ('Ito yung nakalista sa source: ', 'Limit sa source: ',
                 'Paki-confirm sa tamang university office.', 'unspecified')}
 
 
@@ -38,7 +38,12 @@ def _quote(record, words):
                 or not isinstance(value, str) or type(blank) is not bool or blank != (not value.strip())):
             return None
         names.add(name)
-        quoted.append(name.replace('_',' ')+': '+(words[3] if blank else '"'+value+'"'))
+        if name == 'body' and not blank:
+            # Keep every printed word and step marker; only put whitespace before steps on a new line.
+            value = re.sub(r'(?<=[.!?])\s+(?=(?:[A-Z]|\d+)\.\s+\S)', '\n', value)
+            quoted.append('"'+value+'"')
+        else:
+            quoted.append(name.replace('_',' ')+': '+(words[3] if blank else '"'+value+'"'))
     text = words[0]+'; '.join(quoted)
     for limit in limits:
         if limit.get('resolution') != 'unresolved':
@@ -50,6 +55,21 @@ def _quote(record, words):
         message = re.sub(r' Source limitation remains unresolved \([a-z_]+\)\.$', '', message)
         text += ' '+words[1]+'"'+message+'" '+words[2]
     return text if len(text) <= 1200 else None
+
+
+def application_fragment_notice(cards, language):
+    for card in cards:
+        record = _record(card)
+        if record is None:
+            continue
+        fields = record.get('fields', [])
+        if isinstance(fields, list) and {'application_form_office_context', 'submission_office_context'} <= {
+                field['name'] for field in fields if isinstance(field, dict) and isinstance(field.get('name'), str)
+                and field.get('source_blank') is False and isinstance(field.get('value'), str) and field['value'].strip()}:
+            return ('These are selected office steps, not a complete application procedure. The full requirements list is unavailable here.'
+                    if language == 'en' else
+                    'Selected office steps lang ito. Hindi pa kumpleto ang application procedure at requirements list.')
+    return None
 
 
 def context_quotes(pack, required):
@@ -99,6 +119,11 @@ def context_reply(pack, proposed, required, *, max_claims=8, existing_claims=())
 
 
 def context_errors(pack, claims, required):
+    from .grade_completion_reply import concise_mark_claims
+    canonical = concise_mark_claims(pack)
+    actual = {(c.text, tuple(c.evidence_ids)) for c in claims}
+    if canonical and canonical <= actual and required <= {r for _, refs in actual for r in refs}:
+        return ()
     quotes = context_quotes(pack, required)
     if quotes is None:
         return ()

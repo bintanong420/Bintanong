@@ -72,9 +72,7 @@ test('scope clarification uses listed curricula and keeps unknown or alternative
     await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
     await dismissInitialScope(page);
     const curricula = await (await context.request.get(new URL('/api/curricula', url).href)).json();
-    await page.getByRole('button', { name: 'Chat options', exact: true }).click();
-    await page.getByLabel('Appearance', { exact: true }).selectOption('dark');
-    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: 'Switch to dark mode', exact: true }).click();
     await page.getByRole('textbox', { name: 'Your question' }).fill('Synthetic clarification');
     await page.getByRole('button', { name: 'Send question', exact: true }).click();
     await page.getByRole('button', { name: 'Continue clarification', exact: true }).click();

@@ -6,6 +6,7 @@ import re
 import pytest
 
 from backend.bintanong_api.presentation import humanize_codes, student_text
+from backend.bintanong_generation.render import _WORDS
 from test_generation_loop import api as generation
 from test_generation_pipeline import EchoEvidence
 from test_orchestration_pipeline import api as orchestration, ports, resources, transport, ctx
@@ -44,8 +45,8 @@ def test_student_text_keeps_the_claims_notice_and_decision(route):
     for claim in answer.claims:
         assert claim.text in shown
     if answer.decision is not None:
-        assert lines[lines.index(next(l for l in lines if l.startswith('Supported prerequisite') or
-                                      l.startswith('Sa supported') or l.startswith('Ayon sa')))] in shown
+        assert lines[lines.index(next(l for l in lines if l.startswith('You meet the reviewed') or
+                                      l.startswith('Pasok ka sa reviewed') or l.startswith('Ayon sa')))] in shown
 
 
 def test_canonical_text_is_left_unchanged():
@@ -53,6 +54,30 @@ def test_canonical_text_is_left_unchanged():
     before = answer.text
     student_text(answer)
     assert answer.text == before and 'ev-' in before
+
+
+def test_eligible_prerequisite_reply_does_not_repeat_explanation_and_rule():
+    from dataclasses import replace
+    from backend.bintanong_generation.evidence import prepare
+    from backend.bintanong_generation.render import render_text
+    from test_orchestration_research_evidence import research_integration
+
+    pack = replace(prepare(research_integration(facts=(('course-1', 'passed'),))), language='en')
+    canonical = render_text(pack, (), 'answered', explanation='You told me you passed course-1.')
+    answer = type('Answer', (), dict(text=canonical, language='en', claims=(), citations=(),
+        structured_context=pack.structured_context, decision=pack.decision,
+        decision_explanation='You told me you passed course-1.'))()
+    shown = student_text(answer)
+    assert shown.splitlines()[0] == "Yes, you can take course-2! You've passed its prerequisite, course-1."
+    assert 'Rule:' not in shown and 'You told me' not in shown
+    assert 'Rule:' in canonical and 'You told me' in canonical
+
+
+def test_course_clarification_invites_a_name_as_well_as_a_code():
+    from backend.bintanong_generation.render import _COURSE_NOT_FOUND
+    for language in ('en', 'taglish'):
+        text = _COURSE_NOT_FOUND[language].lower()
+        assert 'name' in text and 'code' in text
 
 
 @pytest.mark.parametrize('language, expected', [
@@ -99,11 +124,38 @@ def test_student_text_drops_short_evidence_aliases_the_model_wrote_into_a_claim(
     assert tag.strip() not in shown and claim.text in shown
 
 
+def test_student_text_drops_evidence_ids_after_a_multi_line_claim():
+    # Hosted query validation 30 Oct 2026: host-rendered Charter steps are claims spanning several lines; their
+    # evidence IDs follow the last line, so line-by-line matching showed students the raw IDs.
+    answer = answer_for('RAG')
+    claim = answer.claims[0]
+    multi = claim.model_copy(update=dict(text='Step 1: Fill out the form\n  Person responsible: Window In-Charge'))
+    text = answer.text.replace(f'{claim.text} [', f'{multi.text} [', 1)
+    answer = answer.model_copy(update=dict(claims=(multi, *answer.claims[1:]), text=text))
+    shown = student_text(answer)
+    assert 'ev-' not in shown
+    assert multi.text in shown
+
+
 @pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
 def test_student_text_leaves_out_the_candidate_preview_line(language):
     # Owner, 29 Oct 2026: no "candidate preview" line; the guidance notice is shown separately and subtly.
     answer = answer_for('RAG').model_copy(update=dict(language=language))
     shown = student_text(answer)
     assert not any(word in shown for word in ('Candidate preview', 'Preview ng kandidato'))
+    for claim in answer.claims:
+        assert claim.text in shown
+
+
+@pytest.mark.parametrize('language, line', [('en', "Here's what I found:"),
+                                            ('fil', 'Batay sa ibinigay na ebidensya:'),
+                                            ('taglish', 'Ito yung nakita ko:')])
+def test_student_text_leaves_out_the_supplied_evidence_lead_in(language, line):
+    # Owner, 2 Nov 2026: the reply goes straight to the answer; the canonical text keeps the line.
+    answer = answer_for('RAG')
+    canonical = answer.text.replace(_WORDS[answer.language]['answered'], line)
+    answer = answer.model_copy(update=dict(language=language, text=canonical))
+    shown = student_text(answer)
+    assert line not in shown and line in answer.text
     for claim in answer.claims:
         assert claim.text in shown

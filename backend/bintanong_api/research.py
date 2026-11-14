@@ -17,13 +17,14 @@ from backend.bintanong_retrieval.http_query import HttpQueryEncoder
 from backend.bintanong_retrieval.query import configuration_identity
 from backend.bintanong_routing.transport import LlamaTransport
 from backend.bintanong_runtime.hosted_curricula import load_release_curricula
-from backend.bintanong_runtime.hosted_storage import HostedReleaseStorage
+from backend.bintanong_runtime.hosted_storage import require_active_research_release
 from backend.bintanong_runtime.research import build_multi_research_resources
 from backend.bintanong_storage.client import SupabaseStorageClient
 from backend.bintanong_storage.config import StorageConfig
 from .app import ApiServices, ApiSettings, create_app
 from .auth import SupabaseAuth
 from .chat import CurriculumOption
+from .evaluation import evaluation_from_env
 from .hosted_snapshot import bind_document_policy, load_document_snapshot
 from .research_pipeline import ResearchPipeline
 
@@ -94,8 +95,7 @@ class ResearchProvider:
     async def pin(self):
         def check():
             try:
-                HostedReleaseStorage(self.client, pin_release_id=self.resources.pin.release_id,
-                    hosted_release_id=self.spec.hosted_release_id, authorization_ref=self.spec.authorization_ref, chunks=self.chunks)
+                require_active_research_release(self.client, self.spec.hosted_release_id, self.spec.authorization_ref)
                 rows = self.client.select('release_curriculum_ledgers', role='runtime',
                     filters={'release_id': 'eq.' + self.spec.hosted_release_id})
                 if len(rows) != len(self.digests) or {r['curriculum_id']: r['ledger_sha256'] for r in rows} != self.digests:
@@ -152,7 +152,8 @@ def load_research_app(path=None):
         origins = tuple(value.strip() for value in os.environ.get('STUDENT_ALLOWED_ORIGINS', 'http://127.0.0.1:3215').split(',') if value.strip())
         app = create_app(ApiServices(sessions=SessionStore(), curricula=tuple(curricula), pipeline=pipeline,
             extract_rows=extract, course_labels=dict(resources.course_labels), auth=auth, ready=ready, close=close,
-            supabase_probe=provider.probe_supabase),
+            supabase_probe=provider.probe_supabase,
+            evaluation=evaluation_from_env(pipeline, provider, tuple(curricula), dict(resources.course_labels))),
             ApiSettings(allowed_origins=origins, require_auth=True))
         app.state.research_provider = provider
         return app

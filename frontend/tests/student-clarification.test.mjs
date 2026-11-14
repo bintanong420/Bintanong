@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { clarificationQuestions, clarificationReply } from '../lib/student-clarification.ts';
+import { clarificationQuestions, clarificationReply, typedReply } from '../lib/student-clarification.ts';
 
 const curricula = [{ programId: 'program-a', curriculumId: 'curriculum-a', programName: 'Synthetic program', curriculumName: 'Reviewed edition' }];
 const answer = { status: 'clarification_needed', language: 'en', missingFields: ['course_status'],
@@ -70,10 +70,50 @@ test('prerequisite replies send the original question and selected facts without
   assert.ok(!reply.text.includes('failed'), 'not passed never asserts a failed grade');
 });
 
+test('the leaving-or-incoming question offers both sides and resends the original question with the choice', () => {
+  // Owner GUI 3 Nov 2026 (H2): the direction question had no choices ("No specific clarification question was provided.").
+  for (const [language, leaving, incoming] of [
+    ['en', 'I am leaving PalSU (transfer credentials / honorable dismissal).', 'I am transferring into PalSU from another school.'],
+    ['taglish', 'Aalis ako sa PalSU (transfer credentials / honorable dismissal).', 'Lilipat ako sa PalSU galing sa ibang school.']]) {
+    const asked = { status: 'clarification_needed', language, missingFields: ['transfer_direction'], clarification: { courses: [], scope: null } };
+    const [question] = clarificationQuestions(asked, curricula);
+    assert.equal(question.key, 'transfer_direction');
+    assert.deepEqual(question.options.slice(0, 2).map(o => o.text), [leaving, incoming]);
+    assert.equal(clarificationReply('How to secure Transfer Credentials?', asked, curricula,
+      { transfer_direction: { value: 'leaving', explanation: '' } }).text, 'How to secure Transfer Credentials?\n\n' + leaving);
+  }
+});
+
 test('a bare clarification cannot invent another question or resend an unknown detail', () => {
   for (const language of ['en', 'fil', 'taglish', 'unknown']) {
     const bare = { status: 'clarification_needed', language, missingFields: [], clarification: { courses: [], scope: null } };
     assert.deepEqual(clarificationQuestions(bare, curricula), []);
     assert.equal(clarificationReply('Original question', bare, curricula, { details: { value: 'unknown', explanation: '' } }), null);
   }
+});
+
+// Owner 3 Nov 2026 (fix 2): a typed reply to the leaving-or-incoming question carries the original question, like the
+// dialog choice; live, "aalis ako sa PalSU" alone was checked as the question and the fee answer was rejected.
+test('a typed reply to the direction question carries the original question', () => {
+  const asked = { status: 'clarification_needed', language: 'taglish', missingFields: ['transfer_direction'], clarification: { courses: [], scope: null } };
+  assert.deepEqual(typedReply('magkano bayad sa transfer credentials?', asked, ' aalis ako sa PalSU ', curricula), { text: 'magkano bayad sa transfer credentials?\n\naalis ako sa PalSU', scope: null });
+  assert.deepEqual(typedReply('Can I take A1?', answer, 'passed B2/L', curricula), { text: 'passed B2/L', scope: null });
+  assert.deepEqual(typedReply('X'.repeat(8190), asked, 'aalis ako', curricula), { text: 'aalis ako', scope: null });
+});
+
+// Owner GUI 3 Nov 2026 (#12): typing one of the offered program names answers 'Which program is this for?' like the
+// dialog choice; the name alone reached the router as a question and failed.
+test('a typed program name selects that program and resends the original question', () => {
+  const program = { status: 'clarification_needed', language: 'en', missingFields: ['program'], clarification: { courses: [], scope: null } };
+  assert.deepEqual(typedReply('What are my first-term subjects?', program, ' synthetic PROGRAM ', curricula),
+    { text: 'What are my first-term subjects?\n\nSynthetic program · Reviewed edition', scope: { programId: 'program-a', curriculumId: 'curriculum-a' } });
+  assert.deepEqual(typedReply('What are my first-term subjects?', program, 'Another program', curricula), { text: 'Another program', scope: null });
+});
+
+// Owner GUI 3 Nov 2026 (#12 follow-up): after an answer, typing another program name asks the last question again for
+// that program; the server keeps ids only, so the name alone had no question.
+test('a typed program name after an answer asks the last question for that program', () => {
+  assert.deepEqual(typedReply('What are my first-term subjects?\n\nOther program · 2018', null, 'Synthetic program', curricula),
+    { text: 'What are my first-term subjects?\n\nSynthetic program · Reviewed edition', scope: { programId: 'program-a', curriculumId: 'curriculum-a' } });
+  assert.deepEqual(typedReply('What are my first-term subjects?', null, 'What about Ethics?', curricula), { text: 'What about Ethics?', scope: null });
 });

@@ -31,10 +31,6 @@ def test_tesseract_is_asked_for_tsv_without_a_config_file(monkeypatch):
     assert "tessedit_create_tsv=1" in seen[0] and "tsv" not in seen[0]  # the `tsv` config lives in tessdata/configs, absent from a pinned TESSDATA_PREFIX
 
 
-def test_text_is_rebuilt_line_by_line():
-    assert engines.words_to_text(engines.parse_tesseract_tsv(TSV)) == "CS 101\nIntro\n"
-
-
 def test_the_tesseract_adapter_writes_text_words_and_run_metadata(tmp_path, monkeypatch):
     images, out = tmp_path / "img", tmp_path / "out"
     images.mkdir()

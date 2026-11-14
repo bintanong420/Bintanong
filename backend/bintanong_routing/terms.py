@@ -16,18 +16,25 @@ _ORDINAL = '|'.join(f'(?P<o{n}>{words})' for n, words in _ORDINALS.items())
 _YEAR = re.compile(rf'\b(?:{_ORDINAL})(?:\s+na)?\s+(?:year|yr|taon)\b', re.I)
 _SEMESTER = re.compile(rf'\b(?:{_ORDINAL})\s+sem(?:ester|estre)?\b', re.I)
 _SUMMER = re.compile(r'\b(?:summer|mid-?year)\b', re.I)
+_WORDS = {1: 'first', 2: 'second', 3: 'third', 4: 'fourth', 5: 'fifth'}
 
 
 def _ordinal(match) -> int:
     return next(n for n in _ORDINALS if match.group(f'o{n}'))
 
 
-def parse_term(text: str) -> tuple[int, str] | None:
+def parse_term(text: str, previous: tuple[int, str] | None = None) -> tuple[int, str] | None:
+    """previous is the previous question's (year, semester) (owner GUI 3 Nov 2026, follow-up memory): it fills the
+    year of "2nd sem" and the semester of "2nd year"; without it nothing is assumed."""
     year = _YEAR.search(text)
-    if year is None:
-        return None
     semester = _SEMESTER.search(text)
+    if year is None:
+        if previous is None or (semester is None and not _SUMMER.search(text)):
+            return None
+        return parse_term(f'{_WORDS[previous[0]]} year ' + text)
     if semester is None:
+        if previous is not None and previous[1] in ('first_semester', 'second_semester') and not _SUMMER.search(text):
+            return _ordinal(year), previous[1]
         return _ordinal(year), 'summer' if _SUMMER.search(text) else 'any'
     terms = {1: 'first_semester', 2: 'second_semester'}
     return (_ordinal(year), terms[_ordinal(semester)]) if _ordinal(semester) in terms else None

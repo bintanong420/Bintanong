@@ -5,7 +5,7 @@ from pydantic import Field, model_validator
 
 from ..bintanong_contracts.base import Contract, Control, Record, Route
 from .terms import parse_term
-from .contracts import TERM_OPERATIONS, Interpretation, Language, MentionKind, State, Text, prepare_query
+from .contracts import TERM_OPERATIONS, DialogueAct, Interpretation, Language, MentionKind, State, Text, prepare_query, quote_matches
 
 
 class QuoteReference(Record):
@@ -44,6 +44,7 @@ class WireInterpretation(Contract):
     SCHEMA_VERSION = 'bintanong-interpretation-wire-v4'
     language: Language
     audience: Literal['undergraduate', 'excluded', 'unrelated', 'unknown']
+    dialogue: DialogueAct | None = None
     control: Control() | None
     part_count: int = Field(ge=0, le=8)
     parts: tuple[WirePart, ...] = Field(max_length=8)
@@ -65,21 +66,32 @@ class WireInterpretation(Contract):
     def _part_count(self):
         # A greeting or out-of-scope refusal runs no part (Interpretation rejects any it lists), so its count cannot
         # change the outcome (live 24 Oct 2026: such a refusal was shown as "temporarily unavailable").
-        if self.part_count != len(self.parts) and self.control not in ('greeting', 'unsupported_scope'):
+        placeholder = (self.part_count == 0 and len(self.parts) == 1 and not self.operations
+                       and self.parts[0].evidence_need == 'unknown' and not self.parts[0].operation_indices
+                       and self.parts[0].subject_id is None and not self.parts[0].requested_claims)
+        if (self.part_count != len(self.parts) and not placeholder
+                and self.control not in ('greeting', 'system_information', 'unsupported_scope')):
             raise ValueError('part_count_mismatch')
         return self
 
 
-def _topic_parts_as_documents(wire: WireInterpretation) -> WireInterpretation:
+def _topic_parts_as_documents(wire: WireInterpretation, course_names=frozenset()) -> WireInterpretation:
     """A structured part that chose a document topic and whose operations target no listed course
     (live 24 Oct 2026: "overload" checked as a course) has nothing to check; its only executable
     reading is the chosen topic. When every operation targets a listed course (gate 28 Oct 2026: an
     eligibility check that also named the prerequisite-policy topic), the course check is the explicit
-    request and the stray topic is dropped."""
+    request and the stray topic is dropped. A target exactly naming a reviewed course alias counts as a
+    listed course (owner 30 Oct 2026: "Can I take CC5 ...?" quoted CC5 without listing it)."""
     courses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind in ('course', 'term')}
     def aimed(i):
-        return i < len(wire.operations) and (wire.operations[i].target.text,
-                                             wire.operations[i].target.occurrence) in courses
+        if i >= len(wire.operations):
+            # Owner GUI 4 Nov 2026 (DSA): the single-operation index repair below applies here too, or a
+            # miscounted index beside a stray topic reads as no target and the course check is dropped.
+            if len(wire.operations) != 1:
+                return False
+            i = 0
+        target = wire.operations[i].target
+        return (target.text, target.occurrence) in courses or prepare_query(target.text).casefold() in course_names
     def topical(part):
         return part.evidence_need == 'structured' and part.subject_id is not None and part.operation_indices
     def slip(part):
@@ -94,6 +106,11 @@ def _topic_parts_as_documents(wire: WireInterpretation) -> WireInterpretation:
     if not dropped or any(i in dropped for p in wire.parts if not slip(p) for i in p.operation_indices):
         return wire
     data = wire.model_dump(mode='json')
+    noncourses = {(m.quote.text, m.quote.occurrence) for m in wire.mentions if m.kind in ('program', 'curriculum')}
+    dropped_targets = {(o.target.text, o.target.occurrence) for i, o in enumerate(wire.operations) if i in dropped}
+    # A discarded topic operation cannot turn its program target into a student course result.
+    data['claims'] = [c for c in data['claims']
+                      if (c['entity']['text'], c['entity']['occurrence']) not in dropped_targets & noncourses]
     kept = [i for i in range(len(wire.operations)) if i not in dropped]
     data['operations'] = [data['operations'][i] for i in kept]
     for part, value in zip(wire.parts, data['parts']):
@@ -108,10 +125,11 @@ def _topic_parts_as_documents(wire: WireInterpretation) -> WireInterpretation:
     return WireInterpretation.parse(data)
 
 
-def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretation:
-    """Resolve declared literal occurrences only; no semantic inference or alias guessing."""
+def normalize_interpretation(text: str, wire: WireInterpretation, *, course_names=frozenset()) -> Interpretation:
+    """Resolve declared literal occurrences only; no semantic inference or alias guessing. course_names
+    (casefolded reviewed course aliases) only tells a course check from a topic slip."""
     prepare_query(text)
-    wire = _topic_parts_as_documents(WireInterpretation.parse(wire.model_dump(mode='json')))
+    wire = _topic_parts_as_documents(WireInterpretation.parse(wire.model_dump(mode='json')), course_names)
     spans = {}
 
     def key(quote):
@@ -129,7 +147,18 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
                 # A miscounted occurrence is corrected only when the quote occurs exactly once,
                 # so nothing has to be chosen (same rule as offset correction).
                 first = text.find(quote.text)
-                if first < 0 or text.find(quote.text, first + 1) >= 0:
+                if first < 0:
+                    # Whitespace may change when text is pasted; all words and their order must still match.
+                    found = quote_matches(text, quote.text)
+                    if quote.occurrence < len(found):
+                        start, end = found[quote.occurrence]
+                    elif len(found) == 1:
+                        start, end = found[0]
+                    else:
+                        raise ValueError('quote_occurrence_not_found')
+                    spans[identity] = dict(text=text[start:end], start=start, end=end)
+                    return spans[identity]
+                if text.find(quote.text, first + 1) >= 0:
                     raise ValueError('quote_occurrence_not_found')
                 start = first
             spans[identity] = dict(text=quote.text, start=start, end=start + len(quote.text))
@@ -147,8 +176,16 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
 
     # A program/curriculum quote that reads as a year level or semester (live: "second year" listed as a
     # curriculum) is a term; reviewed curricula are school years, never "<ordinal> year".
+    def course_span(quote):
+        found = span(quote)
+        trimmed = quote.text.rstrip('.,;:!?')
+        if (trimmed != quote.text and prepare_query(quote.text).casefold() not in course_names
+                and prepare_query(trimmed).casefold() in course_names):
+            return dict(text=trimmed, start=found['start'], end=found['start'] + len(trimmed))
+        return found
+
     listed = [dict(kind='term' if m.kind in ('program', 'curriculum') and parse_term(m.quote.text) else m.kind,
-                   **span(m.quote)) for m in wire.mentions]
+                   **(course_span(m.quote) if m.kind == 'course' else span(m.quote))) for m in wire.mentions]
     at = {(m['start'], m['text']): index for index, m in enumerate(listed)}
 
     def course_index(quote, kind='course'):
@@ -156,7 +193,7 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
         if index is None:
             # A quoted course (or term) the model did not list (owner, 23 Oct 2026) becomes a mention of
             # that kind; the host still has to resolve it. A miscount reuses the mention at that place.
-            found = span(quote)
+            found = course_span(quote) if kind == 'course' else span(quote)
             index = at.setdefault((found['start'], found['text']), len(listed))
             if index == len(listed):
                 listed.append(dict(kind=kind, **found))
@@ -171,10 +208,27 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
 
     data = wire.model_dump(mode='json')
     data.pop('part_count')
+    data.pop('dialogue')
     data.pop('previous_course_quote')
     if wire.previous_course_quote is not None:
         data['context_reference'] = span(wire.previous_course_quote)
-    claims = [dict(**span(c.quote), entity=course_index(c.entity), state=c.state, mode=c.mode)
+    def own_entity(claim):
+        """Live 3 Nov 2026: a code repeated across claims was miscounted. When the declared occurrence lies outside
+        the claim's own quote and exactly one copy of the course text lies inside it, that copy is the only reading
+        (same rule as occurrence repair); otherwise the declared one stays and later checks refuse it."""
+        inside, entity = span(claim.quote), claim.entity
+        declared = span(entity)
+        if inside['start'] <= declared['start'] and declared['end'] <= inside['end']:
+            return entity
+        found, position = [], text.find(entity.text)
+        while position >= 0:
+            found.append(position)
+            position = text.find(entity.text, position + 1)
+        within = [i for i, at_ in enumerate(found)
+                  if inside['start'] <= at_ and at_ + len(entity.text) <= inside['end']]
+        return QuoteReference(text=entity.text, occurrence=within[0]) if len(within) == 1 else entity
+
+    claims = [dict(**span(c.quote), entity=course_index(own_entity(c)), state=c.state, mode=c.mode)
               for c in wire.claims]
     operations = [dict(name=o.name, target=course_index(o.target, 'term' if o.name in TERM_OPERATIONS else 'course'))
                   for o in wire.operations]
@@ -196,10 +250,20 @@ def normalize_interpretation(text: str, wire: WireInterpretation) -> Interpretat
         entity = result.mentions[claim.entity]
         if not claim.start <= entity.start < entity.end <= claim.end:
             raise ValueError('uncontained_claim_entity')
+    def holds(part, index):
+        target = result.mentions[result.operations[index].target]
+        return part.start <= target.start < target.end <= part.end
+    # Owner GUI 3 Nov 2026 (image 18): "Hindi pa ako passed sa BU-2/L." was its own part repeating the check on
+    # BU-3/L; a part that only states a grade fact, while another part holds the check's course, qualifies that check.
+    stated = [part for part in result.parts if part.operation_indices
+              and not any(holds(part, i) for i in part.operation_indices)
+              and any(part.start <= c.start and c.end <= part.end for c in result.claims)
+              and all(any(holds(other, i) for other in result.parts if other is not part) for i in part.operation_indices)]
+    if stated:
+        result = result.model_copy(update=dict(parts=tuple(p for p in result.parts if p not in stated)))
     for part in result.parts:
         for index in part.operation_indices:
-            target = result.mentions[result.operations[index].target]
-            if not part.start <= target.start < target.end <= part.end:
+            if not holds(part, index):
                 raise ValueError('uncontained_part_target')
     if result.route in ('Symbolic', 'Hybrid') and result.audience == 'undergraduate' and not result.ambiguities:
         # Reject this structural mismatch while the router can still ask the model to repair it.

@@ -80,7 +80,11 @@ class LlamaTransport:
                     banned.append(pieces[0])
         return banned
 
-    async def infer(self, messages, schema):
+    async def infer(self, messages, schema, max_output_tokens=None):
+        # A per-call limit (owner 30 Oct 2026: one retry of a truncated draft) overrides the default.
+        limit = self.max_output_tokens if max_output_tokens is None else max_output_tokens
+        if type(limit) is not int or not 1 <= limit <= 4096:
+            raise ValueError('max_output_tokens must be an integer from 1 to 4096')
         client = self.client or httpx.AsyncClient()
         try:
             async with asyncio.timeout(self.timeout_seconds):
@@ -95,7 +99,7 @@ class LlamaTransport:
                 self.metadata = dict(build=props.get('build_info', 'unknown'), n_ctx=n_ctx,
                     model_file=str(props.get('model_path','unknown')).replace('\\','/').rsplit('/',1)[-1],
                     chat_template_sha256=hashlib.sha256(template.encode()).hexdigest(),
-                    max_output_tokens=self.max_output_tokens, timeout_seconds=self.timeout_seconds,
+                    max_output_tokens=limit, timeout_seconds=self.timeout_seconds,
                     temperature=0, seed=0,
                     inference_profile=('p09-greedy-prefix-cache-v1' if self.prefix_cache
                                        else 'p07-greedy-no-prefix-cache-v1'), cache_prompt=self.prefix_cache,
@@ -111,7 +115,7 @@ class LlamaTransport:
                 tokens = counted['tokens']
                 if not isinstance(tokens, list) or any(type(t) is not int for t in tokens):
                     raise RuntimeFailure('invalid_server_response')
-                if len(tokens) + self.max_output_tokens + 8 > n_ctx:
+                if len(tokens) + limit + 8 > n_ctx:
                     raise RuntimeFailure('context_overflow')
                 self.metadata['input_tokens'] = len(tokens)
                 # reasoning_effort=none did not stop Gemma's hidden thought channel on long real
@@ -127,7 +131,7 @@ class LlamaTransport:
                 if self.constrained:
                     response_format['schema'] = schema
                 data = await self._json(client, 'POST', '/v1/chat/completions', dict(
-                    messages=messages, temperature=0, seed=0, max_tokens=self.max_output_tokens,
+                    messages=messages, temperature=0, seed=0, max_tokens=limit,
                     stream=False, response_format=response_format, reasoning_effort='none', cache_prompt=self.prefix_cache,
                     **extra))
                 choices = data['choices']

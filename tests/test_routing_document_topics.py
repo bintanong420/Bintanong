@@ -17,6 +17,21 @@ MENU = (DocumentTopic(subject_id='fictional_fees', claims=('printed fee amount',
 TEXT = 'Where do I file slip S?'
 
 
+@pytest.mark.parametrize('detail', ['whole', 'processing_time'])
+def test_whole_grade_completion_retrieves_method_and_approval_not_only_timing(detail):
+    text = ('How do I complete a fictional deficiency?' if detail == 'whole'
+            else 'When is the fictional deadline?')
+    topic = DocumentTopic(subject_id='grade_completion',
+                          claims=('printed timing', 'printed completion method', 'printed approval'),
+                          not_stated=('unresolved precedence',))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], language='en')
+    value['parts'][0].update(subject_id=topic.subject_id, requested_claims=['printed timing'], detail=detail)
+    style = json.dumps(style_proposal('en', english=[text]))
+    result = run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=(topic,))
+    expected = topic.claims if detail == 'whole' else ('printed timing',)
+    assert result.proposed.parts[0].requested_claims == expected
+
+
 def model(*outputs):
     style = json.dumps(style_proposal('en', english=['Where do I file']))
     return FakeTransport(*outputs, style_outputs=[style] * 3)
@@ -64,6 +79,28 @@ def test_router_keeps_a_valid_topic_choice():
     assert result.diagnostic == 'validated' and result.decision.route == 'RAG'
     part = result.proposed.parts[0]
     assert part.subject_id == 'fictional_office' and part.requested_claims == ('filing office',)
+
+
+@pytest.mark.parametrize('detail,expected', [('whole', 'fictional_process'), ('specific', 'fictional_policy')])
+def test_a_whole_workflow_uses_the_reviewed_process_in_its_own_family(detail, expected):
+    topics = (
+        DocumentTopic(subject_id='fictional_policy', claims=('printed policy',), family='fictional_filing',
+                      claim_fields={'printed policy': ('body',)}),
+        DocumentTopic(subject_id='fictional_process', claims=('printed process',), family='fictional_filing',
+                      claim_fields={'printed process': ('service_title', 'step1_client_step')}))
+    value = json.loads(answer('fictional_policy', ('printed policy',)))
+    value['parts'][0]['detail'] = detail
+    result = run(model(json.dumps(value)), text=TEXT, topics=topics)
+    assert result.diagnostic == 'validated' and result.proposed.parts[0].subject_id == expected
+
+
+def test_two_reviewed_processes_do_not_silently_choose_one():
+    topics = (DocumentTopic(subject_id='fictional_policy', claims=('printed policy',), family='fictional_filing'),
+        *(DocumentTopic(subject_id=name, claims=('printed process',), family='fictional_filing',
+                        claim_fields={'printed process': ('step1_client_step',)})
+          for name in ('fictional_process_a', 'fictional_process_b')))
+    result = run(model(answer('fictional_policy', ('printed policy',))), text=TEXT, topics=topics)
+    assert result.proposed.parts[0].subject_id == 'fictional_policy'
 
 
 def test_router_rejects_claims_outside_the_chosen_topic():
@@ -210,3 +247,141 @@ def test_menu_prompt_offers_a_specific_detail_and_no_clarify_for_missing_persona
     from backend.bintanong_routing.prompt import TOPIC_INSTRUCTION
     assert 'specific' in TOPIC_INSTRUCTION
     assert 'personal details' in TOPIC_INSTRUCTION
+
+
+# Owner 30 Oct 2026: a fact whose printed section heading clearly names the part's words replaces a chosen fact
+# whose headings name none of them (adding both exceeded the topic's context budget).
+HEADED = (DocumentTopic(subject_id='fictional_completion',
+    claims=('printed timing statements', 'printed mark meaning fields', 'printed approval fields', 'printed fee fields'),
+    claim_headings={'printed mark meaning fields': ('3.4 REMOVAL OF “INC”',),
+                    'printed approval fields': ('3.5 EXAMINATION FOR REMOVAL OR COMPLETION',),
+                    'printed fee fields': ('3.9 FICTIONAL FEES',)}),
+    DocumentTopic(subject_id='fictional_other', claims=('printed other fields',),
+                  claim_headings={'printed other fields': ('4. REMOVAL OF OTHER INC MARKS',)}))
+
+
+def headed(text, claims=('printed timing statements',)):
+    style = json.dumps(style_proposal('en', english=[text.split()[0]]))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Completion', language='en')
+    value['parts'][0].update(subject_id='fictional_completion', requested_claims=list(claims))
+    return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=HEADED)
+
+
+def test_a_clearly_matching_heading_replaces_an_unmatched_choice():
+    # 3.4 REMOVAL OF "INC" names "remove" and "incomplete"; 3.5 names only "remove".
+    claims = headed('How do I remove an incomplete grade?').proposed.parts[0].requested_claims
+    assert claims == ('printed mark meaning fields',)
+
+
+@pytest.mark.parametrize('text', ['Paano tanggalin ang INC ko?', 'Is there a removal deadline?',
+                                  'What is the deadline for it?'])
+def test_a_single_word_match_or_a_tie_keeps_the_model_choice(text):
+    assert headed(text).proposed.parts[0].requested_claims == ('printed timing statements',)
+
+
+def test_a_chosen_fact_whose_heading_matches_is_kept():
+    claims = headed('How do I remove an incomplete grade?', claims=('printed approval fields',)).proposed.parts[0]
+    assert claims.requested_claims == ('printed approval fields',)
+
+
+# Regression 30 Oct 2026: "Ano ang parusa kapag mali ang uniform ko?" chose a discourtesy row of the sanctions table;
+# only "I. Improper Uniform" names the part's word. Rows have no printed section headings, so their labels decide.
+TABLE = (DocumentTopic(subject_id='fictional_sanctions',
+    claims=('printed I fields: I. Fictional Uniform', 'printed II.13 fields: 13. Fictional discourtesy towards officials',
+            'printed II.20 fields: 20. Fictional smoking inside rooms', 'printed II.21 fields: 21. Fictional smoking near gates',
+            'the content of a fictional missing item'),
+    not_stated=('the content of a fictional missing item',)),)
+
+
+def tabled(text, claims, detail='whole'):
+    style = json.dumps(style_proposal('taglish', filipino=[text.split()[0]]))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Sanction', language='fil')
+    value['parts'][0].update(subject_id='fictional_sanctions', requested_claims=list(claims), detail=detail)
+    return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=TABLE)
+
+
+def test_the_one_row_naming_the_parts_word_replaces_an_unrelated_row():
+    claims = tabled('Ano ang parusa kapag mali ang uniform ko?', ('printed II.13 fields: 13. Fictional discourtesy towards officials',))
+    assert claims.proposed.parts[0].requested_claims == ('printed I fields: I. Fictional Uniform',)
+
+
+@pytest.mark.parametrize('text, chosen', [
+    ('Ano ang parusa sa discourtesy at uniform?', 'printed II.13 fields: 13. Fictional discourtesy towards officials'),
+    ('Ano ang parusa sa smoking?', 'printed II.13 fields: 13. Fictional discourtesy towards officials'),
+    ('Ano ang parusa kapag nagsinungaling ako?', 'printed II.13 fields: 13. Fictional discourtesy towards officials')])
+def test_a_matching_choice_two_matching_rows_or_no_match_keep_the_model_choice(text, chosen):
+    assert tabled(text, (chosen,)).proposed.parts[0].requested_claims == (chosen,)
+
+
+def test_a_chosen_not_stated_fact_is_left_to_the_withholding_guards():
+    claims = tabled('Magkano ang multa sa uniform?', ('the content of a fictional missing item',), detail='specific')
+    assert claims.proposed.parts[0].requested_claims == ('the content of a fictional missing item',)
+
+
+# Regression 30 Oct 2026: "Ano ang residence requirement para maka-graduate?" chose the maximum-residence topic
+# ("1. RESIDENCE" names one word) although the graduation topic prints "1.4 RESIDENCE REQUIREMENTS" (two words).
+TWO_TOPICS = (DocumentTopic(subject_id='fictional_graduation', claims=('printed graduation fields',),
+                            claim_headings={'printed graduation fields': ('1. REQUIREMENTS', '1.4 RESIDENCE REQUIREMENTS')}),
+              DocumentTopic(subject_id='fictional_residence', claims=('printed residence fields',),
+                            claim_headings={'printed residence fields': ('1. RESIDENCE', '2. MAXIMUM RESIDENCE RULE')}))
+
+
+def two_topics(text, subject='fictional_residence', claims=('printed residence fields',)):
+    style = json.dumps(style_proposal('taglish', filipino=[text.split()[0]]))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Residence', language='fil')
+    value['parts'][0].update(subject_id=subject, requested_claims=list(claims))
+    return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text, topics=TWO_TOPICS).proposed.parts[0]
+
+
+def test_a_selected_topic_whose_heading_names_more_of_the_parts_words_replaces_the_choice():
+    part = two_topics('Ano ang residence requirement para maka-graduate?')
+    assert (part.subject_id, part.requested_claims) == ('fictional_graduation', ('printed graduation fields',))
+
+
+@pytest.mark.parametrize('text', ['Ano ang maximum residence rule?', 'Gaano katagal ang residence ko?',
+                                  'Ano ang requirements?'])
+def test_an_equal_better_or_single_word_match_keeps_the_chosen_topic(text):
+    assert two_topics(text).subject_id == 'fictional_residence'
+
+
+# Owner 30 Oct 2026: reviewed Filipino words name the English printed penalty rows (backend/bintanong_routing/
+# filipino_terms.py). Common-query run: "nangongopya sa pagsusulit", "nagyosi" and "nambubully" chose the
+# not-stated item and were withheld; the rows print "cheating in examinations", "Smoking" and "Bullying".
+FILLER = tuple(f'printed II.{n} fields: {n}. Fictional offense {name}' for n, name in
+               ((1, 'alpha'), (2, 'beta'), (3, 'gamma'), (4, 'delta'), (5, 'epsilon')))
+SANCTIONS = (DocumentTopic(subject_id='fictional_misconduct',
+    claims=('printed II.7a fields: a. Any form of cheating in examinations',
+            'printed II.7e fields: e. Unauthorized reproduction of examination',
+            'printed II.20 fields: 20. Smoking inside the classroom', 'printed II.25 fields: 25. Bullying is defined',
+            'printed II.26 fields: 26. Cyber bullying is the willful harm', *FILLER, 'the content of missing item 22'),
+    not_stated=('the content of missing item 22',)),)
+
+
+def sanctioned(text, claims=('the content of missing item 22',)):
+    style = json.dumps(style_proposal('taglish', filipino=[text.split()[0]]))
+    value = proposal(text=text, route='RAG', mentions=[], operations=[], intent='Sanction', language='fil')
+    value['parts'][0].update(subject_id='fictional_misconduct', requested_claims=list(claims))
+    return run(FakeTransport(json.dumps(value), style_outputs=[style] * 3), text=text,
+               topics=SANCTIONS).proposed.parts[0].requested_claims
+
+
+@pytest.mark.parametrize('text, expected', [
+    ('Ano ang parusa kapag nahuling nangongopya sa pagsusulit?',
+     ('printed II.7a fields: a. Any form of cheating in examinations',)),
+    ('Ano parusa pag kumopya ako?', ('printed II.7a fields: a. Any form of cheating in examinations',)),
+    ('ano penalty pag nagyosi sa campus?', ('printed II.20 fields: 20. Smoking inside the classroom',)),
+    ('ano parusa sa nambubully?', ('printed II.25 fields: 25. Bullying is defined',
+                                   'printed II.26 fields: 26. Cyber bullying is the willful harm'))])
+def test_reviewed_filipino_words_name_the_printed_row(text, expected):
+    assert sanctioned(text) == expected
+
+
+def test_a_reviewed_form_inside_a_longer_word_names_nothing():
+    # "malaking" contains "alak" (drinking); only whole reviewed words count.
+    assert sanctioned('Ano ang malaking parusa?') == ('the content of missing item 22',)
+
+
+def test_reviewed_filipino_terms_are_whole_words_mapped_to_printed_english_terms():
+    from backend.bintanong_routing.filipino_terms import printed_terms
+    assert printed_terms('kumukopya') == ('cheating',) and printed_terms('pagsusulit') == ('examination',)
+    assert printed_terms('uniporme') == () and printed_terms('malaking') == ()

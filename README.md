@@ -20,6 +20,8 @@ Use the phase index for current delivery status.
 2. Follow the index to the active phase plan, checkpoint and previous handoff.
    Read the [developer pipeline map](docs/development/pipelines.md) for the source
    preparation/request flows, module responsibilities and generation/API boundaries.
+   To run the system on the shared hosted research release, follow the
+   [hosted research setup](docs/development/hosted-research-setup.md).
    Institutional release remains gated; the index and Git determine current status.
    Open [backend/algorithms](backend/algorithms/README.md) for cosine math, the
    nearest-neighbor demo, Prolog reasoning and links to the runtime SQL and callers.
@@ -339,6 +341,56 @@ operating system, hand over the dependency locks/setup reports and provision a
 compatible Python3.13 environment under the applicable owner instruction;
 copying the old `venv/` directory is not a portable setup method.
 
+## Setup from a clean clone
+
+Installing dependencies or provisioning models on a new machine needs the project
+owner's go-ahead (see [AGENTS.md](AGENTS.md)). An existing workspace reuses its
+environment; do not reinstall it. Commands run from the repository root in PowerShell.
+
+1. **Install the tools.** Git, Python 3.13, [uv](https://docs.astral.sh/uv/),
+   Node 24.21.0 with npm 11.19.0, Docker Desktop (with an NVIDIA GPU for the model
+   server) and SWI-Prolog (for curriculum eligibility checks).
+2. **Place the checkout** inside a `bintanong_workspace/` folder, laid out as in
+   [Workspace and data locations](#workspace-and-data-locations).
+3. **Get the files Git does not hold** from a maintainer: the `MODELS/` directory,
+   `.env`, `frontend/.env.local` and, for source-backed or hosted runs, the
+   `dataset/` and `audit-evidence/` folders. Never commit them.
+4. **Create `.env` if it is missing.** Copy `.env.example` and set `MODELS_DIR` to
+   your `bintanong_workspace/MODELS` path (the example still names the old location).
+
+   ```powershell
+   Copy-Item .env.example .env
+   ```
+
+5. **Build the Python environment** from the lock, without changing it:
+
+   ```powershell
+   uv sync --project backend --locked --extra api --extra dev
+   ```
+
+   This creates `backend/.venv` for the API and the tests. The lock declares the
+   `api` and `embedding` extras as conflicting, so uv will not install both in one
+   environment. Running the hosted backend needs both in one interpreter; ask a
+   maintainer how the current environment was built before attempting that.
+6. **Install the JavaScript dependencies** from the lockfiles:
+
+   ```powershell
+   npm ci                 # root: Supabase CLI
+   npm ci --prefix frontend
+   ```
+
+7. **Check the checkout.** These need no data, models or database:
+
+   ```powershell
+   python -B -m unittest tests.test_scaffold_contract
+   python -B .agents/skills/bintanong-phase-handoff/scripts/phase_state.py inspect --repo .
+   ```
+
+8. **Run the system.** Follow the
+   [hosted research setup](docs/development/hosted-research-setup.md) to start the
+   model server, backend and frontend. Start local Supabase (`npm run supabase:start`)
+   only for the database tests.
+
 ## Environment and local execution
 
 Python is pinned to3.13 by `backend/pyproject.toml`; Node/npm pins are in the root
@@ -376,6 +428,10 @@ $env:TMP = $runRoot
 $env:BINTANONG_STORAGE_EVIDENCE_DIR = "$runRoot/database"
 & $pythonPath -B -m pytest -q -p no:cacheprovider tests/test_retrieval_context.py --basetemp "$runRoot/pytest"
 ```
+
+`pytest tests/` leaves out the offline ingestion-tool tests (prospectus extractor/fixer,
+review GUI, OCR bench; about 1,800 cases). Add `--include-ingestion` to run them, or
+name one of their files directly.
 
 Adjust the interpreter/workspace to your actual environment. The example is a
 focused synthetic context test, not a full phase exit check. Database integration

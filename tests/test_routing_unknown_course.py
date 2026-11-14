@@ -42,6 +42,37 @@ def test_choice_reply_names_each_candidate_by_its_printed_label(language):
     assert 'course_choice' not in answer.text and 'course-a' not in answer.text
 
 
+PROGRAM_CHOICE = {'en': 'Which program is this for?\n- Program A\n- Program B',
+                  'taglish': 'Para saang program ito?\n- Program A\n- Program B'}
+
+
+@pytest.mark.parametrize('language', ['en', 'taglish'])
+def test_program_choice_reply_names_each_program(language):
+    source = IntegrationResult(understanding=None, schema_version=IntegrationResult.SCHEMA_VERSION, request_id='req-a',
+                               route=None, response_style=language, status='clarify', evidence=None,
+                               missing_facts=('program_choice:program-a', 'program_choice:program-b'), events=(),
+                               course_labels={'program-a': 'Program A', 'program-b': 'Program B'})
+    answer = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('A1', source))
+    assert answer.status == 'clarification_needed' and PROGRAM_CHOICE[language] in answer.text
+    assert 'program_choice' not in answer.text and 'program-a' not in answer.text
+
+
+@pytest.mark.parametrize('language, missing, expected', [
+    ('en', ('program_id', 'curriculum_id'), 'Sure, I can check that! Which degree program and curriculum version is this for?'),
+    ('en', ('curriculum_id',), 'Sure, I can check that! Which curriculum version is this for?'),
+    ('taglish', ('program_id', 'curriculum_id'),
+     'Sige, i-check natin yan! Para saang degree program at curriculum version ito?'),
+])
+def test_missing_scope_is_asked_as_a_question(language, missing, expected):
+    # Owner, 2 Nov 2026: name the missing facts in a question that also suits someone asking for another student.
+    source = IntegrationResult(understanding=None, schema_version=IntegrationResult.SCHEMA_VERSION, request_id='req-a',
+                               route=None, response_style=language, status='clarify', evidence=None,
+                               missing_facts=missing, events=())
+    answer = asyncio.run(api().Generator(Fake(), explanation_profile='legacy').generate('A1', source))
+    assert answer.status == 'clarification_needed' and expected in answer.text.splitlines()
+    assert 'Missing information' not in answer.text and 'clarify' not in answer.text.casefold()
+
+
 NOT_FOUND = {'en': 'could not find that course', 'fil': 'Hindi ko nakita ang kursong iyan',
              'taglish': 'Hindi ko nakita yung course na iyan'}
 PRINTED = {'en': 'as printed in your prospectus', 'fil': 'nakasulat sa prospectus mo',

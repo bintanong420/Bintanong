@@ -90,3 +90,15 @@ def test_style_schema_is_versioned_and_cannot_accept_a_routing_proposal():
     assert schema['properties']['schema_version']['const'] == 'bintanong-response-style-v2'
     assert not jsonschema.Draft202012Validator(schema).is_valid(proposal())
     assert set(schema['properties']) == {'schema_version', 'style'}
+
+
+@pytest.mark.parametrize('gap', ['\n', '\r\n', '\t', '  '])
+def test_pasted_whitespace_does_not_make_response_style_unavailable(gap):
+    value = api().StyleProposal.parse(wire(evidence(english=(), filipino=('Paano ako mag-request?',)))).style
+    value.ground('Paano' + gap + 'ako mag-request?')
+
+
+def test_whitespace_grounding_still_rejects_removed_negation():
+    value = api().StyleProposal.parse(wire(evidence(english=(), filipino=('Pwede ako?',)))).style
+    with pytest.raises(ValueError, match='ungrounded_response_style'):
+        value.ground('Pwede hindi ako?')

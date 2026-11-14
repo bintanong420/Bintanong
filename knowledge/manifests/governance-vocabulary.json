@@ -60,7 +60,7 @@
   "session_origins": ["user_statement", "private_upload"],
   "runtime": {
     "routes": ["RAG", "Hybrid", "Symbolic"],
-    "controls": ["clarify", "greeting", "unsupported_scope", "evidence_unavailable"],
+    "controls": ["clarify", "greeting", "system_information", "unsupported_scope", "evidence_unavailable"],
     "controls_note": "Route and control names are the closed sets of the routing contract. The control names are a proposal-derived default; legacy Direct is refused, not mapped (owner decision)."
   },
   "query_markers": {

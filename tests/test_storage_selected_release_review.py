@@ -1,13 +1,16 @@
 """Exact synthetic undergraduate review coverage, without source authority."""
 import copy
+import hashlib
 import importlib
 import importlib.util
+import json
 import unittest
 
 from backend.bintanong_contracts.reviewed_policy_context import serialize_reviewed_fields
 from backend.bintanong_contracts.source import SourceSpan, compute_content_hash
 from backend.bintanong_contracts.reviewed_policy_context import make_source_limits
 from backend.bintanong_contracts.reviewed_record_groups import make_record_manifest
+from backend.bintanong_contracts.reviewed_flow_evidence import flow_digest, flow_field_digest
 from backend.bintanong_storage.client import StorageError
 from tests.test_storage_source_partial_review import current_source, receipt_for
 
@@ -70,6 +73,36 @@ def add_record_group(partial):
         fields['source_limits'] = make_source_limits(dict(source_sha256=partial['source_sha256'],
             version_id=partial['version_id'],gaps=[projected]),[field],[located])
         parts.append(chunk)
+    partial['chunks'] = parts
+
+
+def add_flow_group(partial):
+    """Synthetic complete two-node visible flowchart (START -> END) on one original image page."""
+    initial = partial['chunks'][0]; parts = []
+    for i,(name,text,bbox) in enumerate((('flow_start','START',[1,1,10,10]),('flow_end','END',[1,21,10,30]))):
+        chunk = copy.deepcopy(initial); chunk['chunk_id'] = ('a' if i==0 else 'b')*64
+        span = chunk['spans'][0]; span.update(chunk_id=chunk['chunk_id'],text=text,bbox=bbox,
+            extraction=dict(source_kind='original_pdf_image',resolution_method='deterministic',
+                repair_id=None,ocr_confidence=None))
+        fields = chunk['type_fields']; fields['reading_id'] = 'synthetic-flow-'+str(i)
+        fields['field_associations'][0].update(name=name,value=text)
+        fields['required_neighbor_chunk_ids'] = [('b' if i==0 else 'a')*64]
+        parts.append(chunk)
+    manifest = dict(schema_version='bintanong-flow-evidence-v1',logical_step_id='synthetic-flow',
+        source_sha256=partial['source_sha256'],version_id=partial['version_id'],physical_page=1,
+        image=dict(image_sha256='4'*64,image_size=[100,100],page_size=[100,100],scale=1,rotation=0,crop=None),
+        nodes=[dict(id='START',kind='start',field='flow_start',region=[0,0,10,10]),
+               dict(id='END',kind='terminal',field='flow_end',region=[0,20,10,30])],
+        labels={},edges=[dict(**{'from':'START'},to='END',label=None,region=[0,0,10,30],route=[[5,10],[5,20]])],
+        unresolved_outgoing=[],source_complete=True,limits_sha256=flow_digest([]),
+        field_bindings={c['type_fields']['field_associations'][0]['name']:
+            flow_field_digest(c['type_fields']['field_associations'][0],c['spans']) for c in parts})
+    event = json.dumps(dict(source_sha256=partial['source_sha256'],owner_statement='Reviewed synthetic visible geometry.',
+        flow_evidence_sha256=flow_digest(manifest)))
+    manifest.update(review_event_sha256=hashlib.sha256(event.encode('utf8')).hexdigest(),review_event_json=event)
+    for i,chunk in enumerate(parts):
+        chunk['type_fields']['service_group'] = dict(logical_step_id='synthetic-flow',part_order=i,part_count=2,
+            part_reading_id=chunk['type_fields']['reading_id'],flow_manifest=copy.deepcopy(manifest))
     partial['chunks'] = parts
 
 

@@ -12,7 +12,8 @@ ITS = dict(text='its', start=9, end=12)
 
 
 def previous(course='course-a', **updates):
-    value = dict(program_id='program-a', curriculum_id='curriculum-a', course_id=course, subject_id=None)
+    value = dict(program_id='program-a', curriculum_id='curriculum-a', course_id=course, subject_id=None,
+                 operation='check_prerequisite_eligibility')  # owner GUI 3 Nov 2026: the question's structure too
     value.update(updates)
     return ConversationContext.parse(value)
 
@@ -51,6 +52,17 @@ def test_document_answer_keeps_its_subject():
                      parts=[dict(part_id='r1', text='policy', start=0, end=6, evidence_need='document',
                                  operation_indices=[], subject_id='subject_a', requested_claims=['fee'])])
     assert capture(validate('policy', value)).subject_id == 'subject_a'
+
+
+@pytest.mark.parametrize('second,expected', [('handbook_drop_shift_faq', 'handbook_shifting'),
+                                           ('subject_unrelated', None)])
+def test_companion_shifting_parts_keep_one_follow_up_topic(second, expected):
+    value = proposal(text='shift form', mentions=[], operations=[], route='RAG', parts=[
+        dict(part_id='r1', text='shift', start=0, end=5, evidence_need='document', operation_indices=[],
+             subject_id='handbook_shifting', requested_claims=['printed shifting fields']),
+        dict(part_id='r2', text='form', start=6, end=10, evidence_need='document', operation_indices=[],
+             subject_id=second, requested_claims=['printed steps'])])
+    assert capture(validate('shift form', value)).subject_id == expected
 
 
 def test_its_resolves_to_the_stored_course_through_the_host():

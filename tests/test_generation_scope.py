@@ -276,7 +276,7 @@ def test_selected_default_symbolic_retains_narrow_canonical_result_without_parap
         model=Fake()
         answer=await Generator(model).generate('Fictional check; fictional policy?',integrated('Symbolic',response_style='taglish'))
         assert answer.status=='answered' and not answer.claims and not model.calls
-        assert 'Sa supported prerequisite check, satisfied ang conditions.' in answer.text
+        assert 'Pasok ka sa reviewed prerequisite conditions.' in answer.text
     asyncio.run(run())
 
 

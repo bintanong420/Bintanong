@@ -1,23 +1,35 @@
-type Options = { accessToken: string | null; baseUrl?: string; fetch?: typeof fetch };
+import { siteOrigin } from "./auth-policy.ts";
+
+type Options = { accessToken: string | null; baseUrl?: string; siteOrigin?: string; fetch?: typeof fetch };
 const failure = (status: number, error: string) => Response.json({ error }, { status, headers: { "Cache-Control": "no-store" } });
 
 export async function forwardStudentRequest(request: Request, path: string, options: Options) {
   const upload = path === "/uploads";
-  const methods = path === "/chat" || upload || /^\/uploads\/upl-[a-f0-9]{16}\/confirm$/.test(path) ? ["POST"]
+  // Gated on the API by the evaluator passcode; off, or a wrong passcode, is a 404 from the API.
+  const evaluationPost = path === "/evaluation/run" || /^\/evaluation\/runs\/run-[a-f0-9]{16}\/judgment$/.test(path);
+  const evaluationGet = path === "/evaluation/cases" || path === "/evaluation/runs";
+  const methods = path === "/chat" || upload || evaluationPost || /^\/uploads\/upl-[a-f0-9]{16}\/confirm$/.test(path) ? ["POST"]
     : path === "/session" || /^\/uploads\/upl-[a-f0-9]{16}$/.test(path) ? ["DELETE"]
-    : path === "/curricula" || /^\/sources\/ev-[a-f0-9]{64}$/.test(path) ? ["GET"] : null;
+    : path === "/curricula" || evaluationGet || /^\/sources\/ev-[a-f0-9]{64}$/.test(path) ? ["GET"] : null;
   if (!methods) return failure(404, "route_unavailable");
   if (!methods.includes(request.method)) return failure(405, "method_unavailable");
   const url = new URL(request.url), host = request.headers.get("host");
   if (["localhost", "127.0.0.1", "[::1]"].includes(url.hostname) && host && /^(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/.test(host)) url.host = host;
-  if (request.method !== "GET" && (request.headers.get("origin") !== url.origin || request.headers.get("sec-fetch-site") === "cross-site")) return failure(403, "origin_not_allowed");
+  // Behind a tunnel request.url stays loopback, so the public origin must come from configuration.
+  const origin = request.headers.get("origin"), configured = options.siteOrigin ?? process.env.SITE_ORIGIN;
+  const trusted = [url.origin, ...(configured ? [siteOrigin(request.url, configured)] : [])];
+  if (request.method !== "GET" && (!origin || !trusted.includes(origin) || request.headers.get("sec-fetch-site") === "cross-site")) return failure(403, "origin_not_allowed");
   const headers = new Headers({ Accept: path === "/chat" ? "text/event-stream" : "application/json" });
   // Browser headers cannot replace the cookie identity used by this workspace.
   if (request.headers.has("authorization")) return failure(401, "sign_in_required");
   if (options.accessToken) headers.set("Authorization", "Bearer " + options.accessToken);
-  const credential = request.headers.get("cookie")?.split(";").map(c => c.trim()).find(c => /^__Host-bintanong_session=[A-Za-z0-9_-]{43}$/.test(c));
-  if (credential) headers.set("Cookie", credential);
-  if (request.method !== "GET") headers.set("Origin", url.origin);
+  const passcode = request.headers.get("x-bintanong-evaluator");
+  if (passcode && (evaluationPost || evaluationGet)) headers.set("x-bintanong-evaluator", passcode);
+  // Only the chat session and the anonymous browser id (per-person question limit) reach the API.
+  const owned = request.headers.get("cookie")?.split(";").map(c => c.trim())
+    .filter(c => /^__Host-bintanong_(session|client)=[A-Za-z0-9_-]{43}$/.test(c)) ?? [];
+  if (owned.length) headers.set("Cookie", owned.join("; "));
+  if (origin && request.method !== "GET") headers.set("Origin", origin);
   let body: Uint8Array<ArrayBuffer> | undefined;
   if (request.method === "POST") {
     const reader = request.body?.getReader(), chunks: Uint8Array[] = [];
@@ -53,7 +65,7 @@ export async function forwardStudentRequest(request: Request, path: string, opti
     for (const name of ["content-type", "x-vercel-ai-ui-message-stream"]) {
       const value = upstream.headers.get(name); if (value) outgoing.set(name, value);
     }
-    for (const cookie of upstream.headers.getSetCookie()) if (cookie.startsWith("__Host-bintanong_session=")) outgoing.append("Set-Cookie", cookie);
+    for (const cookie of upstream.headers.getSetCookie()) if (/^__Host-bintanong_(session|client)=/.test(cookie)) outgoing.append("Set-Cookie", cookie);
     return new Response(upstream.body, { status: upstream.status, headers: outgoing });
   } catch { return failure(503, "connection_failed"); }
 }

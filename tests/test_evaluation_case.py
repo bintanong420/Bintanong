@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-import test_evaluation_fixtures as fx
+import evaluation_fixtures as fx
 from backend.bintanong_contracts.base import VOCAB
 from evaluation import case as ec
 

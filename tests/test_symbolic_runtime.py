@@ -59,6 +59,20 @@ def test_explicit_none_is_distinct_from_unknown_rule_and_draft_reference():
     assert result.decision.outcome=='unknown' and result.decision.rule_coverage=='partial'
 
 
+def test_an_unresolved_rule_carries_its_recorded_reason_for_the_reply():
+    # Owner, 2 Nov 2026: a blank cell and a printed non-course condition get different replies.
+    data=fixture();c=data[2][0]
+    c['prerequisites']={'kind':'unresolved','reason':'Fictional blank cell',
+                        'source_spans':c['prerequisites']['source_spans']}
+    result=runtime(rereview(data)).check(request('course-1'))
+    assert result.requirement.kind=='unresolved' and result.requirement.reason=='Fictional blank cell'
+
+
+def test_a_resolved_requirement_dump_has_no_reason_key():
+    # Earlier results keep their exact dump.
+    assert 'reason' not in runtime().check(request()).model_dump(mode='json')['requirement']
+
+
 @pytest.mark.parametrize('course,curriculum', [('missing','curriculum-synthetic-1'),('course-2','other')])
 def test_missing_course_and_wrong_curriculum_are_unknown(course,curriculum):
     result=runtime().check(request(course,curriculum),facts(passed=('course-1',)))

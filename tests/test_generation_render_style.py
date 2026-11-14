@@ -3,6 +3,19 @@ import pytest
 
 from backend.bintanong_generation import render
 
+
+@pytest.mark.parametrize('language', ['en', 'fil', 'taglish'])
+def test_incomplete_retrieval_does_not_claim_the_policy_is_absent_from_reviewed_sources(language):
+    from dataclasses import replace
+    from backend.bintanong_generation.evidence import prepare
+    from test_generation_evidence import integrated
+    pack = replace(prepare(integrated('RAG', response_style=language)),
+                   status='no_evidence', reason='retrieval_coverage')
+    text = render.render_text(pack, (), 'insufficient_evidence')
+    assert "not in Bintanong's reviewed sources" not in text
+    assert 'Wala pa ito' not in text
+    assert ('complete answer' if language == 'en' else 'kumpletong sagot') in text
+
 DEEP = ('natugunan', 'nakasaad', 'kwalipikado', 'nakabalangkas', 'mapatunayan', 'matiyak', 'pagsusuri')
 
 

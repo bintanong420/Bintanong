@@ -16,6 +16,16 @@ const normal = [
 ];
 function response(raw) { return new Response(raw, { headers: { 'Content-Type': 'text/event-stream', 'x-vercel-ai-ui-message-stream': 'v1' } }); }
 
+test('system-information replies are accepted through the chat stream', async () => {
+  const stream = sse(normal.map(p => p.type === 'data-answer' ? {
+    ...p, data: { status: 'system_information', conditional: false, language: 'en', missingFields: [] },
+  } : p));
+  const answer = await sendStudentMessage(request, { signal: new AbortController().signal,
+    onText() {}, fetch: async () => response(stream) });
+  assert.equal(answer.status, 'system_information');
+  assert.equal(answer.text, 'Synthetic response.');
+});
+
 test('live stream preserves canonical clarification choices and rejects malformed choices', async () => {
   const metadata = { status: 'clarification_needed', language: 'en', conditional: true, missingFields: ['course_status'],
     clarification: { courses: [{ code: 'B2/L', kind: 'completion' }], scope: { programId: 'program-a', curriculumId: 'curriculum-a' } } };
@@ -98,4 +108,21 @@ test('answer metadata carries the subtle guidance notice', async () => {
   const raw = sse(normal.map(p => p.type === 'data-answer' ? { ...p, data } : p));
   const answer = await sendStudentMessage(request, { signal: new AbortController().signal, onText() {}, fetch: async () => response(raw) });
   assert.equal(answer.notice, 'Not official university guidance.');
+});
+
+test('a rate limit keeps the server wait time, accepting only a sane whole number of seconds', async () => {
+  const attempt = raw => sendStudentMessage(request, { signal: new AbortController().signal, onText() {}, fetch: async () => Response.json(raw, { status: 429 }) }).catch(error => error);
+  const limited = await attempt({ error: 'rate_limited', retryAfter: 120 });
+  assert.equal(limited.code, 'rate_limited');
+  assert.equal(limited.status, 429);
+  assert.equal(limited.retryAfter, 120);
+  for (const bad of [-5, 0, 1.5, 99999, '60']) assert.equal((await attempt({ error: 'rate_limited', retryAfter: bad })).retryAfter, null);
+});
+
+
+test('stream carries a typed unanswered reason and rejects unknown codes', async () => {
+  const stream = reason => sse(normal.map(p => p.type === 'data-answer' ? { ...p, data: { ...p.data, status: 'clarification_needed', reason } } : p));
+  const send = reason => sendStudentMessage(request, { signal: new AbortController().signal, onText() {}, fetch: async () => response(stream(reason)) });
+  assert.equal((await send('dialogue_unresolved')).reason, 'dialogue_unresolved');
+  await assert.rejects(send('unknown_reason'));
 });

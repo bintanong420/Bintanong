@@ -23,3 +23,28 @@ def test_a_course_choice_is_labelled_with_its_printed_details():
     details = (('course-a', 'ZZ 1 — Fictional Ethics (Third Year, First Semester; 3 units)'), ('course-b', 'ZZ 2 — x'))
     missing = ('course_choice:course-a', 'completion_unknown:course-b')
     assert choice_labels(details, missing) == {'course-a': 'ZZ 1 — Fictional Ethics (Third Year, First Semester; 3 units)'}
+
+
+def test_the_orchestrator_keeps_the_choice_details_of_the_release():
+    # Owner GUI 3 Nov 2026 (#12): "Which program is this for? - palsu-bshm-culinary - palsu-bshm-hotel". The per-request
+    # copy of the release resources dropped course_details, so every choice list showed raw identities.
+    import asyncio
+    from test_orchestration_pipeline import api, ctx, ports, resources, transport
+    from test_routing_validation import entry
+    base = resources()
+    duplicate = entry(entity='course-duplicate').model_copy(update={'source_ref': 'ver-synth-handbook-1'})
+    details = (('course-a', 'A1 — Fictional Detail A'), ('course-duplicate', 'A1 — Fictional Detail B'))
+    release = ports().ReleaseResources(base.pin, (*base.catalog, duplicate), base.registry, base.retrieval,
+                                       base.symbolic, course_details=details)
+    result = asyncio.run(api().Orchestrator(transport(), releases=ports().SyntheticReleaseProvider(release)).run('A1 policy', ctx()))
+    assert result.missing_facts == ('course_choice:course-a', 'course_choice:course-duplicate')
+    assert result.course_labels['course-duplicate'] == 'A1 — Fictional Detail B'
+
+
+def test_a_program_choice_is_labelled_with_its_full_name():
+    from backend.bintanong_orchestration.orchestrator import choice_labels
+    from backend.bintanong_runtime.research import program_details
+    details = program_details({'program-a': ['Bachelor of Fiction (Track A)', 'Fiction'], 'program-b': ['Bachelor of Fiction (Track B)']})
+    missing = ('program_choice:program-a', 'program_choice:program-b')
+    assert choice_labels(details, missing) == {'program-a': 'Bachelor of Fiction (Track A)',
+                                               'program-b': 'Bachelor of Fiction (Track B)'}

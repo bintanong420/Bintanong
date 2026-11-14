@@ -49,7 +49,8 @@ def test_pin_research_reference_matches_its_mode(synthetic, ref):
         ReleasePin.parse(data)
 
 
-def research_integration(facts=()):
+def research_integration(facts=(), *, text='A1', value=None, aliases=()):
+    """aliases: extra (course id, alias) catalog entries, e.g. to state a result about a prerequisite."""
     import asyncio, json
     from backend.bintanong_contracts.symbolic import Capability, CapabilityRegistry
     from backend.bintanong_orchestration.adapters import SymbolicAdapter
@@ -67,12 +68,14 @@ def research_integration(facts=()):
         update=dict(source_ref=pin.sources[0].version_id))
     registry = CapabilityRegistry({'check_prerequisite_eligibility': Capability(
         'offline_research_prerequisite_check', ('curriculum_id', 'course_id'))})
-    resources = ReleaseResources(pin, (course,), registry, None, SymbolicAdapter(runtime, research=True))
+    extra = tuple(entry(entity=c, alias=a, curriculum='curriculum-synthetic-1').model_copy(
+        update=dict(source_ref=pin.sources[0].version_id)) for c, a in aliases)
+    resources = ReleaseResources(pin, (course, *extra), registry, None, SymbolicAdapter(runtime, research=True))
     ctx = RequestContext.parse(context(curriculum_id='curriculum-synthetic-1', facts=[
         dict(fact_id='fact-'+c, session_id='sess-a', program_id='program-a',
              curriculum_id='curriculum-synthetic-1', course_id=c, state=state) for c, state in facts]))
-    return asyncio.run(Orchestrator(FakeTransport(json.dumps(proposal())),
-        releases=SyntheticReleaseProvider(resources)).run('A1', ctx))
+    return asyncio.run(Orchestrator(FakeTransport(json.dumps(proposal() if value is None else value)),
+        releases=SyntheticReleaseProvider(resources)).run(text, ctx))
 
 
 def test_orchestrator_carries_a_research_result_end_to_end():

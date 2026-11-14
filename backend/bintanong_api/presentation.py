@@ -1,7 +1,7 @@
 """Student view of a validated answer (owner O4, 23 Oct 2026: students never see variable or function names).
 
 The canonical `CandidateAnswer.text` is what the validator checks byte for byte, so it is never changed; it stays
-the researcher diagnostic. The student view drops the candidate-preview line, the check-scope line, evidence ids and aliases and citation lines (citations
+the researcher diagnostic. The student view drops the candidate-preview and supplied-evidence lines, the check-scope line, evidence ids and aliases and citation lines (citations
 travel as separate source parts) and turns the Prolog runtime's condition codes into plain phrases.
 """
 from __future__ import annotations
@@ -64,17 +64,97 @@ def student_text(answer) -> str:
     scope = (tuple(f'{label}: {answer.structured_context.operation};' for label in _SCOPE_LABELS)
              if answer.structured_context is not None else ())
     claims = {f"{c.text} [{', '.join(c.evidence_ids)}]": _ALIASES.sub('', c.text) for c in answer.claims}
+    # Replace whole claims first: a host-rendered claim can span several lines, with its IDs after the last.
+    text = answer.text
+    for rendered, plain in claims.items():
+        text = text.replace(rendered, plain)
+    claim_lines = {line for plain in claims.values() for line in plain.splitlines()}
     cited = tuple(f'[{card.evidence_id}] ' for card in answer.citations)
+    # The checked eligible conclusion already states the reported results; the explanation and rule echo it.
+    concise_eligibility = (answer.decision is not None and answer.decision.outcome == 'eligible'
+                           and answer.structured_context is not None
+                           and answer.structured_context.operation in ('check_prerequisite_eligibility',
+                                                                        'list_missing_prerequisites'))
     shown = []
-    for line in answer.text.splitlines():
-        if line in _PREVIEWS or (scope and line.startswith(scope)) or (cited and line.startswith(cited)):
+    for line in text.splitlines():
+        if line in _PREVIEWS or line == words['answered'] or (scope and line.startswith(scope)) or (
+                cited and line.startswith(cited)) or (concise_eligibility and
+                (line == answer.decision_explanation or line.startswith('Rule: '))):
             continue
-        if line in claims:
-            line = claims[line]
+        if line in claim_lines:
+            pass
         elif line.startswith(listed):
             line = humanize_codes(line, answer.language)
         shown.append(line)
     return '\n'.join(shown)
+
+
+_YEAR = {1: '1st', 2: '2nd', 3: '3rd', 4: '4th', 5: '5th'}
+_SEMESTER = {'first_semester': (0, '1st sem'), 'second_semester': (1, '2nd sem'), 'summer': (2, 'Summer')}
+_PLAN_WORDS = {
+    'en': dict(fastest='Fastest', notice='This is a draft, not an approval. Show it to your program adviser.',
+               above='{units} units, above the {ceiling} listed for this term',
+               summer_above='{units} units, above the {ceiling}-unit summer load',
+               load_unknown='Unit load not checked: {reason}', prereq_unknown='{course}: prerequisites not fully checked',
+               unchecked='{course}: could not be checked'),
+    'taglish': dict(fastest='Pinakamabilis', notice='Draft lang ito, hindi approval. Ipakita sa program adviser.',
+                    above='{units} units, lampas sa {ceiling} na nakalista sa term na ito',
+                    summer_above='{units} units, lampas sa {ceiling}-unit summer load',
+                    load_unknown='Hindi na-check ang unit load: {reason}',
+                    prereq_unknown='{course}: hindi pa buo ang check ng prerequisites',
+                    unchecked='{course}: hindi ma-check'),
+}
+
+
+def _units(value):
+    return str(int(value)) if float(value).is_integer() else str(value)
+
+
+def _term(term):
+    """A draft term as (sort key, label); a summer follows the second semester of its year."""
+    order, semester = _SEMESTER[term.semester]
+    return (term.year, order), f'{_YEAR[term.year]} yr · {semester}'
+
+
+def plan_view(answer, course_labels) -> dict | None:
+    """The checked recovery drafts as a comparison and timeline; only host results, never model text."""
+    recovery = answer.recovery
+    if recovery is None or not recovery.drafts:
+        return None
+    words = _PLAN_WORDS['en' if answer.language in ('en', 'unknown') else 'taglish']
+    code = lambda course: course_labels.get(course, course)
+    drafts, keys = [], {}
+    for draft in recovery.drafts:
+        terms = []
+        for term in draft.terms:
+            verdict = term.verdict
+            if not term.moved and verdict.outcome == 'works':
+                continue  # an unchanged prescribed term, left out as in the reply text
+            unconfirmed = {u.course_id for u in verdict.unconfirmed}
+            courses = [(p.course_id, p.mode) for p in term.moved] + [(c, 'prescribed') for c in term.kept]
+            notes = [words['above' if w.kind == 'load_above_prescribed' else 'summer_above'].format(
+                units=_units(w.units), ceiling=_units(w.ceiling)) for w in verdict.warnings]
+            notes += [words['prereq_unknown' if r.kind == 'prerequisite_unknown' else 'unchecked'].format(
+                course=code(r.course_id)) for r in verdict.reasons
+                if r.kind in ('prerequisite_unknown', 'not_in_curriculum', 'rule_error')]
+            if verdict.load.status == 'unknown':
+                notes.append(words['load_unknown'].format(reason=verdict.load.reason))
+            terms.append(dict(label=_term(term.term)[1], outcome=verdict.outcome,
+                              courses=[dict(code=code(c), mode=m, needsConfirmation=c in unconfirmed)
+                                       for c, m in courses],
+                              load=dict(status=verdict.load.status, units=verdict.load.units,
+                                        ceiling=verdict.load.ceiling), notes=notes))
+        moved = [p for t in draft.terms for p in t.moved]
+        rejoin = _term(next((t for t in reversed(draft.terms) if t.moved), draft.terms[-1]).term)
+        regular_rejoin = _term(draft.rejoin_term)[0] if draft.rejoin_term is not None else (float('inf'), 0)
+        keys[draft.variant] = (regular_rejoin, draft.requests)
+        drafts.append(dict(variant=draft.variant, label=f'Draft {draft.variant}', terms=terms, summary=dict(
+            rejoinAfter=rejoin[1], specialClassRequests=sum(p.mode == 'special_class_request' for p in moved),
+            summerCourses=sum(p.mode == 'summer' for p in moved), requests=draft.requests,
+            majorWarnings=sum(len(t.verdict.warnings) for t in draft.terms),
+            beyondCurriculum=draft.beyond_curriculum)))
+    return dict(drafts=drafts, fastest=min(keys, key=keys.get), fastestLabel=words['fastest'],
+                notice=words['notice'])
 
 
 def clarification_view(answer, course_labels) -> dict:

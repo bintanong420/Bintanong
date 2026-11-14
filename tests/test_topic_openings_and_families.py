@@ -34,9 +34,59 @@ def test_long_reviewed_body_supplies_a_verbatim_opening_cut_at_a_word():
     assert LONG_BODY.startswith(topic.source_opening[:-1])
 
 
+def test_printed_numbered_questions_become_menu_items():
+    # Owner GUI 3 Nov 2026 (H4, H6, H8): the Handbook FAQ answers them, but the menu showed only its first question.
+    body = ('FREQUENTLY ASKED QUESTIONS 1. How to secure fictional slip A? A. Fictional answer. '
+            '4. How do I claim fictional insurance? A. Report it. 6. What do I do when I lose a fictional card? A. Report.')
+    topic, = candidate(*body_inputs(body))
+    assert topic.source_items == ('1. How to secure fictional slip A?', '4. How do I claim fictional insurance?',
+                                  '6. What do I do when I lose a fictional card?')
+
+
 def test_short_reviewed_body_is_its_own_complete_opening():
     topic, = candidate(*body_inputs('FICTIONAL RESIDENCE. Residence means years enrolled.'))
     assert topic.source_opening == 'FICTIONAL RESIDENCE. Residence means years enrolled.'
+
+
+def test_complete_short_body_is_bound_to_its_own_claim_for_selection():
+    topic, = candidate(*body_inputs())
+    assert topic.claim_context['printed fictional fields']['body'] == LONG_BODY
+
+
+@pytest.mark.parametrize('damage', ['held', 'long', 'multiple'])
+def test_claim_body_hint_never_uses_defective_truncated_or_arbitrary_body(damage):
+    register, catalogue, chunks = body_inputs()
+    record = json.loads(chunks[0]['text'])
+    if damage == 'held':
+        record['source_limits'] = [dict(issue='source_cutoff', resolution='unresolved')]
+    elif damage == 'long':
+        record['fields'][0]['value'] = 'x' * 1025
+    else:
+        from copy import deepcopy
+        extra = deepcopy(chunks[0])
+        extra.update(chunk_id='chunk-b', type_fields=dict(reading_id='body-b'))
+        extra_record = json.loads(extra['text'])
+        extra_record['fields'][0]['value'] = 'A different complete body.'
+        extra['text'] = json.dumps(extra_record)
+        chunks.append(extra)
+        catalogue['assignments'].append(dict(reading_id='body-b', subject_id='fictional_policy'))
+        register['reviews'][0]['reviewed_chunk_ids'].append('chunk-b')
+        register['reviews'][0]['field_refs'].append(dict(reading_id='body-b', field_name='body'))
+    chunks[0]['text'] = json.dumps(record)
+    topic, = candidate(register, catalogue, chunks)
+    assert not topic.claim_context
+
+
+def test_selected_topic_carries_its_complete_short_reviewed_body_for_interpretation():
+    body = 'FICTIONAL SEQUENCING. An activity requires the preceding module. Exceptions require review.'
+    topic, = candidate(*body_inputs(body))
+    assert topic.claim_context['printed fictional fields']['body'] == body
+    assert body not in topic.source_context
+
+
+def test_a_long_body_is_not_cut_to_create_routing_context():
+    topic, = candidate(*body_inputs('A' * 1025))
+    assert not topic.source_context
 
 
 def test_a_not_stated_limit_keeps_the_opening_but_a_source_defect_withholds_it():
@@ -56,10 +106,11 @@ def test_default_menu_and_serialization_carry_no_opening_or_family():
     assert 'source_opening' not in dumped and 'family' not in dumped
 
 
-def test_opening_reaches_both_the_selector_menu_and_the_router_menu():
+def test_selector_uses_printed_items_while_router_keeps_the_source_opening():
     topic, = candidate(*body_inputs())
     selector = topic_selection.build_messages('How do I file a slip?', (topic,))[0]['content']
-    assert topic.source_opening in selector
+    assert all(item in selector for item in topic.source_items)
+    assert topic.source_opening not in selector
     context = RequestContext(session_id='sess-a', request_id='req-a')
     router = build_messages('How do I file a slip?', context, (), registry(), (topic,))[0]['content']
     assert topic.source_opening in router
@@ -145,3 +196,86 @@ def test_items_reach_the_selector_menu():
     topic, = candidate(*item_inputs(CAUSES))
     selector = topic_selection.build_messages('What is the penalty for smoking?', (topic,))[0]['content']
     assert '20. Fictional smoking' in selector and '"items"' in selector
+
+
+# Owner 30 Oct 2026: Handbook policy topics list their printed numbered section headings, verbatim.
+HEADED_BODY = ('Notwithstanding the above provision, the following shall apply: 3. FICTIONAL REMOVAL AND '
+               'COMPLETION 3.1 APPROVAL OF THE REQUEST. No student shall proceed without approval. '
+               '3.4 REMOVAL OF “INC”. The grade of “INC” is given to a fictional student.')
+
+
+def test_printed_numbered_section_headings_become_verbatim_items():
+    topic, = candidate(*body_inputs(HEADED_BODY))
+    assert topic.source_items == ('3. FICTIONAL REMOVAL AND COMPLETION', '3.1 APPROVAL OF THE REQUEST',
+                                  '3.4 REMOVAL OF “INC”')
+    assert all(item in HEADED_BODY for item in topic.source_items)
+
+
+def test_numbered_sentences_are_not_headings():
+    topic, = candidate(*body_inputs('7. Students shall file fictional slips at the Fictional Office. B. The slip is signed.'))
+    assert topic.source_items == ()
+    # A printed numbered question is an FAQ item (owner GUI 3 Nov 2026), not a sentence heading.
+    topic, = candidate(*body_inputs())
+    assert topic.source_items == ('7. How to file fictional slips?',)
+
+
+# Owner 30 Oct 2026: a recorded defect elsewhere in the chunk no longer hides its printed headings.
+def test_a_source_defect_keeps_section_headings_but_withholds_the_opening():
+    topic, = candidate(*body_inputs(HEADED_BODY, limits=[dict(resolution='unresolved', issue='source_cutoff')]))
+    assert topic.source_items == ('3. FICTIONAL REMOVAL AND COMPLETION', '3.1 APPROVAL OF THE REQUEST',
+                                  '3.4 REMOVAL OF “INC”')
+    assert topic.source_opening is None
+
+
+def test_a_heading_ending_a_defective_body_may_be_cut_and_is_withheld():
+    body = 'The grade is given to a fictional student. 3.5 FICTIONAL COMPLETION OF'
+    defect = dict(resolution='unresolved', issue='source_cutoff')
+    topic, = candidate(*body_inputs(body, limits=[defect]))
+    assert topic.source_items == ()
+    topic, = candidate(*body_inputs(body))
+    assert topic.source_items == ('3.5 FICTIONAL COMPLETION OF',)
+
+
+def test_numbers_without_a_section_dot_are_not_headings():
+    body = 'Approved by the 2 OSAS staff. A GWA of 1.20-1.45 earns 94 CUM LAUDE. 4. FICTIONAL STUDENTS Old students enrol.'
+    topic, = candidate(*body_inputs(body))
+    assert topic.source_items == ('4. FICTIONAL STUDENTS',)
+
+
+# Owner 30 Oct 2026: the router sees each fact's own printed section headings.
+def two_fact_inputs(limits=()):
+    bodies = {'timing': 'Fictional marks are reviewed next cycle.',
+              'meaning': '3.4 REMOVAL OF “INC”. The fictional mark is removed by an examination. '
+                         '3.5 FICTIONAL APPROVAL. The Dean approves.'}
+    reviews, chunks, assignments = [], [], []
+    for name, body in bodies.items():
+        reading, chunk_id = f'body-{name}', f'chunk-{name}'
+        assignments.append(dict(reading_id=reading, subject_id='fictional_completion'))
+        reviews.append(dict(subject_id='fictional_completion', claim=f'printed {name} fields', finding='visible_fields',
+            reviewed_chunk_ids=[chunk_id], field_refs=[dict(reading_id=reading, field_name='body')]))
+        chunks.append(dict(chunk_id=chunk_id, type_fields=dict(reading_id=reading), text=json.dumps(dict(
+            fields=[dict(name='body', value=body, source_blank=False)], source_limits=list(limits)))))
+    return dict(reviews=reviews), dict(assignments=assignments), chunks
+
+
+def test_each_fact_carries_its_own_printed_headings():
+    topic, = candidate(*two_fact_inputs())
+    assert topic.claim_headings == {'printed meaning fields': ('3.4 REMOVAL OF “INC”', '3.5 FICTIONAL APPROVAL')}
+
+
+def test_fact_headings_survive_a_recorded_defect_and_default_menus_carry_none():
+    defect = dict(resolution='unresolved', issue='conflicting_deadlines')
+    topic, = candidate(*two_fact_inputs(limits=[defect]))
+    assert topic.claim_headings['printed meaning fields'] == ('3.4 REMOVAL OF “INC”', '3.5 FICTIONAL APPROVAL')
+    topic, = topic_menu(*two_fact_inputs()[:1], catalogue=two_fact_inputs()[1], chunks=two_fact_inputs()[2])
+    assert topic.claim_headings == {} and 'claim_headings' not in topic.model_dump(mode='json')
+
+
+def test_fact_headings_reach_the_router_menu_by_fact_index():
+    topic, = candidate(*two_fact_inputs())
+    context = RequestContext(session_id='sess-a', request_id='req-a')
+    router = build_messages('How do I remove an INC?', context, (), registry(), (topic,))[0]['content']
+    menu, _ = json.JSONDecoder().raw_decode(router, router.index('[{"fact_fields"'))
+    index = list(topic.claims).index('printed meaning fields')
+    assert menu[0]['fact_headings'] == [dict(fact_indices=[index],
+                                             headings=['3.4 REMOVAL OF “INC”', '3.5 FICTIONAL APPROVAL'])]

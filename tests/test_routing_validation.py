@@ -83,16 +83,39 @@ def test_program_named_in_text_with_one_curriculum_needs_no_session_scope():
     assert result.decision.route == 'Symbolic' and (result.program_id, result.curriculum_id) == ('program-a', 'curriculum-a')
 
 
-def test_shared_program_name_asks_which_program():
+def _shared_program_name():
     other = CatalogEntry.parse(dict(kind='program', entity_id='program-b', program_id='program-b', curriculum_id=None,
         aliases=['Program A'], source_ref='ver-a', review_ref='review-a', reviewed=True))
-    entries = (*catalog(), other)
     text = 'Program A A1'
     value = proposal(text=text, mentions=[dict(kind='program', text='Program A', start=0, end=9),
         dict(kind='course', text='A1', start=10, end=12)],
         operations=[dict(name='check_prerequisite_eligibility', target=1)])
+    return text, value, (*catalog(), other)
+
+
+def test_shared_program_name_asks_which_program():
+    text, value, entries = _shared_program_name()
     result = validate(text, value, context(program_id=None, curriculum_id=None), catalog=entries)
     assert result.decision.control == 'clarify' and result.decision.route is None
+    assert result.decision.missing_facts == ('program_choice:program-a', 'program_choice:program-b')
+
+
+def test_selected_program_settles_a_name_shared_with_another_program():
+    # Live 31 Oct 2026: "Hospitality Management" with the Hotel track selected also matched Culinary.
+    text, value, entries = _shared_program_name()
+    result = validate(text, value, context(), catalog=entries)
+    assert result.decision.route == 'Symbolic' and result.program_id == 'program-a'
+
+
+@pytest.mark.parametrize('text', ['A8 / B2', 'A8/B2'])
+def test_a_printed_code_split_into_two_mentions_names_one_course(text):
+    # Live 31 Oct 2026: the model split "HPC 8 / FL 2" into "HPC 8" and "FL 2", so neither matched a course.
+    second = text.index('B2')
+    value = proposal(text=text, mentions=[dict(kind='course', text='A8', start=0, end=2),
+        dict(kind='course', text='B2', start=second, end=second + 2)])
+    result = validate(text, value, catalog=(*catalog(), entry(entity='course-joined', alias='A8 / B2')))
+    assert result.decision.route == 'Symbolic' and result.diagnostic == 'validated'
+    assert result.decision.predicate_request.inputs[-1].value == 'course-joined'
 
 
 def test_reused_course_alias_resolves_only_in_explicit_edition():
@@ -136,14 +159,13 @@ def test_false_quote_is_rejected_even_if_the_mention_is_a_known_course():
         validate('B1')
 
 
-@pytest.mark.parametrize('mode,expected', [('asserted','validated'),
-                                         ('hypothetical','nonasserted_facts'),
-                                         ('reported','nonasserted_facts')])
-def test_claims_remain_grounded_and_request_local(mode, expected):
+# Memory/eligibility plan: a what-if premise is request-only for its check; a reported result adds no fact.
+@pytest.mark.parametrize('mode', ['asserted', 'hypothetical'])
+def test_claims_remain_grounded_and_request_local(mode):
     value = proposal(claims=[dict(entity=0, state='failed', mode=mode,
                                  text='A1 failed', start=0, end=9)])
     result = validate('A1 failed', value)
-    assert result.diagnostic == expected
+    assert result.diagnostic == 'validated'
     assert result.claims[0].mode == mode and result.claims[0].state == 'failed'
     assert result.claims[0].session_id == 'sess-a'
     other = validate('A1 failed', value, context(session_id='sess-b'))
@@ -224,3 +246,142 @@ def test_phrase_naming_two_programs_asks_which():
     text, value = program_question('Program A or Program B student')
     result = validate(text, value, context(program_id=None, curriculum_id=None), catalog=(*catalog(), other))
     assert result.decision.control == 'clarify'
+
+
+# Memory/eligibility plan, Task 1: the host keeps only what the student's own words state.
+def stated(text, state, mode='asserted', course='A1', **updates):
+    start = text.index(course)
+    mention = dict(kind='course', text=course, start=start, end=start + len(course))
+    target = text.rfind('B1')
+    mentions = [mention] + ([dict(kind='course', text='B1', start=target, end=target + 2)] if target > start else [])
+    value = proposal(text=text, mentions=mentions,
+                     claims=[dict(entity=0, state=state, mode=mode, text=text, start=0, end=len(text))],
+                     operations=[dict(name='check_prerequisite_eligibility', target=len(mentions) - 1)]
+                     if len(mentions) > 1 else [], **updates)
+    if len(mentions) > 1:
+        value['parts'] = [dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured',
+                               operation_indices=[0])]
+    return validate(text, value)
+
+
+@pytest.mark.parametrize('text,proposed,kept', [
+    ('Natake ko na yung A1. Can I take B1?', 'passed', 'taken_unknown'),
+    ("I haven't taken A1 yet. Can I take B1?", 'failed', 'not_taken'),
+    ('Hindi ko pa napapasa ang A1. Pwede na ba ang B1?', 'failed', 'not_passed'),
+    ('I failed A1. Can I take B1?', 'failed', 'failed'),
+    ('Pasado ako sa A1. Pwede na ba ang B1?', 'passed', 'passed'),
+])
+def test_host_keeps_the_result_the_student_stated_not_the_models_label(text, proposed, kept):
+    result = stated(text, proposed)
+    assert result.diagnostic == 'validated'
+    assert [(c.course_id, c.state) for c in result.claims] == [('course-a', kept)]
+
+
+@pytest.mark.parametrize('text', ['My friend passed A1. Can I take B1?', 'I got 1.75 in A1. Can I take B1?'])
+def test_a_claim_the_students_words_do_not_support_supplies_no_fact(text):
+    result = stated(text, 'passed')
+    assert result.diagnostic == 'validated' and result.claims == ()
+
+
+def test_a_what_if_premise_is_request_only_and_reported_results_add_nothing():
+    hypothetical = stated('If I failed A1, can I take B1?', 'failed', mode='hypothetical')
+    assert hypothetical.diagnostic == 'validated'
+    assert [(c.state, c.mode) for c in hypothetical.claims] == [('failed', 'hypothetical')]
+    reported = stated('My classmate said A1 was passed. Can I take B1?', 'passed', mode='reported')
+    assert reported.diagnostic == 'validated' and reported.claims == ()
+
+
+def test_a_message_that_only_states_a_result_is_noted():
+    text = 'I passed A1'
+    value = proposal(text=text, mentions=[dict(kind='course', text='A1', start=9, end=11)], operations=[],
+                     claims=[dict(entity=0, state='passed', mode='asserted', text=text, start=0, end=len(text))],
+                     route=None, control='clarify')
+    result = validate(text, value)
+    assert result.diagnostic == 'facts_noted' and result.decision.control == 'clarify'
+    assert result.decision.missing_facts == ('noted_passed:course-a',)
+    assert [(c.course_id, c.state) for c in result.claims] == [('course-a', 'passed')]
+
+
+def test_a_stated_enrollment_records_the_term_it_covers():
+    now = stated("I'm taking A1 this term. Can I take B1?", 'enrolled')
+    later = stated("I'll be taking A1 next sem. Can I take B1?", 'enrolled')
+    assert [(c.state, c.period, c.source) for c in now.claims] == [('enrolled', 'current', 'user_statement')]
+    assert [(c.state, c.period) for c in later.claims] == [('enrolled', 'next')]
+
+
+def test_enrollment_counts_only_for_the_term_the_question_asks_about():
+    from backend.bintanong_routing.contracts import ScopedFact
+    def fact(state, period):
+        return ScopedFact(fact_id=f'fact-{state}-{period}'.replace('_', '-').lower(), session_id='sess-a',
+                          program_id='program-a', curriculum_id='curriculum-a', course_id='course-a', state=state,
+                          source='user_statement', period=period)
+    facts = (fact('enrolled', 'current'), fact('passed', None))
+    assert [f.state for f in api().facts_for_term(facts, 'Can I take B1 this term?')] == ['enrolled', 'passed']
+    assert [f.state for f in api().facts_for_term(facts, 'Can I take B1 next sem?')] == ['passed']
+    assert [f.state for f in api().facts_for_term((fact('enrolled', 'next'),), 'Pwede ko bang kunin ang B1 sa susunod na sem?')] == ['enrolled']
+
+
+@pytest.mark.parametrize('text,mode', [
+    ("So if I haven't passed A1, can I take B1?", 'hypothetical'),  # live 3 Nov shape: the model said asserted
+    ('Kung bagsak ako sa A1, pwede ko pa bang kunin ang B1?', 'hypothetical'),
+    ('What if I failed A1? Can I take B1?', 'hypothetical'),
+    ('I failed A1. Can I take B1?', 'asserted'),
+    ('I failed A1 even though I studied. Can I take B1?', 'asserted'),
+])
+def test_a_result_stated_inside_an_if_clause_is_request_only(text, mode):
+    result = stated(text, 'failed')
+    assert result.diagnostic == 'validated'
+    state = 'not_passed' if "haven't passed" in text else 'failed'
+    assert [(c.state, c.mode) for c in result.claims] == [(state, mode)]
+
+
+def test_a_statement_that_disagrees_with_a_confirmed_upload_names_the_course():
+    value = proposal(text='A1 failed', claims=[dict(entity=0, state='failed', mode='asserted', text='A1 failed', start=0, end=9)])
+    ctx = context(facts=[dict(fact_id='fact-upload', session_id='sess-a', program_id='program-a',
+                              curriculum_id='curriculum-a', course_id='course-a', state='passed')])
+    result = validate('A1 failed', value, ctx)
+    assert result.diagnostic == 'conflicting_facts' and result.decision.missing_facts == ('conflict:course-a',)
+
+
+def term_slip(text, term, claimed=('A1',)):
+    """The model read 'Can I take B1 next semester?' as a term check on 'next semester' (live 4 Nov 2026)."""
+    mentions = [dict(kind='course', text=c, start=text.index(c), end=text.index(c) + len(c)) for c in ('B1', 'A1') if c in text]
+    mentions.append(dict(kind='term', text=term, start=text.index(term), end=text.index(term) + len(term)))
+    claims = [dict(entity=[m['text'] for m in mentions].index(c), state='not_taken', mode='asserted',
+                   text=text[text.index("I haven't"):], start=text.index("I haven't"), end=len(text)) for c in claimed]
+    value = proposal(text=text, mentions=mentions, claims=claims,
+                     operations=[dict(name='assess_term_prerequisites', target=len(mentions) - 1)])
+    value['parts'] = [dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured', operation_indices=[0])]
+    reg = registry()
+    from backend.bintanong_contracts.symbolic import Capability, CapabilityRegistry
+    reg = CapabilityRegistry({'check_prerequisite_eligibility': Capability('synthetic_prerequisite_check', ('curriculum_id', 'course_id')),
+                              'assess_term_prerequisites': Capability('synthetic_term', ('curriculum_id', 'year_level', 'semester'))})
+    return validate(text, value, registry=reg)
+
+
+def test_a_named_course_question_read_as_a_term_check_is_checked_on_that_course():
+    result = term_slip("Can I take B1 next semester? I haven't taken A1 yet.", 'next semester')
+    assert result.diagnostic == 'validated'
+    request = result.decision.predicate_request
+    assert request.predicate == 'check_prerequisite_eligibility'
+    assert {i.name: i.value for i in request.inputs}['course_id'] == 'course-b'
+    assert [(c.course_id, c.state) for c in result.claims] == [('course-a', 'not_taken')]
+
+
+def test_a_real_term_question_still_asks_for_the_term():
+    result = term_slip("What can I take next semester? I haven't taken A1 yet.", 'next semester')
+    assert result.diagnostic == 'missing_term'
+
+
+def test_time_words_beside_a_course_question_never_block_it():
+    # Live 4 Nov 2026: "Im currently first year, what ... can not take in second semester when i fail A1?" listed
+    # "second semester" (no year of its own) as a term mention and fell back to a bare clarify.
+    text = "Im currently first year, what can I not take in second semester when i fail A1?"
+    mentions = [dict(kind='term', text='first year', start=text.index('first year'), end=text.index('first year') + 10),
+                dict(kind='term', text='second semester', start=text.index('second semester'),
+                     end=text.index('second semester') + 15),
+                dict(kind='course', text='A1', start=text.index('A1'), end=text.index('A1') + 2)]
+    value = proposal(text=text, mentions=mentions, operations=[dict(name='check_prerequisite_eligibility', target=2)])
+    value['parts'] = [dict(part_id='r1', text=text, start=0, end=len(text), evidence_need='structured', operation_indices=[0])]
+    result = validate(text, value)
+    assert result.diagnostic == 'validated'

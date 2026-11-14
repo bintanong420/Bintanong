@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
-test('welcome keeps the centered Figma identity with the refined chat controls', async () => {
+test('welcome keeps the mascot identity, ambient backdrop and pill composer', async () => {
   const url = process.env.BINTANONG_BROWSER_URL;
   assert.ok(url && ['localhost', '127.0.0.1'].includes(new URL(url).hostname));
   const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
@@ -23,19 +23,29 @@ test('welcome keeps the centered Figma identity with the refined chat controls',
       });
       await page.goto(new URL('/chat', url).href, { waitUntil: 'networkidle' });
       await dismissInitialScope(page);
-      const welcome = page.getByRole('region', { name: 'Ask away, Bintanong.', exact: true });
+      const welcome = page.getByRole('region', { name: "Hi, I'm Bintanong", exact: true });
       await welcome.waitFor();
       assert.equal(await welcome.evaluate(node => getComputedStyle(node).textAlign), 'center', `${width}/${theme}: welcome copy is centered`);
       const main = await page.locator('.workspace-main').boundingBox();
-      for (const selector of ['.welcome-eyebrow', '#welcome-title', '.welcome-description']) {
+      for (const selector of ['.welcome-logo', '#welcome-title', '.welcome-description']) {
         const box = await welcome.locator(selector).boundingBox();
         assert.ok(Math.abs(box.x + box.width / 2 - main.x - main.width / 2) < 2, `${width}/${theme}: ${selector} shares the workspace center`);
       }
-      const campus = page.locator('.campus-banner img');
-      assert.equal(await campus.count(), 1, 'welcome retains the local campus identity');
-      assert.equal(await campus.getAttribute('src'), '/design/campus.png');
-      assert.equal(await campus.evaluate(img => img.complete && img.naturalWidth > 0), true);
-      assert.equal(await campus.getAttribute('alt'), '', 'decorative campus is not repeated to screen readers');
+      assert.match(await page.locator('.workspace-main').evaluate(node => getComputedStyle(node).backgroundImage), /radial-gradient/, 'welcome carries the ambient backdrop');
+      const logo = page.locator('.welcome-logo img');
+      assert.equal(await logo.evaluate(img => img.complete && img.naturalWidth > 0), true);
+      assert.equal(await logo.getAttribute('alt'), '', 'decorative mascot is not repeated to screen readers');
+      const mark = await page.locator('.welcome-logo').boundingBox(), art = await logo.boundingBox();
+      assert.equal(mark.width, 80, 'the mascot keeps its requested size');
+      assert.ok(art.width >= 64 && art.height >= 64, 'the mascot art fills its mark');
+      assert.equal(await page.getByRole('link', { name: 'Learn more about me', exact: true }).getAttribute('href'), '/about');
+      const composer = await page.locator('.composer').boundingBox(), starters = await page.getByRole('group', { name: 'Suggested questions', exact: true }).boundingBox();
+      assert.ok(starters.y + starters.height <= composer.y, 'starters sit above the composer');
+      assert.ok(composer.height <= 72, `${width}/${theme}: an empty composer stays one pill row`);
+      for (const name of ['Add a PDF to this chat', 'Send question', 'Files in this chat']) {
+        const box = await page.getByRole('button', { name, exact: true }).boundingBox();
+        assert.ok(box.height >= 44 && box.width >= 44, name + ' keeps a usable touch target');
+      }
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       if (process.env.BINTANONG_BROWSER_EVIDENCE) {
         await mkdir(process.env.BINTANONG_BROWSER_EVIDENCE, { recursive: true });
@@ -47,7 +57,9 @@ test('welcome keeps the centered Figma identity with the refined chat controls',
       assert.equal(submissions.length, 0, 'starter remains an editable draft');
       await page.getByRole('button', { name: 'Send question', exact: true }).click();
       await page.getByText('Synthetic layout response.', { exact: true }).waitFor();
-      assert.equal(await page.locator('.campus-banner').count(), 0, 'active conversation keeps a clear reading area');
+      assert.equal(await page.locator('.welcome-surface').count(), 0, 'active conversation keeps a clear reading area');
+      assert.equal(await page.locator('.message-assistant .brand-mark img').evaluate(img => img.complete && img.naturalWidth > 0), true, 'answers carry the mascot');
+      assert.equal((await page.locator('.message-assistant .brand-mark').boundingBox()).width, 28, 'the answer avatar stays compact');
       assert.equal(await page.getByRole('button', { name: 'Edit as new question', exact: true }).count(), 1);
       assert.deepEqual(errors, []);
       await context.close();

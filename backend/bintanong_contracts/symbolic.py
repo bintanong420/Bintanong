@@ -92,6 +92,15 @@ class RequirementView(Record):
     kind: Annotated[str, Field(pattern="^(course|co_requisite|all_of|any_of|verified_none|unresolved)$")]
     course_id: _Text | None = None
     items: tuple[RequirementView, ...] = ()
+    reason: _Text | None = None  # an unresolved rule's recorded reason, e.g. a blank printed cell (owner, 2 Nov 2026)
+
+    @model_serializer(mode="wrap")
+    def _omit_absent_reason(self, handler):
+        # Views without a reason keep their earlier dump, so pinned result digests stay valid.
+        data = handler(self)
+        if data.get("reason") is None:
+            data.pop("reason", None)
+        return data
 
 
 class SymbolicResult(Contract):

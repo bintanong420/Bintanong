@@ -90,4 +90,5 @@ def test_mode_and_scope_guards_remain_active_after_wire_normalization():
     value = packet()
     value['claims'][0]['mode'] = 'hypothetical'
     result = route(Model(value, STYLE))
-    assert result.diagnostic == 'nonasserted_facts' and not result.decision.dispatchable
+    # Owner memory and eligibility plan: a hypothetical stays a request-only assumption after normalization.
+    assert result.diagnostic == 'validated' and [c.mode for c in result.claims] == ['hypothetical']

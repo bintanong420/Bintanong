@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import math
 import subprocess
 import sys
@@ -19,13 +20,14 @@ from ..bintanong_contracts.runtime import BoundInput, PredicateRequest
 from ..bintanong_contracts.source import SourceSpan
 from ..bintanong_contracts.symbolic import Capability, CapabilityRegistry, DecisionScope, SymbolicResult
 from .bundle import prepare_runtime_bundle, validate_runtime_bundle
-from .course_facts import TERM_ORDER, CourseFactsResult, course_facts, list_term_courses, printed_course
+from .course_facts import TERM_ORDER, TERMS, YEARS, CourseFactsResult, course_facts, list_term_courses, printed_course
 
 _ADMISSION = threading.Lock()
 _WORKER = Path(__file__).with_name('_janus_worker.py')
 _MAX_BYTES = 1_048_576
 # Reviewed printed course facts (no rule executed): operation -> (capability, fixed signature).
-_LOOKUPS = {'course_facts':('synthetic_course_facts',('curriculum_id','course_id')),
+_LOOKUPS = {'list_course_prerequisites':('synthetic_prerequisite_description',('curriculum_id','course_id')),
+            'course_facts':('synthetic_course_facts',('curriculum_id','course_id')),
             'list_term_courses':('synthetic_term_courses',('curriculum_id','year_level','semester'))}
 _PREDICATE = 'check_prerequisite_eligibility'
 _DECISIONS = {_PREDICATE:'synthetic_prerequisite_check',
@@ -87,6 +89,10 @@ class DependencyResult(Contract):
     rule_ids: tuple[_Text, ...]
     rule_spans: tuple[SourceSpan, ...]
     error_code: _Text | None
+    # Display context (owner report, 4 Nov 2026), absent when empty so earlier dumps keep their digests: the reviewed
+    # year/semester of each listed course, and the printed condition of each course left unknown.
+    placements: tuple[tuple[_CourseID, int, str], ...] = Field(default=(), exclude_if=lambda v: not v)
+    printed_conditions: tuple[tuple[_CourseID, _Text], ...] = Field(default=(), exclude_if=lambda v: not v)
 
     @model_validator(mode='after')
     def _boundaries(self):
@@ -120,8 +126,8 @@ class ResearchAuthorization(Record):
     authorization_ref: str = Field(pattern=r'^research-[A-Za-z0-9_-]+$', max_length=128)
     bundle_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
     operations: tuple[Literal['check_prerequisite_eligibility','list_missing_prerequisites',
-                              'list_affected_courses','course_facts','list_term_courses'], ...] = Field(
-                              min_length=1, max_length=5)
+                              'list_affected_courses','course_facts','list_term_courses','list_course_prerequisites'], ...] = Field(
+                              min_length=1, max_length=6)
 
     @model_validator(mode='after')
     def _unique(self):
@@ -182,9 +188,29 @@ def _spans(courses):
     return list({_json(s):s for s in spans}.values())
 
 
+def _printed_conditions(ledger, unknown):
+    """(course id, printed text) for each course a listing left unknown, from its recorded unresolved reason."""
+    by_id = {c['course_id']: c for c in ledger['courses']}
+    found = []
+    for condition in unknown:
+        course = by_id.get(condition.split(':', 1)[1]) if ':' in condition else None
+        stack = [course['prerequisites']] if course else []
+        while stack:
+            node = stack.pop()
+            printed = re.match(r'Printed (?:condition|reference|prerequisite) "(.+?)"', node.get('reason') or '')
+            if node.get('kind') == 'unresolved' and printed:
+                found.append((course['course_id'], ' '.join(printed.group(1).split())))
+                break
+            stack.extend(reversed(node.get('items', [])))
+    return found
+
+
 def _requirement_view(node):
-    return {'kind':node['kind'], 'course_id':node.get('course_id'),
+    view = {'kind':node['kind'], 'course_id':node.get('course_id'),
             'items':[_requirement_view(child) for child in node.get('items',[])]}
+    if node['kind'] == 'unresolved' and node.get('reason'):
+        view['reason'] = node['reason']
+    return view
 
 
 def _dependency_spans(courses):
@@ -220,6 +246,11 @@ def _invoke_worker(payload, timeout):
         raise _WorkerFailure(code)
     result_type = _DependencyEvaluation if payload.get('operation')=='dependencies' else _Evaluation
     return result_type.parse(reply['result'])
+
+
+def _contains_unresolved(node):
+    return (not node.get('course_free')) if node.get('kind')=='unresolved' else any(
+        _contains_unresolved(child) for child in node.get('items', ()))
 
 
 @dataclass(frozen=True, init=False)
@@ -335,12 +366,16 @@ class CurriculumRuntime:
             raise ValueError('unsupported_operation')
         ledger = json.loads(self._ledger_json)
 
-        def result(status, found=()):
+        def result(status, found=(), target=None):
             return CourseFactsResult.parse({'schema_version':CourseFactsResult.SCHEMA_VERSION,
                 'synthetic':ledger['synthetic'], 'predicate':request.predicate,
                 'inputs':[i.model_dump(mode='json') for i in request.inputs], 'status':status,
                 'courses':[printed_course(ledger, f) for f in found],
-                'scope':_scope(ledger,self._release_id) if status=='complete' else None})
+                'scope':_scope(ledger,self._release_id) if status=='complete' else None,
+                'requirement':_requirement_view(target['prerequisites']) if target else None,
+                'rule_spans':_spans([target]) if target else [],
+                'rule_ids':['rule-'+target['course_id']] if target else [],
+                'rule_bundle_version':self.rule_bundle_version if target else None})
         registry = CapabilityRegistry({name:Capability(self._capability(cap), signature)
             for name,(cap,signature) in _LOOKUPS.items() if name in self._allowed_operations})
         if not registry.supports(request.predicate):
@@ -348,6 +383,13 @@ class CurriculumRuntime:
         args = dict(registry.goal(request).args)
         if args['curriculum_id'] != ledger['scope']['curriculum_id']:
             return result('not_found')
+        if request.predicate == 'list_course_prerequisites':
+            target = next((c for c in ledger['courses'] if c['course_id']==args['course_id']), None)
+            if target is None:
+                return result('not_found')
+            if target['review_state'] != 'reviewed' or not target['review_refs']:
+                return result('not_reviewed')
+            return result('complete', target=target)
         if request.predicate == 'course_facts':
             if not any(c['course_id']==args['course_id'] for c in ledger['courses']):
                 return result('not_found')
@@ -450,9 +492,13 @@ class CurriculumRuntime:
         ids = () if evaluation is None else evaluation.course_ids
         if ids and (not known_input or not set(ids) <= self._exported_rules):
             raise ValueError('unbound dependency output')
+        bundle_courses = json.loads(self._bundle_json)['courses']
         if evaluation is not None and evaluation.status=='complete' and (
-                not known_input or len(self._reviewed_rules)!=len(ledger['courses'])):
+                not known_input or any(not c['reviewed'] or _contains_unresolved(c['rule'])
+                                       for c in bundle_courses)):
             raise ValueError('unbound dependency completeness')
+
+
         courses = [c for c in ledger['courses'] if c['course_id'] in ids]
         result_type = DependencyResult if self._research_json is None else ResearchDependencyResult
         data = {'schema_version':result_type.SCHEMA_VERSION,'synthetic':ledger['synthetic'],
@@ -464,7 +510,11 @@ class CurriculumRuntime:
             'rule_bundle_version':None if evaluation is None else self._version,
             'scope':_scope(ledger,self._release_id) if known_input and evaluation is not None else None,
             'rule_ids':['rule-'+c['course_id'] for c in courses], 'rule_spans':_dependency_spans(courses),
-            'error_code':error}
+            'error_code':error,
+            'placements':[(c['course_id'], YEARS[c['facts']['year_level']['value']], TERMS[c['facts']['semester']['value']])
+                          for c in courses if c.get('facts', {}).get('year_level', {}).get('value') in YEARS
+                          and c['facts'].get('semester', {}).get('value') in TERMS],
+            'printed_conditions':_printed_conditions(ledger, () if evaluation is None else evaluation.unknown_conditions)}
         if self._research_json is not None:
             data['research'] = json.loads(self._research_json)
         if status != 'error' and len(_json(data).encode()) > 65_536:

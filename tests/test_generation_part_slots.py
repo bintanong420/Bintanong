@@ -257,7 +257,7 @@ def test_taglish_guidance_prefers_everyday_english_terms_without_evaluation_fixt
 
 def test_prompt_uses_two_reply_targets_and_preserves_source_terms():
     from backend.bintanong_generation.part_answers import PART_PROMPT
-    assert 'Tagalog structure' in PART_PROMPT and 'mostly Filipino' not in PART_PROMPT
+    assert 'natural Filipino' in PART_PROMPT and 'mostly Filipino' not in PART_PROMPT
     assert 'source quotations' in PART_PROMPT and 'do not copy unrelated English sentences' in PART_PROMPT
 
 
@@ -350,3 +350,29 @@ def test_partial_ledger_needs_a_mapped_part_and_only_declared_gaps(entries, vali
     else:
         with pytest.raises(ValueError, match='ledger_status_mismatch'):
             BoundRequirementLedger.parse(value)
+
+
+def test_taglish_keeps_printed_wording_in_english_with_filipino_connectors():
+    # Owner 30 Oct 2026: "we keep the answers that came from the data as english as is ... the connecting as
+    # filipino". Observed: "shall not exceed one (1) academic year" became "hindi dapat lumagpas sa isang (1) ...".
+    from backend.bintanong_generation.part_answers import PART_PROMPT, REWRITE
+    assert 'English office names, English policy terms' in PART_PROMPT
+    assert 'Keep an English quotation exact' in PART_PROMPT
+    assert 'preserve every rule, condition and actor' in PART_PROMPT
+    assert 'Mag-report ka' in PART_PROMPT
+    assert "printed wording in the source's English" in REWRITE['taglish']
+
+
+def test_draft_prompt_asks_for_student_facing_claims_without_loosening_printed_wording():
+    # Owner 2 Nov 2026: replies read as third-person ("the student must ..."); the thesis promises
+    # student-friendly responses. Direct answer first, "you"/"mo/ka", other actors and printed terms unchanged.
+    from backend.bintanong_generation import part_answers
+    PART_PROMPT = ' '.join(part_answers.PART_PROMPT.split())
+    assert 'directly answers the question first' in PART_PROMPT
+    assert 'Speak to the student' in PART_PROMPT and '"you"' in PART_PROMPT and 'mo/ka' in PART_PROMPT
+    assert "never turn an office's action into the student's" in PART_PROMPT
+    assert 'In both en and taglish' in PART_PROMPT
+    lowered = PART_PROMPT.lower()
+    for evaluation_topic in ('section change', 'absence', 'honors', 'good moral', 'certification',
+                             'transfer', 'library card', 'overdue'):
+        assert evaluation_topic not in lowered

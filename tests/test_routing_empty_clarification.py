@@ -34,10 +34,11 @@ def test_a_clarify_that_keeps_a_requested_check_still_asks_the_student():
     assert validate(TEXT, value).decision.control == 'clarify'
 
 
-def test_the_orchestrator_reports_an_empty_clarification_as_no_evidence():
+def test_the_orchestrator_reports_an_empty_clarification_as_dialogue_failure():
     async def scenario():
         provider = ports().SyntheticReleaseProvider(resources())
         return await api().Orchestrator(FakeTransport(json.dumps(empty_clarify())),
                                         releases=provider).run(TEXT, ctx())
     result = asyncio.run(scenario())
-    assert result.status == 'no_evidence' and result.evidence is None
+    assert result.status == 'clarify' and result.evidence is None
+    assert result.reason == 'dialogue_unresolved'

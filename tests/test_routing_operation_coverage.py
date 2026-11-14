@@ -49,7 +49,8 @@ def test_model_can_repair_its_own_operation_part_mismatch_into_document_retrieva
     assert result.proposed.parts[0].requested_claims == ('printed Form Q policy',)
     repair = transport.calls[1][0]
     assert repair[2]['content'] == json.dumps(orphan())
-    assert TEXT in repair[-1]['content'] and 'unreferenced_operation' in repair[-1]['content']
+    assert TEXT in repair[1]['content'] and 'unreferenced_operation' in repair[-1]['content']
+    assert repair[1]['content'] not in repair[-1]['content']
 
 
 def test_repeated_orphan_operation_stays_unavailable_without_silent_rag_fallback():

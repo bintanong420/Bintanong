@@ -1,0 +1,146 @@
+{
+  "schema_version": "bintanong-recovery-routes-v1",
+  "routes_id": "routes-palsu-handbook-2021-recovery-v1",
+  "synthetic": false,
+  "clauses": [
+    {
+      "kind": "regular_class",
+      "topic": "handbook_class_types",
+      "page": 37,
+      "text": "REGULAR CLASS. Regular class is a class prescribed in the curriculum during the semester/term it is offered, regardless of size.",
+      "conditions": []
+    },
+    {
+      "kind": "special_class",
+      "topic": "handbook_class_types",
+      "page": 37,
+      "text": "SPECIAL CLASS. Special class is a class which is not prescribed in the curriculum during a given semester/term but is requested by a student/s to be offered during the semester/term, subject to the availability of faculty and a special class fee, corresponding to the number of lecture/laboratory units. Special class must have a maximum of fifteen (15) students. Special class assessment shall be paid to the University Cashier. All special classes must observe the regular number of class hours prescribed for the subject.",
+      "conditions": [
+        "subject to the availability of faculty and a special class fee",
+        "a maximum of fifteen (15) students"
+      ]
+    },
+    {
+      "kind": "off_semester",
+      "topic": "handbook_class_types",
+      "page": 37,
+      "text": "An off-semester subject may still be offered as a regular class provided there are at least 35 students for lecture and 25 students for laboratory who will enroll in the subject and a faculty is available to teach the subject.",
+      "conditions": [
+        "at least 35 students for lecture and 25 students for laboratory",
+        "a faculty is available to teach the subject"
+      ]
+    },
+    {
+      "kind": "summer",
+      "topic": "handbook_summer_load",
+      "page": 35,
+      "text": "SUMMER LOAD. The normal load for the summer term shall be nine (9) units for both the undergraduate and graduate students. Graduating undergraduate students may, however, be allowed a higher load but not to exceed twelve (12) units, subject to prior approval of the Dean.",
+      "conditions": [
+        "nine (9) units"
+      ]
+    },
+    {
+      "kind": "removal_period",
+      "topic": "grade_completion",
+      "page": 47,
+      "text": "A grade of 4.0 that has not been removed within a period of one term shall automatically become 5.0. An “INC” that has not been completed within the term shall automatically become NC.",
+      "conditions": [
+        "within a period of one term"
+      ]
+    },
+    {
+      "kind": "removal_one_year",
+      "topic": "grade_completion",
+      "page": 47,
+      "text": "If a grade of “4” is not removed within one year, credit for the subject maybe earned only by repeating and passing it.",
+      "conditions": [
+        "within one year"
+      ]
+    },
+    {
+      "kind": "overload",
+      "topic": "overload",
+      "page": 62,
+      "text": "Graduating students are allowed an overload of not more than 6 units but not to exceed 28 units on their last semester in the university.",
+      "conditions": [
+        "not more than 6 units",
+        "not to exceed 28 units"
+      ]
+    },
+    {
+      "kind": "prerequisite_waiver",
+      "topic": "handbook_prerequisite_policy",
+      "page": 31,
+      "text": "WAIVER OF PREREQUISITES. Courses approved by the Academic Council as prerequisites to other courses must not be waived. However, in meritorious cases, graduating students who have fully attended a course previously may be allowed to take the prerequisite and higher subjects simultaneously, upon approval of the Dean. If the student failed in the prerequisite subject, the higher subject shall not be given credit. No permission to waive prerequisite shall be granted except upon application by the student and approval by the Dean.",
+      "conditions": [
+        "graduating students who have fully attended a course previously",
+        "upon approval of the Dean"
+      ]
+    },
+    {
+      "kind": "cross_enrollment",
+      "topic": "handbook_cross_enrollment",
+      "page": 34,
+      "text": "CROSS-ENROLLMENT IN OTHER INSTITUTIONS. Cross- enrollment in other institutions is allowed in all curricular levels, provided: a) the subject is not offered in the university; b) the subject is offered but the schedule is in conflict with the student’s other class schedule. c) the subject is not a major nor a professional licensure examination subject. d) the subject has the same course description and number of units. e) the number of units cross-enrolled does not exceed nine (9) units. No student is allowed to cross-enroll in two (2) or more schools outside the University.",
+      "conditions": [
+        "the subject is not offered in the university",
+        "the subject is not a major nor a professional licensure examination subject",
+        "the number of units cross-enrolled does not exceed nine (9) units"
+      ]
+    },
+    {
+      "kind": "substitution",
+      "topic": "handbook_substitution",
+      "page": 44,
+      "text": "3.1 SUBSTITUTION. Substitution of subjects shall be allowed based on at least one of the following cases: a) When a student is pursuing a curriculum that has been superseded by a new one and the substitution tends to bring the old curriculum in line with the new. In case of curricular revisions, however, the student shall follow the curriculum he started with in the first year. b) When a student is pursuing a curriculum that has been superseded by a new one and the subjects are no longer offered. The student may be advised to take substitute subjects under the new curriculum. c) When the required subject is not offered. d) When there is conflict of hours between two required subjects. 3.2 REQUISITES FOR SUBSTITUTION. Every application for substitution must: a) Involve subjects within the same department or subjects allied with each other; b) Involve subjects carrying the same number of units; c) Be recommended by the Department Head.",
+      "conditions": [
+        "When the required subject is not offered",
+        "Involve subjects carrying the same number of units",
+        "Be recommended by the Department Head"
+      ]
+    },
+    {
+      "kind": "substitution_limit",
+      "topic": "handbook_substitution",
+      "page": 44,
+      "text": "A. LIMITATIONS ON SUBSTITUTION. No substitution shall be allowed for any subject prescribed in the curriculum in which the student has received a grade of “5” or an unremoved grade of “4”.",
+      "conditions": []
+    },
+    {
+      "kind": "leave_of_absence",
+      "topic": "handbook_leave",
+      "page": 38,
+      "text": "Leave of absence shall be applied for in writing before the start of the semester. The application indicating the reason for the leave and the period which must not exceed one (1) academic year, shall be submitted to the Department Chair concerned for appropriate action and shall be subject to approval by the Dean.",
+      "conditions": [
+        "before the start of the semester",
+        "must not exceed one (1) academic year"
+      ]
+    },
+    {
+      "kind": "advance_courses",
+      "topic": "handbook_standing",
+      "page": 40,
+      "text": "2. RESTRICTION ON ADVANCE COURSES. Students with scholastic delinquency shall not be allowed to take advance courses during regular semesters.",
+      "conditions": []
+    }
+  ],
+  "source_chunk_ids": [
+    "124bdab4d76ca90dc89977c7aeb0bd6e2a0fcfee0a3cccdf7fffe7c2c640af22",
+    "4ea493a3761e47367468c1346e3be00c29a7e49378c052c78219b4b2af5a07da",
+    "72991b15e2dadfbdd18ab0c193f6db78e529b15eb918eb76bf3e8b5988b6f8ae",
+    "e776f924549e9c9ff2a3b8fb4576539ed19b736270afd182941c549c85e7ed5b",
+    "6f3cf063d6fe079d598673558da5508f984e3424906060320445fa6779bda4af",
+    "a5b32fba6b67bd60195be626e4010519074b9fc6236ed5540a5bb7b651768408",
+    "7d2a9b73aff971bd40d6f41b2dd74a5c8720b9ba58f9f2d03b1699b0e2473726",
+    "a734cdb9c08710ad114c9d2d266dcecf7c198b6328bf646e7c923bfde0c27560",
+    "dc8f00f49842b2a29d05dce7a29769a3a4924d65d9e8e7695af494ef1aa215e7",
+    "b4bbd9e20b222661a0e439fda39cac8d1b92404bc3d49528b0b507361cd14ab3"
+  ],
+  "review_refs": [
+    "owner-2026-11-04-d1-recovery-steps-1-4",
+    "owner-2026-11-04-track-a-summer-load",
+    "owner-2026-11-04-track-a-items-1-4",
+    "owner-2026-11-04-d6-removal-period",
+    "owner-2026-11-04-d7-advance-courses"
+  ]
+}
