@@ -1,0 +1,117 @@
+# Reviewed heading metadata implementation plan
+
+> Execute inline using executing-plans and test-driven-development; one fresh
+> whole-change review after verification. Maintain this ledger in the repository.
+
+**Goal:** Represent the ten confirmed heading-derived curriculum fields as cited
+metadata in inactive reviewed context, without treating their values as quotations.
+
+**Architecture:** Add one contract module for the two bounded projection kinds and
+their source/geometry validation. Extend the existing pending-chunk adapter with an
+optional binding argument and the existing context codec with one explicit field kind.
+Literal scalar behavior and default saved output remain unchanged.
+
+**Tech stack:** Existing Python 3.13.7 environment/contracts/pytest; no new dependencies.
+**Spec:** Exact next seam in `2026-10-14-curriculum-provenance-mapping-report.md`.
+Owner says "just continue" after that delivery; routine technical execution is
+authorized. Settled row/evidence decisions are not reopened for implementation.
+
+## Global constraints
+
+- Phase05/undergraduate/read-only scope; no authority, effectivity or applicability inference.
+- Preserve original PDFs, conversions, events, questions, gaps and all earlier packets.
+- Actual eight rows remain unknown applicability; output stays inactive/zero chunks.
+- New bindings require source-limit context. No generic scalar normalization or policy edits.
+- Source text stores literal headings; displayed metadata identifies the projection and
+  retains literal headings. Proposed implementation is explicitly not established effectivity.
+- Evidence/logs stay ignored under workspace `audit-evidence`; no installs or model downloads.
+
+## Review focus
+
+1. Wrong semester column or inverted coordinate origin must not attach a neighboring heading.
+2. Same displayed value from another version/event/row must fail binding validation.
+3. Stored context tampering must fail even after display text/content hash is regenerated.
+4. A proposal must retain its proposed status; arbitrary normalization must be rejected.
+5. Field reordering, partial anchors and optional-argument omission must preserve complete
+   ordered citations and default literal behavior.
+
+## Task 1: Adapter and context integration
+
+Files: create `backend/bintanong_contracts/reviewed_heading_metadata.py` and
+`tests/test_reviewed_heading_metadata.py`; modify only
+`backend/bintanong_tools/document_ingest/reviewed_policy_chunks.py` and
+`backend/bintanong_contracts/reviewed_policy_context.py` for integration.
+
+Consumes the confirmed projection ledger's reading/field/source/version/event IDs,
+accepted value, exact literal heading spans and complete course-code/title anchors.
+Produces `build_reviewed_policy_chunks(..., heading_metadata_bindings=None)` with
+bindings indexed by reading ID/field name, and stored `field_kind=heading_metadata`
+associations validated by `validate_reviewed_heading_metadata(field, associations, spans)`.
+Only `placement`/`year_term_heading_metadata` and
+`edition_status`/`proposed_edition_heading_metadata` are supported.
+
+- [x] Write synthetic behavioral tests first: year/term and proposal display round trips;
+  unknown scope withheld; default output identical; wrong row/event/version/text/field,
+  wrong column/origin/pages, partial anchors and regenerated stored-context tampering
+  rejected. Expected placement `Second Year / Second Semester`; proposal
+  `PROPOSED 2025-2026`; raw headings remain uppercase/full proposed-date sentence.
+- [x] Run focused pytest and observe missing optional-argument behavior (RED).
+- [x] Implement the smallest opt-in binding/association validator and codec integration.
+  Bind headings to complete actual code/title citations; use explicit coordinate conversion
+  and fixed formatting. Never replace literal spans with projected strings.
+- [x] Focused GREEN and related contract/preparation/chunk/context/retrieval regressions.
+- [x] Commit verified code/tests with checkpoint/current-progress evidence.
+
+## Task 2: Actual inactive replay and final verification
+
+Consumes Task1's binding API; no additional product feature.
+
+- [x] Replay all ten recorded projections with existing 36 scalar mappings, actual owner
+  event, source bytes and pending registers. Expect zero missing/invalid metadata fields,
+  eight unknown-applicability readings withheld and zero actual chunks. Preserve all46values.
+- [x] Produce separate non-Chunk diagnostic contexts without declaring actual applicability;
+  validate all citations and proposal warnings, confirm unchanged default adapter replay.
+- [x] Full repository pytest with external basetemp/no cache; preserve log and report all
+  skips/warnings/failures. No real retrieval scoring or release claim.
+- [x] One fresh reviewer against this cohesive change, spec and review-focus list. Fix
+  Critical/Important findings in one TDD pass; record any deferred minors/rulings.
+- [x] Seal ignored replay evidence; curate report/index/checkpoint/handoff/progress.
+  Run documentation/ledger validation, keep Phase05 blocked, explicit staging/commit.
+
+Context consulted: thesis physical17–18, routing PNG, master10/11, active Phase05
+plan/checkpoint/handoffs, dataset/scope/gap policies. No scope/routing discrepancy.
+Pre-flight: Task2 consumes exactly Task1's optional binding API; no conflicting interface.
+Execution artifacts use workspace audit-evidence, overriding generic skill scratch paths;
+retain evidence/history rather than deleting the audit packet.
+
+## Execution ledger
+
+- Baseline: clean `c1c295c`, isolated `feat/p05-retrieval-logic`; previous citations and
+  confirmations complete. No original conversion, source-content review or intake repeated.
+- Task1: pending RED. Task2: pending Task1.
+
+- Task1 candidate: initial API RED and unsupported/null-kind RED observed; final related
+  88 passed/148 subtests/1.91s. Initial full5186 passed/412 subtests predates null-kind guard.
+- Task2 real replay: ten projections validated, zero metadata errors,46values/113spans
+  unchanged,8unknown-applicability/0chunks. Exact offline model counts286–478/512,
+  no vectors.1155 preserved dependencies including two verified historical code baselines.
+- Final guarded full suite/review/closure pending. No human content judgment required.
+
+- Task1: candidate committed7da9334. One fresh read-only review: no code findings,
+  one Important UTF-8 plan-encoding issue fixed;408docs pass2.99s/phasevalidate0.
+- Final full run captured that encoding failure before repair:1failed5186passed/
+  412subtests/6skips/6warnings308.48s. Failure is test_docs_hygiene plan decoding;
+  post-repair complete full run remains required. No second code review.
+- Human applicability/cohort clarification posted; no answer inferred.
+- Final: Ruling: source authenticity and institutional applicability remain separate
+  evidence gates, as the reviewer declined to judge them; original byte/native/render
+  replay passes but cannot establish institution/cohort authority. If wrongly inferred,
+  guidance could use the wrong curriculum. No activation or repeated content review.
+
+- Task1: complete, code7da9334; default and literal handling preserved.
+- Task2: postrepair full5187passed412subtests6skips6warnings314.48s; final source replay
+  and48-file seal pass. Owner subsequently answered cohortguidance; separate existing
+  contracts apply that actual decision to8inactive candidatechunks/0active.
+- Cohortquestion settled: oldvalidabsentnewer; coexistingoldcohortsretainold; incoming
+  studentsuse suppliednewer perowner. No studentcohort, exactyear or formalapproval guessed.
+- No behavioral scope deviations/deferred minors; only documented sourceauth gate ruling.

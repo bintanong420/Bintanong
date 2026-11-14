@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bintanong | Research console design</title>
+  <style>
+    :root { color-scheme: light dark; --bg: #fff; --surface: #f5f5f3; --text: #171717; --muted: #5c5c5c; --border: #808080; --warning: #785000; --warning-bg: #fff4d6; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #141414; --surface: #202020; --text: #f2f2f2; --muted: #b8b8b8; --border: #888; --warning: #ffdb85; --warning-bg: #382c13; } }
+    * { box-sizing: border-box; }
+    html { scroll-padding-block: 1rem; }
+    body { margin: 0; font: 1rem/1.6 Inter, Arial, sans-serif; background: var(--bg); color: var(--text); }
+    a { color: inherit; text-underline-offset: .2em; }
+    a:focus-visible, summary:focus-visible { outline: 3px solid var(--text); outline-offset: 4px; }
+    .skip { position: absolute; inset-inline-start: 1rem; transform: translateY(-150%); background: var(--bg); padding: .5rem; }
+    .skip:focus { transform: none; }
+    .layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); min-height: 100svh; }
+    aside { background: var(--surface); padding: 2rem 1.5rem; border-inline-end: 1px solid var(--border); }
+    .brand { font-size: 1.25rem; font-weight: 650; margin: 0; }
+    nav { display: grid; gap: .5rem; margin-block: 2.5rem; }
+    nav a { padding: .5rem 0; }
+    main { min-width: 0; max-width: 77rem; padding: 2rem clamp(1.25rem, 4vw, 4rem) 4rem; }
+    header { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; align-items: start; }
+    h1, h2, h3, p { margin-block: 0 .75rem; }
+    h1 { font-size: clamp(1.7rem, 3vw, 2.25rem); line-height: 1.25; letter-spacing: -.03em; }
+    h2 { font-size: 1.35rem; line-height: 1.3; }
+    h3 { font-size: 1rem; }
+    small, .muted { color: var(--muted); }
+    .notice { background: var(--surface); border-inline-start: 3px solid var(--border); padding: .75rem 1rem; margin-block: 1.5rem 2rem; }
+    section { margin-block-end: 3rem; scroll-margin-block: 1rem; }
+    .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: .5rem; }
+    table { width: 100%; border-collapse: collapse; text-align: start; }
+    th, td { padding: 1rem; vertical-align: top; }
+    th { font-weight: 600; background: var(--surface); }
+    tbody tr + tr, .review-item + .review-item { border-block-start: 1px solid var(--border); }
+    td small { display: block; }
+    .state { display: inline-block; white-space: nowrap; font-size: .875rem; font-weight: 600; }
+    .held { color: var(--warning); background: var(--warning-bg); padding: .125rem .5rem; border-radius: .25rem; }
+    .review-list { border: 1px solid var(--border); border-radius: .5rem; }
+    .review-item { padding: 1.25rem; }
+    details { margin-block-start: .75rem; }
+    summary { cursor: pointer; width: fit-content; text-decoration: underline; text-underline-offset: .2em; padding: .25rem 0; }
+    details p { max-width: 65ch; margin-block-start: .75rem; }
+    .service { display: flex; flex-wrap: wrap; gap: .5rem 2rem; justify-content: space-between; padding: 1rem 0; border-block-end: 1px solid var(--border); }
+    footer { color: var(--muted); font-size: .875rem; max-width: 75ch; }
+    @media (max-width: 46rem) { .layout { grid-template-columns: 1fr; } aside { border-inline-end: 0; border-block-end: 1px solid var(--border); padding: 1rem 1.25rem; } nav { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-block: .75rem 0; } aside small { display: none; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to console</a>
+  <div class="layout">
+    <aside>
+      <p class="brand">Bintanong</p>
+      <p class="muted">Research console</p>
+      <nav aria-label="Console sections"><a href="#sources">Source status</a><a href="#review">Review queue</a><a href="#system">System</a></nav>
+      <small>Institutional source review stays separate from student conversations.</small>
+    </aside>
+    <main id="main">
+      <header><div><p class="muted">Research workspace</p><h1>Source status</h1><p>See what needs review before it can support an answer.</p></div><span class="state">Design preview</span></header>
+      <div class="notice"><strong>Sample data only.</strong> This is a read-only design, without authentication or a backend connection. It contains no student files or real review decisions.</div>
+      <section id="sources" aria-labelledby="source-heading">
+        <h2 id="source-heading">Sources</h2>
+        <p class="muted">A reviewed extraction and institutional approval are separate decisions.</p>
+        <div class="table-scroll" role="region" aria-label="Example source statuses" tabindex="0">
+          <table><thead><tr><th scope="col">Source</th><th scope="col">Audience</th><th scope="col">Review state</th><th scope="col">Runtime use</th></tr></thead>
+            <tbody><tr><td>Example curriculum<small>Synthetic edition A</small></td><td>Undergraduate</td><td><span class="state">Needs review</span></td><td>Not enabled</td></tr>
+              <tr><td>Example procedure<small>Synthetic edition B</small></td><td>Applicability unresolved</td><td><span class="state held">Held: source gap</span></td><td>Not enabled</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+      <section id="review" aria-labelledby="review-heading">
+        <h2 id="review-heading">Review queue</h2><p class="muted">Inspect the original evidence and affected field. This console does not infer a missing value.</p>
+        <div class="review-list">
+          <article class="review-item"><h3>Example curriculum: prerequisite cell</h3><p>The sample cell is blank. Its meaning remains unknown.</p><span class="state held">Needs a source-content decision</span><details><summary>Evidence to inspect</summary><p>Original PDF page and region, source hash, course identity, curriculum edition and prior review receipts would appear here after authorized access is implemented. No original PDF is bundled in this design.</p></details></article>
+          <article class="review-item"><h3>Example procedure: incomplete step</h3><p>The sample procedure ends mid-sentence. The incomplete step stays unavailable.</p><details><summary>Effect on student answers</summary><p>The answer must preserve the source gap and use an available-information response or a supported office referral. A clipped step cannot become a complete process.</p></details></article>
+        </div>
+      </section>
+      <section id="system" aria-labelledby="system-heading">
+        <h2 id="system-heading">System</h2><p class="muted">Live readiness belongs behind reviewer authorization; no service has been checked in this design.</p>
+        <div class="service"><strong>Student API</strong><span>Not connected</span></div>
+        <div class="service"><strong>Model, retrieval and Prolog</strong><span>Not checked</span></div>
+        <div class="service"><strong>Research release</strong><span>Not loaded</span></div>
+        <details><summary>Access and privacy requirements</summary><p>The connected version must reject signed-out users and users without the reviewer role at every protected endpoint. It must never list student chats, grades or private uploads. Missing authorization or source evidence must fail closed.</p></details>
+      </section>
+      <footer>Design proposal, 24 October 2026. Ingestion and release activation remain in the existing researcher-controlled CLI workflow. This design provides no approval or publishing controls.</footer>
+    </main>
+  </div>
+</body>
+</html>

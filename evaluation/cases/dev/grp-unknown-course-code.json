@@ -1,0 +1,39 @@
+[
+  {
+    "acceptable_claims": [
+      "Hindi kilala ang COURSE-ZZ9 sa listahan ng mga kurso, kaya hindi matukoy ang prerequisite."
+    ],
+    "adversarial_kinds": [
+      "unknown_course"
+    ],
+    "case_id": "syn-prereq-unknown-course-tgl",
+    "category": "prerequisites",
+    "expected_control": null,
+    "expected_outcome": "unknown",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-unknown-course-code",
+    "language": "taglish",
+    "missing_facts": [
+      "COURSE-ZZ9 is not in the course list"
+    ],
+    "must_abstain": true,
+    "query": "May prerequisite ba ang COURSE-ZZ9 bago ko siya kunin?",
+    "required_facts": [
+      "COURSE-ZZ9 course record"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: only listed courses have prerequisite records."
+  }
+]

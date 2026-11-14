@@ -1,0 +1,33 @@
+[
+  {
+    "acceptable_claims": [
+      "Hello! Maaari kang magtanong tungkol sa enrollment, prerequisites, grades, academic standing o discipline."
+    ],
+    "adversarial_kinds": [],
+    "case_id": "syn-greeting-tgl",
+    "category": "enrollment",
+    "expected_control": "greeting",
+    "expected_outcome": null,
+    "expected_route": null,
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-greeting-hello",
+    "language": "taglish",
+    "missing_facts": [],
+    "must_abstain": false,
+    "query": "Kumusta po!",
+    "required_facts": [],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: a greeting gets a short welcome, not a policy answer."
+  }
+]

@@ -1,0 +1,62 @@
+# Topic-filtered retrieval continuation
+
+Approved design: owner ledger item g and Phase 11 checkpoint, handed off at `f1eafe9`.
+Student capability: recover reviewed evidence for a model-selected topic, including simple passing-grade
+questions. Keep cosine ranking, threshold, source binding, scope, active-release RLS and required neighbors.
+No dependency changes, new source readings, release activation or UI work in this change.
+
+1. Observe baseline; add SQL filter/validation regressions, package parity, and a real engine/package test
+   with three higher-scoring unrelated chunks. Observe expected RED before implementation.
+2. Create migration through installed CLI: optional `p_chunk_ids jsonb default '[]'`, same limits as version
+   ids; filter eligible chunks, replace old RPC signature, restore explicit grants and reload schema cache.
+   Make the disposable DB adapter distinguish this JSONB argument from release-creation text arrays.
+3. Have the bound evidence policy expose its subject chunk ids to the engine before ranking; apply the
+   same filter in PackageStorage. HostedReleaseStorage already preserves optional arguments.
+4. GREEN: focused storage/retrieval/runtime suite, actual disposable Postgres, meaningful mutations;
+   then hosted migration and read-back/advisors. Commit small verified units with explicit staging.
+5. Live grade/fee risk cases, roster19 vs18, then full suite and review. Report route/language failures
+   separately from retrieval results. Prepare g2 route choice and exact review batch before asking.
+
+Verification: shared Python 3.13 venv, `PYTHONUTF8=1`, pytest `-B -q -p no:cacheprovider`, ignored external
+basetemp/evidence under workspace `audit-evidence/p11-topic-filter-20261024/`; no installs.
+Full project `tests/` suite required before completion. Existing project has no installed linter.
+
+Ruling: reuse the already approved plan/PRD baseline and its exact filter design; no new PRD or renewed
+approval. Use the active checkpoint plus this report as execution ledger (existing non-task-numbered plan).
+
+Current official docs: [Supabase schema cache reload](https://supabase.com/docs/guides/troubleshooting/refresh-postgrest-schema)
+via Context7 confirms `NOTIFY pgrst, 'reload schema'`. [Changelog](https://supabase.com/changelog.md) fetched
+through PowerShell after browser content-type refusal; no relevant RPC breaking change identified. No package/API
+upgrade proposed. Installed CLI 2.117.0 `migration new --help` consulted; no upgrade/download.
+
+## Execution evidence
+
+- Baseline: 48 passed, 31 subtests. Expected RED: missing RPC overload/filter, package accepting invalid
+  lists, and real engine/package crowding regression (20 failures including subtests; `red.log`).
+- First GREEN: 68 passed, 63 subtests. One test-adapter scalar JSON encoding correction preceded GREEN.
+- Independent review: no new security/backward-compatibility defect; whitespace-only ids differed across
+  SQL/package. Added tab/newline RED, corrected new JSONB field validation only, preserved old filters.
+  Review also prompted real DB five-chunk crowding/dependency coverage and a same-version package fixture.
+- Final retrieval/runtime selection: 157 passed, 86 subtests (`review-green.log`, 53.84 s).
+- Four isolated mutations caught: engine omits filter, package omits filter, package omits validation,
+  SQL omits eligible predicate. Production files never altered by mutation runner (`mutations.py`).
+- Hosted baseline security: only owner-accepted leaked-password warning. Performance: one pre-existing
+  unindexed curriculum-link foreign key and 19 unused-index INFO notices; no index changes in this work.
+- Review finding fixed, no deferred review items.
+- Hosted migration applied through MCP; normalized history to file version `20261024112235`. Body MD5
+  `8e2c1fa7114220707e169d224829531f` matches local SQL. Exactly one 9-argument STABLE invoker RPC;
+  anon/authenticated EXECUTE true, service_role false. Current release still
+  `p09-research-selected-20261022`, 19 chunks, 39 curriculum links. Advisors unchanged from baseline.
+- Live risk battery: 8/10 answered; passing English/Filipino, grade 4.0, grade 85, whole grading table,
+  INC+completion partial answer, both fees correct under reviewed limits. INC completion deadline remains
+  unavailable. Two inherited router misses remain: Taglish passing question selects no topic, and uppercase
+  grade/percentage question gets no route. No duplicate heading reproduced in the whole-table answer.
+  Raw `live-grades.log` ignored; model startup excluded from per-case timings. No browser latency claim.
+- Roster19 completed63/63, 0 exceptions: 62 status/decision pairs unchanged; Architecture Filipino changed
+  from temporary unavailability to the expected deterministic ineligible answer (no retrieval in this case,
+  so not attributed to the topic filter). No previously answered case lost its status/decision. Eleven
+  same-status text changes: three approved grading host replies (`8c49ad0`), five unavailable-information
+  referrals (`41c980a`), and three fee-currentness answers with memo date/referral (`ee3c61e`). These changes
+  preceded this filter but followed roster18's `01d8db2` baseline. English21/21 and Filipino21/21 match;
+  Taglish15/21, six Filipino replies, unchanged. Full case list is ignored `roster19-vs18.txt`.
+  Initial attempt failed at startup on curriculum-ledger SQL timeout; one retry completed. Full suite pending.

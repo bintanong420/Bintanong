@@ -1,0 +1,35 @@
+[
+  {
+    "acceptable_claims": [
+      "Predicting a future grade is not supported by any available rule."
+    ],
+    "adversarial_kinds": [
+      "unsupported_operation"
+    ],
+    "case_id": "syn-grades-forecast-en",
+    "category": "grades",
+    "expected_control": null,
+    "expected_outcome": "unsupported",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-grade-average-forecast",
+    "language": "en",
+    "missing_facts": [],
+    "must_abstain": true,
+    "query": "What grade will I get next semester if I study harder?",
+    "required_facts": [],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: no rule predicts future grades."
+  }
+]

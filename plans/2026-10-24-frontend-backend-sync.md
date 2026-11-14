@@ -1,0 +1,141 @@
+# Frontend integration: backend synchronization, 24 October 2026
+
+Owner request: bring the 13 newer backend commits into the owner's frontend
+integration so it follows the other developer's work. Destination remains
+`feat/p11-frontend-integration` in worktree `p11-frontend-integration`.
+
+## Inputs and scope
+
+- Destination before merge: `0d68edfad1fceb3fb67ad7f3fde918bfce77b843`.
+- Source fetched from origin: `4a134bffbc471edca01587460398b8fa356683f5`.
+- Merge all 13 source commits with ancestry intact; no cherry-picking or rewriting.
+- Local `feat/p11-backend-api` has separate work; it and other worktrees are unchanged.
+- No dependency/model/provider/database changes, deployment, source activation or push.
+
+## Incoming work
+
+| Commit | Change |
+| --- | --- |
+| `05f34d2` | Empty clarification gets unavailable-information/office referral (E3) |
+| `050e808` | E3 evidence and security inventory |
+| `5f08b5e` | Owner risk-scenario results |
+| `8127dbc` | Owner decisions and fix order |
+| `9c09ac7` | Topic selected as a course resolves through the document topic |
+| `f2b8faf` | Overload routing checkpoint |
+| `467aa9d` | Display reviewed prerequisites when no course fact is stated |
+| `9e3c5b0` | Unknown course asks for the printed code |
+| `8f15471` | Unsupported course lookup gets unavailable-information reply |
+| `1f510dd` | Retrieve every selected document topic using its own words |
+| `c2ce1ba` | Backend progress after fixes 2b-2e |
+| `874f0c9` | Course-facts proposal and fee/partial-answer decisions |
+| `4a134bf` | Backend full-suite/roster/security evidence |
+
+The seven changed backend modules and incoming tests merge without code conflicts.
+Progress/checkpoint conflicts reflect different workstreams. Keep the integration
+snapshot, include source decisions and dated reports, and retain the source's
+full checkpoint/progress in Git at `4a134bf` rather than duplicating its history.
+
+## Preservation and recovery
+
+Before merging, 21 dirty files (18 tracked, 3 untracked) were copied with SHA-256
+hashes to ignored workspace `audit-evidence/p11-20261024/backend-sync-20261024-1420/`.
+Only the three snapshot documents overlap the incoming file set; product and test
+changes are restored separately and remain uncommitted.
+
+- Pre-merge recovery ref: `refs/recovery/p11-frontend-before-backend-sync-20261024-1420`.
+- Dirty recovery ref: `refs/recovery/p11-lifecycle-stash-20261024-1420`.
+- Stash object: `be8cb7a5336b45d8eef19bf913c19360af682ba0` (retained).
+- External `before-manifest.json`, `before/` copies and `tracked.patch` retain the
+  original bytes. All18 product/test files verified byte-identical and unstaged.
+
+## Verification
+
+- Focused incoming regressions:56 passed in6.26s. Command: `py -3.13 -X utf8 -B
+  -m pytest -q -p no:cacheprovider` with incoming generation-prerequisite,
+  orchestration-multi-topic, routing-empty-clarification/unknown-course/
+  unsupported-lookup/wire test files and external `focused-temp` basetemp.
+- Broader combined workspace:3387 passed,2 expected photo xfails in88.03s.
+  Same flags,115 test files selected by `test_routing_`, `test_generation_`,
+  `test_orchestration_`, `test_api_`, `test_symbolic_`, `test_contracts_`,
+  `test_runtime_`, `test_evaluation_`, `test_private_context_` prefixes.
+  Exact argv/log: external `backend-regression-command.txt`/`backend-regression.log`.
+- Frontend: installed Node24.21.0 `--experimental-strip-types --test
+  tests/*.test.mjs`:46 passed. Same Node with `node_modules/typescript/bin/tsc
+  --noEmit`: pass. No install or package/lock change.
+- `phase_state.py validate --repo .`: valid Phase11, no complete handoff;
+  `git diff --cached --check`: pass. Incoming backend modules match source exactly.
+- Preservation:18 original product/test byte hashes match; none staged. Snapshot
+  documents reconciled with integration pointers and incoming evidence/decisions.
+- Full suite, production build, browser, model observations and OAuth not rerun.
+  These checks verify this merge's combined workspace, not Phase11 completion.
+
+Prior integration full suite is not a result for this merge: 6494 passed, 2 failed
+in Docling conversion due to installed huggingface-hub2.2.0 versus required<2.0.
+Source-branch full-suite/roster/security claims remain historical observations;
+their recorded future timestamps are not adopted as this session's verification.
+
+## Remaining boundaries
+
+Backend fee wording/partial answers, pending-question replay, aliases, real grade
+layouts, language/Hybrid/latency exits and owner-approved course-facts review remain
+separate. Photos/scans unsupported. Google OAuth was last recorded disabled; no
+actual PSU login is claimed. Phase 11 stays active without a final handoff.
+
+Context rechecked: thesis physical17-18/65-66 and routing PNG, master16 and Phase10
+handoff. Undergraduate, advisory, source-gap and private-context boundaries remain.
+
+## Delivery to the frontend branch (owner follow-up)
+
+Owner then asked to merge into `frontend`. Source is committed integration
+`04a03ea01c41a3738940378a74d985ff35f75ed2`, destination originally `c17dcb2` in
+`C:/Users/Hawksprey/source/repos/Bintanong`. The merge includes the committed API/UI
+integration and all13 backend updates; the18 unfinished product/test files remain
+only in the integration worktree. No application conflict or product change.
+
+Main checkout's progress addition and untracked review were copied/hashed under
+external `frontend-merge-20261024-1421/before/`. Only tracked progress was stashed:
+`a246894ab8e9a9a34542e0d97b71402ab96b5ebc`, retained as
+`refs/recovery/frontend-progress-stash-20261024-1421`. Pre-merge recovery ref:
+`refs/recovery/frontend-before-p11-merge-20261024-1421`. Untracked model directory
+was not traversed, moved, staged or stashed. The original review paragraph remains
+local/uncommitted after delivery; its untracked report remains byte-identical.
+
+Frontend merge product/test tree is identical to committed integration04a03ea.
+Backend regression checks on this tree without lifecycle WIP:3383 passed,2 expected
+photo xfails in96.17s across114 files. Same selection/flags as above, exact argv/log
+under external `frontend-merge-20261024-1421/`. Main checkout has Next16.3.5 and no ai
+package installed, so UI execution/typecheck/build here require syncing already
+approved dependencies; no install was performed for a Git merge. Earlier combined
+worktree checks above are separate evidence. One inherited trailing blank EOF line
+in test_api_research_composition.py remains; whitespace check passes with only
+blank-at-eof disabled. No dependency, provider, DB, model or deployment change/push.
+
+## Origin consistency and local dependency synchronization
+
+Owner clarified the target is consistency with `origin/feat/p11-backend-api`.
+Fresh fetch still resolves4a134bf; `git rev-list --count HEAD..origin/feat/p11-backend-api`
+returns0. Routing, orchestration, generation, symbolic and contract modules match
+origin byte-for-byte in Git. Remaining backend differences are the already
+committed PSU auth/account-admission, research composition and resident encoder
+adapters; none changed in this follow-up. Lifecycle WIP remains in its worktree.
+
+Owner authorized installing the frontend's existing approved pins. Main checkout
+`npm ci --no-fund` with existing Node24.21.0/npm11.19.0 installed89 packages and
+audited90,0 vulnerabilities. All21 direct dependencies match package.json and
+package-lock.json. SHA-256 hashes of both root/frontend manifests and lockfiles
+are unchanged; no upgrades or new dependencies. Before hashes are in ignored
+`frontend-dependency-sync-20261024-1430/manifest-before.json`.
+
+Main checkout verification:
+
+- Node `--experimental-strip-types --test tests/*.test.mjs`:43 passed.
+- `next typegen`, `tsc --noEmit`, `next build`:pass, Next16.4.3.
+- Temporary loopback production smoke:root307 to login,login200,anonymous
+  `/api/curricula`401. Server stopped after checking; no auth bypass or backend run.
+- The build reports existing workspace-root/multiple-lockfile warnings. No config
+  changes were made to silence them. No actual PSU OAuth login is claimed.
+
+The terminal's system-wide Node/npm installation was not changed; these checks
+used the already available project-pinned runtime. No push, DB, provider, source
+or model changes. Earlier statements about uninstalled packages describe the
+merge boundary and are superseded by this completed local installation.

@@ -1,0 +1,765 @@
+# Owner decisions ledger (moved from AGENTS.md)
+
+Moved verbatim from `AGENTS.md` on 23 October 2026 (owner-approved `/doctor` cleanup to cut
+always-loaded context; last full AGENTS.md: `b9a08f5:AGENTS.md`). These remain standing owner
+decisions: read this file before any source review, source intake, benchmark wording, evaluation
+or school-validation step, and never re-ask a decision recorded here. Newer decisions recorded in
+AGENTS.md, current progress or dated review records supersede older entries where they say so.
+
+## Owner decisions to preserve across CLI sessions
+
+- 26 October 2026 (Phase11 expansion review): owner says "lets gather the possible topics we can
+  expand into, including the citizen charter. Then later we will review in bulk". Gather the combined
+  undergraduate topic catalogue now; defer source-field approval questions/review until later.
+  This supersedes immediately starting Handbook26–34field review,not its first-batch priority.
+  Collection does not approve new fields/chunks/rules or activation;existing holds/delegation persist.
+
+- 25 October2026 (Phase11 resumed source package): frontend ready; integrate after pending work.
+  Complete pre-enrollment context needs approximately3827 tokens with citations. Owner delegated the
+  choice ("whatever u think is the best option lets take it") after the4096 recommendation with live
+  accuracy/latency checks. Selected: trusted pre_enrollment budget4096, other topics2048; retain all
+  fields/gaps, atomic context and exact counting. Not an achieved latency SLA.
+
+- Phase06,17October2026: owner explicitly approved both the partial review-export
+  design238ad3b and review03's four row readings/one relationship: old2018–2019
+  CS1/L requires CC1/L; oldCC2/L, proposed2025–2026 CC2/L and proposedCS1 have
+  blank printed prerequisite cells. Those blanks remain unknown under the source-
+  gap policy. Owner's observation that first-year first-semester foundation courses
+  might naturally have no prerequisites is context, not a verified_none assertion
+  or permission to infer rule completeness. Do not reopen review03. See
+  `plans/2026-10-17-phase06-translation-review-03.md` and the generated review
+  delivery for exact receipts. Export approval allows inactive candidate files for
+  human inspection; it does not authorize eligibility execution or activation.
+
+- Phase 06, 17 October 2026: the owner approved all four P06-T02 readings and
+  relationships. Old 2018–2019 CC 3/L requires CC 2/L; old CC 4/L requires both
+  CC 3/L and CS 1/L. Proposed 2025–2026 CC 3/L requires CC 2/L; proposed CS 2
+  requires CS 1. Preserve version-scoped `/L` spelling and do not reopen these
+  source/logic reviews. See `plans/2026-10-17-phase06-translation-review-02.md` for
+  exact proposal/receipt hashes. Newly referenced course conditions and all
+  grade/exception/source-authority/execution/activation questions remain separate.
+
+- Phase 06, 17 October 2026: the owner approved both P06-T01 prerequisite logic
+  translations and confirmed both BSCS curricula remain in use. Old 2018–2019
+  CC 5/L requires `all_of(CC 3/L, CC 4/L)`; proposed 2025–2026 CC 5/L requires
+  `all_of(CC 3/L, CS 2)`. Preserve each version's printed codes, including `/L`;
+  do not merge editions or choose one without the student's curriculum. The owner
+  tentatively explains `/L` as Lab (computer laboratory), saying "I think"; this
+  is not verified authority to split courses, infer units, equivalencies, passing
+  conditions or co-requisites. Do not reopen the two conjunction reviews. See
+  `plans/2026-10-17-phase06-translation-review-01.md` for exact source/receipt hashes.
+  Source authority, full authoring receipts, execution and activation remain separate.
+
+- On 15 October 2026 resume, the owner explicitly confirmed only G03's supplied
+  wording: ArticleXIV section5(c), physical21, College Legislative Department
+  heading on physical20, with its consistency condition. G01 and the original
+  College Executive G02 (physical19, ArticleXIV section3(iii), “Adopt its own
+  internal rules and policies...”) remain unconfirmed. The other quotation,
+  “Adopt its own constitution, internal rules, and policies...”, is a separate
+  ASG clause: physical23, ArticleXV, printed section4 headed “The General Provisions
+  of all Autonomous Student Government units”, paragraph(d). Physical22 section2
+  lists laboratory school, Law, Graduate School and Medicine; preserve provenance
+  but exclude that clause from undergraduate evidence. Never substitute it for G02.
+  CSG/USG similarity is disregarded secondhand information; eight possible college
+  policy sets are not yet supplied. F04 remains held; no wider approval inferred.
+  See plans/2026-10-15-csg-human-review-packet.md for recovered decisions/native check.
+
+These are standing owner instructions from the Phase 05 conversation. Read them
+alongside the phase ledger; do not ask the owner to repeat settled decisions.
+The latest cleanup/resume record is
+`plans/2026-10-14-dataset-relocation-and-cli-handoff.md`.
+The current Phase05 CLI-session handoff is
+`plans/2026-10-15-phase05-cli-handoff.md`; use it with the active checkpoint and
+fresh Git evidence, rather than repeating completed source conversions/reviews.
+
+- On 15 October 2026 the owner explicitly said they will be available for human
+  verification throughout Phase05 to speed up the phase. Actively use that help:
+  surface consequential, ambiguous or difficult source readings early in short
+  batches, with the exact original page/region, proposed reading and limitation.
+  Ask focused source-content questions while continuing independent authorized
+  work; do not wait for a whole-document audit before presenting useful batches.
+  Record actual answers in current progress/checkpoint and apply them without
+  repeatedly reopening settled decisions. Availability or a generic "continue"
+  is not confirmation of a pending field, new benchmark wording, institutional
+  authority or activation. Routine technical fixes still proceed autonomously.
+- F04's printed fee amount is the one focused follow-up to the earlier F1
+  confirmation: the author read the photo as41,666.52, while the prior confirmed
+  proposal and independent review favor41,666.62. No new owner answer has been
+  received. Keep only this disputed field held; preserve both observations and
+  the prior confirmation. Six other fee amounts and three E01native headings
+  are already bound. Do not treat the owner's request to continue or switch CLI
+  as resolving F04; apply a later actual answer in new evidence, preserving seals.
+
+- This is thesis development/testing, not imminent official university guidance.
+  Continue provisional offline retrieval with the supplied public undergraduate
+  sources while school validation is pending. Keep candidate status and source
+  limitations visible; owner research authorization does not fabricate school approval.
+- The owner planned to submit the source-use/authenticity/current-school-year letter
+  on 15 October 2026 and does not expect a same-day reply. Hold school verification
+  until actual evidence arrives; raise it before institutional activation or when
+  the owner reports a response. Do not repeatedly block ordinary development on it
+  or infer approval from elapsed time. Printed source year is not verification date.
+- The owner confirms 2018–2019 curricula remain valid when no newer edition for the
+  same program is supplied. Older students can retain an older curriculum when
+  editions coexist; incoming students use the supplied proposed 2025–2026 BSCS
+  curriculum under owner guidance. Preserve its proposed label. Unknown student
+  curriculum needs clarification; similarity, age and continuing status do not pick it.
+- Eight selected curriculum rows/46 source fields and expected evidence for all
+  12 scenarios were confirmed by the owner. Do not reopen those reviews. Original
+  Charter physical103 step3 cuts off after "for"; handbook physical47 has conflicting
+  completion deadlines. Preserve these gaps/conflicts, without appending text or
+  inventing a precedence rule. See scope/source-gap policies and confirmed evidence report.
+- The accepted retrieval set has 12 scenarios/36 English, Filipino and Taglish
+  variants. Show proposed new or changed benchmark questions to the owner before
+  testing them. The exact thesis wording "Pwede ko bang kunin ang CC5 kahit bumagsak
+  ako sa CC4?" is case `cs-cc5-failed-cc4-tl` and ranked CC5 first. The observed mismatch
+  was the approved paraphrase "CS student ako: pwede ko bang i-take ang CC5 kahit failed
+  ako sa CC4?" (`cs-cc5-failed-cc4-taglish`); do not conflate their scores or wordings.
+- Additional source data is expected when the owner says it is ready. The incoming
+  batch will not include more college-specific Citizens' Charters; it may include
+  memoranda such as vehicle gatepass. Undergraduate student gatepass transactions
+  are in study scope even if staff also use the service. No new memo has been
+  supplied or approved; retain the existing university Charter and review actual
+  new source audience/content/effectivity at intake.
+- On 15 October 2026 the owner supplied and chose to retain the student-facing
+  vehicle/gatepass, special-class-fee and enrollment additions, plus USG
+  Constitution/election material, for provisional undergraduate review. This
+  supersedes the older no-memo-received note and interim advice to defer them.
+  Do not reopen retention or exclude a source solely for image quality or year.
+  Use the human to confirm difficult/consequential fields in short batches;
+  unreadable/cropped content remains a documented gap. Retention does not approve
+  all transcriptions, benchmark wordings, school authority or activation. Start
+  from `plans/2026-10-15-additional-source-human-review.md` and the current checkpoint.
+- The owner reports that CSG constitutions pattern/reference the USG Constitution.
+  On 15 October 2026 the owner clarified that this was a secondhand claim and may
+  be disregarded as a policy basis. Preserve its history as unverified hearsay,
+  not evidence of similar or identical college rules. The owner permits retaining
+  the documented USG/CSG provisions for review and may soon supply policies from
+  eight college student governments; those files have not been supplied by this
+  clarification. This is inclusion guidance, not verification of the exact
+  G01–G03 wording: the owner explicitly said the review question was unclear.
+  Explain future source checks in plain language and do not repeat the similarity
+  question. Continue independent work while awaiting actual college sources.
+  Use only reviewed explicit CSG provisions
+  in the supplied USG source; do not infer unsupplied college-specific rules or
+  claim separate college constitutions have been acquired.
+- On 15 October 2026 the owner replied `confirm F1`, accepting F01–F09 in the
+  short human-review packet: seven special-class unit/hour/amount mappings,
+  the printed rate/weekly hours and date/resolution/effectivity readings.
+  Do not reopen that batch. Preserve its printed sums, unknown per-student
+  division and cropped acknowledgement; content confirmation is not school
+  authority/current-year verification or activation. Next source batch is V01–V06.
+- On 15 October 2026 the owner confirmed V01–V06 and explicitly selected the
+  newer vehicle memo's 15 km/h for V06 in provisional research responses. Keep
+  the handbook's 20 kph wording, source/date discrepancy and owner rationale.
+  Do not reopen this choice or generalize it into a newest-source-wins rule;
+  issuing-office/current-year verification and institutional supersession remain
+  separate. The confirmation covers the six listed groups, not the whole vehicle
+  service or penalty scheme. Next selected source review is E01–E04 enrollment.
+- On 15 October 2026 the owner replied `Confirm E`, accepting E01–E04: distinct
+  incoming/continuing cohort terms, the clinic/enrollment timing ambiguity with
+  appointment-slip alternative, original-versus-photocopy PSA readings and the
+  original continuing PDF's numbering gap. Do not reopen E/F1/V. An absent Step2
+  label does not prove an omitted action; preserve the source without inventing it.
+  This selected review does not approve every field in the enrollment procedures.
+- Continue authorized work until a new human source-content decision is genuinely
+  needed, the task is finished, or a verified progress checkpoint is ready for handoff.
+  Record decisions/results/next action in this repository. Reuse completed setup,
+  model assets and compatible saved vectors; do not repeat conversions or settled
+  questions merely because a CLI changed. Candidate results remain recoverable;
+  formal Phase 05 completion/Phase 06 advancement follows the existing exit gates.
+
+## Accepted natural-question benchmark wordings
+
+- Later15October2026 the owner explicitly accepted all nine T1/T2/U3 wordings and
+  expectations in plans/2026-10-15-temporal-unsupported-query-proposal.md:
+  current-year enrollment deadline, special-class memo current-year validity and
+  GCash payment-channel availability. Do not ask again. Verify bounded selected-
+  evidence labels before evaluation; acceptance does not establish current-year
+  validity, payment permission/prohibition, institutional approval or activation.
+  Existing accepted12/36 and six/18 questions remain unchanged.
+  These nine cases now have offline observations in
+  plans/2026-10-15-temporal-unsupported-evaluation-report.md. They expose missing
+  fee context and irrelevant deadline matches; clean assembly does not prove
+  claim coverage. Do not repeat their encoding or infer a calibrated policy.
+
+- Later15October2026 source follow-ups explicitly confirm U1's G2 II.B.1/3
+  PSU Security Services Unit office/context reading and selected student-vehicle
+  undergraduate research use, plus U2's confirmed special-class-example
+  undergraduate applicability with existing limits. Those selected prerequisites
+  supersede earlier U1held/U2unknown notes. Do not reopen them or infer a price,
+  replacement workflow, F04 digit answer or institutional/current-year approval.
+  See plans/2026-10-15-approved-natural-query-evaluation-plan.md and recorded events.
+
+- On15October2026 the owner explicitly approved the revised six scenarios/18
+  English/Filipino/Taglish variants and continuation, referring to
+  plans/2026-10-15-natural-query-review-proposal.md at bb57f66. Their wordings and
+  stated expectations are settled; do not ask again. This supersedes older
+  pending-wording notes below. Preserve the prior accepted12/36cases. U1's
+  necessary source-context/referral-office review remains separate and held;
+  other evidence-ready cases may proceed offline. Approval does not establish
+  source authority/currentness, promote unknown applicability or activate output.
+
+## Superseded or historical notes
+
+Earlier pending-wording note (superseded by the six/18 approval above):
+
+- See plans/2026-10-15-natural-query-response-requirements.md and the revised
+  plans/2026-10-15-natural-query-review-proposal.md. The owner's critique does not
+  accept the original or revised18benchmark wordings. Original proposal/history
+  and accepted12/36cases remain unchanged; revised wordings need actual acceptance
+  before tests. No school/source approval or activation is inferred.
+
+Phase 06 worktree direction (historical; the active worktree is named in `plans/INDEX.md`):
+
+- Phase 06 owner direction, 17 October 2026: active implementation worktree is
+  `C:/Coding-projects/bintanong_workspace/worktrees/Bintanong/p06`. Keep routine
+  handoff reading to Phase 06 MD files plus INDEX/current progress and required
+  shared scope/architecture evidence. Open older phase documents only for a
+  specific dependency or boundary; do not bulk-read Phase 05 history. Conduct
+  source-to-rule human reviews in short batches with exact original regions;
+  reuse settled source transcriptions and record actual translation decisions.
+
+Former AGENTS.md wording: "this phase's code lives in isolated `worktrees\Bintanong\p05`".
+
+## Program prerequisite reviews: standing approval (23 October 2026)
+
+Owner, after BSA, BS Criminology and BSIT reviews: "If you see something similar or another similar
+situation for the following colleges, u have my permission to do the same, this is if and only if
+they are the same scenarios as earlier." Applies to the remaining prospectus reviews without a new
+question, only for these already-decided scenarios:
+- Blank prerequisite cell -> unknown (never "no prerequisite").
+- Comma list -> all_of (all required).
+- Year standing ("2nd/3rd/4th/5th year standing", "3rd yr. Standing") -> non-course condition, unknown
+  unless the student states their year level.
+- "All major courses ..." / "70% total units of major courses ..." style conditions -> kept as
+  printed, unknown, refer to the college.
+- "X (co-requisite)" -> co_requisite (passed before or taken the same term).
+- A printed reference that differs from exactly one course only by spacing, letter case, a missing
+  or extra "/L", a shortened code of the same course (e.g. "Forensic 5" -> Forensic 5/L, "IT 1/L" -> IT 1)
+  -> that course. A numeric range such as "MATH 19-20" naming two existing courses -> all_of both.
+- A printed reference matching no course in the curriculum -> recorded source gap (unknown), no guess.
+- Line/word wraps in codes or cells -> joined as technical transcription, recorded as a span repair.
+Anything else is a new scenario and goes to the owner inline (program, course, title, printed
+text): e.g. "or"/alternative lists, instructor consent, grade thresholds, a reference matching two
+courses, exceptions, notes changing requirements, unreadable or cropped cells, multi-page layouts.
+Each program still gets its own dated review record listing which standing rule covered which cell.
+- Added 23 Oct 2026 (BS Environmental Science): native PDF text clipped out of the printed page
+  (visible only by Ctrl+F) is not a requirement; the visible printed text is ("they still base on
+  what they can see"). A trailing comma with nothing after it is ignored. A visible list printed
+  one item per line without commas counts as all required. Hidden text is recorded in the review.
+- Added 23 Oct 2026 (BS Marine Biology): a semicolon separates required courses like a comma; a
+  reference that differs from exactly one course by an obvious typo (an extra/missing letter such as
+  "Bio 106A/L" -> Bio 106/L, "Physics 1/L" -> "Physic 1/L", or a leading zero "Res 02" -> Res 2) maps
+  to that course. A reference with no single obvious match stays a source gap.
+- Added 23 Oct 2026 (College of Arts and Humanities): shorthand cells are written out by repeating
+  the shared prefix with "&" = all required ("COMM BC 12 & 14", "PSM 1,2,5,8 PSIE 6"); a numbered range
+  ("SSc 1- 9") means every course of that prefix numbered in the range (electives excluded), all
+  required; a code printed on two rows that differ by title or units is kept as two courses, flagged
+  as a duplicated code (a code-only question asks which title is meant).
+- Added 23 Oct 2026 (College of Business and Accountancy): a course printed as its own prerequisite
+  (BSE Agribusiness / Innovation & Technology BAC 3 "BAC 3", BAC 4 "BAC 4") is a recorded source gap,
+  unknown, refer to the college; nothing is borrowed from a sibling track ("we're staying true to the
+  documents/prospectuses, staying as is"). A printed "None" is an explicit no-prerequisite statement
+  (verified none); blank cells stay unknown.
+- Added 23 Oct 2026 (CHTM): "All CAKM subjects" / "All HRCM Subjects" (a group named by its printed
+  course prefix) = every course with that prefix in the curriculum (CAKM 1/L-5/L; HRCM 1-5), all
+  required, together with the other printed course (Pract 1-HM).
+- Added 24 Oct 2026 (CNHS): a prerequisite cell merged across several course rows applies to each of
+  those courses. A/B course pairs: "X A & B" = both XA and XB; a number without a letter where only A and
+  B exist (e.g. "NCM15-101" when only 101A/101B exist) = both; a shared prefix carries over ("104,105 &
+  106 A & B" = 104A/B, 105A/B, 106A/B). A reference to a course not on the page stays a source gap.
+- Added 24 Oct 2026 (BS Nursing): a printed prerequisite loop (NCM 15-117B needs NCM 15-112 B, which needs
+  NCM 15-117B) keeps both cells but marks only the two references forming the loop as recorded source gaps
+  (unknown, refer to the college).
+- Added 24 Oct 2026 (CoE): "Graduating", "provided that student passed all Math courses" and notes such as
+  "can take the OJT if he/she passed 85% of the subjects in Third Year" are student-status conditions:
+  kept as printed, unknown unless known (refer to the college); courses listed beside them stay required.
+  Co-requisite marks apply to their course: "X (co-requisite) Y" = X co-requisite, Y ordinary;
+  "X C - Y" / "Co-Y" = Y co-requisite.
+- 23 Oct 2026 (router fixes after run 9, "Host fixes"): a course quoted by an operation or claim
+  but not listed by the model becomes a course mention (the catalog must still resolve it); a
+  program/curriculum phrase matching no approved name is ignored on a document-only question,
+  while course questions still clarify. No prompt change (router v15 kept).
+- 23 Oct 2026 (after run 11, "Fix keeps both"): keep the topic-menu not-stated fix; a document
+  part whose own words ask one person's amount (each/per/every student, per person, bawat isa,
+  bawat estudyante, kada isa, ...) also requests "official individual student assessment" (not
+  stated), so the printed special-class class example is never given as each student's share.
+- 23 Oct 2026 (latency, after run 13 "Make it the default"): runtime prompt reuse on by default
+  (profile p09-greedy-prefix-cache-v1, cache_prompt=true); strictly reproducible evaluations may switch
+  it off (`--no-prefix-cache`). Run 13 kept every run 12 outcome with 0 wrong answers. The server's
+  prompt-cache memory still needs a limit or periodic restarts (run 4 finding).
+- 23 Oct 2026: conversational follow-ups are required ("we definitely have to implement this
+  conversational, because we wrote it on our introduction"); owner asked to append it to the master
+  plan, done as addendum section 23 (sections 1-22 unchanged). Session-only structured context, never
+  persisted; Phases 10/11/12 additions; backend core may be built first.
+- 23 Oct 2026 (router output, "Shorter router output"): router wire v4 / prompt v17 drops the unused
+  free-text `reason` field; `intent` stays (dropping it lost a failed-course claim in an uncounted
+  precheck). Run 14 PASS.
+- 23 Oct 2026 (Phase 09 closeout): owner directed "do the work autonomously until you reach the end of
+  phase 9 finally transitioning to phase 10 ... only stop when we are going to phase 10 and if you
+  REALLY NEED a human approval". Taken as approval to close Phase 09 (reopened 22 Oct for hosted
+  Supabase) as an offline research/software milestone with the disclosed limitations. Not school
+  approval, institutional release or activation. Phase 10 implementation still waits for the owner.
+- 23 Oct 2026 (workflow): before each phase from Phase 10 on, do intensive pre-phase research
+  (optimization, latest technologies, faster delivery); rule added to AGENTS.md.
+- 23 Oct 2026 (Phase 10 start): owner created worktree `p10` and said "continue off from handoff" (go for
+  Phase 10). Answers to the pre-phase research decisions: D3 opaque cookie credential with 30-minute idle,
+  memory only; D1 OCR engine install/Docling pin and D2 Gemma 4 E4B vision measurement deferred to step 5
+  (photo OCR); D4 add the already-locked pypdfium2 5.13.0 and Pillow 12.3.0 to the `api` extra (uploads as a
+  raw body, no python-multipart).
+- 23 Oct 2026 (Phase 10 multi-turn cases): owner accepted follow-up cases F1-F6 and asked for document follow-ups
+  (added D1-D4). After the uncounted live precheck failed F1 (two mentioned courses kept none), the owner approved
+  remembering the course a turn's check asked about, so F4 ("If I failed CC 3, can I take CC 5?" -> "What are its
+  prerequisites?") now expects CC 5/L. F4b (T1 "What is the difference between CC 3 and CC 4?", no check) is the
+  clarification case. Condition: the exchange must read as a logical student-chatbot conversation.
+- 23 Oct 2026 (Phase 10 D1/D2 at task 5): photo OCR via an onnxruntime 1.30.0 CPU bake-off (pinned `ocr-cpu` extra)
+  on the existing ocr_bench harness, simulated photos first. Photos are wired only if a configuration meets Q11;
+  otherwise they stay unsupported and disclosed. Gemma vision measurement (D2) not chosen; Docling pin unchanged.
+- 23 Oct 2026 (Phase 11 pre-phase research O1-O5; Phase 11 is backend only, no UI pages or components):
+  O1 use the current AI SDK major (v7; `ai` 7.0.150 / `@ai-sdk/react` 4.0.154 on 23 Oct) and update the master plan to
+  the actual pins (done: master section 2 "Current pins" table and 16.3). O2 may add the locked RapidOCR 3.9.2 +
+  onnxruntime 1.30.0 CPU (+ opencv) to the `api` extra. The owner supplied private samples: a Report of Grades
+  screenshot (the registrar system's table view) and a phone photo of a printed BSCS prospectus with handwritten
+  grades. Student layouts may differ. Samples hold a real student's name and ID: kept only in workspace
+  `audit-evidence/p11-20261023/private-owner-samples/`, never in Git, docs or tests. O3 may add `GET /curricula`.
+  O4 students do not see variable or function names: move diagnostics and raw ids out of student text. O5 a symmetric
+  style floor (`filipino` -> `taglish` on literal English conversation words) "as long as it is within the scope".
+- 23 Oct 2026 (Phase 11, 24.2): owner chose the recommended path ("lets go with what u recommend. we are going to
+  super polish it"): (1) the closed-class English floor, with quoted text, catalog names and Title Case names masked
+  (built `3eb4f59`; offline over run 15's Filipino-labelled roster questions: 5 Taglish fixed, 0 Filipino flipped);
+  (2) one bounded style-prompt experiment for register-only Taglish, tuned only on a fresh practice set (not the
+  counted roster) and kept only if the counted rerun keeps English and Filipino replies 21/21, changes no status or
+  decision, and improves Taglish. The counted rerun is not an independent measure; Phase 12 provides that.
+- 24 Oct 2026 (Phase 11 step 2, E1/E3): questions outside the reviewed topics, and a model clarify that names
+  nothing, get "not in reviewed sources yet, ask the university office" (E1 `7c3786e`, E3 `05f34d2`).
+- 24 Oct 2026 (Phase 11 risk probe, [results](2026-10-24-risk-scenario-probe-results.md)), owner's words in quotes:
+  - College Citizen's Charters: "list the scope of the system in the website so users would know that the
+    information came from the uni-wide citizen's charter, so it wouldnt matter if the student asked for college of
+    sciences enrollment, it will just reply the same because trying to fix it may cause more time spent." So no
+    per-college note in replies; the website scope/guidelines (UI work) must say the Charter source is the
+    university-wide 2025 4th Edition. College charters stay out of the corpus.
+  - Passing grade (owner reading, to verify against the original before use): "passing grade is 3.0 or 75,
+    anything below that like 3.5 or 74 is failed, this is from the handbok page 304". Next: show the owner the
+    exact printed region of that Handbook page, then add it as a reviewed claim (source-gap rules apply).
+  - "What subjects are in first year BSIT?" must be answered. Cause confirmed: the 39 hosted curriculum ledgers
+    hold only course codes and prerequisites (no titles, units, year/semester), and there is no curriculum
+    retrieval. Needs reviewed course facts (title, units, year/semester) extracted from the 39 prospectus PDFs and a
+    structured lookup, per the structured-knowledge direction (16 Oct). Same data also unblocks R5 (titles) and R6
+    (units).
+  - "we should definitely get those 7 problems u listed down, fixed": (1) typo/one-word/two-topic overload
+    questions get a bare clarify; (2) [superseded by the website-scope decision above]; (3) "What is the
+    prerequisite of X?" answered as an eligibility check instead of listing the prerequisites; (4) unknown course
+    title/code gets a bare clarify instead of "not found, give the printed code"; (5) "How many units is CC 5?"
+    says "temporarily unavailable"; (6) "INC meaning + deadline" gets a referral although grade_completion is
+    reviewed; (7) Cebuano bare clarify, "Thank you po!" gets "Hello", tuition wording differs from the referral.
+  - Owner asked whether (6) is a cosine/kNN problem. Agent's diagnosis: no; the router chose two topics and
+    `orchestrator._topic_intent` retrieves only the first chosen topic (grading_scale), so grade_completion is never
+    retrieved. Confirm with a component probe before fixing.
+- 24 Oct 2026 (Phase 11 step 2b, owner chose "List for both"): when the student has stated no passed/failed
+  course, both "What is the prerequisite of CC 5?" and "Can I take CC 5?" list the reviewed prerequisites
+  (all-of "and", any-of "one of", co-requisite "or take at the same time") and ask which ones the student has
+  passed. Host-side, deterministic, no router prompt change; a stated fact keeps the eligibility check.
+- 24 Oct 2026 (Phase 11 step 2e follow-up), owner choices:
+  - Special class fee, "Rate + example": every language gets one host-written reply, no model wording and no
+    arithmetic: the printed rate (PHP 370.37 per hour), the printed 3-lecture-unit example (54 hours, PHP
+    20,000.00), "your own charge is not stated", and the office referral. Replaces the English reply that gave
+    the example total as the fee. F04 (the disputed 41,666.52/41,666.62 field) stays held.
+  - Multi-part messages, "Answer what's covered": answer each part that has reviewed evidence, and for a part
+    without it add "the part about <student's words> is not in Bintanong's reviewed sources yet; ask the relevant
+    university office". Each part keeps its own checks; this replaces all-or-nothing withholding.
+- 25 Oct 2026 (Phase 11 step 2h), owner direction: start the course facts work now ("can we do that now?"),
+  for every prospectus, not only BSIT ("we need for the whole prospectuses"), and keep the data in the hosted
+  Supabase project ("pushing it in the hosted, we are afterall using supabase"). Treated as approval of
+  `2026-10-24-course-facts-plan.md` for all 39 curricula and of the hosted ledger upload once the facts are
+  reviewed. Source readings (unit notation, inferred terms, printed-total mismatches) still go to the owner.
+- 25 Oct 2026 (Phase 11 step 2h, course facts), owner readings:
+  - CF1 units: show "a/b" units exactly as printed (e.g. "2/1"); the university values 2/1 as 3 units.
+  - CF2 terms: where a page prints FIRST/SECOND SEMESTER only once, the left column is the first semester and
+    the right column the second semester for every year on that page.
+  - CF3 BSBA Marketing Management: its column headings printed "FIRST YEAR"/"SECOND YEAR" are a source error;
+    read them as first semester (left) and second semester (right). A recorded exception, not a precedent.
+  - CF4: check the printed-total mismatches and odd unit cells against the page and bring them in batches.
+  - CF5 (25 Oct): BSCS 2018-2019 first-year printed Totals "3" are a cutoff and may be corrected (23); Bintanong
+    shows no term totals now, so this applies only if totals are shown later. Source gaps stay as printed
+    (BSBio Thesis 1 and BSEd-SS SSE 18 blank units = units not printed; BSCS 4th-year unnamed 3-unit row left
+    out). BSBA-BusEco PATH Fit 3 keeps 3 units as printed. Owner: "Proceed".
+  - CF6 (25 Oct): BSES EnS 101/L title stays as visibly printed, "Earth Science I (Geology &", with a recorded
+    clipped-text gap; its hidden second line "Meteorology)" (clipped under the EnS 102 row) is not used and is
+    dropped from EnS 102's title ("Biodiversity Conservation & Management"). Spot-check accepted (BSIT 1st year 1st
+    sem, a CF3 row, a BSMid LEC/RLE row, line-end-hyphen titles kept unspaced): "Looks right, proceed".
+- 25 Oct 2026 (roster 18): a special class fee question asking whether the fee still applies (now or for a school
+  year, e.g. accepted T2) gets the memo's printed date (4 August 2023, F0), "cannot confirm it still applies" and an
+  office referral, no rate. Owner: "that special class fee is 2023, tho we cant really confirm if its still valid. so
+  perhaps refer to the offices". Host route repair from consistent declared parts: "Repair from parts".
+- 25 Oct 2026: deep-Tagalog words such as "isusumite" are a style preference (people rarely use them), not a
+  hard exclusion; no dedicated guard or exemption is needed. The Supabase security advisor WARN
+  `auth_leaked_password_protection` is accepted: the project is not on a Pro plan, so it cannot be enabled;
+  ignore it in advisor checks.
+- 25 Oct 2026: course-fact reply wording approved (owner delegated: "If it looks normal to you then approve of
+  it"): per-term headings "First year, first semester courses (prospectus p. N):" / "Mga subject sa unang taon,
+  unang semestre (...)" / "Ito ang subjects sa first year, first semester (...)", one line per course with units
+  as printed ("units not printed" / "walang naka-print na units"), and the one-course form "<code> <title>: <units>;
+  <year>, <semester> (prospectus p. N)." Known gap: the heading does not name the program/curriculum.
+- 25 Oct 2026: finish the step-2 items that need no UI before UI integration. Supported languages are English,
+  Filipino (Tagalog) and Taglish only; Cebuano is not taken. Owner: simple questions "WE CANNOT FAIL ON THAT";
+  complex ones may fail. A large battery of simple queries will follow and must show no hallucination,
+  retrieval or Prolog errors.
+- 25 Oct 2026, passing grade (item g): Handbook physical p.304 is the Laboratory School (LSHS, DepEd) table, out of
+  scope; the undergraduate table is 2021 Student Handbook physical p.46, "2.2 UNDERGRADUATE LEVEL/SCHOOL OF LAW":
+  3.0 = 75-76 Passed, 4.0 = Condition, 5.0 = Failed. Owner: use p.46 as proposed, and generalise it ("its generally
+  the same for everybody"): no college-specific caveat for the unlisted "following shall apply to specific
+  colleges" text. Supersedes the earlier p.304 reading (3.5/74 failed).
+  Owner approved (25 Oct) inserting the new reviewed grading chunks into hosted Supabase; scope: every row of the
+  p.46 undergraduate table (1.0-3.0 with percentage and rating, 4.0 Condition, 5.0 Failed, INC, IP, NC, OD, UD, W, V).
+- 25 Oct 2026, passing grade delivery (item g): published releases and their sources are immutable, so the p.46 rows
+  are not added as chunks; owner chose a host-written reply from the approved p.46 reading (`8c49ad0`). Owner then
+  chose topic-filtered search (a `retrieve_context` chunk filter migration) so a chosen topic's chunks are not
+  crowded out by other topics; handed off to another agent.
+- 25 Oct 2026, partial topics (g2): owner "omg we need those included": complete the partially reviewed topics
+  (Handbook disciplinary penalties table from physical p.87, of which only exam cheating is reviewed; Charter
+  pre-enrollment incl. Step 2 with its missing printed label kept as a gap). Route and per-row readings still need
+  owner confirmation in short batches.
+- 24 Oct 2026 (Codex resume; machine date): owner selected "Database review path + new research release
+  (recommended)" for g2. Authorizes an append-only supplementary review path for already-published sources
+  and a new research release preserving the current 19 chunks and 39 curriculum links, plus newly reviewed
+  content. Existing receipts/releases stay intact; rollback restores the current release. Exact source rows
+  still require owner review in short batches; this does not establish university approval/currentness.
+- 24 Oct 2026 (source review, standing delegation): owner says "from onwards, u are mostly always correct,
+  and there are indeed blanks from time to time and thats getting normal. If you see the same exact
+  situation, just do what you'd recommend as always approve as printed. If u see another different
+  situation, let me human review". Apply the established approve-as-printed treatment to clear original
+  rows, recurring blanks and equivalent settled layout patterns without another confirmation. Preserve
+  exact columns/conditions/units and originals; blanks remain unspecified. New ambiguities, defects or
+  conflicts still require focused human review. Distinguish standing-approval applications from fresh
+  per-row human confirmations; this does not imply university authority/currentness or resolve gaps.
+- 25 Oct 2026 (cutoff presentation): owner chose both exact source wording and an office referral
+  ("can u do both? It will say theexact keywords then refer to the office?"). Preserve exact printed
+  terms/fields with English/Filipino/Taglish framing, state that the continuation is unavailable,
+  and refer to the office named in that record for confirmation. If no office is printed, use a
+  generic relevant-university-office referral; do not infer an office or the missing continuation.
+  This resolves the presentation choice, not the source defect, service sequence or release gate.
+
+- 26 Oct2026,source fidelity reminder during selected-answer fixes:owner says "just remember to keep the exact source as is, if there are limitations then so be it. We already human reviewed it, i reviewd it like twice now." Keep approved exact source wording,blanks,conflicts/cutoffs/other limitations;do not reopen human review or modify sources to make answers succeed. Work only on selection,coverage,language/composition using existing approved evidence.
+
+- 26Oct2026,conditional corrected-release activation:owner says "aight continue, btw lets make those chunks active in the supabase after". Continue remaining companion/source-conflict fixes and activate corrected78chunk release p11-research-corrected-20261026 after validation,using existing governed research-release/pin path,verified hosted readback and preserved19chunk rollback. Do not re-ask this authorization;do not activate before checks or infer public/institutional approval,source expansion or deadline precedence. Exact source/limitations remain fixed.
+
+- 26 Oct 2026, two-developer workflow: owner requests execution of the supplied plan:
+  complete planned Handbook/Charter verification and commit a fixed verified baseline
+  before branching `feat/p11-policy-ingestion-review` from the primary
+  `feat/p11-backend-api`. Primary owns source decisions/frontend/runtime/hosted release
+  and pin; other developer owns isolated ingestion commands/local review UI/candidates,
+  with disposable local database tests only and no hosted writes. Shared interfaces
+  need agreement and a single implementer. Integration does not publish candidates.
+  See `2026-10-26-phase11-two-developer-workflow.md` and the dedicated task record.
+- 26 Oct 2026, expansion review 01: owner answers “Keep both proposed holds” for
+  H26's conflicting official-enrollment/payment/Nursing-Midwifery wording and H30's
+  academic-deficiency paragraph of unresolved undergraduate applicability. Preserve
+  all H26 statements with a discrepancy; withhold affected enrollment/payment/exemption
+  conclusions. Keep H30's paragraph outside the supported selection pending applicability.
+  Owner adds “we should keep everything as is from the data sets”: originals and
+  source wording remain unchanged. This does not resolve policy meaning or approve
+  unseen fields. See `2026-10-26-handbook-charter-expansion-review-01.md`; do not re-ask.
+- 26Oct2026, omitted-content chunk review: owner approves the two H31freshman
+  registration chunks shown inline and asks to keep continuations linked. Mutual
+  required-neighbor IDs verified; exact IDs in `2026-10-26-omitted-content-human-chunk-review.md`.
+  Owner then directs “continue it so i will review later in bulk”: prepare remaining
+  reviewed in-scope omissions across both sources, technically verify and organize
+  the eight topic batches before routine human chunk review. Known holds stay held;
+  unseen chunks remain unapproved and no new hosted activation is authorized.
+- 26Oct2026, chunk consolidation: owner questions899draft count,recognizes format
+  metadata and directs “continue working on it”. Consolidate metadata/source
+  fragments into meaningful service/narrative groups while preserving all policy
+  fields,limitations and approved H31pair;retain verified page furniture in audit
+  evidence instead of standalone policy chunks. Bulk human review remains later;
+  this is not approval of unseen content or hosted publication.
+
+- 26Oct2026,bulk chunk review: owner approves11H26–30admission chunks and then
+  sixH32–34registration/credit chunks as presented,retaining source limits and
+  required links;with the priorH31pair,19of335human-approved. Exact IDs in
+  `2026-10-26-omitted-content-human-chunk-review.md`. Owner explicitly retains
+  North/South campus provisions because they support transfers into main
+  Tiniguiban rather than exclusively serving those campuses. Preserve printed
+  applicability;no blanket campus exclusion or unrelated-campus scope expansion.
+
+- 26Oct2026,Charter registration layout:owner approves review items23–26with
+  nonvisibleDay)Day)removed,then explicitly identifies metadata rows followed by
+  CHECKLIST OF REQUIREMENTS/WHERE TO SECURE and paired requirements. Keep table
+  structure in authoring and serialized context,not only chat display. “aight
+  proceed”authorizes applying this approved correction. Existing builders yield
+  five required companions within480tokens;[results](2026-10-26-registration-layout-correction-results.md).
+  Source wording/fee discrepancy remains;no publication/activation permission.
+
+- 26Oct2026,BatchAcontent review complete:owner explicitly approves18–22after
+  all other BatchAcontent;54base IDs map to55current candidates after registration
+  split,281others pending. Preserve all recorded wording/limitations/links;exact
+  approvals and receipt in `2026-10-26-omitted-content-human-chunk-review.md`.
+  Owner finds dense unformatted paragraphs hard to review:use source headings,
+  one checklist item per line and paired table columns. Requests fresh-session
+  handoff,next BatchB. This is not phase completion or publication authorization.
+
+- 27October2026, partial-service coverage: owner directs “alright lets cover those, add them as chunks and lets keep finding more stuff that we mightve missed out, of course considering our scope and limitations”. Add clear fields of initialTOR C8–10,complexcertifications C16–17 and academicrequests C109–110 as inactive source-limited candidates. Preserve first-row mappings/CARMA-CCRD/request-subject holds;no new hosted activation.
+- 27October2026, Handbook48 clause selection: after seeing the exact final Submission of Grades sentence, owner replies “Include this student-process sentence”. Include “Removal and completion grades must be submitted to the Office of the University Registrar within five (5) working days from removal or completion of deficiency by the faculty.” as a faculty action following student removal/completion. Keep other standalone faculty reporting excluded;this does not alter student completion deadlines or resolve existing H47 conflicts. See `2026-10-27-partial-service-supplement-results.md`.
+
+- 27October2026, all nine remaining applicability items: owner replies “include all of them. Yes” to `2026-10-27-remaining-applicability-review.md`. Include undergraduate-facing cash claims C70–71,check claims C72–73,library requisition C86,library donation acknowledgment C83,academic requests C109–110,CARMA/Transfer toCCRD certification titles C16–17,academic-deficiency paragraph H30,shorter-than-four-year honors H53(context52),and international-internship reference H106. Supersedes their audience/support-selection holds,including the earlier H30hold. Preserve actual source defects,unknown acronym expansions,initial-row mappings,missing internship steps,other program exclusions and currentness/release gates. No new hosted activation,entitlement or executable rule authorized;do not re-ask these nine. Applied result:`2026-10-27-nine-item-inclusion-results.md`.
+
+- 27October2026, reply-language scope: owner retires exclusive Filipino/Tagalog
+  replies while retaining Filipino/Tagalog input. Supported replies are English
+  and Taglish;English input defaults English,Filipino/Taglish input defaults Taglish.
+  Owner rationale: “this is to lessen the burden and to improve the response time”.
+  This explicitly supersedes earlier Filipino-reply targets;retain accepted input
+  wordings/historical runs and accuracy/source/privacy gates. No latency improvement
+  is yet measured. Implementation still pending after frozen36d5f56source-context
+  verification;[decision](2026-10-27-english-taglish-response-decision.md).
+
+- 28–29October2026, long Charter procedures: owner chose option A ("Let's do A, what you
+  recommend, lets give them the printed steps directly") after segmented model drafting failed.
+  29Oct format replies:(1) put each office action and each column (fee,person,office,time) on
+  its own line for readability;(2) Taglish keeps English source data/labels and uses Tagalog only
+  for conversational lead-ins (e.g. "Eto ang mga kailangan mong gawin:");(3) printed defects are
+  shown as is with a note that the data is exactly as printed and any defect comes from the
+  original. Applies to host display only;model interpretation holds on malformed conditions stay.
+  No activation/default change. See `2026-10-29-printed-service-steps-plan.md`.
+- 28 Oct 2026 (Phase 11, guest mode): owner asked for a guest mode with the login kept, then confirmed full guest
+  features including temporary PDF upload after the proposed flow. Master 25.1 amended (guest sessions memory-only,
+  separate from signed-in sessions, invalid present tokens refused, explicit API setting). Earlier the same day:
+  keep the login for now; removing UAT only under consideration (no requirements change). Real PSU sign-in
+  verification stays deferred. Codex B implements; Claude review `2026-10-28-guest-mode-review.md`.
+- 28 Oct 2026 (answers): answer only the printed detail asked (requirements, fees, processing time), the whole
+  service when the student asks how to do something or for everything. No program given -> keep asking program
+  and curriculum; the frontend asks up front. Students are guided to type a course code or a course title
+  (combined "CS6 (title)" mentions are not specially handled). Simple-question gate: cover most topics and
+  diversify prerequisite questions across programs (wording accepted in principle).
+- 28 Oct 2026 (year levels): the Handbook curricular-level percentages (first year "completed 25%", second year
+  "25% but not more than 50%", ...) are answered as printed with no limitation note; the owner considers the overlap
+  clear by comparison. Applied as an owner-resolved limit at evidence preparation; the reviewed package keeps
+  the original limit record unchanged.
+- 28 Oct 2026 (topic families, batch 1): owner approved "f1 yes, f2 yes, f3 yes, f4 yes, separate yes" after
+  seeing each member's printed opening inline. F1 dropping/adding/changing subjects = charter_dac,
+  handbook_drop_shift_faq, handbook_dac_policy, handbook_change_sections (Charter and FAQ steps shown as printed,
+  not merged). F2 refund = charter_refund, handbook_school_fees_refund. F3 leaving PalSU (transfer credentials/
+  honorable dismissal) = charter_transfer, handbook_transfer_clearance. F4 transferring into PalSU =
+  handbook_transfer, handbook_transfer_credentials, handbook_transfer_load; if leaving vs coming in is not stated,
+  ask. Kept separate: handbook_standing vs handbook_discipline_process (probation); handbook_residence vs
+  handbook_graduation vs handbook_undergraduate_honors_policy (residence). A family is selected and answered
+  together with per-source citations. Research-build grouping only, not school validation or activation.
+- 28 Oct 2026 (F4 transfer wording): asked whether "requirements for transfer credentials" should mean leaving
+  PalSU (a) or be clarified first (b); owner replied "b perhaps". Applied provisionally: when leaving vs transferring
+  in is not stated, ask first; the gate case `req-transfer-en` now expects a clarification. Revisit if testing
+  shows the question adds friction.
+- 28 Oct 2026 (F4 phrases and excluded-program check): owner "ye i approve to both" after seeing the exact lists.
+  (1) Transfer-direction phrases (leaving: honorable dismissal, transfer out/transferring out, leave/leaving PalSU,
+  leave/leaving the university, to another school/university, to other school, aalis, lilipat sa/ng ibang; coming in:
+  transferee, from another school/from other school/from another university, galing sa ibang, transfer/transferring
+  to PalSU, lilipat/lumipat sa PalSU); unlisted wording gets the leaving-or-transferring-in question. (2) Host
+  undergraduate-scope notice when a question explicitly names College of Law, School of Law, Juris Doctor, College
+  of Medicine, Doctor of Medicine, graduate school, a master's/doctoral program or laboratory school; other wording
+  stays with the router. Fixed phrase lists, not language understanding; coverage of real phrasing is unmeasured.
+- 28 Oct 2026 (FAQ 7/8 split, option A): after seeing the exact p.58 text, owner "ye its okay". Record 7 (dropping)
+  is complete alone with no continuation link; 8a (shifting start, ends "B.") stays linked to 8b. Claims "printed FAQ
+  7 dropping steps" and "printed FAQ 8 shifting steps" replace "printed drop shift faq fields". Wording unchanged
+  (printed "dropping from" kept). Separate derived inactive 560 package; original PDF, 559 package and pin unchanged.
+- 29 Oct 2026 (finish scope): owner asks to finish by 30 Oct: "we are not deploying anymore. Cancel out deployment."
+  Phase 13 (deployment) is cancelled for this build; no hosting/host selection work. Reply language: "definitely
+  have to drop the pure-tagalog-response" (already English/Taglish only since 27 Oct). Pure-Tagalog questions may
+  stay accepted input only while they add no development time; otherwise remove them for time. Keep the upload if
+  it can be done by 30 Oct. Phase 12 benchmark: "50 most common queries across categories: enrollment procedures,
+  prerequisite eligibility, grade and academic standing, and disciplinary policies" (English/Taglish); owner
+  clarified "by grade earlier, i meant 'grade policies'": the category is grade policies and academic standing.
+- 29 Oct 2026 (honors/probation, option A): when whole-section coverage fails on a Handbook policy section, accept a
+  grounded, reviewed answer citing the clause it uses, with a pointer to the full section. Charter service procedures
+  keep complete-step coverage; router unchanged.
+- 29 Oct 2026 (activation): owner "dont forget to make the chunks active in the supabase the 500 chunks". Activate
+  the gate-tested 560-chunk FAQ-split package (`p11-faq-split-20261028`) as the hosted research release after the
+  accuracy freeze, through the existing staging -> ReleaseManager activate RPC -> readback -> smoke path, keeping
+  the corrected78 rollback. Research build only; no institutional approval or public deployment inferred.
+- 29 Oct 2026 (Phase 12 benchmark): 50 English/Taglish cases: 40 reused owner-accepted gate cases ("Reuse, disclose":
+  results must state they were used during development) plus 10 new disciplinary cases from printed Handbook penalty
+  rows (owner chose the revised set: cheating p.88, improper uniform p.87, smoking p.93, plagiarism p.88, bullying
+  p.94; blank printed offenses stay source gaps). Conditions A (plain Gemma, no evidence) and C (full system); B skipped.
+  Asked whether these are common queries: no usage data exists, so commonness is a judgment, not a measurement.
+- 29 Oct 2026 (answer notice): owner "for the candidate preview only, we can not include that in the output. We can
+  keep the Not official university guidance but ... more in the background-ish color/tone/transparency and make the
+  font a bit smaller." Student view drops the candidate-preview line; data-answer carries the reply-language guidance
+  sentence as `notice`, rendered small and muted. Canonical validated answer text unchanged. Owner also directed
+  `npm ci` in p11/frontend (`@supabase/ssr` was declared but not installed).
+- 29 Oct 2026 (course abbreviations): owner "can u do auto from titles but let me review it in bulk", then approved
+  all 963 proposals in `2026-10-29-course-abbreviation-review.md` as is. An abbreviation is the initials of a printed
+  title (small words skipped unless first; trailing number/roman numeral kept), matched only within the student's
+  curriculum, any capitalization. When one fits two courses in a curriculum, ask which course is meant (owner chose
+  "Ask which one"; supersedes the 21 Oct "not created" rule for abbreviations only). Answers keep printed codes and
+  titles; not a unit/lab/equivalence finding.
+- 29 Oct 2026 (shorthand Taglish, option A): after the probe (8/26 shorthand vs 20/26), owner chose a reviewed
+  shortcut list and approved it without the dropped-vowel words copied from the test questions (kmuha, ktagal,
+  mtanggal, ggwin, npasa, npapasa). Whole-word, lowercase-only for single letters, uppercase "PWD" untouched;
+  expanded text is used for understanding only, the student's own wording is displayed.
+- 29 Oct 2026 (pure Tagalog questions): pure-Tagalog input stays accepted (replies Taglish). Owner approved 26
+  pure-Tagalog twins of the Taglish benchmark questions as written and chose "Swap 10, keep 50": the benchmark now
+  has 24 English / 16 Taglish / 10 Tagalog (drop, shift, class card, CS 6/CC 4, CC 5/CC 3, grade 1.0, probation,
+  honors residence, cheating, smoking); the other 16 Tagalog questions are reported as a separate line.
+- 29 Oct 2026 (loosely typed questions): owner asked to include grammatically loose questions in the 50 ("as you
+  deem common"). Swapped in 6 owner-approved shorthand Taglish twins (change section, CC5/CC4, Discrete Structure 2,
+  second year, absence, bullying) and 4 broken-English wordings chosen under that delegation ("how to drop subject",
+  "can i take cc5 if i fail cc4 im cs student", "how to get class card", "what penalty if caught cheating
+  exam"). Benchmark v3: 20 English / 4 broken English / 10 Taglish / 6 shorthand Taglish / 10 Tagalog.
+- 29 Oct 2026 (benchmark layout, supersedes the loose-question swap above): owner "keep them separate though, we will
+  still test those". Main benchmark = v2: 24 English / 16 Taglish / 10 Tagalog. Shorthand Taglish (26) and broken
+  English (4) are reported as separate robustness results; the shortcut list was built after seeing the shorthand
+  questions (disclosed).
+- 30 Oct 2026 (Phase 12 runs): owner chose "Single runs, disclose": the write-up reports the existing single runs
+  plus the measured C rerun (40 vs 39 on the same 50; one-off server non-determinism on absence Taglish) and states
+  that the proposed 5-run repetition (master 17.4) was not done.
+- 30 Oct 2026 (hosted 560 activation order): owner first chose "Activate now"; after being told activation needs
+  hosted staging of 381 new chunks plus a bound selected review (est. 3-5 h incl. rehearsal), owner chose "Write-up
+  first": finish the Phase 12 report, then activate only if time remains; otherwise the report states it is pending.
+- 30 Oct 2026 (dev merge and activation start): owner "We need to merge into dev"; p11 + origin/dev merged and
+  fast-forwarded to `dev` (`a3ff208`), dev's older frontend superseded by p11's. Owner: start the hosted 560
+  activation first thing in the new Phase 12 worktree ("yes, start there once I've created the worktree").
+- 30 Oct 2026 (hosted 560 chunk-level validation): asked whether the 29 Oct activation directive may serve as the
+  chunk-level validation for the 257 re-authored records (230 Charter service-association records, 27 Handbook
+  flowchart records) whose recorded events say "New chunks are prepared for owner validation, not yet approved as
+  chunks", owner chose "Yes, record it that way". Their receipts state: owner activation directive for the
+  gate-tested 560 package; assistant-verified associations over 213 human / 123 assistant source comparisons; no
+  per-chunk human approval. Correction to the question: the other 303 carry bound partially_reviewed states, but most
+  were not yet inside receipts; adding them is the routine receipt mechanism, not a new approval. No source-state
+  promotion, institutional approval or public deployment.
+- 30 Oct 2026 (flowchart schema gap): the hosted 560 rehearsal accepted 533 chunks, but hosted
+  `validate_selected_context` rejects the 27 Handbook flowchart records (pages 60/61/63/64, `flow_manifest`,
+  supported in Python since 27 Oct). Owner chose "Add a DB migration": port the flowchart check to SQL test-first,
+  rehearse locally, apply to hosted, then activate all 560.
+- 30 Oct 2026 (hosted connection path): the 560 rehearsal passed locally, but record review (36 s), bind (34 s)
+  and activate (~122 s) exceed hosted REST's 8 s statement timeout. Owner chose to add a hosted session-pooler URL
+  to `.env` as `SUPABASE_HOSTED_DB_URL`; the rehearsed steps then run over psql under the same service role and
+  database functions with a longer statement timeout. Secret never printed or staged; corrected78 stays the rollback.
+- 30 Oct 2026 (hosted query fixes): after diagnosis (INC removal: selector chose handbook_grade_correction because
+  grade_completion's menu entry shows only a cut opening; honors requirements: draft hit max_output_tokens 768,
+  shown as temporarily_unavailable; probation: 4/4 local passes, one hosted miss treated as run variation), owner
+  chose "Yes, add printed headings" (every Handbook policy topic's menu lists its printed numbered section headings
+  verbatim, from reviewed body fields, like the 29 Oct printed penalty row names) and "Retry once at 1,536" (a
+  truncated draft is retried once with a 1,536-token output limit; normal answers unchanged). Benchmark regression
+  check required after both.
+- 30 Oct 2026 (source-defect strictness): asked whether a recorded source defect should keep hiding a topic's
+  printed headings and refusing whole-topic answers (honors p.54 residence conflict, INC p.47 deadline conflict),
+  owner: "i think we should still show, the source defect aren't that big of a deal to be honest, if anything we
+  can just note the limitation and ask them to refer to the appropriate university office for more info". Applied:
+  printed section headings stay in the topic menu despite a defect elsewhere in the chunk (a heading ending a
+  defective body may be cut and stays withheld; openings stay withheld); a claim citing an unresolved
+  malformed_source_condition record becomes an exact quotation of that record plus its recorded limitation and a
+  relevant-university-office referral, never an interpretation. Other source-gap rules are unchanged.
+- 30 Oct 2026 (INC and honors follow-up): owner "yes, lets proceed" for INC: a conflicting_deadlines record outside
+  any printed group is quoted with its limitation and an office referral (incomplete/mixed groups stay source_gap),
+  and the router menu lists each fact's own printed section headings (`fact_headings`), with the same defect and
+  cut-heading rules. Honors: owner chose "Leave the check": the introduced_disjunction guard is unchanged and honors
+  requirements stay a disclosed limitation. Full regression required after the router change.
+- 30 Oct 2026 (INC second attempt): owner "we need to solve both": after fact_headings alone did not change Gemma's
+  claim choice, a host guard lets the one fact of the chosen topic whose printed section heading names at least two of
+  the part's own words replace a choice whose headings name none (stem/abbreviation match, generic words ignored, a tie
+  or single-word match keeps the model's choice, same topic only). Adding instead of replacing exceeded
+  grade_completion's 3,072-token budget (timing 1,520 + 3.4 group 1,959 tokens). Offline on 53 recorded router outputs
+  it changes only "How do I remove an incomplete grade?" (timing -> 3.4 REMOVAL OF "INC" group).
+- 30 Oct 2026 (Taglish source wording): shown leave-length-taglish's reply ("hindi dapat lumagpas sa isang (1) academic
+  year", the printed rule translated into Filipino structure), owner chose (a): "we keep the answers that came from
+  the data as english as is. But for other like words that connect them like the connecting as filipino. This is
+  for taglish". Taglish claims keep printed rules, limits, numbers, conditions and terms in the source's English
+  wording; only connecting words are Filipino. Refines the 27 Oct English/Taglish decision; English replies unchanged.
+  The leave-length scorer is left as is (it already accepts "one (1) academic year").
+- 30 Oct 2026 (Filipino penalty-row words): shown a proposed Filipino -> printed English term list for the Handbook
+  sanctions table, owner: "use it but uniporme we dont really use this but the rest definitely yes, kopya/pangongopya/
+  kumopya/kumukopya ... Add these new words to the docs". Reviewed whole-word forms for cheating, examination,
+  smoking, bullying, drinking, gambling and littering live in `backend/bintanong_routing/filipino_terms.py` and the
+  table in `docs/evaluation/accepted-input-forms.md`; "uniporme" excluded. Understanding only; answers keep printed
+  English. Also authorized by owner the same day: Claude restarts the hosted research backend on :8021.
+- 2 Nov 2026 (failing-case fixes and tone): owner approved, in order, the student view without the supplied-evidence
+  line; scope asked as a question; a shared program name using the selected program; whole-unresolved prerequisite
+  replies (blank = "not listed" with adviser/college referral, printed condition = unverified quote; blanks stay unknown,
+  first-term inference withdrawn per lines 27-29); a split printed code naming one course; #6 drops "misadvising";
+  9A held-record quotes with plain labels, a "Heads-up" and kept steps; the draft tone prompt; #11 option B+ (ask
+  leaving or incoming, naming the fee); #5 target covers Handbook 5.1.3 and 5.1.4.
+- 2 Nov 2026 (#10 overdue fine, "go #10 CC-first, its fine, but with transparency din ha"): for fees, the Citizen's
+  Charter prevails over the Student Handbook (owner view; RA 11032 Sec. 6 requires Charter fees and Sec. 21(c) bars
+  costs not in the Charter; the Charter is the 2025 edition, the Handbook 2021). Scope: fees of Charter-listed services
+  with a recorded conflict, starting with H101/C79. The reply leads with the Charter Php 10.00/day and quotes the
+  Handbook "General Circulation Books – Php 2.00/day" (Reserved Books amount not printed) with a University Library
+  referral. Not university confirmation; the source limitation and data stay unchanged (option c not chosen).
+- 2 Nov 2026 (host quotes, "ok host quotes"): for the owner-approved exact host quotes only (#2 Handbook 1.4 residence,
+  #5 Handbook 5.1.3/5.1.4, leave length, #10 Charter-first overdue fine), a "does_not_answer" verdict is not decisive
+  when the check judges every claim supported. Evidence: byte-identical check requests got opposite verdicts in
+  different runs (#2 and leave length). Each skip is recorded on the answer as host_quote_override. Drafts and any
+  unsupported claim keep the full check; the recheck tried earlier was reverted.
+- 3 Nov 2026 (follow-up memory, "memory system.. to talaga"; owner chose option 2 of three): session memory (master 23)
+  may also keep the previous question's structure as fixed values: its check operation, year level and semester,
+  and the detail its document part asked. Still never the student's text or a grade. A follow-up that changes one
+  thing re-asks that question; the host fills only a year or semester the follow-up leaves out. Options 1 (more
+  browser-side patches) and 3 (sending earlier turns' text to the router) were not chosen.
+- 3 Nov 2026 (procedure layout, "go"): whole Charter procedures open with a plain lead, "What to bring", one line per
+  step with fee, time and office, then what the office does; printed values, limits and the original note unchanged.
+- 4 Nov 2026 (blank prerequisite cells, owner): "those blank literally means no prerequisites, they are usually
+  foundational subjects that are usually found in first and second years. I've reviewed all of the prospectus so im
+  confident in it." Asked how far it applies, the owner chose: everywhere. A blank printed prerequisite cell in a
+  reviewed prospectus ledger now means no prerequisite. It is treated like a printed "None" (verified none) in
+  eligibility checks, term lists and dependency lists. It supersedes the earlier "Blank prerequisite cell -> unknown"
+  rulings (17 Oct review03 note, 23 Oct scenario list, 2 Nov reply wording) for prerequisite cells only.
+  - Unchanged: printed-but-unverified conditions (e.g. BSEd FS 2 "all professional education courses"), year
+    standing, self-referencing cells and other recorded source gaps keep their limits.
+  - Unchanged: blank units or other blank fields keep their own rulings.
+  - The ledgers themselves are not edited; the mapping belongs in the runtime or bundle compilation.
+  - Implemented 4 Nov 2026 on `feat/memory-eligibility` (`1376e0e`) at the owner's request; year-level standing
+    (names no course) no longer makes a dependency list uncertain (`671ad26`).
+- 4 Nov 2026 (removal period, "yes go ahead, just print the discrepancy"): for removing a grade of 4.0 or INC, use the
+  printed succeeding term (Handbook 3.2, Resolution 279, Series of 2018; 3.7 "within a period of one term ... shall
+  automatically become 5.0"). Every answer that uses this period also prints the discrepancy: the same section also
+  states "within one year" (3.3, 3.7). The source text is unchanged; this is a reading for answers, not a correction.
+- 4 Nov 2026 (semester load ceiling, "we can safely do this as a working assumption, just communicate it in a friendly
+  student way"): working assumption that the semester's prescribed total units (Handbook p. 35, maximum academic load)
+  is the ceiling for any mix of courses. A plan above it is shown with a friendly major warning naming the units, the
+  clause and the Dean or Registrar, never blocked. This is a reading for plan checks, not an institutional ruling.
+- 4 Nov 2026 (thesis copies, "Complement, not replace"): Context/bintanong_thesis_for_context.pdf stays the
+  thesis-leader-approved copy; the newer owner-supplied working draft (SHA-256 614f9e21...) is supplementary context.
+  Where they differ, the approved copy governs scope.
+- 4 Nov 2026 (academic recovery delivery, "ikaw bahala"): a bounded task list on p12-evaluation-harness, not a numbered
+  phase. Owner direction the same day: plain questions ("bagsak ako sa DSA, ano pwede ko itake...") must trigger the
+  recovery help, and drafts follow the greedy prerequisite chain (earliest term for each blocked course).
+- 4 Nov 2026 (academic recovery, "go"): Steps 1-4 and 6 of the plan of action approved (D1). Taken from the same "go"
+  on the stated recommendations, revisable by the owner: Step 5 drafts are built and belong in Chapter 3 with Aurora
+  as precedent (D2); the advance-course restriction is quoted with a Dean referral, not checked (D7).
+- 4 Nov 2026 (shifting referral offices, "stick muna tayo sa anong meron sa chunks, for consistency"): the shifting
+  referral names only offices printed in the reviewed chunks (Deans of both colleges, or Department Head and Dean
+  within a college; College Guidance Practitioner; Office of the University Registrar). OSAS, which appears only in
+  the 4.3 section heading, is not named.
+- 4 Nov 2026 (academic recovery Track A, "go" on each): (1) summer load: over nine units is a friendly heads-up; a
+  student who says they are graduating is told up to twelve is possible with the Dean's prior approval (p. 35);
+  (2) overload: mentioned only to a student who says it is their last semester and they are graduating, always as
+  needing Dean and Registrar approval, never above 28 units and never after a stated delinquency (p. 36); (3) the
+  prerequisite waiver is quoted as an option only for graduating students, with its conditions, never planned
+  automatically (owner: "as long there is a graduating student clause"; p. 31); (4) 4.0/INC removal within the
+  succeeding term with the D6 discrepancy printed, before enrollment when it is a prerequisite of next semester's
+  subjects, a heads-up when a plan re-enrolls a subject with an open 4.0/INC, and no removal route for 5.0 (pp. 46-47).
+  The semester ceiling and the summer normal load are stored as knowledge/rules/palsu-load-policy-v1.json.
+- 4 Nov 2026 (plan checker behaviors, "2a ok too" / 2b "pwede naman"): (2a) terms are read in time order; a course
+  that works in its own term counts as passed for every later term (CC 4/L in the 2nd semester, then CS 4/L and
+  CS 6 in summer, works), and a course scheduled before its prerequisite is blocked and earns no credit for later
+  terms (p. 31). (2b) a special-class, off-semester or summer request never changes a term's outcome; the term reads
+  "Works, needs confirmation" / "Works, may kailangan pang i-confirm" with each request listed as requested, not yet
+  approved, with its printed conditions and source, plus what changes if it does not open.
+- 4 Nov 2026 (conversational wording, "Ok"): host-written prerequisite replies use plain conversational wording in
+  English and Taglish, e.g. "Yes, you can take CS 13/L! You've passed its prerequisite, CC 5/L." / "Oo, pwede mo nang
+  i-take ang CS 13/L! Pasado ka na sa prerequisite nito, ang CC 5/L."; "Not yet. COMM BC 13 needs COMM BC 11 first.
+  Once you pass it, you're good to go."; "COMM BC 14 needs COMM BC 13. Have you passed it? Tell me and I'll check for
+  you."; every clarification names what is missing (never the empty "Paki-clarify muna ang missing information");
+  quoted procedure fields read as steps, not "Reviewed source fields (quoted)"; "temporarily unavailable" only for a
+  real outage. Sources, unknown-versus-unmet and the advisory boundary are unchanged.
+- 4 Nov 2026 (printed units reading, owner choice "Lec/Lab units, a+b"): for load checks, a printed Units value
+  "a/b" in a reviewed prospectus (e.g. "2/1" for CC 4/L) is lecture units / laboratory units, total a+b ("2/1" -> 3);
+  a plain number is the total ("3" -> 3); any other form (e.g. "None", a malformed value) stays unknown. The printed
+  value is unchanged and answers keep it as printed; this is a reading for load checks, not a source correction.
+- 4 Nov 2026 (recovery draft preference, owner "Draft B, but make sure it needs to be program agnostic"): for the owner's
+  BSCS 2018-2019 CC 4/L case the preferred draft is special CC 4/L (2nd yr 2nd sem) -> summer CS 4/L + CS 6 -> special
+  CC 5/L on top of 3rd yr 1st sem -> regular, over the all-summer draft (CS 4/L + CS 6 + CC 5/L in summer). Generic rule
+  proposed by the coordinator to reproduce it (revisable by the owner): "just in time": each delayed course is placed in
+  the latest term that still delays none of the courses that need it; summer holds only courses needed by the next
+  term. Other drafts remain shown as alternatives; every step still needs approval.
+- 6 Nov 2026 (general facilities, owner: "I think pretty much ang naiisip ko is quote something from both?"):
+  quote the Handbook physical p.57 general application guidance beside the Citizens' Charter physical pp.80–81
+  library-facilities procedure. Label the latter as library-specific (IMC/Zoom/Studio); do not present it as the
+  general university room workflow or imply supersession. Originals, printed total discrepancy and other source
+  limits remain. This selects existing reviewed content for research replies, not institutional approval.

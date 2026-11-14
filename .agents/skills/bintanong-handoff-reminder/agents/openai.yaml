@@ -1,0 +1,5 @@
+interface:
+  display_name: "Bintanong Handoff Reminder"
+  short_description: "Remember handoffs and keep repository progress current"
+policy:
+  allow_implicit_invocation: true

@@ -2,14 +2,21 @@
 
 # dependencies
 /node_modules
+**/node_modules/
+**/.venv/
 /.pnp
 .pnp.js
 
 # testing
 /coverage
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+__pycache__/
+*.py[cod]
 
 # next.js
-/.next/
+**/.next/
 /out/
 
 # production
@@ -28,9 +35,30 @@ yarn-error.log*
 .env*.local
 .env
 
+# local agent execution state
+/.superpowers/
+
+# local model weights and generated/private data
+*.gguf
+*.safetensors
+/models/
+/uploads/
+/data/private/
+/artifacts/ocr/
+/artifacts/*
+!/artifacts/.gitkeep
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Repository-root institutional dataset: originals and local generated outputs
+/dataset/
+# Legacy location kept ignored for old checkouts and accidental local recreation
+/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/
+/backend/bintanong_tools/bintanong_jsonifer_prolog/dataset/PalSU Undergraduate Prospectus Website Dump/
+# Bulk local scratch copy; curated planning documents live in plans/ingestion/
+/plans/progress_plans/

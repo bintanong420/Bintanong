@@ -1,0 +1,2877 @@
+[
+ {
+  "id": "college-cad-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail Math 19?",
+  "program": "palsu-bsa",
+  "curriculum": "bsa-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Math 19"
+    ],
+    [
+     "Math 20"
+    ],
+    [
+     "BES 1"
+    ],
+    [
+     "CE 31/FB"
+    ],
+    [
+     "Mech 32B"
+    ],
+    [
+     "CE47/B"
+    ],
+    [
+     "PLN-1"
+    ],
+    [
+     "AS-1"
+    ],
+    [
+     "PLN-2"
+    ],
+    [
+     "SP-1"
+    ],
+    [
+     "AS-2"
+    ],
+    [
+     "PLN-3"
+    ],
+    [
+     "BM/AA-1"
+    ],
+    [
+     "HSNG"
+    ],
+    [
+     "BM/AA-2"
+    ],
+    [
+     "SP-3"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "Math 20",
+   "BES 1",
+   "CE 31/FB",
+   "Mech 32B",
+   "CE47/B",
+   "PLN-1",
+   "AS-1",
+   "PLN-2",
+   "SP-1",
+   "AS-2",
+   "PLN-3",
+   "BM/AA-1",
+   "HSNG",
+   "BM/AA-2",
+   "SP-3"
+  ],
+  "expected_direct_blocked": [
+   "Math 20",
+   "CE 31/FB"
+  ],
+  "expected_transitive_blocked": [
+   "BES 1",
+   "Mech 32B",
+   "CE47/B",
+   "PLN-1",
+   "AS-1",
+   "PLN-2",
+   "SP-1",
+   "AS-2",
+   "PLN-3",
+   "BM/AA-1",
+   "HSNG",
+   "BM/AA-2",
+   "SP-3"
+  ],
+  "expected_reply": "Kung ma-fail mo ang Math 19, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): Math 20 (second year, first semester), BES 1 (second year, second semester), CE 31/FB (second year, second semester), Mech 32B (third year, first semester), CE47/B (third year, second semester), PLN-1 (third year, second semester), AS-1 (fourth year, first semester), PLN-2 (fourth year, first semester), SP-1 (fourth year, first semester), AS-2 (fourth year, second semester), PLN-3 (fourth year, second semester), BM/AA-1 (fifth year, first semester), HSNG (fifth year, first semester), BM/AA-2 (fifth year, second semester), SP-3 (fifth year, second semester). Note: \"D-7\" ang naka-print na requirement ng SP-3, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"PP-4\" ang naka-print na requirement ng BM/AA-2, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser.",
+  "group": "per-college",
+  "note": "CAD: Math 19 blocks 15 later courses: Math 20, BES 1, CE 31/FB, Mech 32B, CE47/B, PLN-1, AS-1, PLN-2, SP-1, AS-2, PLN-3, BM/AA-1, HSNG, BM/AA-2, SP-3"
+ },
+ {
+  "id": "college-cad-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa Math 19, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-bsa",
+  "curriculum": "bsa-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Math 19"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "Math 20",
+   "BES 1",
+   "CE 31/FB",
+   "Mech 32B",
+   "CE47/B",
+   "PLN-1",
+   "AS-1",
+   "PLN-2",
+   "SP-1",
+   "AS-2",
+   "PLN-3",
+   "BM/AA-1",
+   "HSNG",
+   "BM/AA-2",
+   "SP-3"
+  ],
+  "group": "per-college",
+  "note": "CAD: recovery plan after failing Math 19 (blocks 15: Math 20, BES 1, CE 31/FB, Mech 32B, CE47/B, PLN-1, AS-1, PLN-2, SP-1, AS-2, PLN-3, BM/AA-1, HSNG, BM/AA-2, SP-3)"
+ },
+ {
+  "id": "college-cad-3",
+  "language": "en",
+  "question": "If I fail Math 20?",
+  "program": "palsu-bsa",
+  "curriculum": "bsa-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Math 20"
+    ],
+    [
+     "BES 1"
+    ],
+    [
+     "CE 31/FB"
+    ],
+    [
+     "Mech 32B"
+    ],
+    [
+     "CE47/B"
+    ],
+    [
+     "PLN-1"
+    ],
+    [
+     "AS-1"
+    ],
+    [
+     "PLN-2"
+    ],
+    [
+     "SP-1"
+    ],
+    [
+     "AS-2"
+    ],
+    [
+     "PLN-3"
+    ],
+    [
+     "BM/AA-1"
+    ],
+    [
+     "HSNG"
+    ],
+    [
+     "BM/AA-2"
+    ],
+    [
+     "SP-3"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "BES 1",
+   "CE 31/FB",
+   "Mech 32B",
+   "CE47/B",
+   "PLN-1",
+   "AS-1",
+   "PLN-2",
+   "SP-1",
+   "AS-2",
+   "PLN-3",
+   "BM/AA-1",
+   "HSNG",
+   "BM/AA-2",
+   "SP-3"
+  ],
+  "expected_direct_blocked": [
+   "BES 1",
+   "CE 31/FB"
+  ],
+  "expected_transitive_blocked": [
+   "Mech 32B",
+   "CE47/B",
+   "PLN-1",
+   "AS-1",
+   "PLN-2",
+   "SP-1",
+   "AS-2",
+   "PLN-3",
+   "BM/AA-1",
+   "HSNG",
+   "BM/AA-2",
+   "SP-3"
+  ],
+  "expected_reply": "If you fail Math 20, these courses are affected because their prerequisites include it (directly or through another course): BES 1 (second year, second semester), CE 31/FB (second year, second semester), Mech 32B (third year, first semester), CE47/B (third year, second semester), PLN-1 (third year, second semester), AS-1 (fourth year, first semester), PLN-2 (fourth year, first semester), SP-1 (fourth year, first semester), AS-2 (fourth year, second semester), PLN-3 (fourth year, second semester), BM/AA-1 (fifth year, first semester), HSNG (fifth year, first semester), BM/AA-2 (fifth year, second semester), SP-3 (fifth year, second semester). Note: SP-3 requires \"D-7\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: BM/AA-2 requires \"PP-4\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser.",
+  "group": "per-college",
+  "note": "CAD: follow-up Math 20 blocks 14 later courses: BES 1, CE 31/FB, Mech 32B, CE47/B, PLN-1, AS-1, PLN-2, SP-1, AS-2, PLN-3, BM/AA-1, HSNG, BM/AA-2, SP-3"
+ },
+ {
+  "id": "college-cah-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail COMM BC 11?",
+  "program": "palsu-abcomm",
+  "curriculum": "abcomm-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "COMM BC 11"
+    ],
+    [
+     "COMM BC 12"
+    ],
+    [
+     "COMM BC 13"
+    ],
+    [
+     "COMM BC 14"
+    ],
+    [
+     "COMM CRC 11"
+    ],
+    [
+     "COMM CRC 12"
+    ],
+    [
+     "COMM SSH 11"
+    ],
+    [
+     "COMM BC 15"
+    ],
+    [
+     "COMM CRC 13"
+    ],
+    [
+     "COMM CRC 14"
+    ],
+    [
+     "COMM RE 11"
+    ],
+    [
+     "COMM RE 12"
+    ],
+    [
+     "COMM SSH 12"
+    ],
+    [
+     "COMM SSH 13"
+    ],
+    [
+     "COMM 50/A"
+    ],
+    [
+     "COMM CRC15"
+    ],
+    [
+     "COMM RE 13"
+    ],
+    [
+     "COMM RE 14"
+    ],
+    [
+     "COMM SSH 14"
+    ],
+    [
+     "COMM SSH 15"
+    ],
+    [
+     "COMM 50/B"
+    ],
+    [
+     "COMM BC 16"
+    ],
+    [
+     "COMM BC 17"
+    ],
+    [
+     "COMM CRC 16"
+    ],
+    [
+     "COMM RE 15"
+    ],
+    [
+     "COMM SSH 16"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "COMM BC 12",
+   "COMM BC 13",
+   "COMM BC 14",
+   "COMM CRC 11",
+   "COMM CRC 12",
+   "COMM SSH 11",
+   "COMM BC 15",
+   "COMM CRC 13",
+   "COMM CRC 14",
+   "COMM RE 11",
+   "COMM RE 12",
+   "COMM SSH 12",
+   "COMM SSH 13",
+   "COMM 50/A",
+   "COMM CRC15",
+   "COMM RE 13",
+   "COMM RE 14",
+   "COMM SSH 14",
+   "COMM SSH 15",
+   "COMM 50/B",
+   "COMM BC 16",
+   "COMM BC 17",
+   "COMM CRC 16",
+   "COMM RE 15",
+   "COMM SSH 16"
+  ],
+  "expected_direct_blocked": [
+   "COMM BC 12",
+   "COMM BC 13",
+   "COMM SSH 11"
+  ],
+  "expected_transitive_blocked": [
+   "COMM BC 14",
+   "COMM CRC 11",
+   "COMM CRC 12",
+   "COMM BC 15",
+   "COMM CRC 13",
+   "COMM CRC 14",
+   "COMM RE 11",
+   "COMM RE 12",
+   "COMM SSH 12",
+   "COMM SSH 13",
+   "COMM 50/A",
+   "COMM CRC15",
+   "COMM RE 13",
+   "COMM RE 14",
+   "COMM SSH 14",
+   "COMM SSH 15",
+   "COMM 50/B",
+   "COMM BC 16",
+   "COMM BC 17",
+   "COMM CRC 16",
+   "COMM RE 15",
+   "COMM SSH 16"
+  ],
+  "expected_reply": "Kung ma-fail mo ang COMM BC 11, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): COMM BC 12 (second year, first semester), COMM BC 13 (second year, first semester), COMM BC 14 (second year, second semester), COMM CRC 11 (second year, second semester), COMM CRC 12 (second year, second semester), COMM SSH 11 (second year, second semester), COMM BC 15 (third year, first semester), COMM CRC 13 (third year, first semester), COMM CRC 14 (third year, first semester), COMM RE 11 (third year, first semester), COMM RE 12 (third year, first semester), COMM SSH 12 (third year, first semester), COMM SSH 13 (third year, first semester), COMM 50/A (third year, second semester), COMM CRC15 (third year, second semester), COMM RE 13 (third year, second semester), COMM RE 14 (third year, second semester), COMM SSH 14 (third year, second semester), COMM SSH 15 (third year, second semester), COMM 50/B (fourth year, first semester), COMM BC 16 (fourth year, first semester), COMM BC 17 (fourth year, first semester), COMM CRC 16 (fourth year, first semester), COMM RE 15 (fourth year, first semester), COMM SSH 16 (fourth year, first semester). Note: \"All courses\" ang naka-print na requirement ng COMM 100, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser.",
+  "group": "per-college",
+  "note": "CAH: COMM BC 11 blocks 25 later courses: COMM BC 12, COMM BC 13, COMM BC 14, COMM CRC 11, COMM CRC 12, COMM SSH 11, COMM BC 15, COMM CRC 13, COMM CRC 14, COMM RE 11, COMM RE 12, COMM SSH 12, COMM SSH 13, COMM 50/A, COMM CRC15, COMM RE 13, COMM RE 14, COMM SSH 14, COMM SSH 15, COMM 50/B, COMM BC 16, COMM BC 17, COMM CRC 16, COMM RE 15, COMM SSH 16"
+ },
+ {
+  "id": "college-cah-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa COMM BC 11, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-abcomm",
+  "curriculum": "abcomm-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "COMM BC 11"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "COMM BC 12",
+   "COMM BC 13",
+   "COMM BC 14",
+   "COMM CRC 11",
+   "COMM CRC 12",
+   "COMM SSH 11",
+   "COMM BC 15",
+   "COMM CRC 13",
+   "COMM CRC 14",
+   "COMM RE 11",
+   "COMM RE 12",
+   "COMM SSH 12",
+   "COMM SSH 13",
+   "COMM 50/A",
+   "COMM CRC15",
+   "COMM RE 13",
+   "COMM RE 14",
+   "COMM SSH 14",
+   "COMM SSH 15",
+   "COMM 50/B",
+   "COMM BC 16",
+   "COMM BC 17",
+   "COMM CRC 16",
+   "COMM RE 15",
+   "COMM SSH 16"
+  ],
+  "group": "per-college",
+  "note": "CAH: recovery plan after failing COMM BC 11 (blocks 25: COMM BC 12, COMM BC 13, COMM BC 14, COMM CRC 11, COMM CRC 12, COMM SSH 11, COMM BC 15, COMM CRC 13, COMM CRC 14, COMM RE 11, COMM RE 12, COMM SSH 12, COMM SSH 13, COMM 50/A, COMM CRC15, COMM RE 13, COMM RE 14, COMM SSH 14, COMM SSH 15, COMM 50/B, COMM BC 16, COMM BC 17, COMM CRC 16, COMM RE 15, COMM SSH 16)"
+ },
+ {
+  "id": "college-cah-3",
+  "language": "en",
+  "question": "If I fail COMM BC 13?",
+  "program": "palsu-abcomm",
+  "curriculum": "abcomm-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "COMM BC 13"
+    ],
+    [
+     "COMM BC 14"
+    ],
+    [
+     "COMM CRC 14"
+    ],
+    [
+     "COMM RE 11"
+    ],
+    [
+     "COMM RE 12"
+    ],
+    [
+     "COMM SSH 12"
+    ],
+    [
+     "COMM SSH 13"
+    ],
+    [
+     "COMM CRC15"
+    ],
+    [
+     "COMM RE 13"
+    ],
+    [
+     "COMM RE 14"
+    ],
+    [
+     "COMM SSH 14"
+    ],
+    [
+     "COMM SSH 15"
+    ],
+    [
+     "COMM CRC 16"
+    ],
+    [
+     "COMM RE 15"
+    ],
+    [
+     "COMM SSH 16"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "COMM BC 14",
+   "COMM CRC 14",
+   "COMM RE 11",
+   "COMM RE 12",
+   "COMM SSH 12",
+   "COMM SSH 13",
+   "COMM CRC15",
+   "COMM RE 13",
+   "COMM RE 14",
+   "COMM SSH 14",
+   "COMM SSH 15",
+   "COMM CRC 16",
+   "COMM RE 15",
+   "COMM SSH 16"
+  ],
+  "expected_direct_blocked": [
+   "COMM BC 14",
+   "COMM CRC15"
+  ],
+  "expected_transitive_blocked": [
+   "COMM CRC 14",
+   "COMM RE 11",
+   "COMM RE 12",
+   "COMM SSH 12",
+   "COMM SSH 13",
+   "COMM RE 13",
+   "COMM RE 14",
+   "COMM SSH 14",
+   "COMM SSH 15",
+   "COMM CRC 16",
+   "COMM RE 15",
+   "COMM SSH 16"
+  ],
+  "expected_reply": "If you fail COMM BC 13, these courses are affected because their prerequisites include it (directly or through another course): COMM BC 14 (second year, second semester), COMM CRC 14 (third year, first semester), COMM RE 11 (third year, first semester), COMM RE 12 (third year, first semester), COMM SSH 12 (third year, first semester), COMM SSH 13 (third year, first semester), COMM CRC15 (third year, second semester), COMM RE 13 (third year, second semester), COMM RE 14 (third year, second semester), COMM SSH 14 (third year, second semester), COMM SSH 15 (third year, second semester), COMM CRC 16 (fourth year, first semester), COMM RE 15 (fourth year, first semester), COMM SSH 16 (fourth year, first semester). Note: COMM 100 requires \"All courses\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser.",
+  "group": "per-college",
+  "note": "CAH: follow-up COMM BC 13 blocks 14 later courses: COMM BC 14, COMM CRC 14, COMM RE 11, COMM RE 12, COMM SSH 12, COMM SSH 13, COMM CRC15, COMM RE 13, COMM RE 14, COMM SSH 14, COMM SSH 15, COMM CRC 16, COMM RE 15, COMM SSH 16"
+ },
+ {
+  "id": "college-cba-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail AE 1?",
+  "program": "palsu-bsacct",
+  "curriculum": "bsacct-2023-2024",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "AE 1"
+    ],
+    [
+     "AE2"
+    ],
+    [
+     "AE3"
+    ],
+    [
+     "AE8"
+    ],
+    [
+     "AE14"
+    ],
+    [
+     "AE15"
+    ],
+    [
+     "AE20"
+    ],
+    [
+     "AE21"
+    ],
+    [
+     "AE22"
+    ],
+    [
+     "PrE1"
+    ],
+    [
+     "PrE2"
+    ],
+    [
+     "PrE3"
+    ],
+    [
+     "AE25"
+    ],
+    [
+     "AE27"
+    ],
+    [
+     "AE28"
+    ],
+    [
+     "PrE4"
+    ],
+    [
+     "PrE5"
+    ],
+    [
+     "PrE6"
+    ],
+    [
+     "PrE7"
+    ],
+    [
+     "PrE8"
+    ],
+    [
+     "Pro-Elect3"
+    ],
+    [
+     "Pro-Elect4"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "AE2",
+   "AE3",
+   "AE8",
+   "AE14",
+   "AE15",
+   "AE20",
+   "AE21",
+   "AE22",
+   "PrE1",
+   "PrE2",
+   "PrE3",
+   "AE25",
+   "AE27",
+   "AE28",
+   "PrE4",
+   "PrE5",
+   "PrE6",
+   "PrE7",
+   "PrE8",
+   "Pro-Elect3",
+   "Pro-Elect4"
+  ],
+  "expected_direct_blocked": [
+   "AE2",
+   "AE3"
+  ],
+  "expected_transitive_blocked": [
+   "AE8",
+   "AE14",
+   "AE15",
+   "AE20",
+   "AE21",
+   "AE22",
+   "PrE1",
+   "PrE2",
+   "PrE3",
+   "AE25",
+   "AE27",
+   "AE28",
+   "PrE4",
+   "PrE5",
+   "PrE6",
+   "PrE7",
+   "PrE8",
+   "Pro-Elect3",
+   "Pro-Elect4"
+  ],
+  "expected_reply": "Kung ma-fail mo ang AE 1, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): AE2 (first year, second semester), AE3 (first year, second semester), AE8 (second year, first semester), AE14 (second year, second semester), AE15 (second year, second semester), AE20 (third year, first semester), AE21 (third year, first semester), AE22 (third year, first semester), PrE1 (third year, first semester), PrE2 (third year, first semester), PrE3 (third year, first semester), AE25 (third year, second semester), AE27 (third year, second semester), AE28 (third year, second semester), PrE4 (third year, second semester), PrE5 (third year, second semester), PrE6 (third year, second semester), PrE7 (third year, second semester), PrE8 (third year, summer), Pro-Elect3 (fourth year, first semester), Pro-Elect4 (fourth year, first semester). Note: \"All courses\" ang naka-print na requirement ng AE29b, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"All courses\" ang naka-print na requirement ng AE29a, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser.",
+  "group": "per-college",
+  "note": "CBA: AE 1 blocks 21 later courses: AE2, AE3, AE8, AE14, AE15, AE20, AE21, AE22, PrE1, PrE2, PrE3, AE25, AE27, AE28, PrE4, PrE5, PrE6, PrE7, PrE8, Pro-Elect3, Pro-Elect4"
+ },
+ {
+  "id": "college-cba-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa AE 1, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-bsacct",
+  "curriculum": "bsacct-2023-2024",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "AE 1"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "AE2",
+   "AE3",
+   "AE8",
+   "AE14",
+   "AE15",
+   "AE20",
+   "AE21",
+   "AE22",
+   "PrE1",
+   "PrE2",
+   "PrE3",
+   "AE25",
+   "AE27",
+   "AE28",
+   "PrE4",
+   "PrE5",
+   "PrE6",
+   "PrE7",
+   "PrE8",
+   "Pro-Elect3",
+   "Pro-Elect4"
+  ],
+  "group": "per-college",
+  "note": "CBA: recovery plan after failing AE 1 (blocks 21: AE2, AE3, AE8, AE14, AE15, AE20, AE21, AE22, PrE1, PrE2, PrE3, AE25, AE27, AE28, PrE4, PrE5, PrE6, PrE7, PrE8, Pro-Elect3, Pro-Elect4)"
+ },
+ {
+  "id": "college-cba-3",
+  "language": "en",
+  "question": "If I fail AE3?",
+  "program": "palsu-bsacct",
+  "curriculum": "bsacct-2023-2024",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "AE3"
+    ],
+    [
+     "AE8"
+    ],
+    [
+     "AE14"
+    ],
+    [
+     "AE20"
+    ],
+    [
+     "AE22"
+    ],
+    [
+     "PrE1"
+    ],
+    [
+     "PrE2"
+    ],
+    [
+     "PrE3"
+    ],
+    [
+     "AE27"
+    ],
+    [
+     "AE28"
+    ],
+    [
+     "PrE4"
+    ],
+    [
+     "PrE5"
+    ],
+    [
+     "PrE6"
+    ],
+    [
+     "PrE7"
+    ],
+    [
+     "PrE8"
+    ],
+    [
+     "Pro-Elect3"
+    ],
+    [
+     "Pro-Elect4"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "AE8",
+   "AE14",
+   "AE20",
+   "AE22",
+   "PrE1",
+   "PrE2",
+   "PrE3",
+   "AE27",
+   "AE28",
+   "PrE4",
+   "PrE5",
+   "PrE6",
+   "PrE7",
+   "PrE8",
+   "Pro-Elect3",
+   "Pro-Elect4"
+  ],
+  "expected_direct_blocked": [
+   "AE8"
+  ],
+  "expected_transitive_blocked": [
+   "AE14",
+   "AE20",
+   "AE22",
+   "PrE1",
+   "PrE2",
+   "PrE3",
+   "AE27",
+   "AE28",
+   "PrE4",
+   "PrE5",
+   "PrE6",
+   "PrE7",
+   "PrE8",
+   "Pro-Elect3",
+   "Pro-Elect4"
+  ],
+  "expected_reply": "If you fail AE3, these courses are affected because their prerequisites include it (directly or through another course): AE8 (second year, first semester), AE14 (second year, second semester), AE20 (third year, first semester), AE22 (third year, first semester), PrE1 (third year, first semester), PrE2 (third year, first semester), PrE3 (third year, first semester), AE27 (third year, second semester), AE28 (third year, second semester), PrE4 (third year, second semester), PrE5 (third year, second semester), PrE6 (third year, second semester), PrE7 (third year, second semester), PrE8 (third year, summer), Pro-Elect3 (fourth year, first semester), Pro-Elect4 (fourth year, first semester). Note: AE29b requires \"All courses\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: AE29a requires \"All courses\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser.",
+  "group": "per-college",
+  "note": "CBA: follow-up AE3 blocks 16 later courses: AE8, AE14, AE20, AE22, PrE1, PrE2, PrE3, AE27, AE28, PrE4, PrE5, PrE6, PrE7, PrE8, Pro-Elect3, Pro-Elect4"
+ },
+ {
+  "id": "college-ccje-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail Forensic 1/L?",
+  "program": "palsu-bscrim",
+  "curriculum": "bscrim-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Forensic 1/L"
+    ],
+    [
+     "Forensic 2/L"
+    ],
+    [
+     "Forensic 3/L"
+    ],
+    [
+     "Forensic 4/L"
+    ],
+    [
+     "Forensic 5/L"
+    ],
+    [
+     "Forensic 6"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "Forensic 2/L",
+   "Forensic 3/L",
+   "Forensic 4/L",
+   "Forensic 5/L",
+   "Forensic 6"
+  ],
+  "expected_direct_blocked": [
+   "Forensic 2/L"
+  ],
+  "expected_transitive_blocked": [
+   "Forensic 3/L",
+   "Forensic 4/L",
+   "Forensic 5/L",
+   "Forensic 6"
+  ],
+  "expected_reply": "Kung ma-fail mo ang Forensic 1/L, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): Forensic 2/L (second year, second semester), Forensic 3/L (second year, second semester), Forensic 4/L (third year, first semester), Forensic 5/L (third year, second semester), Forensic 6 (fourth year, first semester). Note: \"All major courses from 1st to 3rd year\" ang naka-print na requirement ng CE 1, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"All major courses from 1st to 3rd year\" ang naka-print na requirement ng CP 1, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser.",
+  "group": "per-college",
+  "note": "CCJE: Forensic 1/L blocks 5 later courses: Forensic 2/L, Forensic 3/L, Forensic 4/L, Forensic 5/L, Forensic 6"
+ },
+ {
+  "id": "college-ccje-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa Forensic 1/L, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-bscrim",
+  "curriculum": "bscrim-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Forensic 1/L"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "Forensic 2/L",
+   "Forensic 3/L",
+   "Forensic 4/L",
+   "Forensic 5/L",
+   "Forensic 6"
+  ],
+  "group": "per-college",
+  "note": "CCJE: recovery plan after failing Forensic 1/L (blocks 5: Forensic 2/L, Forensic 3/L, Forensic 4/L, Forensic 5/L, Forensic 6)"
+ },
+ {
+  "id": "college-ccje-3",
+  "language": "en",
+  "question": "If I fail CLJ 1?",
+  "program": "palsu-bscrim",
+  "curriculum": "bscrim-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "CLJ 1"
+    ],
+    [
+     "CLJ 2"
+    ],
+    [
+     "CLJ 3"
+    ],
+    [
+     "CLJ 4"
+    ],
+    [
+     "CLJ 5"
+    ],
+    [
+     "CLJ 6"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "CLJ 2",
+   "CLJ 3",
+   "CLJ 4",
+   "CLJ 5",
+   "CLJ 6"
+  ],
+  "expected_direct_blocked": [
+   "CLJ 2"
+  ],
+  "expected_transitive_blocked": [
+   "CLJ 3",
+   "CLJ 4",
+   "CLJ 5",
+   "CLJ 6"
+  ],
+  "expected_reply": "If you fail CLJ 1, these courses are affected because their prerequisites include it (directly or through another course): CLJ 2 (second year, second semester), CLJ 3 (third year, first semester), CLJ 4 (third year, second semester), CLJ 5 (fourth year, first semester), CLJ 6 (fourth year, second semester). Note: CE 1 requires \"All major courses from 1st to 3rd year\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: CP 1 requires \"All major courses from 1st to 3rd year\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser.",
+  "group": "per-college",
+  "note": "CCJE: follow-up CLJ 1 blocks 5 later courses: CLJ 2, CLJ 3, CLJ 4, CLJ 5, CLJ 6"
+ },
+ {
+  "id": "college-chtm-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail THC-Micro?",
+  "program": "palsu-bshm-culinary",
+  "curriculum": "bshm-culinary-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "THC-Micro"
+    ],
+    [
+     "THC-Macro"
+    ],
+    [
+     "HPC 2/L"
+    ],
+    [
+     "THC-Mktg"
+    ],
+    [
+     "HPC 3/L"
+    ],
+    [
+     "THC-Entrep"
+    ],
+    [
+     "THC-QSM"
+    ],
+    [
+     "Pract 1-HM"
+    ],
+    [
+     "HMPE 4/L"
+    ],
+    [
+     "HPC 5/L"
+    ],
+    [
+     "HPC 6"
+    ],
+    [
+     "HPC 7"
+    ],
+    [
+     "THC-LA"
+    ],
+    [
+     "HMPE 5"
+    ],
+    [
+     "HPC 10/L"
+    ],
+    [
+     "HPC 9/L"
+    ],
+    [
+     "THC-MD"
+    ],
+    [
+     "THC-RM"
+    ],
+    [
+     "CAKM 1/L"
+    ],
+    [
+     "CAKM 2/L"
+    ],
+    [
+     "CAKM 3/L"
+    ],
+    [
+     "CAKM 4/L"
+    ],
+    [
+     "CAKM 5/L"
+    ],
+    [
+     "Pract 2-CAKM"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "THC-Macro",
+   "HPC 2/L",
+   "THC-Mktg",
+   "HPC 3/L",
+   "THC-Entrep",
+   "THC-QSM",
+   "Pract 1-HM",
+   "HMPE 4/L",
+   "HPC 5/L",
+   "HPC 6",
+   "HPC 7",
+   "THC-LA",
+   "HMPE 5",
+   "HPC 10/L",
+   "HPC 9/L",
+   "THC-MD",
+   "THC-RM",
+   "CAKM 1/L",
+   "CAKM 2/L",
+   "CAKM 3/L",
+   "CAKM 4/L",
+   "CAKM 5/L",
+   "Pract 2-CAKM"
+  ],
+  "expected_direct_blocked": [
+   "THC-Macro"
+  ],
+  "expected_transitive_blocked": [
+   "HPC 2/L",
+   "THC-Mktg",
+   "HPC 3/L",
+   "THC-Entrep",
+   "THC-QSM",
+   "Pract 1-HM",
+   "HMPE 4/L",
+   "HPC 5/L",
+   "HPC 6",
+   "HPC 7",
+   "THC-LA",
+   "HMPE 5",
+   "HPC 10/L",
+   "HPC 9/L",
+   "THC-MD",
+   "THC-RM",
+   "CAKM 1/L",
+   "CAKM 2/L",
+   "CAKM 3/L",
+   "CAKM 4/L",
+   "CAKM 5/L",
+   "Pract 2-CAKM"
+  ],
+  "expected_reply": "Kung ma-fail mo ang THC-Micro, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): THC-Macro (first year, second semester), HPC 2/L (second year, first semester), THC-Mktg (second year, first semester), HPC 3/L (second year, second semester), THC-Entrep (second year, second semester), THC-QSM (second year, second semester), Pract 1-HM (second year, summer), HMPE 4/L (third year, first semester), HPC 5/L (third year, first semester), HPC 6 (third year, first semester), HPC 7 (third year, first semester), THC-LA (third year, first semester), HMPE 5 (third year, second semester), HPC 10/L (third year, second semester), HPC 9/L (third year, second semester), THC-MD (third year, second semester), THC-RM (third year, second semester), CAKM 1/L (fourth year, first semester), CAKM 2/L (fourth year, first semester), CAKM 3/L (fourth year, first semester), CAKM 4/L (fourth year, first semester), CAKM 5/L (fourth year, first semester), Pract 2-CAKM (fourth year, second semester).",
+  "group": "per-college",
+  "note": "CHTM: THC-Micro blocks 23 later courses: THC-Macro, HPC 2/L, THC-Mktg, HPC 3/L, THC-Entrep, THC-QSM, Pract 1-HM, HMPE 4/L, HPC 5/L, HPC 6, HPC 7, THC-LA, HMPE 5, HPC 10/L, HPC 9/L, THC-MD, THC-RM, CAKM 1/L, CAKM 2/L, CAKM 3/L, CAKM 4/L, CAKM 5/L, Pract 2-CAKM"
+ },
+ {
+  "id": "college-chtm-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa THC-Micro, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-bshm-culinary",
+  "curriculum": "bshm-culinary-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "THC-Micro"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "THC-Macro",
+   "HPC 2/L",
+   "THC-Mktg",
+   "HPC 3/L",
+   "THC-Entrep",
+   "THC-QSM",
+   "Pract 1-HM",
+   "HMPE 4/L",
+   "HPC 5/L",
+   "HPC 6",
+   "HPC 7",
+   "THC-LA",
+   "HMPE 5",
+   "HPC 10/L",
+   "HPC 9/L",
+   "THC-MD",
+   "THC-RM",
+   "CAKM 1/L",
+   "CAKM 2/L",
+   "CAKM 3/L",
+   "CAKM 4/L",
+   "CAKM 5/L",
+   "Pract 2-CAKM"
+  ],
+  "group": "per-college",
+  "note": "CHTM: recovery plan after failing THC-Micro (blocks 23: THC-Macro, HPC 2/L, THC-Mktg, HPC 3/L, THC-Entrep, THC-QSM, Pract 1-HM, HMPE 4/L, HPC 5/L, HPC 6, HPC 7, THC-LA, HMPE 5, HPC 10/L, HPC 9/L, THC-MD, THC-RM, CAKM 1/L, CAKM 2/L, CAKM 3/L, CAKM 4/L, CAKM 5/L, Pract 2-CAKM)"
+ },
+ {
+  "id": "college-chtm-3",
+  "language": "en",
+  "question": "If I fail THC-Macro?",
+  "program": "palsu-bshm-culinary",
+  "curriculum": "bshm-culinary-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "THC-Macro"
+    ],
+    [
+     "HPC 2/L"
+    ],
+    [
+     "THC-Mktg"
+    ],
+    [
+     "HPC 3/L"
+    ],
+    [
+     "THC-Entrep"
+    ],
+    [
+     "THC-QSM"
+    ],
+    [
+     "Pract 1-HM"
+    ],
+    [
+     "HMPE 4/L"
+    ],
+    [
+     "HPC 5/L"
+    ],
+    [
+     "HPC 6"
+    ],
+    [
+     "HPC 7"
+    ],
+    [
+     "THC-LA"
+    ],
+    [
+     "HMPE 5"
+    ],
+    [
+     "HPC 10/L"
+    ],
+    [
+     "HPC 9/L"
+    ],
+    [
+     "THC-MD"
+    ],
+    [
+     "THC-RM"
+    ],
+    [
+     "CAKM 1/L"
+    ],
+    [
+     "CAKM 2/L"
+    ],
+    [
+     "CAKM 3/L"
+    ],
+    [
+     "CAKM 4/L"
+    ],
+    [
+     "CAKM 5/L"
+    ],
+    [
+     "Pract 2-CAKM"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "HPC 2/L",
+   "THC-Mktg",
+   "HPC 3/L",
+   "THC-Entrep",
+   "THC-QSM",
+   "Pract 1-HM",
+   "HMPE 4/L",
+   "HPC 5/L",
+   "HPC 6",
+   "HPC 7",
+   "THC-LA",
+   "HMPE 5",
+   "HPC 10/L",
+   "HPC 9/L",
+   "THC-MD",
+   "THC-RM",
+   "CAKM 1/L",
+   "CAKM 2/L",
+   "CAKM 3/L",
+   "CAKM 4/L",
+   "CAKM 5/L",
+   "Pract 2-CAKM"
+  ],
+  "expected_direct_blocked": [
+   "HPC 2/L",
+   "THC-Mktg",
+   "HPC 3/L",
+   "THC-QSM"
+  ],
+  "expected_transitive_blocked": [
+   "THC-Entrep",
+   "Pract 1-HM",
+   "HMPE 4/L",
+   "HPC 5/L",
+   "HPC 6",
+   "HPC 7",
+   "THC-LA",
+   "HMPE 5",
+   "HPC 10/L",
+   "HPC 9/L",
+   "THC-MD",
+   "THC-RM",
+   "CAKM 1/L",
+   "CAKM 2/L",
+   "CAKM 3/L",
+   "CAKM 4/L",
+   "CAKM 5/L",
+   "Pract 2-CAKM"
+  ],
+  "expected_reply": "If you fail THC-Macro, these courses are affected because their prerequisites include it (directly or through another course): HPC 2/L (second year, first semester), THC-Mktg (second year, first semester), HPC 3/L (second year, second semester), THC-Entrep (second year, second semester), THC-QSM (second year, second semester), Pract 1-HM (second year, summer), HMPE 4/L (third year, first semester), HPC 5/L (third year, first semester), HPC 6 (third year, first semester), HPC 7 (third year, first semester), THC-LA (third year, first semester), HMPE 5 (third year, second semester), HPC 10/L (third year, second semester), HPC 9/L (third year, second semester), THC-MD (third year, second semester), THC-RM (third year, second semester), CAKM 1/L (fourth year, first semester), CAKM 2/L (fourth year, first semester), CAKM 3/L (fourth year, first semester), CAKM 4/L (fourth year, first semester), CAKM 5/L (fourth year, first semester), Pract 2-CAKM (fourth year, second semester).",
+  "group": "per-college",
+  "note": "CHTM: follow-up THC-Macro blocks 22 later courses: HPC 2/L, THC-Mktg, HPC 3/L, THC-Entrep, THC-QSM, Pract 1-HM, HMPE 4/L, HPC 5/L, HPC 6, HPC 7, THC-LA, HMPE 5, HPC 10/L, HPC 9/L, THC-MD, THC-RM, CAKM 1/L, CAKM 2/L, CAKM 3/L, CAKM 4/L, CAKM 5/L, Pract 2-CAKM"
+ },
+ {
+  "id": "college-cnhs-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail Nurs MC 2?",
+  "program": "palsu-bsn",
+  "curriculum": "bsn-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Nurs MC 2"
+    ],
+    [
+     "NCM15-101A"
+    ],
+    [
+     "NCM15-101B"
+    ],
+    [
+     "NCM15-102A"
+    ],
+    [
+     "NCM15-102B"
+    ],
+    [
+     "NURS MC3"
+    ],
+    [
+     "NCM 15-103"
+    ],
+    [
+     "NCM 15-104A"
+    ],
+    [
+     "NCM 15-104B"
+    ],
+    [
+     "NCM 15-105A"
+    ],
+    [
+     "NCM 15-106A"
+    ],
+    [
+     "NCM 15-106B"
+    ],
+    [
+     "NCM 15-107A"
+    ],
+    [
+     "NCM 15-108"
+    ],
+    [
+     "NCM15-107B"
+    ],
+    [
+     "NCM 15-110A"
+    ],
+    [
+     "NCM 15-110B"
+    ],
+    [
+     "NCM 15-111A"
+    ],
+    [
+     "NCM 15-111B"
+    ],
+    [
+     "NCM 15-112A"
+    ],
+    [
+     "NCM 15-116A"
+    ],
+    [
+     "NCM 15-117A"
+    ],
+    [
+     "NCM 15-117B"
+    ],
+    [
+     "NCM15-114B"
+    ],
+    [
+     "NCM15-115A"
+    ],
+    [
+     "NCM15-115B"
+    ],
+    [
+     "NCM 15-112 B"
+    ],
+    [
+     "NCM 15-116 B"
+    ],
+    [
+     "NCM 115-118B"
+    ],
+    [
+     "NCM 15-118A"
+    ],
+    [
+     "NCM 15-119A"
+    ],
+    [
+     "NCM 15-119B"
+    ],
+    [
+     "NCM 15-122B"
+    ],
+    [
+     "NCM 15-123"
+    ],
+    [
+     "NCM15-121A"
+    ],
+    [
+     "NCM15-121B"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "NCM15-101A",
+   "NCM15-101B",
+   "NCM15-102A",
+   "NCM15-102B",
+   "NURS MC3",
+   "NCM 15-103",
+   "NCM 15-104A",
+   "NCM 15-104B",
+   "NCM 15-105A",
+   "NCM 15-106A",
+   "NCM 15-106B",
+   "NCM 15-107A",
+   "NCM 15-108",
+   "NCM15-107B",
+   "NCM 15-110A",
+   "NCM 15-110B",
+   "NCM 15-111A",
+   "NCM 15-111B",
+   "NCM 15-112A",
+   "NCM 15-116A",
+   "NCM 15-117A",
+   "NCM 15-117B",
+   "NCM15-114B",
+   "NCM15-115A",
+   "NCM15-115B",
+   "NCM 15-112 B",
+   "NCM 15-116 B",
+   "NCM 115-118B",
+   "NCM 15-118A",
+   "NCM 15-119A",
+   "NCM 15-119B",
+   "NCM 15-122B",
+   "NCM 15-123",
+   "NCM15-121A",
+   "NCM15-121B"
+  ],
+  "expected_direct_blocked": [
+   "NCM15-101A",
+   "NCM15-101B",
+   "NCM15-102A",
+   "NCM15-102B",
+   "NURS MC3",
+   "NCM 15-108"
+  ],
+  "expected_transitive_blocked": [
+   "NCM 15-103",
+   "NCM 15-104A",
+   "NCM 15-104B",
+   "NCM 15-105A",
+   "NCM 15-106A",
+   "NCM 15-106B",
+   "NCM 15-107A",
+   "NCM15-107B",
+   "NCM 15-110A",
+   "NCM 15-110B",
+   "NCM 15-111A",
+   "NCM 15-111B",
+   "NCM 15-112A",
+   "NCM 15-116A",
+   "NCM 15-117A",
+   "NCM 15-117B",
+   "NCM15-114B",
+   "NCM15-115A",
+   "NCM15-115B",
+   "NCM 15-112 B",
+   "NCM 15-116 B",
+   "NCM 115-118B",
+   "NCM 15-118A",
+   "NCM 15-119A",
+   "NCM 15-119B",
+   "NCM 15-122B",
+   "NCM 15-123",
+   "NCM15-121A",
+   "NCM15-121B"
+  ],
+  "expected_reply": "Kung ma-fail mo ang Nurs MC 2, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): NCM15-101A (first year, second semester), NCM15-101B (first year, second semester), NCM15-102A (first year, second semester), NCM15-102B (first year, second semester), NURS MC3 (first year, second semester), NCM 15-103 (second year, first semester), NCM 15-104A (second year, first semester), NCM 15-104B (second year, first semester), NCM 15-105A (second year, first semester), NCM 15-106A (second year, first semester), NCM 15-106B (second year, first semester), NCM 15-107A (second year, second semester), NCM 15-108 (second year, second semester), NCM15-107B (second year, second semester), NCM 15-110A (third year, first semester), NCM 15-110B (third year, first semester), NCM 15-111A (third year, first semester), NCM 15-111B (third year, first semester), NCM 15-112A (third year, first semester), NCM 15-116A (third year, second semester), NCM 15-117A (third year, second semester), NCM 15-117B (third year, second semester), NCM15-114B (third year, second semester), NCM15-115A (third year, second semester), NCM15-115B (third year, second semester), NCM 15-112 B (third year, summer), NCM 15-116 B (third year, summer), NCM 115-118B (fourth year, first semester), NCM 15-118A (fourth year, first semester), NCM 15-119A (fourth year, first semester), NCM 15-119B (fourth year, first semester), NCM 15-122B (fourth year, second semester), NCM 15-123 (fourth year, second semester), NCM15-121A (fourth year, second semester), NCM15-121B (fourth year, second semester). Note: \"PSC\" ang naka-print na requirement ng GE-CW, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"NCM 15-105B\" ang naka-print na requirement ng NCM 15-107A, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"NCM 15-112 B\" ang naka-print na requirement ng NCM 15-117B, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"NCM 15-105B\" ang naka-print na requirement ng NCM15-107B, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"NCM 15-117B\" ang naka-print na requirement ng NCM 15-112 B, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser.",
+  "group": "per-college",
+  "note": "CNHS: Nurs MC 2 blocks 35 later courses: NCM15-101A, NCM15-101B, NCM15-102A, NCM15-102B, NURS MC3, NCM 15-103, NCM 15-104A, NCM 15-104B, NCM 15-105A, NCM 15-106A, NCM 15-106B, NCM 15-107A, NCM 15-108, NCM15-107B, NCM 15-110A, NCM 15-110B, NCM 15-111A, NCM 15-111B, NCM 15-112A, NCM 15-116A, NCM 15-117A, NCM 15-117B, NCM15-114B, NCM15-115A, NCM15-115B, NCM 15-112 B, NCM 15-116 B, NCM 115-118B, NCM 15-118A, NCM 15-119A, NCM 15-119B, NCM 15-122B, NCM 15-123, NCM15-121A, NCM15-121B"
+ },
+ {
+  "id": "college-cnhs-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa Nurs MC 2, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-bsn",
+  "curriculum": "bsn-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Nurs MC 2"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "NCM15-101A",
+   "NCM15-101B",
+   "NCM15-102A",
+   "NCM15-102B",
+   "NURS MC3",
+   "NCM 15-103",
+   "NCM 15-104A",
+   "NCM 15-104B",
+   "NCM 15-105A",
+   "NCM 15-106A",
+   "NCM 15-106B",
+   "NCM 15-107A",
+   "NCM 15-108",
+   "NCM15-107B",
+   "NCM 15-110A",
+   "NCM 15-110B",
+   "NCM 15-111A",
+   "NCM 15-111B",
+   "NCM 15-112A",
+   "NCM 15-116A",
+   "NCM 15-117A",
+   "NCM 15-117B",
+   "NCM15-114B",
+   "NCM15-115A",
+   "NCM15-115B",
+   "NCM 15-112 B",
+   "NCM 15-116 B",
+   "NCM 115-118B",
+   "NCM 15-118A",
+   "NCM 15-119A",
+   "NCM 15-119B",
+   "NCM 15-122B",
+   "NCM 15-123",
+   "NCM15-121A",
+   "NCM15-121B"
+  ],
+  "group": "per-college",
+  "note": "CNHS: recovery plan after failing Nurs MC 2 (blocks 35: NCM15-101A, NCM15-101B, NCM15-102A, NCM15-102B, NURS MC3, NCM 15-103, NCM 15-104A, NCM 15-104B, NCM 15-105A, NCM 15-106A, NCM 15-106B, NCM 15-107A, NCM 15-108, NCM15-107B, NCM 15-110A, NCM 15-110B, NCM 15-111A, NCM 15-111B, NCM 15-112A, NCM 15-116A, NCM 15-117A, NCM 15-117B, NCM15-114B, NCM15-115A, NCM15-115B, NCM 15-112 B, NCM 15-116 B, NCM 115-118B, NCM 15-118A, NCM 15-119A, NCM 15-119B, NCM 15-122B, NCM 15-123, NCM15-121A, NCM15-121B)"
+ },
+ {
+  "id": "college-cnhs-3",
+  "language": "en",
+  "question": "If I fail Nurs MC 1?",
+  "program": "palsu-bsn",
+  "curriculum": "bsn-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Nurs MC 1"
+    ],
+    [
+     "NCM15-101A"
+    ],
+    [
+     "NCM15-101B"
+    ],
+    [
+     "NCM15-102A"
+    ],
+    [
+     "NCM15-102B"
+    ],
+    [
+     "NCM 15-103"
+    ],
+    [
+     "NCM 15-104A"
+    ],
+    [
+     "NCM 15-104B"
+    ],
+    [
+     "NCM 15-106A"
+    ],
+    [
+     "NCM 15-106B"
+    ],
+    [
+     "NCM 15-107A"
+    ],
+    [
+     "NCM15-107B"
+    ],
+    [
+     "NCM 15-110A"
+    ],
+    [
+     "NCM 15-110B"
+    ],
+    [
+     "NCM 15-111A"
+    ],
+    [
+     "NCM 15-111B"
+    ],
+    [
+     "NCM 15-112A"
+    ],
+    [
+     "NCM 15-116A"
+    ],
+    [
+     "NCM 15-117A"
+    ],
+    [
+     "NCM 15-117B"
+    ],
+    [
+     "NCM15-114B"
+    ],
+    [
+     "NCM15-115A"
+    ],
+    [
+     "NCM15-115B"
+    ],
+    [
+     "NCM 15-112 B"
+    ],
+    [
+     "NCM 15-116 B"
+    ],
+    [
+     "NCM 115-118B"
+    ],
+    [
+     "NCM 15-118A"
+    ],
+    [
+     "NCM 15-119A"
+    ],
+    [
+     "NCM 15-119B"
+    ],
+    [
+     "NCM 15-122B"
+    ],
+    [
+     "NCM 15-123"
+    ],
+    [
+     "NCM15-121A"
+    ],
+    [
+     "NCM15-121B"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "NCM15-101A",
+   "NCM15-101B",
+   "NCM15-102A",
+   "NCM15-102B",
+   "NCM 15-103",
+   "NCM 15-104A",
+   "NCM 15-104B",
+   "NCM 15-106A",
+   "NCM 15-106B",
+   "NCM 15-107A",
+   "NCM15-107B",
+   "NCM 15-110A",
+   "NCM 15-110B",
+   "NCM 15-111A",
+   "NCM 15-111B",
+   "NCM 15-112A",
+   "NCM 15-116A",
+   "NCM 15-117A",
+   "NCM 15-117B",
+   "NCM15-114B",
+   "NCM15-115A",
+   "NCM15-115B",
+   "NCM 15-112 B",
+   "NCM 15-116 B",
+   "NCM 115-118B",
+   "NCM 15-118A",
+   "NCM 15-119A",
+   "NCM 15-119B",
+   "NCM 15-122B",
+   "NCM 15-123",
+   "NCM15-121A",
+   "NCM15-121B"
+  ],
+  "expected_direct_blocked": [
+   "NCM15-101A",
+   "NCM15-101B",
+   "NCM15-102A",
+   "NCM15-102B"
+  ],
+  "expected_transitive_blocked": [
+   "NCM 15-103",
+   "NCM 15-104A",
+   "NCM 15-104B",
+   "NCM 15-106A",
+   "NCM 15-106B",
+   "NCM 15-107A",
+   "NCM15-107B",
+   "NCM 15-110A",
+   "NCM 15-110B",
+   "NCM 15-111A",
+   "NCM 15-111B",
+   "NCM 15-112A",
+   "NCM 15-116A",
+   "NCM 15-117A",
+   "NCM 15-117B",
+   "NCM15-114B",
+   "NCM15-115A",
+   "NCM15-115B",
+   "NCM 15-112 B",
+   "NCM 15-116 B",
+   "NCM 115-118B",
+   "NCM 15-118A",
+   "NCM 15-119A",
+   "NCM 15-119B",
+   "NCM 15-122B",
+   "NCM 15-123",
+   "NCM15-121A",
+   "NCM15-121B"
+  ],
+  "expected_reply": "If you fail Nurs MC 1, these courses are affected because their prerequisites include it (directly or through another course): NCM15-101A (first year, second semester), NCM15-101B (first year, second semester), NCM15-102A (first year, second semester), NCM15-102B (first year, second semester), NCM 15-103 (second year, first semester), NCM 15-104A (second year, first semester), NCM 15-104B (second year, first semester), NCM 15-106A (second year, first semester), NCM 15-106B (second year, first semester), NCM 15-107A (second year, second semester), NCM15-107B (second year, second semester), NCM 15-110A (third year, first semester), NCM 15-110B (third year, first semester), NCM 15-111A (third year, first semester), NCM 15-111B (third year, first semester), NCM 15-112A (third year, first semester), NCM 15-116A (third year, second semester), NCM 15-117A (third year, second semester), NCM 15-117B (third year, second semester), NCM15-114B (third year, second semester), NCM15-115A (third year, second semester), NCM15-115B (third year, second semester), NCM 15-112 B (third year, summer), NCM 15-116 B (third year, summer), NCM 115-118B (fourth year, first semester), NCM 15-118A (fourth year, first semester), NCM 15-119A (fourth year, first semester), NCM 15-119B (fourth year, first semester), NCM 15-122B (fourth year, second semester), NCM 15-123 (fourth year, second semester), NCM15-121A (fourth year, second semester), NCM15-121B (fourth year, second semester). Note: GE-CW requires \"PSC\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: NCM 15-107A requires \"NCM 15-105B\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: NCM 15-117B requires \"NCM 15-112 B\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: NCM15-107B requires \"NCM 15-105B\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: NCM 15-112 B requires \"NCM 15-117B\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser.",
+  "group": "per-college",
+  "note": "CNHS: follow-up Nurs MC 1 blocks 32 later courses: NCM15-101A, NCM15-101B, NCM15-102A, NCM15-102B, NCM 15-103, NCM 15-104A, NCM 15-104B, NCM 15-106A, NCM 15-106B, NCM 15-107A, NCM15-107B, NCM 15-110A, NCM 15-110B, NCM 15-111A, NCM 15-111B, NCM 15-112A, NCM 15-116A, NCM 15-117A, NCM 15-117B, NCM15-114B, NCM15-115A, NCM15-115B, NCM 15-112 B, NCM 15-116 B, NCM 115-118B, NCM 15-118A, NCM 15-119A, NCM 15-119B, NCM 15-122B, NCM 15-123, NCM15-121A, NCM15-121B"
+ },
+ {
+  "id": "college-cs-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail CC 2/L?",
+  "program": "palsu-bscs",
+  "curriculum": "bscs-proposed-2025-2026",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "CC 2/L"
+    ],
+    [
+     "CC 3/L"
+    ],
+    [
+     "CC 4/L"
+    ],
+    [
+     "CC 5/L"
+    ],
+    [
+     "CS 3"
+    ],
+    [
+     "CS 4/L"
+    ],
+    [
+     "CS 5/L"
+    ],
+    [
+     "CS 6/L"
+    ],
+    [
+     "CS 7"
+    ],
+    [
+     "CS 9/L"
+    ],
+    [
+     "CC 6/L"
+    ],
+    [
+     "CS 10/L"
+    ],
+    [
+     "CS 11/L"
+    ],
+    [
+     "CS Elect 1/L"
+    ],
+    [
+     "CS Elect 2/L"
+    ],
+    [
+     "CS 12/L"
+    ],
+    [
+     "CS 13/L"
+    ],
+    [
+     "CS 14/L"
+    ],
+    [
+     "CS 15/L"
+    ],
+    [
+     "CS Elect 3/L"
+    ],
+    [
+     "Thesis 1"
+    ],
+    [
+     "CS 16/L"
+    ],
+    [
+     "CS 17"
+    ],
+    [
+     "Thesis 2"
+    ],
+    [
+     "Thesis 3"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "CC 3/L",
+   "CC 4/L",
+   "CC 5/L",
+   "CS 3",
+   "CS 4/L",
+   "CS 5/L",
+   "CS 6/L",
+   "CS 7",
+   "CS 9/L",
+   "CC 6/L",
+   "CS 10/L",
+   "CS 11/L",
+   "CS Elect 1/L",
+   "CS Elect 2/L",
+   "CS 12/L",
+   "CS 13/L",
+   "CS 14/L",
+   "CS 15/L",
+   "CS Elect 3/L",
+   "Thesis 1",
+   "CS 16/L",
+   "CS 17",
+   "Thesis 2",
+   "Thesis 3"
+  ],
+  "expected_direct_blocked": [
+   "CC 3/L",
+   "CS 3"
+  ],
+  "expected_transitive_blocked": [
+   "CC 4/L",
+   "CC 5/L",
+   "CS 4/L",
+   "CS 5/L",
+   "CS 6/L",
+   "CS 7",
+   "CS 9/L",
+   "CC 6/L",
+   "CS 10/L",
+   "CS 11/L",
+   "CS Elect 1/L",
+   "CS Elect 2/L",
+   "CS 12/L",
+   "CS 13/L",
+   "CS 14/L",
+   "CS 15/L",
+   "CS Elect 3/L",
+   "Thesis 1",
+   "CS 16/L",
+   "CS 17",
+   "Thesis 2",
+   "Thesis 3"
+  ],
+  "expected_reply": "Kung ma-fail mo ang CC 2/L, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): CC 3/L (first year, second semester), CC 4/L (second year, first semester), CC 5/L (second year, first semester), CS 3 (second year, first semester), CS 4/L (second year, first semester), CS 5/L (second year, first semester), CS 6/L (second year, second semester), CS 7 (second year, second semester), CS 9/L (second year, second semester), CC 6/L (third year, first semester), CS 10/L (third year, first semester), CS 11/L (third year, first semester), CS Elect 1/L (third year, first semester), CS Elect 2/L (third year, first semester), CS 12/L (third year, second semester), CS 13/L (third year, second semester), CS 14/L (third year, second semester), CS 15/L (third year, second semester), CS Elect 3/L (third year, second semester), Thesis 1 (third year, second semester), CS 16/L (fourth year, first semester), CS 17 (fourth year, first semester), Thesis 2 (fourth year, first semester), Thesis 3 (fourth year, second semester). Note: \"70% of the total units of the past semesters.\" ang naka-print na requirement ng CS Elect 5/L, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"90% of all major courses\" ang naka-print na requirement ng PRACTICUM, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"70% of the total units of the past semesters\" ang naka-print na requirement ng CS Elect 4/L, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser.",
+  "group": "per-college",
+  "note": "CS: CC 2/L blocks 24 later courses: CC 3/L, CC 4/L, CC 5/L, CS 3, CS 4/L, CS 5/L, CS 6/L, CS 7, CS 9/L, CC 6/L, CS 10/L, CS 11/L, CS Elect 1/L, CS Elect 2/L, CS 12/L, CS 13/L, CS 14/L, CS 15/L, CS Elect 3/L, Thesis 1, CS 16/L, CS 17, Thesis 2, Thesis 3"
+ },
+ {
+  "id": "college-cs-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa CC 2/L, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-bscs",
+  "curriculum": "bscs-proposed-2025-2026",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "CC 2/L"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "CC 3/L",
+   "CC 4/L",
+   "CC 5/L",
+   "CS 3",
+   "CS 4/L",
+   "CS 5/L",
+   "CS 6/L",
+   "CS 7",
+   "CS 9/L",
+   "CC 6/L",
+   "CS 10/L",
+   "CS 11/L",
+   "CS Elect 1/L",
+   "CS Elect 2/L",
+   "CS 12/L",
+   "CS 13/L",
+   "CS 14/L",
+   "CS 15/L",
+   "CS Elect 3/L",
+   "Thesis 1",
+   "CS 16/L",
+   "CS 17",
+   "Thesis 2",
+   "Thesis 3"
+  ],
+  "group": "per-college",
+  "note": "CS: recovery plan after failing CC 2/L (blocks 24: CC 3/L, CC 4/L, CC 5/L, CS 3, CS 4/L, CS 5/L, CS 6/L, CS 7, CS 9/L, CC 6/L, CS 10/L, CS 11/L, CS Elect 1/L, CS Elect 2/L, CS 12/L, CS 13/L, CS 14/L, CS 15/L, CS Elect 3/L, Thesis 1, CS 16/L, CS 17, Thesis 2, Thesis 3)"
+ },
+ {
+  "id": "college-cs-3",
+  "language": "en",
+  "question": "If I fail CC 3/L?",
+  "program": "palsu-bscs",
+  "curriculum": "bscs-proposed-2025-2026",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "CC 3/L"
+    ],
+    [
+     "CC 4/L"
+    ],
+    [
+     "CC 5/L"
+    ],
+    [
+     "CS 4/L"
+    ],
+    [
+     "CS 5/L"
+    ],
+    [
+     "CS 6/L"
+    ],
+    [
+     "CS 7"
+    ],
+    [
+     "CS 9/L"
+    ],
+    [
+     "CC 6/L"
+    ],
+    [
+     "CS 10/L"
+    ],
+    [
+     "CS Elect 1/L"
+    ],
+    [
+     "CS Elect 2/L"
+    ],
+    [
+     "CS 12/L"
+    ],
+    [
+     "CS 13/L"
+    ],
+    [
+     "CS 14/L"
+    ],
+    [
+     "CS 15/L"
+    ],
+    [
+     "CS Elect 3/L"
+    ],
+    [
+     "Thesis 1"
+    ],
+    [
+     "CS 16/L"
+    ],
+    [
+     "CS 17"
+    ],
+    [
+     "Thesis 2"
+    ],
+    [
+     "Thesis 3"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "CC 4/L",
+   "CC 5/L",
+   "CS 4/L",
+   "CS 5/L",
+   "CS 6/L",
+   "CS 7",
+   "CS 9/L",
+   "CC 6/L",
+   "CS 10/L",
+   "CS Elect 1/L",
+   "CS Elect 2/L",
+   "CS 12/L",
+   "CS 13/L",
+   "CS 14/L",
+   "CS 15/L",
+   "CS Elect 3/L",
+   "Thesis 1",
+   "CS 16/L",
+   "CS 17",
+   "Thesis 2",
+   "Thesis 3"
+  ],
+  "expected_direct_blocked": [
+   "CC 4/L",
+   "CC 5/L",
+   "CS 4/L",
+   "CS 5/L"
+  ],
+  "expected_transitive_blocked": [
+   "CS 6/L",
+   "CS 7",
+   "CS 9/L",
+   "CC 6/L",
+   "CS 10/L",
+   "CS Elect 1/L",
+   "CS Elect 2/L",
+   "CS 12/L",
+   "CS 13/L",
+   "CS 14/L",
+   "CS 15/L",
+   "CS Elect 3/L",
+   "Thesis 1",
+   "CS 16/L",
+   "CS 17",
+   "Thesis 2",
+   "Thesis 3"
+  ],
+  "expected_reply": "If you fail CC 3/L, these courses are affected because their prerequisites include it (directly or through another course): CC 4/L (second year, first semester), CC 5/L (second year, first semester), CS 4/L (second year, first semester), CS 5/L (second year, first semester), CS 6/L (second year, second semester), CS 7 (second year, second semester), CS 9/L (second year, second semester), CC 6/L (third year, first semester), CS 10/L (third year, first semester), CS Elect 1/L (third year, first semester), CS Elect 2/L (third year, first semester), CS 12/L (third year, second semester), CS 13/L (third year, second semester), CS 14/L (third year, second semester), CS 15/L (third year, second semester), CS Elect 3/L (third year, second semester), Thesis 1 (third year, second semester), CS 16/L (fourth year, first semester), CS 17 (fourth year, first semester), Thesis 2 (fourth year, first semester), Thesis 3 (fourth year, second semester). Note: CS Elect 5/L requires \"70% of the total units of the past semesters.\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: PRACTICUM requires \"90% of all major courses\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: CS Elect 4/L requires \"70% of the total units of the past semesters\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser.",
+  "group": "per-college",
+  "note": "CS: follow-up CC 3/L blocks 21 later courses: CC 4/L, CC 5/L, CS 4/L, CS 5/L, CS 6/L, CS 7, CS 9/L, CC 6/L, CS 10/L, CS Elect 1/L, CS Elect 2/L, CS 12/L, CS 13/L, CS 14/L, CS 15/L, CS Elect 3/L, Thesis 1, CS 16/L, CS 17, Thesis 2, Thesis 3"
+ },
+ {
+  "id": "college-cs-2018-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail CC 4/L?",
+  "program": "palsu-bscs",
+  "curriculum": "bscs-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "CC 4/L"
+    ],
+    [
+     "CC 5/L"
+    ],
+    [
+     "CS 4/L"
+    ],
+    [
+     "CS 6"
+    ],
+    [
+     "CS 10/L"
+    ],
+    [
+     "CS 7/L"
+    ],
+    [
+     "CS 11/L"
+    ],
+    [
+     "CS 13/L"
+    ],
+    [
+     "CS 14/L"
+    ],
+    [
+     "CS 15/L"
+    ],
+    [
+     "CS 16/L"
+    ],
+    [
+     "CS 17/L"
+    ],
+    [
+     "CS 18/L"
+    ],
+    [
+     "CS 19"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "CC 5/L",
+   "CS 4/L",
+   "CS 6",
+   "CS 10/L",
+   "CS 7/L",
+   "CS 11/L",
+   "CS 13/L",
+   "CS 14/L",
+   "CS 15/L",
+   "CS 16/L",
+   "CS 17/L",
+   "CS 18/L",
+   "CS 19"
+  ],
+  "expected_direct_blocked": [
+   "CC 5/L",
+   "CS 4/L",
+   "CS 6",
+   "CS 7/L",
+   "CS 14/L"
+  ],
+  "expected_transitive_blocked": [
+   "CS 10/L",
+   "CS 11/L",
+   "CS 13/L",
+   "CS 15/L",
+   "CS 16/L",
+   "CS 17/L",
+   "CS 18/L",
+   "CS 19"
+  ],
+  "expected_reply": "Kung ma-fail mo ang CC 4/L, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): CC 5/L (second year, second semester), CS 4/L (second year, second semester), CS 6 (second year, second semester), CS 10/L (third year, first semester), CS 7/L (third year, first semester), CS 11/L (third year, second semester), CS 13/L (third year, second semester), CS 14/L (third year, second semester), CS 15/L (third year, second semester), CS 16/L (fourth year, first semester), CS 17/L (fourth year, first semester), CS 18/L (fourth year, first semester), CS 19 (fourth year, first semester). Note: \"70% of the total number of units in the curriculum must be completed\" ang naka-print na requirement ng CS 20, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser.",
+  "group": "per-college",
+  "note": "CS: CC 4/L blocks 13 later courses: CC 5/L, CS 4/L, CS 6, CS 10/L, CS 7/L, CS 11/L, CS 13/L, CS 14/L, CS 15/L, CS 16/L, CS 17/L, CS 18/L, CS 19"
+ },
+ {
+  "id": "college-cs-2018-2",
+  "language": "taglish",
+  "question": "Hala, bagsak ako sa CC 4/L, paano na yung major subs ko? Ano pwede ko itake para maging regular load ako agad? Ano pwede options ko?",
+  "program": "palsu-bscs",
+  "curriculum": "bscs-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "CC 4/L"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "CC 5/L",
+   "CS 4/L",
+   "CS 6",
+   "CS 10/L",
+   "CS 7/L",
+   "CS 11/L",
+   "CS 13/L",
+   "CS 14/L",
+   "CS 15/L",
+   "CS 16/L",
+   "CS 17/L",
+   "CS 18/L",
+   "CS 19"
+  ],
+  "group": "per-college",
+  "note": "CS: recovery plan after failing CC 4/L (blocks 13: CC 5/L, CS 4/L, CS 6, CS 10/L, CS 7/L, CS 11/L, CS 13/L, CS 14/L, CS 15/L, CS 16/L, CS 17/L, CS 18/L, CS 19)"
+ },
+ {
+  "id": "college-cs-2018-3",
+  "language": "en",
+  "question": "If I fail CC 5/L?",
+  "program": "palsu-bscs",
+  "curriculum": "bscs-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "CC 5/L"
+    ],
+    [
+     "CS 11/L"
+    ],
+    [
+     "CS 13/L"
+    ],
+    [
+     "CS 17/L"
+    ],
+    [
+     "CS 19"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "CS 11/L",
+   "CS 13/L",
+   "CS 17/L",
+   "CS 19"
+  ],
+  "expected_direct_blocked": [
+   "CS 11/L",
+   "CS 13/L",
+   "CS 19"
+  ],
+  "expected_transitive_blocked": [
+   "CS 17/L"
+  ],
+  "expected_reply": "If you fail CC 5/L, these courses are affected because their prerequisites include it (directly or through another course): CS 11/L (third year, second semester), CS 13/L (third year, second semester), CS 17/L (fourth year, first semester), CS 19 (fourth year, first semester). Note: CS 20 requires \"70% of the total number of units in the curriculum must be completed\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser.",
+  "group": "per-college",
+  "note": "CS: follow-up CC 5/L blocks 4 later courses: CS 11/L, CS 13/L, CS 17/L, CS 19"
+ },
+ {
+  "id": "college-cte-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail EL 2?",
+  "program": "palsu-bsed-eng",
+  "curriculum": "bsed-eng-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "EL 2"
+    ],
+    [
+     "EL 4"
+    ],
+    [
+     "EL 5"
+    ],
+    [
+     "EL 7"
+    ],
+    [
+     "EL 8"
+    ],
+    [
+     "EL 10"
+    ],
+    [
+     "EL 11"
+    ],
+    [
+     "EL 12"
+    ],
+    [
+     "EL 13"
+    ],
+    [
+     "EL 15"
+    ],
+    [
+     "EL 16"
+    ],
+    [
+     "EL 18"
+    ],
+    [
+     "EL 19"
+    ],
+    [
+     "EL 20"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "EL 4",
+   "EL 5",
+   "EL 7",
+   "EL 8",
+   "EL 10",
+   "EL 11",
+   "EL 12",
+   "EL 13",
+   "EL 15",
+   "EL 16",
+   "EL 18",
+   "EL 19",
+   "EL 20"
+  ],
+  "expected_direct_blocked": [
+   "EL 4",
+   "EL 5",
+   "EL 20"
+  ],
+  "expected_transitive_blocked": [
+   "EL 7",
+   "EL 8",
+   "EL 10",
+   "EL 11",
+   "EL 12",
+   "EL 13",
+   "EL 15",
+   "EL 16",
+   "EL 18",
+   "EL 19"
+  ],
+  "expected_reply": "Kung ma-fail mo ang EL 2, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): EL 4 (first year, second semester), EL 5 (second year, first semester), EL 7 (second year, first semester), EL 8 (second year, first semester), EL 10 (second year, second semester), EL 11 (second year, second semester), EL 12 (second year, second semester), EL 13 (second year, second semester), EL 15 (third year, first semester), EL 16 (third year, first semester), EL 18 (third year, second semester), EL 19 (third year, second semester), EL 20 (third year, second semester). Note: \"All Gen Ed, Prof. Ed. & Specializ ation Courses\" ang naka-print na requirement ng Ed 12, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"All Prof. Ed. & Specializ ation Courses\" ang naka-print na requirement ng FS 2, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser. Note: \"TTL 2\" ang naka-print na requirement ng EL 18, at hindi ko ito ma-check gamit ang bawat course result. Paki-confirm sa program adviser.",
+  "group": "per-college",
+  "note": "CTE: EL 2 blocks 13 later courses: EL 4, EL 5, EL 7, EL 8, EL 10, EL 11, EL 12, EL 13, EL 15, EL 16, EL 18, EL 19, EL 20"
+ },
+ {
+  "id": "college-cte-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa EL 2, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-bsed-eng",
+  "curriculum": "bsed-eng-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "EL 2"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "EL 4",
+   "EL 5",
+   "EL 7",
+   "EL 8",
+   "EL 10",
+   "EL 11",
+   "EL 12",
+   "EL 13",
+   "EL 15",
+   "EL 16",
+   "EL 18",
+   "EL 19",
+   "EL 20"
+  ],
+  "group": "per-college",
+  "note": "CTE: recovery plan after failing EL 2 (blocks 13: EL 4, EL 5, EL 7, EL 8, EL 10, EL 11, EL 12, EL 13, EL 15, EL 16, EL 18, EL 19, EL 20)"
+ },
+ {
+  "id": "college-cte-3",
+  "language": "en",
+  "question": "If I fail EL 4?",
+  "program": "palsu-bsed-eng",
+  "curriculum": "bsed-eng-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "EL 4"
+    ],
+    [
+     "EL 7"
+    ],
+    [
+     "EL 8"
+    ],
+    [
+     "EL 10"
+    ],
+    [
+     "EL 11"
+    ],
+    [
+     "EL 12"
+    ],
+    [
+     "EL 13"
+    ],
+    [
+     "EL 15"
+    ],
+    [
+     "EL 16"
+    ],
+    [
+     "EL 18"
+    ],
+    [
+     "EL 19"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "EL 7",
+   "EL 8",
+   "EL 10",
+   "EL 11",
+   "EL 12",
+   "EL 13",
+   "EL 15",
+   "EL 16",
+   "EL 18",
+   "EL 19"
+  ],
+  "expected_direct_blocked": [
+   "EL 7",
+   "EL 8",
+   "EL 16",
+   "EL 18"
+  ],
+  "expected_transitive_blocked": [
+   "EL 10",
+   "EL 11",
+   "EL 12",
+   "EL 13",
+   "EL 15",
+   "EL 19"
+  ],
+  "expected_reply": "If you fail EL 4, these courses are affected because their prerequisites include it (directly or through another course): EL 7 (second year, first semester), EL 8 (second year, first semester), EL 10 (second year, second semester), EL 11 (second year, second semester), EL 12 (second year, second semester), EL 13 (second year, second semester), EL 15 (third year, first semester), EL 16 (third year, first semester), EL 18 (third year, second semester), EL 19 (third year, second semester). Note: Ed 12 requires \"All Gen Ed, Prof. Ed. & Specializ ation Courses\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: FS 2 requires \"All Prof. Ed. & Specializ ation Courses\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser. Note: EL 18 requires \"TTL 2\" (as printed). I can't check that from individual course results, so please confirm it with your program adviser.",
+  "group": "per-college",
+  "note": "CTE: follow-up EL 4 blocks 10 later courses: EL 7, EL 8, EL 10, EL 11, EL 12, EL 13, EL 15, EL 16, EL 18, EL 19"
+ },
+ {
+  "id": "college-coe-1",
+  "language": "taglish",
+  "question": "Anong subs ang affected if I fail Math 11/L?",
+  "program": "palsu-bsme",
+  "curriculum": "bsme-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Math 11/L"
+    ],
+    [
+     "Math 12/L"
+    ],
+    [
+     "Phy 11/L"
+    ],
+    [
+     "BES 1"
+    ],
+    [
+     "EE 21/L"
+    ],
+    [
+     "ME 21"
+    ],
+    [
+     "ME 22/L"
+    ],
+    [
+     "Math 21"
+    ],
+    [
+     "Math 22"
+    ],
+    [
+     "BES 2"
+    ],
+    [
+     "BES 3"
+    ],
+    [
+     "BES 4"
+    ],
+    [
+     "ECE 1/L"
+    ],
+    [
+     "ME 23"
+    ],
+    [
+     "ME 24/L"
+    ],
+    [
+     "BES 23ME/L"
+    ],
+    [
+     "EE 32A/L"
+    ],
+    [
+     "ME 30"
+    ],
+    [
+     "ME 31"
+    ],
+    [
+     "ME 32/L"
+    ],
+    [
+     "ME 33"
+    ],
+    [
+     "Math 23 ME"
+    ],
+    [
+     "ME 34/L"
+    ],
+    [
+     "ME 36"
+    ],
+    [
+     "ME 37"
+    ],
+    [
+     "ME 38/L"
+    ],
+    [
+     "ME 39"
+    ],
+    [
+     "Res 01ME"
+    ],
+    [
+     "ME 41"
+    ],
+    [
+     "ME 42/L"
+    ],
+    [
+     "ME 43/L"
+    ],
+    [
+     "ME 44/L"
+    ],
+    [
+     "ME 46/L"
+    ],
+    [
+     "PS 1"
+    ],
+    [
+     "ME 47/L"
+    ],
+    [
+     "ME 48/L"
+    ],
+    [
+     "PS 2"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "Math 12/L",
+   "Phy 11/L",
+   "BES 1",
+   "EE 21/L",
+   "ME 21",
+   "ME 22/L",
+   "Math 21",
+   "Math 22",
+   "BES 2",
+   "BES 3",
+   "BES 4",
+   "ECE 1/L",
+   "ME 23",
+   "ME 24/L",
+   "BES 23ME/L",
+   "EE 32A/L",
+   "ME 30",
+   "ME 31",
+   "ME 32/L",
+   "ME 33",
+   "Math 23 ME",
+   "ME 34/L",
+   "ME 36",
+   "ME 37",
+   "ME 38/L",
+   "ME 39",
+   "Res 01ME",
+   "ME 41",
+   "ME 42/L",
+   "ME 43/L",
+   "ME 44/L",
+   "ME 46/L",
+   "PS 1",
+   "ME 47/L",
+   "ME 48/L",
+   "PS 2"
+  ],
+  "expected_direct_blocked": [
+   "Math 12/L",
+   "Phy 11/L",
+   "ME 22/L",
+   "Math 22"
+  ],
+  "expected_transitive_blocked": [
+   "BES 1",
+   "EE 21/L",
+   "ME 21",
+   "Math 21",
+   "BES 2",
+   "BES 3",
+   "BES 4",
+   "ECE 1/L",
+   "ME 23",
+   "ME 24/L",
+   "BES 23ME/L",
+   "EE 32A/L",
+   "ME 30",
+   "ME 31",
+   "ME 32/L",
+   "ME 33",
+   "Math 23 ME",
+   "ME 34/L",
+   "ME 36",
+   "ME 37",
+   "ME 38/L",
+   "ME 39",
+   "Res 01ME",
+   "ME 41",
+   "ME 42/L",
+   "ME 43/L",
+   "ME 44/L",
+   "ME 46/L",
+   "PS 1",
+   "ME 47/L",
+   "ME 48/L",
+   "PS 2"
+  ],
+  "expected_reply": "Kung ma-fail mo ang Math 11/L, apektado ang mga course na ito dahil kasama ito sa prerequisites nila (direkta o sa ibang course): Math 12/L (first year, second semester), Phy 11/L (first year, second semester), BES 1 (second year, first semester), EE 21/L (second year, first semester), ME 21 (second year, first semester), ME 22/L (second year, first semester), Math 21 (second year, first semester), Math 22 (second year, first semester), BES 2 (second year, second semester), BES 3 (second year, second semester), BES 4 (second year, second semester), ECE 1/L (second year, second semester), ME 23 (second year, second semester), ME 24/L (second year, second semester), BES 23ME/L (third year, first semester), EE 32A/L (third year, first semester), ME 30 (third year, first semester), ME 31 (third year, first semester), ME 32/L (third year, first semester), ME 33 (third year, first semester), Math 23 ME (third year, first semester), ME 34/L (third year, second semester), ME 36 (third year, second semester), ME 37 (third year, second semester), ME 38/L (third year, second semester), ME 39 (third year, second semester), Res 01ME (third year, second semester), ME 41 (fourth year, first semester), ME 42/L (fourth year, first semester), ME 43/L (fourth year, first semester), ME 44/L (fourth year, first semester), ME 46/L (fourth year, first semester), PS 1 (fourth year, first semester), ME 47/L (fourth year, second semester), ME 48/L (fourth year, second semester), PS 2 (fourth year, second semester).",
+  "group": "per-college",
+  "note": "CoE: Math 11/L blocks 36 later courses: Math 12/L, Phy 11/L, BES 1, EE 21/L, ME 21, ME 22/L, Math 21, Math 22, BES 2, BES 3, BES 4, ECE 1/L, ME 23, ME 24/L, BES 23ME/L, EE 32A/L, ME 30, ME 31, ME 32/L, ME 33, Math 23 ME, ME 34/L, ME 36, ME 37, ME 38/L, ME 39, Res 01ME, ME 41, ME 42/L, ME 43/L, ME 44/L, ME 46/L, PS 1, ME 47/L, ME 48/L, PS 2"
+ },
+ {
+  "id": "college-coe-2",
+  "language": "taglish",
+  "question": "Bagsak ako sa Math 11/L, paano ko sya maresolve? Ano pwede ko itake para makabalik ako sa regular load?",
+  "program": "palsu-bsme",
+  "curriculum": "bsme-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Math 11/L"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "Math 12/L",
+   "Phy 11/L",
+   "BES 1",
+   "EE 21/L",
+   "ME 21",
+   "ME 22/L",
+   "Math 21",
+   "Math 22",
+   "BES 2",
+   "BES 3",
+   "BES 4",
+   "ECE 1/L",
+   "ME 23",
+   "ME 24/L",
+   "BES 23ME/L",
+   "EE 32A/L",
+   "ME 30",
+   "ME 31",
+   "ME 32/L",
+   "ME 33",
+   "Math 23 ME",
+   "ME 34/L",
+   "ME 36",
+   "ME 37",
+   "ME 38/L",
+   "ME 39",
+   "Res 01ME",
+   "ME 41",
+   "ME 42/L",
+   "ME 43/L",
+   "ME 44/L",
+   "ME 46/L",
+   "PS 1",
+   "ME 47/L",
+   "ME 48/L",
+   "PS 2"
+  ],
+  "group": "per-college",
+  "note": "CoE: recovery plan after failing Math 11/L (blocks 36: Math 12/L, Phy 11/L, BES 1, EE 21/L, ME 21, ME 22/L, Math 21, Math 22, BES 2, BES 3, BES 4, ECE 1/L, ME 23, ME 24/L, BES 23ME/L, EE 32A/L, ME 30, ME 31, ME 32/L, ME 33, Math 23 ME, ME 34/L, ME 36, ME 37, ME 38/L, ME 39, Res 01ME, ME 41, ME 42/L, ME 43/L, ME 44/L, ME 46/L, PS 1, ME 47/L, ME 48/L, PS 2)"
+ },
+ {
+  "id": "college-coe-3",
+  "language": "en",
+  "question": "If I fail Phy 11/L?",
+  "program": "palsu-bsme",
+  "curriculum": "bsme-2018-2019",
+  "expect": {
+   "status": [
+    "answered"
+   ],
+   "contains": [
+    [
+     "Phy 11/L"
+    ],
+    [
+     "BES 1"
+    ],
+    [
+     "EE 21/L"
+    ],
+    [
+     "ME 21"
+    ],
+    [
+     "ME 22/L"
+    ],
+    [
+     "BES 2"
+    ],
+    [
+     "BES 3"
+    ],
+    [
+     "BES 4"
+    ],
+    [
+     "ECE 1/L"
+    ],
+    [
+     "ME 23"
+    ],
+    [
+     "ME 24/L"
+    ],
+    [
+     "BES 23ME/L"
+    ],
+    [
+     "EE 32A/L"
+    ],
+    [
+     "ME 30"
+    ],
+    [
+     "ME 31"
+    ],
+    [
+     "ME 32/L"
+    ],
+    [
+     "ME 33"
+    ],
+    [
+     "ME 34/L"
+    ],
+    [
+     "ME 36"
+    ],
+    [
+     "ME 37"
+    ],
+    [
+     "ME 38/L"
+    ],
+    [
+     "ME 41"
+    ],
+    [
+     "ME 42/L"
+    ],
+    [
+     "ME 43/L"
+    ],
+    [
+     "ME 44/L"
+    ],
+    [
+     "ME 46/L"
+    ],
+    [
+     "ME 47/L"
+    ],
+    [
+     "ME 48/L"
+    ]
+   ],
+   "absent": [],
+   "decision": null
+  },
+  "expected_blocked_courses": [
+   "BES 1",
+   "EE 21/L",
+   "ME 21",
+   "ME 22/L",
+   "BES 2",
+   "BES 3",
+   "BES 4",
+   "ECE 1/L",
+   "ME 23",
+   "ME 24/L",
+   "BES 23ME/L",
+   "EE 32A/L",
+   "ME 30",
+   "ME 31",
+   "ME 32/L",
+   "ME 33",
+   "ME 34/L",
+   "ME 36",
+   "ME 37",
+   "ME 38/L",
+   "ME 41",
+   "ME 42/L",
+   "ME 43/L",
+   "ME 44/L",
+   "ME 46/L",
+   "ME 47/L",
+   "ME 48/L"
+  ],
+  "expected_direct_blocked": [
+   "BES 1",
+   "EE 21/L",
+   "ME 21",
+   "ME 22/L"
+  ],
+  "expected_transitive_blocked": [
+   "BES 2",
+   "BES 3",
+   "BES 4",
+   "ECE 1/L",
+   "ME 23",
+   "ME 24/L",
+   "BES 23ME/L",
+   "EE 32A/L",
+   "ME 30",
+   "ME 31",
+   "ME 32/L",
+   "ME 33",
+   "ME 34/L",
+   "ME 36",
+   "ME 37",
+   "ME 38/L",
+   "ME 41",
+   "ME 42/L",
+   "ME 43/L",
+   "ME 44/L",
+   "ME 46/L",
+   "ME 47/L",
+   "ME 48/L"
+  ],
+  "expected_reply": "If you fail Phy 11/L, these courses are affected because their prerequisites include it (directly or through another course): BES 1 (second year, first semester), EE 21/L (second year, first semester), ME 21 (second year, first semester), ME 22/L (second year, first semester), BES 2 (second year, second semester), BES 3 (second year, second semester), BES 4 (second year, second semester), ECE 1/L (second year, second semester), ME 23 (second year, second semester), ME 24/L (second year, second semester), BES 23ME/L (third year, first semester), EE 32A/L (third year, first semester), ME 30 (third year, first semester), ME 31 (third year, first semester), ME 32/L (third year, first semester), ME 33 (third year, first semester), ME 34/L (third year, second semester), ME 36 (third year, second semester), ME 37 (third year, second semester), ME 38/L (third year, second semester), ME 41 (fourth year, first semester), ME 42/L (fourth year, first semester), ME 43/L (fourth year, first semester), ME 44/L (fourth year, first semester), ME 46/L (fourth year, first semester), ME 47/L (fourth year, second semester), ME 48/L (fourth year, second semester).",
+  "group": "per-college",
+  "note": "CoE: follow-up Phy 11/L blocks 27 later courses: BES 1, EE 21/L, ME 21, ME 22/L, BES 2, BES 3, BES 4, ECE 1/L, ME 23, ME 24/L, BES 23ME/L, EE 32A/L, ME 30, ME 31, ME 32/L, ME 33, ME 34/L, ME 36, ME 37, ME 38/L, ME 41, ME 42/L, ME 43/L, ME 44/L, ME 46/L, ME 47/L, ME 48/L"
+ }
+]

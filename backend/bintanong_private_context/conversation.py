@@ -1,0 +1,83 @@
+"""Capture of the ids an answered turn used, and the next turn's request context (master 23)."""
+from __future__ import annotations
+
+from ..bintanong_routing.contracts import ConversationContext, RequestContext
+from ..bintanong_routing.topic_selection import SHIFT_TOPICS
+from ..bintanong_routing.validation import RoutingResult
+from .sessions import SessionView
+
+
+def capture(result: RoutingResult) -> ConversationContext | None:
+    """Only a validated turn is kept. The course is the one the turn's check asked about (owner,
+    23 Oct 2026: "Can I take CC 5? I passed CC 4." -> "it" is CC 5); without a check, only a single
+    mentioned course is kept, so a later "its" never has to choose between two antecedents."""
+    if result.diagnostic == 'transfer_direction_unstated':  # owner GUI 3 Nov 2026: remember the question asked
+        detail = next((p.detail for p in result.proposed.parts if p.evidence_need == 'document'), None) \
+            if result.proposed else None
+        return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id,
+                                   pending='transfer_direction', detail=detail)
+    if result.diagnostic == 'bare_program_name' and result.compiled:
+        # Compiled routing (owner 4 Nov 2026): the reply asked what the student wants to know about the named
+        # program, so the next turn ("yung subjects") keeps that program.
+        return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id)
+    if result.diagnostic != 'validated':
+        return None
+    request = result.decision.predicate_request
+    courses = ({i.value for i in request.inputs if i.name == 'course_id'} if request is not None
+               else {e.value for e in result.query.entities if e.kind == 'course'})
+    subjects = {p.subject_id for p in result.proposed.parts if p.subject_id} if result.proposed else set()
+    if subjects == set(SHIFT_TOPICS):
+        subjects = {'handbook_shifting'}  # the Handbook rule and its companion FAQ describe the same process
+    details = {p.detail for p in result.proposed.parts if p.subject_id} if result.proposed else set()
+    # Owner GUI 3 Nov 2026: the question's structure (operation, year, semester, detail), so a follow-up can re-ask it.
+    given = {i.name: i.value for i in request.inputs} if request is not None else {}
+    year = given.get('year_level')
+    return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id,
+                               course_id=courses.pop() if len(courses) == 1 else None,
+                               subject_id=subjects.pop() if len(subjects) == 1 else None,
+                               detail=details.pop() if len(subjects | set()) <= 1 and len(details) == 1 else None,
+                               operation=request.predicate if request is not None else None,
+                               year_level=int(year) if year and year.isdigit() else None,
+                               semester=given.get('semester'))
+
+
+def follow_up_context(view: SessionView, *, request_id: str, program_id: str | None = None,
+                      curriculum_id: str | None = None) -> RequestContext:
+    """The previous turn rides along as context only; validation lets it fill scope the new message
+    leaves unnamed, so most turns (new, unrelated questions) are not bound to it. Facts outside the
+    request's scope stay out."""
+    conversation = view.conversation
+    facts = tuple(f for f in view.facts if (f.program_id, f.curriculum_id) == (program_id, curriculum_id))
+    from .context_compiler import compile_context
+    return RequestContext(session_id=view.session_id, request_id=request_id, program_id=program_id,
+                          curriculum_id=curriculum_id, facts=facts, conversation=conversation,
+                          dialogue=compile_context(view, program_id, curriculum_id))
+
+
+def capture_request(result):
+    """A clarification keeps its interpreted request without claiming it was answered."""
+    saved = capture(result)
+    if saved is not None or result.proposed is None:
+        return saved
+    if result.diagnostic not in ('missing_term', 'missing_scope', 'unresolved_entity',
+                                 'empty_clarification', 'model_control', 'bare_program_name'):
+        return None
+    operations = result.proposed.operations
+    courses = {e.value for e in result.query.entities if e.kind == 'course'}
+    subjects = {p.subject_id for p in result.proposed.parts if p.subject_id}
+    operation = operations[0].name if len(operations) == 1 else None
+    return ConversationContext(program_id=result.program_id, curriculum_id=result.curriculum_id,
+        operation=operation, course_id=next(iter(courses)) if len(courses) == 1 and operation not in
+        ('assess_term_prerequisites', 'list_term_courses', 'check_study_plan') else None,
+        subject_id=next(iter(subjects)) if len(subjects) == 1 else None)
+
+
+def previous_refs(conversation) -> tuple[str, ...]:
+    """The previous turn's course, else its document topic, as missing-fact markers for the reply."""
+    if conversation is None:
+        return ()
+    if conversation.course_id is not None:
+        return ('previous_course:' + conversation.course_id,)
+    if conversation.subject_id is not None:
+        return ('previous_topic:' + conversation.subject_id,)
+    return ()

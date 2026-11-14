@@ -1,0 +1,72 @@
+[
+  {
+    "acceptable_claims": [
+      "The rules service is unavailable right now, so I cannot answer."
+    ],
+    "adversarial_kinds": [
+      "operational_failure"
+    ],
+    "case_id": "syn-enrol-outage-en",
+    "category": "enrollment",
+    "expected_control": "evidence_unavailable",
+    "expected_outcome": null,
+    "expected_route": null,
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-enrollment-outage",
+    "language": "en",
+    "missing_facts": [],
+    "must_abstain": true,
+    "query": "How many units can I enroll in this term?",
+    "required_facts": [
+      "unit load limit"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: unit-load limits are looked up in the rules service."
+  },
+  {
+    "acceptable_claims": [
+      "Hindi gumagana ang rules service ngayon, kaya hindi ako makapagbigay ng sagot."
+    ],
+    "adversarial_kinds": [
+      "operational_failure"
+    ],
+    "case_id": "syn-enrol-outage-tgl",
+    "category": "enrollment",
+    "expected_control": null,
+    "expected_outcome": "error",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-enrollment-outage",
+    "language": "taglish",
+    "missing_facts": [],
+    "must_abstain": true,
+    "query": "Pwede ba akong mag-enroll ng 24 units ngayong sem?",
+    "required_facts": [
+      "unit load limit"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: unit-load limits are looked up in the rules service."
+  }
+]

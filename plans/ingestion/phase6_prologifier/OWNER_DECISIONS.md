@@ -1,0 +1,5 @@
+# Phase6 owner decisions
+
+2026-10-10: Owner answered Yes to source-linked candidate compiler scope. This is conversational approach approval. External SPEC.md written for review. No written-spec approval, implementation-plan approval, formal phase start or executable Prolog/runtime authorization has occurred. Local draft commits separately authorized for tested draft work; no protected ref movement/merge/adoption.
+
+2026-10-11: After both written specs were linked in chat, owner asked to continue and reiterated90–95% OVERALL ingestion. Coordinator explicitly announced that continuation would be used to prepare implementation plans for those presented designs. IMPLEMENTATION_PLAN.md is now prepared for owner confirmation; no implementation/execution or formal phase advancement has started. This does not grant the separate Medium recheck exception, approve the new private lifecycle design or supply human/source/photo evidence. FullPhase6 remains excluded from overall ingestion's existing denominator.

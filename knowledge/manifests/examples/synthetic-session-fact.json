@@ -1,0 +1,16 @@
+{
+  "schema_version": "bintanong-session-fact-v1",
+  "namespace": "private_session",
+  "synthetic": true,
+  "fact_id": "fact-synth-0001",
+  "session_id": "sess-synth-0001",
+  "origin": "user_statement",
+  "confirmation_state": "unconfirmed",
+  "confirmation_evidence_ref": null,
+  "lifecycle": "session_only",
+  "fact": {
+    "key": "completed_course",
+    "value": "FICTIONAL-101"
+  },
+  "evidence": []
+}

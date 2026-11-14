@@ -1,0 +1,33 @@
+# Phase 05 retrieval report — 12 October 2026
+
+**Software candidate; institutional retrieval exit gate pending.** No answer generation, source approval or release activation follows from these measurements.
+
+The database-backed synthetic development run uses ten explicitly labeled cases: six positive exact-entity/scope retrievals, unavailable policy, unknown acronym, wrong program and outdated edition. Languages: English (4), Filipino (3), Taglish (3). Categories: enrollment (4), prerequisites (4), academic standing (1), grades (1). Discipline is not covered by this fixture.
+
+Queries are assigned manual unit-vector axes; they are not encoded by SEA-LION. Real PostgreSQL pgvector/RLS/RPC rankings and the complete runtime engine are exercised in a disposable database. Source/version/span references resolve inside the synthetic database, whose filenames/hashes are synthetic; original-PDF resolvability and institutional correctness are not measured. The injected context counter counts characters to test budget mechanics; it is not reported as measured model-token accuracy.
+
+Development calibration evaluates thresholds 0, 0.25, 0.5, 0.75 and 0.9. It maximizes equal-case positive recall/unsupported detection, then minimizes irrelevant evidence, with a conservative higher-threshold tie-break. Final-split tuning is rejected. The synthetic selected threshold is 0.9 for all k values; it is not installed as the runtime default.
+
+| k | Mean Precision@k (`hits/k`, including unsupported cases) | Mean positive Recall@k | Unsupported detection (4 cases) |
+| ---: | ---: | ---: | ---: |
+| 3 | 0.200 | 1.000 | 1.000 |
+| 5 | 0.120 | 1.000 | 1.000 |
+| 8 | 0.075 | 1.000 | 1.000 |
+
+Each positive case has only one gold chunk, so Precision@k uses the full k denominator while returning fewer chunks. This measures neither corpus accuracy nor an advantage of one k under realistic policy questions. Full per-language/category and threshold trial JSON stays outside Git in `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-20261012/`.
+
+The baseline synthetic run passed five database tests in 19.073s, including 30 complete engine invocations (10 cases × 3 k settings). Query/context/engine/CLI/metric tests have observed missing-module/function RED and passing GREEN evidence. Whole-phase regression and final fresh review results will be appended after execution.
+
+Remaining exit evidence: compatible local real-model execution with matching fingerprints, independently approved development query/gold-source labels, source-file citation resolution and language/category retrieval failure analysis on those approved cases. All existing committed evaluation cases are synthetic; they must not be relabeled as verified. Shared/hosted migration deployment is pending review. Phase 06 may not start from this report.
+
+## Fresh review corrections
+
+Three P2 findings were reproduced and corrected: required-clause chains now use recursive authorized same-version SQL closure; neighbors contribute to ambiguity/conflict detection; partially overlapping textless tables are withheld with an explicit gap rather than emitting whole-table text under a fresh-cell-only citation. Root13 targeted tests pass; fresh reviewer independently13 pass and reports no remaining P1/P2. Concurrent publication test confirms one consistent statement snapshot plus stale-pin rejection on a later request. One original10s test-future timeout is unreproduced; its raw result was correct, and the infrastructure allowance is now30s. Checkpoint UTF-8 encoding was repaired and ledger validation passed.
+
+## Final verification
+
+At verified code ddf9b83: retrieval29 passed24.814s, storage31 passed76.097s, embedding12 passed0.108s (existing deprecation warning), ledger19 passed9.579s;91 relevant tests, all exit0. Fresh review clear after fixes. Local releases/active pointers/disposable databases zero; hosted security baseline zero lints. Shared migration remains unapplied. Formal Phase05 recovery is blocked under phase-05-handoff.md; approved sources/cases and real-model/source-file gates remain NOT RUN. Raw final logs and observed synthetic evaluation JSON are external, as recorded in handoff.
+
+## Source-backed practice exam continuation
+
+[Practice-exam report](phase-05-practice-exam-report.md) records the owner's next Phase05 request, implemented at2a497c4:12 original-backed candidate questions/answers/source locators,21 new TDD tests and74 passing non-DB unit/regression checks. Actual source-byte validation/export passed, while grading remains null and real model observations unrecorded. The fresh DB-inclusive rerun could not start because Docker was stopped; earlier database passes and synthetic ranking metrics above remain historical. The prepared packet advances review preparation without claiming approved source applicability/calibration or Phase06 advancement.

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Bintanong Phase Handoff"
+  short_description: "Resume and hand off Bintanong phases safely"
+  default_prompt: "Use $bintanong-phase-handoff to inspect and resume the active Bintanong implementation phase."
+policy:
+  allow_implicit_invocation: true
+

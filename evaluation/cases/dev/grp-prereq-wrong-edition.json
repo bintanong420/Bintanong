@@ -1,0 +1,39 @@
+[
+  {
+    "acceptable_claims": [
+      "The requested edition does not apply to this cohort, so no determination can be made."
+    ],
+    "adversarial_kinds": [
+      "wrong_edition"
+    ],
+    "case_id": "syn-prereq-wrong-edition-en",
+    "category": "prerequisites",
+    "expected_control": null,
+    "expected_outcome": "unknown",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-prereq-wrong-edition",
+    "language": "en",
+    "missing_facts": [
+      "rule for the 2023 cohort"
+    ],
+    "must_abstain": true,
+    "query": "Under the 2019 handbook edition, does COURSE-D require COURSE-C? I enrolled in 2023.",
+    "required_facts": [
+      "edition for the student's cohort"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: each cohort follows the edition in force at entry."
+  }
+]

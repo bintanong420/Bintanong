@@ -1,0 +1,90 @@
+[
+  {
+    "schema_version": "bintanong-decision-v1",
+    "synthetic": true,
+    "outcome": "eligible",
+    "predicate": "can_enroll_fictional",
+    "predicate_supported": true,
+    "rule_coverage": "verified",
+    "prerequisite_rule_state": "resolved",
+    "satisfied_conditions": [
+      "fictional-prereq-met"
+    ],
+    "violated_conditions": [],
+    "unknown_conditions": [],
+    "missing_facts": [],
+    "evidence_refs": ["synthetic-span/rule/1"],
+    "unresolved_conflicts": [],
+    "error_code": null
+  },
+  {
+    "schema_version": "bintanong-decision-v1",
+    "synthetic": true,
+    "outcome": "ineligible",
+    "predicate": "can_enroll_fictional",
+    "predicate_supported": true,
+    "rule_coverage": "verified",
+    "prerequisite_rule_state": "resolved",
+    "satisfied_conditions": [],
+    "violated_conditions": [
+      "fictional-prereq-unmet"
+    ],
+    "unknown_conditions": [],
+    "missing_facts": [],
+    "evidence_refs": [
+      "synthetic-span/rule/1"
+    ],
+    "unresolved_conflicts": [],
+    "error_code": null
+  },
+  {
+    "schema_version": "bintanong-decision-v1",
+    "synthetic": true,
+    "outcome": "unknown",
+    "predicate": "can_enroll_fictional",
+    "predicate_supported": true,
+    "rule_coverage": "partial",
+    "prerequisite_rule_state": "resolved",
+    "satisfied_conditions": [],
+    "violated_conditions": [],
+    "unknown_conditions": [],
+    "missing_facts": [
+      "confirmed result for FICTIONAL-101"
+    ],
+    "evidence_refs": [],
+    "unresolved_conflicts": [],
+    "error_code": null
+  },
+  {
+    "schema_version": "bintanong-decision-v1",
+    "synthetic": true,
+    "outcome": "unsupported",
+    "predicate": "fictional_unregistered",
+    "predicate_supported": false,
+    "rule_coverage": "absent",
+    "prerequisite_rule_state": null,
+    "satisfied_conditions": [],
+    "violated_conditions": [],
+    "unknown_conditions": [],
+    "missing_facts": [],
+    "evidence_refs": [],
+    "unresolved_conflicts": [],
+    "error_code": null
+  },
+  {
+    "schema_version": "bintanong-decision-v1",
+    "synthetic": true,
+    "outcome": "error",
+    "predicate": "can_enroll_fictional",
+    "predicate_supported": true,
+    "rule_coverage": "absent",
+    "prerequisite_rule_state": null,
+    "satisfied_conditions": [],
+    "violated_conditions": [],
+    "unknown_conditions": [],
+    "missing_facts": [],
+    "evidence_refs": [],
+    "unresolved_conflicts": [],
+    "error_code": "symbolic_engine_timeout"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "name": "bintanong-workspace",
+  "private": true,
+  "engines": {
+    "node": "24.21.0",
+    "npm": "11.19.0"
+  },
+  "scripts": {
+    "network:create": "docker network inspect bintanong-local >NUL 2>&1 || docker network create --opt com.docker.network.bridge.host_binding_ipv4=127.0.0.1 bintanong-local",
+    "supabase:init": "supabase init",
+    "supabase:start": "npm run network:create && supabase start --network-id bintanong-local",
+    "supabase:reset": "supabase db reset --local",
+    "supabase:stop": "supabase stop",
+    "compose:up": "docker compose up --build",
+    "compose:gpu": "docker compose -f compose.yaml -f compose.gpu.yaml up --build",
+    "test:scaffold": "python -m unittest tests.test_scaffold_contract -v"
+  },
+  "devDependencies": {
+    "supabase": "2.117.0"
+  }
+}

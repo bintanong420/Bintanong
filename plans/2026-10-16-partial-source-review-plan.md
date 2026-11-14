@@ -1,0 +1,159 @@
+# Scoped partial source review implementation plan
+
+> **For agentic workers:** Use executing-plans inline, task by task, with TDD and one final independent review. Preserve this isolated worktree.
+
+**Goal:** Persist C1 partial content review with immutable exact coverage.
+
+**Architecture:** One administrative loader validates the closed scoped receipt
+and derives the source register. One invoker RPC checks source and chunk/span
+snapshots under existing publication serialization and atomically inserts an
+immutable administrative receipt and advances only content_review_state.
+
+**Tech Stack:** Existing Python3.13/Pydantic, PostgreSQL/pgvector harness and
+local Supabase CLI. No installs or dependency/model/lock changes.
+
+**Spec:** [Approved design](2026-10-16-partial-source-review-design.md), owner
+“ye sure go ahead” after b5ddea9. Covers implementation/disposable rehearsal.
+
+## Global constraints
+
+- Only C1: acquisition observed, verification pending, approval not_requested/
+  null, content review pending → partially_reviewed; scope/history retained.
+- Exact receipt/source/event/chunk/span shapes and same-source dependency closure.
+- Original owner labels/times remain separate from compiler identity/time.
+- Snapshot existing type_fields verbatim, including admin provenance strings.
+- Exact replay checks receipt, register, complete relational row and snapshots.
+- Runtime/PUBLIC denied; no chunk flags, authority, release or pointer changes.
+- Keep all generated/source-derived evidence ignored under workspace/audit-evidence;
+  models stay C:/Coding-projects/MODELS and owner artifacts remain unstaged.
+- No shared migration, new source decision/wording, grid, encoding or Phase06.
+
+## Review focus
+
+1. A replay with missing/altered receipt or changed source/chunk/span metadata fails.
+2. Malformed direct RPC calls fail without leaving either half of the transaction.
+3. Competing observations and concurrent chunk writers cannot invalidate snapshots.
+4. A subset cannot hide a field, limit, event, span or required neighbor.
+5. Runtime roles cannot read/modify receipts or execute the invoker RPC, even
+   under accidental future table grants; ordinary admin updates/deletes are denied.
+
+## Task1: Closed administrative loader
+
+**Files:** create backend/bintanong_storage/source_partial_review.py and
+tests/test_storage_source_partial_review.py. Reuse Evidence/SourceDocumentVersion,
+parse_timestamp, existing span locator validation and client conventions.
+
+**Interfaces:** SourcePartialReviewLoader(client=None).record(current, receipt)
+returns SourceDocumentVersion; RPC record_source_partial_review, params
+p_expected_register/p_receipt, role admin. Receipt shape is fixed by the spec.
+
+- [x] Write unit tests with synthetic observed source/receipt fixtures: exact
+  parameters/return, no input mutation, retained labels/history/paths, malformed
+  envelope/event/span/field/dependency data, timestamp chronology, invalid
+  lifecycle/evidence/roles, altered return and one-call storage failure.
+- [x] Run only loader tests; expected RED is missing implementation.
+- [x] Implement the smallest closed-shape validator and derived-record operation;
+  validate field/span/event bindings and whole neighbor closure before RPC.
+  Storage still independently validates actual row/snapshot equality.
+- [x] Verify unit GREEN plus existing acquisition/client/registration units;
+  commit loader/tests/continuity explicitly.
+
+## Task2: Atomic C1 storage and immutable receipts
+
+**Files:** CLI-generated additive supabase/migrations/*_phase5_partial_source_review.sql;
+extend tests/test_storage_source_partial_review.py; update storage README.
+
+**Interfaces:** source_partial_reviews(version_id,evidence_id,receipt,created_at),
+restrictive version FK and composite key; record_source_partial_review(jsonb,jsonb)
+returns exact stored register. SECURITY INVOKER, empty search_path, service only.
+
+- [x] Add actual-role tests for correct persistence/replay and unchanged columns,
+  SQL malformed input matrix, wrong lifecycle/evidence, field/event/span/neighbor
+  omissions, source/chunk/span drift on first/replay, missing/conflicting receipt,
+  exact/competing concurrency, published/legacy rejection and all receipt ACLs.
+- [x] Observe missing-RPC RED; discover the installed CLI via existing repository
+  evidence/--help and generate the migration without shared application.
+- [x] Implement exact C1 guards, complete source projection and receipt/snapshot
+  comparison under publication lock then source row lock. Existing statement
+  triggers already serialize source/chunk/span writes; retain them.
+- [x] Add RLS plus restrictive runtime policies, minimal admin SELECT/INSERT,
+  immutable UPDATE/DELETE/TRUNCATE guard and explicit function EXECUTE ACLs.
+  Insert receipt and update source register atomically; reject inconsistent replay.
+- [x] Verify GREEN and storage security/idempotency/acquisition/registration plus
+  source-aware database regressions; inspect advisor-equivalent ACL/RLS catalog
+  and FK coverage inside the disposable harness. Commit SQL/tests/README/ledger.
+
+## Task3: Saved-package rehearsal and final verification
+
+**Files:** ignored driver/results under workspace/audit-evidence/
+p05-partial-source-review-20261016; tracked delivery report and continuity docs.
+
+- [x] Hash-bind prior sealed reconciliation, A1 checks and saved19chunk/vector/
+  54span package. Prepare five closed receipts from existing nine event bindings,
+  preserving owner labels/original times and recording actual compiler time.
+- [x] In one unique disposable database: register five initial sources, replay A1,
+  load19saved chunks/vectors, record/replay five C1 receipts and create inactive
+  draft. Verify52field associations/nine events, unchanged other source/chunk
+  flags, zero pointers, runtime-role hiding and unchanged original inputs; drop DB.
+- [x] One independent final review of b5ddea9..final product. Material findings
+  get focused RED/GREEN; run full suite after final code, then doc/ledger checks.
+- [x] Seal ignored evidence, record exact commands/results/digests and limits,
+  update current progress/checkpoint/index/blocked handoff and commit closure.
+  Keep Phase05Tasks4/6 and Phase06 blocked on actual remaining prerequisites.
+
+## Execution ledger and rulings
+
+Task2 final focused GREEN18tests/250subtests83.53s after actual missing-RPC RED.
+One SQL projection ambiguity fixed from its valid-call failures. Later mixed
+regression failures were test-fixture issues: unchanged authorization_ref in
+the malformed matrix, duplicate fixture chunk identity and raw PostgreSQL
+booleans passed to the JSON reader. Corrected tests now pass. Existing source/
+chunk/span publication triggers serialize snapshot writes; no new guard needed.
+Actual-role checks cover RLS under accidental grants, immutable receipts,
+timestamp parity, late rollback and a waiting receipt after a concurrent writer.
+
+Task3 rehearsal GREEN:five receipts/five replays,19saved chunks/vectors/54spans,
+zero active pointers; both runtime roles hidden and receipt reads denied. Eight
+inputs and21 reconciliation inputs unchanged. Two initial driver calls used
+incorrect retrieval parameter names; the migration's actual p_config interface
+corrects them. All rehearsal databases dropped; prior logs retained. Fresh
+verify_delivery.py validates all52fields/nineevents/22edges and prior8/49/119-file
+seals;92 retained disposable names absent. No source decision or shared write.
+Single final review/full-suite verification remains before delivery closure.
+
+Final review identified one Important integrity gap: stale content_hash could
+hide text/source_text mutation on first call or replay. Parent independently
+reproduced four failing subcases, then added recomputation with existing private
+content_hash inside the publication lock. Focused GREEN3tests/4subtests16.97s.
+No new receipt shape or source meaning. This is the one review fix pass; final
+full suite must run on fixed code and include the new regression. No re-review.
+
+Final fixed-code full suite5462tests/1087subtests pass551.87s, six skips/warnings,
+exit0. Documentation/ledger516tests/11subtests pass15.97s. Fresh post-review
+verifier confirms five corrected records/52fields/nineevents/54spans/22neighbors,
+eight rehearsal and21 historical inputs unchanged, prior8/49/119-file seals
+unchanged,212 own and four reviewer disposable database names absent. Final
+code/review hashes match. Only sealing and documentary commit remain.
+
+Final closure:489-file curated seal created and verified, digest
+35869101f033d6aa0a645d799aa17bec42090ba868fb409c243d33a61390b7ab.
+This documentation-only commit closes Task3. Formal Phase05Tasks4/6 stay open;
+no product/test/SQL change follows final5462-test execution. Owner artifacts
+remain preserved/unstaged and the existing branch/worktree remains active.
+
+Self-review: each spec requirement maps to Task1/2/3; all five review focuses
+have actual-role coverage in Task2. Task1's two-param RPC consumes Task2's exact
+register return; Task3 uses the same five records/chunks and immutable receipt.
+
+Ruling: retain established inline execution and proceed after this self-reviewed
+plan without another method/plan approval. Owner approved the complete design
+and explicitly said go ahead; cost if wrong is bounded implementation rework.
+Ruling: use this repository plan/checkpoint/progress and ignored audit-evidence
+instead of a disposable skill workspace, following owner storage/continuity
+instructions; cost is manual ledger upkeep. Keep the active phase branch.
+
+Task1 RED:81 expected missing-implementation failures/subcases; unit GREEN:
+11tests/96subtests2.05s (new loader and existing client). The first implementation
+run also exposed a duplicate keyword in locator-default merging; existing tests
+reproduced it and dictionary unpacking fixes it without changing source data.
+Actual role/SQL validation remains Task2; no C1 source update has occurred.

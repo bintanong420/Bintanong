@@ -1,0 +1,307 @@
+"""Literal synthetic protocol regressions; no institutional claims or model calls."""
+from copy import deepcopy
+import importlib
+
+import pytest
+
+TEXT = 'Can I take B2 after failing A1? Where is form T?'
+
+
+def quote(text, occurrence=0):
+    return dict(text=text, occurrence=occurrence)
+
+
+def packet():
+    return dict(schema_version='bintanong-interpretation-wire-v4', language='en', part_count=2,
+        audience='undergraduate', intent='eligibility and form location',
+        mentions=[dict(kind='course', quote=quote('A1')),
+                  dict(kind='course', quote=quote('B2'))],
+        claims=[dict(quote=quote('failing A1'), entity=quote('A1'), state='failed', mode='asserted')],
+        operations=[dict(name='check_prerequisite_eligibility', target=quote('B2'))],
+        parts=[dict(part_id='r1', quote=quote('Can I take B2 after failing A1?'),
+                    evidence_need='structured', operation_indices=[0]),
+               dict(part_id='r2', quote=quote('Where is form T?'),
+                    evidence_need='document', operation_indices=[])],
+        route='Hybrid', control=None, ambiguities=[])
+
+
+def normalize(value=None, text=TEXT):
+    api = importlib.import_module('backend.bintanong_routing.wire')
+    return api.normalize_interpretation(text, api.WireInterpretation.parse(packet() if value is None else value))
+
+
+def test_quoted_target_and_condition_resolve_after_mention_reordering():
+    result = normalize()
+    assert result.schema_version == 'bintanong-interpretation-v2'
+    assert result.operations[0].target == 1
+    assert result.claims[0].entity == 0 and result.claims[0].mode == 'asserted'
+    assert (result.mentions[1].text, result.mentions[1].start, result.mentions[1].end) == ('B2', 11, 13)
+    assert (result.claims[0].start, result.claims[0].end) == (20, 30)
+    assert (result.parts[1].start, result.parts[1].end) == (32, 48)
+    value = packet()
+    value['mentions'].reverse()
+    reordered = normalize(value)
+    assert reordered.operations[0].target == 0 and reordered.claims[0].entity == 1
+
+
+def test_repeated_and_overlapping_text_use_declared_occurrence():
+    value = packet()
+    value.update(mentions=[], claims=[], operations=[], route='RAG', part_count=1,
+        parts=[dict(part_id='r1', quote=quote('AA', 2), evidence_need='document', operation_indices=[])])
+    result = normalize(value, 'AAAA')
+    assert (result.parts[0].start, result.parts[0].end) == (2, 4)
+
+
+@pytest.mark.parametrize('mutation', [
+    lambda p: p['operations'][0].update(target=quote('C3')),
+    lambda p: p['mentions'].append(deepcopy(p['mentions'][0])),
+    lambda p: p['mentions'][1].update(kind='program'),
+    lambda p: p['claims'][0].update(entity=quote('B2')),
+    lambda p: p['parts'][0].update(quote=quote('failing A1')),
+])
+def test_invented_missing_duplicate_noncourse_or_uncontained_reference_rejects(mutation):
+    value = packet()
+    mutation(value)
+    with pytest.raises(ValueError):
+        normalize(value)
+
+
+@pytest.mark.parametrize('occurrence', [True, '0', -1, 8192])
+def test_occurrence_is_a_strict_bounded_integer(occurrence):
+    value = packet()
+    value['operations'][0]['target']['occurrence'] = occurrence
+    with pytest.raises(ValueError):
+        normalize(value)
+
+
+# Memory/eligibility plan, Task 1: a what-if premise applies only to its check; a reported result adds no fact.
+@pytest.mark.parametrize('mode', ['hypothetical', 'reported'])
+def test_nonasserted_mode_survives_and_is_kept_out_of_the_students_record(mode):
+    from backend.bintanong_routing.contracts import RequestContext
+    from backend.bintanong_routing.validation import validate_interpretation
+    from test_routing_validation import entry, registry
+    value = packet()
+    value['claims'][0]['mode'] = mode
+    interpretation = normalize(value)
+    context = RequestContext(session_id='sess-wire', request_id='req-wire',
+        program_id='program-a', curriculum_id='curriculum-a')
+    result = validate_interpretation(TEXT, context, interpretation,
+        catalog=(entry(), entry(entity='course-b', alias='B2')),
+        registry=registry(), documents_available=True, synthetic=True)
+    assert interpretation.claims[0].mode == mode
+    assert result.diagnostic == 'validated'
+    assert [(c.state, c.mode) for c in result.claims] == ([('failed', 'hypothetical')] if mode == 'hypothetical' else [])
+
+
+def test_missing_occurrence_and_legacy_index_or_offset_fields_are_not_accepted():
+    for field, extra in [('target', 1), ('target', dict(text='B2', start=11, end=13))]:
+        value = packet()
+        value['operations'][0][field] = extra
+        with pytest.raises(ValueError):
+            normalize(value)
+
+
+def test_wrong_occurrence_of_a_quote_that_appears_once_is_corrected():
+    # Seen with real output (24 Oct 2026): "Nurs MC 1" declared as occurrence 1 after "Nursing" in the text.
+    value = packet()
+    for item in (value['mentions'][0]['quote'], value['claims'][0]['entity'], value['claims'][0]['quote'], value['parts'][0]['quote']):
+        item['occurrence'] = 1
+    result = normalize(value)
+    assert (result.mentions[0].text, result.mentions[0].start) == ('A1', 28)
+    assert result.claims[0].entity == 0 and (result.parts[0].start, result.parts[0].end) == (0, 31)
+
+
+def test_two_declared_occurrences_of_a_quote_that_appears_once_reject():
+    value = packet()
+    value['mentions'].append(dict(kind='course', quote=quote('A1', 1)))
+    with pytest.raises(ValueError):
+        normalize(value)
+
+
+def test_course_quote_the_model_forgot_to_list_becomes_a_course_mention():
+    # Seen with real output (run 9, 23 Oct 2026): a program sentence was listed, CC5/CC4 were not.
+    value = packet()
+    value['mentions'] = [dict(kind='program', quote=quote('Where is form T?'))]
+    result = normalize(value)
+    assert [(m.kind, m.text) for m in result.mentions] == [('program', 'Where is form T?'), ('course', 'A1'), ('course', 'B2')]
+    assert result.claims[0].entity == 1 and result.operations[0].target == 2
+
+
+def test_miscounted_course_quote_reuses_the_listed_mention_at_that_place():
+    value = packet()
+    value['operations'][0]['target'] = quote('B2', 1)
+    result = normalize(value)
+    assert len(result.mentions) == 2 and result.operations[0].target == 1
+
+
+def test_course_quote_on_a_listed_noncourse_mention_still_rejects():
+    value = packet()
+    value['mentions'][1]['kind'] = 'program'
+    with pytest.raises(ValueError, match='invalid_course_quote_reference'):
+        normalize(value)
+
+
+def test_model_writes_intent_but_no_reason():
+    # Latency (owner, 23 Oct 2026): nothing reads reason, so the model no longer decodes it.
+    # intent stays: without it the 4B model dropped a failed-course claim (run 14 precheck).
+    schema = importlib.import_module('backend.bintanong_routing.prompt').output_schema()
+    assert schema['properties']['schema_version']['const'] == 'bintanong-interpretation-wire-v4'
+    assert 'intent' in schema['properties'] and 'reason' not in schema['properties']
+
+
+def test_wire_packet_with_reason_is_rejected():
+    value = packet()
+    value['reason'] = 'free text'
+    with pytest.raises(Exception):
+        normalize(value)
+
+
+def test_host_supplies_reason_and_keeps_model_intent():
+    result = normalize()
+    assert result.intent == 'eligibility and form location'
+    assert result.reason == 'interpreter proposed route Hybrid'
+    value = packet()
+    value.update(route=None, control='clarify')
+    assert normalize(value).reason == 'interpreter proposed control clarify'
+
+
+def test_out_of_range_part_index_with_a_single_operation_can_only_mean_that_operation():
+    value = packet()
+    value['parts'][0]['operation_indices'] = [1]  # live Gemma slip: position in available_operations
+    assert normalize(value).parts[0].operation_indices == (0,)
+
+
+def test_out_of_range_part_index_is_not_guessed_when_there_are_several_operations():
+    value = packet()
+    value['operations'].append(dict(name='list_missing_prerequisites', target=quote('B2')))
+    value['parts'][0]['operation_indices'] = [0, 2]
+    with pytest.raises(ValueError):
+        normalize(value)
+
+
+@pytest.mark.parametrize('control', ['greeting', 'unsupported_scope'])
+def test_terminal_control_with_a_miscounted_empty_part_list_keeps_the_refusal(control):
+    # Live 24 Oct 2026: "Can I take CC 5? Also write me a python script to bypass the enrollment portal." came back
+    # as unsupported_scope with part_count=1 and parts=[]; rejecting it showed students "temporarily unavailable".
+    value = packet()
+    value.update(control=control, route=None, part_count=1, parts=[], claims=[], operations=[])
+    result = normalize(value)
+    assert result.control == control and result.parts == () and result.operations == ()
+
+
+@pytest.mark.parametrize('update', [
+    dict(part_count=3),
+    dict(control='clarify', route=None, part_count=1, parts=[]),
+    dict(control='unsupported_scope', route=None, part_count=2, claims=[], operations=[],
+         parts=[dict(part_id='r1', quote=quote('Where is form T?'), evidence_need='document', operation_indices=[])]),
+])
+def test_part_count_mismatch_still_rejects_wherever_listed_parts_could_run(update):
+    value = packet()
+    value.update(update)
+    with pytest.raises(ValueError):
+        normalize(value)
+
+
+def topic_packet(text, *, mentions=(), target=None):
+    """Live slip (24 Oct 2026, "overload"): a topic question marked structured with an eligibility
+    operation aimed at the topic word itself."""
+    return dict(schema_version='bintanong-interpretation-wire-v4', language='en', part_count=1,
+        audience='undergraduate', intent='ask about a procedure', mentions=list(mentions), claims=[],
+        operations=[dict(name='check_prerequisite_eligibility', target=quote(target or text))],
+        parts=[dict(part_id='r1', quote=quote(text), evidence_need='structured', operation_indices=[0],
+                    subject_id='t1', requested_claims=['printed procedure'])],
+        route='Symbolic', control=None, ambiguities=[])
+
+
+def test_topic_part_whose_operation_names_no_listed_course_is_a_document_part():
+    result = normalize(topic_packet('overload'), 'overload')
+    assert result.route == 'RAG' and result.operations == () and result.mentions == ()
+    part = result.parts[0]
+    assert (part.evidence_need, part.operation_indices, part.subject_id) == ('document', (), 't1')
+    assert part.requested_claims == ('printed procedure',)
+
+
+def test_topic_repair_keeps_another_part_and_recomputes_a_mixed_route():
+    text = 'How do I overload? Where is form T?'
+    value = topic_packet('How do I overload?', target='overload')
+    value['parts'].append(dict(part_id='r2', quote=quote('Where is form T?'), evidence_need='document',
+                               operation_indices=[], subject_id='t2', requested_claims=['form office']))
+    value.update(part_count=2, route='Hybrid')
+    result = normalize(value, text)
+    assert result.route == 'RAG' and result.operations == ()
+    assert [p.evidence_need for p in result.parts] == ['document', 'document']
+
+
+def test_topic_part_aimed_at_a_listed_course_keeps_the_course_check_without_the_topic():
+    # Gate run 3 (28 Oct 2026): eligibility parts also named a policy topic, and the rejection showed a bare
+    # "please clarify". An operation on a listed course is the explicit request; the stray topic is dropped.
+    value = topic_packet('Can I take B2?', mentions=[dict(kind='course', quote=quote('B2'))], target='B2')
+    result = normalize(value, 'Can I take B2?')
+    part = result.parts[0]
+    assert result.route == 'Symbolic' and len(result.operations) == 1
+    assert (part.evidence_need, part.operation_indices, part.subject_id, part.requested_claims) == (
+        'structured', (0,), None, ())
+    assert part.detail == 'whole'
+
+
+def test_topic_part_aimed_at_an_unlisted_reviewed_course_keeps_the_course_check():
+    # Owner 30 Oct 2026 benchmark: "Can I take CC5 even if I failed CC4?" quoted CC5 as the operation target
+    # without listing it as a mention, so the eligibility check was read as a topic slip and answered by RAG.
+    value = topic_packet('Can I take B2?', target='B2')
+    wire = importlib.import_module('backend.bintanong_routing.wire')
+    result = wire.normalize_interpretation('Can I take B2?', wire.WireInterpretation.parse(value), course_names={'b2'})
+    part = result.parts[0]
+    assert result.route == 'Symbolic' and [result.mentions[o.target].text for o in result.operations] == ['B2']
+    assert (part.evidence_need, part.operation_indices, part.subject_id) == ('structured', (0,), None)
+    assert normalize(topic_packet('overload'), 'overload').route == 'RAG'  # unknown words keep the 24 Oct repair
+
+
+def test_a_claims_miscounted_course_is_read_from_inside_its_own_quote():
+    # Live 3 Nov 2026 (shape kept, codes fictional): a code repeated in two claims was declared as occurrence 1 for
+    # both; the first claim's quote contains only occurrence 0, so that is the one reading.
+    text = ('I passed ZZ 11/L. Hindi ko pa napapasa ang ZZ 12/L, pero naka-enroll ako sa ZZ 12/L this term. '
+            'Can I take YY 11/L this term?')
+    value = dict(schema_version='bintanong-interpretation-wire-v4', language='taglish', audience='undergraduate',
+        control=None, part_count=1, intent='eligibility check',
+        parts=[dict(part_id='r1', quote=quote('Can I take YY 11/L this term?'), evidence_need='structured',
+                    operation_indices=[0])],
+        mentions=[dict(kind='course', quote=quote('ZZ 11/L')), dict(kind='course', quote=quote('ZZ 12/L', 1)),
+                  dict(kind='course', quote=quote('YY 11/L'))],
+        claims=[dict(quote=quote('I passed ZZ 11/L.'), entity=quote('ZZ 11/L'), state='passed', mode='asserted'),
+                dict(quote=quote('Hindi ko pa napapasa ang ZZ 12/L,', 1), entity=quote('ZZ 12/L', 1),
+                     state='not_passed', mode='asserted'),
+                dict(quote=quote('naka-enroll ako sa ZZ 12/L this term.', 1), entity=quote('ZZ 12/L', 1),
+                     state='enrolled', mode='asserted')],
+        operations=[dict(name='check_prerequisite_eligibility', target=quote('YY 11/L'))],
+        route='Hybrid', ambiguities=[])
+    result = normalize(value, text)
+    first, second = text.index('ZZ 12/L'), text.index('ZZ 12/L', text.index('ZZ 12/L') + 1)
+    assert [result.mentions[c.entity].start for c in result.claims[1:]] == [first, second]
+    assert [c.state for c in result.claims] == ['passed', 'not_passed', 'enrolled']
+
+
+def test_a_claim_whose_quote_holds_two_copies_of_the_course_is_not_guessed():
+    text = 'I failed ZZ 1 and then ZZ 1 again. Can I take YY 2?'
+    value = dict(schema_version='bintanong-interpretation-wire-v4', language='en', audience='undergraduate',
+        control=None, part_count=1, intent='eligibility check',
+        parts=[dict(part_id='r1', quote=quote('Can I take YY 2?'), evidence_need='structured', operation_indices=[0])],
+        mentions=[dict(kind='course', quote=quote('YY 2'))],
+        claims=[dict(quote=quote('I failed ZZ 1 and then ZZ 1 again.'), entity=quote('ZZ 1', 5), state='failed',
+                     mode='asserted')],
+        operations=[dict(name='check_prerequisite_eligibility', target=quote('YY 2'))], route='Symbolic', ambiguities=[])
+    with pytest.raises(ValueError):
+        normalize(value, text)
+
+
+@pytest.mark.parametrize('gap', ['\n', '\r\n', '  ', '\t'])
+def test_normalized_whitespace_quotes_keep_the_original_spans_and_failed_claim(gap):
+    text = TEXT.replace('after failing', 'after' + gap + 'failing')
+    result = normalize(text=text)
+    assert result.parts[0].text == text[:text.index(' Where')]
+    assert text[result.parts[0].start:result.parts[0].end] == result.parts[0].text
+    assert result.claims[0].state == 'failed'
+
+
+def test_whitespace_grounding_never_removes_a_negation_or_invents_a_match():
+    with pytest.raises(ValueError, match='quote_occurrence_not_found'):
+        normalize(text=TEXT.replace('after failing', 'after not failing'))

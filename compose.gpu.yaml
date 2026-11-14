@@ -1,0 +1,30 @@
+services:
+  bintu:
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda-v0.4.1
+    command:
+      - --model
+      - /models/${BINTU_MODEL_RELATIVE_PATH:-GEMMA_4_E4B/gemma-4-E4B-it-UD-Q4_K_XL.gguf}
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8080"
+      - --ctx-size
+      - ${BINTU_CONTEXT_SIZE:-2048}
+      - --n-predict
+      - ${BINTU_MAX_TOKENS:-128}
+      - --parallel
+      - "1"
+      - --n-gpu-layers
+      - ${BINTU_GPU_LAYERS:-8}
+      - --metrics
+      - --no-webui
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

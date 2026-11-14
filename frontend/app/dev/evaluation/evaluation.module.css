@@ -1,0 +1,55 @@
+.page { min-block-size: 100svh; padding: 1rem; background: var(--background); color: var(--foreground); overflow-wrap: anywhere; }
+.page h1 { margin: 0; font-size: 1.25rem; }
+.page h2 { margin: 0 0 0.25rem; font-size: 0.8125rem; color: var(--muted-foreground); }
+.page h3 { margin: 0 0 0.5rem; font-size: 1rem; font-weight: 600; }
+.page h4 { margin: 0 0 0.5rem; font-size: 0.875rem; font-weight: 600; }
+.page p { margin: 0 0 0.5rem; }
+.page label { display: grid; gap: 0.25rem; font-weight: 600; }
+.page input, .page textarea { inline-size: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); font: inherit; font-weight: 400; }
+.page button:disabled { opacity: 0.6; }
+.muted { color: var(--muted-foreground); font-size: 0.875rem; }
+.alert { padding: 0.5rem 0.75rem; border-inline-start: 3px solid var(--color-destructive); background: var(--secondary); }
+.primary { justify-self: start; padding: 0.5rem 1rem; border: 0; border-radius: var(--radius-md); background: var(--primary); color: var(--primary-foreground); font-weight: 600; }
+
+.gate { display: grid; gap: 0.75rem; max-inline-size: 24rem; margin: 15svh auto 0; }
+.header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1rem; margin-block-end: 1rem; }
+.layout { display: grid; grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+
+.queries { position: sticky; inset-block-start: 1rem; display: grid; gap: 0.75rem; max-block-size: calc(100svh - 5rem); overflow-y: auto; padding-inline-end: 0.5rem; }
+.row { display: grid; gap: 0.25rem; }
+.query { display: grid; gap: 0.125rem; min-block-size: 2.75rem; padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); color: inherit; font: inherit; font-size: 0.875rem; text-align: start; }
+.query[aria-current="true"] { border-color: var(--foreground); background: var(--secondary); }
+.queryMeta { display: flex; justify-content: space-between; gap: 0.5rem; color: var(--muted-foreground); font-size: 0.75rem; }
+.queryMeta [data-status="marked"] { color: var(--foreground); font-weight: 600; }
+.queryMeta [data-status="needs_marks"] { color: var(--foreground); }
+.queryMeta [data-status="failed"] { color: var(--color-destructive); font-weight: 600; }
+
+.work { display: grid; gap: 1rem; min-inline-size: 0; }
+.ask { display: grid; gap: 0.5rem; }
+.ask label { font-weight: 600; }
+.result { display: grid; gap: 1.25rem; }
+.answer { white-space: pre-wrap; }
+.key { padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--secondary); }
+.key ul { margin: 0 0 0.5rem; padding-inline-start: 1.25rem; list-style: disc; }
+.search { display: grid; gap: 0.5rem; }
+.lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: start; }
+.chunkList { display: grid; gap: 0.5rem; min-inline-size: 0; }
+.chunk { padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); }
+.chunkMeta { font-size: 0.8125rem; }
+.chunkText { font-size: 0.875rem; white-space: pre-wrap; }
+.badges { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.badges:empty { display: none; }
+.badge, .keyBadge { padding: 0.0625rem 0.375rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.75rem; }
+.keyBadge { border-color: var(--foreground); font-weight: 600; }
+.toggle { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; font-size: 0.875rem; }
+.toggle span { margin-inline-end: 0.25rem; }
+.toggle button { min-block-size: 2.25rem; min-inline-size: 3rem; padding: 0.25rem 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); color: inherit; font: inherit; }
+.toggle button[aria-pressed="true"] { border-color: var(--primary); background: var(--primary); color: var(--primary-foreground); font-weight: 600; }
+.marking { display: grid; gap: 0.75rem; padding-block-start: 0.75rem; border-block-start: 1px solid var(--border); }
+.saveRow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+
+@media (max-width: 75rem) { .lists { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 56rem) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .queries { position: static; max-block-size: 40svh; }
+}

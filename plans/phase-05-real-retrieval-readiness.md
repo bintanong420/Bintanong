@@ -1,0 +1,231 @@
+# Phase 05 real retrieval readiness — 12 October 2026
+
+Current status: the resumed TDD repair removes duplicate projections of one source course. A fresh Financial Management bundle has 49 courses, 146 units and 54 candidate chunks; the latest source mix has 32 audit errors, seven warnings and 390 chunks. The prior 336-vector/27-query diagnostics remain preserved; only three exam cases have same-byte chunks. Final-code whole-suite verification passes: 4912 tests and 107 subtests; all 54 new chunks have verified real embeddings. Owner review materials are ready in the workspace. Phase 05 remains blocked on extraction/field/source approval and approved runtime retrieval. Historical preparation/proposals below are preserved; the latest execution section governs current status.
+
+## Completed preparation
+
+All current artifacts are under `C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/`, outside both the main checkout and this `worktrees/Bintanong/p05` code worktree. The original dataset stays at the [documented deep location](dataset-locations.md), read-only.
+
+- `pending-source-register.json`: 39 real-source records minted through the existing contract with byte-derived document/version/edition IDs. Acquisition, verification, content review and scope stay pending; source approval stays `not_requested`; `synthetic` is false because these are real document bytes.
+- `exam-source-id-translation.json`: exact digest/path-bound translation from ten authored exam source/version labels to the pending register identities. These are file-based pending records, not deployed database records.
+- [Independent source/answer review sheet](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/independent-source-answer-review.csv>): 27 rows containing candidate answers/control, original paths/hashes/pages/locators, with independent reviewer and authority/applicability decisions left blank/pending.
+- `citation-mapping-requests.json`: 28 distinct semantic locator targets across 27 cases. Actual chunk/span/cell IDs are empty because no real ingestion artifacts exist. This is a mapping request, not a completed cell mapping.
+- `strict-encoder-preflight.json`: the existing strict encoder rehashed all ten local model assets, checked the pinned weight identity and local Retrieval prompt, then failed closed because `sentence_transformers` is absent. No vectors or observations were generated.
+- `database-readiness.json`: local read-only psql and hosted Supabase MCP SELECTs found zero document versions, chunks, source spans, embeddings, releases and active pointers. No migration or database writes were performed.
+
+All 39 original hashes match the existing provisional CSV inventory, which remains pending. The prepared packet SHA-256 is `3c016d5214f2045d84c4c27eadd817051b66ada06ff33a5a7c4d41c8dfb2fca2`; the packet itself was not changed. Existing local weights SHA-256 is `df5b1c55623eeb5ef09ce3f3c50e24e2db433d7d1bbcccf76d2f01ba212df5f1`, tokenizer `883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085`.
+
+## Environment findings and verification
+
+System Python 3.13.7 is the only registered interpreter. No workspace `python.exe`/`pyvenv.cfg`, local model/PDF extraction libraries or existing embedding Docker image/container were found. Supabase services are already running; none was started by this work.
+
+Fresh 34 exam unittest checks passed in 0.840s with temporaries inside the readiness directory. An expanded invocation attempted `tests.test_register_minting` and `tests.test_prospectus_input_snapshot`; both failed import with `ModuleNotFoundError: pytest`, while the 34 exam tests passed. These pytest suites did not execute and are not claimed as passing. Existing register parsing was exercised directly on all 39 newly minted records and the preparation artifacts were checked separately. Raw commands/results are in `readiness-regressions.log` and `exam-regressions.log`.
+
+No product code, dependency declaration or lockfile changed. Source-derived review/mapping data remain untracked.
+
+## Concrete dependency proposal — not executed
+
+Create an isolated Python 3.13 environment at:
+
+```text
+C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/venv
+```
+
+The reviewable [requirements proposal](</C:/Coding-projects/bintanong_workspace/audit-evidence/p05-real-retrieval-readiness-20261012/proposed-requirements.txt>) uses existing `backend/pyproject.toml` embedding/tools/dev pins, its existing httpx pin, and pypdfium2 5.14.0 for direct original-PDF geometry checks. It includes torch 2.14.0, sentence-transformers 6.1.0, docling 2.133.0 and pytest 9.1.1. The top-level PyPI metadata was checked read-only; torch has a Python 3.13 Windows wheel, and the PDF binding has a Windows wheel. Full transitive compatibility must still be checked by installation and `pip check`; metadata is not an executed environment gate.
+
+Install binary wheels into that isolated environment, keeping pip cache, temporary files and execution evidence in the same workspace directory. Record the resolved transitive versions after installation. Preserve system Python, repository dependency/lock files and the main checkout.
+
+Read existing SEA-LION weights from `C:/Coding-projects/MODELS`; do not copy or download them. Keep Hugging Face/model loading offline. Docling extraction assets were not found or authorized for download; if its converter requires missing model assets, stop at that specific error and identify the asset requirement. Package installation approval must not silently authorize extra model downloads, corpus publication or source approval.
+
+The executable setup commands are prepared in `proposed-setup.ps1` under the artifact directory, and have not run. Explicit owner authorization is required by the repository instruction: **“No installs/downloads or dependency/lock changes without an applicable owner instruction.”** The owner's request to proceed authorized preparation; it did not explicitly approve installing packages.
+
+## Recovery sequence after environment authorization
+
+1. Install/check the isolated environment, record exact versions and rerun the currently unavailable register/input-snapshot pytest checks with cache disabled and workspace basetemp.
+2. Execute strict local SEA-LION loading and normalized 1024-dimensional query/document embeddings with the pinned Retrieval instruction. Refuse truncation, network loading and synthetic fallback; record exact tokenizer counts/configuration fingerprints.
+3. Run the existing ingestion path on original PDFs independently of the answer key. The exam gold passages must never be used to construct the retrieval corpus. Obtain actual candidate spans/cells/chunks and resolve the 28 locator requests against matching bytes/pages/coordinates; quarantine ambiguous or absent matches rather than inventing IDs. If the existing converter lacks required assets, report that remaining execution prerequisite.
+4. Keep original-friendly exam version labels and byte-derived register IDs distinct. Expected benchmark citations can be translated using the audited digest-bound mapping; preserve runtime observations with their actual returned IDs rather than relabeling them to fit the key.
+5. Have an independent source/domain reviewer complete the prepared answer/source/applicability sheet and provide review evidence. Agent source reading and the owner's permission to run code do not authenticate institutional authority.
+6. Once approved cases and source-linked chunks exist, run k=3/5/8 retrieval under runtime roles in an authorized disposable evaluation environment. Record actual evidence/control/rankings by language/category/college, preserve unknown scope, test unsupported and edition ambiguity, and calibrate dev only. No LLM answer generation is required by master section 10.
+
+The shared/hosted corpus remains inactive. Source approval, actual ingestion mapping and real model measurements remain open. Only earned master-section-10 evidence permits a complete handoff and Phase 06.
+
+Documentation consulted: [Sentence Transformers local loading](https://github.com/huggingface/sentence-transformers/blob/main/sentence_transformers/base/model.py), [PDFium text and coordinate API](https://pypdfium2.readthedocs.io/en/stable/python_api.html), and official [torch package metadata](https://pypi.org/pypi/torch/2.14.0/json), [Sentence Transformers metadata](https://pypi.org/pypi/sentence-transformers/6.1.0/json), [Docling metadata](https://pypi.org/pypi/docling/2.133.0/json). Context7 was used for the library documentation.
+
+Fresh independent agent review validated all39 live source hashes/pending contracts, ten translations,27 review rows and28 unresolved citation requests with no P1/P2 findings. Agent review does not supply institutional authority. Setup remains unexecuted pending explicit owner authorization.
+
+## Authorized execution update
+
+Owner explicitly approved the prepared package setup. Installation completed in the isolated workspace environment; pip check found no broken requirements, and the resolved versions are recorded in resolved-environment.txt. Original system Python and repository dependency/lock files are unchanged.67 targeted pytest checks plus19 subtests pass17.02s, including previously unavailable register/input-snapshot tests.
+
+Actual strictSEA-LION execution completed offline:27 real query embeddings and one original-source documentprefix smoke test,1024 normalized dimensions,512-token model limit; querytokens50..75 and document193. Weight/tokenizer/prompt checks passed. Runtime packages: torch2.14.0 (CPU), sentence-transformers6.1.0, transformers5.19.0, tokenizers0.23.3. This proves model compatibility/execution, not recovered policy evidence or retrieval quality. See real-encoder-report.json and real-query-embeddings.jsonl in the readiness folder.
+
+PDFium independently extracted all39 originals/43physical pages without empty pages or changed bytes.28 authored regions now resolve to actual PDF characters and valid pending SourceSpan contracts in original-region-inspection.json. These are PDF character inspection spans, not invented Docling table/cell identities; production ingestion mapping remains incomplete.
+
+The first full pytest run reported7 failures,4898 passes,5 skips and107 passing subtests in447.84s. Three tests used external click.Exit while the pinned public API is typer.Exit; one Windows fixture lacked symlink privilege; the legacy shim imported the extractor at a namespace depth incompatible with contract imports; two real converter tests need missing Docling model assets. Root causes were reproduced before changes. Commit66bce2a fixes the shim and test API/capability checks, preserving all source-protection assertions. Focused47 pass/2skip/oneassettestdeselected20.76s; the final whole-suite rerun is recorded separately when complete.
+
+## Remaining Docling assets — concrete proposal, not downloaded
+
+The existing converter fails closed in offline mode because its Heron layout model has no cached snapshot. Its configured accurate TableFormer also needs its checkpoint/config. Package installation did not include permission to download extra model assets. The metadata-only proposed-docling-assets.json and proposed-docling-download.py identify five files totaling384,428,156 bytes (384.43MB), stored only in this task's workspace hf-cache if approved. Existing SEA-LION/GEMMA weights stay in place under MODELS; no duplicate is proposed.
+
+| Required bundle | Pinned commit | Files / size |
+| --- | --- | --- |
+| docling-project/docling-layout-heron |8f39ad3c0b4c58e9c2d2c84a38465abf757272d8 |config.json,model.safetensors,preprocessor_config.json;171,662,708 bytes |
+| docling-project/docling-models, runtime v2.3.0 |fc0f2d45e2218ea24bce5045f58a389aed16dc23 |accurate/tableformer_accurate.safetensors and tm_config.json under model_artifacts/tableformer;212,765,448 bytes |
+
+Metadata includes official LFS SHA-256 for both safetensor files. The prepared helper limits downloads to those five pinned files, checks their sizes/hashes, and binds offline cache revision labels to the reviewed commits. No extra OCR/VLM/LLM model, dependency change, corpus activation or policy approval is included. Owner authorization for these model files, or an existing compatible local asset directory, is the next converter prerequisite. The independent source/domain reviewer sheet remains pending separately.
+
+## Final installed-environment gate and recovery
+
+After the reproduced fixes, the fresh full command `venv/Scripts/python.exe -B -m pytest tests -p no:cacheprovider --basetemp <workspace-readiness>/tmp/pytest-full-rerun -q` reports **4902 passed,107 subtests passed,6 skipped,2 failed** in405.12s. The two remaining failures are `tests/test_ingest_hardening.py::test_real_cli_stdout_parses_as_json` and `tests/test_tools_contract.py::ToolsContractTests::test_synthetic_pdf_fixture_exists_and_parses`, both stopped by the uncached Docling layout assets in enforced offline mode. They remain failures, not skips or a full passing-suite claim. Six skips include unsupported Windows symlink privileges. Full logs are `full-pytest.log` and `full-pytest-rerun.log`; no cache files are written into Git.
+
+Fresh independent review: no P1/P2 findings. Reviewer verified all39 hashes/43 extracted pages, all28 PDF character regions/bboxes and source bindings, every27-vector dimension/norm/configuration, source-only documentprobe and maintained CLI/input protections. Five entrypoint tests pass independently; hardening checks independently42pass/2skip/oneasset-dependent failure. Reviewer declined institutional-authority and retrieval-quality claims because neither is established here.
+
+Location ruling: the owner explicitly required all new task artifacts under `C:/Coding-projects/bintanong_workspace`. That higher-priority instruction overrides the handoff skill's default model-storage location for these **proposed new Docling assets** only. Existing SEA-LION/GEMMA weights remain in MODELS and are read in place. The additional download proposal names the workspace hf-cache explicitly; no model downloads are authorized yet. Set DOCLING_CACHE_DIR to the workspace docling-cache directory for future runs as well as HF_HOME/TEMP/TMP. Inspection confirms this converter's model snapshots use the Hugging Face cache, so the proposed pinned cache reference bindings match its offline lookup.
+
+Next action: obtain explicit approval for the five Docling files (or an existing compatible asset directory), then rerun conversion/source-cell mapping and both blocked integration tests. All package setup/model smoke work already authorized is complete. Keep source/domain review pending and preserve candidate inactivity; actual retrieval rankings/calibration still require the source-linked corpus and review evidence.
+
+## Owner-approved offline Docling execution
+
+The owner approved the concrete five-file proposal. Both repositories were fetched at the recorded immutable commits; all five sizes, safetensor SHA-256 and config Git-blob digests match. Total384428156 bytes. Evidence is verified-docling-assets.json in the workspace readiness directory. Existing SEA-LION/GEMMA storage stays unchanged.
+
+The current Hugging Face client requires a complete snapshot, including repository documentation/images, when Docling requests an unfiltered snapshot offline. Rather than downloading additional files, the documented DOCLING_ARTIFACTS_PATH is set to workspace readiness/docling-artifacts. Five verified files are hardlinked into repository-specific subdirectories; offline-docling-artifacts.json records those exact bindings. No extra downloads or dependency changes. Official configuration reference: [Docling offline artifacts](https://github.com/docling-project/docling/blob/main/docs/usage/advanced_options.md), fetched through Context7; installed2.133.0 path-resolution code checked as well.
+
+Actual original CAD conversion now succeeds offline in61.042s. Both previously blocked integration tests pass:2passed,3upstream deprecation warnings,65.66s. Commands use the approved Python3.13 venv, HF_HUB_OFFLINE/TRANSFORMERS_OFFLINE=1, workspace DOCLING_ARTIFACTS_PATH/HF_HOME/DOCLING_CACHE_DIR/TEMP/TMP, and pytest -p no:cacheprovider --basetemp <readiness>/tmp/docling-local-artifacts-tests. Logs: offline-ingestion-local-artifacts.log and docling-local-artifacts-tests.log. The helper's historical extra_model_downloads_authorized:false refers to unlisted assets; the five-file approval is explicitly recorded here and in proposed-docling-assets.json.
+
+Existing run_prospectus_ingestion/load_candidate_bundle APIs now process all39 original PDFs into pending candidate bundles under readiness/original-ingestion/<source-sha256>, with source-byte snapshots, conversion settings, actual normalized cells and root manifests. Gold answers/questions are excluded from corpus construction. Structural audit errors remain extraction-blocked and emit no ready chunks; a successful conversion is distinct from a usable curriculum. Whole-suite rerun and actual mapping/ranking evidence are in progress, not claimed passing or complete. All pending source states remain unchanged; no shared Supabase application or institutional activation.
+
+## Final original-corpus execution and repair
+
+All39 original PDFs/43physical pages were attempted through the existing candidate API. First pass produced37 bundles and two serialization failures (Electrical Engineering/Marine Biology). Captured Electrical conversion showed curriculum_by_term/1st Year mixing None semester with Summer. Two synthetic RED tests reproduce the exact sorted-JSON TypeError;86c2720 omits unplaced courses from the derived term index while preserving full courses/unknown fields/audit gates.50 focused tests pass36.56s; reviewer independently2pass0.52s. Both original retries then succeed80.088s/58.995s, retaining one/six unplaced courses and audit error/0chunks.
+
+All39 final bundles pass nested manifests, settings, byte identities and binding recomputation; originals unchanged.33audit errors/6warnings,336emitted chunks,34binding rejections/34extractor rejections. All approvals/scopes remain pending, candidate corpus inactive. Conversion success is not curriculum accuracy.
+
+| College | Sources | Audit errors | Warnings | Emitted chunks |
+| --- | ---: | ---: | ---: | ---: |
+| CAD |1 |1 |0 |0 |
+| CAH |6 |5 |1 |55 |
+| CBA |9 |6 |3 |176 |
+| CCJE |1 |1 |0 |0 |
+| CHTM |3 |3 |0 |0 |
+| CNHS |2 |2 |0 |0 |
+| CoE |4 |4 |0 |0 |
+| CS |6 |4 |2 |105 |
+| CTE |7 |7 |0 |0 |
+
+The original process retained its loaded pre-fix term view. Five historical audit-blocked bundles retain old serialized null-term projections (Accountancy, Marketing Management, Hospitality Hotel/Resort, Tourism, Petroleum Engineering); all emit0chunks. original-ingestion-summary.json lists these differences. No claim that all39 were parsed under86c2720; preserve original outputs and regenerate when extraction is repaired. Both failed sources were retried under the fix; first-pass failures remain archived.
+
+## Actual source mapping and model diagnostics
+
+actual-docling-region-mapping.json records geometry near27/28 authored regions:129 validated SourceSpans,10chunk links across3regions,24audit-blocked regions,3requiring field review and1without matching geometry. Bbox overlap is not verified row/column ownership. Actual cell/item IDs and span objects are recorded; no database span IDs invented. Field ownership stays pending.
+
+Strict offline SEA-LION produced336 source-chunk EmbeddingRecords in244.835s: finite1024-dimensional/L2-normalized vectors, exact tokens within512,0refusals/truncations. Same pinned configuration as27 real queries. Gold questions/answers never construct the corpus. Candidate diagnostics rank by cosine similarity using byte-version filters and record k=3/5/8 geometric overlap; only3/27 cases have same-byte chunks. This is not Precision/Recall, sufficiency, threshold calibration, authorized runtime replay, unsupported-case success or institutional accuracy. No LLM answers generated.
+
+Independent final reviewer: noP1/P2. Rehashed39 originals/reloaded39 bundles/recomputed28mapping rows and129spans; checked336embedding contracts/content bindings/configs/norms/exact tokens, all saved rankings/citations, and replayed three documents from different versions with component-for-component identical vectors. Repair regressions independently pass.
+
+Post-fix command: approved venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider --basetemp <readiness>/tmp/full-pytest-term-view-fix tests, with workspace TEMP/TMP/HF_HOME/HF_HUB_CACHE/DOCLING_CACHE_DIR/DOCLING_ARTIFACTS_PATH and HF_HUB_OFFLINE/TRANSFORMERS_OFFLINE=1. **4906passed,107subtests,6skipped,6warnings,571.49s,exit0**. Skips include unavailable Windows symlink privileges; warnings are upstream deprecations. Separate pre-fix4904pass/107subtests/6skip run752.06s in full-pytest-docling-assets.log. No repository dependencies/locks changed.
+
+Raw evidence in readiness root: original-ingestion-summary/results/first-pass; both retry logs/results; actual-docling-region-mapping/review; real-candidate-document-embeddings.jsonl; real-candidate-cosine-report/observations; RED/GREEN and full-suite logs. real-run-artifact-manifest.json seals64 evidence files, SHA-256189c5362314725494a80bb70372025f28da3daef13e397245832acbc8f51493f. Existing dataset and both exam packets unchanged.
+
+Next: repair/review failed extraction and unresolved geometry, independently confirm source/field/applicability labels, then approved-release retrieval/calibration and reviewed shared Supabase migration application. Migration remains unapplied to shared/hosted databases. Phase05 Tasks4/6 remain open; no Phase06 advancement.
+
+## Resumed TDD extraction recovery — 12 October 2026
+
+The owner requested continuation after an account change and explicit TDD/skill
+requirements in `AGENTS.md`, committed at `670d948`. Git was clean at the preceding
+`75457b2`; existing package/model/Docling setup and prior execution were retained.
+
+Saved Financial Management cells project one course across several grid rows,
+with separate prerequisite cells. The previous text comparison emitted two
+six-unit courses and also collapsed separate identical-text source rows. The
+original PDF's physical page 1 was rendered and visually checked: it contains one
+six-unit placement, with the full program total printed as 146. The parser now
+uses matching code/title/unit cell identities to continue that source row and
+preserves newly encountered prerequisite evidence once. Missing fields stay
+missing; different cell identities remain separate courses. See the
+[decision record](../docs/decisions/prospectus-spanning-course-identity.md).
+
+Five tracked synthetic regressions cover split/repeated prerequisites, separate
+same-text rows, and missing titles. Observed RED exposed duplicate projections,
+incorrect deduplication of separate cells, and a missing-title edge case found
+during the first corpus comparison. Focused final verification: 50 tests and 13
+subtests passed in 3.60s. Independent final review found no actionable issues;
+151 chunk/binding/parser checks and 13 subtests passed in 18.08s. The reviewer's
+initial six fixture errors were an absent external temporary parent, resolved by
+creating it; they were not product failures.
+
+The final comparison loads all 39 saved conversions with verified source hashes,
+conversion metadata and bundle manifests, then runs the previous and current
+parser on the same captured evidence. Only Financial Management changes: 50 to
+49 courses, 152 to 146 units, audit `error` to `warn`. The other 38 course
+collections and audit outcomes are unchanged. No original PDF, historical bundle
+or gold packet was changed. All 64 files in the previous sealed execution
+manifest were rehashed and remain unchanged.
+
+Only that repaired source was freshly reconverted, into a separate directory:
+
+```text
+C:/Coding-projects/bintanong_workspace/audit-evidence/p05-extraction-recovery-20261012/
+  repaired-ingestion/176cbbd07bcec16a9037b610636546c032fc66ac2aa24536e163632988625141/
+```
+
+The existing ingestion API and bundle loader verify nested manifests, source
+identity, pending register, span/chunk bindings and the complete report. The
+56.823s run emits 54 chunks from 58 candidates, with four binding rejections and
+five extractor rejections. Its audit remains `warn`; source verification,
+content/applicability review and authority remain pending. The raw prerequisite
+retains Docling's displaced ordinal fragment; merging cells does not correct or
+approve their text.
+
+Strict offline SEA-LION encodes those 54 new chunks in 71.438s, with exact token
+counts within 512, finite normalized 1024-dimensional vectors, matching pinned
+configuration and zero refusals/truncations. Existing weights remain in MODELS.
+The prior 336 document vectors and 27-query diagnostics were preserved rather
+than recomputed. The latest candidate mix has 390 chunks/vectors, 32 audit-error
+sources and seven warnings. This is an execution result, not retrieval accuracy
+or runtime-release evidence. The repaired source is outside the exam's ten
+selected originals, so same-byte exam coverage remains three of 27 cases.
+
+Final-code full-suite verification: **4912 passed, 107 subtests passed, six
+skipped, six warnings, 371.98s, exit 0**. Separate phase-ledger verification:
+19 unittest tests passed in 10.561s. Skips include unavailable Windows symlink
+privileges; warnings include existing GPU mark and upstream deprecations. The
+earlier 4910-pass/107-subtest run in 423.22s began before the fifth test and final
+correction and is historical. The final command uses the existing approved Python 3.13 venv,
+`-B -m pytest tests -q -p no:cacheprovider --basetemp <recovery>/full-pytest-final-temp`,
+the previously approved offline artifact environment, and workspace TEMP/TMP.
+Raw results are `full-pytest-final.log` and `full-pytest-final.exit`.
+
+The recovery directory contains RED/GREEN logs, both cached comparisons, the new
+bundle and embedding records, and `remaining-extraction-review.csv` with 39
+pending review rows. The earlier source/answer review sheet remains pending; the
+owner confirmed that this review has not been performed and requested guidance. No new dependency,
+model download, shared migration, release activation, LLM answer or score was
+created. Continue the remaining extraction/field/source review before approved
+retrieval calibration; Phase 05 stays active and Phase 06 remains disallowed.
+
+### Owner review materials and current recovery pointer
+
+Verified parser/test/decision commit: `280a287`; TDD repository instructions:
+`670d948`. Recovery artifact manifest seals 41 files; SHA-256
+`528ea76ece58705e75365df2ce4e4577f6f8a594d24cedbe1d59f9aef321f6bf`.
+Working-code SHA-256 for `sections.py`:
+`1f0cd8f20ceb3d34d106e65d3eecb07ca052fcb0294e38c3305305dddb494df4`.
+Pinned environment/model assets are unchanged from the earlier execution.
+
+[Start the owner review](</C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/START-HERE.md>)
+and record decisions in [the editable question sheet](</C:/Coding-projects/bintanong_workspace/audit-evidence/phase-05-owner-review-20261012/REVIEW-DECISIONS.md>).
+The folder also contains ten byte-identical source PDFs, twelve full-page images,
+questions, a reference key with local PDF links, and a separate source-authority
+sheet. All labels remain pending. Independent reader QA verifies all 27 cases,
+PDF hashes, image renders and 76 internal links; this is packaging QA, not the
+owner or institutional review. One packaging finding was corrected by localizing
+the reference-key links; the earlier answer key remains unchanged.
+
+Next: the owner reviews one college at a time, recording `accept`, `correct`, or
+`unclear` for printed answers and scope. Independently confirm source authority
+and applicability with supporting records when available. Remaining extraction
+repairs include the BSCS standing-fragment ownership and other failed audits;
+reuse saved conversions and retain ambiguous fields pending. Approved runtime
+retrieval/calibration remains NOT RUN, shared migration remains unapplied, and
+Phase 06 remains disallowed.

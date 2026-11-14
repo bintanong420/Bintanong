@@ -1,0 +1,39 @@
+[
+  {
+    "acceptable_claims": [
+      "The available rules do not cover this question, so no determination can be made."
+    ],
+    "adversarial_kinds": [
+      "incomplete_coverage"
+    ],
+    "case_id": "syn-standing-incomplete-en",
+    "category": "academic_standing",
+    "expected_control": null,
+    "expected_outcome": "unknown",
+    "expected_route": "Symbolic",
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-standing-incomplete-coverage",
+    "language": "en",
+    "missing_facts": [
+      "dismissal threshold rule"
+    ],
+    "must_abstain": true,
+    "query": "Does the retention policy say how many failed units lead to dismissal?",
+    "required_facts": [
+      "dismissal rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: the retention policy covers probation only, not dismissal."
+  }
+]

@@ -1,0 +1,144 @@
+# Phase 2 draft: pending-register preflight and policy candidates
+
+This is owner-authorized draft continuation in `draft/phase2-candidates-20261010`, based on `0caeaba8d8221a0f75b154e94bc3167b780f1407`. It is not a formal phase start, institutional adoption or phase exit. The formal ledger, plan status, integration GUI and progress documents are unchanged.
+
+## Sequence and contracts
+
+Pending-register minting and validation move ahead of conversion in this draft. This is the prerequisite prefix of Task 5, needed by Task 3: a converter must never run against an invalid or unregistered source identity. The actual Phase 1 `SourceDocumentVersion.parse`, `check_register`, `SourceSpan.parse` and `check_span_binding` are reused; contracts and schemas are unchanged.
+
+`register.py` exposes:
+
+- `mint_pending_register(manifest, *, synthetic=False) -> tuple[SourceDocumentVersion, ...]`: each entry has exactly `filename`, `sha256`, `acquisition_locator`. The caller maps inspection hash-manifest entries to explicit logical locators. Local paths are refused by the existing contract.
+- `pending_version(snapshot, locator, *, synthetic=False) -> SourceDocumentVersion`: captures identity from the caller's `InputSnapshot`, verifies that snapshot and delegates to the same minting function.
+- `load_pending_register(records) -> tuple[SourceDocumentVersion, ...]`: reparses contracts or JSON-compatible mappings, checks the whole register and enforces initial states and byte-derived IDs.
+- `version_for_snapshot(snapshot, records) -> SourceDocumentVersion`: validates the whole register and unchanged snapshot before selecting its exact byte identity.
+
+IDs are `doc-<sha256>`, `ver-<sha256>` and `edition-<sha256>`. Duplicate bytes produce one version with sorted unique acquisition locators and a deterministic display filename. Different bytes always produce different versions and editions. No filename implies authority, effectivity or supersession. Category is `source_document`; selection of a curriculum proposal remains a future owner-named step. Scope fields and supersession stay pending, acquisition and source verification stay pending, content review stays pending, approval stays `not_requested` with null approval ID and no evidence. Loading also refuses non-initial states, even when another workflow could validate their evidence.
+
+## Candidate representation
+
+`policy_text.py` exposes:
+
+- `read_policy_items(raw, version, *, printed_page_labels=None) -> PolicyCandidates`: library reader for raw Docling structures bound to a pending version. This does not authenticate association of arbitrary caller-supplied JSON with source bytes; the conversion wrapper supplies that association.
+- `extract_policy(snapshot, register, *, input_root, out, converter=None, printed_page_labels=None) -> PolicyCandidates`: PDF-only wrapper with explicit root and external new/empty output folder. Input containment, pending-register validation and unchanged snapshot checks precede conversion.
+- Frozen `PolicyUnit`, `ItemOmission` and `PolicyCandidates`; `PolicyCandidates.check_invariants()` and `as_dict()` are the Task 5 consumer interface. Units carry `item_id`, `label`, exact `source_text`, every physical page, full raw provenance JSON, heading path, printed scope candidate, preceding-clause exception link, validated spans and explicit rejection reason.
+
+The reader always uses raw Docling text items. A raw-provenance/adapter spike on institutional Handbooks is NOT RUN: institutional conversion is gated. Synthetic tests demonstrate both adapter gaps, so a reader that retains every raw item and every provenance entry is necessary without waiting for a corpus result. There is no claim about the frequency of those gaps in actual documents.
+
+Each raw item occurs exactly once in a unit or item omission. Empty items retain their raw ID, raw text and all pages. Repeated furniture is an omission only when identical whitespace/case-normalized text occurs wholly in the top or bottom ten percent on at least three distinct pages. Raw punctuation, numbers, dates, negation, en dashes and superscripts remain unchanged. A page lacking a nonempty text item receives `scanned_no_text_layer`; this is an extraction finding, not proof about the original PDF's native text layer. Empty pages are not silently accepted as extracted text.
+
+Heading paths accumulate raw `section_header` labels in raw reading order, without nesting-depth claims. Body/group references, then furniture references, establish order when a body is supplied; unresolved, duplicated or cyclic references are refused. Otherwise raw text-array order is used. Scope is a printed candidate only for a raw `scope` label or text under a heading exactly naming Scope, Coverage or Applicability. Exceptions beginning Except, Unless or Provided link to the preceding non-heading clause. These are candidate links requiring human reading, not semantic rule interpretation. USG never implies CSG. Issuer, effectivity and all register scope fields remain pending.
+
+Every anchored unit has actual Phase 1 spans with the source digest/version, physical page, optional caller-supplied printed folio, bounding-box origin, page size and raw text. PDF page labels are not treated as printed folios. Missing or invalid geometry yields an explicit unanchored unit/rejection, preserving its text and full provenance. For multiple provenance entries, raw character ranges must locate all the text; ranges are sliced without cleaning. Missing ranges, gaps and malformed ranges are rejected rather than assigning the whole multi-page text to each page. Non-PDF slide locators are outside this interface.
+
+The shared namespace scan refuses private-session IDs/facts in register entries and raw structures. It is not a semantic personal-data detector: authorized source selection remains a caller boundary, and no private upload or institutional original is processed in this draft. Tables are outside this text-item batch and require the later table/procedure/chunk workflow.
+
+## Conversion and publication
+
+The wrapper uses installed `loader.load_docling()` and explicitly imports `docling` and `docling_core` before `loader.load_document_result()`. A missing installed environment therefore raises before the loader's relaunch helper is reached. Once imported, that helper returns through its importable-environment branch. No production monkeypatch, environment mutation, installation, interpreter relaunch or extractor edit is used.
+
+The loader receives caller `snapshot=`, an explicit external `raw_json_path` and `stage_dir`. All conversion writes occur under the external output folder. The caller calls `snapshot.verify_unchanged()` before publishing because the loader skips it with `stage_dir`. Raw JSON, its metadata and `policy_candidates.json` are written atomically, followed by another unchanged-source check and `manifest.json` last. A missing completion manifest means incomplete output and must not be consumed. Failed publication does not authorize retry into that nonempty folder; use a new output folder. Originals are never opened for writing.
+
+## Validation boundary
+
+Synthetic focused tests cover pending register round trips, duplicate locators, edition separation, malformed types/digests/IDs/namespaces, negative promotion before conversion, raw text fidelity, raw reading order, exception/scope candidates, printed folios, multi-page provenance and character ranges, omissions, accounting, geometry refusal, immutable records, external containment, missing installed imports, actual loader execution with a stub converter, and input mutation before publication. Red and green results and archive parity hashes are recorded outside Git under `phase2_policy_candidates` in the takeover evidence root.
+
+The seven previously reviewed Task 1/2 source/test/decision files are adopted verbatim from the external `draft_review_archives/p2_final` archive. The generic `ingest PATH` command remains; there is no Phase F command.
+
+NOT RUN: four institutional conversions, Handbook spike, authorized source/scope selection, content review, ten-document OCR gate, phone photographs, broad mutation campaign, broad suite, Linux/macOS/containers, exact tokenizer and institutional approval. Independent Spec and Standards acceptance remain root-managed. This batch does not meet the formal plan's real-source or phase-exit gates.
+
+## 2026-10-13 source-review evidence boundary
+
+Current Phase05 source review distinguishes original transcription proposals from
+raw extraction provenance and institutional approval. Critical grade-table field
+geometry is retained separately; no proposal patches the saved raw or candidate.
+Three refused handbook structures are process flowcharts, while other refusals
+include continuations, merged multilevel headers, contents indexes and headerless
+course-description pairs. A single row-sort/header-invention rule cannot recover
+these safely. Original/native bbox diagnostics remain review aids only.
+The ten separator-gap text refusals include furniture/cross-page joins and stay
+strictly refused pending a reviewed segmentation policy. Editable human decisions
+are excluded from the review evidence seal; no automatic import or approval follows.
+Detailed bounded evidence and next human action:
+`plans/2026-10-13-phase05-policy-review-preparation.md`.
+
+### Owner scope correction applies to both policy PDFs
+
+`AGENTS.md` and `plans/undergraduate-scope-policy.md` now govern selection:
+undergraduate-only support; professional Medicine/Law,graduate,laboratory-school
+and faculty/staff-only procedures are excluded. Original mixed-audience PDFs/raw
+remain intact, while active review selections are separate derivatives. Staff roles
+inside a student service are not exclusion keywords. A shared undergraduate/Law
+source heading can support verified undergraduate content without admitting Law.
+The earlier whole-source review queue is superseded. Unreviewed mixed scopes cannot
+reach embeddings, rules or publication by default. This is a scope ruling and
+review derivative, not a deployed source filter or source/content approval.
+
+### Original flowchart/native-grid review findings
+
+Current undergraduate handbook flowchart bodies physical62/63/64 contain no native
+text in the selected process/role/detail regions; captured tables6/7/8 have no
+cells. Preserve separate manual visual proposals and qualification branches;
+ordinary row sorting cannot manufacture missing cell text. The graduation figure
+has a visibly incomplete final instruction. Native disciplinary-table glyphs
+straddle gridlines; bounded text must not assign word fragments to neighboring
+penalties. Charter continuation reads require header and row ownership review.
+All bounded text remains diagnostic. Proposed visual readings,
+blanks and unresolved content stay separate from raw/canonical SourceSpans.
+No reader behavior changed. Evidence and review order:
+`plans/2026-10-13-undergraduate-table-source-readings.md`.
+
+### Owner rule for defective original content and corrected transcription
+
+Standing13October2026 rule: `plans/source-gap-policy.md`, routed by AGENTS.
+Preserve source defects and carry their limitations with affected evidence; never
+complete a cut-off process or infer missing conditions, sanctions or an END node.
+Answer verified visible content, disclose material gaps and refer to a source-named
+responsible office when needed. A gap limits only dependent claims, not unrelated
+progress, and does not require the owner to recreate unavailable university text.
+
+Handbook64,row8original includes diploma cover; the review transcription omitted
+diploma and is corrected separately. Owner confirms row6Update Student Records
+readable. Row9visible fragment matches but stops at during in the university PDF;
+missing continuation remains unresolved. Original/raw/historical evidence stays
+unchanged. Runtime propagation/answer enforcement remains an implementation
+requirement, not a completed feature claim.
+
+### Corrected next-page fabrication diagnostic
+
+Following owner confirmation of handbook87disciplinary rows, a fresh original
+handbook89render is pixel-identical to the earlier image. Bounded fabrication
+first-offense native region and visible cell contain suspension for1semester;
+the separate second-offense column contains dismissal. Linear native extraction
+concatenates the columns. The earlier agent claim of an extra visible dismissal
+inside the first-offense cell is unsupported and superseded. Preserve that sealed
+diagnostic; derive a separate source-backed pending reading and ask the owner to
+compare the actual visible cells. This corrects review evidence, not the original
+source or product ingestion. Native fragments remain diagnostic, not sanctions.
+
+### Successful structural extraction is not critical-content review
+
+Owner questioned skipped handbook88between reviewed disciplinary pages87/89.
+Fresh source/candidate evidence confirms table10emitted two chunks with source
+and content review still pending; absence from the failed-table queue is not a
+scope exclusion, accuracy result or human approval. Add the four consequential
+policy rows to independent review, preserving original/raw/chunks unchanged.
+AGENTS requires applicable critical-field review before approved release even
+when parsing passes. Selected problem-queue counts do not describe an exhaustive
+handbook/Charter audit or every remaining release/evaluation approval.
+
+### Complete logical steps and linked service-table sub-actions
+
+Owner corrects Charter step1missing beginning and specifies seven time/person/
+office associations. Continuation-only review omitted five agency sub-actions
+and parent None fee from physical11/printed10; physical12/printed11completes the
+same client step. Source is complete here: this was a review coverage/grouping
+omission, not defective institutional content. Evaluator office crosses the page
+boundary; wrapped labels remain one role, and joint role labels remain intact.
+
+`plans/service-table-association-policy.md`, routed by AGENTS, requires a complete
+logical step with ordered linked agency action/duration/role/office/conditions and
+explicit shared-fee source. Preserve raw blanks/original fragments; do not flatten
+columns into unrelated lists. Owner pairings are reviewed separately from newly
+restored action/fee fields. This derives corrected review data and requirements,
+not a deployed reader/chunker fix or whole-service approval.

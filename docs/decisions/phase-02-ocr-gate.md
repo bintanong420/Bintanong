@@ -1,0 +1,41 @@
+# Phase 2 draft: gate-only OCR runner and manual-reference evaluation
+
+This isolated Task 6 draft follows `c088461` on `draft/phase2-candidates-20261010`. It does not start formal Phase 2, adopt institutional content, or complete a phase exit. The formal ledger, contracts, extractor, existing OCR adapters, API, embedding packages and dependencies are unchanged.
+
+## Interfaces and publication
+
+`ocr_run.run_document(snapshot, register, *, input_root, out, config) -> dict` consumes the existing `InputSnapshot`, a whole pending register, and `ocr_bench.engines.OcrConfig`. Input containment, `check_out` and `version_for_snapshot` run before any engine. The output directory must be new/empty and outside every Git repository and the explicit input root. Originals are read only. All generated artifacts belong outside Git.
+
+JPEGs decode from captured bytes; a JPEG suffix with another format is refused. PDF physical pages render from captured bytes at scale 2 using installed pypdfium2. PDF documents, pages, bitmaps and PIL images close on success or failure. A poster has an explicit `image` binding and image index, never a fabricated PDF SourceSpan. PDF candidates have every physical page in order. No chunks, RAG entries or rules are created.
+
+The small `_run_adapter` seam calls the existing `engines.run_ocr`, with its `ADAPTERS` and `availability`. Tests replace this seam to avoid installed-engine initialization. Production never changes the registry or process environment. Tesseract requires an executable, `TESSDATA_PREFIX`, and every selected nonempty local traineddata file. Their filenames and SHA-256 identities are preserved and checked again after OCR. Adapter-reported version, config, language, device, image count and timing must be present and sane; actual config/language must equal the values passed. Unknown or requested/auto device claims are refused. Any additional adapter metadata, including providers, is preserved. No model name is inferred when unavailable.
+
+RapidOCR initialization remains refused with `EngineNotInstalled`: its existing adapter can fetch weights, and no verified local-model-only initialization was supplied. Offline Hugging Face variables do not prove that initialization safe. Missing engines/models write `ocr_run.json` with evaluation `NOT RUN` and requested configuration, then raise; they never trigger installation, downloads or relaunch. No completion manifest is written for failed/not-run output.
+
+Raw adapter text, words and `ocr_run.json` remain byte-preserved. `ocr_candidates.json` adds source SHA/version, start timestamp, render settings/hash, physical binding, rendered size, text, raw adapter percent confidence and boxes. Confidence is neither calibrated nor an accuracy estimate. Missing pages, text, words, actual metadata, nonfinite/out-of-range confidence, and boxes outside the rendered page are refused. Valid artifacts are written with the existing atomic writer, unchanged-source checks surround publication, and `manifest.json` with artifact digests is last. Missing manifest means incomplete output; retry with a new directory.
+
+## Frozen manual references
+
+`ocr_gate.freeze_reference(snapshot, annotation) -> FrozenReference` requires a captured PDF and an explicit `human_pdf_manual` annotation containing exactly `reference_id`, `reviewer`, `review_date`, `pages`, and `critical_regions`, plus `origin`. PDF page count comes from captured bytes. `pages` must cover every one-based physical page exactly once; each entry contains `page`, `printed_page_label` (nullable) and nonempty exact `text`. Printed labels are manual declarations, never inferred physical numbers.
+
+Each critical region contains `id`, `kind`, `page`, `start`, and `end`. Kinds are `negation`, `threshold`, `fee`, `date`, `requirement`, and `exception`. Offsets select nonempty complete lines in that reference page's text. Every document needs critical evidence; the reviewer must enumerate meaningful regions, since the software cannot prove annotation completeness. The freeze stores canonical immutable bytes, SHA-256, source digest, page count, reviewer/date/identity and nanosecond timestamp. It must happen before running the OCR candidate. Preserve those frozen bytes/digest externally before candidate production.
+
+`ocr_gate.score_document(snapshot, frozen_reference, candidate) -> dict` checks digest, unchanged source, physical page map, actual candidate metadata, explicit origins and freeze-before-run ordering. Candidate-origin artifacts, candidate/reference identity reuse and an object used as its own reference are refused. Identical independently referenced text is valid and yields CER 0; text equality is never treated as self-reference. Source and reference tampering are refused. Candidate-provided critical values are never the oracle.
+
+Critical regions compare their complete reference lines to the same ordinal lines of the candidate physical page. Another clause's matching text cannot hide a dropped negation. Line drift or line wrapping is conservatively an error; layout-aware alignment remains deferred. Critical errors name the reference region, kind/page, observed lines and whether the candidate supplied an explicit matching region ID in `review_flags`. Unknown flag IDs are refused. Without a flag the error is silent. These are annotation comparisons, not semantic field inference or semantic accuracy.
+
+The trusted caller supplies human identity/origin; declarations and timestamps are not authenticated human credentials or cryptographic proof of chronology. A freshly recomputed digest of rewritten reference bytes is a new reference, not proof of the originally frozen review. Freeze ordering assumes an honest clock/caller. OCR confidence, page hashes and model hashes establish provenance only, not extraction correctness.
+
+## Metrics and honest coverage
+
+`ocr_gate.evaluate(documents) -> dict` accepts triples `(snapshot, frozen_reference, candidate)`. At least ten distinct source byte SHA-256 identities with valid reviewed references are required. Duplicate aliases count once; conflicting evaluations for one byte identity are refused. Fewer than ten returns `status=blocked`, `evaluation=NOT RUN` and distinct coverage, without a corpus pass claim. Validation of supplied triples still runs; it cannot turn insufficient coverage into an evaluation.
+
+Each document reports raw character CER using only the existing `score.edit_distance`. Pooled CER and worst-document CER are both reported. Missing/invented content counts non-whitespace characters in positional diff deletions/insertions/replacements; substitutions contribute to both counts. These conservative character counts are explicitly labelled, not claims about missing semantic clauses. Critical error counts and zero silent errors accompany CER.
+
+The tentative 98% critical exact rate, 2% worst CER, no missing/invented characters and zero silent critical errors are draft owner defaults. They are not approved institutional thresholds and do not certify policy OCR. The user's 95–99% aspiration is not a measured result. The prospectus course-row scorer and Q11 verdict are not used.
+
+## Evidence and pending gates
+
+Focused synthetic RED/GREEN results, exact commands/exits and artifact hashes live outside Git in `codex_takeover_2026-10-10/phase2_ocr_gate`. Tests use real captured synthetic PDF/JPEG bytes and real rendering, with synthetic OCR adapter output. The first callable-stub RED run was 35 failed, exit 1. The first implementation run was 33 passed / 2 failed: installed `PdfPage` lacks context-manager support, so resources use its verified `close()` API through `contextlib.closing`; the unregistered-source fixture now supplies a valid different-byte register to reach the intended missing-version refusal.
+
+NOT RUN: institutional corpus/ten reviewed references, actual Tesseract or RapidOCR extraction, GPU/providers/model performance, real phone photographs, manual source accuracy, broad approximately 4,000-test suite, mutation campaign, Linux/macOS/Docker/API, institutional authorization and phase exit. Independent acceptance is root-managed; the author supplies no self-review verdict. The owner still decides engine/language/device, qualifying ten sources and thresholds.

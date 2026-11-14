@@ -1,0 +1,297 @@
+[
+  {
+    "schema_version": "bintanong-source-register-v1",
+    "namespace": "institutional",
+    "synthetic": true,
+    "document_id": "doc-synth-handbook",
+    "version_id": "ver-synth-handbook-1",
+    "edition_id": "edition-synth-handbook-1",
+    "filename": "synthetic-handbook.pdf",
+    "byte_sha256": "e46d0f9da809b52a2931b4cdfc9a96822103d6cdedb611f3b9ff5ac4535d6d1a",
+    "acquisition_locators": [
+      "synthetic-locator-alpha/1",
+      "synthetic-locator-beta/1"
+    ],
+    "document_category": "source_document",
+    "issuer": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "campus": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "college": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "program": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "cohort": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "printed_revision": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "effective_from": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "effective_to": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "supersession": {
+      "relation": "none",
+      "target_version_id": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "acquisition_state": {
+      "state": "observed",
+      "evidence_ref": "ev-a1"
+    },
+    "verification_state": {
+      "state": "pending",
+      "evidence_ref": null
+    },
+    "approval_state": {
+      "state": "not_requested",
+      "evidence_ref": null
+    },
+    "content_review_state": {
+      "state": "pending",
+      "evidence_ref": null
+    },
+    "approval_id": null,
+    "evidence": [
+      {
+        "evidence_id": "ev-a1",
+        "kind": "byte_hash_check",
+        "recorded_by": "researcher",
+        "recorded_at": "2026-01-01T00:00:00+00:00"
+      }
+    ]
+  },
+  {
+    "schema_version": "bintanong-source-register-v1",
+    "namespace": "institutional",
+    "synthetic": true,
+    "document_id": "doc-synth-handbook",
+    "version_id": "ver-synth-handbook-2",
+    "edition_id": "edition-synth-handbook-2",
+    "filename": "synthetic-handbook.pdf",
+    "byte_sha256": "57922109b69a8b3e7fdca191a89d02a4ae6ac336b8fc5ca043d3b69ce494f78a",
+    "acquisition_locators": [
+      "synthetic-locator-alpha/2"
+    ],
+    "document_category": "source_document",
+    "issuer": {
+      "value": "Synthetic Office of Fictional Records",
+      "state": "observed",
+      "evidence_ref": "ev-b3",
+      "basis": "printed_text"
+    },
+    "campus": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "college": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "program": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "cohort": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "printed_revision": {
+      "value": "Rev. 2 (fictional)",
+      "state": "observed",
+      "evidence_ref": "ev-b3",
+      "basis": "printed_text"
+    },
+    "effective_from": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "effective_to": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "supersession": {
+      "relation": "none",
+      "target_version_id": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "acquisition_state": {
+      "state": "verified",
+      "evidence_ref": "ev-b2"
+    },
+    "verification_state": {
+      "state": "observed",
+      "evidence_ref": "ev-b3"
+    },
+    "approval_state": {
+      "state": "not_requested",
+      "evidence_ref": null
+    },
+    "content_review_state": {
+      "state": "pending",
+      "evidence_ref": null
+    },
+    "approval_id": null,
+    "evidence": [
+      {
+        "evidence_id": "ev-b1",
+        "kind": "byte_hash_check",
+        "recorded_by": "researcher",
+        "recorded_at": "2026-01-01T00:00:00+00:00"
+      },
+      {
+        "evidence_id": "ev-b2",
+        "kind": "byte_hash_check",
+        "recorded_by": "reviewer",
+        "recorded_at": "2026-01-01T00:00:00+00:00"
+      },
+      {
+        "evidence_id": "ev-b3",
+        "kind": "printed_text_span",
+        "recorded_by": "researcher",
+        "recorded_at": "2026-01-01T00:00:00+00:00"
+      }
+    ]
+  },
+  {
+    "schema_version": "bintanong-source-register-v1",
+    "namespace": "institutional",
+    "synthetic": true,
+    "document_id": "doc-synth-proposal",
+    "version_id": "ver-synth-proposal-1",
+    "edition_id": "edition-synth-proposal-1",
+    "filename": "synthetic-proposal.pdf",
+    "byte_sha256": "9387d69d6e603e29dc9ee4bce0e013b03d147799f32a01568f1f970d544618ec",
+    "acquisition_locators": [
+      "synthetic-locator-gamma/1"
+    ],
+    "document_category": "curriculum_proposal_candidate",
+    "issuer": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "campus": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "college": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "program": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "cohort": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "printed_revision": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "effective_from": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "effective_to": {
+      "value": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "supersession": {
+      "relation": "none",
+      "target_version_id": null,
+      "state": "pending",
+      "evidence_ref": null,
+      "basis": null
+    },
+    "acquisition_state": {
+      "state": "observed",
+      "evidence_ref": "ev-c1"
+    },
+    "verification_state": {
+      "state": "pending",
+      "evidence_ref": null
+    },
+    "approval_state": {
+      "state": "not_requested",
+      "evidence_ref": null
+    },
+    "content_review_state": {
+      "state": "pending",
+      "evidence_ref": null
+    },
+    "approval_id": null,
+    "evidence": [
+      {
+        "evidence_id": "ev-c1",
+        "kind": "byte_hash_check",
+        "recorded_by": "researcher",
+        "recorded_at": "2026-01-01T00:00:00+00:00"
+      }
+    ]
+  }
+]

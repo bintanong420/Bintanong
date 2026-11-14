@@ -1,0 +1,41 @@
+[
+  {
+    "acceptable_claims": [
+      "Pakisabi kung aling course at aling grading rule ang tinutukoy mo."
+    ],
+    "adversarial_kinds": [
+      "ambiguity"
+    ],
+    "case_id": "syn-grades-retake-ambig-tgl",
+    "category": "grades",
+    "expected_control": "clarify",
+    "expected_outcome": null,
+    "expected_route": null,
+    "gold_rules": [],
+    "gold_spans": [],
+    "group_id": "grp-retake-grade-ambiguity",
+    "language": "taglish",
+    "missing_facts": [
+      "which course",
+      "which grading rule"
+    ],
+    "must_abstain": true,
+    "query": "Ano ba ang magiging grade ko kapag nag-retake ako?",
+    "required_facts": [
+      "which course",
+      "which grading rule"
+    ],
+    "review": {
+      "author": "dev-author",
+      "evidence_ref": null,
+      "review_version": null,
+      "reviewer": null
+    },
+    "schema_version": "bintanong-evaluation-case-v1",
+    "scope": null,
+    "scope_null_reason": "synthetic case: no real edition applies",
+    "split": "dev",
+    "status": "synthetic",
+    "synthetic_policy": "Synthetic rule: the retake grading rule differs per course type."
+  }
+]
