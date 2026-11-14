@@ -271,7 +271,7 @@ def extract_procedure(snapshot: InputSnapshot,
                       register: Sequence[SourceDocumentVersion | Mapping[str, Any]], *,
                       input_root: Path, out: Path, converter: Any = None,
                       classification: str = "procedure_candidate",
-                      printed_page_labels: Mapping[int, str] | None = None) -> ProcedureCandidates:
+                      printed_page_labels: Mapping[int, str] | None = None, ocr: bool = False) -> ProcedureCandidates:
     """Byte-bound installed conversion, explicit external output, completion manifest last."""
     root, out = Path(input_root).resolve(), Path(out).resolve()
     if not isinstance(snapshot, InputSnapshot) or root not in snapshot.path.parents:
@@ -283,6 +283,8 @@ def extract_procedure(snapshot: InputSnapshot,
         raise ValueError("unsupported candidate classification")
     if source_format == "pptx" and printed_page_labels:
         raise ValueError("PPTX cannot carry printed PDF page labels")
+    if ocr and source_format != 'pdf':
+        raise ValueError('Image OCR requires a PDF')
     try:
         check_out(root, out)
     except InspectionRefused as exc:
@@ -296,7 +298,7 @@ def extract_procedure(snapshot: InputSnapshot,
     with tempfile.TemporaryDirectory(prefix="stage-", dir=out) as stage:
         if source_format == "pdf":
             converted = loader.load_document_result(snapshot.path, converter=converter,
-                raw_json_path=out / "raw_docling.json", stage_dir=Path(stage), snapshot=snapshot)
+                raw_json_path=out / "raw_docling.json", stage_dir=Path(stage), snapshot=snapshot, ocr=ocr)
             raw_bytes, meta_bytes = converted.raw_json_bytes, converted.meta_bytes
             if not isinstance(raw_bytes, bytes) or bytes_sha256(raw_bytes) != converted.raw_json_sha256:
                 raise ValueError("conversion raw bytes do not match their digest")

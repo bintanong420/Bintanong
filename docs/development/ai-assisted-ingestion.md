@@ -33,10 +33,19 @@ $work = 'C:/Coding-projects/bintanong_workspace/audit-evidence/my-ingestion-run'
 py -3.13 -m backend.bintanong_tools.knowledge_update prepare "$work/inputs/manifest.json" --out "$work/native"
 ```
 
-Native extraction is currently blocked in this machine's installed environment:
-Transformers 5.10.2 requires huggingface-hub >=1.5,<2, but 2.2.0 is installed.
-The extension's mocked tests do not resolve that conflict. Use an approved compatible
-environment before relying on fresh native conversion; do not bypass the check.
+Use the configured existing Docling interpreter. The 27 Oct environment mismatch
+was specific to that environment; the frozen-lock Python3.13 environment completed
+the [actual native PDF rehearsal](../../plans/2026-11-14-live-local-draft-rehearsal.md).
+Do not install or change dependencies to bypass a compatibility check.
+
+Uploaded PNG/JPG/WebP images keep their original bytes and a derived one-page PDF.
+New image preparations use installed local Tesseract and `eng.traineddata` through
+Docling, with full-page OCR at the image's own resolution. Missing local OCR assets
+fail preparation clearly; there is no automatic install/download or alternate provider.
+Ordinary PDFs keep the native text path. English OCR is not a multilingual accuracy claim.
+Executable/model hashes, version and actual OCR settings bind the conversion cache;
+all extracted fields remain pending human review. Previous packets keep their recorded
+settings and decisions; use a fresh packet for new OCR rather than overwriting evidence.
 
 ## Native extraction with vision suggestions
 

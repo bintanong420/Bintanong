@@ -110,7 +110,10 @@ SEA-LION, verify/check and local draft/repeat pass. One synthetic unpublished dr
 unapproved release validation refused. Hosted25 fingerprint checks unchanged; freeze
 baseline: workspace `audit-evidence/ku-live-rehearsal-20261114/freeze-baseline/`.
 PNG conversion returned a held empty-text page: loader disables OCR; no image built.
-Next: bounded image OCR with truthful conversion settings, then held-PNG rehearsal.
+Image OCR [continuation](../2026-11-14-image-ocr-results.md) on `feat/ku-image-ocr`:
+local pinned Tesseract, original-image-only opt-in, pending review; focused57/edge12
+and independent42pass. Actual PNG text + real embeddings pass; broader/local gates pending.
+Next: complete affected regressions and inactive PNG staging, then integrate after checks.
 Activation and hosted publication decisions stay open; no push or student/Gemma reload.
 Services restored after rehearsal: Bintanong db/rest/kong stopped as initially;
 Binturong original3 running again, both DBs healthy and storage `/status`200.

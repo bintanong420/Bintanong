@@ -12,7 +12,7 @@ import re
 import subprocess
 import sys
 
-from .identity import conversion_settings
+from .identity import bytes_sha256, conversion_settings
 
 
 class DoclingUnavailable(RuntimeError):
@@ -92,6 +92,8 @@ def load_docling() -> dict[str, Any]:
             AcceleratorDevice,
             AcceleratorOptions,
             PdfPipelineOptions,
+            OcrMode,
+            TesseractCliOcrOptions,
             TableFormerMode,
         )
         from docling.document_converter import DocumentConverter, PdfFormatOption
@@ -111,6 +113,8 @@ def load_docling() -> dict[str, Any]:
             "AcceleratorDevice": AcceleratorDevice,
             "AcceleratorOptions": AcceleratorOptions,
             "PdfPipelineOptions": PdfPipelineOptions,
+            "OcrMode": OcrMode,
+            "TesseractCliOcrOptions": TesseractCliOcrOptions,
             "TableFormerMode": TableFormerMode,
             "DocumentConverter": DocumentConverter,
             "PdfFormatOption": PdfFormatOption,
@@ -180,6 +184,30 @@ def check_cuda_environment() -> dict[str, Any]:
     return info
 
 
+def image_ocr_settings() -> dict:
+    from ..ocr_bench.engines import find_tesseract
+
+    executable = find_tesseract()
+    if not executable:
+        raise RuntimeError('Image OCR requires local Tesseract; automatic downloads are disabled')
+    executable = Path(executable).resolve()
+    tessdata = Path(os.environ.get('TESSDATA_PREFIX') or executable.parent / 'tessdata').resolve()
+    model = tessdata / 'eng.traineddata'
+    if not model.is_file() or not model.stat().st_size:
+        raise RuntimeError('Image OCR requires local eng.traineddata; automatic downloads are disabled')
+    try:
+        version = subprocess.run([str(executable), '--version'], check=True,
+            capture_output=True, text=True, timeout=10).stdout.strip().splitlines()[0]
+        engine = {'executable': str(executable), 'tessdata': str(tessdata), 'version': version,
+            'executable_sha256': bytes_sha256(executable.read_bytes()),
+            'eng_sha256': bytes_sha256(model.read_bytes()), 'mode': 'full_page', 'scale': 1.0}
+    except (OSError, subprocess.SubprocessError, IndexError) as exc:
+        raise RuntimeError('Local Tesseract image OCR preflight failed') from exc
+    settings = conversion_settings(do_ocr=True, ocr_languages=['eng'])
+    settings.update(force_backend_text=False, image_ocr=engine)
+    return settings
+
+
 def get_pipeline_options(device: str = "auto", settings: Any = None) -> Any:
     dl = load_docling()
     settings = settings if settings is not None else conversion_settings()
@@ -200,6 +228,10 @@ def get_pipeline_options(device: str = "auto", settings: Any = None) -> Any:
     options.accelerator_options = dl["AcceleratorOptions"](device=chosen)
     options.do_ocr = settings["do_ocr"]
     options.force_backend_text = settings["force_backend_text"]
+    if engine := settings.get('image_ocr'):
+        options.ocr_options = dl['TesseractCliOcrOptions'](lang=settings['ocr_languages'],
+            tesseract_cmd=engine['executable'], path=engine['tessdata'],
+            mode=dl['OcrMode'].FULL_PAGE, scale=engine['scale'])
     options.do_table_structure = settings["do_table_structure"]
     options.table_structure_options.mode = (
         dl["TableFormerMode"].ACCURATE if settings["table_mode"] == "accurate"

@@ -139,7 +139,7 @@ def prepare(manifest_path: Path, out: Path, *, converter=None, assist_provider=N
             else:
                 from ..document_ingest.pipeline import run_ingestion
                 run_ingestion(snapshot, [version], input_root=snapshot.path.parent, out=target,
-                              classification=KINDS[doc['kind']], converter=converter)
+                              classification=KINDS[doc['kind']], converter=converter, ocr='original_image' in doc)
         checked = _checked_bundle(target, doc)
         source_name = 'sources/' + doc['id'] + '.pdf'
         source_copy = out / source_name

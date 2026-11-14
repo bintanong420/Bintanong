@@ -169,7 +169,7 @@ def synthetic_prospectus():
             "pages": {"1": {"size": {"width": 612, "height": 792}}}}
 
 
-def synthetic_converter(monkeypatch, snapshot, raw=None, *, status="success", errors=()):
+def synthetic_converter(monkeypatch, snapshot, raw=None, *, status="success", errors=(), image_ocr=False):
     from types import SimpleNamespace
     from backend.bintanong_tools.prospectus_extractor import loader
     from conftest import FakeDoc
@@ -181,8 +181,22 @@ def synthetic_converter(monkeypatch, snapshot, raw=None, *, status="success", er
         assert stream.stream.read() == snapshot.data
         calls.append(stream.name)
         return SimpleNamespace(status=status, errors=list(errors), document=FakeDoc(raw))
-    return SimpleNamespace(convert=convert, calls=calls, conversion_settings={
+    result = SimpleNamespace(convert=convert, calls=calls, conversion_settings={
         "backend": "synthetic", "profile": "synthetic-curriculum-v1", "versions": {"fixture": "1"}})
+    if image_ocr:
+        from backend.bintanong_tools.prospectus_extractor.identity import conversion_settings
+        settings = conversion_settings(do_ocr=True, ocr_languages=['eng'])
+        settings.update(force_backend_text=False, image_ocr={'executable': 'synthetic-tesseract',
+            'tessdata': 'synthetic-models', 'executable_sha256': '1' * 64,
+            'eng_sha256': '2' * 64, 'version': 'synthetic-1', 'scale': 1.0, 'mode': 'full_page'})
+        monkeypatch.setattr(loader, 'image_ocr_settings', lambda: settings, raising=False)
+        monkeypatch.setattr(loader, 'load_docling', lambda: {
+            'DoclingDocument': FakeDoc, 'InputFormat': SimpleNamespace(PDF='pdf')})
+        options = SimpleNamespace(do_ocr=True, force_backend_text=False,
+            ocr_options=SimpleNamespace(kind='tesseract', tesseract_cmd='synthetic-tesseract',
+                path='synthetic-models', lang=['eng'], scale=1.0, mode=SimpleNamespace(value='full_page')))
+        result.format_to_options = {'pdf': SimpleNamespace(pipeline_options=options)}
+    return result
 
 
 @pytest.fixture

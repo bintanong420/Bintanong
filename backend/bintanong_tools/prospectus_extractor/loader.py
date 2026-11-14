@@ -12,7 +12,7 @@ import json
 import os
 import tempfile
 
-from .docling_env import _docling_importable, ensure_docling_env, get_shared_converter, load_docling
+from .docling_env import _docling_importable, ensure_docling_env, get_shared_converter, image_ocr_settings, load_docling
 from .identity import IDENTITY_VERSION, InputSnapshot, bytes_sha256, conversion_identity, conversion_settings
 from .publish import ReplaceFailed, replace_file
 from .text import clean_str, match_semester_labels, match_year_label
@@ -399,6 +399,7 @@ def load_document_result(
     stage_dir: Path | None = None,
     *,
     snapshot: InputSnapshot | None = None,
+    ocr: bool = False,
 ) -> DocumentLoadResult:
     """Load a PDF (convert or reuse an identity-matched cache) or a raw Docling JSON.
 
@@ -422,11 +423,11 @@ def load_document_result(
         raise ValueError(f"Unsupported input type: {input_path.suffix}")
 
     ensure_docling_env()
-    load_docling()
+    dl = load_docling()
 
     raw_json_path = Path(raw_json_path).resolve() if raw_json_path else input_path.parent / f"{input_path.stem}_docling.json"
     meta_path = _cache_meta_path(raw_json_path)
-    settings = conversion_settings()
+    settings = image_ocr_settings() if ocr else conversion_settings()
     pdf_hash = captured.sha256
     expected = conversion_identity(pdf_hash, settings)
 
@@ -441,6 +442,18 @@ def load_document_result(
     print(f"[*] Converting with Docling ({device.upper()}): {input_path.name}")
     active = converter or get_shared_converter(
         device=device, backend="docling_parse", settings=settings)
+    if ocr:
+        try:
+            options = active.format_to_options[dl['InputFormat'].PDF].pipeline_options
+            used = options.ocr_options
+            actual = (options.do_ocr, options.force_backend_text, used.kind, used.tesseract_cmd,
+                      used.path, used.lang, used.mode.value, used.scale)
+        except (AttributeError, KeyError, TypeError):
+            raise ValueError('Image OCR converter settings cannot be verified') from None
+        engine = settings['image_ocr']
+        if actual != (True, False, 'tesseract', engine['executable'], engine['tessdata'],
+                      ['eng'], 'full_page', 1.0):
+            raise ValueError('Image OCR converter settings differ from the recorded settings')
     from docling.datamodel.base_models import DocumentStream
 
     result = active.convert(DocumentStream(name=input_path.name, stream=BytesIO(captured.data)))
@@ -468,6 +481,8 @@ def load_document_result(
         )
 
     doc = result.document
+    if ocr and image_ocr_settings() != settings:
+        raise ValueError('Local OCR assets changed during conversion; refusing stale settings')
     raw = doc.export_to_dict() if hasattr(doc, "export_to_dict") else doc.model_dump(mode="json")
     raw_bytes = json.dumps(raw, indent=2, ensure_ascii=False).encode("utf-8")
     meta = {

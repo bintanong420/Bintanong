@@ -42,7 +42,8 @@ def test_upload_review_build_checks_and_repeat_stage_keep_active_release(tmp_pat
     root = folder / 'packet'
     packet = prepare(folder / 'manifest.json', root,
         converter=synthetic_converter(monkeypatch, InputSnapshot(source),
-            raw_document([item('Submit the form.'), item('Unreviewed item stays held.')], pages=1)))
+            raw_document([item('Submit the form.'), item('Unreviewed item stays held.')], pages=1),
+            image_ocr=media_type == 'image/png'))
     reading_id = upload['upload_id'] + ':text-0'
     with ReviewSession(root, 'Synthetic researcher') as review:
         review.save(answer(packet))

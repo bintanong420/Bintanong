@@ -19,7 +19,8 @@ from .report import build_ingestion_report
 def run_ingestion(snapshot: InputSnapshot,
                   register: Sequence[SourceDocumentVersion | Mapping[str, Any]], *,
                   input_root: Path, out: Path, classification: str,
-                  converter: Any = None, printed_page_labels: Mapping[int, str] | None = None) -> dict[str, Any]:
+                  converter: Any = None, printed_page_labels: Mapping[int, str] | None = None,
+                  ocr: bool = False) -> dict[str, Any]:
     """Write a candidate bundle. Only its root completion manifest authorizes consumption."""
     root, out = Path(input_root).resolve(), Path(out).resolve()
     if not isinstance(snapshot, InputSnapshot) or root not in snapshot.path.parents:
@@ -37,7 +38,7 @@ def run_ingestion(snapshot: InputSnapshot,
     records = load_pending_register(register)
     version = version_for_snapshot(snapshot, records)
     candidates = extract_procedure(snapshot, records, input_root=root, out=out / "conversion",
-        classification=classification, converter=converter, printed_page_labels=printed_page_labels)
+        classification=classification, converter=converter, printed_page_labels=printed_page_labels, ocr=ocr)
     converted = out / "conversion"
     manifest = json.loads((converted / "manifest.json").read_bytes())
     if (manifest.get("complete") is not True or manifest.get("source_unchanged") is not True

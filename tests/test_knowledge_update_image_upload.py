@@ -97,7 +97,8 @@ def test_prepare_keeps_verified_original_image_in_packet_and_detects_tampering(t
     source = folder / 'derived/source.pdf'
     out = tmp_path / 'packet'
     prepared = prepare(folder / 'manifest.json', out,
-        converter=synthetic_converter(monkeypatch, InputSnapshot(source), raw_document([item('Synthetic instruction.')], pages=1)))
+        converter=synthetic_converter(monkeypatch, InputSnapshot(source),
+            raw_document([item('Synthetic instruction.')], pages=1), image_ocr=True))
     doc = prepared['documents'][0]
     assert (out / doc['original_image']['path']).read_bytes() == original
     assert all(field['decision'] == 'pending' for row in prepared['items'] for field in row['fields'])
