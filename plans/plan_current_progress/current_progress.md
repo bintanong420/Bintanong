@@ -1,5 +1,8 @@
 # Current progress
 
+14 Nov: [thesis/branch claim check](../2026-11-14-thesis-branch-claim-check.md) separates evaluated harness responses from later development ingestion/answer features; manuscript already discloses the later Gemma addition, but needs build provenance and a cutoff/update for its one-trial wording. No PDF/code/results changed.
+
+
 Updated 6 November 2026. Development: `p12-dev` / `p12-post-gathering-fixes`.
 Last full snapshot before condensation: `d2ad9fef` (recover with `git show`).
 Gathering checkout and owner USG notes remain separate. No numbered phase is active;
@@ -44,6 +47,9 @@ Owner: capabilities and research scope must be callable in chat.
 
 - Main web/API 3216/8021, dev web/API 3217/8022, shared model18088.
   Luna confirmed all five HTTP200; model container healthy; hidden keepalive PID72532.
+- 14 Nov fresh launch: isolated same-head UI3216/API8021 ready; UI and curricula proxy HTTP200;
+  shared no-projector Gemma16k model18088 healthy. Logs: `audit-evidence/p12-eval-harness-runtime-20261114/`;
+  startup readiness only, not a benchmark rerun.
 - Dev API reloaded for index and shifting repair. Frontends/main/model untouched.
   Final wording reload ready200: root52864 / server46896; all five services HTTP200.
   Dev-only zero rate window and measured grade budget5120 remain ignored launcher overrides.
